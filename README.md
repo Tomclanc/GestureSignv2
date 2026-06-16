@@ -42,13 +42,13 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9725.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9725/GestureSign-V2-Setup-x64-8.1.9725.msi)
+- [GestureSign-V2-Setup-x64-8.1.9733.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9733/GestureSign-V2-Setup-x64-8.1.9733.msi)
 
 ## 安装
 
 1. 下载 MSI 安装包。
 2. 双击安装，按提示完成安装。
-3. 从桌面快捷方式或开始菜单打开 `GestureSign 设置`。
+3. 从桌面快捷方式或开始菜单打开 `GestureSign V2`。
 4. 在“动作”页面启用手势识别，并按需添加程序、手势和命令。
 
 配置文件默认保存在：
