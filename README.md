@@ -17,6 +17,10 @@
   <img alt="Platform" src="https://img.shields.io/badge/Platform-x64-555?style=flat-square">
 </p>
 
+<p align="center">
+  简体中文 | <a href="#english">English</a>
+</p>
+
 ![GestureSign V2 主界面](docs/assets/screenshot-main.png)
 
 ## 项目简介
@@ -101,3 +105,86 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 感谢原项目 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) 以及 HighSign、MahApps.Metro、WGestures 等项目。GestureSign V2 仍然站在这些工作的基础上继续前进。
 
+---
+
+## English
+
+GestureSign V2 is a Windows 11 focused rebuild of the classic open-source project [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign).
+
+The original GestureSign has not been actively maintained for a long time. On newer Windows systems, users may run into sticky modifier keys, dated UI behavior, DPI issues, and inconsistent gesture capture. GestureSign V2 keeps the original gesture workflow while improving the Windows 11 experience and moving the configuration interface to a modern WinUI 3 design.
+
+## Features
+
+- Rebuilt WinUI 3 interface with Windows 11 rounded corners, Mica styling, and light / dark theme support.
+- Touchpad gestures, mouse gestures, gesture trails, and gesture thumbnail previews.
+- Per-app actions with matching by executable, window class, title, and groups.
+- Common commands such as hotkeys, browser actions, window actions, media controls, and system operations.
+- Ignore list support for excluding specific apps, windows, or matching rules.
+- Options to prefer Windows touchpad gestures or built-in browser gestures, with fullscreen exclusions.
+- Tray icon, tray menu, single-instance startup, and readable gesture logs.
+- Improved UI and input behavior for high-DPI and high-refresh-rate displays.
+
+## Download
+
+Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest).
+
+Current version:
+
+- [GestureSign-V2-Setup-x64-8.1.9733.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9733/GestureSign-V2-Setup-x64-8.1.9733.msi)
+
+## Installation
+
+1. Download the MSI installer.
+2. Double-click the installer and follow the setup prompts.
+3. Open `GestureSign V2` from the desktop shortcut or Start menu.
+4. Go to the Actions page, enable gesture recognition, and add apps, gestures, and commands as needed.
+
+Configuration files are stored in:
+
+```text
+%AppData%\GestureSign
+```
+
+Log files are stored in:
+
+```text
+%LocalAppData%\GestureSign
+```
+
+## Quick Start
+
+1. Open the Actions page and make sure gesture recognition is enabled.
+2. Select Global Actions or an app group on the left.
+3. Click New Action and record or draw a gesture pattern.
+4. Click Set Command and bind the gesture to a hotkey, browser action, window action, or system command.
+5. Return to the desktop or target app and trigger the gesture.
+
+If an app already has system-level or built-in gestures, such as Windows 11 touchpad gestures or Microsoft Edge mouse gestures, you can enable the related preference options on the Options page.
+
+## Pages
+
+- Actions: Manage global actions, app actions, groups, gestures, and commands.
+- Ignore: Exclude apps, windows, or matching rules from gesture recognition.
+- Gestures: View, import, export, retrain, and organize the gesture library.
+- Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior.
+- About: View the version, project links, logs, and maintenance information.
+
+## Compatibility
+
+- Recommended OS: Windows 11 x64
+- Installer: MSI x64
+- Windows 10 may run some features, but Windows 11 is the primary target.
+
+## Feedback
+
+When reporting gesture, recording, saving, or UI issues, please include:
+
+- Windows version and display scaling.
+- Whether you are using mouse gestures or touchpad gestures.
+- Target app name and whether it is fullscreen.
+- Logs from the About page.
+- Screenshots or reproduction steps.
+
+## Credits
+
+Thanks to [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign), HighSign, MahApps.Metro, WGestures, and the projects this work builds on.
