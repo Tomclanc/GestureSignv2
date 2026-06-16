@@ -46,7 +46,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9733.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9733/GestureSign-V2-Setup-x64-8.1.9733.msi)
+- [GestureSign-V2-Setup-x64-8.1.9735.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9735/GestureSign-V2-Setup-x64-8.1.9735.msi)
 
 ## 安装
 
@@ -130,7 +130,7 @@ Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSign
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9733.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9733/GestureSign-V2-Setup-x64-8.1.9733.msi)
+- [GestureSign-V2-Setup-x64-8.1.9735.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9735/GestureSign-V2-Setup-x64-8.1.9735.msi)
 
 ## Installation
 

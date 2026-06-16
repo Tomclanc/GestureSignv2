@@ -133,7 +133,7 @@ foreach (var path in args)
     {
         if (path == "--brand-version-only")
             continue;
-        PatchBrandVersionOnly(path, "8.1.9720");
+        PatchBrandVersionOnly(path, "8.1.9735");
         Console.WriteLine($"Patched brand/version text {path}");
         continue;
     }

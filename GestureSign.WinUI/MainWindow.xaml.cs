@@ -533,7 +533,7 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = Application.Current.Resources["TitleTextBlockStyle"] as Style, Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9735", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -2757,20 +2757,6 @@ public sealed partial class MainWindow : Window
         _pendingOptionUpdates[key] = value;
         _optionSaveTimer.Stop();
         _ = FlushPendingOptionUpdatesAsync();
-    }
-
-    private async Task<int?> TemporarilyDisableMouseGestureCaptureAsync()
-    {
-        await Task.CompletedTask;
-        return null;
-    }
-
-    private async Task RestoreMouseGestureCaptureAsync(int drawingButton)
-    {
-        _pendingOptionUpdates.Remove("DrawingButton");
-        await FlushPendingOptionUpdatesAsync();
-        await Task.Run(() => _legacyData.UpdateOption("DrawingButton", drawingButton.ToString(CultureInfo.InvariantCulture)));
-        await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
     }
 
     private async void OptionSaveTimer_Tick(object? sender, object e)
