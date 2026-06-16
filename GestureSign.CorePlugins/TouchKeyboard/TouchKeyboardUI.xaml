@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="GestureSign.CorePlugins.TouchKeyboard.TouchKeyboardUI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:localization="clr-namespace:GestureSign.Common.Localization;assembly=GestureSign.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="150"
+             d:DesignWidth="300">
+    <StackPanel>
+        <RadioButton x:Name="AutoRadioButton"
+                     Content="{localization:LocalisedText CorePlugins.TouchKeyboard.Auto}"
+                     HorizontalAlignment="Left"
+                     GroupName="0"
+                     FontSize="20" />
+        <RadioButton x:Name="ShowTouchKeyboardRB"
+                     Content="{localization:LocalisedText CorePlugins.TouchKeyboard.Show}"
+                     HorizontalAlignment="Left"
+                     Margin="0,10,0,0"
+                     GroupName="0"
+                     FontSize="20" />
+        <RadioButton x:Name="HideTouchKeyboardRB"
+                     Content="{localization:LocalisedText CorePlugins.TouchKeyboard.Hide}"
+                     HorizontalAlignment="Left"
+                     Margin="0,10,0,0"
+                     GroupName="0"
+                     FontSize="20" />
+        <TextBlock Margin="0,10,0,0"
+                   TextWrapping="Wrap"
+                   Text="{localization:LocalisedText CorePlugins.TouchKeyboard.Tip}"
+                   FontSize="14"
+                   Width="350" />
+        <CheckBox x:Name="AutoInvokeCheckBox"
+                  Margin="0,10,0,0"
+                  FontSize="14"
+                  Content="{localization:LocalisedText CorePlugins.TouchKeyboard.DesktopModeAutoInvoke}"
+                  Click="AutoInvokeCheckBox_Click"
+                  Loaded="AutoInvokeCheckBox_Loaded" />
+    </StackPanel>
+</UserControl>
+

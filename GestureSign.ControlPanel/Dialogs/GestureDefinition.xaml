@@ -1,0 +1,44 @@
+﻿<controls:MetroWindow x:Name="GestureDefinition1"
+                      x:Class="GestureSign.ControlPanel.Dialogs.GestureDefinition"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:localization="clr-namespace:GestureSign.Common.Localization;assembly=GestureSign.Common"
+                      xmlns:usercontrols="clr-namespace:GestureSign.ControlPanel.UserControls"
+                      Title="{localization:LocalisedText GestureDefinition.Edit}"
+                      BorderBrush="{StaticResource AccentColorBrush}"
+                      BorderThickness="1"
+                      Height="325.145"
+                      Width="354"
+                      ResizeMode="NoResize"
+                      SizeToContent="Height"
+                      FlowDirection="{StaticResource DefaultFlowDirection}"
+                      Topmost="True"
+                      ShowIconOnTitleBar="False"
+                      Icon="/GestureSign;component/Resources/normal.ico"
+                      WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <usercontrols:GestureSelector x:Name="GestureSelector"
+                                      CurrentGesture="{Binding ElementName=GestureDefinition1,Path=CurrentGesture,Mode=TwoWay}"/>
+        <Grid Margin="0,20,0,0"
+              Height="35">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button x:Name="cmdCancel"
+                    Content="{localization:LocalisedText Common.Cancel}"
+                    IsCancel="True"
+                    Focusable="False"
+                    FontSize="14" />
+            <Button x:Name="cmdDone"
+                    Content="{localization:LocalisedText Common.OK}"
+                    Click="cmdDone_Click"
+                    Focusable="False"
+                    FontSize="14"
+                    IsDefault="True"
+                    Grid.Column="1" />
+        </Grid>
+
+    </StackPanel>
+</controls:MetroWindow>

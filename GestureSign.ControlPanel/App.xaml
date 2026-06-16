@@ -1,0 +1,153 @@
+﻿<Application x:Class="GestureSign.ControlPanel.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Startup="Application_Startup"
+             ShutdownMode="OnMainWindowClose"
+             Exit="Application_Exit">
+    <!--StartupUri="MainWindow.xaml"-->
+    <Application.Resources>
+        <ResourceDictionary>
+             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+                <ResourceDictionary Source="UserControls/RadioButtonStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Path x:Key="PlusIcon"
+                  Data="M490.3 952.7c-2.9 0-5.7-2.8-5.7-5.7L484.6 538.3 76 538.3c-2.9 0-5.7-2.8-5.7-5.7l0-43.4c0-2.9 2.8-5.7 5.7-5.7l408.7 0L484.6 74.9c0-2.9 2.8-5.7 5.7-5.7l43.4 0c2.9 0 5.7 2.8 5.7 5.7l0 408.7 408.7 0c2.9 0 5.7 2.8 5.7 5.7l0 43.4c0 2.9-2.8 5.7-5.7 5.7L539.4 538.3l0 408.7c0 2.9-2.8 5.7-5.7 5.7L490.3 952.7z"
+                  Fill="Black" />
+            <Path Width="100"
+                  x:Key="EditIcon"
+                  Height="105"
+                  Stretch="Fill"
+                  Fill="#FF000000"
+                  Data="M439.6 685.4C455.5 686.5 471.7 681.7 484.7 671L489.1 669.6 351.2 531.6 349.8 536C339 549 334.2 565.2 335.4 581.1L286.4 734.3 439.6 685.4zM939.1 126.7L894 81.6C869.1 56.7 828.7 56.7 803.8 81.6L760 125.3 895.4 260.7 939.1 217C964.1 192 964.1 151.6 939.1 126.7zM848.9 307.2L713.5 171.8 399 486.3 534.4 621.7 848.9 307.2zM832.7 893L128.7 893 128.7 189 577.4 189 577.4 127.2 130.7 127.2C95.4 127.2 66.9 155.7 66.9 191L66.9 893C66.9 928.3 95.4 956.9 130.7 956.9L832.7 956.9C868 956.9 896.6 928.3 896.6 893L896.6 446.3 832.7 446.3 832.7 893z" />
+            <Path x:Key="DeleteIcon"
+                  Height="35.625"
+                  Width="27.7083"
+                  Stretch="Fill"
+                  Fill="#FF000000"
+                  Data="M585.3 807.1L585.3 368.9C585.3 317.8 658.7 317.8 658.7 368.9L658.7 807.1C658.7 858.1 585.3 858.1 585.3 807.1zM365.3 807.1L365.3 368.9C365.3 317.8 438.6 317.8 438.6 368.9L438.6 807.1C438.6 858.1 365.3 858.1 365.3 807.1zM988.7 182.9L805.4 182.9 805.4 109.7C805.4 49.1 756.1 0 696.5 0L328.7 0C267.9 0 218.6 49.1 218.6 109.7L218.6 182.9 35.3 182.9C-11.7 182.9-11.7 256 35.3 256L988.8 256C1035.7 256 1035.7 182.9 988.7 182.9zM292 109.7C292 90.3 309.2 73.1 328.7 73.1L696.5 73.1C716 73.1 732.1 88 732.1 109.7L732.1 182.9 292 182.9 292 109.7 292 109.7zM768.7 1024L255.3 1024C194.6 1024 145.3 974.9 145.3 914.3L145.3 365.7C145.3 344 162.5 329.1 181.9 329.1 201.4 329.1 218.6 344 218.6 365.7L218.6 914.3C218.6 933.7 235.8 950.9 255.3 950.9L768.7 950.9C788.1 950.9 805.4 933.7 805.4 914.3L805.4 366.9C805.4 318.8 878.7 318.8 878.7 366.9L878.7 914.3C878.7 974.9 829.5 1024 768.7 1024z" />
+            <Path Width="50"
+                  x:Key="Export"
+                  Height="50"
+                  Stretch="Fill"
+                  Fill="#FF000000"
+                  Data="M8 680l67.2 0 0 268.8 873.6 0L948.8 680l67.2 0 0 336L8 1016 8 680zM478.4 136.7 189.8 425.3l-47.4-47.7L512 8l369.6 369.6L834.2 425 545.6 136.7l0 610.5-67.2 0L478.4 136.7z" />
+            <Path Width="50"
+                  x:Key="Import"
+                  Height="50"
+                  Stretch="Fill"
+                  Fill="#FF000000"
+                  Data="M8 680l67.2 0 0 268.8 873.6 0L948.8 680l67.2 0 0 336L8 1016 8 680zM478.4 618.5 189.8 329.9l-47.4 47.7L512 747.2l369.6-369.6-47.4-47.4L545.6 618.5 545.6 8l-67.2 0L478.4 618.5z" />
+            <FlowDirection x:Key="DefaultFlowDirection">LeftToRight</FlowDirection>
+            <FontFamily x:Key="DefaultFont">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+            <FontFamily x:Key="HeaderFontFamily">Segoe UI Light, Lucida Sans Unicode, Verdana</FontFamily>
+            <FontFamily x:Key="ContentFontFamily">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+
+            <FontFamily x:Key="ToggleSwitchFontFamily">Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+            <FontFamily x:Key="ToggleSwitchHeaderFontFamily">Segoe UI Semibold, Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+            <FontFamily x:Key="ToggleSwitchFontFamily.Win10">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+            <FontFamily x:Key="ToggleSwitchHeaderFontFamily.Win10">Segoe UI, Lucida Sans Unicode, Verdana</FontFamily>
+
+            <system:Double x:Key="HeaderFontSize">40</system:Double>
+            <system:Double x:Key="SubHeaderFontSize">29.333</system:Double>
+            <system:Double x:Key="WindowTitleFontSize">16</system:Double>
+            <system:Double x:Key="NormalFontSize">14</system:Double>
+            <system:Double x:Key="ContentFontSize">12</system:Double>
+            <system:Double x:Key="FlatButtonFontSize">14</system:Double>
+            <system:Double x:Key="TabItemFontSize">26.67</system:Double>
+            <system:Double x:Key="UpperCaseContentFontSize">10</system:Double>
+            <system:Double x:Key="FloatingWatermarkFontSize">10</system:Double>
+            <system:Double x:Key="ClearTextButtonFontSize">16</system:Double>
+
+            <system:Double x:Key="TooltipFontSize">12</system:Double>
+            <system:Double x:Key="MenuFontSize">14</system:Double>
+            <system:Double x:Key="ContextMenuFontSize">14</system:Double>
+
+            <system:Double x:Key="StatusBarFontSize">12</system:Double>
+
+            <system:Double x:Key="DialogTitleFontSize">26</system:Double>
+            <system:Double x:Key="DialogMessageFontSize">15</system:Double>
+
+            <system:Double x:Key="FlyoutHeaderFontSize">20</system:Double>
+
+            <system:Double x:Key="ToggleSwitchFontSize">14.667</system:Double>
+            <system:Double x:Key="ToggleSwitchHeaderFontSize">16</system:Double>
+            <system:Double x:Key="ToggleSwitchFontSize.Win10">15</system:Double>
+            <system:Double x:Key="ToggleSwitchHeaderFontSize.Win10">15</system:Double>
+            <SolidColorBrush x:Key="GestureSign.WindowBackgroundBrush"
+                             Color="#D2F8FAFC" />
+            <SolidColorBrush x:Key="GestureSign.ContentBackgroundBrush"
+                             Color="#E8FFFFFF" />
+            <SolidColorBrush x:Key="GestureSign.SubtleBackgroundBrush"
+                             Color="#B4F4F7FA" />
+            <SolidColorBrush x:Key="GestureSign.TextBrush"
+                             Color="#121212" />
+            <SolidColorBrush x:Key="GestureSign.SecondaryTextBrush"
+                             Color="#4E5258" />
+            <SolidColorBrush x:Key="GestureSign.BorderBrush"
+                             Color="#82D2DAE2" />
+           <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.SubtleBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource GestureSign.BorderBrush}" />
+                <Setter Property="CaretBrush"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+            </Style>
+            <Style TargetType="{x:Type ComboBox}"
+                   BasedOn="{StaticResource {x:Type ComboBox}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.SubtleBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource GestureSign.BorderBrush}" />
+            </Style>
+            <Style TargetType="{x:Type ListBox}"
+                   BasedOn="{StaticResource {x:Type ListBox}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.ContentBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource GestureSign.BorderBrush}" />
+            </Style>
+            <Style TargetType="{x:Type ListView}"
+                   BasedOn="{StaticResource {x:Type ListView}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.ContentBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+                <Setter Property="BorderBrush"
+                        Value="{DynamicResource GestureSign.BorderBrush}" />
+            </Style>
+            <Style TargetType="{x:Type ScrollViewer}"
+                   BasedOn="{StaticResource {x:Type ScrollViewer}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.ContentBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+            </Style>
+            <Style TargetType="{x:Type TabControl}"
+                   BasedOn="{StaticResource {x:Type TabControl}}">
+                <Setter Property="Background"
+                        Value="{DynamicResource GestureSign.WindowBackgroundBrush}" />
+                <Setter Property="Foreground"
+                        Value="{DynamicResource GestureSign.TextBrush}" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

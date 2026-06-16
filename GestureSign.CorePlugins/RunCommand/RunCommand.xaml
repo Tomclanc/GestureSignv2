@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="GestureSign.CorePlugins.RunCommand.RunCommand"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:localization="clr-namespace:GestureSign.Common.Localization;assembly=GestureSign.Common"
+             mc:Ignorable="d"
+             d:DesignHeight="150"
+             d:DesignWidth="310">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left"
+                   TextWrapping="Wrap"
+                   Text="{localization:LocalisedText CorePlugins.RunCommand.Command}"
+                   VerticalAlignment="Top"
+                   FontSize="14" />
+        <ComboBox x:Name="VariableComboBox"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Top"
+                  FontSize="14"
+                  Initialized="VariableComboBox_OnInitialized"
+                  DropDownClosed="VariableComboBox_DropDownClosed" />
+        <TextBox x:Name="txtCommand"
+                 Margin="0,30,0,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 Height="77"
+                 MaxLines="5" />
+        <CheckBox x:Name="showCmdCheckBox"
+                  Content="{localization:LocalisedText CorePlugins.RunCommand.ShowCMD}"
+                  HorizontalAlignment="Left"
+                  Height="28"
+                  Margin="0,118,0,0"
+                  VerticalAlignment="Top" />
+
+    </Grid>
+</UserControl>

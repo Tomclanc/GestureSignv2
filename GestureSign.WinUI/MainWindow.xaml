@@ -1,0 +1,75 @@
+<Window
+    x:Class="GestureSign.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+    Title="GestureSign V2">
+
+    <Grid x:Name="Root">
+        <Grid.Resources>
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+            <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar"
+              Height="48"
+              Padding="16,0,16,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="Assets/logo.png"
+                   Width="28"
+                   Height="28"
+                   VerticalAlignment="Center" />
+            <TextBlock Grid.Column="1"
+                       Text="GestureSign V2"
+                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                       VerticalAlignment="Center"
+                       Margin="12,0,0,0" />
+        </Grid>
+
+        <controls:NavigationView x:Name="Navigation"
+                                 Grid.Row="1"
+                                 Background="Transparent"
+                                 PaneDisplayMode="Left"
+                                 IsBackButtonVisible="Collapsed"
+                                 IsSettingsVisible="False"
+                                 IsPaneToggleButtonVisible="True"
+                                 IsPaneOpen="True"
+                                 OpenPaneLength="248"
+                                 CompactPaneLength="60"
+                                 SelectionChanged="Navigation_SelectionChanged">
+            <controls:NavigationView.MenuItems>
+                <controls:NavigationViewItem Content="动作" Tag="actions" Icon="Play" />
+                <controls:NavigationViewItem Content="忽略" Tag="ignored" Icon="BlockContact" />
+                <controls:NavigationViewItem Content="手势" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="选项" Tag="options" Icon="Setting" />
+                <controls:NavigationViewItem Content="关于" Tag="about" Icon="Help" />
+            </controls:NavigationView.MenuItems>
+
+            <ScrollViewer Padding="28,8,32,32"
+                          Background="Transparent">
+                <StackPanel Spacing="18">
+                    <TextBlock x:Name="PageTitle"
+                               Text="动作"
+                               Style="{ThemeResource TitleLargeTextBlockStyle}"
+                               Margin="0,12,0,0" />
+                    <TextBlock x:Name="PageSubtitle"
+                               Text="按程序管理手势动作。"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Opacity="0.72" />
+
+                    <Grid x:Name="PageHost" />
+                </StackPanel>
+            </ScrollViewer>
+        </controls:NavigationView>
+    </Grid>
+</Window>

@@ -1,0 +1,11 @@
+using dnlib.DotNet;
+using dnlib.DotNet.Emit;
+var module = ModuleDefMD.Load(args[0]);
+var t = module.Find("GestureSign.WinUI.MainWindow", false);
+Console.WriteLine("Fields:");
+foreach (var f in t.Fields.Where(f => f.Name.String.Contains("Root") || f.Name.String.Contains("Backdrop") || f.Name.String.Contains("Title"))) Console.WriteLine($"{f.Name} : {f.FieldType.FullName}");
+Console.WriteLine("Methods:");
+foreach (var m in t.Methods.Where(m => m.Name.String.Contains("ctor") || m.Name.String.Contains("ActualTheme") || m.Name.String.Contains("ConfigureCaption") || m.Name.String.Contains("ShowSelected") || m.Name.String.Contains("IsDark") || m.Name.String.Contains("b__"))) Console.WriteLine($"{m.Name} {m.MethodSig}");
+var ctor = t.FindMethod(".ctor");
+Console.WriteLine("Ctor IL:");
+int idx=0; foreach (var ins in ctor.Body.Instructions) Console.WriteLine($"{idx++:000}: {ins}");

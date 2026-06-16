@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="English" Culture="en" Version="6.1">
+  <Font>Segoe UI, Lucida Sans Unicode, Verdana</Font>
+  <HeaderFontFamily>Segoe UI Light, Lucida Sans Unicode, Verdana</HeaderFontFamily>
+  <IsRightToLeft>False</IsRightToLeft>
+  <Title>GestureSign Control Panel</Title>
+  <Messages>
+    <CannotFindDaemonMessage>Can not find GestureSign.exe.Try to redownload or reinstall GestureSign.</CannotFindDaemonMessage>
+    <Error>Error</Error>
+    <CompatWarning>Application detect that it is set the compatibility to run as administrator(right click/properties/compatibility/Run this program as an administrator).
+This may lead to function failure(e.g. Start application at Windows startup).
+    </CompatWarning>
+    <CompatWarningTitle>Warning</CompatWarningTitle>
+    <FindNewErrorLog>Find new error log.You can help me track and fix problems by sending these error logs.</FindNewErrorLog>
+    <StartupError>Can not launch "{0}". Please check if you have some antivirus blocking the startup or try reinstalling GestureSign. </StartupError>
+    <UnexpectedException>An unexpected exception has occurred. Shutting down the application. You can help fix the problems by "Send Feedback" </UnexpectedException>
+    <FileWriteException>Failed to save. Please try to change the GestureSign location if you are using portable edition.</FileWriteException>
+  </Messages>
+  <Common>
+    <GlobalActions>(Global Actions)</GlobalActions>
+    <Cancel>Cancel</Cancel>
+    <FileName>File Name</FileName>
+    <No>No</No>
+    <OK>OK</OK>
+    <Save>Save</Save>
+    <WindowClass>Class</WindowClass>
+    <WindowTitle>Title</WindowTitle>
+    <Yes>Yes</Yes>
+    <Import>Import...</Import>
+    <Export>Export...</Export>
+    <Reset>Reset</Reset>
+  </Common>
+  <About>
+    <Header>About</Header>
+    <Homepage>Homepage</Homepage>
+    <HomepageUrl>https://gesturesign.win</HomepageUrl>
+    <Store>Microsoft Store</Store>
+    <HelpPageUrl>https://gesturesign.win/#/guide</HelpPageUrl>
+    <Version>Version  </Version>
+    <ReleaseDate>ReleaseDate  </ReleaseDate>
+    <Information>Author:TransposonY
+Translator:TransposonY
+Email:ccfyzh@gmail.com
+    </Information>
+    <SendFeedback>Send Feedback</SendFeedback>
+    <ShowReport>Show Report</ShowReport>
+    <Mail>You can also send mail to ccfyzh@gmail.com</Mail>
+    <Waiting>Please wait...</Waiting>
+    <Exporting>Exporting error log file...</Exporting>
+    <Sending>Sending error log...</Sending>
+    <SendLogTitle>Send Error Log</SendLogTitle>
+    <SendButton>Send</SendButton>
+    <DontSendButton>Don't Send</DontSendButton>
+    <SendSuccessTitle>Log Send Success</SendSuccessTitle>
+    <SendSuccess>Thank you! The logs were sent successfully! </SendSuccess>
+    <SendFailed>Send Failed</SendFailed>
+    <FeedbackTip>Description about the exception. </FeedbackTip>
+    <Retry>Retry</Retry>
+  </About>
+  <ApplicationDialog>
+    <AddApplication>New Application</AddApplication>
+    <AddIgnoredAppTitle>New Ignored Application</AddIgnoredAppTitle>
+    <AppName>Application Name</AppName>
+    <AppNameWatermark>Please Enter Application Name</AppNameWatermark>
+    <MatchStringWatermark>Please Enter Match String</MatchStringWatermark>
+    <Group>Group</Group>
+    <MatchString>Match String</MatchString>
+    <MatchUsing>Match Using</MatchUsing>
+    <GetMatchString>Get Match String</GetMatchString>
+    <Browse>Browse..</Browse>
+    <UsingRegularExpression>Match as pattern</UsingRegularExpression>
+    <DragCrosshair>Drag and drop the crosshair on the target window</DragCrosshair>
+    <Or>Or</Or>
+    <ShowRunningApplications>Select Running..</ShowRunningApplications>
+    <BlockTouchInput>Block Touch Input</BlockTouchInput>
+    <EditApplication>Edit Application</EditApplication>
+    <ExecutableFile>Executable File</ExecutableFile>
+    <BlockTouchInputInfo>At least {0} fingers</BlockTouchInputInfo>
+    <LimitNumberOfFingers>Number Of Fingers</LimitNumberOfFingers>
+    <LimitNumberOfFingersInfo>At least {0} fingers</LimitNumberOfFingersInfo>
+    <MatchActivatedWindow>Match Activated Window</MatchActivatedWindow>
+    <Messages>
+      <EmptyStringTitle>No Match String</EmptyStringTitle>
+      <EmptyString>Please provide Match String for the application</EmptyString>
+      <IgnoredAppExistsTitle>Ignored Application Conflict</IgnoredAppExistsTitle>
+      <IgnoredAppExists>The Match String you provided already exists, please provide a different Match String</IgnoredAppExists>
+      <StringConflictTitle>Match String Conflict</StringConflictTitle>
+      <StringConflict>The Match String "{0}" already exists in {1}, please provide a different Match String.</StringConflict>
+      <NoApplicationNameTitle>No Application Name Specified</NoApplicationNameTitle>
+      <NoApplicationName>Please provide a name for the application</NoApplicationName>
+      <AppExistsTitle>Name Already Exists</AppExistsTitle>
+      <AppExists>The application name you provided already exists, please provide a different name</AppExists>
+      <NoMatchStringTitle>No Match String</NoMatchStringTitle>
+      <NoMatchString>Please provide Match String for the application</NoMatchString>
+    </Messages>
+  </ApplicationDialog>
+  <ActionDialog>
+    <EditActionTitle>Action Setting</EditActionTitle>
+    <ActionName>Action Name</ActionName>
+    <ActionNameWatermark>Please enter action name</ActionNameWatermark>
+    <ApplicationFileNameAndTitle>File Name And Title</ApplicationFileNameAndTitle>
+    <Icon>Icon</Icon>
+    <ActivateWindow>Activate Target Window</ActivateWindow>
+    <Advanced>Advanced</Advanced>
+    <TriggerCondition>Trigger Condition</TriggerCondition>
+    <KeyboardHotKey>Keyboard HotKey</KeyboardHotKey>
+    <HotKeyWatermark>You can enter a HotKey to trigger this action</HotKeyWatermark>
+    <MouseHotKey>Mouse HotKey</MouseHotKey>
+    <MouseGestureNotEnabled>(Need to enable mouse gesture)</MouseGestureNotEnabled>
+    <Default>Default</Default>
+    <Continuous>Continuous Gesture</Continuous>
+    <DeviceLimit>Device Limit</DeviceLimit>
+    <Mouse>Mouse</Mouse>
+    <TouchScreen>TouchScreen</TouchScreen>
+    <TouchPad>TouchPad</TouchPad>
+    <Pen>Pen</Pen>
+    <Messages>
+      <ConditionError>Condition Error</ConditionError>
+    </Messages>
+  </ActionDialog>
+  <CommandDialog>
+    <EditCommandTitle>Edit Command</EditCommandTitle>
+    <SelectCommand>Select Command</SelectCommand>
+    <CommandName>Command Name</CommandName>
+    <CommandNameWatermark>Please enter Command name</CommandNameWatermark>
+    <Messages>
+      <NoCommandNameTitle>No Command Name</NoCommandNameTitle>
+      <NoCommandName>Please provide a name for this Command</NoCommandName>
+    </Messages>
+  </CommandDialog>
+  <EditConditionDialog>
+    <Title>Edit Condition</Title>
+    <FingerID>Finger ID</FingerID>
+    <Variables>Variables</Variables>
+    <Insert>Insert</Insert>
+    <Sample>Sample: finger_2_start_X>100</Sample>
+  </EditConditionDialog>
+  <Action>
+    <Header>Action</Header>
+    <NewAction>New Action</NewAction>
+    <NewCommand>New Command</NewCommand>
+    <FromSelected>New Command To Selected Action</FromSelected>
+    <ApplicationFile>GestureSign Applications</ApplicationFile>
+    <ArchiveFile>GestureSign Archive File</ArchiveFile>
+    <ActionCount>  ( {0} Actions )</ActionCount>
+    <AppCount>{0} ({1})</AppCount>
+    <DefaultGroup>(Default)</DefaultGroup>
+    <CutAction>Cut</CutAction>
+    <CopyAction>Copy</CopyAction>
+    <PasteAction>Paste</PasteAction>
+    <PasteToNewAction>Paste To New Action</PasteToNewAction>
+    <PasteToSelectedAction>Paste To Selected Action</PasteToSelectedAction>
+    <Delete>Delete</Delete>
+    <Edit>Edit</Edit>
+    <SelectGesture>(Click to select a gesture)</SelectGesture>
+    <Right>Swipe Right</Right>
+    <Left>Swipe Left</Left>
+    <Up>Swipe Up</Up>
+    <Down>Swipe Down</Down>
+    <Fingers>{0} Fingers </Fingers>
+    <Sort>Sort by</Sort>
+    <Messages>
+      <DeleteConfirmTitle>Delete Confirm</DeleteConfirmTitle>
+      <DeleteCommandConfirm>Are you sure you want to delete these {0} Commands?</DeleteCommandConfirm>
+      <DeleteAppConfirm>Are you sure to delete "{0}"? All actions in this application will be deleted</DeleteAppConfirm>
+      <NoAssociationAction>( Can not find {0} in {1} )</NoAssociationAction>
+      <DoubleClickToEditCommand>( Double Click to edit this Command )</DoubleClickToEditCommand>
+    </Messages>
+  </Action>
+  <ExportImportDialog>
+    <ApplicationHeader>Applications({0})</ApplicationHeader>
+    <IgnoreHeader>Ignore({0})</IgnoreHeader>
+    <SearchApplication>Search Application...</SearchApplication>
+    <SearchAction>Search Action...</SearchAction>
+    <Commands>Commands</Commands>
+    <ImportButton>Import</ImportButton>
+    <ExportButton>Export</ExportButton>
+    <ImportCompleteTitle>Import Complete</ImportCompleteTitle>
+    <ImportComplete>{0} actions and {1} applications have been added</ImportComplete>
+    <ExportCompleteTitle>Export Complete</ExportCompleteTitle>
+    <ExportComplete>{0} actions and {1} applications have been exported</ExportComplete>
+    <ExportCompleteWithoutAction>{0} applications have been exported</ExportCompleteWithoutAction>
+    <FromFile>From File...</FromFile>
+</ExportImportDialog>
+  <Gesture>
+    <Header>Gesture</Header>
+    <GestureFile>Gesture File</GestureFile>
+    <View>View</View>
+    <LargeIcons>Large icons</LargeIcons>
+    <Details>Details</Details>
+    <ImportGesture>Import Gestures...</ImportGesture>
+    <GestureGroupHeader>{0} Finger(s) Gesture  ( {1} )</GestureGroupHeader>
+    <Applications>Applications</Applications>
+    <MouseActions>
+      <None>None</None>
+      <WheelForward>Wheel Forward</WheelForward>
+      <WheelBackward>Wheel Backward</WheelBackward>
+      <Left>Left Button</Left>
+      <Right>Right Button</Right>
+      <Middle>Middle Button</Middle>
+      <XButton1>XButton1</XButton1>
+      <XButton2>XButton2</XButton2>
+    </MouseActions>
+    <Messages>
+      <DeleteConfirmTitle>Delete Confirm</DeleteConfirmTitle>
+      <DeleteGestureConfirm>Are you sure?</DeleteGestureConfirm>
+      <ImportCompleteTitle>Import Complete</ImportCompleteTitle>
+      <ImportComplete>{0} similar gestures have been ignored, {1} new gesture have been added</ImportComplete>
+    </Messages>
+  </Gesture>
+  <RuningApplicationsFlyout>
+    <Title>Runing Applications</Title>
+  </RuningApplicationsFlyout>
+  <GestureDefinition>
+    <Edit>Redraw Gesture</Edit>
+    <ExistingGesture>Exist similar gesture.Use it?</ExistingGesture>
+    <DrawGesture>Please draw a gesture</DrawGesture>
+    <Redraw>Redraw</Redraw>
+  </GestureDefinition>
+  <Ignored>
+    <Header>Ignored</Header>
+    <Enable>Enable</Enable>
+    <Messages>
+      <ImportCompleteTitle>Import Complete</ImportCompleteTitle>
+      <ImportComplete>{0} Ignored Applications have been added</ImportComplete>
+    </Messages>
+  </Ignored>
+  <Options>
+    <Header>Options</Header>
+    <Language>Language（Restart GestureSign to take effect）</Language>
+    <Opacity>Opacity </Opacity>
+    <VisualFeedbackWidth>Visual Feedback Width {0:0} px</VisualFeedbackWidth>
+    <Off>Off</Off>
+    <PickColor>Pick Color...</PickColor>
+    <SystemColor>Follow System Color</SystemColor>
+    <MinimumPointDistance>Minimum Point Distance {0:F0} px</MinimumPointDistance>
+    <Backup>Backup All User Data</Backup>
+    <Restore>Restore User Data</Restore>
+    <OpenConfigFolder>Open Configuration Folder</OpenConfigFolder>
+    <BackupFile>GestureSign Backup File</BackupFile>
+    <OnLabel>On</OnLabel>
+    <OffLabel>Off</OffLabel>
+    <MouseGesture>Mouse Gesture</MouseGesture>
+    <DrawingButton>Draw gesture by holding: </DrawingButton>
+    <TouchScreen>TouchScreen Gesture</TouchScreen>
+    <TouchPad>Precision Touchpad Gesture</TouchPad>
+    <PenGesture>Pen Gesture</PenGesture>
+    <DeviceNotFound>(Device Not Found)</DeviceNotFound>
+    <PenGestureButtonDescription>Start drawing gesture by:</PenGestureButtonDescription>
+    <RightClickButton>Press and hold the right-click button</RightClickButton>
+    <Eraser>Flip Pen Over / Press and hold the eraser button</Eraser>
+    <And>And</And>
+    <Tip>Draw on the screen</Tip>
+    <Hover>Hover over the screen</Hover>
+    <InitialTimeoutTitle>Drawing Start Timeout</InitialTimeoutTitle>
+    <InitialTimeout>Timeout after {0:F1} Second</InitialTimeout>
+    <ErrorLogPrompt>Error Log Prompt</ErrorLogPrompt>
+    <RunAsAdmin>Run GestureSign As Administrator At Startup</RunAsAdmin>
+    <WindowsStartup>
+      <Header>Start GestureSign on Windows Startup</Header>
+    </WindowsStartup>
+    <IgnoreFullScreen>
+      <Header>Ignore Full Screen Window</Header>
+    </IgnoreFullScreen>
+    <IgnoreTouchInputWhenUsingPen>
+      <Header>Ignore Touch Input When Using Pen</Header>
+    </IgnoreTouchInputWhenUsingPen>
+    <ShowTrayIconSwitch>
+      <Header>Show Tray Icon</Header>
+      <OnLabel>Show</OnLabel>
+      <OffLabel>Hide</OffLabel>
+    </ShowTrayIconSwitch>
+    <GestureTrail>Show Gesture Trail</GestureTrail>
+    <Messages>
+      <LoadSettingErrorTitle>Error</LoadSettingErrorTitle>
+      <LoadSettingError>Can not load setting</LoadSettingError>
+      <BackupCompleteTitle>Backup Complete</BackupCompleteTitle>
+      <RestoreCompleteTitle>Restore Complete</RestoreCompleteTitle>
+      <TaskUserDisabled>The task has been disabled by user, please enable it in the Startup section of Task Manager. </TaskUserDisabled>
+    </Messages>
+  </Options>
+</Language>

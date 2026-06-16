@@ -1,0 +1,179 @@
+﻿<UserControl x:Class="GestureSign.ControlPanel.MainWindowControls.IgnoredApplications"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:localization="clr-namespace:GestureSign.Common.Localization;assembly=GestureSign.Common"
+             xmlns:converters="clr-namespace:GestureSign.ControlPanel.Converters"
+             xmlns:viewModel="clr-namespace:GestureSign.ControlPanel.ViewModel"
+             xmlns:componentmodel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             Initialized="UserControl_Initialized"
+             mc:Ignorable="d"
+             d:DesignHeight="400"
+             d:DesignWidth="450"
+             AllowDrop="True">
+    <UserControl.Resources>
+        <converters:MatchUsing2StringConverter x:Key="MatchUsingToStringConverter" />
+        <converters:BoolConverter x:Key="boolConverter"></converters:BoolConverter>
+        <ObjectDataProvider ObjectType="{x:Type viewModel:ApplicationItemProvider}"
+                            x:Key="ApplicationItemProvider">
+        </ObjectDataProvider>
+        <CollectionViewSource x:Key="IgnoredApplicationViewSource"
+                              Source="{Binding Source={StaticResource ApplicationItemProvider},Path=IgnoredApplicationItems}">
+            <CollectionViewSource.SortDescriptions>
+                <componentmodel:SortDescription PropertyName="MatchUsing" />
+                <componentmodel:SortDescription PropertyName="." />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+
+
+    <Grid Background="{DynamicResource GestureSign.WindowBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="65" />
+        </Grid.RowDefinitions>
+        <ListView x:Name="lstIgnoredApplications"
+                  Background="{DynamicResource GestureSign.ContentBackgroundBrush}"
+                  Foreground="{DynamicResource GestureSign.TextBrush}"
+                  ItemsSource="{Binding Source={StaticResource IgnoredApplicationViewSource}}"
+                  ScrollViewer.PanningMode="VerticalOnly"
+                  BorderThickness="0"
+                  Margin="0"
+                  MouseDoubleClick="lstIgnoredApplications_MouseDoubleClick"
+                  SelectionChanged="lstIgnoredApplications_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Click="EnabledIgnoredAppCheckBoxs_Click" />
+                                    <TextBlock FontWeight="Bold"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Text="{localization:LocalisedText Ignored.Enable}">
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsEnabled}"
+                                          Click="IgnoredAppCheckBox_Click"
+                                          Margin="4,0,0,0" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{localization:LocalisedText ApplicationDialog.MatchUsing}"
+                                    DisplayMemberBinding="{Binding Path=MatchUsing, Converter={StaticResource MatchUsingToStringConverter},Mode=OneWay}" />
+                    <GridViewColumn Header="{localization:LocalisedText ApplicationDialog.AppName}"
+                                    DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="{localization:LocalisedText ApplicationDialog.MatchString}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=MatchString}"
+                                           Margin="0,0,5,0"></TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="{localization:LocalisedText ApplicationDialog.UsingRegularExpression}"
+                                    DisplayMemberBinding="{Binding IsRegEx,Converter={StaticResource boolConverter}}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="btnEditIgnoredApp"
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Height="50"
+                Width="50"
+                Click="btnEditIgnoredApp_Click"
+                Margin="0,0,65,10"
+                IsEnabled="False"
+                Grid.Row="1">
+            <Rectangle Width="20"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{StaticResource EditIcon}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        <Button x:Name="btnDeleteIgnoredApp"
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Height="50"
+                Width="50"
+                Margin="0,0,10,10"
+                Click="btnDeleteIgnoredApp_Click"
+                IsEnabled="False"
+                Grid.Row="1">
+            <Rectangle Width="18"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Visual="{StaticResource DeleteIcon}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        <Button x:Name="btnAddIgnoredApp"
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Height="50"
+                Width="50"
+                Click="btnAddIgnoredApp_Click"
+                Margin="0,0,120,10"
+                Grid.Row="1">
+            <Rectangle Width="20"
+                       Height="20">
+                <Rectangle.Fill>
+                    <VisualBrush Visual="{StaticResource PlusIcon}" />
+                </Rectangle.Fill>
+            </Rectangle>
+        </Button>
+        <Button x:Name="ExportButton"
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Height="50"
+                Width="50"
+                Margin="10,0,0,10"
+                Grid.Row="1"
+                Grid.Column="0"
+                Click="ExportIgnoredButton_Click">
+            <Rectangle Width="20"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform"
+                                 Visual="{StaticResource Export}">
+                    </VisualBrush>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        <Button x:Name="DownloadButton"
+                Style="{DynamicResource MetroCircleButtonStyle}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Height="50"
+                Width="50"
+                Margin="65,0,0,10"
+                Grid.Row="1"
+                Grid.Column="0"
+                Click="DownloadButton_Click">
+            <Rectangle Width="20"
+                       Height="20"
+                       Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Uniform"
+                                 Visual="{StaticResource Import}">
+                    </VisualBrush>
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+    </Grid>
+</UserControl>
