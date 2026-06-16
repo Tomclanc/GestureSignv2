@@ -66,7 +66,7 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseUp(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             var button = (MouseActions)mouseMessage.Button;
-            if (ShouldPreferForegroundMouseGestures() && button != AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
+            if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && button != AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
             if (button == AppConfig.DrawingButton)
@@ -80,7 +80,7 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
-            if (ShouldPreferForegroundMouseGestures() && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+            if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
                 return;
 
             var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
@@ -89,7 +89,7 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
-            if (ShouldPreferForegroundMouseGestures())
+            if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point))
                 return;
 
             if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton && _pressedMouseButton.Count == 0)
@@ -102,14 +102,15 @@ namespace GestureSign.Daemon.Input
             _pressedMouseButton.Add((MouseActions)mouseMessage.Button);
         }
 
-        private static bool ShouldPreferForegroundMouseGestures()
+        private static bool ShouldPreferMouseGesturesAtPoint(System.Drawing.Point point)
         {
             if (!AppConfig.PreferEdgeMouseGestures)
                 return false;
 
             try
             {
-                ApplicationManager.GetWindowInfo(SystemWindow.ForegroundWindow, out _, out _, out var fileName);
+                var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+                ApplicationManager.GetWindowInfo(targetWindow, out _, out _, out var fileName);
                 return string.Equals(fileName, "msedge.exe", StringComparison.OrdinalIgnoreCase);
             }
             catch
@@ -125,6 +126,17 @@ namespace GestureSign.Daemon.Input
                 var rawData = e.RawData;
 
                 int releaseCount = rawData.Count(rtd => rtd.State == 0);
+
+                if (SourceDevice == Devices.None && rawData.Count > 0 && releaseCount == 0)
+                {
+                    _lastPointsCount = rawData.Count;
+                    OnPointDown(new InputPointsEventArgs(rawData, e.SourceDevice));
+
+                    if (PointCapture.Instance.Mode == CaptureMode.Training && e.SourceDevice == Devices.TouchPad)
+                        ArmTrainingTouchPadRelease(rawData);
+
+                    return;
+                }
 
                 if (rawData.Count == _lastPointsCount)
                 {
