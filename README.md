@@ -46,9 +46,14 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9750.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9750/GestureSign-V2-Setup-x64-8.1.9750.msi)
+- [GestureSign-V2-Setup-x64-8.1.9751.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9751/GestureSign-V2-Setup-x64-8.1.9751.msi)
 
 ## 更新内容
+
+### 8.1.9751
+
+- 修复触控板手势结束后，后续鼠标右键手势可能不再触发的问题。
+- 在触控板释放事件后清理残留触摸状态，避免必须重启后台程序才能恢复鼠标手势。
 
 ### 8.1.9750
 
@@ -147,7 +152,7 @@ Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSign
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9750.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9750/GestureSign-V2-Setup-x64-8.1.9750.msi)
+- [GestureSign-V2-Setup-x64-8.1.9751.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9751/GestureSign-V2-Setup-x64-8.1.9751.msi)
 
 ## Installation
 

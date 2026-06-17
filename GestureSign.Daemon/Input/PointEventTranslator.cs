@@ -144,6 +144,7 @@ namespace GestureSign.Daemon.Input
                     {
                         OnPointUp(new InputPointsEventArgs(rawData, e.SourceDevice));
                         _lastPointsCount -= releaseCount;
+                        ResetTouchStateIfReleased(rawData);
                         return;
                     }
                     OnPointMove(new InputPointsEventArgs(rawData, e.SourceDevice));
@@ -151,7 +152,14 @@ namespace GestureSign.Daemon.Input
                 else if (rawData.Count > _lastPointsCount)
                 {
                     if (releaseCount != 0)
+                    {
+                        if (releaseCount == rawData.Count)
+                        {
+                            OnPointUp(new InputPointsEventArgs(rawData, e.SourceDevice));
+                            ResetTouchStateIfReleased(rawData);
+                        }
                         return;
+                    }
                     if (PointCapture.Instance.InputPoints.Any(p => p.Count > 10))
                     {
                         OnPointMove(new InputPointsEventArgs(rawData, e.SourceDevice));
@@ -164,6 +172,7 @@ namespace GestureSign.Daemon.Input
                 {
                     OnPointUp(new InputPointsEventArgs(rawData, e.SourceDevice));
                     _lastPointsCount = _lastPointsCount - rawData.Count > releaseCount ? rawData.Count : _lastPointsCount - releaseCount;
+                    ResetTouchStateIfReleased(rawData);
                 }
 
                 if (PointCapture.Instance.Mode == CaptureMode.Training && e.SourceDevice == Devices.TouchPad && rawData.Count > 0 && releaseCount == 0)
@@ -264,6 +273,15 @@ namespace GestureSign.Daemon.Input
             OnPointUp(new InputPointsEventArgs(rawData, Devices.TouchPad));
             _lastPointsCount = 0;
             _lastTrainingTouchPadRawData = null;
+        }
+
+        private void ResetTouchStateIfReleased(IReadOnlyList<RawData> rawData)
+        {
+            if (rawData.Count == 0 || rawData.All(point => point.State == 0))
+            {
+                _lastPointsCount = 0;
+                _lastTrainingTouchPadRawData = null;
+            }
         }
 
         #endregion
