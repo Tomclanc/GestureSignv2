@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  简体中文 | <a href="#english">English</a>
+  简体中文 | <a href="#english">English</a> | <a href="#日本語">日本語</a>
 </p>
 
 ![GestureSign V2 主界面](docs/assets/screenshot-main.png)
@@ -215,3 +215,87 @@ When reporting gesture, recording, saving, or UI issues, please include:
 ## Credits
 
 Thanks to [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign), HighSign, MahApps.Metro, WGestures, and the projects this work builds on.
+
+---
+
+## 日本語
+
+GestureSign V2 は、クラシックなオープンソースプロジェクト [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) を Windows 11 向けに再構築したバージョンです。
+
+元の GestureSign は長い間積極的にメンテナンスされていません。新しい Windows 環境では、修飾キーが押されたままになる、UI の挙動が古い、高 DPI 環境で表示が崩れる、ジェスチャー入力が安定しない、といった問題が起こることがあります。GestureSign V2 は従来のジェスチャーワークフローを保ちながら、Windows 11 での体験を改善し、設定画面をモダンな WinUI 3 デザインへ移行しています。
+
+## 主な機能
+
+- Windows 11 の角丸、Mica スタイル、ライト / ダークテーマに対応した WinUI 3 インターフェイス。
+- タッチパッドジェスチャー、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
+- 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
+- ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。
+- 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
+- Windows タッチパッドジェスチャーやブラウザー内蔵ジェスチャーを優先するオプションと、全画面除外設定。
+- トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ。
+- 高 DPI および高リフレッシュレート環境向けの UI と入力体験の改善。
+
+## ダウンロード
+
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest) から入手できます。
+
+現在のバージョン:
+
+- [GestureSign-V2-Setup-x64-8.1.9752.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9752/GestureSign-V2-Setup-x64-8.1.9752.msi)
+
+## インストール
+
+1. MSI インストーラーをダウンロードします。
+2. インストーラーをダブルクリックし、画面の案内に従ってセットアップを完了します。
+3. デスクトップショートカットまたはスタートメニューから `GestureSign V2` を開きます。
+4. Actions ページでジェスチャー認識を有効にし、必要に応じてアプリ、ジェスチャー、コマンドを追加します。
+
+設定ファイルは次の場所に保存されます:
+
+```text
+%AppData%\GestureSign
+```
+
+ログファイルは次の場所に保存されます:
+
+```text
+%LocalAppData%\GestureSign
+```
+
+## クイックスタート
+
+1. Actions ページを開き、ジェスチャー認識が有効になっていることを確認します。
+2. 左側で Global Actions またはアプリグループを選択します。
+3. New Action をクリックし、ジェスチャーパターンを記録または描画します。
+4. Set Command をクリックし、そのジェスチャーにホットキー、ブラウザー操作、ウィンドウ操作、またはシステムコマンドを割り当てます。
+5. デスクトップまたは対象アプリに戻り、ジェスチャーを実行します。
+
+アプリが Windows 11 のタッチパッドジェスチャーや Microsoft Edge のマウスジェスチャーなど、システムまたはアプリ内蔵のジェスチャーを持っている場合は、Options ページで関連する優先オプションを有効にできます。
+
+## ページ
+
+- Actions: グローバルアクション、アプリアクション、グループ、ジェスチャー、コマンドを管理します。
+- Ignore: ジェスチャー認識から除外するアプリ、ウィンドウ、マッチングルールを設定します。
+- Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
+- Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整します。
+- About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
+
+## 互換性
+
+- 推奨 OS: Windows 11 x64
+- インストーラー: MSI x64
+- Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
+
+## フィードバック
+
+ジェスチャー、記録、保存、UI 表示に関する問題を報告する場合は、次の情報を含めてください。
+
+- Windows のバージョンとディスプレイの拡大率。
+- マウスジェスチャーまたはタッチパッドジェスチャーのどちらを使用しているか。
+- 対象アプリ名と、全画面表示かどうか。
+- About ページのログ。
+- スクリーンショットまたは再現手順。
+
+## クレジット
+
+[TransposonY/GestureSign](https://github.com/TransposonY/GestureSign)、HighSign、MahApps.Metro、WGestures、および本プロジェクトの基礎となった各プロジェクトに感謝します。
