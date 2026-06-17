@@ -751,7 +751,7 @@ internal sealed class LegacyDataStore
                 IgnoreFullScreen = settings.BoolValue("IgnoreFullScreen", false),
                 IgnoreFullScreenVideo = settings.BoolValue("IgnoreFullScreenVideo", false),
                 IgnoreTouchInputWhenUsingPen = settings.BoolValue("IgnoreTouchInputWhenUsingPen", true),
-                DrawingButton = NormalizeDrawingButton(settings.IntValue("DrawingButton", 0)),
+                DrawingButton = NormalizeConfiguredDrawingButton(settings),
                 PreferEdgeMouseGestures = settings.BoolValue("PreferEdgeMouseGestures", false),
                 PenGestureButton = settings.IntValue("PenGestureButton", 0),
                 InitialTimeout = settings.IntValue("InitialTimeout", 0),
@@ -778,6 +778,11 @@ internal sealed class LegacyDataStore
 
     private static int NormalizeDrawingButton(int value)
         => value is 2097152 or 4194304 or 8388608 or 16777216 ? value : 0;
+
+    private static int NormalizeConfiguredDrawingButton(IReadOnlyDictionary<string, string> settings)
+        => settings.TryGetValue("DrawingButton", out var value) && int.TryParse(value, out var result)
+            ? NormalizeDrawingButton(result)
+            : 2097152;
 
     private static JsonArray GetOrCreateArray(JsonObject source, string key)
     {

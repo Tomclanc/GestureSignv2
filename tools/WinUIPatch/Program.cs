@@ -131,15 +131,52 @@ foreach (var path in args)
 
     if (args.Contains("--brand-version-only"))
     {
-        if (path == "--brand-version-only")
+        if (IsOptionOrOptionValue(args, path))
             continue;
-        PatchBrandVersionOnly(path, "8.1.9735");
+        var version = GetOptionValue(args, "--version") ?? "8.1.9741";
+        PatchBrandVersionOnly(path, version);
         Console.WriteLine($"Patched brand/version text {path}");
+        continue;
+    }
+
+    if (args.Contains("--command-editor-visibility-only"))
+    {
+        if (path.StartsWith("--", StringComparison.Ordinal))
+            continue;
+        var module = ModuleDefMD.Load(File.ReadAllBytes(path));
+        var mainWindow = module.Find("GestureSign.WinUI.MainWindow", isReflectionName: false)
+            ?? throw new InvalidOperationException("GestureSign.WinUI.MainWindow not found.");
+        PatchCommandEditorVisibility(module, mainWindow);
+        WriteModule(module, path);
+        Console.WriteLine($"Patched command editor visibility {path}");
         continue;
     }
 
     Patch(path);
     Console.WriteLine($"Patched {path}");
+}
+
+static string? GetOptionValue(string[] args, string option)
+{
+    for (var i = 0; i < args.Length - 1; i++)
+    {
+        if (args[i] == option)
+            return args[i + 1];
+    }
+    return null;
+}
+
+static bool IsOptionOrOptionValue(string[] args, string value)
+{
+    if (value.StartsWith("--", StringComparison.Ordinal))
+        return true;
+
+    for (var i = 0; i < args.Length - 1; i++)
+    {
+        if (args[i] == "--version" && args[i + 1] == value)
+            return true;
+    }
+    return false;
 }
 
 return 0;

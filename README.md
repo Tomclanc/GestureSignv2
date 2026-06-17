@@ -46,7 +46,18 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9735.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9735/GestureSign-V2-Setup-x64-8.1.9735.msi)
+- [GestureSign-V2-Setup-x64-8.1.9749.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9749/GestureSign-V2-Setup-x64-8.1.9749.msi)
+
+## 更新内容
+
+### 8.1.9749
+
+- 修复触控板、触控屏和鼠标右键手势的轨迹显示与触发稳定性。
+- 修复子动作“启用 / 停用”后后台动作列表不立即生效的问题。
+- 恢复“手势识别”总开关为动态开关，可直接控制后台识别服务启停。
+- 修复“优先使用 Windows 触控板系统手势”选项不生效的问题。
+- 优化触控板或触控录制入口描述，保留多指手势录制兼容逻辑。
+- 更新 WinUI 3 设置界面版本号与下载链接。
 
 ## 安装
 
@@ -130,7 +141,7 @@ Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSign
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9735.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9735/GestureSign-V2-Setup-x64-8.1.9735.msi)
+- [GestureSign-V2-Setup-x64-8.1.9749.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9749/GestureSign-V2-Setup-x64-8.1.9749.msi)
 
 ## Installation
 

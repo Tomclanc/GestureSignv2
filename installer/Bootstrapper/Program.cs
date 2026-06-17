@@ -218,7 +218,7 @@ namespace GestureSign.Setup
                     {
                         var displayName = key?.GetValue("DisplayName") as string;
                         var windowsInstaller = key?.GetValue("WindowsInstaller")?.ToString();
-                        if (!string.Equals(displayName, "GestureSign", StringComparison.OrdinalIgnoreCase) || windowsInstaller != "1")
+                        if (!IsGestureSignProduct(displayName) || windowsInstaller != "1")
                             continue;
 
                         if (subKeyName.StartsWith("{", StringComparison.Ordinal) && subKeyName.EndsWith("}", StringComparison.Ordinal))
@@ -249,6 +249,10 @@ namespace GestureSign.Setup
                     throw new InvalidOperationException($"Windows Installer 返回 {process.ExitCode}");
             }
         }
+
+        private static bool IsGestureSignProduct(string displayName)
+            => string.Equals(displayName, "GestureSign", StringComparison.OrdinalIgnoreCase)
+               || string.Equals(displayName, "GestureSign V2", StringComparison.OrdinalIgnoreCase);
 
         private static bool IsDarkTheme()
         {

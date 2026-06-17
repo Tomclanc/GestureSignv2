@@ -40,6 +40,7 @@ namespace GestureSign.Common.Configuration
                         {
                             FileManager.WaitFile(ConfigPath);
                             _config = RetryConfigOperation(() => ConfigurationManager.OpenMappedExeConfiguration(ExeMap, ConfigurationUserLevel.None));
+                            MigrateLegacyDrawingButtonDefault(_config);
                             _settingCache.Clear();
                             _loadFlag = false;
                         });
@@ -235,7 +236,7 @@ namespace GestureSign.Common.Configuration
         {
             get
             {
-                return (MouseActions)GetValue(nameof(DrawingButton), 0);
+                return (MouseActions)GetValue(nameof(DrawingButton), (int)MouseActions.Right);
             }
             set
             {
@@ -580,6 +581,31 @@ namespace GestureSign.Common.Configuration
         private static string GetValue(string key, string defaultValue)
         {
             return GetValue(key, defaultValue, s => s);
+        }
+
+        private static void MigrateLegacyDrawingButtonDefault(System.Configuration.Configuration config)
+        {
+            var drawingButton = config.AppSettings.Settings[nameof(DrawingButton)];
+            if (drawingButton == null)
+                return;
+            if (drawingButton.Value != "0")
+                return;
+
+            var explicitlyDisabled = config.AppSettings.Settings["MouseGesturesDisabledByUser"];
+            if (explicitlyDisabled != null &&
+                bool.TryParse(explicitlyDisabled.Value, out var disabled) &&
+                disabled)
+            {
+                return;
+            }
+
+            drawingButton.Value = ((int)MouseActions.Right).ToString(CultureInfo.InvariantCulture);
+            if (config.AppSettings.Settings["DrawingButtonMigratedToRight"] == null)
+                config.AppSettings.Settings.Add("DrawingButtonMigratedToRight", "true");
+            else
+                config.AppSettings.Settings["DrawingButtonMigratedToRight"].Value = "true";
+            config.Save(ConfigurationSaveMode.Modified);
+            RetryConfigOperation(() => ConfigurationManager.RefreshSection("appSettings"));
         }
 
         private static DateTime GetValue(string key, DateTime defaultValue)

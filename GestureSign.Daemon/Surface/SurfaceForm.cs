@@ -205,6 +205,18 @@ namespace GestureSign.Daemon.Surface
         {
             TopMost = true;
             Show();
+            NativeMethods.SetWindowPos(
+                Handle,
+                new IntPtr(-1),
+                0,
+                0,
+                0,
+                0,
+                NativeMethods.SWP.SWP_NOMOVE |
+                NativeMethods.SWP.SWP_NOSIZE |
+                NativeMethods.SWP.SWP_NOACTIVATE |
+                NativeMethods.SWP.SWP_SHOWWINDOW);
+            NativeMethods.UpdateWindow(Handle);
         }
 
         private void HideSurface()

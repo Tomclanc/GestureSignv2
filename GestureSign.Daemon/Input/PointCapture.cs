@@ -616,7 +616,7 @@ namespace GestureSign.Daemon.Input
 
         private void AddPoint(List<InputPoint> point)
         {
-            if (Mode == CaptureMode.Training && _pointsCaptured?.Count > 1 && point.Count > 1)
+            if (Mode == CaptureMode.Training && SourceDevice == Devices.TouchPad && _pointsCaptured?.Count > 1 && point.Count > 1)
             {
                 AddTrainingPointByNearestStroke(point);
                 return;

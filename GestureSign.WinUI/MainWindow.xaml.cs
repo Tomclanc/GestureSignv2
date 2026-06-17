@@ -53,6 +53,8 @@ public sealed partial class MainWindow : Window
     private TextBlock? _pendingTrainingStatus;
     private bool _isSavingOptions;
     private string _selectedActionScope = "all";
+    private bool _recognitionEnabled = true;
+    private bool _updatingRecognitionToggle;
     private IntPtr _keyboardHook;
     private LowLevelKeyboardProc? _keyboardHookProc;
     private TextBox? _activeHotKeyRecorder;
@@ -533,7 +535,7 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = Application.Current.Resources["TitleTextBlockStyle"] as Style, Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9735", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9749", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -544,6 +546,21 @@ public sealed partial class MainWindow : Window
     private StackPanel NewSection() => new() { Spacing = 14 };
 
     private StackPanel NewCardPanel(double spacing = 6) => new() { Spacing = spacing };
+
+    private static Grid NewTwoColumnRow(FrameworkElement left, FrameworkElement right)
+    {
+        var row = new Grid { ColumnSpacing = 16, Margin = new Thickness(0, 8, 0, 0) };
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        left.HorizontalAlignment = HorizontalAlignment.Left;
+        left.VerticalAlignment = VerticalAlignment.Center;
+        right.HorizontalAlignment = HorizontalAlignment.Left;
+        right.VerticalAlignment = VerticalAlignment.Center;
+        row.Children.Add(left);
+        Grid.SetColumn(right, 1);
+        row.Children.Add(right);
+        return row;
+    }
 
     private Border NewCard(UIElement content, Thickness? padding = null)
     {
@@ -587,6 +604,55 @@ public sealed partial class MainWindow : Window
     }
 
     private FrameworkElement NewRecognitionCard()
+    {
+        return NewRecognitionCardDynamic();
+    }
+
+    private FrameworkElement NewRecognitionCardDynamic()
+    {
+        var grid = new Grid { ColumnSpacing = 18 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var text = NewCardPanel(4);
+        text.Children.Add(new TextBlock { Text = "手势识别", Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = "移动到动作页后，这里负责控制后台识别服务的启停。", Opacity = 0.68 });
+        grid.Children.Add(text);
+
+        var toggle = new ToggleSwitch
+        {
+            IsOn = _recognitionEnabled,
+            OnContent = "开",
+            OffContent = "关",
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        toggle.Toggled += async (_, _) =>
+        {
+            if (_updatingRecognitionToggle)
+                return;
+
+            _recognitionEnabled = toggle.IsOn;
+            var command = toggle.IsOn ? DaemonCommand.EnableRecognition : DaemonCommand.DisableRecognition;
+            if (!await NotifyDaemonAsync(command))
+            {
+                _recognitionEnabled = !toggle.IsOn;
+                _updatingRecognitionToggle = true;
+                try
+                {
+                    toggle.IsOn = _recognitionEnabled;
+                }
+                finally
+                {
+                    _updatingRecognitionToggle = false;
+                }
+            }
+        };
+        Grid.SetColumn(toggle, 1);
+        grid.Children.Add(toggle);
+        return NewCard(grid);
+    }
+
+    private FrameworkElement NewRecognitionCardLegacy()
     {
         var grid = new Grid { ColumnSpacing = 18 };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -746,6 +812,19 @@ public sealed partial class MainWindow : Window
         {
             var button = NewPillButton(item.Text, false);
             button.Click += async (_, _) => await RunUiActionAsync(item.Action);
+            panel.Children.Add(button);
+        }
+
+        return panel;
+    }
+
+    private FrameworkElement NewInlineButtonsWithContext(params (string Text, Func<Button, Task> Action)[] buttons)
+    {
+        var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        foreach (var item in buttons)
+        {
+            var button = NewPillButton(item.Text, false);
+            button.Click += async (_, _) => await RunUiActionAsync(() => item.Action(button));
             panel.Children.Add(button);
         }
 
@@ -919,11 +998,14 @@ public sealed partial class MainWindow : Window
         ReloadData();
     }
 
-    private Task ToggleEnabledAsync(System.Text.Json.Nodes.JsonObject source)
+    private async Task ToggleEnabledAsync(System.Text.Json.Nodes.JsonObject source, Button? toggleButton = null)
     {
         var isEnabled = source.BoolValue("IsEnabled", true);
-        _legacyData.SetEnabled(source, !isEnabled);
-        return Task.CompletedTask;
+        var newEnabled = !isEnabled;
+        _legacyData.SetEnabled(source, newEnabled);
+        if (toggleButton != null)
+            toggleButton.Content = newEnabled ? "停用" : "启用";
+        await NotifyDaemonAsync(DaemonCommand.LoadApplications);
     }
 
     private async Task AddActionAsync(LegacyApplication? app)
@@ -950,10 +1032,8 @@ public sealed partial class MainWindow : Window
         var name = new TextBox { PlaceholderText = "动作名称", Text = DisplayName(action.Name) };
         var gesture = new TextBox { PlaceholderText = "手势名称", Text = action.GestureName, Margin = new Thickness(0, 8, 0, 0) };
         var condition = new TextBox { PlaceholderText = "触发条件，可留空", Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
-        var enabled = new CheckBox { Content = "启用", IsChecked = action.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
-        var activateWindow = new CheckBox { Content = "执行前激活目标窗口", IsChecked = action.ActivateWindow, Margin = new Thickness(0, 8, 0, 0) };
-        activateWindow.HorizontalAlignment = HorizontalAlignment.Right;
-        activateWindow.Margin = new Thickness(0, -32, 32, 0);
+        var enabled = new CheckBox { Content = "启用", IsChecked = action.IsEnabled };
+        var activateWindow = new CheckBox { Content = "执行前激活目标窗口", IsChecked = action.ActivateWindow };
         var mouseHotkey = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = MouseActionIndex(action.MouseHotkey) };
         foreach (var item in new[] { "无鼠标快捷键", "滚轮前", "滚轮后", "左键", "右键", "中键", "X1 键", "X2 键" })
             mouseHotkey.Items.Add(item);
@@ -961,12 +1041,10 @@ public sealed partial class MainWindow : Window
         var hotkeyJson = new TextBox { Text = action.HotkeyJson };
         var hotkeyRecorder = NewHotKeyRecorderWithClear(hotkeyJson, action.HotkeyJson, usesArrayKeyCode: false);
         var continuousGestureJson = new TextBox { PlaceholderText = "连续手势 JSON，可留空", Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
-        var drawnPoints = new List<(double X, double Y)>();
-        var drawPanel = NewInlineGestureDrawingPanel(drawnPoints, out var showRecordedGesture);
-        var trainingStatus = new TextBlock { Text = "触控板录制会使用后台识别服务捕捉真实多指轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
-        var trainByTouchpad = NewPillButton("用触控板录制", false);
-        trainByTouchpad.HorizontalAlignment = HorizontalAlignment.Right;
-        trainByTouchpad.Margin = new Thickness(0, -38, 32, 0);
+        var drawnPointPatterns = new List<List<(double X, double Y)>>();
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
+        var trainingStatus = new TextBlock { Text = "触控板或触控录制会使用后台识别服务捕捉真实多指轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+        var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
         trainByTouchpad.Click += async (_, _) =>
         {
             var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
@@ -978,10 +1056,9 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(gesture);
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
-        panel.Children.Add(trainByTouchpad);
+        panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
-        panel.Children.Add(enabled);
-        panel.Children.Add(activateWindow);
+        panel.Children.Add(NewTwoColumnRow(enabled, activateWindow));
         panel.Children.Add(mouseHotkey);
         panel.Children.Add(ignoredDevices);
         panel.Children.Add(hotkeyRecorder);
@@ -989,14 +1066,18 @@ public sealed partial class MainWindow : Window
         if (!await ConfirmDialogAsync($"编辑动作 {DisplayName(action.Name)}", panel, "保存"))
             return;
 
-        if (drawnPoints.Count >= 2)
+        var validDrawnPointPatterns = drawnPointPatterns
+            .Where(pattern => pattern.Count >= 2)
+            .Cast<IReadOnlyList<(double X, double Y)>>()
+            .ToList();
+        if (validDrawnPointPatterns.Count > 0)
         {
             var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
             var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
             if (existingGesture is null)
-                _legacyData.AddGestureFromPoints(gestureName, 1, drawnPoints);
+                _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
             else
-                _legacyData.UpdateGesturePoints(existingGesture, 1, drawnPoints);
+                _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
             gesture.Text = gestureName;
         }
 
@@ -1148,9 +1229,10 @@ public sealed partial class MainWindow : Window
     {
         var isHotKey = pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase);
         var isCustom = string.IsNullOrWhiteSpace(pluginClass);
+        var isSettingsFree = IsSettingsFreePlugin(pluginClass);
         pluginClassBox.Visibility = isCustom ? Visibility.Visible : Visibility.Collapsed;
         hotkeyBox.Visibility = isHotKey ? Visibility.Visible : Visibility.Collapsed;
-        settingsBox.Visibility = Visibility.Collapsed;
+        settingsBox.Visibility = isHotKey || isSettingsFree ? Visibility.Collapsed : Visibility.Visible;
     }
 
     private static bool IsSettingsFreePlugin(string pluginClass)
@@ -1689,7 +1771,7 @@ public sealed partial class MainWindow : Window
         ReloadData();
     }
 
-    private FrameworkElement NewInlineGestureDrawingPanel(List<(double X, double Y)> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture)
+    private FrameworkElement NewInlineGestureDrawingPanel(List<List<(double X, double Y)>> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture, out Button clearButton)
     {
         var canvas = new Canvas
         {
@@ -1720,30 +1802,36 @@ public sealed partial class MainWindow : Window
         showRecordedGesture = strokes =>
         {
             sample.Clear();
+            foreach (var stroke in strokes)
+                sample.Add(stroke.ToList());
             canvas.Children.Clear();
             DrawGestureLines(canvas, strokes, canvas.Width, canvas.Height);
         };
 
-        Polyline? line = null;
-        uint? activePointerId = null;
+        var activeLines = new Dictionary<uint, Polyline>();
+        var activeStrokes = new Dictionary<uint, List<(double X, double Y)>>();
         canvas.RightTapped += (_, args) => args.Handled = true;
         canvas.PointerCanceled += (_, _) =>
         {
-            line = null;
-            activePointerId = null;
+            activeLines.Clear();
+            activeStrokes.Clear();
         };
         canvas.PointerCaptureLost += (_, _) =>
         {
-            line = null;
-            activePointerId = null;
+            // WinUI may move pointer capture while a second touch contact is added.
+            // Keep the in-progress strokes so simultaneous touch drawing is not saved as one stroke.
         };
         canvas.PointerPressed += (_, args) =>
         {
             var point = args.GetCurrentPoint(canvas);
 
-            sample.Clear();
-            canvas.Children.Clear();
-            line = new Polyline
+            if (activeLines.Count == 0)
+            {
+                sample.Clear();
+                canvas.Children.Clear();
+            }
+
+            var line = new Polyline
             {
                 Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212)),
                 StrokeThickness = 4,
@@ -1752,40 +1840,42 @@ public sealed partial class MainWindow : Window
                 StrokeLineJoin = PenLineJoin.Round
             };
             canvas.Children.Add(line);
-            canvas.CapturePointer(args.Pointer);
-            activePointerId = point.PointerId;
             var position = point.Position;
-            sample.Add((position.X, position.Y));
+            var stroke = new List<(double X, double Y)> { (position.X, position.Y) };
+            sample.Add(stroke);
+            activeLines[point.PointerId] = line;
+            activeStrokes[point.PointerId] = stroke;
             line.Points.Add(position);
             args.Handled = true;
         };
         canvas.PointerMoved += (_, args) =>
         {
-            if (line is null)
-                return;
             var point = args.GetCurrentPoint(canvas);
-            if (activePointerId is not null && point.PointerId != activePointerId.Value)
+            if (!activeLines.TryGetValue(point.PointerId, out var line) ||
+                !activeStrokes.TryGetValue(point.PointerId, out var stroke))
                 return;
             var position = point.Position;
-            var last = sample.LastOrDefault();
-            if (sample.Count > 0 && Math.Abs(last.X - position.X) + Math.Abs(last.Y - position.Y) < 4)
+            var last = stroke.LastOrDefault();
+            if (stroke.Count > 0 && Math.Abs(last.X - position.X) + Math.Abs(last.Y - position.Y) < 4)
                 return;
-            sample.Add((position.X, position.Y));
+            stroke.Add((position.X, position.Y));
             line.Points.Add(position);
             args.Handled = true;
         };
         canvas.PointerReleased += (_, args) =>
         {
-            canvas.ReleasePointerCapture(args.Pointer);
-            line = null;
-            activePointerId = null;
+            var point = args.GetCurrentPoint(canvas);
+            activeLines.Remove(point.PointerId);
+            activeStrokes.Remove(point.PointerId);
             args.Handled = true;
         };
 
-        var clear = NewPillButton("清除图案", false);
-        clear.Click += (_, _) =>
+        clearButton = NewPillButton("清除图案", false);
+        clearButton.Click += (_, _) =>
         {
             sample.Clear();
+            activeLines.Clear();
+            activeStrokes.Clear();
             ShowHint();
         };
 
@@ -1799,7 +1889,6 @@ public sealed partial class MainWindow : Window
             CornerRadius = new CornerRadius(10),
             Child = canvas
         });
-        panel.Children.Add(clear);
         return panel;
     }
 
@@ -2527,7 +2616,11 @@ public sealed partial class MainWindow : Window
         Grid.SetColumn(text, 1);
         grid.Children.Add(text);
 
-        var buttons = NewInlineButtons(("编辑", async () => await EditActionAsync(action)), (action.IsEnabled ? "停用" : "启用", async () => await ToggleEnabledAsync(action.Source)), ("设置命令", async () => await SetCommandAsync(action)), ("删除", async () => await DeleteActionAsync(application, action)));
+        var buttons = NewInlineButtonsWithContext(
+            ("编辑", async _ => await EditActionAsync(action)),
+            (action.IsEnabled ? "停用" : "启用", async button => await ToggleEnabledAsync(action.Source, button)),
+            ("设置命令", async _ => await SetCommandAsync(action)),
+            ("删除", async _ => await DeleteActionAsync(application, action)));
         Grid.SetColumn(buttons, 2);
         grid.Children.Add(buttons);
         return NewCard(grid, new Thickness(12));
@@ -2790,6 +2883,7 @@ public sealed partial class MainWindow : Window
                 foreach (var (key, value) in updates)
                     _legacyData.UpdateOption(key, value);
             });
+            _legacyData = LegacyDataStore.Load();
             await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
         }
         catch (Exception ex)
@@ -2813,6 +2907,8 @@ public sealed partial class MainWindow : Window
             toggle.Toggled += (_, _) =>
             {
                 UpdateOptionAndReload(configKey, toggle.IsOn ? onValue ?? "True" : offValue ?? "False");
+                if (string.Equals(configKey, "DrawingButton", StringComparison.OrdinalIgnoreCase))
+                    UpdateOptionAndReload("MouseGesturesDisabledByUser", toggle.IsOn ? "False" : "True");
             };
         }
         return NewSettingRow(title, null, toggle);
@@ -3995,7 +4091,9 @@ public sealed partial class MainWindow : Window
         StopTraining = 2,
         LoadApplications = 3,
         LoadGestures = 4,
-        LoadConfiguration = 5
+        LoadConfiguration = 5,
+        EnableRecognition = 9,
+        DisableRecognition = 10
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);
