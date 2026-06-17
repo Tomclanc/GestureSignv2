@@ -14,15 +14,15 @@ namespace GestureSign.Daemon.Input
     {
         private int _lastPointsCount;
         private HashSet<MouseActions> _pressedMouseButton;
-        private System.Threading.Timer _trainingTouchPadReleaseTimer;
-        private List<RawData> _lastTrainingTouchPadRawData;
+        private System.Threading.Timer _touchPadReleaseTimer;
+        private List<RawData> _lastTouchPadRawData;
 
         internal Devices SourceDevice { get; private set; }
 
         internal PointEventTranslator(InputProvider inputProvider)
         {
             _pressedMouseButton = new HashSet<MouseActions>();
-            _trainingTouchPadReleaseTimer = new System.Threading.Timer(_ => ReleaseTrainingTouchPad(), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            _touchPadReleaseTimer = new System.Threading.Timer(_ => ReleaseTouchPadIfIdle(), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             inputProvider.PointsIntercepted += TranslateTouchEvent;
             inputProvider.LowLevelMouseHook.MouseDown += LowLevelMouseHook_MouseDown;
             inputProvider.LowLevelMouseHook.MouseMove += LowLevelMouseHook_MouseMove;
@@ -132,8 +132,7 @@ namespace GestureSign.Daemon.Input
                     _lastPointsCount = rawData.Count;
                     OnPointDown(new InputPointsEventArgs(rawData, e.SourceDevice));
 
-                    if (PointCapture.Instance.Mode == CaptureMode.Training && e.SourceDevice == Devices.TouchPad)
-                        ArmTrainingTouchPadRelease(rawData);
+                    ArmTouchPadRelease(e.SourceDevice, rawData);
 
                     return;
                 }
@@ -175,8 +174,8 @@ namespace GestureSign.Daemon.Input
                     ResetTouchStateIfReleased(rawData);
                 }
 
-                if (PointCapture.Instance.Mode == CaptureMode.Training && e.SourceDevice == Devices.TouchPad && rawData.Count > 0 && releaseCount == 0)
-                    ArmTrainingTouchPadRelease(rawData);
+                if (rawData.Count > 0 && releaseCount == 0)
+                    ArmTouchPadRelease(e.SourceDevice, rawData);
             }
             else if (e.SourceDevice == Devices.Pen)
             {
@@ -256,23 +255,26 @@ namespace GestureSign.Daemon.Input
             }
         }
 
-        private void ArmTrainingTouchPadRelease(IReadOnlyList<RawData> rawData)
+        private void ArmTouchPadRelease(Devices sourceDevice, IReadOnlyList<RawData> rawData)
         {
-            _lastTrainingTouchPadRawData = rawData
+            if (sourceDevice != Devices.TouchPad)
+                return;
+
+            _lastTouchPadRawData = rawData
                 .Select(point => new RawData(DeviceStates.None, point.ContactIdentifier, point.RawPoints))
                 .ToList();
-            _trainingTouchPadReleaseTimer.Change(450, System.Threading.Timeout.Infinite);
+            _touchPadReleaseTimer.Change(450, System.Threading.Timeout.Infinite);
         }
 
-        private void ReleaseTrainingTouchPad()
+        private void ReleaseTouchPadIfIdle()
         {
-            var rawData = _lastTrainingTouchPadRawData;
+            var rawData = _lastTouchPadRawData;
             if (rawData == null || rawData.Count == 0 || SourceDevice != Devices.TouchPad)
                 return;
 
             OnPointUp(new InputPointsEventArgs(rawData, Devices.TouchPad));
             _lastPointsCount = 0;
-            _lastTrainingTouchPadRawData = null;
+            _lastTouchPadRawData = null;
         }
 
         private void ResetTouchStateIfReleased(IReadOnlyList<RawData> rawData)
@@ -280,7 +282,8 @@ namespace GestureSign.Daemon.Input
             if (rawData.Count == 0 || rawData.All(point => point.State == 0))
             {
                 _lastPointsCount = 0;
-                _lastTrainingTouchPadRawData = null;
+                _lastTouchPadRawData = null;
+                _touchPadReleaseTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             }
         }
 
