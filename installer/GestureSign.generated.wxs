@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9749" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="perMachine">
+  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9750" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="perMachine">
     <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallFinalize" DowngradeErrorMessage="A newer version of GestureSign is already installed." />
     <Property Id="REINSTALLMODE" Value="amus" />
     <MediaTemplate EmbedCab="yes" />

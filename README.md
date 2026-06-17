@@ -46,9 +46,15 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9749.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9749/GestureSign-V2-Setup-x64-8.1.9749.msi)
+- [GestureSign-V2-Setup-x64-8.1.9750.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9750/GestureSign-V2-Setup-x64-8.1.9750.msi)
 
 ## 更新内容
+
+### 8.1.9750
+
+- 修复开启“优先使用 Windows 触控板系统手势”后触控板手势被整体禁用的问题。
+- 保留触控板 raw input 注册，避免旧配置文件导致触控板手势、轨迹线失效。
+- 说明：开启“Edge 优先使用自带鼠标手势”后，Edge 窗口内的右键手势会交给 Edge 自带手势处理。
 
 ### 8.1.9749
 
@@ -141,7 +147,7 @@ Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSign
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9749.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9749/GestureSign-V2-Setup-x64-8.1.9749.msi)
+- [GestureSign-V2-Setup-x64-8.1.9750.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9750/GestureSign-V2-Setup-x64-8.1.9750.msi)
 
 ## Installation
 
