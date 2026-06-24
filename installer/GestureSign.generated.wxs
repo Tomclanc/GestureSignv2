@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9759" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="perMachine">
+  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9760" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="perMachine">
     <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallFinalize" DowngradeErrorMessage="A newer version of GestureSign is already installed." />
     <MediaTemplate EmbedCab="yes" />
     <Icon Id="GestureSignIcon" SourceFile="publish\GestureSign-WinUI-Preview\Assets\logo.ico" />
@@ -8,1133 +8,1682 @@
 
     <StandardDirectory Id="ProgramFiles64Folder">
       <Directory Id="INSTALLFOLDER" Name="GestureSign V2">
-        <Directory Id="DIR_af_ZA" Name="af-ZA">
+        <Directory Id="DIR_c24235b312d5d7cf" Name="af-ZA">
         </Directory>
-        <Directory Id="DIR_am_ET" Name="am-ET">
+        <Directory Id="DIR_0c2a25da75499c3d" Name="am-ET">
         </Directory>
-        <Directory Id="DIR_ar_SA" Name="ar-SA">
+        <Directory Id="DIR_e758f73af56e73d5" Name="ar-SA">
         </Directory>
-        <Directory Id="DIR_as_IN" Name="as-IN">
+        <Directory Id="DIR_fa2a758c8b95802e" Name="as-IN">
         </Directory>
-        <Directory Id="DIR_Assets" Name="Assets">
+        <Directory Id="DIR_20e338624cee29d0" Name="Assets">
         </Directory>
-        <Directory Id="DIR_az_Latn_AZ" Name="az-Latn-AZ">
+        <Directory Id="DIR_81c709a8a4507812" Name="az-Latn-AZ">
         </Directory>
-        <Directory Id="DIR_bg_BG" Name="bg-BG">
+        <Directory Id="DIR_8eed39620126c215" Name="bg-BG">
         </Directory>
-        <Directory Id="DIR_bn_IN" Name="bn-IN">
+        <Directory Id="DIR_f7323294b8a91fbe" Name="bn-IN">
         </Directory>
-        <Directory Id="DIR_bs_Latn_BA" Name="bs-Latn-BA">
+        <Directory Id="DIR_bd735e8b5adf555e" Name="bs-Latn-BA">
         </Directory>
-        <Directory Id="DIR_ca_ES" Name="ca-ES">
+        <Directory Id="DIR_947821905762e29a" Name="ca-ES">
         </Directory>
-        <Directory Id="DIR_ca_Es_VALENCIA" Name="ca-Es-VALENCIA">
+        <Directory Id="DIR_23c3d0fcb0bbe478" Name="ca-Es-VALENCIA">
         </Directory>
-        <Directory Id="DIR_cs_CZ" Name="cs-CZ">
+        <Directory Id="DIR_8ff3027e1695b4ad" Name="cs-CZ">
         </Directory>
-        <Directory Id="DIR_cy_GB" Name="cy-GB">
+        <Directory Id="DIR_77b6be1aa518511c" Name="cy-GB">
         </Directory>
-        <Directory Id="DIR_da_DK" Name="da-DK">
+        <Directory Id="DIR_201e2bdc233ccc28" Name="da-DK">
         </Directory>
-        <Directory Id="DIR_de_DE" Name="de-DE">
+        <Directory Id="DIR_4c1b8b31396eecc5" Name="de-DE">
         </Directory>
-        <Directory Id="DIR_Defaults" Name="Defaults">
+        <Directory Id="DIR_428819bf9e83cebd" Name="Defaults">
         </Directory>
-        <Directory Id="DIR_el_GR" Name="el-GR">
+        <Directory Id="DIR_6a97ba681274a170" Name="el-GR">
         </Directory>
-        <Directory Id="DIR_en_GB" Name="en-GB">
+        <Directory Id="DIR_db54f7f423d29de6" Name="en-GB">
         </Directory>
-        <Directory Id="DIR_en_us" Name="en-us">
+        <Directory Id="DIR_1080c8fd64272bd8" Name="en-us">
         </Directory>
-        <Directory Id="DIR_es_ES" Name="es-ES">
+        <Directory Id="DIR_91249e5adbba6db8" Name="es-ES">
         </Directory>
-        <Directory Id="DIR_es_MX" Name="es-MX">
+        <Directory Id="DIR_e5274e78712c5fd0" Name="es-MX">
         </Directory>
-        <Directory Id="DIR_et_EE" Name="et-EE">
+        <Directory Id="DIR_53aed892ae489161" Name="et-EE">
         </Directory>
-        <Directory Id="DIR_eu_ES" Name="eu-ES">
+        <Directory Id="DIR_d6432896007c8b7c" Name="eu-ES">
         </Directory>
-        <Directory Id="DIR_fa_IR" Name="fa-IR">
+        <Directory Id="DIR_1f4876fd676d03ac" Name="fa-IR">
         </Directory>
-        <Directory Id="DIR_fi_FI" Name="fi-FI">
+        <Directory Id="DIR_2ec21e568dd77f55" Name="fi-FI">
         </Directory>
-        <Directory Id="DIR_fil_PH" Name="fil-PH">
+        <Directory Id="DIR_4d119956ea377933" Name="fil-PH">
         </Directory>
-        <Directory Id="DIR_fr_CA" Name="fr-CA">
+        <Directory Id="DIR_b13b419482a23b35" Name="fr-CA">
         </Directory>
-        <Directory Id="DIR_fr_FR" Name="fr-FR">
+        <Directory Id="DIR_df60c9bf245d49d9" Name="fr-FR">
         </Directory>
-        <Directory Id="DIR_ga_IE" Name="ga-IE">
+        <Directory Id="DIR_5ff0409661a2f42a" Name="ga-IE">
         </Directory>
-        <Directory Id="DIR_gd_gb" Name="gd-gb">
+        <Directory Id="DIR_4307088e243355d9" Name="gd-gb">
         </Directory>
-        <Directory Id="DIR_gl_ES" Name="gl-ES">
+        <Directory Id="DIR_e94e055a4a5818ca" Name="gl-ES">
         </Directory>
-        <Directory Id="DIR_gu_IN" Name="gu-IN">
+        <Directory Id="DIR_81a3150743494d7e" Name="gu-IN">
         </Directory>
-        <Directory Id="DIR_he_IL" Name="he-IL">
+        <Directory Id="DIR_5e5c4b3cd84d07cd" Name="he-IL">
         </Directory>
-        <Directory Id="DIR_hi_IN" Name="hi-IN">
+        <Directory Id="DIR_65015da81d811108" Name="hi-IN">
         </Directory>
-        <Directory Id="DIR_hr_HR" Name="hr-HR">
+        <Directory Id="DIR_9b364d6b65f248d8" Name="hr-HR">
         </Directory>
-        <Directory Id="DIR_hu_HU" Name="hu-HU">
+        <Directory Id="DIR_3ca37c3be4b32064" Name="hu-HU">
         </Directory>
-        <Directory Id="DIR_hy_AM" Name="hy-AM">
+        <Directory Id="DIR_5c78f5cfe7de5e84" Name="hy-AM">
         </Directory>
-        <Directory Id="DIR_id_ID" Name="id-ID">
+        <Directory Id="DIR_cb4802eed58c26be" Name="id-ID">
         </Directory>
-        <Directory Id="DIR_is_IS" Name="is-IS">
+        <Directory Id="DIR_43d61201bcc98623" Name="is-IS">
         </Directory>
-        <Directory Id="DIR_it_IT" Name="it-IT">
+        <Directory Id="DIR_1afeef19008d4239" Name="it-IT">
         </Directory>
-        <Directory Id="DIR_ja_JP" Name="ja-JP">
+        <Directory Id="DIR_c525149eb1c2e0b5" Name="ja-JP">
         </Directory>
-        <Directory Id="DIR_ka_GE" Name="ka-GE">
+        <Directory Id="DIR_164f037ec4e5b107" Name="ka-GE">
         </Directory>
-        <Directory Id="DIR_kk_KZ" Name="kk-KZ">
+        <Directory Id="DIR_dd5abe829b4c9488" Name="kk-KZ">
         </Directory>
-        <Directory Id="DIR_km_KH" Name="km-KH">
+        <Directory Id="DIR_b3da801443256d65" Name="km-KH">
         </Directory>
-        <Directory Id="DIR_kn_IN" Name="kn-IN">
+        <Directory Id="DIR_9495add637c8866b" Name="kn-IN">
         </Directory>
-        <Directory Id="DIR_ko_KR" Name="ko-KR">
+        <Directory Id="DIR_fa65a5659dce5e69" Name="kok-IN">
         </Directory>
-        <Directory Id="DIR_kok_IN" Name="kok-IN">
+        <Directory Id="DIR_1ebe2c7631603513" Name="ko-KR">
         </Directory>
-        <Directory Id="DIR_Languages" Name="Languages">
-          <Directory Id="DIR_Languages_ControlPanel" Name="ControlPanel">
+        <Directory Id="DIR_db07be184479f340" Name="Languages">
+          <Directory Id="DIR_682cc77b1a7d4bea" Name="ControlPanel">
           </Directory>
-          <Directory Id="DIR_Languages_Daemon" Name="Daemon">
-          </Directory>
-        </Directory>
-        <Directory Id="DIR_lb_LU" Name="lb-LU">
-        </Directory>
-        <Directory Id="DIR_lo_LA" Name="lo-LA">
-        </Directory>
-        <Directory Id="DIR_lt_LT" Name="lt-LT">
-        </Directory>
-        <Directory Id="DIR_lv_LV" Name="lv-LV">
-        </Directory>
-        <Directory Id="DIR_mi_NZ" Name="mi-NZ">
-        </Directory>
-        <Directory Id="DIR_Microsoft_UI_Xaml" Name="Microsoft.UI.Xaml">
-          <Directory Id="DIR_Microsoft_UI_Xaml_Assets" Name="Assets">
+          <Directory Id="DIR_8a747bfa07fb1d13" Name="Daemon">
           </Directory>
         </Directory>
-        <Directory Id="DIR_mk_MK" Name="mk-MK">
+        <Directory Id="DIR_0868d7e0b9d3037b" Name="lb-LU">
         </Directory>
-        <Directory Id="DIR_ml_IN" Name="ml-IN">
+        <Directory Id="DIR_7abd4257b8b560f5" Name="lo-LA">
         </Directory>
-        <Directory Id="DIR_mr_IN" Name="mr-IN">
+        <Directory Id="DIR_aaaf68d80691f16d" Name="lt-LT">
         </Directory>
-        <Directory Id="DIR_ms_MY" Name="ms-MY">
+        <Directory Id="DIR_7971263de73c1d85" Name="lv-LV">
         </Directory>
-        <Directory Id="DIR_mt_MT" Name="mt-MT">
+        <Directory Id="DIR_fbf2b01781a56db9" Name="Microsoft.UI.Xaml">
+          <Directory Id="DIR_4c85033a46087ded" Name="Assets">
+          </Directory>
         </Directory>
-        <Directory Id="DIR_nb_NO" Name="nb-NO">
+        <Directory Id="DIR_dd87055b020124cd" Name="mi-NZ">
         </Directory>
-        <Directory Id="DIR_ne_NP" Name="ne-NP">
+        <Directory Id="DIR_00ab009ae9661684" Name="mk-MK">
         </Directory>
-        <Directory Id="DIR_nl_NL" Name="nl-NL">
+        <Directory Id="DIR_bbe71cb9d4e9045d" Name="ml-IN">
         </Directory>
-        <Directory Id="DIR_nn_NO" Name="nn-NO">
+        <Directory Id="DIR_f4376217d7599fd9" Name="mr-IN">
         </Directory>
-        <Directory Id="DIR_or_IN" Name="or-IN">
+        <Directory Id="DIR_d72b6240946864cd" Name="ms-MY">
         </Directory>
-        <Directory Id="DIR_pa_IN" Name="pa-IN">
+        <Directory Id="DIR_be9c3e777896ad4a" Name="mt-MT">
         </Directory>
-        <Directory Id="DIR_pl_PL" Name="pl-PL">
+        <Directory Id="DIR_12222f8d89c0ea16" Name="nb-NO">
         </Directory>
-        <Directory Id="DIR_Plugins" Name="Plugins">
+        <Directory Id="DIR_36e35269d8f6f5b1" Name="ne-NP">
         </Directory>
-        <Directory Id="DIR_pt_BR" Name="pt-BR">
+        <Directory Id="DIR_af360c080ff6c973" Name="nl-NL">
         </Directory>
-        <Directory Id="DIR_pt_PT" Name="pt-PT">
+        <Directory Id="DIR_b123cc976324a704" Name="nn-NO">
         </Directory>
-        <Directory Id="DIR_quz_PE" Name="quz-PE">
+        <Directory Id="DIR_7cb5c784e35e7a0a" Name="or-IN">
         </Directory>
-        <Directory Id="DIR_ro_RO" Name="ro-RO">
+        <Directory Id="DIR_2608f729bc239579" Name="pa-IN">
         </Directory>
-        <Directory Id="DIR_ru_RU" Name="ru-RU">
+        <Directory Id="DIR_045896e39635c5d5" Name="pl-PL">
         </Directory>
-        <Directory Id="DIR_sk_SK" Name="sk-SK">
+        <Directory Id="DIR_ab2e26dd8b8868a3" Name="Plugins">
         </Directory>
-        <Directory Id="DIR_sl_SI" Name="sl-SI">
+        <Directory Id="DIR_a786a2c15e096066" Name="pt-BR">
         </Directory>
-        <Directory Id="DIR_sq_AL" Name="sq-AL">
+        <Directory Id="DIR_a530b335cd0087cb" Name="pt-PT">
         </Directory>
-        <Directory Id="DIR_sr_Cyrl_BA" Name="sr-Cyrl-BA">
+        <Directory Id="DIR_6968df240c6cd2c5" Name="quz-PE">
         </Directory>
-        <Directory Id="DIR_sr_Cyrl_RS" Name="sr-Cyrl-RS">
+        <Directory Id="DIR_d56be6b04d5d62b6" Name="ro-RO">
         </Directory>
-        <Directory Id="DIR_sr_Latn_RS" Name="sr-Latn-RS">
+        <Directory Id="DIR_0df5072f6607b762" Name="ru-RU">
         </Directory>
-        <Directory Id="DIR_sv_SE" Name="sv-SE">
+        <Directory Id="DIR_d248aae869eaf85e" Name="sk-SK">
         </Directory>
-        <Directory Id="DIR_ta_IN" Name="ta-IN">
+        <Directory Id="DIR_fa9bd9a6463affe0" Name="sl-SI">
         </Directory>
-        <Directory Id="DIR_te_IN" Name="te-IN">
+        <Directory Id="DIR_72bffa60ed49776a" Name="sq-AL">
         </Directory>
-        <Directory Id="DIR_th_TH" Name="th-TH">
+        <Directory Id="DIR_fcfc5f35f4ddc442" Name="sr-Cyrl-BA">
         </Directory>
-        <Directory Id="DIR_tr_TR" Name="tr-TR">
+        <Directory Id="DIR_572d7e07967915b1" Name="sr-Cyrl-RS">
         </Directory>
-        <Directory Id="DIR_tt_RU" Name="tt-RU">
+        <Directory Id="DIR_941bc0fc11e4b49f" Name="sr-Latn-RS">
         </Directory>
-        <Directory Id="DIR_ug_CN" Name="ug-CN">
+        <Directory Id="DIR_bd196861653bc3ed" Name="sv-SE">
         </Directory>
-        <Directory Id="DIR_uk_UA" Name="uk-UA">
+        <Directory Id="DIR_9c23f75ba13082a2" Name="ta-IN">
         </Directory>
-        <Directory Id="DIR_ur_PK" Name="ur-PK">
+        <Directory Id="DIR_f1f0ab2f0666e3e5" Name="te-IN">
         </Directory>
-        <Directory Id="DIR_uz_Latn_UZ" Name="uz-Latn-UZ">
+        <Directory Id="DIR_c700dc1c6745c399" Name="th-TH">
         </Directory>
-        <Directory Id="DIR_vi_VN" Name="vi-VN">
+        <Directory Id="DIR_454c87d3a6aff693" Name="tr-TR">
         </Directory>
-        <Directory Id="DIR_zh_CN" Name="zh-CN">
+        <Directory Id="DIR_b3bd6779091d94cb" Name="tt-RU">
         </Directory>
-        <Directory Id="DIR_zh_TW" Name="zh-TW">
+        <Directory Id="DIR_f1f982b102cf25b2" Name="ug-CN">
+        </Directory>
+        <Directory Id="DIR_64c4ae58e655f6eb" Name="uk-UA">
+        </Directory>
+        <Directory Id="DIR_683e9691bd845dde" Name="ur-PK">
+        </Directory>
+        <Directory Id="DIR_445d23f81283d713" Name="uz-Latn-UZ">
+        </Directory>
+        <Directory Id="DIR_552649d7409cec5d" Name="vi-VN">
+        </Directory>
+        <Directory Id="DIR_ead8e8ebac8507ad" Name="zh-CN">
+        </Directory>
+        <Directory Id="DIR_fb157325fe225946" Name="zh-TW">
         </Directory>
       </Directory>
     </StandardDirectory>
+    <StandardDirectory Id="DesktopFolder" />
     <StandardDirectory Id="ProgramMenuFolder">
       <Directory Id="ProgramMenuDir" Name="GestureSign V2" />
     </StandardDirectory>
-    <StandardDirectory Id="DesktopFolder" />
 
-    <Component Id="Cmp_0" Directory="DIR_af_ZA" Guid="*">
+    <Component Id="Cmp_0" Directory="DIR_c24235b312d5d7cf" Guid="*">
       <File Id="File_0" Source="publish\GestureSign-WinUI-Preview\af-ZA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_1" Directory="DIR_af_ZA" Guid="*">
+    <Component Id="Cmp_1" Directory="DIR_c24235b312d5d7cf" Guid="*">
       <File Id="File_1" Source="publish\GestureSign-WinUI-Preview\af-ZA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_2" Directory="DIR_am_ET" Guid="*">
+    <Component Id="Cmp_2" Directory="DIR_0c2a25da75499c3d" Guid="*">
       <File Id="File_2" Source="publish\GestureSign-WinUI-Preview\am-ET\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_3" Directory="DIR_am_ET" Guid="*">
+    <Component Id="Cmp_3" Directory="DIR_0c2a25da75499c3d" Guid="*">
       <File Id="File_3" Source="publish\GestureSign-WinUI-Preview\am-ET\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_4" Directory="INSTALLFOLDER" Guid="*">
       <File Id="File_4" Source="publish\GestureSign-WinUI-Preview\App.xbf" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_5" Directory="DIR_ar_SA" Guid="*">
+    <Component Id="Cmp_5" Directory="DIR_e758f73af56e73d5" Guid="*">
       <File Id="File_5" Source="publish\GestureSign-WinUI-Preview\ar-SA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_6" Directory="DIR_ar_SA" Guid="*">
+    <Component Id="Cmp_6" Directory="DIR_e758f73af56e73d5" Guid="*">
       <File Id="File_6" Source="publish\GestureSign-WinUI-Preview\ar-SA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_7" Directory="DIR_as_IN" Guid="*">
+    <Component Id="Cmp_7" Directory="DIR_fa2a758c8b95802e" Guid="*">
       <File Id="File_7" Source="publish\GestureSign-WinUI-Preview\as-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_8" Directory="DIR_as_IN" Guid="*">
+    <Component Id="Cmp_8" Directory="DIR_fa2a758c8b95802e" Guid="*">
       <File Id="File_8" Source="publish\GestureSign-WinUI-Preview\as-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_9" Directory="DIR_Assets" Guid="*">
+    <Component Id="Cmp_9" Directory="DIR_20e338624cee29d0" Guid="*">
       <File Id="File_9" Source="publish\GestureSign-WinUI-Preview\Assets\logo.ico" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_10" Directory="DIR_Assets" Guid="*">
+    <Component Id="Cmp_10" Directory="DIR_20e338624cee29d0" Guid="*">
       <File Id="File_10" Source="publish\GestureSign-WinUI-Preview\Assets\logo.png" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_11" Directory="DIR_az_Latn_AZ" Guid="*">
+    <Component Id="Cmp_11" Directory="DIR_81c709a8a4507812" Guid="*">
       <File Id="File_11" Source="publish\GestureSign-WinUI-Preview\az-Latn-AZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_12" Directory="DIR_az_Latn_AZ" Guid="*">
+    <Component Id="Cmp_12" Directory="DIR_81c709a8a4507812" Guid="*">
       <File Id="File_12" Source="publish\GestureSign-WinUI-Preview\az-Latn-AZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_13" Directory="DIR_bg_BG" Guid="*">
+    <Component Id="Cmp_13" Directory="DIR_8eed39620126c215" Guid="*">
       <File Id="File_13" Source="publish\GestureSign-WinUI-Preview\bg-BG\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_14" Directory="DIR_bg_BG" Guid="*">
+    <Component Id="Cmp_14" Directory="DIR_8eed39620126c215" Guid="*">
       <File Id="File_14" Source="publish\GestureSign-WinUI-Preview\bg-BG\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_15" Directory="DIR_bn_IN" Guid="*">
+    <Component Id="Cmp_15" Directory="DIR_f7323294b8a91fbe" Guid="*">
       <File Id="File_15" Source="publish\GestureSign-WinUI-Preview\bn-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_16" Directory="DIR_bn_IN" Guid="*">
+    <Component Id="Cmp_16" Directory="DIR_f7323294b8a91fbe" Guid="*">
       <File Id="File_16" Source="publish\GestureSign-WinUI-Preview\bn-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_17" Directory="DIR_bs_Latn_BA" Guid="*">
+    <Component Id="Cmp_17" Directory="DIR_bd735e8b5adf555e" Guid="*">
       <File Id="File_17" Source="publish\GestureSign-WinUI-Preview\bs-Latn-BA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_18" Directory="DIR_bs_Latn_BA" Guid="*">
+    <Component Id="Cmp_18" Directory="DIR_bd735e8b5adf555e" Guid="*">
       <File Id="File_18" Source="publish\GestureSign-WinUI-Preview\bs-Latn-BA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_19" Directory="DIR_ca_Es_VALENCIA" Guid="*">
-      <File Id="File_19" Source="publish\GestureSign-WinUI-Preview\ca-Es-VALENCIA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_19" Directory="DIR_947821905762e29a" Guid="*">
+      <File Id="File_19" Source="publish\GestureSign-WinUI-Preview\ca-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_20" Directory="DIR_ca_Es_VALENCIA" Guid="*">
-      <File Id="File_20" Source="publish\GestureSign-WinUI-Preview\ca-Es-VALENCIA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_20" Directory="DIR_947821905762e29a" Guid="*">
+      <File Id="File_20" Source="publish\GestureSign-WinUI-Preview\ca-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_21" Directory="DIR_ca_ES" Guid="*">
-      <File Id="File_21" Source="publish\GestureSign-WinUI-Preview\ca-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_21" Directory="DIR_23c3d0fcb0bbe478" Guid="*">
+      <File Id="File_21" Source="publish\GestureSign-WinUI-Preview\ca-Es-VALENCIA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_22" Directory="DIR_ca_ES" Guid="*">
-      <File Id="File_22" Source="publish\GestureSign-WinUI-Preview\ca-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_22" Directory="DIR_23c3d0fcb0bbe478" Guid="*">
+      <File Id="File_22" Source="publish\GestureSign-WinUI-Preview\ca-Es-VALENCIA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_23" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_23" Source="publish\GestureSign-WinUI-Preview\CoreMessagingXP.dll" KeyPath="yes" />
+      <File Id="File_23" Source="publish\GestureSign-WinUI-Preview\clretwrc.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_24" Directory="DIR_cs_CZ" Guid="*">
-      <File Id="File_24" Source="publish\GestureSign-WinUI-Preview\cs-CZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_24" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_24" Source="publish\GestureSign-WinUI-Preview\clrgc.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_25" Directory="DIR_cs_CZ" Guid="*">
-      <File Id="File_25" Source="publish\GestureSign-WinUI-Preview\cs-CZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_25" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_25" Source="publish\GestureSign-WinUI-Preview\clrjit.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_26" Directory="DIR_cy_GB" Guid="*">
-      <File Id="File_26" Source="publish\GestureSign-WinUI-Preview\cy-GB\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_26" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_26" Source="publish\GestureSign-WinUI-Preview\coreclr.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_27" Directory="DIR_cy_GB" Guid="*">
-      <File Id="File_27" Source="publish\GestureSign-WinUI-Preview\cy-GB\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_27" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_27" Source="publish\GestureSign-WinUI-Preview\CoreMessagingXP.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_28" Directory="DIR_da_DK" Guid="*">
-      <File Id="File_28" Source="publish\GestureSign-WinUI-Preview\da-DK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_28" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_28" Source="publish\GestureSign-WinUI-Preview\createdump.exe" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_29" Directory="DIR_da_DK" Guid="*">
-      <File Id="File_29" Source="publish\GestureSign-WinUI-Preview\da-DK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_29" Directory="DIR_8ff3027e1695b4ad" Guid="*">
+      <File Id="File_29" Source="publish\GestureSign-WinUI-Preview\cs-CZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_30" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_30" Source="publish\GestureSign-WinUI-Preview\dcompi.dll" KeyPath="yes" />
+    <Component Id="Cmp_30" Directory="DIR_8ff3027e1695b4ad" Guid="*">
+      <File Id="File_30" Source="publish\GestureSign-WinUI-Preview\cs-CZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_31" Directory="DIR_de_DE" Guid="*">
-      <File Id="File_31" Source="publish\GestureSign-WinUI-Preview\de-DE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_31" Directory="DIR_77b6be1aa518511c" Guid="*">
+      <File Id="File_31" Source="publish\GestureSign-WinUI-Preview\cy-GB\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_32" Directory="DIR_de_DE" Guid="*">
-      <File Id="File_32" Source="publish\GestureSign-WinUI-Preview\de-DE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_32" Directory="DIR_77b6be1aa518511c" Guid="*">
+      <File Id="File_32" Source="publish\GestureSign-WinUI-Preview\cy-GB\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_33" Directory="DIR_Defaults" Guid="*">
-      <File Id="File_33" Source="publish\GestureSign-WinUI-Preview\Defaults\Actions.gsa" KeyPath="yes" />
+    <Component Id="Cmp_33" Directory="DIR_201e2bdc233ccc28" Guid="*">
+      <File Id="File_33" Source="publish\GestureSign-WinUI-Preview\da-DK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_34" Directory="DIR_Defaults" Guid="*">
-      <File Id="File_34" Source="publish\GestureSign-WinUI-Preview\Defaults\Gestures.gest" KeyPath="yes" />
+    <Component Id="Cmp_34" Directory="DIR_201e2bdc233ccc28" Guid="*">
+      <File Id="File_34" Source="publish\GestureSign-WinUI-Preview\da-DK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_35" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_35" Source="publish\GestureSign-WinUI-Preview\dwmcorei.dll" KeyPath="yes" />
+      <File Id="File_35" Source="publish\GestureSign-WinUI-Preview\dcompi.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_36" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_36" Source="publish\GestureSign-WinUI-Preview\DwmSceneI.dll" KeyPath="yes" />
+    <Component Id="Cmp_36" Directory="DIR_4c1b8b31396eecc5" Guid="*">
+      <File Id="File_36" Source="publish\GestureSign-WinUI-Preview\de-DE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_37" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_37" Source="publish\GestureSign-WinUI-Preview\DWriteCore.dll" KeyPath="yes" />
+    <Component Id="Cmp_37" Directory="DIR_4c1b8b31396eecc5" Guid="*">
+      <File Id="File_37" Source="publish\GestureSign-WinUI-Preview\de-DE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_38" Directory="DIR_el_GR" Guid="*">
-      <File Id="File_38" Source="publish\GestureSign-WinUI-Preview\el-GR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_38" Directory="DIR_428819bf9e83cebd" Guid="*">
+      <File Id="File_38" Source="publish\GestureSign-WinUI-Preview\Defaults\Actions.gsa" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_39" Directory="DIR_el_GR" Guid="*">
-      <File Id="File_39" Source="publish\GestureSign-WinUI-Preview\el-GR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_39" Directory="DIR_428819bf9e83cebd" Guid="*">
+      <File Id="File_39" Source="publish\GestureSign-WinUI-Preview\Defaults\Gestures.gest" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_40" Directory="DIR_en_GB" Guid="*">
-      <File Id="File_40" Source="publish\GestureSign-WinUI-Preview\en-GB\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_40" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_40" Source="publish\GestureSign-WinUI-Preview\dwmcorei.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_41" Directory="DIR_en_GB" Guid="*">
-      <File Id="File_41" Source="publish\GestureSign-WinUI-Preview\en-GB\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_41" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_41" Source="publish\GestureSign-WinUI-Preview\DwmSceneI.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_42" Directory="DIR_en_us" Guid="*">
-      <File Id="File_42" Source="publish\GestureSign-WinUI-Preview\en-us\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_42" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_42" Source="publish\GestureSign-WinUI-Preview\DWriteCore.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_43" Directory="DIR_en_us" Guid="*">
-      <File Id="File_43" Source="publish\GestureSign-WinUI-Preview\en-us\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_43" Directory="DIR_6a97ba681274a170" Guid="*">
+      <File Id="File_43" Source="publish\GestureSign-WinUI-Preview\el-GR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_44" Directory="DIR_es_ES" Guid="*">
-      <File Id="File_44" Source="publish\GestureSign-WinUI-Preview\es-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_44" Directory="DIR_6a97ba681274a170" Guid="*">
+      <File Id="File_44" Source="publish\GestureSign-WinUI-Preview\el-GR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_45" Directory="DIR_es_ES" Guid="*">
-      <File Id="File_45" Source="publish\GestureSign-WinUI-Preview\es-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_45" Directory="DIR_db54f7f423d29de6" Guid="*">
+      <File Id="File_45" Source="publish\GestureSign-WinUI-Preview\en-GB\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_46" Directory="DIR_es_MX" Guid="*">
-      <File Id="File_46" Source="publish\GestureSign-WinUI-Preview\es-MX\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_46" Directory="DIR_db54f7f423d29de6" Guid="*">
+      <File Id="File_46" Source="publish\GestureSign-WinUI-Preview\en-GB\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_47" Directory="DIR_es_MX" Guid="*">
-      <File Id="File_47" Source="publish\GestureSign-WinUI-Preview\es-MX\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_47" Directory="DIR_1080c8fd64272bd8" Guid="*">
+      <File Id="File_47" Source="publish\GestureSign-WinUI-Preview\en-us\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_48" Directory="DIR_et_EE" Guid="*">
-      <File Id="File_48" Source="publish\GestureSign-WinUI-Preview\et-EE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_48" Directory="DIR_1080c8fd64272bd8" Guid="*">
+      <File Id="File_48" Source="publish\GestureSign-WinUI-Preview\en-us\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_49" Directory="DIR_et_EE" Guid="*">
-      <File Id="File_49" Source="publish\GestureSign-WinUI-Preview\et-EE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_49" Directory="DIR_91249e5adbba6db8" Guid="*">
+      <File Id="File_49" Source="publish\GestureSign-WinUI-Preview\es-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_50" Directory="DIR_eu_ES" Guid="*">
-      <File Id="File_50" Source="publish\GestureSign-WinUI-Preview\eu-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_50" Directory="DIR_91249e5adbba6db8" Guid="*">
+      <File Id="File_50" Source="publish\GestureSign-WinUI-Preview\es-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_51" Directory="DIR_eu_ES" Guid="*">
-      <File Id="File_51" Source="publish\GestureSign-WinUI-Preview\eu-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_51" Directory="DIR_e5274e78712c5fd0" Guid="*">
+      <File Id="File_51" Source="publish\GestureSign-WinUI-Preview\es-MX\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_52" Directory="DIR_fa_IR" Guid="*">
-      <File Id="File_52" Source="publish\GestureSign-WinUI-Preview\fa-IR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_52" Directory="DIR_e5274e78712c5fd0" Guid="*">
+      <File Id="File_52" Source="publish\GestureSign-WinUI-Preview\es-MX\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_53" Directory="DIR_fa_IR" Guid="*">
-      <File Id="File_53" Source="publish\GestureSign-WinUI-Preview\fa-IR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_53" Directory="DIR_53aed892ae489161" Guid="*">
+      <File Id="File_53" Source="publish\GestureSign-WinUI-Preview\et-EE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_54" Directory="DIR_fi_FI" Guid="*">
-      <File Id="File_54" Source="publish\GestureSign-WinUI-Preview\fi-FI\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_54" Directory="DIR_53aed892ae489161" Guid="*">
+      <File Id="File_54" Source="publish\GestureSign-WinUI-Preview\et-EE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_55" Directory="DIR_fi_FI" Guid="*">
-      <File Id="File_55" Source="publish\GestureSign-WinUI-Preview\fi-FI\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_55" Directory="DIR_d6432896007c8b7c" Guid="*">
+      <File Id="File_55" Source="publish\GestureSign-WinUI-Preview\eu-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_56" Directory="DIR_fil_PH" Guid="*">
-      <File Id="File_56" Source="publish\GestureSign-WinUI-Preview\fil-PH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_56" Directory="DIR_d6432896007c8b7c" Guid="*">
+      <File Id="File_56" Source="publish\GestureSign-WinUI-Preview\eu-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_57" Directory="DIR_fil_PH" Guid="*">
-      <File Id="File_57" Source="publish\GestureSign-WinUI-Preview\fil-PH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_57" Directory="DIR_1f4876fd676d03ac" Guid="*">
+      <File Id="File_57" Source="publish\GestureSign-WinUI-Preview\fa-IR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_58" Directory="DIR_fr_CA" Guid="*">
-      <File Id="File_58" Source="publish\GestureSign-WinUI-Preview\fr-CA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_58" Directory="DIR_1f4876fd676d03ac" Guid="*">
+      <File Id="File_58" Source="publish\GestureSign-WinUI-Preview\fa-IR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_59" Directory="DIR_fr_CA" Guid="*">
-      <File Id="File_59" Source="publish\GestureSign-WinUI-Preview\fr-CA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_59" Directory="DIR_2ec21e568dd77f55" Guid="*">
+      <File Id="File_59" Source="publish\GestureSign-WinUI-Preview\fi-FI\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_60" Directory="DIR_fr_FR" Guid="*">
-      <File Id="File_60" Source="publish\GestureSign-WinUI-Preview\fr-FR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_60" Directory="DIR_2ec21e568dd77f55" Guid="*">
+      <File Id="File_60" Source="publish\GestureSign-WinUI-Preview\fi-FI\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_61" Directory="DIR_fr_FR" Guid="*">
-      <File Id="File_61" Source="publish\GestureSign-WinUI-Preview\fr-FR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_61" Directory="DIR_4d119956ea377933" Guid="*">
+      <File Id="File_61" Source="publish\GestureSign-WinUI-Preview\fil-PH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_62" Directory="DIR_ga_IE" Guid="*">
-      <File Id="File_62" Source="publish\GestureSign-WinUI-Preview\ga-IE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_62" Directory="DIR_4d119956ea377933" Guid="*">
+      <File Id="File_62" Source="publish\GestureSign-WinUI-Preview\fil-PH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_63" Directory="DIR_ga_IE" Guid="*">
-      <File Id="File_63" Source="publish\GestureSign-WinUI-Preview\ga-IE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_63" Directory="DIR_b13b419482a23b35" Guid="*">
+      <File Id="File_63" Source="publish\GestureSign-WinUI-Preview\fr-CA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_64" Directory="DIR_gd_gb" Guid="*">
-      <File Id="File_64" Source="publish\GestureSign-WinUI-Preview\gd-gb\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_64" Directory="DIR_b13b419482a23b35" Guid="*">
+      <File Id="File_64" Source="publish\GestureSign-WinUI-Preview\fr-CA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_65" Directory="DIR_gd_gb" Guid="*">
-      <File Id="File_65" Source="publish\GestureSign-WinUI-Preview\gd-gb\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_65" Directory="DIR_df60c9bf245d49d9" Guid="*">
+      <File Id="File_65" Source="publish\GestureSign-WinUI-Preview\fr-FR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_66" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_66" Source="publish\GestureSign-WinUI-Preview\GestureSign.ClipboardMatch.Plugin.dll" KeyPath="yes" />
+    <Component Id="Cmp_66" Directory="DIR_df60c9bf245d49d9" Guid="*">
+      <File Id="File_66" Source="publish\GestureSign-WinUI-Preview\fr-FR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_67" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_67" Source="publish\GestureSign-WinUI-Preview\GestureSign.ClipboardMatch.Plugin.pdb" KeyPath="yes" />
+    <Component Id="Cmp_67" Directory="DIR_5ff0409661a2f42a" Guid="*">
+      <File Id="File_67" Source="publish\GestureSign-WinUI-Preview\ga-IE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_68" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_68" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.dll" KeyPath="yes" />
+    <Component Id="Cmp_68" Directory="DIR_5ff0409661a2f42a" Guid="*">
+      <File Id="File_68" Source="publish\GestureSign-WinUI-Preview\ga-IE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_69" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_69" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.dll.config" KeyPath="yes" />
+    <Component Id="Cmp_69" Directory="DIR_4307088e243355d9" Guid="*">
+      <File Id="File_69" Source="publish\GestureSign-WinUI-Preview\gd-gb\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_70" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_70" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.pdb" KeyPath="yes" />
+    <Component Id="Cmp_70" Directory="DIR_4307088e243355d9" Guid="*">
+      <File Id="File_70" Source="publish\GestureSign-WinUI-Preview\gd-gb\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_71" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_71" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.exe" KeyPath="yes" />
+      <File Id="File_71" Source="publish\GestureSign-WinUI-Preview\GestureSign.ClipboardMatch.Plugin.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_72" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_72" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.exe.config" KeyPath="yes" />
+      <File Id="File_72" Source="publish\GestureSign-WinUI-Preview\GestureSign.ClipboardMatch.Plugin.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_73" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_73" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.pdb" KeyPath="yes" />
+      <File Id="File_73" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_74" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_74" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.dll" KeyPath="yes" />
+      <File Id="File_74" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.dll.config" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_75" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_75" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.dll.config" KeyPath="yes" />
+      <File Id="File_75" Source="publish\GestureSign-WinUI-Preview\GestureSign.Common.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_76" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_76" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.pdb" KeyPath="yes" />
+      <File Id="File_76" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.exe" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_77" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_77" Source="publish\GestureSign-WinUI-Preview\GestureSign.exe" KeyPath="yes" />
+      <File Id="File_77" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.exe.config" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_78" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_78" Source="publish\GestureSign-WinUI-Preview\GestureSign.exe.config" KeyPath="yes" />
+      <File Id="File_78" Source="publish\GestureSign-WinUI-Preview\GestureSign.ControlPanel.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_79" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_79" Source="publish\GestureSign-WinUI-Preview\GestureSign.pdb" KeyPath="yes" />
+      <File Id="File_79" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_80" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_80" Source="publish\GestureSign-WinUI-Preview\GestureSign.PointPatterns.dll" KeyPath="yes" />
+      <File Id="File_80" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.dll.config" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_81" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_81" Source="publish\GestureSign-WinUI-Preview\GestureSign.PointPatterns.pdb" KeyPath="yes" />
+      <File Id="File_81" Source="publish\GestureSign-WinUI-Preview\GestureSign.CorePlugins.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_82" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_82" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.deps.json" KeyPath="yes" />
+      <File Id="File_82" Source="publish\GestureSign-WinUI-Preview\GestureSign.exe" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_83" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_83" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.dll" KeyPath="yes" />
+      <File Id="File_83" Source="publish\GestureSign-WinUI-Preview\GestureSign.exe.config" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_84" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_84" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.exe" KeyPath="yes" />
+      <File Id="File_84" Source="publish\GestureSign-WinUI-Preview\GestureSign.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_85" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_85" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.pdb" KeyPath="yes" />
+      <File Id="File_85" Source="publish\GestureSign-WinUI-Preview\GestureSign.PointPatterns.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_86" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_86" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.runtimeconfig.json" KeyPath="yes" />
+      <File Id="File_86" Source="publish\GestureSign-WinUI-Preview\GestureSign.PointPatterns.pdb" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_GestureSign_WinUI_pri" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_GestureSign_WinUI_pri" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.pri" KeyPath="yes" />
+    <Component Id="Cmp_87" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_87" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.deps.json" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_System_Resources_Extensions_dll" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_System_Resources_Extensions_dll" Source="publish\GestureSign-WinUI-Preview\System.Resources.Extensions.dll" KeyPath="yes" />
+    <Component Id="Cmp_88" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_88" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_87" Directory="DIR_gl_ES" Guid="*">
-      <File Id="File_87" Source="publish\GestureSign-WinUI-Preview\gl-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_89" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_89" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.exe" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_88" Directory="DIR_gl_ES" Guid="*">
-      <File Id="File_88" Source="publish\GestureSign-WinUI-Preview\gl-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_90" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_90" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.pdb" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_89" Directory="DIR_gu_IN" Guid="*">
-      <File Id="File_89" Source="publish\GestureSign-WinUI-Preview\gu-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_91" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_91" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.pri" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_90" Directory="DIR_gu_IN" Guid="*">
-      <File Id="File_90" Source="publish\GestureSign-WinUI-Preview\gu-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_92" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_92" Source="publish\GestureSign-WinUI-Preview\GestureSign.WinUI.runtimeconfig.json" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_91" Directory="DIR_he_IL" Guid="*">
-      <File Id="File_91" Source="publish\GestureSign-WinUI-Preview\he-IL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_93" Directory="DIR_e94e055a4a5818ca" Guid="*">
+      <File Id="File_93" Source="publish\GestureSign-WinUI-Preview\gl-ES\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_92" Directory="DIR_he_IL" Guid="*">
-      <File Id="File_92" Source="publish\GestureSign-WinUI-Preview\he-IL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_94" Directory="DIR_e94e055a4a5818ca" Guid="*">
+      <File Id="File_94" Source="publish\GestureSign-WinUI-Preview\gl-ES\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_93" Directory="DIR_hi_IN" Guid="*">
-      <File Id="File_93" Source="publish\GestureSign-WinUI-Preview\hi-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_95" Directory="DIR_81a3150743494d7e" Guid="*">
+      <File Id="File_95" Source="publish\GestureSign-WinUI-Preview\gu-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_94" Directory="DIR_hi_IN" Guid="*">
-      <File Id="File_94" Source="publish\GestureSign-WinUI-Preview\hi-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_96" Directory="DIR_81a3150743494d7e" Guid="*">
+      <File Id="File_96" Source="publish\GestureSign-WinUI-Preview\gu-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_95" Directory="DIR_hr_HR" Guid="*">
-      <File Id="File_95" Source="publish\GestureSign-WinUI-Preview\hr-HR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_97" Directory="DIR_5e5c4b3cd84d07cd" Guid="*">
+      <File Id="File_97" Source="publish\GestureSign-WinUI-Preview\he-IL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_96" Directory="DIR_hr_HR" Guid="*">
-      <File Id="File_96" Source="publish\GestureSign-WinUI-Preview\hr-HR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_98" Directory="DIR_5e5c4b3cd84d07cd" Guid="*">
+      <File Id="File_98" Source="publish\GestureSign-WinUI-Preview\he-IL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_97" Directory="DIR_hu_HU" Guid="*">
-      <File Id="File_97" Source="publish\GestureSign-WinUI-Preview\hu-HU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_99" Directory="DIR_65015da81d811108" Guid="*">
+      <File Id="File_99" Source="publish\GestureSign-WinUI-Preview\hi-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_98" Directory="DIR_hu_HU" Guid="*">
-      <File Id="File_98" Source="publish\GestureSign-WinUI-Preview\hu-HU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_100" Directory="DIR_65015da81d811108" Guid="*">
+      <File Id="File_100" Source="publish\GestureSign-WinUI-Preview\hi-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_99" Directory="DIR_hy_AM" Guid="*">
-      <File Id="File_99" Source="publish\GestureSign-WinUI-Preview\hy-AM\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_101" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_101" Source="publish\GestureSign-WinUI-Preview\hostfxr.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_100" Directory="DIR_hy_AM" Guid="*">
-      <File Id="File_100" Source="publish\GestureSign-WinUI-Preview\hy-AM\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_102" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_102" Source="publish\GestureSign-WinUI-Preview\hostpolicy.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_101" Directory="DIR_id_ID" Guid="*">
-      <File Id="File_101" Source="publish\GestureSign-WinUI-Preview\id-ID\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_103" Directory="DIR_9b364d6b65f248d8" Guid="*">
+      <File Id="File_103" Source="publish\GestureSign-WinUI-Preview\hr-HR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_102" Directory="DIR_id_ID" Guid="*">
-      <File Id="File_102" Source="publish\GestureSign-WinUI-Preview\id-ID\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_104" Directory="DIR_9b364d6b65f248d8" Guid="*">
+      <File Id="File_104" Source="publish\GestureSign-WinUI-Preview\hr-HR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_103" Directory="DIR_is_IS" Guid="*">
-      <File Id="File_103" Source="publish\GestureSign-WinUI-Preview\is-IS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_105" Directory="DIR_3ca37c3be4b32064" Guid="*">
+      <File Id="File_105" Source="publish\GestureSign-WinUI-Preview\hu-HU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_104" Directory="DIR_is_IS" Guid="*">
-      <File Id="File_104" Source="publish\GestureSign-WinUI-Preview\is-IS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_106" Directory="DIR_3ca37c3be4b32064" Guid="*">
+      <File Id="File_106" Source="publish\GestureSign-WinUI-Preview\hu-HU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_105" Directory="DIR_it_IT" Guid="*">
-      <File Id="File_105" Source="publish\GestureSign-WinUI-Preview\it-IT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_107" Directory="DIR_5c78f5cfe7de5e84" Guid="*">
+      <File Id="File_107" Source="publish\GestureSign-WinUI-Preview\hy-AM\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_106" Directory="DIR_it_IT" Guid="*">
-      <File Id="File_106" Source="publish\GestureSign-WinUI-Preview\it-IT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_108" Directory="DIR_5c78f5cfe7de5e84" Guid="*">
+      <File Id="File_108" Source="publish\GestureSign-WinUI-Preview\hy-AM\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_107" Directory="DIR_ja_JP" Guid="*">
-      <File Id="File_107" Source="publish\GestureSign-WinUI-Preview\ja-JP\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_109" Directory="DIR_cb4802eed58c26be" Guid="*">
+      <File Id="File_109" Source="publish\GestureSign-WinUI-Preview\id-ID\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_108" Directory="DIR_ja_JP" Guid="*">
-      <File Id="File_108" Source="publish\GestureSign-WinUI-Preview\ja-JP\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_110" Directory="DIR_cb4802eed58c26be" Guid="*">
+      <File Id="File_110" Source="publish\GestureSign-WinUI-Preview\id-ID\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_109" Directory="DIR_ka_GE" Guid="*">
-      <File Id="File_109" Source="publish\GestureSign-WinUI-Preview\ka-GE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_111" Directory="DIR_43d61201bcc98623" Guid="*">
+      <File Id="File_111" Source="publish\GestureSign-WinUI-Preview\is-IS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_110" Directory="DIR_ka_GE" Guid="*">
-      <File Id="File_110" Source="publish\GestureSign-WinUI-Preview\ka-GE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_112" Directory="DIR_43d61201bcc98623" Guid="*">
+      <File Id="File_112" Source="publish\GestureSign-WinUI-Preview\is-IS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_111" Directory="DIR_kk_KZ" Guid="*">
-      <File Id="File_111" Source="publish\GestureSign-WinUI-Preview\kk-KZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_113" Directory="DIR_1afeef19008d4239" Guid="*">
+      <File Id="File_113" Source="publish\GestureSign-WinUI-Preview\it-IT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_112" Directory="DIR_kk_KZ" Guid="*">
-      <File Id="File_112" Source="publish\GestureSign-WinUI-Preview\kk-KZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_114" Directory="DIR_1afeef19008d4239" Guid="*">
+      <File Id="File_114" Source="publish\GestureSign-WinUI-Preview\it-IT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_113" Directory="DIR_km_KH" Guid="*">
-      <File Id="File_113" Source="publish\GestureSign-WinUI-Preview\km-KH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_115" Directory="DIR_c525149eb1c2e0b5" Guid="*">
+      <File Id="File_115" Source="publish\GestureSign-WinUI-Preview\ja-JP\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_114" Directory="DIR_km_KH" Guid="*">
-      <File Id="File_114" Source="publish\GestureSign-WinUI-Preview\km-KH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_116" Directory="DIR_c525149eb1c2e0b5" Guid="*">
+      <File Id="File_116" Source="publish\GestureSign-WinUI-Preview\ja-JP\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_115" Directory="DIR_kn_IN" Guid="*">
-      <File Id="File_115" Source="publish\GestureSign-WinUI-Preview\kn-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_117" Directory="DIR_164f037ec4e5b107" Guid="*">
+      <File Id="File_117" Source="publish\GestureSign-WinUI-Preview\ka-GE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_116" Directory="DIR_kn_IN" Guid="*">
-      <File Id="File_116" Source="publish\GestureSign-WinUI-Preview\kn-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_118" Directory="DIR_164f037ec4e5b107" Guid="*">
+      <File Id="File_118" Source="publish\GestureSign-WinUI-Preview\ka-GE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_117" Directory="DIR_ko_KR" Guid="*">
-      <File Id="File_117" Source="publish\GestureSign-WinUI-Preview\ko-KR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_119" Directory="DIR_dd5abe829b4c9488" Guid="*">
+      <File Id="File_119" Source="publish\GestureSign-WinUI-Preview\kk-KZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_118" Directory="DIR_ko_KR" Guid="*">
-      <File Id="File_118" Source="publish\GestureSign-WinUI-Preview\ko-KR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_120" Directory="DIR_dd5abe829b4c9488" Guid="*">
+      <File Id="File_120" Source="publish\GestureSign-WinUI-Preview\kk-KZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_119" Directory="DIR_kok_IN" Guid="*">
-      <File Id="File_119" Source="publish\GestureSign-WinUI-Preview\kok-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_121" Directory="DIR_b3da801443256d65" Guid="*">
+      <File Id="File_121" Source="publish\GestureSign-WinUI-Preview\km-KH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_120" Directory="DIR_kok_IN" Guid="*">
-      <File Id="File_120" Source="publish\GestureSign-WinUI-Preview\kok-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_122" Directory="DIR_b3da801443256d65" Guid="*">
+      <File Id="File_122" Source="publish\GestureSign-WinUI-Preview\km-KH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_121" Directory="DIR_Languages_ControlPanel" Guid="*">
-      <File Id="File_121" Source="publish\GestureSign-WinUI-Preview\Languages\ControlPanel\en.xml" KeyPath="yes" />
+    <Component Id="Cmp_123" Directory="DIR_9495add637c8866b" Guid="*">
+      <File Id="File_123" Source="publish\GestureSign-WinUI-Preview\kn-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_122" Directory="DIR_Languages_ControlPanel" Guid="*">
-      <File Id="File_122" Source="publish\GestureSign-WinUI-Preview\Languages\ControlPanel\zh.xml" KeyPath="yes" />
+    <Component Id="Cmp_124" Directory="DIR_9495add637c8866b" Guid="*">
+      <File Id="File_124" Source="publish\GestureSign-WinUI-Preview\kn-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_123" Directory="DIR_Languages_Daemon" Guid="*">
-      <File Id="File_123" Source="publish\GestureSign-WinUI-Preview\Languages\Daemon\en.xml" KeyPath="yes" />
+    <Component Id="Cmp_125" Directory="DIR_fa65a5659dce5e69" Guid="*">
+      <File Id="File_125" Source="publish\GestureSign-WinUI-Preview\kok-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_124" Directory="DIR_Languages_Daemon" Guid="*">
-      <File Id="File_124" Source="publish\GestureSign-WinUI-Preview\Languages\Daemon\zh.xml" KeyPath="yes" />
+    <Component Id="Cmp_126" Directory="DIR_fa65a5659dce5e69" Guid="*">
+      <File Id="File_126" Source="publish\GestureSign-WinUI-Preview\kok-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_125" Directory="DIR_lb_LU" Guid="*">
-      <File Id="File_125" Source="publish\GestureSign-WinUI-Preview\lb-LU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_127" Directory="DIR_1ebe2c7631603513" Guid="*">
+      <File Id="File_127" Source="publish\GestureSign-WinUI-Preview\ko-KR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_126" Directory="DIR_lb_LU" Guid="*">
-      <File Id="File_126" Source="publish\GestureSign-WinUI-Preview\lb-LU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_128" Directory="DIR_1ebe2c7631603513" Guid="*">
+      <File Id="File_128" Source="publish\GestureSign-WinUI-Preview\ko-KR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_127" Directory="DIR_lo_LA" Guid="*">
-      <File Id="File_127" Source="publish\GestureSign-WinUI-Preview\lo-LA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_129" Directory="DIR_682cc77b1a7d4bea" Guid="*">
+      <File Id="File_129" Source="publish\GestureSign-WinUI-Preview\Languages\ControlPanel\en.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_128" Directory="DIR_lo_LA" Guid="*">
-      <File Id="File_128" Source="publish\GestureSign-WinUI-Preview\lo-LA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_130" Directory="DIR_682cc77b1a7d4bea" Guid="*">
+      <File Id="File_130" Source="publish\GestureSign-WinUI-Preview\Languages\ControlPanel\zh.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_129" Directory="DIR_lt_LT" Guid="*">
-      <File Id="File_129" Source="publish\GestureSign-WinUI-Preview\lt-LT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_131" Directory="DIR_8a747bfa07fb1d13" Guid="*">
+      <File Id="File_131" Source="publish\GestureSign-WinUI-Preview\Languages\Daemon\en.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_130" Directory="DIR_lt_LT" Guid="*">
-      <File Id="File_130" Source="publish\GestureSign-WinUI-Preview\lt-LT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_132" Directory="DIR_8a747bfa07fb1d13" Guid="*">
+      <File Id="File_132" Source="publish\GestureSign-WinUI-Preview\Languages\Daemon\zh.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_131" Directory="DIR_lv_LV" Guid="*">
-      <File Id="File_131" Source="publish\GestureSign-WinUI-Preview\lv-LV\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_133" Directory="DIR_0868d7e0b9d3037b" Guid="*">
+      <File Id="File_133" Source="publish\GestureSign-WinUI-Preview\lb-LU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_132" Directory="DIR_lv_LV" Guid="*">
-      <File Id="File_132" Source="publish\GestureSign-WinUI-Preview\lv-LV\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_134" Directory="DIR_0868d7e0b9d3037b" Guid="*">
+      <File Id="File_134" Source="publish\GestureSign-WinUI-Preview\lb-LU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_133" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_133" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.dll" KeyPath="yes" />
+    <Component Id="Cmp_135" Directory="DIR_7abd4257b8b560f5" Guid="*">
+      <File Id="File_135" Source="publish\GestureSign-WinUI-Preview\lo-LA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_134" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_134" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.pdb" KeyPath="yes" />
+    <Component Id="Cmp_136" Directory="DIR_7abd4257b8b560f5" Guid="*">
+      <File Id="File_136" Source="publish\GestureSign-WinUI-Preview\lo-LA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_135" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_135" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.xml" KeyPath="yes" />
+    <Component Id="Cmp_137" Directory="DIR_aaaf68d80691f16d" Guid="*">
+      <File Id="File_137" Source="publish\GestureSign-WinUI-Preview\lt-LT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_136" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_136" Source="publish\GestureSign-WinUI-Preview\MainWindow.xbf" KeyPath="yes" />
+    <Component Id="Cmp_138" Directory="DIR_aaaf68d80691f16d" Guid="*">
+      <File Id="File_138" Source="publish\GestureSign-WinUI-Preview\lt-LT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_137" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_137" Source="publish\GestureSign-WinUI-Preview\ManagedWinapi.dll" KeyPath="yes" />
+    <Component Id="Cmp_139" Directory="DIR_7971263de73c1d85" Guid="*">
+      <File Id="File_139" Source="publish\GestureSign-WinUI-Preview\lv-LV\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_138" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_138" Source="publish\GestureSign-WinUI-Preview\ManagedWinapi.pdb" KeyPath="yes" />
+    <Component Id="Cmp_140" Directory="DIR_7971263de73c1d85" Guid="*">
+      <File Id="File_140" Source="publish\GestureSign-WinUI-Preview\lv-LV\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_139" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_139" Source="publish\GestureSign-WinUI-Preview\marshal.dll" KeyPath="yes" />
-    </Component>
-    <Component Id="Cmp_140" Directory="DIR_mi_NZ" Guid="*">
-      <File Id="File_140" Source="publish\GestureSign-WinUI-Preview\mi-NZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
-    </Component>
-    <Component Id="Cmp_141" Directory="DIR_mi_NZ" Guid="*">
-      <File Id="File_141" Source="publish\GestureSign-WinUI-Preview\mi-NZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_141" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_141" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_142" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_142" Source="publish\GestureSign-WinUI-Preview\Microsoft.DirectManipulation.dll" KeyPath="yes" />
+      <File Id="File_142" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_143" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_143" Source="publish\GestureSign-WinUI-Preview\Microsoft.Foundation.winmd" KeyPath="yes" />
+      <File Id="File_143" Source="publish\GestureSign-WinUI-Preview\MahApps.Metro.xml" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_144" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_144" Source="publish\GestureSign-WinUI-Preview\Microsoft.Graphics.Display.dll" KeyPath="yes" />
+      <File Id="File_144" Source="publish\GestureSign-WinUI-Preview\MainWindow.xbf" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_145" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_145" Source="publish\GestureSign-WinUI-Preview\Microsoft.Graphics.winmd" KeyPath="yes" />
+      <File Id="File_145" Source="publish\GestureSign-WinUI-Preview\ManagedWinapi.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_146" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_146" Source="publish\GestureSign-WinUI-Preview\Microsoft.InputStateManager.dll" KeyPath="yes" />
+      <File Id="File_146" Source="publish\GestureSign-WinUI-Preview\ManagedWinapi.pdb" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_147" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_147" Source="publish\GestureSign-WinUI-Preview\Microsoft.InteractiveExperiences.Projection.dll" KeyPath="yes" />
+      <File Id="File_147" Source="publish\GestureSign-WinUI-Preview\marshal.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_148" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_148" Source="publish\GestureSign-WinUI-Preview\Microsoft.Internal.FrameworkUdk.dll" KeyPath="yes" />
+      <File Id="File_148" Source="publish\GestureSign-WinUI-Preview\Microsoft.CSharp.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_149" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_149" Source="publish\GestureSign-WinUI-Preview\Microsoft.Security.Authentication.OAuth.Projection.dll" KeyPath="yes" />
+      <File Id="File_149" Source="publish\GestureSign-WinUI-Preview\Microsoft.DiaSymReader.Native.amd64.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_150" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_150" Source="publish\GestureSign-WinUI-Preview\Microsoft.Security.Authentication.OAuth.winmd" KeyPath="yes" />
+      <File Id="File_150" Source="publish\GestureSign-WinUI-Preview\Microsoft.DirectManipulation.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_151" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_151" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Composition.OSSupport.dll" KeyPath="yes" />
+      <File Id="File_151" Source="publish\GestureSign-WinUI-Preview\Microsoft.Foundation.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_152" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_152" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.dll" KeyPath="yes" />
+      <File Id="File_152" Source="publish\GestureSign-WinUI-Preview\Microsoft.Graphics.Display.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_153" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_153" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Input.dll" KeyPath="yes" />
+      <File Id="File_153" Source="publish\GestureSign-WinUI-Preview\Microsoft.Graphics.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_154" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_154" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.pri" KeyPath="yes" />
+      <File Id="File_154" Source="publish\GestureSign-WinUI-Preview\Microsoft.InputStateManager.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_155" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_155" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Text.winmd" KeyPath="yes" />
+      <File Id="File_155" Source="publish\GestureSign-WinUI-Preview\Microsoft.InteractiveExperiences.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_156" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_156" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Windowing.Core.dll" KeyPath="yes" />
+      <File Id="File_156" Source="publish\GestureSign-WinUI-Preview\Microsoft.Internal.FrameworkUdk.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_157" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_157" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Windowing.dll" KeyPath="yes" />
+      <File Id="File_157" Source="publish\GestureSign-WinUI-Preview\Microsoft.Security.Authentication.OAuth.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_158" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_158" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.winmd" KeyPath="yes" />
+      <File Id="File_158" Source="publish\GestureSign-WinUI-Preview\Microsoft.Security.Authentication.OAuth.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_159" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_159" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Controls.dll" KeyPath="yes" />
+      <File Id="File_159" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Composition.OSSupport.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_160" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_160" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Controls.pri" KeyPath="yes" />
+      <File Id="File_160" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_161" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_161" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.dll" KeyPath="yes" />
+      <File Id="File_161" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Input.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_162" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_162" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Internal.dll" KeyPath="yes" />
+      <File Id="File_162" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.pri" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_163" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_163" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Phone.dll" KeyPath="yes" />
+      <File Id="File_163" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Text.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_164" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_164" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.resources.19h1.dll" KeyPath="yes" />
+      <File Id="File_164" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Windowing.Core.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_165" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_165" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.resources.common.dll" KeyPath="yes" />
+      <File Id="File_165" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Windowing.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_166" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_166" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.winmd" KeyPath="yes" />
+      <File Id="File_166" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_167" Directory="DIR_Microsoft_UI_Xaml_Assets" Guid="*">
-      <File Id="File_167" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml\Assets\map.html" KeyPath="yes" />
+    <Component Id="Cmp_167" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_167" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Controls.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_168" Directory="DIR_Microsoft_UI_Xaml_Assets" Guid="*">
-      <File Id="File_168" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml\Assets\NoiseAsset_256x256_PNG.png" KeyPath="yes" />
+    <Component Id="Cmp_168" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_168" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Controls.pri" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_169" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_169" Source="publish\GestureSign-WinUI-Preview\Microsoft.Web.WebView2.Core.dll" KeyPath="yes" />
+      <File Id="File_169" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_170" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_170" Source="publish\GestureSign-WinUI-Preview\Microsoft.Web.WebView2.Core.Projection.dll" KeyPath="yes" />
+      <File Id="File_170" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Internal.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_171" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_171" Source="publish\GestureSign-WinUI-Preview\Microsoft.Win32.SystemEvents.dll" KeyPath="yes" />
+      <File Id="File_171" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.Phone.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_172" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_172" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.Projection.dll" KeyPath="yes" />
+      <File Id="File_172" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.resources.19h1.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_173" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_173" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll" KeyPath="yes" />
+      <File Id="File_173" Source="publish\GestureSign-WinUI-Preview\Microsoft.ui.xaml.resources.common.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_174" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_174" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.winmd" KeyPath="yes" />
+      <File Id="File_174" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_175" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_175" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.winmd" KeyPath="yes" />
+    <Component Id="Cmp_175" Directory="DIR_4c85033a46087ded" Guid="*">
+      <File Id="File_175" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml\Assets\map.html" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_176" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_176" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll" KeyPath="yes" />
+    <Component Id="Cmp_176" Directory="DIR_4c85033a46087ded" Guid="*">
+      <File Id="File_176" Source="publish\GestureSign-WinUI-Preview\Microsoft.UI.Xaml\Assets\NoiseAsset_256x256_PNG.png" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_177" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_177" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd" KeyPath="yes" />
+      <File Id="File_177" Source="publish\GestureSign-WinUI-Preview\Microsoft.VisualBasic.Core.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_178" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_178" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.dll" KeyPath="yes" />
+      <File Id="File_178" Source="publish\GestureSign-WinUI-Preview\Microsoft.VisualBasic.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_179" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_179" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.Projection.dll" KeyPath="yes" />
+      <File Id="File_179" Source="publish\GestureSign-WinUI-Preview\Microsoft.Web.WebView2.Core.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_180" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_180" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.winmd" KeyPath="yes" />
+      <File Id="File_180" Source="publish\GestureSign-WinUI-Preview\Microsoft.Web.WebView2.Core.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_181" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_181" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll" KeyPath="yes" />
+      <File Id="File_181" Source="publish\GestureSign-WinUI-Preview\Microsoft.Win32.Primitives.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_182" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_182" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.winmd" KeyPath="yes" />
+      <File Id="File_182" Source="publish\GestureSign-WinUI-Preview\Microsoft.Win32.Registry.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_183" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_183" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppLifecycle.Projection.dll" KeyPath="yes" />
+      <File Id="File_183" Source="publish\GestureSign-WinUI-Preview\Microsoft.Win32.SystemEvents.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_184" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_184" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppLifecycle.winmd" KeyPath="yes" />
+      <File Id="File_184" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_185" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_185" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Builder.Projection.dll" KeyPath="yes" />
+      <File Id="File_185" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_186" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_186" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Builder.winmd" KeyPath="yes" />
+      <File Id="File_186" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.UniversalBGTask.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_187" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_187" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Projection.dll" KeyPath="yes" />
+      <File Id="File_187" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Background.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_188" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_188" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.winmd" KeyPath="yes" />
+      <File Id="File_188" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.DynamicDependency.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_189" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_189" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.BadgeNotifications.Projection.dll" KeyPath="yes" />
+      <File Id="File_189" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.DynamicDependency.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_190" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_190" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.BadgeNotifications.winmd" KeyPath="yes" />
+      <File Id="File_190" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_191" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_191" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Globalization.winmd" KeyPath="yes" />
+      <File Id="File_191" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_192" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_192" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Management.Deployment.Projection.dll" KeyPath="yes" />
+      <File Id="File_192" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.Resources.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_193" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_193" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Management.Deployment.winmd" KeyPath="yes" />
+      <File Id="File_193" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_194" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_194" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Media.Capture.Projection.dll" KeyPath="yes" />
+      <File Id="File_194" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.ApplicationModel.WindowsAppRuntime.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_195" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_195" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Media.Capture.winmd" KeyPath="yes" />
+      <File Id="File_195" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppLifecycle.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_196" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_196" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.PushNotifications.Projection.dll" KeyPath="yes" />
+      <File Id="File_196" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppLifecycle.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_197" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_197" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.PushNotifications.winmd" KeyPath="yes" />
+      <File Id="File_197" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Builder.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_198" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_198" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.SDK.NET.dll" KeyPath="yes" />
+      <File Id="File_198" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Builder.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_199" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_199" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Security.AccessControl.Projection.dll" KeyPath="yes" />
+      <File Id="File_199" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_200" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_200" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Security.AccessControl.winmd" KeyPath="yes" />
+      <File Id="File_200" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.AppNotifications.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_201" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_201" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Storage.Projection.dll" KeyPath="yes" />
+      <File Id="File_201" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.BadgeNotifications.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_202" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_202" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Storage.winmd" KeyPath="yes" />
+      <File Id="File_202" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.BadgeNotifications.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_203" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_203" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Power.Projection.dll" KeyPath="yes" />
+      <File Id="File_203" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Globalization.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_204" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_204" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Power.winmd" KeyPath="yes" />
+      <File Id="File_204" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Management.Deployment.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_205" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_205" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Projection.dll" KeyPath="yes" />
+      <File Id="File_205" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Management.Deployment.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_206" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_206" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.winmd" KeyPath="yes" />
+      <File Id="File_206" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Media.Capture.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_207" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_207" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.dll" KeyPath="yes" />
+      <File Id="File_207" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Media.Capture.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_208" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_208" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.Projection.dll" KeyPath="yes" />
+      <File Id="File_208" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.PushNotifications.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_209" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_209" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.winmd" KeyPath="yes" />
+      <File Id="File_209" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.PushNotifications.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_210" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_210" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Bootstrap.dll" KeyPath="yes" />
+      <File Id="File_210" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.SDK.NET.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_211" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_211" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll" KeyPath="yes" />
+      <File Id="File_211" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Security.AccessControl.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_212" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_212" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.dll" KeyPath="yes" />
+      <File Id="File_212" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Security.AccessControl.winmd" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_213" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_213" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Insights.Resource.dll" KeyPath="yes" />
+      <File Id="File_213" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Storage.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_214" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_214" Source="publish\GestureSign-WinUI-Preview\Microsoft.WinUI.dll" KeyPath="yes" />
+      <File Id="File_214" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Storage.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_215" Directory="DIR_mk_MK" Guid="*">
-      <File Id="File_215" Source="publish\GestureSign-WinUI-Preview\mk-MK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_215" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_215" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Power.Projection.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_216" Directory="DIR_mk_MK" Guid="*">
-      <File Id="File_216" Source="publish\GestureSign-WinUI-Preview\mk-MK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_216" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_216" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Power.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_217" Directory="DIR_ml_IN" Guid="*">
-      <File Id="File_217" Source="publish\GestureSign-WinUI-Preview\ml-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_217" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_217" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.Projection.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_218" Directory="DIR_ml_IN" Guid="*">
-      <File Id="File_218" Source="publish\GestureSign-WinUI-Preview\ml-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_218" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_218" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.System.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_219" Directory="DIR_mr_IN" Guid="*">
-      <File Id="File_219" Source="publish\GestureSign-WinUI-Preview\mr-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_219" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_219" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_220" Directory="DIR_mr_IN" Guid="*">
-      <File Id="File_220" Source="publish\GestureSign-WinUI-Preview\mr-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_220" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_220" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.Projection.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_221" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_221" Source="publish\GestureSign-WinUI-Preview\MRM.dll" KeyPath="yes" />
+      <File Id="File_221" Source="publish\GestureSign-WinUI-Preview\Microsoft.Windows.Widgets.winmd" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_222" Directory="DIR_ms_MY" Guid="*">
-      <File Id="File_222" Source="publish\GestureSign-WinUI-Preview\ms-MY\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_222" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_222" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Bootstrap.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_223" Directory="DIR_ms_MY" Guid="*">
-      <File Id="File_223" Source="publish\GestureSign-WinUI-Preview\ms-MY\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_223" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_223" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Bootstrap.Net.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_224" Directory="DIR_mt_MT" Guid="*">
-      <File Id="File_224" Source="publish\GestureSign-WinUI-Preview\mt-MT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_224" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_224" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_225" Directory="DIR_mt_MT" Guid="*">
-      <File Id="File_225" Source="publish\GestureSign-WinUI-Preview\mt-MT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_225" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_225" Source="publish\GestureSign-WinUI-Preview\Microsoft.WindowsAppRuntime.Insights.Resource.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_226" Directory="DIR_nb_NO" Guid="*">
-      <File Id="File_226" Source="publish\GestureSign-WinUI-Preview\nb-NO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_226" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_226" Source="publish\GestureSign-WinUI-Preview\Microsoft.WinUI.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_227" Directory="DIR_nb_NO" Guid="*">
-      <File Id="File_227" Source="publish\GestureSign-WinUI-Preview\nb-NO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_227" Directory="DIR_dd87055b020124cd" Guid="*">
+      <File Id="File_227" Source="publish\GestureSign-WinUI-Preview\mi-NZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_228" Directory="DIR_ne_NP" Guid="*">
-      <File Id="File_228" Source="publish\GestureSign-WinUI-Preview\ne-NP\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_228" Directory="DIR_dd87055b020124cd" Guid="*">
+      <File Id="File_228" Source="publish\GestureSign-WinUI-Preview\mi-NZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_229" Directory="DIR_ne_NP" Guid="*">
-      <File Id="File_229" Source="publish\GestureSign-WinUI-Preview\ne-NP\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_229" Directory="DIR_00ab009ae9661684" Guid="*">
+      <File Id="File_229" Source="publish\GestureSign-WinUI-Preview\mk-MK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_230" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_230" Source="publish\GestureSign-WinUI-Preview\Newtonsoft.Json.dll" KeyPath="yes" />
+    <Component Id="Cmp_230" Directory="DIR_00ab009ae9661684" Guid="*">
+      <File Id="File_230" Source="publish\GestureSign-WinUI-Preview\mk-MK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_231" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_231" Source="publish\GestureSign-WinUI-Preview\Newtonsoft.Json.xml" KeyPath="yes" />
+    <Component Id="Cmp_231" Directory="DIR_bbe71cb9d4e9045d" Guid="*">
+      <File Id="File_231" Source="publish\GestureSign-WinUI-Preview\ml-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_232" Directory="DIR_nl_NL" Guid="*">
-      <File Id="File_232" Source="publish\GestureSign-WinUI-Preview\nl-NL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_232" Directory="DIR_bbe71cb9d4e9045d" Guid="*">
+      <File Id="File_232" Source="publish\GestureSign-WinUI-Preview\ml-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_233" Directory="DIR_nl_NL" Guid="*">
-      <File Id="File_233" Source="publish\GestureSign-WinUI-Preview\nl-NL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_233" Directory="DIR_f4376217d7599fd9" Guid="*">
+      <File Id="File_233" Source="publish\GestureSign-WinUI-Preview\mr-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_234" Directory="DIR_nn_NO" Guid="*">
-      <File Id="File_234" Source="publish\GestureSign-WinUI-Preview\nn-NO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_234" Directory="DIR_f4376217d7599fd9" Guid="*">
+      <File Id="File_234" Source="publish\GestureSign-WinUI-Preview\mr-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_235" Directory="DIR_nn_NO" Guid="*">
-      <File Id="File_235" Source="publish\GestureSign-WinUI-Preview\nn-NO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_235" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_235" Source="publish\GestureSign-WinUI-Preview\MRM.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_236" Directory="DIR_or_IN" Guid="*">
-      <File Id="File_236" Source="publish\GestureSign-WinUI-Preview\or-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_236" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_236" Source="publish\GestureSign-WinUI-Preview\mscordaccore.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_237" Directory="DIR_or_IN" Guid="*">
-      <File Id="File_237" Source="publish\GestureSign-WinUI-Preview\or-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_237" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_237" Source="publish\GestureSign-WinUI-Preview\mscordaccore_amd64_amd64_8.0.2826.26413.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_238" Directory="DIR_pa_IN" Guid="*">
-      <File Id="File_238" Source="publish\GestureSign-WinUI-Preview\pa-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_238" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_238" Source="publish\GestureSign-WinUI-Preview\mscordbi.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_239" Directory="DIR_pa_IN" Guid="*">
-      <File Id="File_239" Source="publish\GestureSign-WinUI-Preview\pa-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_239" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_239" Source="publish\GestureSign-WinUI-Preview\mscorlib.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_240" Directory="DIR_pl_PL" Guid="*">
-      <File Id="File_240" Source="publish\GestureSign-WinUI-Preview\pl-PL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_240" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_240" Source="publish\GestureSign-WinUI-Preview\mscorrc.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_241" Directory="DIR_pl_PL" Guid="*">
-      <File Id="File_241" Source="publish\GestureSign-WinUI-Preview\pl-PL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_241" Directory="DIR_d72b6240946864cd" Guid="*">
+      <File Id="File_241" Source="publish\GestureSign-WinUI-Preview\ms-MY\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_242" Directory="DIR_pt_BR" Guid="*">
-      <File Id="File_242" Source="publish\GestureSign-WinUI-Preview\pt-BR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_242" Directory="DIR_d72b6240946864cd" Guid="*">
+      <File Id="File_242" Source="publish\GestureSign-WinUI-Preview\ms-MY\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_243" Directory="DIR_pt_BR" Guid="*">
-      <File Id="File_243" Source="publish\GestureSign-WinUI-Preview\pt-BR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_243" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_243" Source="publish\GestureSign-WinUI-Preview\msquic.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_244" Directory="DIR_pt_PT" Guid="*">
-      <File Id="File_244" Source="publish\GestureSign-WinUI-Preview\pt-PT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_244" Directory="DIR_be9c3e777896ad4a" Guid="*">
+      <File Id="File_244" Source="publish\GestureSign-WinUI-Preview\mt-MT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_245" Directory="DIR_pt_PT" Guid="*">
-      <File Id="File_245" Source="publish\GestureSign-WinUI-Preview\pt-PT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_245" Directory="DIR_be9c3e777896ad4a" Guid="*">
+      <File Id="File_245" Source="publish\GestureSign-WinUI-Preview\mt-MT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_246" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_246" Source="publish\GestureSign-WinUI-Preview\PushNotificationsLongRunningTask.ProxyStub.dll" KeyPath="yes" />
+    <Component Id="Cmp_246" Directory="DIR_12222f8d89c0ea16" Guid="*">
+      <File Id="File_246" Source="publish\GestureSign-WinUI-Preview\nb-NO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_247" Directory="DIR_quz_PE" Guid="*">
-      <File Id="File_247" Source="publish\GestureSign-WinUI-Preview\quz-PE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_247" Directory="DIR_12222f8d89c0ea16" Guid="*">
+      <File Id="File_247" Source="publish\GestureSign-WinUI-Preview\nb-NO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_248" Directory="DIR_quz_PE" Guid="*">
-      <File Id="File_248" Source="publish\GestureSign-WinUI-Preview\quz-PE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_248" Directory="DIR_36e35269d8f6f5b1" Guid="*">
+      <File Id="File_248" Source="publish\GestureSign-WinUI-Preview\ne-NP\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_249" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_249" Source="publish\GestureSign-WinUI-Preview\RestartAgent.exe" KeyPath="yes" />
+    <Component Id="Cmp_249" Directory="DIR_36e35269d8f6f5b1" Guid="*">
+      <File Id="File_249" Source="publish\GestureSign-WinUI-Preview\ne-NP\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_250" Directory="DIR_ro_RO" Guid="*">
-      <File Id="File_250" Source="publish\GestureSign-WinUI-Preview\ro-RO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_250" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_250" Source="publish\GestureSign-WinUI-Preview\netstandard.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_251" Directory="DIR_ro_RO" Guid="*">
-      <File Id="File_251" Source="publish\GestureSign-WinUI-Preview\ro-RO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_251" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_251" Source="publish\GestureSign-WinUI-Preview\Newtonsoft.Json.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_252" Directory="DIR_ru_RU" Guid="*">
-      <File Id="File_252" Source="publish\GestureSign-WinUI-Preview\ru-RU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_252" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_252" Source="publish\GestureSign-WinUI-Preview\Newtonsoft.Json.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_253" Directory="DIR_ru_RU" Guid="*">
-      <File Id="File_253" Source="publish\GestureSign-WinUI-Preview\ru-RU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_253" Directory="DIR_af360c080ff6c973" Guid="*">
+      <File Id="File_253" Source="publish\GestureSign-WinUI-Preview\nl-NL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_254" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_254" Source="publish\GestureSign-WinUI-Preview\SharpRaven.dll" KeyPath="yes" />
+    <Component Id="Cmp_254" Directory="DIR_af360c080ff6c973" Guid="*">
+      <File Id="File_254" Source="publish\GestureSign-WinUI-Preview\nl-NL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_255" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_255" Source="publish\GestureSign-WinUI-Preview\SharpRaven.pdb" KeyPath="yes" />
+    <Component Id="Cmp_255" Directory="DIR_b123cc976324a704" Guid="*">
+      <File Id="File_255" Source="publish\GestureSign-WinUI-Preview\nn-NO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_256" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_256" Source="publish\GestureSign-WinUI-Preview\SharpRaven.xml" KeyPath="yes" />
+    <Component Id="Cmp_256" Directory="DIR_b123cc976324a704" Guid="*">
+      <File Id="File_256" Source="publish\GestureSign-WinUI-Preview\nn-NO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_257" Directory="DIR_sk_SK" Guid="*">
-      <File Id="File_257" Source="publish\GestureSign-WinUI-Preview\sk-SK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_257" Directory="DIR_7cb5c784e35e7a0a" Guid="*">
+      <File Id="File_257" Source="publish\GestureSign-WinUI-Preview\or-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_258" Directory="DIR_sk_SK" Guid="*">
-      <File Id="File_258" Source="publish\GestureSign-WinUI-Preview\sk-SK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_258" Directory="DIR_7cb5c784e35e7a0a" Guid="*">
+      <File Id="File_258" Source="publish\GestureSign-WinUI-Preview\or-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_259" Directory="DIR_sl_SI" Guid="*">
-      <File Id="File_259" Source="publish\GestureSign-WinUI-Preview\sl-SI\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_259" Directory="DIR_2608f729bc239579" Guid="*">
+      <File Id="File_259" Source="publish\GestureSign-WinUI-Preview\pa-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_260" Directory="DIR_sl_SI" Guid="*">
-      <File Id="File_260" Source="publish\GestureSign-WinUI-Preview\sl-SI\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_260" Directory="DIR_2608f729bc239579" Guid="*">
+      <File Id="File_260" Source="publish\GestureSign-WinUI-Preview\pa-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_261" Directory="DIR_sq_AL" Guid="*">
-      <File Id="File_261" Source="publish\GestureSign-WinUI-Preview\sq-AL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_261" Directory="DIR_045896e39635c5d5" Guid="*">
+      <File Id="File_261" Source="publish\GestureSign-WinUI-Preview\pl-PL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_262" Directory="DIR_sq_AL" Guid="*">
-      <File Id="File_262" Source="publish\GestureSign-WinUI-Preview\sq-AL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_262" Directory="DIR_045896e39635c5d5" Guid="*">
+      <File Id="File_262" Source="publish\GestureSign-WinUI-Preview\pl-PL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_263" Directory="DIR_sr_Cyrl_BA" Guid="*">
-      <File Id="File_263" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-BA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_263" Directory="DIR_a786a2c15e096066" Guid="*">
+      <File Id="File_263" Source="publish\GestureSign-WinUI-Preview\pt-BR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_264" Directory="DIR_sr_Cyrl_BA" Guid="*">
-      <File Id="File_264" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-BA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_264" Directory="DIR_a786a2c15e096066" Guid="*">
+      <File Id="File_264" Source="publish\GestureSign-WinUI-Preview\pt-BR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_265" Directory="DIR_sr_Cyrl_RS" Guid="*">
-      <File Id="File_265" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-RS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_265" Directory="DIR_a530b335cd0087cb" Guid="*">
+      <File Id="File_265" Source="publish\GestureSign-WinUI-Preview\pt-PT\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_266" Directory="DIR_sr_Cyrl_RS" Guid="*">
-      <File Id="File_266" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-RS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_266" Directory="DIR_a530b335cd0087cb" Guid="*">
+      <File Id="File_266" Source="publish\GestureSign-WinUI-Preview\pt-PT\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_267" Directory="DIR_sr_Latn_RS" Guid="*">
-      <File Id="File_267" Source="publish\GestureSign-WinUI-Preview\sr-Latn-RS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_267" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_267" Source="publish\GestureSign-WinUI-Preview\PushNotificationsLongRunningTask.ProxyStub.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_268" Directory="DIR_sr_Latn_RS" Guid="*">
-      <File Id="File_268" Source="publish\GestureSign-WinUI-Preview\sr-Latn-RS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_268" Directory="DIR_6968df240c6cd2c5" Guid="*">
+      <File Id="File_268" Source="publish\GestureSign-WinUI-Preview\quz-PE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_269" Directory="DIR_sv_SE" Guid="*">
-      <File Id="File_269" Source="publish\GestureSign-WinUI-Preview\sv-SE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_269" Directory="DIR_6968df240c6cd2c5" Guid="*">
+      <File Id="File_269" Source="publish\GestureSign-WinUI-Preview\quz-PE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_270" Directory="DIR_sv_SE" Guid="*">
-      <File Id="File_270" Source="publish\GestureSign-WinUI-Preview\sv-SE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_270" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_270" Source="publish\GestureSign-WinUI-Preview\RestartAgent.exe" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_271" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_271" Source="publish\GestureSign-WinUI-Preview\System.Drawing.Common.dll" KeyPath="yes" />
+    <Component Id="Cmp_271" Directory="DIR_d56be6b04d5d62b6" Guid="*">
+      <File Id="File_271" Source="publish\GestureSign-WinUI-Preview\ro-RO\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_272" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_272" Source="publish\GestureSign-WinUI-Preview\System.Windows.Interactivity.dll" KeyPath="yes" />
+    <Component Id="Cmp_272" Directory="DIR_d56be6b04d5d62b6" Guid="*">
+      <File Id="File_272" Source="publish\GestureSign-WinUI-Preview\ro-RO\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_273" Directory="DIR_ta_IN" Guid="*">
-      <File Id="File_273" Source="publish\GestureSign-WinUI-Preview\ta-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_273" Directory="DIR_0df5072f6607b762" Guid="*">
+      <File Id="File_273" Source="publish\GestureSign-WinUI-Preview\ru-RU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_274" Directory="DIR_ta_IN" Guid="*">
-      <File Id="File_274" Source="publish\GestureSign-WinUI-Preview\ta-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_274" Directory="DIR_0df5072f6607b762" Guid="*">
+      <File Id="File_274" Source="publish\GestureSign-WinUI-Preview\ru-RU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_275" Directory="DIR_te_IN" Guid="*">
-      <File Id="File_275" Source="publish\GestureSign-WinUI-Preview\te-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_275" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_275" Source="publish\GestureSign-WinUI-Preview\SharpRaven.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_276" Directory="DIR_te_IN" Guid="*">
-      <File Id="File_276" Source="publish\GestureSign-WinUI-Preview\te-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_276" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_276" Source="publish\GestureSign-WinUI-Preview\SharpRaven.pdb" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_277" Directory="DIR_th_TH" Guid="*">
-      <File Id="File_277" Source="publish\GestureSign-WinUI-Preview\th-TH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_277" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_277" Source="publish\GestureSign-WinUI-Preview\SharpRaven.xml" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_278" Directory="DIR_th_TH" Guid="*">
-      <File Id="File_278" Source="publish\GestureSign-WinUI-Preview\th-TH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_278" Directory="DIR_d248aae869eaf85e" Guid="*">
+      <File Id="File_278" Source="publish\GestureSign-WinUI-Preview\sk-SK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_279" Directory="DIR_tr_TR" Guid="*">
-      <File Id="File_279" Source="publish\GestureSign-WinUI-Preview\tr-TR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_279" Directory="DIR_d248aae869eaf85e" Guid="*">
+      <File Id="File_279" Source="publish\GestureSign-WinUI-Preview\sk-SK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_280" Directory="DIR_tr_TR" Guid="*">
-      <File Id="File_280" Source="publish\GestureSign-WinUI-Preview\tr-TR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_280" Directory="DIR_fa9bd9a6463affe0" Guid="*">
+      <File Id="File_280" Source="publish\GestureSign-WinUI-Preview\sl-SI\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_281" Directory="DIR_tt_RU" Guid="*">
-      <File Id="File_281" Source="publish\GestureSign-WinUI-Preview\tt-RU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_281" Directory="DIR_fa9bd9a6463affe0" Guid="*">
+      <File Id="File_281" Source="publish\GestureSign-WinUI-Preview\sl-SI\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_282" Directory="DIR_tt_RU" Guid="*">
-      <File Id="File_282" Source="publish\GestureSign-WinUI-Preview\tt-RU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_282" Directory="DIR_72bffa60ed49776a" Guid="*">
+      <File Id="File_282" Source="publish\GestureSign-WinUI-Preview\sq-AL\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_283" Directory="DIR_ug_CN" Guid="*">
-      <File Id="File_283" Source="publish\GestureSign-WinUI-Preview\ug-CN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_283" Directory="DIR_72bffa60ed49776a" Guid="*">
+      <File Id="File_283" Source="publish\GestureSign-WinUI-Preview\sq-AL\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_284" Directory="DIR_ug_CN" Guid="*">
-      <File Id="File_284" Source="publish\GestureSign-WinUI-Preview\ug-CN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_284" Directory="DIR_fcfc5f35f4ddc442" Guid="*">
+      <File Id="File_284" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-BA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_285" Directory="DIR_uk_UA" Guid="*">
-      <File Id="File_285" Source="publish\GestureSign-WinUI-Preview\uk-UA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_285" Directory="DIR_fcfc5f35f4ddc442" Guid="*">
+      <File Id="File_285" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-BA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_286" Directory="DIR_uk_UA" Guid="*">
-      <File Id="File_286" Source="publish\GestureSign-WinUI-Preview\uk-UA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_286" Directory="DIR_572d7e07967915b1" Guid="*">
+      <File Id="File_286" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-RS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_287" Directory="DIR_ur_PK" Guid="*">
-      <File Id="File_287" Source="publish\GestureSign-WinUI-Preview\ur-PK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_287" Directory="DIR_572d7e07967915b1" Guid="*">
+      <File Id="File_287" Source="publish\GestureSign-WinUI-Preview\sr-Cyrl-RS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_288" Directory="DIR_ur_PK" Guid="*">
-      <File Id="File_288" Source="publish\GestureSign-WinUI-Preview\ur-PK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_288" Directory="DIR_941bc0fc11e4b49f" Guid="*">
+      <File Id="File_288" Source="publish\GestureSign-WinUI-Preview\sr-Latn-RS\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_289" Directory="DIR_uz_Latn_UZ" Guid="*">
-      <File Id="File_289" Source="publish\GestureSign-WinUI-Preview\uz-Latn-UZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_289" Directory="DIR_941bc0fc11e4b49f" Guid="*">
+      <File Id="File_289" Source="publish\GestureSign-WinUI-Preview\sr-Latn-RS\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_290" Directory="DIR_uz_Latn_UZ" Guid="*">
-      <File Id="File_290" Source="publish\GestureSign-WinUI-Preview\uz-Latn-UZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_290" Directory="DIR_bd196861653bc3ed" Guid="*">
+      <File Id="File_290" Source="publish\GestureSign-WinUI-Preview\sv-SE\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_291" Directory="DIR_vi_VN" Guid="*">
-      <File Id="File_291" Source="publish\GestureSign-WinUI-Preview\vi-VN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_291" Directory="DIR_bd196861653bc3ed" Guid="*">
+      <File Id="File_291" Source="publish\GestureSign-WinUI-Preview\sv-SE\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_292" Directory="DIR_vi_VN" Guid="*">
-      <File Id="File_292" Source="publish\GestureSign-WinUI-Preview\vi-VN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_292" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_292" Source="publish\GestureSign-WinUI-Preview\System.AppContext.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_293" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_293" Source="publish\GestureSign-WinUI-Preview\WebView2Loader.dll" KeyPath="yes" />
+      <File Id="File_293" Source="publish\GestureSign-WinUI-Preview\System.Buffers.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_294" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_294" Source="publish\GestureSign-WinUI-Preview\Windows.winmd" KeyPath="yes" />
+      <File Id="File_294" Source="publish\GestureSign-WinUI-Preview\System.Collections.Concurrent.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_295" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_295" Source="publish\GestureSign-WinUI-Preview\WindowsAppRuntime.DeploymentExtensions.OneCore.dll" KeyPath="yes" />
+      <File Id="File_295" Source="publish\GestureSign-WinUI-Preview\System.Collections.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_296" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_296" Source="publish\GestureSign-WinUI-Preview\WindowsAppRuntime.png" KeyPath="yes" />
+      <File Id="File_296" Source="publish\GestureSign-WinUI-Preview\System.Collections.Immutable.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_297" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_297" Source="publish\GestureSign-WinUI-Preview\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll" KeyPath="yes" />
+      <File Id="File_297" Source="publish\GestureSign-WinUI-Preview\System.Collections.NonGeneric.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_298" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_298" Source="publish\GestureSign-WinUI-Preview\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll" KeyPath="yes" />
+      <File Id="File_298" Source="publish\GestureSign-WinUI-Preview\System.Collections.Specialized.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_299" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_299" Source="publish\GestureSign-WinUI-Preview\WindowsInput.dll" KeyPath="yes" />
+      <File Id="File_299" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.Annotations.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_300" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_300" Source="publish\GestureSign-WinUI-Preview\WindowsInput.pdb" KeyPath="yes" />
+      <File Id="File_300" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.DataAnnotations.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_301" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_301" Source="publish\GestureSign-WinUI-Preview\WindowsInput.xml" KeyPath="yes" />
+      <File Id="File_301" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_302" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_302" Source="publish\GestureSign-WinUI-Preview\WinRT.Runtime.dll" KeyPath="yes" />
+      <File Id="File_302" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.EventBasedAsync.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_303" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_303" Source="publish\GestureSign-WinUI-Preview\WinUIEdit.dll" KeyPath="yes" />
+      <File Id="File_303" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.Primitives.dll" KeyPath="yes" />
     </Component>
     <Component Id="Cmp_304" Directory="INSTALLFOLDER" Guid="*">
-      <File Id="File_304" Source="publish\GestureSign-WinUI-Preview\wuceffectsi.dll" KeyPath="yes" />
+      <File Id="File_304" Source="publish\GestureSign-WinUI-Preview\System.ComponentModel.TypeConverter.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_305" Directory="DIR_zh_CN" Guid="*">
-      <File Id="File_305" Source="publish\GestureSign-WinUI-Preview\zh-CN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_305" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_305" Source="publish\GestureSign-WinUI-Preview\System.Configuration.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_306" Directory="DIR_zh_CN" Guid="*">
-      <File Id="File_306" Source="publish\GestureSign-WinUI-Preview\zh-CN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_306" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_306" Source="publish\GestureSign-WinUI-Preview\System.Console.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_307" Directory="DIR_zh_TW" Guid="*">
-      <File Id="File_307" Source="publish\GestureSign-WinUI-Preview\zh-TW\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_307" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_307" Source="publish\GestureSign-WinUI-Preview\System.Core.dll" KeyPath="yes" />
     </Component>
-    <Component Id="Cmp_308" Directory="DIR_zh_TW" Guid="*">
-      <File Id="File_308" Source="publish\GestureSign-WinUI-Preview\zh-TW\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    <Component Id="Cmp_308" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_308" Source="publish\GestureSign-WinUI-Preview\System.Data.Common.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_309" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_309" Source="publish\GestureSign-WinUI-Preview\System.Data.DataSetExtensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_310" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_310" Source="publish\GestureSign-WinUI-Preview\System.Data.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_311" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_311" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.Contracts.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_312" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_312" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.Debug.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_313" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_313" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.DiagnosticSource.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_314" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_314" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.FileVersionInfo.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_315" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_315" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.Process.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_316" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_316" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.StackTrace.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_317" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_317" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.TextWriterTraceListener.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_318" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_318" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.Tools.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_319" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_319" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.TraceSource.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_320" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_320" Source="publish\GestureSign-WinUI-Preview\System.Diagnostics.Tracing.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_321" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_321" Source="publish\GestureSign-WinUI-Preview\System.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_322" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_322" Source="publish\GestureSign-WinUI-Preview\System.Drawing.Common.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_323" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_323" Source="publish\GestureSign-WinUI-Preview\System.Drawing.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_324" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_324" Source="publish\GestureSign-WinUI-Preview\System.Drawing.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_325" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_325" Source="publish\GestureSign-WinUI-Preview\System.Dynamic.Runtime.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_326" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_326" Source="publish\GestureSign-WinUI-Preview\System.Formats.Asn1.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_327" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_327" Source="publish\GestureSign-WinUI-Preview\System.Formats.Tar.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_328" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_328" Source="publish\GestureSign-WinUI-Preview\System.Globalization.Calendars.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_329" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_329" Source="publish\GestureSign-WinUI-Preview\System.Globalization.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_330" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_330" Source="publish\GestureSign-WinUI-Preview\System.Globalization.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_331" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_331" Source="publish\GestureSign-WinUI-Preview\System.IO.Compression.Brotli.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_332" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_332" Source="publish\GestureSign-WinUI-Preview\System.IO.Compression.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_333" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_333" Source="publish\GestureSign-WinUI-Preview\System.IO.Compression.FileSystem.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_334" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_334" Source="publish\GestureSign-WinUI-Preview\System.IO.Compression.Native.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_335" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_335" Source="publish\GestureSign-WinUI-Preview\System.IO.Compression.ZipFile.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_336" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_336" Source="publish\GestureSign-WinUI-Preview\System.IO.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_337" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_337" Source="publish\GestureSign-WinUI-Preview\System.IO.FileSystem.AccessControl.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_338" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_338" Source="publish\GestureSign-WinUI-Preview\System.IO.FileSystem.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_339" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_339" Source="publish\GestureSign-WinUI-Preview\System.IO.FileSystem.DriveInfo.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_340" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_340" Source="publish\GestureSign-WinUI-Preview\System.IO.FileSystem.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_341" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_341" Source="publish\GestureSign-WinUI-Preview\System.IO.FileSystem.Watcher.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_342" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_342" Source="publish\GestureSign-WinUI-Preview\System.IO.IsolatedStorage.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_343" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_343" Source="publish\GestureSign-WinUI-Preview\System.IO.MemoryMappedFiles.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_344" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_344" Source="publish\GestureSign-WinUI-Preview\System.IO.Pipes.AccessControl.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_345" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_345" Source="publish\GestureSign-WinUI-Preview\System.IO.Pipes.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_346" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_346" Source="publish\GestureSign-WinUI-Preview\System.IO.UnmanagedMemoryStream.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_347" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_347" Source="publish\GestureSign-WinUI-Preview\System.Linq.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_348" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_348" Source="publish\GestureSign-WinUI-Preview\System.Linq.Expressions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_349" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_349" Source="publish\GestureSign-WinUI-Preview\System.Linq.Parallel.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_350" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_350" Source="publish\GestureSign-WinUI-Preview\System.Linq.Queryable.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_351" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_351" Source="publish\GestureSign-WinUI-Preview\System.Memory.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_352" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_352" Source="publish\GestureSign-WinUI-Preview\System.Net.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_353" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_353" Source="publish\GestureSign-WinUI-Preview\System.Net.Http.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_354" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_354" Source="publish\GestureSign-WinUI-Preview\System.Net.Http.Json.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_355" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_355" Source="publish\GestureSign-WinUI-Preview\System.Net.HttpListener.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_356" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_356" Source="publish\GestureSign-WinUI-Preview\System.Net.Mail.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_357" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_357" Source="publish\GestureSign-WinUI-Preview\System.Net.NameResolution.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_358" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_358" Source="publish\GestureSign-WinUI-Preview\System.Net.NetworkInformation.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_359" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_359" Source="publish\GestureSign-WinUI-Preview\System.Net.Ping.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_360" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_360" Source="publish\GestureSign-WinUI-Preview\System.Net.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_361" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_361" Source="publish\GestureSign-WinUI-Preview\System.Net.Quic.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_362" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_362" Source="publish\GestureSign-WinUI-Preview\System.Net.Requests.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_363" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_363" Source="publish\GestureSign-WinUI-Preview\System.Net.Security.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_364" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_364" Source="publish\GestureSign-WinUI-Preview\System.Net.ServicePoint.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_365" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_365" Source="publish\GestureSign-WinUI-Preview\System.Net.Sockets.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_366" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_366" Source="publish\GestureSign-WinUI-Preview\System.Net.WebClient.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_367" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_367" Source="publish\GestureSign-WinUI-Preview\System.Net.WebHeaderCollection.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_368" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_368" Source="publish\GestureSign-WinUI-Preview\System.Net.WebProxy.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_369" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_369" Source="publish\GestureSign-WinUI-Preview\System.Net.WebSockets.Client.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_370" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_370" Source="publish\GestureSign-WinUI-Preview\System.Net.WebSockets.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_371" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_371" Source="publish\GestureSign-WinUI-Preview\System.Numerics.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_372" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_372" Source="publish\GestureSign-WinUI-Preview\System.Numerics.Vectors.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_373" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_373" Source="publish\GestureSign-WinUI-Preview\System.ObjectModel.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_374" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_374" Source="publish\GestureSign-WinUI-Preview\System.Private.CoreLib.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_375" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_375" Source="publish\GestureSign-WinUI-Preview\System.Private.DataContractSerialization.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_376" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_376" Source="publish\GestureSign-WinUI-Preview\System.Private.Uri.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_377" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_377" Source="publish\GestureSign-WinUI-Preview\System.Private.Xml.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_378" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_378" Source="publish\GestureSign-WinUI-Preview\System.Private.Xml.Linq.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_379" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_379" Source="publish\GestureSign-WinUI-Preview\System.Reflection.DispatchProxy.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_380" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_380" Source="publish\GestureSign-WinUI-Preview\System.Reflection.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_381" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_381" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Emit.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_382" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_382" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Emit.ILGeneration.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_383" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_383" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Emit.Lightweight.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_384" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_384" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_385" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_385" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Metadata.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_386" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_386" Source="publish\GestureSign-WinUI-Preview\System.Reflection.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_387" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_387" Source="publish\GestureSign-WinUI-Preview\System.Reflection.TypeExtensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_388" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_388" Source="publish\GestureSign-WinUI-Preview\System.Resources.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_389" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_389" Source="publish\GestureSign-WinUI-Preview\System.Resources.Extensions.xml" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_390" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_390" Source="publish\GestureSign-WinUI-Preview\System.Resources.Reader.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_391" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_391" Source="publish\GestureSign-WinUI-Preview\System.Resources.ResourceManager.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_392" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_392" Source="publish\GestureSign-WinUI-Preview\System.Resources.Writer.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_393" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_393" Source="publish\GestureSign-WinUI-Preview\System.Runtime.CompilerServices.Unsafe.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_394" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_394" Source="publish\GestureSign-WinUI-Preview\System.Runtime.CompilerServices.VisualC.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_395" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_395" Source="publish\GestureSign-WinUI-Preview\System.Runtime.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_396" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_396" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_397" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_397" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Handles.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_398" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_398" Source="publish\GestureSign-WinUI-Preview\System.Runtime.InteropServices.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_399" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_399" Source="publish\GestureSign-WinUI-Preview\System.Runtime.InteropServices.JavaScript.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_400" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_400" Source="publish\GestureSign-WinUI-Preview\System.Runtime.InteropServices.RuntimeInformation.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_401" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_401" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Intrinsics.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_402" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_402" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Loader.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_403" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_403" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Numerics.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_404" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_404" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Serialization.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_405" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_405" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Serialization.Formatters.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_406" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_406" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Serialization.Json.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_407" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_407" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Serialization.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_408" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_408" Source="publish\GestureSign-WinUI-Preview\System.Runtime.Serialization.Xml.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_409" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_409" Source="publish\GestureSign-WinUI-Preview\System.Security.AccessControl.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_410" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_410" Source="publish\GestureSign-WinUI-Preview\System.Security.Claims.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_411" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_411" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.Algorithms.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_412" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_412" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.Cng.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_413" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_413" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.Csp.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_414" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_414" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_415" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_415" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.Encoding.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_416" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_416" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.OpenSsl.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_417" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_417" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.Primitives.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_418" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_418" Source="publish\GestureSign-WinUI-Preview\System.Security.Cryptography.X509Certificates.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_419" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_419" Source="publish\GestureSign-WinUI-Preview\System.Security.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_420" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_420" Source="publish\GestureSign-WinUI-Preview\System.Security.Principal.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_421" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_421" Source="publish\GestureSign-WinUI-Preview\System.Security.Principal.Windows.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_422" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_422" Source="publish\GestureSign-WinUI-Preview\System.Security.SecureString.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_423" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_423" Source="publish\GestureSign-WinUI-Preview\System.ServiceModel.Web.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_424" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_424" Source="publish\GestureSign-WinUI-Preview\System.ServiceProcess.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_425" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_425" Source="publish\GestureSign-WinUI-Preview\System.Text.Encoding.CodePages.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_426" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_426" Source="publish\GestureSign-WinUI-Preview\System.Text.Encoding.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_427" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_427" Source="publish\GestureSign-WinUI-Preview\System.Text.Encoding.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_428" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_428" Source="publish\GestureSign-WinUI-Preview\System.Text.Encodings.Web.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_429" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_429" Source="publish\GestureSign-WinUI-Preview\System.Text.Json.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_430" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_430" Source="publish\GestureSign-WinUI-Preview\System.Text.RegularExpressions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_431" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_431" Source="publish\GestureSign-WinUI-Preview\System.Threading.Channels.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_432" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_432" Source="publish\GestureSign-WinUI-Preview\System.Threading.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_433" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_433" Source="publish\GestureSign-WinUI-Preview\System.Threading.Overlapped.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_434" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_434" Source="publish\GestureSign-WinUI-Preview\System.Threading.Tasks.Dataflow.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_435" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_435" Source="publish\GestureSign-WinUI-Preview\System.Threading.Tasks.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_436" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_436" Source="publish\GestureSign-WinUI-Preview\System.Threading.Tasks.Extensions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_437" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_437" Source="publish\GestureSign-WinUI-Preview\System.Threading.Tasks.Parallel.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_438" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_438" Source="publish\GestureSign-WinUI-Preview\System.Threading.Thread.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_439" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_439" Source="publish\GestureSign-WinUI-Preview\System.Threading.ThreadPool.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_440" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_440" Source="publish\GestureSign-WinUI-Preview\System.Threading.Timer.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_441" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_441" Source="publish\GestureSign-WinUI-Preview\System.Transactions.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_442" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_442" Source="publish\GestureSign-WinUI-Preview\System.Transactions.Local.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_443" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_443" Source="publish\GestureSign-WinUI-Preview\System.ValueTuple.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_444" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_444" Source="publish\GestureSign-WinUI-Preview\System.Web.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_445" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_445" Source="publish\GestureSign-WinUI-Preview\System.Web.HttpUtility.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_446" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_446" Source="publish\GestureSign-WinUI-Preview\System.Windows.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_447" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_447" Source="publish\GestureSign-WinUI-Preview\System.Windows.Interactivity.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_448" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_448" Source="publish\GestureSign-WinUI-Preview\System.Xml.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_449" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_449" Source="publish\GestureSign-WinUI-Preview\System.Xml.Linq.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_450" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_450" Source="publish\GestureSign-WinUI-Preview\System.Xml.ReaderWriter.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_451" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_451" Source="publish\GestureSign-WinUI-Preview\System.Xml.Serialization.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_452" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_452" Source="publish\GestureSign-WinUI-Preview\System.Xml.XDocument.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_453" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_453" Source="publish\GestureSign-WinUI-Preview\System.Xml.XmlDocument.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_454" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_454" Source="publish\GestureSign-WinUI-Preview\System.Xml.XmlSerializer.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_455" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_455" Source="publish\GestureSign-WinUI-Preview\System.Xml.XPath.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_456" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_456" Source="publish\GestureSign-WinUI-Preview\System.Xml.XPath.XDocument.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_457" Directory="DIR_9c23f75ba13082a2" Guid="*">
+      <File Id="File_457" Source="publish\GestureSign-WinUI-Preview\ta-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_458" Directory="DIR_9c23f75ba13082a2" Guid="*">
+      <File Id="File_458" Source="publish\GestureSign-WinUI-Preview\ta-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_459" Directory="DIR_f1f0ab2f0666e3e5" Guid="*">
+      <File Id="File_459" Source="publish\GestureSign-WinUI-Preview\te-IN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_460" Directory="DIR_f1f0ab2f0666e3e5" Guid="*">
+      <File Id="File_460" Source="publish\GestureSign-WinUI-Preview\te-IN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_461" Directory="DIR_c700dc1c6745c399" Guid="*">
+      <File Id="File_461" Source="publish\GestureSign-WinUI-Preview\th-TH\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_462" Directory="DIR_c700dc1c6745c399" Guid="*">
+      <File Id="File_462" Source="publish\GestureSign-WinUI-Preview\th-TH\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_463" Directory="DIR_454c87d3a6aff693" Guid="*">
+      <File Id="File_463" Source="publish\GestureSign-WinUI-Preview\tr-TR\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_464" Directory="DIR_454c87d3a6aff693" Guid="*">
+      <File Id="File_464" Source="publish\GestureSign-WinUI-Preview\tr-TR\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_465" Directory="DIR_b3bd6779091d94cb" Guid="*">
+      <File Id="File_465" Source="publish\GestureSign-WinUI-Preview\tt-RU\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_466" Directory="DIR_b3bd6779091d94cb" Guid="*">
+      <File Id="File_466" Source="publish\GestureSign-WinUI-Preview\tt-RU\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_467" Directory="DIR_f1f982b102cf25b2" Guid="*">
+      <File Id="File_467" Source="publish\GestureSign-WinUI-Preview\ug-CN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_468" Directory="DIR_f1f982b102cf25b2" Guid="*">
+      <File Id="File_468" Source="publish\GestureSign-WinUI-Preview\ug-CN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_469" Directory="DIR_64c4ae58e655f6eb" Guid="*">
+      <File Id="File_469" Source="publish\GestureSign-WinUI-Preview\uk-UA\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_470" Directory="DIR_64c4ae58e655f6eb" Guid="*">
+      <File Id="File_470" Source="publish\GestureSign-WinUI-Preview\uk-UA\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_471" Directory="DIR_683e9691bd845dde" Guid="*">
+      <File Id="File_471" Source="publish\GestureSign-WinUI-Preview\ur-PK\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_472" Directory="DIR_683e9691bd845dde" Guid="*">
+      <File Id="File_472" Source="publish\GestureSign-WinUI-Preview\ur-PK\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_473" Directory="DIR_445d23f81283d713" Guid="*">
+      <File Id="File_473" Source="publish\GestureSign-WinUI-Preview\uz-Latn-UZ\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_474" Directory="DIR_445d23f81283d713" Guid="*">
+      <File Id="File_474" Source="publish\GestureSign-WinUI-Preview\uz-Latn-UZ\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_475" Directory="DIR_552649d7409cec5d" Guid="*">
+      <File Id="File_475" Source="publish\GestureSign-WinUI-Preview\vi-VN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_476" Directory="DIR_552649d7409cec5d" Guid="*">
+      <File Id="File_476" Source="publish\GestureSign-WinUI-Preview\vi-VN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_477" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_477" Source="publish\GestureSign-WinUI-Preview\WebView2Loader.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_478" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_478" Source="publish\GestureSign-WinUI-Preview\Windows.winmd" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_479" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_479" Source="publish\GestureSign-WinUI-Preview\WindowsAppRuntime.DeploymentExtensions.OneCore.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_480" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_480" Source="publish\GestureSign-WinUI-Preview\WindowsAppRuntime.png" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_481" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_481" Source="publish\GestureSign-WinUI-Preview\WindowsAppSdk.AppxDeploymentExtensions.Desktop.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_482" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_482" Source="publish\GestureSign-WinUI-Preview\WindowsAppSdk.AppxDeploymentExtensions.Desktop-EventLog-Instrumentation.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_483" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_483" Source="publish\GestureSign-WinUI-Preview\WindowsBase.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_484" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_484" Source="publish\GestureSign-WinUI-Preview\WindowsInput.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_485" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_485" Source="publish\GestureSign-WinUI-Preview\WindowsInput.pdb" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_486" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_486" Source="publish\GestureSign-WinUI-Preview\WindowsInput.xml" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_487" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_487" Source="publish\GestureSign-WinUI-Preview\WinRT.Runtime.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_488" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_488" Source="publish\GestureSign-WinUI-Preview\WinUIEdit.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_489" Directory="INSTALLFOLDER" Guid="*">
+      <File Id="File_489" Source="publish\GestureSign-WinUI-Preview\wuceffectsi.dll" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_490" Directory="DIR_ead8e8ebac8507ad" Guid="*">
+      <File Id="File_490" Source="publish\GestureSign-WinUI-Preview\zh-CN\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_491" Directory="DIR_ead8e8ebac8507ad" Guid="*">
+      <File Id="File_491" Source="publish\GestureSign-WinUI-Preview\zh-CN\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_492" Directory="DIR_fb157325fe225946" Guid="*">
+      <File Id="File_492" Source="publish\GestureSign-WinUI-Preview\zh-TW\Microsoft.ui.xaml.dll.mui" KeyPath="yes" />
+    </Component>
+    <Component Id="Cmp_493" Directory="DIR_fb157325fe225946" Guid="*">
+      <File Id="File_493" Source="publish\GestureSign-WinUI-Preview\zh-TW\Microsoft.UI.Xaml.Phone.dll.mui" KeyPath="yes" />
     </Component>
     <Component Id="ShortcutsComponent" Directory="INSTALLFOLDER" Guid="*">
       <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="GestureSign V2" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
@@ -1231,8 +1780,6 @@
       <ComponentRef Id="Cmp_84" />
       <ComponentRef Id="Cmp_85" />
       <ComponentRef Id="Cmp_86" />
-      <ComponentRef Id="Cmp_GestureSign_WinUI_pri" />
-      <ComponentRef Id="Cmp_System_Resources_Extensions_dll" />
       <ComponentRef Id="Cmp_87" />
       <ComponentRef Id="Cmp_88" />
       <ComponentRef Id="Cmp_89" />
@@ -1455,8 +2002,192 @@
       <ComponentRef Id="Cmp_306" />
       <ComponentRef Id="Cmp_307" />
       <ComponentRef Id="Cmp_308" />
+      <ComponentRef Id="Cmp_309" />
+      <ComponentRef Id="Cmp_310" />
+      <ComponentRef Id="Cmp_311" />
+      <ComponentRef Id="Cmp_312" />
+      <ComponentRef Id="Cmp_313" />
+      <ComponentRef Id="Cmp_314" />
+      <ComponentRef Id="Cmp_315" />
+      <ComponentRef Id="Cmp_316" />
+      <ComponentRef Id="Cmp_317" />
+      <ComponentRef Id="Cmp_318" />
+      <ComponentRef Id="Cmp_319" />
+      <ComponentRef Id="Cmp_320" />
+      <ComponentRef Id="Cmp_321" />
+      <ComponentRef Id="Cmp_322" />
+      <ComponentRef Id="Cmp_323" />
+      <ComponentRef Id="Cmp_324" />
+      <ComponentRef Id="Cmp_325" />
+      <ComponentRef Id="Cmp_326" />
+      <ComponentRef Id="Cmp_327" />
+      <ComponentRef Id="Cmp_328" />
+      <ComponentRef Id="Cmp_329" />
+      <ComponentRef Id="Cmp_330" />
+      <ComponentRef Id="Cmp_331" />
+      <ComponentRef Id="Cmp_332" />
+      <ComponentRef Id="Cmp_333" />
+      <ComponentRef Id="Cmp_334" />
+      <ComponentRef Id="Cmp_335" />
+      <ComponentRef Id="Cmp_336" />
+      <ComponentRef Id="Cmp_337" />
+      <ComponentRef Id="Cmp_338" />
+      <ComponentRef Id="Cmp_339" />
+      <ComponentRef Id="Cmp_340" />
+      <ComponentRef Id="Cmp_341" />
+      <ComponentRef Id="Cmp_342" />
+      <ComponentRef Id="Cmp_343" />
+      <ComponentRef Id="Cmp_344" />
+      <ComponentRef Id="Cmp_345" />
+      <ComponentRef Id="Cmp_346" />
+      <ComponentRef Id="Cmp_347" />
+      <ComponentRef Id="Cmp_348" />
+      <ComponentRef Id="Cmp_349" />
+      <ComponentRef Id="Cmp_350" />
+      <ComponentRef Id="Cmp_351" />
+      <ComponentRef Id="Cmp_352" />
+      <ComponentRef Id="Cmp_353" />
+      <ComponentRef Id="Cmp_354" />
+      <ComponentRef Id="Cmp_355" />
+      <ComponentRef Id="Cmp_356" />
+      <ComponentRef Id="Cmp_357" />
+      <ComponentRef Id="Cmp_358" />
+      <ComponentRef Id="Cmp_359" />
+      <ComponentRef Id="Cmp_360" />
+      <ComponentRef Id="Cmp_361" />
+      <ComponentRef Id="Cmp_362" />
+      <ComponentRef Id="Cmp_363" />
+      <ComponentRef Id="Cmp_364" />
+      <ComponentRef Id="Cmp_365" />
+      <ComponentRef Id="Cmp_366" />
+      <ComponentRef Id="Cmp_367" />
+      <ComponentRef Id="Cmp_368" />
+      <ComponentRef Id="Cmp_369" />
+      <ComponentRef Id="Cmp_370" />
+      <ComponentRef Id="Cmp_371" />
+      <ComponentRef Id="Cmp_372" />
+      <ComponentRef Id="Cmp_373" />
+      <ComponentRef Id="Cmp_374" />
+      <ComponentRef Id="Cmp_375" />
+      <ComponentRef Id="Cmp_376" />
+      <ComponentRef Id="Cmp_377" />
+      <ComponentRef Id="Cmp_378" />
+      <ComponentRef Id="Cmp_379" />
+      <ComponentRef Id="Cmp_380" />
+      <ComponentRef Id="Cmp_381" />
+      <ComponentRef Id="Cmp_382" />
+      <ComponentRef Id="Cmp_383" />
+      <ComponentRef Id="Cmp_384" />
+      <ComponentRef Id="Cmp_385" />
+      <ComponentRef Id="Cmp_386" />
+      <ComponentRef Id="Cmp_387" />
+      <ComponentRef Id="Cmp_388" />
+      <ComponentRef Id="Cmp_389" />
+      <ComponentRef Id="Cmp_390" />
+      <ComponentRef Id="Cmp_391" />
+      <ComponentRef Id="Cmp_392" />
+      <ComponentRef Id="Cmp_393" />
+      <ComponentRef Id="Cmp_394" />
+      <ComponentRef Id="Cmp_395" />
+      <ComponentRef Id="Cmp_396" />
+      <ComponentRef Id="Cmp_397" />
+      <ComponentRef Id="Cmp_398" />
+      <ComponentRef Id="Cmp_399" />
+      <ComponentRef Id="Cmp_400" />
+      <ComponentRef Id="Cmp_401" />
+      <ComponentRef Id="Cmp_402" />
+      <ComponentRef Id="Cmp_403" />
+      <ComponentRef Id="Cmp_404" />
+      <ComponentRef Id="Cmp_405" />
+      <ComponentRef Id="Cmp_406" />
+      <ComponentRef Id="Cmp_407" />
+      <ComponentRef Id="Cmp_408" />
+      <ComponentRef Id="Cmp_409" />
+      <ComponentRef Id="Cmp_410" />
+      <ComponentRef Id="Cmp_411" />
+      <ComponentRef Id="Cmp_412" />
+      <ComponentRef Id="Cmp_413" />
+      <ComponentRef Id="Cmp_414" />
+      <ComponentRef Id="Cmp_415" />
+      <ComponentRef Id="Cmp_416" />
+      <ComponentRef Id="Cmp_417" />
+      <ComponentRef Id="Cmp_418" />
+      <ComponentRef Id="Cmp_419" />
+      <ComponentRef Id="Cmp_420" />
+      <ComponentRef Id="Cmp_421" />
+      <ComponentRef Id="Cmp_422" />
+      <ComponentRef Id="Cmp_423" />
+      <ComponentRef Id="Cmp_424" />
+      <ComponentRef Id="Cmp_425" />
+      <ComponentRef Id="Cmp_426" />
+      <ComponentRef Id="Cmp_427" />
+      <ComponentRef Id="Cmp_428" />
+      <ComponentRef Id="Cmp_429" />
+      <ComponentRef Id="Cmp_430" />
+      <ComponentRef Id="Cmp_431" />
+      <ComponentRef Id="Cmp_432" />
+      <ComponentRef Id="Cmp_433" />
+      <ComponentRef Id="Cmp_434" />
+      <ComponentRef Id="Cmp_435" />
+      <ComponentRef Id="Cmp_436" />
+      <ComponentRef Id="Cmp_437" />
+      <ComponentRef Id="Cmp_438" />
+      <ComponentRef Id="Cmp_439" />
+      <ComponentRef Id="Cmp_440" />
+      <ComponentRef Id="Cmp_441" />
+      <ComponentRef Id="Cmp_442" />
+      <ComponentRef Id="Cmp_443" />
+      <ComponentRef Id="Cmp_444" />
+      <ComponentRef Id="Cmp_445" />
+      <ComponentRef Id="Cmp_446" />
+      <ComponentRef Id="Cmp_447" />
+      <ComponentRef Id="Cmp_448" />
+      <ComponentRef Id="Cmp_449" />
+      <ComponentRef Id="Cmp_450" />
+      <ComponentRef Id="Cmp_451" />
+      <ComponentRef Id="Cmp_452" />
+      <ComponentRef Id="Cmp_453" />
+      <ComponentRef Id="Cmp_454" />
+      <ComponentRef Id="Cmp_455" />
+      <ComponentRef Id="Cmp_456" />
+      <ComponentRef Id="Cmp_457" />
+      <ComponentRef Id="Cmp_458" />
+      <ComponentRef Id="Cmp_459" />
+      <ComponentRef Id="Cmp_460" />
+      <ComponentRef Id="Cmp_461" />
+      <ComponentRef Id="Cmp_462" />
+      <ComponentRef Id="Cmp_463" />
+      <ComponentRef Id="Cmp_464" />
+      <ComponentRef Id="Cmp_465" />
+      <ComponentRef Id="Cmp_466" />
+      <ComponentRef Id="Cmp_467" />
+      <ComponentRef Id="Cmp_468" />
+      <ComponentRef Id="Cmp_469" />
+      <ComponentRef Id="Cmp_470" />
+      <ComponentRef Id="Cmp_471" />
+      <ComponentRef Id="Cmp_472" />
+      <ComponentRef Id="Cmp_473" />
+      <ComponentRef Id="Cmp_474" />
+      <ComponentRef Id="Cmp_475" />
+      <ComponentRef Id="Cmp_476" />
+      <ComponentRef Id="Cmp_477" />
+      <ComponentRef Id="Cmp_478" />
+      <ComponentRef Id="Cmp_479" />
+      <ComponentRef Id="Cmp_480" />
+      <ComponentRef Id="Cmp_481" />
+      <ComponentRef Id="Cmp_482" />
+      <ComponentRef Id="Cmp_483" />
+      <ComponentRef Id="Cmp_484" />
+      <ComponentRef Id="Cmp_485" />
+      <ComponentRef Id="Cmp_486" />
+      <ComponentRef Id="Cmp_487" />
+      <ComponentRef Id="Cmp_488" />
+      <ComponentRef Id="Cmp_489" />
+      <ComponentRef Id="Cmp_490" />
+      <ComponentRef Id="Cmp_491" />
+      <ComponentRef Id="Cmp_492" />
+      <ComponentRef Id="Cmp_493" />
       <ComponentRef Id="ShortcutsComponent" />
     </Feature>
   </Package>
 </Wix>
-

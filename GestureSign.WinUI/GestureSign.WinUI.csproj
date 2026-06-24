@@ -10,13 +10,14 @@
     <UseWinUI>true</UseWinUI>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <WindowsPackageType>None</WindowsPackageType>
+    <SelfContained>true</SelfContained>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>8.1.9759</Version>
-    <AssemblyVersion>8.1.9759.0</AssemblyVersion>
-    <FileVersion>8.1.9759.0</FileVersion>
+    <Version>8.1.9760</Version>
+    <AssemblyVersion>8.1.9760.0</AssemblyVersion>
+    <FileVersion>8.1.9760.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />

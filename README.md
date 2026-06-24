@@ -47,9 +47,15 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9759.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9759/GestureSign-V2-Setup-x64-8.1.9759.msi)
+- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
 
 ## 更新内容
+
+### 8.1.9760
+
+- 修正安装包发布方式，WinUI 3 前端改为随 MSI 自带 .NET 运行时。
+- 重新生成 MSI 文件清单，避免在未安装 .NET 8 Desktop Runtime 的电脑上启动失败。
+- 更新关于页、程序集版本和安装包版本，方便覆盖安装识别新版。
 
 ### 8.1.9759
 
@@ -193,7 +199,7 @@ Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSign
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9752.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9752/GestureSign-V2-Setup-x64-8.1.9752.msi)
+- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
 
 ## Installation
 
@@ -277,7 +283,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 現在のバージョン:
 
-- [GestureSign-V2-Setup-x64-8.1.9752.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9752/GestureSign-V2-Setup-x64-8.1.9752.msi)
+- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
 
 ## インストール
 
