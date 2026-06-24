@@ -8,12 +8,19 @@
     <Platforms>x86;x64;arm64</Platforms>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
+    <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <WindowsPackageType>None</WindowsPackageType>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
+    <Version>8.1.9759</Version>
+    <AssemblyVersion>8.1.9759.0</AssemblyVersion>
+    <FileVersion>8.1.9759.0</FileVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <Page Include="MainWindow.xaml" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
     <PackageReference Include="System.Drawing.Common" Version="8.0.13" />

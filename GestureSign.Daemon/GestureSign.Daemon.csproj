@@ -140,6 +140,7 @@
     <Compile Include="Triggers\MouseTrigger.cs" />
     <Compile Include="Triggers\TriggerFiredEventArgs.cs" />
     <Compile Include="Triggers\HotKeyManager.cs" />
+    <Compile Include="Triggers\TouchPadEdgeTrigger.cs" />
     <Compile Include="Triggers\Trigger.cs" />
     <Compile Include="Triggers\TriggerManager.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

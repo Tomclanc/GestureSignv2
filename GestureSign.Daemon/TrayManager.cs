@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GestureSign.Common;
 using GestureSign.Common.Configuration;
@@ -83,9 +84,7 @@ namespace GestureSign.Daemon
             _exitGestureSignMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit");
             _exitGestureSignMenuItem.Click += async (o, e) =>
             {
-                await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.ControlPanel, wait: false);
-                Application.DoEvents();
-                Application.Exit();
+                await ExitGestureSignAsync();
             };
 
             ApplyTrayMenuTheme();
@@ -344,6 +343,90 @@ namespace GestureSign.Daemon
             };
 
             return candidates.FirstOrDefault(File.Exists) ?? candidates.Last();
+        }
+
+        private static async Task ExitGestureSignAsync()
+        {
+            try
+            {
+                await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.ControlPanel, wait: false);
+            }
+            catch (Exception exception)
+            {
+                Logging.LogException(exception);
+            }
+
+            await Task.Delay(500);
+            CloseOtherGestureSignProcesses();
+            Application.DoEvents();
+            Application.Exit();
+        }
+
+        private static void CloseOtherGestureSignProcesses()
+        {
+            int currentProcessId = Process.GetCurrentProcess().Id;
+
+            foreach (Process process in Process.GetProcesses())
+            {
+                using (process)
+                {
+                    try
+                    {
+                        if (process.Id == currentProcessId || !IsGestureSignProcess(process))
+                            continue;
+
+                        if (process.CloseMainWindow())
+                            process.WaitForExit(1500);
+
+                        if (!process.HasExited)
+                        {
+                            process.Kill();
+                            process.WaitForExit(3000);
+                        }
+                    }
+                    catch (Exception exception)
+                    {
+                        Logging.LogException(exception);
+                    }
+                }
+            }
+        }
+
+        private static bool IsGestureSignProcess(Process process)
+        {
+            string processName = process.ProcessName ?? string.Empty;
+            if (IsGestureSignProcessName(processName))
+                return true;
+
+            try
+            {
+                string modulePath = process.MainModule == null ? string.Empty : process.MainModule.FileName;
+                string fileName = Path.GetFileName(modulePath);
+                if (IsGestureSignProcessName(fileName))
+                    return true;
+
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                string moduleDirectory = Path.GetDirectoryName(modulePath);
+                return !string.IsNullOrEmpty(moduleDirectory)
+                       && string.Equals(
+                           moduleDirectory.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar),
+                           baseDirectory,
+                           StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsGestureSignProcessName(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return false;
+
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(name);
+            return fileNameWithoutExtension.StartsWith(Constants.ProductName, StringComparison.OrdinalIgnoreCase)
+                   || fileNameWithoutExtension.StartsWith("GestureSign2", StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

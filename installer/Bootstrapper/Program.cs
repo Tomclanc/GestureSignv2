@@ -141,7 +141,7 @@ namespace GestureSign.Setup
                     }
 
                     SetStatus("正在安装最新版...");
-                    RunMsiexec($"/i \"{msiPath}\" /qn /norestart");
+                    RunMsiexec($"/i \"{msiPath}\" REINSTALLMODE=amus /qn /norestart /L*V \"{NewMsiLogPath("install")}\"");
                 });
 
                 _progress.MarqueeAnimationSpeed = 0;
@@ -173,7 +173,7 @@ namespace GestureSign.Setup
 
         private static string ExtractMsi()
         {
-            var path = Path.Combine(Path.GetTempPath(), "GestureSign-Setup-x64.msi");
+            var path = Path.Combine(Path.GetTempPath(), $"GestureSign-Setup-x64-{DateTime.Now:yyyyMMddHHmmssfff}-{Guid.NewGuid():N}.msi");
             using (var input = Assembly.GetExecutingAssembly().GetManifestResourceStream("GestureSign-Setup-x64.msi"))
             {
                 if (input == null)
@@ -186,17 +186,35 @@ namespace GestureSign.Setup
 
         private static void KillGestureSign()
         {
-            foreach (var name in new[] { "GestureSign", "GestureSign.WinUI" })
+            foreach (var process in Process.GetProcesses())
             {
-                foreach (var process in Process.GetProcessesByName(name))
+                try
                 {
-                    try
-                    {
-                        process.Kill();
-                        process.WaitForExit(3000);
-                    }
-                    catch { }
+                    var name = process.ProcessName;
+                    var path = SafeProcessPath(process);
+                    var isGestureSignProcess = name.StartsWith("GestureSign", StringComparison.OrdinalIgnoreCase)
+                        || name.Equals("RestartAgent", StringComparison.OrdinalIgnoreCase)
+                        || (!string.IsNullOrWhiteSpace(path)
+                            && path.IndexOf("GestureSign V2", StringComparison.OrdinalIgnoreCase) >= 0);
+                    if (!isGestureSignProcess || process.Id == Process.GetCurrentProcess().Id)
+                        continue;
+
+                    process.Kill();
+                    process.WaitForExit(5000);
                 }
+                catch { }
+            }
+        }
+
+        private static string SafeProcessPath(Process process)
+        {
+            try
+            {
+                return process.MainModule?.FileName ?? string.Empty;
+            }
+            catch
+            {
+                return string.Empty;
             }
         }
 
@@ -249,6 +267,9 @@ namespace GestureSign.Setup
                     throw new InvalidOperationException($"Windows Installer 返回 {process.ExitCode}");
             }
         }
+
+        private static string NewMsiLogPath(string name)
+            => Path.Combine(Path.GetTempPath(), $"GestureSign-{name}-{DateTime.Now:yyyyMMddHHmmssfff}.log");
 
         private static bool IsGestureSignProduct(string displayName)
             => string.Equals(displayName, "GestureSign", StringComparison.OrdinalIgnoreCase)

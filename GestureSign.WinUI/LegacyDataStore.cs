@@ -134,6 +134,22 @@ internal sealed class LegacyDataStore
         SaveActions();
     }
 
+    public void EnsureGlobalApplication()
+    {
+        if (_actionsRoot.OfType<JsonObject>().Any(app => app.StringValue("$type", "").Contains("GlobalApp", StringComparison.OrdinalIgnoreCase)))
+            return;
+
+        _actionsRoot.Insert(0, new JsonObject
+        {
+            ["$type"] = "GestureSign.Common.Applications.GlobalApp, GestureSign.Common",
+            ["Name"] = "(全局动作)",
+            ["MatchUsing"] = 4,
+            ["IsEnabled"] = true,
+            ["Actions"] = new JsonArray()
+        });
+        SaveActions();
+    }
+
     public void DeleteApplication(LegacyApplication application)
     {
         _actionsRoot.Remove(application.Source);

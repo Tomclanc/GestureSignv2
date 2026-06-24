@@ -42,10 +42,10 @@ namespace GestureSign.Daemon
 
                         PointCapture.Instance.Load();
                         SynchronizationContext uiContext = SynchronizationContext.Current;
-                        TriggerManager.Instance.Load();
 
                         GestureManager.Instance.Load(PointCapture.Instance);
                         ApplicationManager.Instance.Load(PointCapture.Instance);
+                        TriggerManager.Instance.Load();
                         // Create host control class and pass to plugins
                         HostControl hostControl = new HostControl()
                         {

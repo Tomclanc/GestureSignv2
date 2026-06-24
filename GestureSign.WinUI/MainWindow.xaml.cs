@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -45,6 +47,18 @@ public sealed partial class MainWindow : Window
     private const int PickOutlineCornerRadius = 18;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
+    private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
+    private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
+    private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
+    private const string TouchPadEdgeRightGesture = "TouchPadEdge.Right";
+    private const string TouchPadEdgeTopLeftGesture = "TouchPadEdge.Top.Left";
+    private const string TouchPadEdgeTopRightGesture = "TouchPadEdge.Top.Right";
+    private const string TouchPadEdgeBottomLeftGesture = "TouchPadEdge.Bottom.Left";
+    private const string TouchPadEdgeBottomRightGesture = "TouchPadEdge.Bottom.Right";
+    private const string TouchPadEdgeLeftUpGesture = "TouchPadEdge.Left.Up";
+    private const string TouchPadEdgeLeftDownGesture = "TouchPadEdge.Left.Down";
+    private const string TouchPadEdgeRightUpGesture = "TouchPadEdge.Right.Up";
+    private const string TouchPadEdgeRightDownGesture = "TouchPadEdge.Right.Down";
 
     private LegacyDataStore _legacyData;
     private readonly TrainingPipeServer _trainingPipeServer;
@@ -314,6 +328,11 @@ public sealed partial class MainWindow : Window
                 PageSubtitle.Text = "查看、导入和整理可用手势。";
                 PageHost.Children.Add(BuildGesturesPage());
                 break;
+            case "touchpad":
+                PageTitle.Text = "触控板边缘";
+                PageSubtitle.Text = "设置触控板边缘点击和滑动动作。";
+                PageHost.Children.Add(BuildTouchPadPage());
+                break;
             case "options":
                 PageTitle.Text = "选项";
                 PageSubtitle.Text = "调整识别方式、轨迹反馈、启动项和设备开关。";
@@ -485,6 +504,505 @@ public sealed partial class MainWindow : Window
         return root;
     }
 
+    private UIElement BuildTouchPadPage()
+    {
+        var root = NewSection();
+        root.Children.Add(NewSettingsGroup("触控板识别",
+        [
+            NewToggleRow("启用触控板手势", _legacyData.Options.RegisterTouchPad, "RegisterTouchPad"),
+            NewToggleRow("优先使用 Windows 触控板系统手势", _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
+        ]));
+
+        root.Children.Add(NewTouchPadMapCard());
+        return root;
+    }
+
+    private FrameworkElement NewTouchPadMapCard()
+    {
+        var panel = NewCardPanel(14);
+        panel.Children.Add(new TextBlock
+        {
+            Text = "触控板边缘",
+            Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style
+        });
+
+        var map = new Grid
+        {
+            ColumnSpacing = 12,
+            RowSpacing = 12,
+            MinHeight = 700
+        };
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.7, GridUnitType.Star) });
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(270) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
+
+        var edges = TouchPadEdges();
+        var top = NewTouchPadZone(edges[0]);
+        var bottom = NewTouchPadZone(edges[1]);
+        var left = NewTouchPadZone(edges[2]);
+        var right = NewTouchPadZone(edges[3]);
+
+        Grid.SetColumn(top, 1);
+        map.Children.Add(top);
+
+        Grid.SetRow(left, 1);
+        map.Children.Add(left);
+
+        var center = NewTouchPadCenter();
+        Grid.SetColumn(center, 1);
+        Grid.SetRow(center, 1);
+        map.Children.Add(center);
+
+        Grid.SetColumn(right, 2);
+        Grid.SetRow(right, 1);
+        map.Children.Add(right);
+
+        Grid.SetColumn(bottom, 1);
+        Grid.SetRow(bottom, 2);
+        map.Children.Add(bottom);
+
+        var cornerCells = new[]
+        {
+            (Column: 0, Row: 0),
+            (Column: 2, Row: 0),
+            (Column: 0, Row: 2),
+            (Column: 2, Row: 2)
+        };
+        foreach (var cell in cornerCells)
+        {
+            var corner = NewTouchPadMapFiller();
+            Grid.SetColumn(corner, cell.Column);
+            Grid.SetRow(corner, cell.Row);
+            map.Children.Add(corner);
+        }
+
+        panel.Children.Add(new Border
+        {
+            Background = TouchPadSurfaceBrush(),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(12),
+            Padding = new Thickness(14),
+            Child = map
+        });
+
+        return NewCard(panel, new Thickness(14));
+    }
+
+    private FrameworkElement NewTouchPadZone(TouchPadEdgeZone zone)
+    {
+        var isHorizontalZone = zone.Marker == TouchPadEdgeMarker.Horizontal;
+        var content = NewCardPanel(8);
+        content.HorizontalAlignment = HorizontalAlignment.Stretch;
+        content.VerticalAlignment = VerticalAlignment.Center;
+        content.Children.Add(new TextBlock
+        {
+            Text = zone.Title,
+            TextAlignment = TextAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style
+        });
+
+        if (isHorizontalZone)
+        {
+            var actions = new Grid
+            {
+                ColumnSpacing = 10,
+                HorizontalAlignment = HorizontalAlignment.Stretch
+            };
+
+            for (var index = 0; index < zone.Actions.Count; index++)
+            {
+                actions.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                var button = NewTouchPadGestureButton(zone.Actions[index]);
+                Grid.SetColumn(button, index);
+                actions.Children.Add(button);
+            }
+
+            content.Children.Add(actions);
+        }
+        else
+        {
+            foreach (var item in zone.Actions)
+                content.Children.Add(NewTouchPadGestureButton(item));
+        }
+
+        return new Border
+        {
+            Background = TouchPadZoneBrush(zone.Actions.Any(item => GetGlobalTouchPadAction(item.GestureName)?.IsEnabled == true)),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(8),
+            Padding = new Thickness(12),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Child = content
+        };
+    }
+
+    private Button NewTouchPadGestureButton(TouchPadEdgeAction item)
+    {
+        var action = GetGlobalTouchPadAction(item.GestureName);
+        var command = action?.Commands.FirstOrDefault();
+        var title = new TextBlock
+        {
+            Text = item.Title,
+            Style = Application.Current.Resources["BodyTextBlockStyle"] as Style,
+            TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.NoWrap
+        };
+        var summary = new TextBlock
+        {
+            Text = TouchPadCommandSummary(action, command),
+            FontSize = 12,
+            Opacity = action?.IsEnabled == false ? 0.5 : 0.68,
+            TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.Wrap,
+            MaxLines = 2
+        };
+
+        var stack = NewCardPanel(2);
+        stack.HorizontalAlignment = HorizontalAlignment.Stretch;
+        stack.Children.Add(title);
+        stack.Children.Add(summary);
+
+        var button = new Button
+        {
+            Content = stack,
+            Background = TouchPadMiniZoneBrush(action),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(8),
+            MinHeight = 58,
+            Padding = new Thickness(8, 5, 8, 5),
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch
+        };
+        button.Click += async (_, _) => await RunUiActionAsync(() => ConfigureTouchPadEdgeCommandAsync(item.GestureName, item.Title));
+        return button;
+    }
+
+    private FrameworkElement NewTouchPadCenter()
+    {
+        var panel = NewCardPanel(8);
+        panel.HorizontalAlignment = HorizontalAlignment.Center;
+        panel.VerticalAlignment = VerticalAlignment.Center;
+        panel.Children.Add(new FontIcon
+        {
+            Glyph = "\uE815",
+            FontSize = 26,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        panel.Children.Add(new TextBlock
+        {
+            Text = "触控板",
+            TextAlignment = TextAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Style = Application.Current.Resources["SubtitleTextBlockStyle"] as Style
+        });
+
+        return new Border
+        {
+            Background = TouchPadCenterBrush(),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(8),
+            Child = panel
+        };
+    }
+
+    private FrameworkElement NewTouchPadMapFiller()
+    {
+        return new Border
+        {
+            Background = TouchPadSurfaceBrush(),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(8)
+        };
+    }
+
+    private async Task ConfigureTouchPadEdgeCommandAsync(string gestureName, string title)
+    {
+        var existingAction = GetGlobalTouchPadAction(gestureName);
+        var existingCommand = existingAction?.Commands.FirstOrDefault();
+        var name = new TextBox
+        {
+            PlaceholderText = "命令名称",
+            Text = existingCommand?.Name ?? "发送快捷键"
+        };
+        var plugin = new ComboBox
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            SelectedIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass)
+        };
+        AddPluginItems(plugin);
+        var pluginClass = new TextBox
+        {
+            PlaceholderText = "自定义插件类名",
+            Text = existingCommand?.PluginClass ?? PluginClassFromIndex(plugin.SelectedIndex),
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+        var settings = new TextBox
+        {
+            Text = existingCommand?.Settings ?? "",
+            PlaceholderText = "命令设置 JSON，可留空",
+            Margin = new Thickness(0, 8, 0, 0),
+            TextWrapping = TextWrapping.Wrap,
+            AcceptsReturn = true,
+            MinHeight = 80
+        };
+        var hotkey = NewHotKeyRecorderWithClear(settings, settings.Text);
+        var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
+        var enabled = new CheckBox
+        {
+            Content = "启用这个边缘",
+            IsChecked = existingAction?.IsEnabled ?? true,
+            Margin = new Thickness(0, 8, 0, 0)
+        };
+
+        void UpdateEditor(bool resetSettings)
+        {
+            var selectedClass = PluginClassFromIndex(plugin.SelectedIndex);
+            if (!string.IsNullOrWhiteSpace(selectedClass))
+                pluginClass.Text = selectedClass;
+
+            if (resetSettings)
+                settings.Text = PluginSettingsTemplate(pluginClass.Text);
+
+            UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
+        }
+
+        plugin.SelectionChanged += (_, _) => UpdateEditor(true);
+
+        var panel = NewCardPanel(8);
+        panel.Children.Add(name);
+        panel.Children.Add(plugin);
+        panel.Children.Add(pluginClass);
+        panel.Children.Add(hotkey);
+        panel.Children.Add(appPicker);
+        panel.Children.Add(settings);
+        panel.Children.Add(enabled);
+        UpdateEditor(false);
+
+        var dialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = $"编辑{title}",
+            Content = NewDialogScrollContent(panel),
+            PrimaryButtonText = "保存",
+            SecondaryButtonText = existingAction is null ? "" : "清空",
+            CloseButtonText = "取消",
+            DefaultButton = ContentDialogButton.Primary
+        };
+        var result = await dialog.ShowAsync();
+        if (result == ContentDialogResult.Secondary)
+        {
+            await DeleteTouchPadEdgeAsync(gestureName, title, confirm: false);
+            return;
+        }
+
+        if (result != ContentDialogResult.Primary)
+            return;
+
+        var pluginClassValue = pluginClass.Text.Trim();
+        if (string.IsNullOrWhiteSpace(pluginClassValue))
+        {
+            await ShowInfoDialog("插件类名为空", "请选择一个操作，或填写自定义插件类名。");
+            return;
+        }
+
+        var globalApp = EnsureGlobalApplication();
+        var action = globalApp.Actions.FirstOrDefault(item => string.Equals(item.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));
+        if (action is null)
+        {
+            _legacyData.AddAction(globalApp, title, gestureName);
+            _legacyData = LegacyDataStore.Load();
+            globalApp = EnsureGlobalApplication();
+            action = globalApp.Actions.FirstOrDefault(item => string.Equals(item.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (action is null)
+        {
+            await ShowInfoDialog("保存失败", "没有找到可写入的全局动作。");
+            return;
+        }
+
+        var command = action.Commands.FirstOrDefault();
+        if (command is null)
+            _legacyData.AddCommand(action, name.Text, pluginClassValue, settings.Text);
+        else
+            _legacyData.UpdateCommand(command, name.Text, pluginClassValue, settings.Text, true);
+
+        _legacyData = LegacyDataStore.Load();
+        action = GetGlobalTouchPadAction(gestureName);
+        if (action is not null)
+            _legacyData.SetEnabled(action.Source, enabled.IsChecked ?? true);
+
+        ReloadActionDataOnly();
+    }
+
+    private async Task ToggleTouchPadEdgeAsync(string gestureName)
+    {
+        var action = GetGlobalTouchPadAction(gestureName);
+        if (action is null)
+            return;
+
+        _legacyData.SetEnabled(action.Source, !action.IsEnabled);
+        ReloadActionDataOnly();
+        await NotifyDaemonAsync(DaemonCommand.LoadApplications);
+    }
+
+    private async Task DeleteTouchPadEdgeAsync(string gestureName, string title, bool confirm = true)
+    {
+        var globalApp = GetGlobalApplication();
+        var action = globalApp?.Actions.FirstOrDefault(item => string.Equals(item.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));
+        if (globalApp is null || action is null)
+            return;
+
+        if (confirm && !await ConfirmDialogAsync("清空边缘动作", $"确定清空{title}？", "清空"))
+            return;
+
+        _legacyData.DeleteAction(globalApp, action);
+        ReloadActionDataOnly();
+        await NotifyDaemonAsync(DaemonCommand.LoadApplications);
+    }
+
+    private LegacyApplication EnsureGlobalApplication()
+    {
+        var globalApp = GetGlobalApplication();
+        if (globalApp is not null)
+            return globalApp;
+
+        _legacyData.EnsureGlobalApplication();
+        _legacyData = LegacyDataStore.Load();
+        return GetGlobalApplication()
+            ?? throw new InvalidOperationException("无法创建全局动作配置。");
+    }
+
+    private LegacyApplication? GetGlobalApplication()
+        => _legacyData.Applications.FirstOrDefault(app => app.Type == "全局");
+
+    private LegacyAction? GetGlobalTouchPadAction(string gestureName)
+        => GetGlobalApplication()?.Actions.FirstOrDefault(action => string.Equals(action.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));
+
+    private static string TouchPadCommandSummary(LegacyAction? action, LegacyCommand? command)
+    {
+        if (action is null)
+            return "未设置";
+
+        if (command is null)
+            return action.IsEnabled ? "未设置命令" : "已停用";
+
+        var hotKey = HotKeyDisplayText(command.Settings);
+        if (!string.IsNullOrWhiteSpace(hotKey))
+            return action.IsEnabled ? hotKey : $"{hotKey} · 已停用";
+
+        if (!action.IsEnabled)
+            return $"{PluginName(command.PluginClass)} · 已停用";
+
+        return $"{PluginName(command.PluginClass)} · {(command.IsEnabled ? "启用" : "停用")}";
+    }
+
+    private SolidColorBrush TouchPadSurfaceBrush()
+    {
+        return IsDark
+            ? new SolidColorBrush(Color.FromArgb(255, 61, 64, 67))
+            : new SolidColorBrush(Color.FromArgb(255, 224, 234, 242));
+    }
+
+    private SolidColorBrush TouchPadCenterBrush()
+    {
+        return IsDark
+            ? new SolidColorBrush(Color.FromArgb(255, 72, 76, 79))
+            : new SolidColorBrush(Color.FromArgb(255, 238, 244, 249));
+    }
+
+    private SolidColorBrush TouchPadZoneBrush(bool hasEnabledAction)
+    {
+        if (hasEnabledAction)
+        {
+            return IsDark
+                ? new SolidColorBrush(Color.FromArgb(255, 38, 61, 80))
+                : new SolidColorBrush(Color.FromArgb(255, 216, 235, 250));
+        }
+
+        return IsDark
+            ? new SolidColorBrush(Color.FromArgb(255, 39, 40, 42))
+            : new SolidColorBrush(Color.FromArgb(255, 246, 249, 252));
+    }
+
+    private SolidColorBrush TouchPadMiniZoneBrush(LegacyAction? action)
+    {
+        if (action?.IsEnabled == true)
+        {
+            return IsDark
+                ? new SolidColorBrush(Color.FromArgb(255, 52, 77, 98))
+                : new SolidColorBrush(Color.FromArgb(255, 226, 241, 252));
+        }
+
+        return SubtleBrush();
+    }
+
+    private static IReadOnlyList<TouchPadEdgeZone> TouchPadEdges()
+        =>
+        [
+            new("上边缘", TouchPadEdgeMarker.Horizontal,
+            [
+                new("点击", TouchPadEdgeTopGesture),
+                new("左滑", TouchPadEdgeTopLeftGesture),
+                new("右滑", TouchPadEdgeTopRightGesture)
+            ]),
+            new("下边缘", TouchPadEdgeMarker.Horizontal,
+            [
+                new("点击", TouchPadEdgeBottomGesture),
+                new("左滑", TouchPadEdgeBottomLeftGesture),
+                new("右滑", TouchPadEdgeBottomRightGesture)
+            ]),
+            new("左边缘", TouchPadEdgeMarker.None,
+            [
+                new("点击", TouchPadEdgeLeftGesture),
+                new("上滑", TouchPadEdgeLeftUpGesture),
+                new("下滑", TouchPadEdgeLeftDownGesture)
+            ]),
+            new("右边缘", TouchPadEdgeMarker.None,
+            [
+                new("点击", TouchPadEdgeRightGesture),
+                new("上滑", TouchPadEdgeRightUpGesture),
+                new("下滑", TouchPadEdgeRightDownGesture)
+            ])
+        ];
+
+    private FrameworkElement NewTouchPadEdgeMarker(TouchPadEdgeMarker marker)
+    {
+        var isHorizontal = marker == TouchPadEdgeMarker.Horizontal;
+        return new Border
+        {
+            Width = isHorizontal ? 34 : 4,
+            Height = isHorizontal ? 4 : 34,
+            CornerRadius = new CornerRadius(2),
+            Background = IsDark
+                ? new SolidColorBrush(Color.FromArgb(210, 255, 255, 255))
+                : new SolidColorBrush(Color.FromArgb(210, 24, 32, 38)),
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(0, 0, 0, 2)
+        };
+    }
+
+    private enum TouchPadEdgeMarker
+    {
+        None,
+        Horizontal,
+        Vertical
+    }
+
+    private sealed record TouchPadEdgeZone(string Title, TouchPadEdgeMarker Marker, IReadOnlyList<TouchPadEdgeAction> Actions);
+
+    private sealed record TouchPadEdgeAction(string Title, string GestureName);
+
     private UIElement BuildOptionsPage()
     {
         var root = NewSection();
@@ -535,7 +1053,7 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = Application.Current.Resources["TitleTextBlockStyle"] as Style, Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9752", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9759", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -1021,6 +1539,7 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
+        panel.Children.Add(NewBuiltInGesturePicker(gesture));
         if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
             return;
         _legacyData.AddAction(app, name.Text, gesture.Text);
@@ -1054,6 +1573,7 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
+        panel.Children.Add(NewBuiltInGesturePicker(gesture));
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
@@ -1085,6 +1605,67 @@ public sealed partial class MainWindow : Window
         ReloadData();
     }
 
+    private FrameworkElement NewBuiltInGesturePicker(TextBox gesture)
+    {
+        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(gesture.Text) };
+        combo.Items.Add("选择内置触发方式");
+        combo.Items.Add("触控板上边缘点击");
+        combo.Items.Add("触控板下边缘点击");
+        combo.Items.Add("触控板左边缘点击");
+        combo.Items.Add("触控板右边缘点击");
+        combo.Items.Add("触控板上边缘左滑");
+        combo.Items.Add("触控板上边缘右滑");
+        combo.Items.Add("触控板下边缘左滑");
+        combo.Items.Add("触控板下边缘右滑");
+        combo.Items.Add("触控板左边缘上滑");
+        combo.Items.Add("触控板左边缘下滑");
+        combo.Items.Add("触控板右边缘上滑");
+        combo.Items.Add("触控板右边缘下滑");
+        combo.SelectionChanged += (_, _) =>
+        {
+            var gestureName = BuiltInGestureNameFromIndex(combo.SelectedIndex);
+            if (!string.IsNullOrWhiteSpace(gestureName))
+                gesture.Text = gestureName;
+        };
+        return combo;
+    }
+
+    private static int BuiltInGestureIndex(string gestureName)
+        => gestureName switch
+        {
+            TouchPadEdgeTopGesture => 1,
+            TouchPadEdgeBottomGesture => 2,
+            TouchPadEdgeLeftGesture => 3,
+            TouchPadEdgeRightGesture => 4,
+            TouchPadEdgeTopLeftGesture => 5,
+            TouchPadEdgeTopRightGesture => 6,
+            TouchPadEdgeBottomLeftGesture => 7,
+            TouchPadEdgeBottomRightGesture => 8,
+            TouchPadEdgeLeftUpGesture => 9,
+            TouchPadEdgeLeftDownGesture => 10,
+            TouchPadEdgeRightUpGesture => 11,
+            TouchPadEdgeRightDownGesture => 12,
+            _ => 0
+        };
+
+    private static string BuiltInGestureNameFromIndex(int index)
+        => index switch
+        {
+            1 => TouchPadEdgeTopGesture,
+            2 => TouchPadEdgeBottomGesture,
+            3 => TouchPadEdgeLeftGesture,
+            4 => TouchPadEdgeRightGesture,
+            5 => TouchPadEdgeTopLeftGesture,
+            6 => TouchPadEdgeTopRightGesture,
+            7 => TouchPadEdgeBottomLeftGesture,
+            8 => TouchPadEdgeBottomRightGesture,
+            9 => TouchPadEdgeLeftUpGesture,
+            10 => TouchPadEdgeLeftDownGesture,
+            11 => TouchPadEdgeRightUpGesture,
+            12 => TouchPadEdgeRightDownGesture,
+            _ => string.Empty
+        };
+
     private async Task DeleteActionAsync(LegacyApplication app, LegacyAction action)
     {
         if (!await ConfirmDialogAsync("删除确认", $"确定删除动作 {action.Name}？", "删除"))
@@ -1101,26 +1682,28 @@ public sealed partial class MainWindow : Window
         var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, "");
+        var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         void UpdateEditor()
         {
             var pluginClassValue = PluginClassFromIndex(plugin.SelectedIndex);
             pluginClass.Text = pluginClassValue;
             if (!pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(settings.Text))
                 settings.Text = PluginSettingsTemplate(pluginClassValue);
-            UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings);
+            UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings, appPicker);
         }
         plugin.SelectionChanged += (_, _) =>
         {
             var pluginClassValue = PluginClassFromIndex(plugin.SelectedIndex);
             pluginClass.Text = pluginClassValue;
             settings.Text = pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(pluginClass.Text);
-            UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings);
+            UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings, appPicker);
         };
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
+        panel.Children.Add(appPicker);
         panel.Children.Add(settings);
         UpdateEditor();
         if (!await ConfirmDialogAsync($"给 {action.Name} 添加命令", panel, "添加"))
@@ -1148,13 +1731,14 @@ public sealed partial class MainWindow : Window
         var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, command.Settings);
+        var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         plugin.SelectionChanged += (_, _) =>
         {
             var knownClass = PluginClassFromIndex(plugin.SelectedIndex);
             if (!string.IsNullOrWhiteSpace(knownClass))
                 pluginClass.Text = knownClass;
             settings.Text = PluginSettingsTemplate(pluginClass.Text);
-            UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings);
+            UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
         };
         var enabled = new CheckBox { Content = "启用", IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
@@ -1162,9 +1746,10 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(plugin);
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
+        panel.Children.Add(appPicker);
         panel.Children.Add(settings);
         panel.Children.Add(enabled);
-        UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings);
+        UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings, appPicker);
         if (!await ConfirmDialogAsync($"编辑命令 {command.Name}", panel, "保存"))
             return;
 
@@ -1225,14 +1810,299 @@ public sealed partial class MainWindow : Window
         return panel;
     }
 
-    private static void UpdateCommandEditorVisibility(string pluginClass, TextBox pluginClassBox, FrameworkElement hotkeyBox, TextBox settingsBox)
+    private sealed class AppCommandChoice
+    {
+        private AppCommandChoice(string name, string target, AppCommandKind kind)
+        {
+            Name = name;
+            Target = target;
+            Kind = kind;
+        }
+
+        public string Name { get; }
+
+        public string Target { get; }
+
+        public AppCommandKind Kind { get; }
+
+        public static AppCommandChoice Desktop(string name, string path) => new(name, path, AppCommandKind.Desktop);
+
+        public static AppCommandChoice Uwp(string name, string appUserModelId) => new(name, appUserModelId, AppCommandKind.Uwp);
+
+        public bool SameTarget(AppCommandChoice other)
+            => Kind == other.Kind && string.Equals(Target, other.Target, StringComparison.OrdinalIgnoreCase);
+
+        public override string ToString()
+            => Kind == AppCommandKind.Desktop ? $"{Name}  ·  {Path.GetFileName(Target)}" : $"{Name}  ·  UWP";
+    }
+
+    private enum AppCommandKind
+    {
+        Desktop,
+        Uwp
+    }
+
+    private FrameworkElement NewCommandAppPicker(ComboBox plugin, TextBox pluginClass, TextBox settings)
+    {
+        var combo = new ComboBox
+        {
+            PlaceholderText = "选择已安装应用",
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+
+        var choices = GetInstalledApplicationChoices().ToList();
+        if (TryCreateChoiceFromSettings(pluginClass.Text, settings.Text, out var current)
+            && current is not null
+            && choices.All(item => !item.SameTarget(current)))
+        {
+            choices.Insert(0, current);
+        }
+
+        foreach (var choice in choices)
+            combo.Items.Add(choice);
+
+        if (current is not null)
+        {
+            combo.SelectedItem = combo.Items.OfType<AppCommandChoice>().FirstOrDefault(item => item.SameTarget(current));
+        }
+
+        combo.SelectionChanged += (_, _) =>
+        {
+            if (combo.SelectedItem is not AppCommandChoice choice)
+                return;
+
+            ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
+        };
+
+        var browse = NewPillButton("浏览 EXE", false);
+        browse.Click += async (_, _) =>
+        {
+            var path = await PickOpenFileAsync(new[] { ".exe" });
+            if (string.IsNullOrWhiteSpace(path))
+                return;
+
+            var choice = AppCommandChoice.Desktop(Path.GetFileNameWithoutExtension(path), path);
+            if (combo.Items.OfType<AppCommandChoice>().All(item => !item.SameTarget(choice)))
+                combo.Items.Insert(0, choice);
+            combo.SelectedItem = combo.Items.OfType<AppCommandChoice>().First(item => item.SameTarget(choice));
+            ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
+        };
+
+        var grid = new Grid
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            ColumnSpacing = 8
+        };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        grid.Children.Add(combo);
+        Grid.SetColumn(browse, 1);
+        grid.Children.Add(browse);
+        return grid;
+    }
+
+    private static void ApplyAppCommandChoice(AppCommandChoice choice, ComboBox plugin, TextBox pluginClass, TextBox settings)
+    {
+        if (choice.Kind == AppCommandKind.Uwp)
+        {
+            plugin.SelectedIndex = 4;
+            pluginClass.Text = PluginClassFromIndex(4);
+            settings.Text = LaunchAppSettingsJson(choice.Target, choice.Name);
+            return;
+        }
+
+        plugin.SelectedIndex = 2;
+        pluginClass.Text = PluginClassFromIndex(2);
+        settings.Text = RunCommandSettingsJson(choice.Target);
+    }
+
+    private static bool TryCreateChoiceFromSettings(string pluginClass, string settings, out AppCommandChoice? choice)
+    {
+        choice = null;
+        try
+        {
+            if (JsonNode.Parse(settings) is not JsonObject root)
+                return false;
+
+            if (pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase))
+            {
+                var key = root.StringValue("Key", "");
+                var value = root.StringValue("Value", "");
+                if (string.IsNullOrWhiteSpace(key))
+                    return false;
+                choice = AppCommandChoice.Uwp(string.IsNullOrWhiteSpace(value) ? key : value, key);
+                return true;
+            }
+
+            if (pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
+            {
+                var command = root.StringValue("Command", "");
+                var path = ExtractExecutablePath(command);
+                if (string.IsNullOrWhiteSpace(path))
+                    return false;
+                choice = AppCommandChoice.Desktop(Path.GetFileNameWithoutExtension(path), path);
+                return true;
+            }
+        }
+        catch
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+    private static IReadOnlyList<AppCommandChoice> GetInstalledApplicationChoices()
+    {
+        var choices = new Dictionary<string, AppCommandChoice>(StringComparer.OrdinalIgnoreCase);
+        AddDesktopChoice(choices, "记事本", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "System32", "notepad.exe"));
+        AddDesktopChoice(choices, "资源管理器", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"));
+
+        foreach (var view in new[] { RegistryView.Registry64, RegistryView.Registry32 })
+        {
+            AddInstalledApplicationsFromRegistry(choices, RegistryHive.LocalMachine, view);
+            AddInstalledApplicationsFromRegistry(choices, RegistryHive.CurrentUser, view);
+        }
+
+        return choices.Values
+            .OrderBy(item => item.Name, StringComparer.CurrentCultureIgnoreCase)
+            .Take(260)
+            .ToList();
+    }
+
+    private static void AddInstalledApplicationsFromRegistry(Dictionary<string, AppCommandChoice> choices, RegistryHive hive, RegistryView view)
+    {
+        try
+        {
+            using var baseKey = RegistryKey.OpenBaseKey(hive, view);
+            using var root = baseKey.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall");
+            if (root is null)
+                return;
+
+            foreach (var subKeyName in root.GetSubKeyNames())
+            {
+                using var key = root.OpenSubKey(subKeyName);
+                if (key is null)
+                    continue;
+
+                var displayNameValue = key.GetValue("DisplayName") as string;
+                if (string.IsNullOrWhiteSpace(displayNameValue))
+                    continue;
+                var displayName = displayNameValue.Trim();
+
+                var systemComponent = key.GetValue("SystemComponent")?.ToString();
+                if (systemComponent == "1")
+                    continue;
+
+                var path = ExtractExecutablePath(key.GetValue("DisplayIcon") as string)
+                    ?? ExtractExecutablePath(key.GetValue("InstallLocation") as string)
+                    ?? FindApplicationExe(key.GetValue("InstallLocation") as string, displayName);
+                AddDesktopChoice(choices, displayName, path);
+            }
+        }
+        catch
+        {
+        }
+    }
+
+    private static void AddDesktopChoice(Dictionary<string, AppCommandChoice> choices, string name, string? path)
+    {
+        if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            return;
+
+        var fileName = Path.GetFileNameWithoutExtension(path);
+        if (fileName.Contains("unins", StringComparison.OrdinalIgnoreCase)
+            || fileName.Contains("uninstall", StringComparison.OrdinalIgnoreCase)
+            || fileName.Contains("setup", StringComparison.OrdinalIgnoreCase)
+            || fileName.Contains("update", StringComparison.OrdinalIgnoreCase))
+            return;
+
+        choices[path] = AppCommandChoice.Desktop(name.Trim(), path);
+    }
+
+    private static string? FindApplicationExe(string? installLocation, string displayName)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(installLocation))
+                return null;
+
+            var directory = Environment.ExpandEnvironmentVariables(installLocation.Trim().Trim('"'));
+            if (File.Exists(directory) && directory.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                return directory;
+            if (!Directory.Exists(directory))
+                return null;
+
+            var normalizedName = NormalizeAppName(displayName);
+            return Directory.EnumerateFiles(directory, "*.exe", SearchOption.TopDirectoryOnly)
+                .Where(path => !Path.GetFileNameWithoutExtension(path).Contains("unins", StringComparison.OrdinalIgnoreCase))
+                .OrderByDescending(path => NormalizeAppName(Path.GetFileNameWithoutExtension(path)).Contains(normalizedName, StringComparison.OrdinalIgnoreCase)
+                    || normalizedName.Contains(NormalizeAppName(Path.GetFileNameWithoutExtension(path)), StringComparison.OrdinalIgnoreCase))
+                .ThenBy(path => path.Length)
+                .FirstOrDefault();
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static string NormalizeAppName(string value)
+        => new(value.Where(char.IsLetterOrDigit).ToArray());
+
+    private static string? ExtractExecutablePath(string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            return null;
+
+        var expanded = Environment.ExpandEnvironmentVariables(value.Trim());
+        string candidate;
+        if (expanded.StartsWith("\"", StringComparison.Ordinal))
+        {
+            var end = expanded.IndexOf('"', 1);
+            candidate = end > 1 ? expanded[1..end] : expanded.Trim('"');
+        }
+        else
+        {
+            var exeIndex = expanded.IndexOf(".exe", StringComparison.OrdinalIgnoreCase);
+            if (exeIndex < 0)
+                return null;
+            candidate = expanded[..(exeIndex + 4)];
+        }
+
+        candidate = candidate.Trim().Trim('"');
+        return File.Exists(candidate) ? candidate : null;
+    }
+
+    private static string RunCommandSettingsJson(string path)
+        => new JsonObject
+        {
+            ["Command"] = QuoteCommandPath(path),
+            ["ShowCmd"] = false
+        }.ToJsonString();
+
+    private static string LaunchAppSettingsJson(string key, string value)
+        => new JsonObject
+        {
+            ["Key"] = key,
+            ["Value"] = value
+        }.ToJsonString();
+
+    private static string QuoteCommandPath(string path)
+        => path.Contains(' ') ? $"\"{path}\"" : path;
+
+    private static void UpdateCommandEditorVisibility(string pluginClass, TextBox pluginClassBox, FrameworkElement hotkeyBox, TextBox settingsBox, FrameworkElement? appPicker = null)
     {
         var isHotKey = pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase);
         var isCustom = string.IsNullOrWhiteSpace(pluginClass);
         var isSettingsFree = IsSettingsFreePlugin(pluginClass);
+        var isAppLauncher = pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase)
+            || pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase);
         pluginClassBox.Visibility = isCustom ? Visibility.Visible : Visibility.Collapsed;
         hotkeyBox.Visibility = isHotKey ? Visibility.Visible : Visibility.Collapsed;
-        settingsBox.Visibility = isHotKey || isSettingsFree ? Visibility.Collapsed : Visibility.Visible;
+        settingsBox.Visibility = isHotKey || isSettingsFree || isAppLauncher ? Visibility.Collapsed : Visibility.Visible;
+        if (appPicker is not null)
+            appPicker.Visibility = isAppLauncher ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private static bool IsSettingsFreePlugin(string pluginClass)
@@ -3387,6 +4257,18 @@ public sealed partial class MainWindow : Window
             "toggle window topmost" => "窗口置顶",
             "temporarily disable" => "临时禁用手势",
             "toggle disable gestures" => "切换禁用手势",
+            "touchpadedge.top" => "触控板上边缘点击",
+            "touchpadedge.bottom" => "触控板下边缘点击",
+            "touchpadedge.left" => "触控板左边缘点击",
+            "touchpadedge.right" => "触控板右边缘点击",
+            "touchpadedge.top.left" => "触控板上边缘左滑",
+            "touchpadedge.top.right" => "触控板上边缘右滑",
+            "touchpadedge.bottom.left" => "触控板下边缘左滑",
+            "touchpadedge.bottom.right" => "触控板下边缘右滑",
+            "touchpadedge.left.up" => "触控板左边缘上滑",
+            "touchpadedge.left.down" => "触控板左边缘下滑",
+            "touchpadedge.right.up" => "触控板右边缘上滑",
+            "touchpadedge.right.down" => "触控板右边缘下滑",
             "left" => "向左",
             "right" => "向右",
             "up" => "向上",

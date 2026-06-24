@@ -60,6 +60,7 @@ namespace GestureSign.Daemon.Input
 
         private int? _blockTouchInputThreshold;
         private Point _touchPadStartPoint;
+        private PointF _touchPadRawVisualOrigin;
         private Dictionary<int, Point> _touchPadRawStartPoints;
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
 
@@ -514,6 +515,7 @@ namespace GestureSign.Daemon.Input
             if (SourceDevice == Devices.TouchPad)
             {
                 _touchPadStartPoint = System.Windows.Forms.Cursor.Position;
+                _touchPadRawVisualOrigin = GetTouchPadVisualOrigin(firstPoint);
                 _touchPadRawStartPoints = firstPoint.ToDictionary(p => p.ContactIdentifier, p => p.Point);
                 _touchPadVisualPoints = firstPoint.ToDictionary(p => p.ContactIdentifier, _ => new List<Point>(30));
                 captureStartedArgs = new PointsCapturedEventArgs(firstPoint.Select(p => new List<Point>() { p.Point }).ToList(), new List<Point>() { _touchPadStartPoint });
@@ -606,6 +608,7 @@ namespace GestureSign.Daemon.Input
             _pointsCaptured.Clear();
             _touchPadRawStartPoints = null;
             _touchPadVisualPoints = null;
+            _touchPadRawVisualOrigin = PointF.Empty;
         }
 
         //private void CancelCapture(int num)
@@ -657,7 +660,6 @@ namespace GestureSign.Daemon.Input
             if (_touchPadRawStartPoints == null || _touchPadVisualPoints == null)
                 return new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), rawPoints.Select(p => p.Point).ToList());
 
-            const float visualScale = 1.0f;
             foreach (var raw in rawPoints)
             {
                 if (!_touchPadRawStartPoints.TryGetValue(raw.ContactIdentifier, out var rawStart))
@@ -666,9 +668,7 @@ namespace GestureSign.Daemon.Input
                 if (!_touchPadVisualPoints.TryGetValue(raw.ContactIdentifier, out var visualStroke))
                     _touchPadVisualPoints[raw.ContactIdentifier] = visualStroke = new List<Point>(30);
 
-                var visualPoint = new Point(
-                    _touchPadStartPoint.X + (int)Math.Round((raw.Point.X - rawStart.X) * visualScale),
-                    _touchPadStartPoint.Y + (int)Math.Round((raw.Point.Y - rawStart.Y) * visualScale));
+                var visualPoint = ToTouchPadVisualPoint(raw.Point);
 
                 if (visualStroke.Count == 0 || PointPatternMath.GetDistance(visualStroke.Last(), visualPoint) >= 2)
                     visualStroke.Add(visualPoint);
@@ -679,18 +679,42 @@ namespace GestureSign.Daemon.Input
                 _touchPadVisualPoints.Values.Select(points => points.FirstOrDefault()).ToList());
         }
 
+        private static PointF GetTouchPadVisualOrigin(List<InputPoint> points)
+        {
+            if (points == null || points.Count == 0)
+                return PointF.Empty;
+
+            return new PointF(
+                (float)points.Average(point => point.Point.X),
+                (float)points.Average(point => point.Point.Y));
+        }
+
+        private Point ToTouchPadVisualPoint(Point rawPoint)
+        {
+            const float visualScale = 1.0f;
+            return new Point(
+                _touchPadStartPoint.X + (int)Math.Round((rawPoint.X - _touchPadRawVisualOrigin.X) * visualScale),
+                _touchPadStartPoint.Y + (int)Math.Round((rawPoint.Y - _touchPadRawVisualOrigin.Y) * visualScale));
+        }
+
         private void AddTrainingPointByNearestStroke(List<InputPoint> points)
         {
             bool getNewPoint = false;
             int threshold = AppConfig.MinimumPointDistance;
             var assignments = points
+                .Select(input => new
+                {
+                    Input = input,
+                    VisualPoint = ToTouchPadVisualPoint(input.Point)
+                })
                 .SelectMany(input => _pointsCaptured
                     .Where(stroke => stroke.Value.Count > 0)
                     .Select(stroke => new
                     {
-                        Input = input,
+                        input.Input,
+                        input.VisualPoint,
                         Stroke = stroke,
-                        Distance = PointPatternMath.GetDistance(stroke.Value.Last(), input.Point)
+                        Distance = PointPatternMath.GetDistance(stroke.Value.Last(), input.VisualPoint)
                     }))
                 .OrderBy(item => item.Distance)
                 .ToList();
@@ -709,7 +733,7 @@ namespace GestureSign.Daemon.Input
                     continue;
                 }
 
-                item.Stroke.Value.Add(item.Input.Point);
+                item.Stroke.Value.Add(item.VisualPoint);
                 usedInputs.Add(item.Input.ContactIdentifier);
                 usedStrokes.Add(item.Stroke.Key);
                 getNewPoint = true;
@@ -721,16 +745,17 @@ namespace GestureSign.Daemon.Input
             {
                 if (_pointsCaptured.TryGetValue(input.ContactIdentifier, out var stroke))
                 {
-                    if (stroke.Count == 0 || PointPatternMath.GetDistance(stroke.Last(), input.Point) >= threshold)
+                    var visualPoint = ToTouchPadVisualPoint(input.Point);
+                    if (stroke.Count == 0 || PointPatternMath.GetDistance(stroke.Last(), visualPoint) >= threshold)
                     {
-                        stroke.Add(input.Point);
+                        stroke.Add(visualPoint);
                         getNewPoint = true;
                     }
                 }
             }
 
             if (getNewPoint)
-                OnPointCaptured(new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), points.Select(p => p.Point).ToList()));
+                OnPointCaptured(new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), _pointsCaptured.Values.Select(p => p.FirstOrDefault()).ToList()));
         }
 
 

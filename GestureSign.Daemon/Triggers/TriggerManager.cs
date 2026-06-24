@@ -39,6 +39,7 @@ namespace GestureSign.Daemon.Triggers
             AddTrigger(new HotKeyManager());
             AddTrigger(new MouseTrigger());
             AddTrigger(new ContinuousGestureTrigger());
+            AddTrigger(new TouchPadEdgeTrigger());
         }
 
         #endregion

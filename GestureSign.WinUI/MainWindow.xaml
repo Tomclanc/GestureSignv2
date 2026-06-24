@@ -51,6 +51,11 @@
                 <controls:NavigationViewItem Content="动作" Tag="actions" Icon="Play" />
                 <controls:NavigationViewItem Content="忽略" Tag="ignored" Icon="BlockContact" />
                 <controls:NavigationViewItem Content="手势" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="触控板边缘" Tag="touchpad">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE815;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
                 <controls:NavigationViewItem Content="选项" Tag="options" Icon="Setting" />
                 <controls:NavigationViewItem Content="关于" Tag="about" Icon="Help" />
             </controls:NavigationView.MenuItems>
