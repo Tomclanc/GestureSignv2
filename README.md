@@ -47,8 +47,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 当前版本：
 
-- 8.1.9759
-- 安装包请前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest) 下载。
+- [GestureSign-V2-Setup-x64-8.1.9759.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9759/GestureSign-V2-Setup-x64-8.1.9759.msi)
 
 ## 更新内容
 
