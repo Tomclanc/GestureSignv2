@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/latest">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
@@ -43,7 +43,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 下载
 
-前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest) 下载最新版安装包。
+前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760) 下载最新版安装包。
 
 当前版本：
 
@@ -195,7 +195,7 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 ## Download
 
-Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest).
+Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760).
 
 Current version:
 
@@ -279,7 +279,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 ## ダウンロード
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/latest) から入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760) から入手できます。
 
 現在のバージョン:
 
