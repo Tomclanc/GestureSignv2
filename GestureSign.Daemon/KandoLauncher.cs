@@ -3,6 +3,7 @@ using GestureSign.Common.Log;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace GestureSign.Daemon
 {
@@ -31,6 +32,38 @@ namespace GestureSign.Daemon
             }
 
             return StartKando(executablePath, "--settings");
+        }
+
+        public static void Stop()
+        {
+            var executablePath = FindExecutablePath();
+            var expectedPath = string.IsNullOrWhiteSpace(executablePath)
+                ? null
+                : Path.GetFullPath(executablePath);
+
+            foreach (var process in Process.GetProcessesByName("kando").Concat(Process.GetProcessesByName("Kando")).GroupBy(process => process.Id).Select(group => group.First()))
+            {
+                try
+                {
+                    if (!string.IsNullOrWhiteSpace(expectedPath))
+                    {
+                        var processPath = process.MainModule?.FileName;
+                        if (!string.Equals(Path.GetFullPath(processPath ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
+                            continue;
+                    }
+
+                    process.Kill();
+                    process.WaitForExit(3000);
+                }
+                catch (Exception ex)
+                {
+                    Logging.LogException(ex);
+                }
+                finally
+                {
+                    process.Dispose();
+                }
+            }
         }
 
         private static string FindExecutablePath()

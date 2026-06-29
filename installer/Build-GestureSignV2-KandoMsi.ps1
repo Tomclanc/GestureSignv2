@@ -161,7 +161,7 @@ Add-DirectoryXml -Output $directoryXml -Parent "" -Indent 8
 $wxs = @"
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9781" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="$scope">
+  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9782" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="$scope">
     <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallValidate" DowngradeErrorMessage="A newer version of GestureSign is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
     <Icon Id="GestureSignIcon" SourceFile="$(Escape-Xml $($iconPath.ProviderPath))" />

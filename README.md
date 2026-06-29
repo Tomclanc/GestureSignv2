@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9782">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
@@ -44,13 +44,17 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 下载
 
-前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781) 下载最新版安装包。
+前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9782) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9782/GestureSign-V2-Kando-x64.msi)
 
 ## 更新内容
+
+### 8.1.9782
+
+- 退出 GestureSign V2 后台时，会同步结束集成安装目录下的 Kando 进程。
 
 ### 8.1.9781
 
@@ -208,11 +212,11 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 ## Download
 
-Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781).
+Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9782).
 
 Current version:
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9782/GestureSign-V2-Kando-x64.msi)
 
 ## Installation
 
@@ -294,11 +298,11 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 ## ダウンロード
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781) から入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9782) から入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9782/GestureSign-V2-Kando-x64.msi)
 
 ## インストール
 

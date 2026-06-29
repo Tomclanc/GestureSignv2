@@ -389,8 +389,10 @@ namespace GestureSign.Daemon
             return candidates.FirstOrDefault(File.Exists) ?? candidates.Last();
         }
 
-        private static async Task ExitGestureSignAsync()
+        internal static async Task ExitGestureSignAsync()
         {
+            KandoLauncher.Stop();
+
             try
             {
                 await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.ControlPanel, wait: false);

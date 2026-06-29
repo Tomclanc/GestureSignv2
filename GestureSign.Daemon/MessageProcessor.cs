@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Applications;
+using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Gestures;
 using GestureSign.Common.Input;
@@ -49,6 +49,9 @@ namespace GestureSign.Daemon
                         break;
                     case IpcCommands.StartControlPanel:
                         TrayManager.StartControlPanel();
+                        break;
+                    case IpcCommands.Exit:
+                        _ = TrayManager.ExitGestureSignAsync();
                         break;
                 }
             }, null);

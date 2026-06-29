@@ -15,9 +15,9 @@
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>8.1.9781</Version>
-    <AssemblyVersion>8.1.9781.0</AssemblyVersion>
-    <FileVersion>8.1.9781.0</FileVersion>
+    <Version>8.1.9782</Version>
+    <AssemblyVersion>8.1.9782.0</AssemblyVersion>
+    <FileVersion>8.1.9782.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
