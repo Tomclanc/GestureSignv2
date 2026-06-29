@@ -31,7 +31,7 @@
                    VerticalAlignment="Center" />
             <TextBlock Grid.Column="1"
                        Text="GestureSign V2"
-                       Style="{ThemeResource BodyStrongTextBlockStyle}"
+                       FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        Margin="12,0,0,0" />
         </Grid>
@@ -51,6 +51,7 @@
                 <controls:NavigationViewItem Content="动作" Tag="actions" Icon="Play" />
                 <controls:NavigationViewItem Content="忽略" Tag="ignored" Icon="BlockContact" />
                 <controls:NavigationViewItem Content="手势" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="快捷操作" Tag="quickActions" Icon="Keyboard" />
                 <controls:NavigationViewItem Content="触控板边缘" Tag="touchpad">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE815;" />
@@ -65,11 +66,11 @@
                 <StackPanel Spacing="18">
                     <TextBlock x:Name="PageTitle"
                                Text="动作"
-                               Style="{ThemeResource TitleLargeTextBlockStyle}"
+                               FontSize="20"
+                               FontWeight="SemiBold"
                                Margin="0,12,0,0" />
                     <TextBlock x:Name="PageSubtitle"
                                Text="按程序管理手势动作。"
-                               Style="{ThemeResource BodyTextBlockStyle}"
                                Opacity="0.72" />
 
                     <Grid x:Name="PageHost" />

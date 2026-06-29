@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Input;
+using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using ManagedWinapi.Hooks;
 using Microsoft.Win32;
@@ -135,6 +135,19 @@ namespace GestureSign.Common.Configuration
                 SetValue("VisualFeedbackWidth", value);
             }
         }
+
+        public static bool ShowGestureActionHint
+        {
+            get
+            {
+                return GetValue(nameof(ShowGestureActionHint), false);
+            }
+            set
+            {
+                SetValue(nameof(ShowGestureActionHint), value);
+            }
+        }
+
         public static int MinimumPointDistance
         {
             get
@@ -364,6 +377,66 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        public static bool KandoEnabled
+        {
+            get
+            {
+                return GetValue(nameof(KandoEnabled), false);
+            }
+            set
+            {
+                SetValue(nameof(KandoEnabled), value);
+            }
+        }
+
+        public static string KandoHotKey
+        {
+            get
+            {
+                return GetValue(nameof(KandoHotKey), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(KandoHotKey), value);
+            }
+        }
+
+        public static string KandoExecutablePath
+        {
+            get
+            {
+                return GetValue(nameof(KandoExecutablePath), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(KandoExecutablePath), value);
+            }
+        }
+
+        public static string KandoMenuName
+        {
+            get
+            {
+                return GetValue(nameof(KandoMenuName), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(KandoMenuName), value);
+            }
+        }
+
+        public static string KandoTrigger
+        {
+            get
+            {
+                return GetValue(nameof(KandoTrigger), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(KandoTrigger), value);
+            }
+        }
+
         #endregion
 
         static AppConfig()
@@ -380,7 +453,7 @@ namespace GestureSign.Common.Configuration
             BackupPath = Path.Combine(LocalApplicationDataPath, "Backup");
 #else
             ApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "GestureSign");
-            LocalApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign");
+            LocalApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2");
 
             ConfigPath = Path.Combine(ApplicationDataPath, Constants.ConfigFileName);
             BackupPath = LocalApplicationDataPath + "\\Backup";

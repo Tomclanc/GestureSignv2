@@ -1,10 +1,11 @@
-﻿using GestureSign.Common;
+using GestureSign.Common;
 using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Gestures;
 using GestureSign.Common.Input;
 using GestureSign.Common.InterProcessCommunication;
 using GestureSign.Common.Log;
+using GestureSign.Common.Plugins;
 using GestureSign.Daemon.Filtration;
 using GestureSign.Daemon.Surface;
 using GestureSign.PointPatterns;
@@ -63,6 +64,7 @@ namespace GestureSign.Daemon.Input
         private PointF _touchPadRawVisualOrigin;
         private Dictionary<int, Point> _touchPadRawStartPoints;
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
+        private List<List<Point>> _lastVisualFeedbackPoints;
 
         #endregion
 
@@ -202,7 +204,11 @@ namespace GestureSign.Daemon.Input
         {
             _surfaceForm = new SurfaceForm();
 
-            CaptureStarted += (o, e) => { _surfaceForm.StartDrawing(e.FirstCapturedPoints); };
+            CaptureStarted += (o, e) =>
+            {
+                _lastVisualFeedbackPoints = null;
+                _surfaceForm.StartDrawing(e.FirstCapturedPoints);
+            };
             CaptureEnded += (o, e) => { _surfaceForm.EndDrawing(); };
             CaptureCanceled += (o, e) => { _surfaceForm.EndDrawing(); };
             PointCaptured += (o, e) =>
@@ -210,8 +216,10 @@ namespace GestureSign.Daemon.Input
                 if (State == CaptureState.Capturing || SourceDevice == Devices.TouchPad && State == CaptureState.CapturingInvalid)
                 {
                     _surfaceForm.DrawPoints(e.Points);
+                    _lastVisualFeedbackPoints = ClonePoints(e.Points);
                 }
             };
+            PluginManager.Instance.GestureActionExecuted += PluginManager_GestureActionExecuted;
 
             _inputProvider = new InputProvider();
             _pointEventTranslator = new PointEventTranslator(_inputProvider);
@@ -238,6 +246,21 @@ namespace GestureSign.Daemon.Input
             }
 
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+        }
+
+        private void PluginManager_GestureActionExecuted(object sender, GestureActionExecutedEventArgs e)
+        {
+            if (!AppConfig.ShowGestureActionHint)
+                return;
+
+            var text = string.IsNullOrWhiteSpace(e.ActionName) ? e.GestureName : e.ActionName;
+            var points = ClonePoints(_lastVisualFeedbackPoints);
+            _surfaceForm.ShowGestureActionHint(points, text);
+        }
+
+        private static List<List<Point>> ClonePoints(IEnumerable<List<Point>> points)
+        {
+            return points?.Select(stroke => stroke?.ToList() ?? new List<Point>()).ToList();
         }
 
         #endregion

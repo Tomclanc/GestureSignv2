@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Applications;
+using GestureSign.Common.Applications;
 using GestureSign.Common.Plugins;
 using GestureSign.Daemon.Input;
 using System;
@@ -55,6 +55,9 @@ namespace GestureSign.Daemon.Triggers
 
         private void Trigger_TriggerFired(object sender, TriggerFiredEventArgs e)
         {
+            if (PointCapture.Instance.Mode == GestureSign.Common.Input.CaptureMode.UserDisabled)
+                return;
+
             if (e.FiredActions == null || e.FiredActions.Count == 0) return;
             var point = new List<Point>(new[] { e.FiredPoint });
             PluginManager.Instance.ExecuteAction(e.FiredActions, PointCapture.Instance.Mode, PointCapture.Instance.SourceDevice, new List<int>(new[] { 1 }), point, new List<List<Point>>(new[] { point }));

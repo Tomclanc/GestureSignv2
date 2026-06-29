@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <Language DisplayName="English" Culture="en" Version="0.14">
   <Messages>
     <Error>Error</Error>
@@ -7,6 +7,7 @@
   </Messages>
   <TrayMenu>
     <Disable>Disable GestureSign</Disable>
+    <Enable>Enable GestureSign</Enable>
     <ControlPanel>Control Panel</ControlPanel>
     <Exit>Exit</Exit>
   </TrayMenu>

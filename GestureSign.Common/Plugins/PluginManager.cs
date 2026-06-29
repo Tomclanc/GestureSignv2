@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -25,6 +25,8 @@ namespace GestureSign.Common.Plugins
         private SynchronizationContext _mainContext;
 
         #endregion
+
+        public event EventHandler<GestureActionExecutedEventArgs> GestureActionExecuted;
 
         #region Public Properties
 
@@ -72,6 +74,11 @@ namespace GestureSign.Common.Plugins
             if (mode == CaptureMode.Training)
             {
                 Logging.LogMessage("Gesture action skipped. Reason=TrainingMode");
+                return;
+            }
+            if (mode == CaptureMode.UserDisabled)
+            {
+                Logging.LogMessage("Gesture action skipped. Reason=UserDisabled");
                 return;
             }
             var target = ApplicationManager.Instance.CaptureWindow;
@@ -143,6 +150,7 @@ namespace GestureSign.Common.Plugins
                     Logging.LogMessage($"Gesture command executing. Action={executableAction.Name}, Command={currentCommand.Name}, Plugin={currentCommand.PluginClass}, TargetHwnd={target.HWnd}");
                     // Execute plugin process
                     pluginInfo.Plugin.Gestured(pointInfo);
+                    OnGestureActionExecuted(new GestureActionExecutedEventArgs(executableAction.Name, executableAction.GestureName, devices));
                     executed = true;
                 }
 
@@ -199,6 +207,11 @@ namespace GestureSign.Common.Plugins
 
 
             return bFailed;
+        }
+
+        private void OnGestureActionExecuted(GestureActionExecutedEventArgs e)
+        {
+            GestureActionExecuted?.Invoke(this, e);
         }
 
         public IPluginInfo FindPluginByClassAndFilename(string PluginClass, string PluginFilename)

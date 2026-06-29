@@ -15,9 +15,9 @@
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>8.1.9760</Version>
-    <AssemblyVersion>8.1.9760.0</AssemblyVersion>
-    <FileVersion>8.1.9760.0</FileVersion>
+    <Version>8.1.9781</Version>
+    <AssemblyVersion>8.1.9781.0</AssemblyVersion>
+    <FileVersion>8.1.9781.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
@@ -27,9 +27,24 @@
     <PackageReference Include="System.Drawing.Common" Version="8.0.13" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\logo.png" />
-    <Content Include="Assets\logo.ico" />
+    <Content Include="Assets\logo.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\logo.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\GestureSign.ControlPanel\Defaults\Actions.gsa" Link="Defaults\Actions.gsa" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\GestureSign.ControlPanel\Defaults\Gestures.gest" Link="Defaults\Gestures.gest" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup Condition="Exists('..\Kando')">
+    <KandoBundle Include="..\Kando\**\*.*" />
+  </ItemGroup>
+  <Target Name="CopyKandoBundleToOutput" AfterTargets="Build" Condition="'@(KandoBundle)' != ''">
+    <Copy SourceFiles="@(KandoBundle)" DestinationFiles="@(KandoBundle->'$(OutDir)Kando\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
+  <Target Name="CopyWinUiXamlResourcesToPublish" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+    <ItemGroup>
+      <WinUiXamlPublishResource Include="$(OutDir)App.xbf;$(OutDir)MainWindow.xbf;$(OutDir)$(AssemblyName).pri" />
+    </ItemGroup>
+    <Copy SourceFiles="@(WinUiXamlPublishResource)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('%(WinUiXamlPublishResource.Identity)')" />
+  </Target>
+  <Target Name="CopyKandoBundleToPublish" AfterTargets="Publish" Condition="'@(KandoBundle)' != '' and '$(PublishDir)' != ''">
+    <Copy SourceFiles="@(KandoBundle)" DestinationFiles="@(KandoBundle->'$(PublishDir)Kando\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

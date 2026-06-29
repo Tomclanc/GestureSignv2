@@ -15,7 +15,6 @@ using GestureSign.Common.Localization;
 using GestureSign.Common.Log;
 using GestureSign.Common.UI;
 using GestureSign.Daemon.Input;
-using GestureSign.Daemon.Properties;
 using Microsoft.Win32;
 
 namespace GestureSign.Daemon
@@ -100,13 +99,58 @@ namespace GestureSign.Daemon
         private void SetTrayIcon(TrayIconState state)
         {
             Icon oldIcon = _currentTrayIcon;
-            _currentTrayIcon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            if (_currentTrayIcon == null)
-                _currentTrayIcon = (Icon)Resources.normal_daemon.Clone();
+            switch (state)
+            {
+                case TrayIconState.Disabled:
+                    _currentTrayIcon = CreateStatusIcon(Color.FromArgb(220, 38, 38), true);
+                    _trayIcon.Text = "GestureSign - 手势识别已关闭";
+                    break;
+                case TrayIconState.Training:
+                    _currentTrayIcon = CreateStatusIcon(Color.FromArgb(37, 99, 235), false);
+                    _trayIcon.Text = "GestureSign";
+                    break;
+                default:
+                    _currentTrayIcon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+                    if (_currentTrayIcon == null)
+                        _currentTrayIcon = CreateStatusIcon(Color.FromArgb(0, 120, 212), false);
+                    _trayIcon.Text = "GestureSign";
+                    break;
+            }
             _trayIcon.Icon = _currentTrayIcon;
 
             if (oldIcon != null)
                 oldIcon.Dispose();
+        }
+
+        private static Icon CreateStatusIcon(Color fillColor, bool drawStopMark)
+        {
+            using (Bitmap bitmap = new Bitmap(32, 32))
+            using (Graphics graphics = Graphics.FromImage(bitmap))
+            using (Brush fill = new SolidBrush(fillColor))
+            using (Pen outline = new Pen(Color.FromArgb(245, 255, 255, 255), 3))
+            using (Pen mark = new Pen(Color.White, 4))
+            {
+                graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                graphics.Clear(Color.Transparent);
+                graphics.FillEllipse(fill, 3, 3, 26, 26);
+                graphics.DrawEllipse(outline, 3, 3, 26, 26);
+
+                if (drawStopMark)
+                    graphics.DrawLine(mark, 11, 21, 21, 11);
+                else
+                    graphics.DrawString("G", SystemFonts.CaptionFont, Brushes.White, 8, 6);
+
+                IntPtr iconHandle = bitmap.GetHicon();
+                try
+                {
+                    using (Icon icon = Icon.FromHandle(iconHandle))
+                        return (Icon)icon.Clone();
+                }
+                finally
+                {
+                    DestroyIcon(iconHandle);
+                }
+            }
         }
 
         private void ApplyRoundedRegion()
@@ -451,11 +495,13 @@ namespace GestureSign.Daemon
             if (e.Mode == CaptureMode.UserDisabled)
             {
                 _disableGesturesMenuItem.Checked = true;
+                _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Enable");
                 SetTrayIcon(TrayIconState.Disabled);
             }
             else
             {
                 _disableGesturesMenuItem.Checked = false;
+                _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Disable");
                 SetTrayIcon(e.Mode == CaptureMode.Training ? TrayIconState.Training : TrayIconState.Normal);
             }
         }

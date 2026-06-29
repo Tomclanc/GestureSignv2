@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
@@ -33,23 +33,34 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 - WinUI 3 重构界面，适配 Windows 11 圆角、Mica 风格、深色 / 亮色模式动态切换。
 - 支持触控板手势、鼠标手势、手势轨迹显示和手势缩略图预览。
+- 新增“快捷操作”页面，内置 Kando 圆环菜单，可用独立快捷键唤起漂亮的径向菜单。
 - 新增“触控板边缘”页面，可为触控板上 / 下 / 左 / 右边缘点击和边缘滑动单独绑定动作。
 - 支持按程序、窗口类名、可执行文件、标题和分组管理动作。
 - 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；命令编辑器可从已安装应用列表选择程序，也可手动浏览 exe。
 - 支持忽略列表，可按 exe、窗口类名、标题等规则排除指定程序。
 - 支持优先使用系统触控板设置、Edge 自带手势，并可排除全屏场景。
-- 支持托盘图标、托盘菜单、单实例启动和更方便阅读的手势日志。
+- 支持托盘图标、托盘菜单、单实例启动和更方便阅读的手势日志；托盘可一键暂停/恢复手势识别。
 - 针对高 DPI、高刷新率屏幕做了界面和输入体验优化。
 
 ## 下载
 
-前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760) 下载最新版安装包。
+前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
 
 ## 更新内容
+
+### 8.1.9781
+
+- 新增“快捷操作”页面，安装包内置 Kando，可直接从 GestureSign V2 选择 Kando 菜单并同步快捷键。
+- 支持实时读取 `%AppData%\kando\menus.json` 中的菜单名称和快捷键，菜单列表可单击选择。
+- “启用快捷操作”开关现在会在开启时拉起 Kando，关闭时结束集成的 Kando 进程；启动 GestureSign V2 时也会按配置自动拉起。
+- 新增触发手势动作提示，可在任务栏上方显示刚触发的手势/动作名称。
+- 托盘菜单“关闭手势识别”改为真正的总开关，关闭后图标变红，并可再次点击恢复。
+- 修复托盘红色图标使用旧资源导致 `System.Resources.Extensions` 加载错误的问题。
+- MSI 改为合并包，安装后会释放 Kando 到 `GestureSign V2\Kando\kando.exe`。
 
 ### 8.1.9760
 
@@ -150,6 +161,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - “动作”：管理全局动作、程序动作、分组、手势和命令。
 - “忽略”：添加不参与识别的程序、窗口或匹配规则。
 - “手势”：查看、导入、导出、重训和整理手势库。
+- “快捷操作”：选择 Kando 菜单、同步唤起快捷键、打开 Kando 设置或测试弹出菜单。
 - “触控板边缘”：设置触控板四边点击和边缘滑动动作。
 - “选项”：调整轨迹颜色、宽度、透明度、输入设备、全屏排除和启动项。
 - “关于”：查看版本、项目链接、日志和维护信息。
@@ -186,20 +198,21 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 - Rebuilt WinUI 3 interface with Windows 11 rounded corners, Mica styling, and light / dark theme support.
 - Touchpad gestures, mouse gestures, gesture trails, and gesture thumbnail previews.
+- New Quick Actions page with bundled Kando radial menus and a dedicated hotkey trigger.
 - Per-app actions with matching by executable, window class, title, and groups.
 - Common commands such as hotkeys, browser actions, window actions, media controls, and system operations.
 - Ignore list support for excluding specific apps, windows, or matching rules.
 - Options to prefer Windows touchpad gestures or built-in browser gestures, with fullscreen exclusions.
-- Tray icon, tray menu, single-instance startup, and readable gesture logs.
+- Tray icon, tray menu, single-instance startup, readable gesture logs, and one-click pause/resume from the tray.
 - Improved UI and input behavior for high-DPI and high-refresh-rate displays.
 
 ## Download
 
-Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760).
+Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781).
 
 Current version:
 
-- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
 
 ## Installation
 
@@ -235,6 +248,7 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 - Actions: Manage global actions, app actions, groups, gestures, and commands.
 - Ignore: Exclude apps, windows, or matching rules from gesture recognition.
 - Gestures: View, import, export, retrain, and organize the gesture library.
+- Quick Actions: Select Kando menus, sync hotkeys, open Kando settings, or test the radial menu.
 - Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior.
 - About: View the version, project links, logs, and maintenance information.
 
@@ -270,20 +284,21 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 - Windows 11 の角丸、Mica スタイル、ライト / ダークテーマに対応した WinUI 3 インターフェイス。
 - タッチパッドジェスチャー、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
+- Kando のラジアルメニューを同梱した Quick Actions ページと、専用ホットキーによる呼び出し。
 - 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
 - ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。
 - 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
 - Windows タッチパッドジェスチャーやブラウザー内蔵ジェスチャーを優先するオプションと、全画面除外設定。
-- トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ。
+- トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ、トレイからの一時停止 / 再開。
 - 高 DPI および高リフレッシュレート環境向けの UI と入力体験の改善。
 
 ## ダウンロード
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9760) から入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9781) から入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-Setup-x64-8.1.9760.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9760/GestureSign-V2-Setup-x64-8.1.9760.msi)
+- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9781/GestureSign-V2-Kando-x64.msi)
 
 ## インストール
 
@@ -319,6 +334,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - Actions: グローバルアクション、アプリアクション、グループ、ジェスチャー、コマンドを管理します。
 - Ignore: ジェスチャー認識から除外するアプリ、ウィンドウ、マッチングルールを設定します。
 - Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
+- Quick Actions: Kando メニューの選択、ホットキー同期、Kando 設定の起動、ラジアルメニューのテストを行います。
 - Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整します。
 - About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
 

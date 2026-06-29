@@ -14,6 +14,7 @@ namespace GestureSign.Daemon.Triggers
     {
         private List<KeyValuePair<Hotkey, List<IAction>>> _hotKeyMap = new List<KeyValuePair<Hotkey, List<IAction>>>();
         private Hotkey _openSettingsHotKey;
+        private Hotkey _kandoHotKey;
 
         public HotKeyManager()
         {
@@ -27,10 +28,17 @@ namespace GestureSign.Daemon.Triggers
             if (hotKeyActions.Count != 0)
                 RegisterHotKeys(hotKeyActions);
             RegisterOpenSettingsHotKey();
+            RegisterKandoHotKey();
         }
 
         private void Instance_ForegroundApplicationsChanged(object sender, ApplicationChangedEventArgs appsChanged)
         {
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled)
+            {
+                UnloadHotKeys();
+                return;
+            }
+
             var hotKeyActions = appsChanged.Applications.Where(application => application is UserApp && application.Actions != null).SelectMany(app => app.Actions).Where(IsStandaloneHotKeyAction).ToList();
             hotKeyActions.AddRange(ApplicationManager.Instance.GetGlobalApplication().Actions.Where(IsStandaloneHotKeyAction));
 
@@ -43,13 +51,36 @@ namespace GestureSign.Daemon.Triggers
         private void Instance_ModeChanged(object sender, Common.Input.ModeChangedEventArgs e)
         {
             if (e.Mode == Common.Input.CaptureMode.UserDisabled)
+            {
                 UnloadHotKeys();
+                UnloadKandoHotKey();
+            }
+            else
+            {
+                RegisterForegroundHotKeys();
+                RegisterKandoHotKey();
+            }
             RegisterOpenSettingsHotKey();
         }
 
         private void AppConfig_ConfigChanged(object sender, EventArgs e)
         {
             RegisterOpenSettingsHotKey();
+            if (PointCapture.Instance.Mode != Common.Input.CaptureMode.UserDisabled)
+                RegisterKandoHotKey();
+            else
+                UnloadKandoHotKey();
+        }
+
+        private void RegisterForegroundHotKeys()
+        {
+            var hotKeyActions = ApplicationManager.Instance.GetApplicationFromWindow(SystemWindow.ForegroundWindow).Where(app => !(app is IgnoredApp)).SelectMany(app => app.Actions).Where(IsStandaloneHotKeyAction).ToList();
+            hotKeyActions.AddRange(ApplicationManager.Instance.GetGlobalApplication().Actions.Where(IsStandaloneHotKeyAction));
+
+            if (hotKeyActions.Count == 0)
+                UnloadHotKeys();
+            else
+                RegisterHotKeys(hotKeyActions);
         }
 
         private void RegisterHotKeys(List<IAction> actions)
@@ -133,6 +164,36 @@ namespace GestureSign.Daemon.Triggers
             _openSettingsHotKey = null;
         }
 
+        private void RegisterKandoHotKey()
+        {
+            UnloadKandoHotKey();
+            int keyCode;
+            int modifierKeys;
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoHotKey, out keyCode, out modifierKeys))
+                return;
+
+            _kandoHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys };
+            _kandoHotKey.HotkeyPressed += KandoHotKey_HotkeyPressed;
+            try
+            {
+                _kandoHotKey.Register();
+            }
+            catch (HotkeyAlreadyInUseException)
+            {
+                UnloadKandoHotKey();
+            }
+        }
+
+        private void UnloadKandoHotKey()
+        {
+            if (_kandoHotKey == null)
+                return;
+
+            _kandoHotKey.HotkeyPressed -= KandoHotKey_HotkeyPressed;
+            _kandoHotKey.Dispose();
+            _kandoHotKey = null;
+        }
+
         private static bool TryParseHotKey(string settings, out int keyCode, out int modifierKeys)
         {
             keyCode = 0;
@@ -173,6 +234,11 @@ namespace GestureSign.Daemon.Triggers
         private void OpenSettingsHotKey_HotkeyPressed(object sender, EventArgs e)
         {
             TrayManager.StartControlPanel();
+        }
+
+        private void KandoHotKey_HotkeyPressed(object sender, EventArgs e)
+        {
+            KandoLauncher.ShowMenu();
         }
 
         private void Hotkey_HotkeyPressed(object sender, EventArgs e)

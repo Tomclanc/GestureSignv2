@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -25,6 +25,7 @@ namespace GestureSign.Daemon.Surface
         DiBitmap _bitmap;
         private GraphicsPath _graphicsPath = new GraphicsPath();
         private GraphicsPath _dirtyGraphicsPath = new GraphicsPath();
+        private Timer _gestureHintTimer;
 
         private bool _settingsChanged;
 
@@ -63,6 +64,7 @@ namespace GestureSign.Daemon.Surface
                     AppConfig.ConfigChanged -= AppConfig_ConfigChanged;
                     SystemEvents.DisplaySettingsChanged -= AppConfig_ConfigChanged;
                     SystemEvents.UserPreferenceChanged -= AppConfig_ConfigChanged;
+                    _gestureHintTimer?.Dispose();
                 }
 
                 _penWidth = 0;
@@ -140,6 +142,49 @@ namespace GestureSign.Daemon.Surface
                 }
                 DrawSegments(points);
             }
+        }
+
+        public void ShowGestureActionHint(List<List<Point>> points, string text)
+        {
+            if (!AppConfig.ShowGestureActionHint)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => ShowGestureActionHint(points, text)));
+                return;
+            }
+
+            if (_settingsChanged)
+            {
+                _settingsChanged = false;
+                InitializeForm();
+            }
+
+            ClearSurfaces();
+            EnsureDrawingSurface();
+            EnsureSurfaceVisible();
+
+            if (_penWidth <= 0)
+                InitializePen();
+
+            if (_penWidth > 0 && points != null && points.Any(p => p.Count > 1))
+                DrawCompleteGesture(points);
+
+            DrawActionHint(string.IsNullOrWhiteSpace(text) ? "已触发" : text.Trim());
+            UpdateFullSurface();
+
+            _gestureHintTimer?.Dispose();
+            _gestureHintTimer = new Timer { Interval = 1200 };
+            _gestureHintTimer.Tick += (timerSender, timerArgs) =>
+            {
+                _gestureHintTimer.Stop();
+                _gestureHintTimer.Dispose();
+                _gestureHintTimer = null;
+                HideSurface();
+                ClearSurfaces();
+            };
+            _gestureHintTimer.Start();
         }
 
         #endregion
@@ -321,6 +366,73 @@ namespace GestureSign.Daemon.Surface
             }
         }
 
+        private void DrawCompleteGesture(List<List<Point>> points)
+        {
+            var surfaceGraphics = _bitmap.BeginDraw();
+            _graphicsPath.Reset();
+            _dirtyGraphicsPath.Reset();
+
+            for (var index = 0; index < points.Count; index++)
+            {
+                var translatedPoints = points[index]
+                    .Where(point => !point.IsEmpty)
+                    .Select(TranslatePoint)
+                    .ToArray();
+                if (translatedPoints.Length < 2)
+                    continue;
+
+                _graphicsPath.AddLines(translatedPoints);
+                using (var pen = CreateFeedbackPen(index))
+                {
+                    surfaceGraphics.DrawLines(pen, translatedPoints);
+                }
+            }
+
+            _bitmap.EndDraw();
+        }
+
+        private void DrawActionHint(string text)
+        {
+            var graphics = _bitmap.BeginDraw();
+            graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+
+            using (var font = new Font("Microsoft YaHei UI", 18f, FontStyle.Regular, GraphicsUnit.Point))
+            {
+                var textSize = graphics.MeasureString(text, font);
+                var paddingX = 22f;
+                var paddingY = 12f;
+                var width = Math.Max(92f, textSize.Width + paddingX * 2);
+                var height = textSize.Height + paddingY * 2;
+                var x = (Width - width) / 2f;
+                var workArea = Screen.FromPoint(Cursor.Position).WorkingArea;
+                var y = workArea.Bottom - Bounds.Top - height - 12f;
+                var rect = new RectangleF(x, y, width, height);
+
+                using (var path = RoundedRectangle(rect, 10f))
+                using (var brush = new SolidBrush(Color.FromArgb(222, 86, 86, 86)))
+                using (var textBrush = new SolidBrush(Color.White))
+                {
+                    graphics.FillPath(brush, path);
+                    graphics.DrawString(text, font, textBrush, x + paddingX, y + paddingY - 1f);
+                }
+            }
+
+            _bitmap.EndDraw();
+        }
+
+        private static GraphicsPath RoundedRectangle(RectangleF rect, float radius)
+        {
+            var path = new GraphicsPath();
+            var diameter = radius * 2f;
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
+
         private static bool IsVisualFeedbackTheme()
         {
             var value = AppConfig.VisualFeedbackColorSetting;
@@ -488,6 +600,11 @@ namespace GestureSign.Daemon.Surface
             pathDirty.Offset(-Bounds.X, -Bounds.Y); //挪回来变为基于窗口的坐标
 
             SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty, 255);
+        }
+
+        private void UpdateFullSurface()
+        {
+            SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), 255);
         }
 
         #endregion

@@ -80,7 +80,7 @@ internal sealed class LegacyDataStore
             Gestures = LoadGestures(gesturesRoot),
             Options = LoadOptions(configPath),
             RoamingPath = roamingPath,
-            LocalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign"),
+            LocalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2"),
             ActionsPath = actionsPath,
             GesturesPath = gesturesPath,
             ConfigPath = configPath,
@@ -773,8 +773,14 @@ internal sealed class LegacyDataStore
                 InitialTimeout = settings.IntValue("InitialTimeout", 0),
                 RunAsAdmin = settings.BoolValue("RunAsAdmin", false),
                 VisualFeedbackColor = settings.StringValue("VisualFeedbackColor", ""),
+                ShowGestureActionHint = settings.BoolValue("ShowGestureActionHint", false),
                 CultureName = settings.StringValue("CultureName", ""),
-                OpenSettingsHotKey = settings.StringValue("OpenSettingsHotKey", "")
+                OpenSettingsHotKey = settings.StringValue("OpenSettingsHotKey", ""),
+                KandoEnabled = settings.BoolValue("KandoEnabled", false),
+                KandoHotKey = settings.StringValue("KandoHotKey", ""),
+                KandoExecutablePath = settings.StringValue("KandoExecutablePath", ""),
+                KandoMenuName = settings.StringValue("KandoMenuName", ""),
+                KandoTrigger = settings.StringValue("KandoTrigger", "")
             };
         }
         catch
@@ -968,8 +974,14 @@ internal sealed record LegacyOptions
     public int InitialTimeout { get; init; }
     public bool RunAsAdmin { get; init; }
     public string VisualFeedbackColor { get; init; } = "";
+    public bool ShowGestureActionHint { get; init; }
     public string CultureName { get; init; } = "";
     public string OpenSettingsHotKey { get; init; } = "";
+    public bool KandoEnabled { get; init; }
+    public string KandoHotKey { get; init; } = "";
+    public string KandoExecutablePath { get; init; } = "";
+    public string KandoMenuName { get; init; } = "";
+    public string KandoTrigger { get; init; } = "";
 }
 
 internal static class LegacyJsonExtensions

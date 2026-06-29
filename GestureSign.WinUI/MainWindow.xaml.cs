@@ -75,6 +75,7 @@ public sealed partial class MainWindow : Window
     private TextBox? _activeHotKeySettings;
     private Action<string>? _activeHotKeyRecorded;
     private bool _activeHotKeyUsesArrayKeyCode = true;
+    private readonly Style _bodyStrongTextBlockStyle = CreateBodyStrongTextBlockStyle();
     private readonly HashSet<int> _hotKeyRecordingPressedKeys = new();
     private bool _stopHotKeyRecordingWhenReleased;
     private IntPtr _mouseHook;
@@ -83,6 +84,9 @@ public sealed partial class MainWindow : Window
     private RECT? _pickOutlineRect;
     private IntPtr _pickOutlineHwnd;
     private IntPtr _pickOutlineWindow;
+    private readonly DispatcherTimer _kandoMenuRefreshTimer = new();
+    private DateTime _lastKandoMenusWriteTimeUtc;
+    private Action? _refreshKandoMenuList;
 
     public MainWindow()
     {
@@ -98,6 +102,8 @@ public sealed partial class MainWindow : Window
         _trainingPipeServer = new TrainingPipeServer(points => DispatcherQueue.TryEnqueue(async () => await SaveTrainedGestureAsync(points)));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
+        _kandoMenuRefreshTimer.Interval = TimeSpan.FromSeconds(1);
+        _kandoMenuRefreshTimer.Tick += KandoMenuRefreshTimer_Tick;
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
         ApplyMicaDimmingOverlay();
         ExtendsContentIntoTitleBar = true;
@@ -113,6 +119,7 @@ public sealed partial class MainWindow : Window
             ShowSelectedPage();
         };
         _ = EnsureDaemonRunningAsync();
+        _ = EnsureKandoStartedIfEnabledAsync();
     }
 
     private void ApplyMicaDimmingOverlay()
@@ -149,6 +156,26 @@ public sealed partial class MainWindow : Window
     }
 
     private bool IsDark => Root.ActualTheme == ElementTheme.Dark;
+    private Style BodyStrongTextBlockStyle => _bodyStrongTextBlockStyle;
+
+    private static Style CreateBodyStrongTextBlockStyle()
+    {
+        var style = new Style(typeof(TextBlock));
+        style.Setters.Add(new Setter(TextBlock.FontWeightProperty, Microsoft.UI.Text.FontWeights.SemiBold));
+        return style;
+    }
+
+    private static Style? ResourceStyle(string key)
+    {
+        try
+        {
+            return Application.Current.Resources[key] as Style;
+        }
+        catch
+        {
+            return null;
+        }
+    }
 
     private void ConfigureWindow()
     {
@@ -314,6 +341,12 @@ public sealed partial class MainWindow : Window
 
     private void ShowPage(string tag)
     {
+        if (!string.Equals(tag, "quickActions", StringComparison.Ordinal))
+        {
+            _kandoMenuRefreshTimer.Stop();
+            _refreshKandoMenuList = null;
+        }
+
         PageHost.Children.Clear();
 
         switch (tag)
@@ -327,6 +360,11 @@ public sealed partial class MainWindow : Window
                 PageTitle.Text = "手势";
                 PageSubtitle.Text = "查看、导入和整理可用手势。";
                 PageHost.Children.Add(BuildGesturesPage());
+                break;
+            case "quickActions":
+                PageTitle.Text = "快捷操作";
+                PageSubtitle.Text = "用独立快捷键唤起 Kando 圆环菜单。";
+                PageHost.Children.Add(BuildQuickActionsPage());
                 break;
             case "touchpad":
                 PageTitle.Text = "触控板边缘";
@@ -523,7 +561,7 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(new TextBlock
         {
             Text = "触控板边缘",
-            Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style
+            Style = BodyStrongTextBlockStyle
         });
 
         var map = new Grid
@@ -603,7 +641,7 @@ public sealed partial class MainWindow : Window
             Text = zone.Title,
             TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style
+            Style = BodyStrongTextBlockStyle
         });
 
         if (isHorizontalZone)
@@ -650,7 +688,7 @@ public sealed partial class MainWindow : Window
         var title = new TextBlock
         {
             Text = item.Title,
-            Style = Application.Current.Resources["BodyTextBlockStyle"] as Style,
+            Style = ResourceStyle("BodyTextBlockStyle"),
             TextAlignment = TextAlignment.Center,
             TextWrapping = TextWrapping.NoWrap
         };
@@ -701,7 +739,7 @@ public sealed partial class MainWindow : Window
             Text = "触控板",
             TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
-            Style = Application.Current.Resources["SubtitleTextBlockStyle"] as Style
+            Style = ResourceStyle("SubtitleTextBlockStyle")
         });
 
         return new Border
@@ -1010,6 +1048,7 @@ public sealed partial class MainWindow : Window
         root.Children.Add(NewSettingsGroup("视觉反馈",
         [
             NewToggleRow("显示手势轨迹", options.VisualFeedbackWidth > 0, "VisualFeedbackWidth", options.VisualFeedbackWidth == 0 ? "9" : options.VisualFeedbackWidth.ToString(), "0"),
+            NewToggleRow("显示触发的手势操作", options.ShowGestureActionHint, "ShowGestureActionHint"),
             NewSliderRow("轨迹透明度", options.Opacity, 0.05, 1, 0.01, "Opacity", value => value.ToString("0.00", CultureInfo.InvariantCulture), value => $"{Math.Round(value * 100)}%"),
             NewSliderRow("轨迹宽度", options.VisualFeedbackWidth, 0, 30, 1, "VisualFeedbackWidth", value => ((int)Math.Round(value)).ToString(CultureInfo.InvariantCulture), value => $"{(int)Math.Round(value)} px"),
             NewSliderRow("最小点距离", options.MinimumPointDistance, 1, 100, 1, "MinimumPointDistance", value => ((int)Math.Round(value)).ToString(CultureInfo.InvariantCulture), value => $"{(int)Math.Round(value)} px"),
@@ -1047,13 +1086,223 @@ public sealed partial class MainWindow : Window
         return root;
     }
 
+    private UIElement BuildQuickActionsPage()
+    {
+        var root = NewSection();
+        var options = _legacyData.Options;
+
+        var panel = NewCardPanel(12);
+        var enabled = new CheckBox { Content = "启用快捷操作", IsChecked = options.KandoEnabled };
+        enabled.Checked += async (_, _) => await RunUiActionAsync(EnableKandoQuickActionsAsync);
+        enabled.Unchecked += async (_, _) => await RunUiActionAsync(DisableKandoQuickActionsAsync);
+        panel.Children.Add(enabled);
+
+        var hotKeySettings = new TextBox { Text = options.KandoHotKey, Visibility = Visibility.Collapsed };
+        var hotKeyRow = NewKandoHotKeyOption(hotKeySettings, out var hotKeyRecorder);
+        panel.Children.Add(NewKandoMenuPicker(options, hotKeySettings, hotKeyRecorder));
+        panel.Children.Add(hotKeyRow);
+        panel.Children.Add(NewLightTextOption("Kando 程序路径", options.KandoExecutablePath, "KandoExecutablePath", "留空自动检测安装目录下的 Kando\\kando.exe"));
+
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var test = NewPillButton("测试弹出菜单", false);
+        test.Click += async (_, _) => await RunUiActionAsync(TestKandoMenuAsync);
+        var settings = NewPillButton("打开 Kando 设置", false);
+        settings.Click += async (_, _) => await RunUiActionAsync(OpenKandoSettingsAsync);
+        var auto = NewPillButton("自动检测路径", false);
+        auto.Click += async (_, _) =>
+        {
+            var path = FindKandoExecutablePath("");
+            if (path is null)
+            {
+                await ShowInfoDialog("未找到 Kando", "请检查安装目录下是否存在 Kando\\kando.exe。");
+                return;
+            }
+            UpdateOptionAndReloadNow("KandoExecutablePath", path);
+            _legacyData = LegacyDataStore.Load();
+            ShowPage("quickActions");
+        };
+        buttons.Children.Add(test);
+        buttons.Children.Add(settings);
+        buttons.Children.Add(auto);
+        panel.Children.Add(buttons);
+
+        panel.Children.Add(new TextBlock
+        {
+            Text = "GestureSign 后台会注册这里的快捷键；按下后按选中的 Kando 菜单调用圆环菜单。",
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.72
+        });
+        panel.Children.Add(new TextBlock
+        {
+            Text = $"自动检测路径: {FindKandoExecutablePath(options.KandoExecutablePath) ?? "未找到 Kando 可执行文件"}",
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.72
+        });
+
+        root.Children.Add(NewCard(panel));
+        return root;
+    }
+
+    private FrameworkElement NewKandoMenuPicker(LegacyOptions options, TextBox hotKeySettings, TextBox hotKeyRecorder)
+    {
+        var grid = new Grid { ColumnSpacing = 16 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.Children.Add(new TextBlock
+        {
+            Text = "Kando 菜单",
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(0, 8, 0, 0),
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+        });
+
+        var content = new StackPanel { Spacing = 8 };
+        Grid.SetColumn(content, 1);
+        grid.Children.Add(content);
+        var selectedMenuName = options.KandoMenuName;
+
+        void ApplyKandoShortcutIfAvailable(KandoMenuInfo selected, bool overwriteExisting)
+        {
+            if (!TryCreateHotKeySettingsFromKandoShortcut(selected.Shortcut, out var settings))
+                return;
+
+            if (!overwriteExisting && !string.IsNullOrWhiteSpace(hotKeySettings.Text))
+                return;
+
+            hotKeySettings.Text = settings;
+            hotKeyRecorder.Text = HotKeyDisplayText(settings);
+            UpdateOptionAndReloadNow("KandoHotKey", settings);
+        }
+
+        void SelectMenu(KandoMenuInfo selected)
+        {
+            selectedMenuName = selected.Name;
+            UpdateOptionAndReloadNow("KandoMenuName", selected.Name);
+            UpdateOptionAndReloadNow("KandoTrigger", "");
+            ApplyKandoShortcutIfAvailable(selected, overwriteExisting: true);
+            RenderMenuList(applyDefaultShortcut: false);
+        }
+
+        void RenderMenuList(bool applyDefaultShortcut)
+        {
+            var menus = ReadKandoMenus();
+            content.Children.Clear();
+            if (menus.Count == 0)
+            {
+                content.Children.Add(new TextBlock
+                {
+                    Text = "没有读取到 Kando 菜单。请先打开 Kando 设置创建菜单，或检查 %APPDATA%\\kando\\menus.json。",
+                    TextWrapping = TextWrapping.Wrap,
+                    Opacity = 0.72
+                });
+                content.Children.Add(NewLightTextOption("菜单名称", selectedMenuName, "KandoMenuName", "例如: 示例菜单"));
+                return;
+            }
+
+            var selectedIndex = KandoMenuIndex(menus, selectedMenuName);
+            selectedMenuName = menus[selectedIndex].Name;
+
+            var list = new StackPanel { Spacing = 8 };
+            for (var index = 0; index < menus.Count; index++)
+            {
+                var menu = menus[index];
+                var isSelected = index == selectedIndex;
+                var shortcutText = $"快捷键: {DisplayFallback(menu.Shortcut)}";
+                var trailing = new TextBlock
+                {
+                    Text = isSelected ? "已选择" : "选择",
+                    Opacity = isSelected ? 0.9 : 0.62,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+                list.Children.Add(NewKandoMenuRow(menu.Name, shortcutText, trailing, isSelected, () => SelectMenu(menu)));
+            }
+
+            content.Children.Add(list);
+            if (applyDefaultShortcut)
+                ApplyKandoShortcutIfAvailable(menus[selectedIndex], overwriteExisting: false);
+        }
+
+        _refreshKandoMenuList = () => RenderMenuList(applyDefaultShortcut: false);
+        _lastKandoMenusWriteTimeUtc = GetKandoMenusWriteTimeUtc();
+        _kandoMenuRefreshTimer.Start();
+        RenderMenuList(applyDefaultShortcut: true);
+        return grid;
+    }
+
+    private FrameworkElement NewKandoHotKeyOption(TextBox settings, out TextBox recorder)
+    {
+        var grid = new Grid { ColumnSpacing = 16 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.Children.Add(new TextBlock
+        {
+            Text = "唤起快捷键",
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+        });
+
+        var recorderBox = NewHotKeyRecorder(settings, settings.Text, onRecorded: value => UpdateOptionAndReloadNow("KandoHotKey", value));
+        recorderBox.Margin = new Thickness(0);
+        recorderBox.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+        var clear = NewPillButton("清除", false);
+        clear.Click += (_, _) =>
+        {
+            if (ReferenceEquals(_activeHotKeyRecorder, recorderBox))
+                StopHotKeyRecording();
+            settings.Text = "";
+            recorderBox.Text = "";
+            UpdateOptionAndReloadNow("KandoHotKey", "");
+        };
+
+        var panel = new Grid { ColumnSpacing = 8 };
+        panel.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        panel.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        panel.Children.Add(recorderBox);
+        Grid.SetColumn(clear, 1);
+        panel.Children.Add(clear);
+        Grid.SetColumn(panel, 1);
+        grid.Children.Add(panel);
+        recorder = recorderBox;
+        return grid;
+    }
+
+    private FrameworkElement NewLightTextOption(string title, string value, string configKey, string placeholder)
+    {
+        var grid = new Grid { ColumnSpacing = 16 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.Children.Add(new TextBlock
+        {
+            Text = title,
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+        });
+
+        var text = new TextBox
+        {
+            Text = value,
+            PlaceholderText = placeholder,
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        text.LostFocus += (_, _) => UpdateOptionAndReloadNow(configKey, text.Text.Trim());
+        text.KeyDown += (_, args) =>
+        {
+            if (args.Key == VirtualKey.Enter)
+                UpdateOptionAndReloadNow(configKey, text.Text.Trim());
+        };
+        Grid.SetColumn(text, 1);
+        grid.Children.Add(text);
+        return grid;
+    }
+
     private UIElement BuildAboutPage()
     {
         var root = NewSection();
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
-        content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = Application.Current.Resources["TitleTextBlockStyle"] as Style, Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9760", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), Margin = new Thickness(0, 12, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9781", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -1133,7 +1382,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(4);
-        text.Children.Add(new TextBlock { Text = "手势识别", Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = "手势识别", Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = "移动到动作页后，这里负责控制后台识别服务的启停。", Opacity = 0.68 });
         grid.Children.Add(text);
 
@@ -1177,7 +1426,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(4);
-        text.Children.Add(new TextBlock { Text = "手势识别", Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = "手势识别", Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = "移动到动作页后，这里负责控制后台识别服务的启停。", Opacity = 0.68 });
         grid.Children.Add(text);
 
@@ -1194,7 +1443,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(4);
-        text.Children.Add(new TextBlock { Text = title, Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.68, TextWrapping = TextWrapping.Wrap });
         grid.Children.Add(text);
 
@@ -2772,6 +3021,391 @@ public sealed partial class MainWindow : Window
         await ShowInfoDialog("恢复完成", "配置已恢复，后台服务会在重载后使用新配置。");
     }
 
+    private async Task TestKandoMenuAsync()
+    {
+        await FlushPendingOptionUpdatesAsync();
+        _legacyData = LegacyDataStore.Load();
+
+        if (!StartKando(_legacyData.Options, BuildKandoShowMenuArguments(_legacyData.Options)))
+        {
+            await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+            return;
+        }
+
+        await ShowInfoDialog("已发送唤起命令", "如果 Kando 已正确配置，圆环菜单会出现在当前鼠标位置。");
+    }
+
+    private async Task EnableKandoQuickActionsAsync()
+    {
+        await UpdateOptionAndWaitAsync("KandoEnabled", "True");
+        _legacyData = LegacyDataStore.Load();
+
+        if (StartKando(_legacyData.Options, string.Empty))
+            return;
+
+        await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+        _legacyData = LegacyDataStore.Load();
+        ShowPage("quickActions");
+        await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+    }
+
+    private async Task DisableKandoQuickActionsAsync()
+    {
+        await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+        _legacyData = LegacyDataStore.Load();
+        StopKandoProcesses(_legacyData.Options);
+    }
+
+    private async Task EnsureKandoStartedIfEnabledAsync()
+    {
+        try
+        {
+            await Task.Delay(600);
+            _legacyData = LegacyDataStore.Load();
+            if (!_legacyData.Options.KandoEnabled || IsKandoRunning(_legacyData.Options))
+                return;
+
+            StartKando(_legacyData.Options, string.Empty);
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
+    }
+
+    private async Task OpenKandoSettingsAsync()
+    {
+        await FlushPendingOptionUpdatesAsync();
+        _legacyData = LegacyDataStore.Load();
+
+        if (!StartKando(_legacyData.Options, "--settings"))
+            await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+    }
+
+    private static string BuildKandoShowMenuArguments(LegacyOptions options)
+    {
+        if (!string.IsNullOrWhiteSpace(options.KandoMenuName))
+            return "--menu " + QuoteArgument(options.KandoMenuName);
+        return string.Empty;
+    }
+
+    private static bool StartKando(LegacyOptions options, string arguments)
+    {
+        try
+        {
+            var executablePath = FindKandoExecutablePath(options.KandoExecutablePath);
+            if (executablePath is null)
+                return false;
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = executablePath,
+                Arguments = arguments,
+                WorkingDirectory = Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory,
+                UseShellExecute = false
+            });
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static void StopKandoProcesses(LegacyOptions options)
+    {
+        var executablePath = FindKandoExecutablePath(options.KandoExecutablePath);
+        var expectedPath = executablePath is null ? null : Path.GetFullPath(executablePath);
+
+        foreach (var process in Process.GetProcessesByName("kando").Concat(Process.GetProcessesByName("Kando")).GroupBy(process => process.Id).Select(group => group.First()))
+        {
+            try
+            {
+                if (expectedPath is not null)
+                {
+                    var processPath = process.MainModule?.FileName;
+                    if (!string.Equals(Path.GetFullPath(processPath ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
+                        continue;
+                }
+
+                process.Kill(entireProcessTree: true);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                process.Dispose();
+            }
+        }
+    }
+
+    private static bool IsKandoRunning(LegacyOptions options)
+    {
+        var executablePath = FindKandoExecutablePath(options.KandoExecutablePath);
+        var expectedPath = executablePath is null ? null : Path.GetFullPath(executablePath);
+
+        foreach (var process in Process.GetProcessesByName("kando").Concat(Process.GetProcessesByName("Kando")).GroupBy(process => process.Id).Select(group => group.First()))
+        {
+            try
+            {
+                if (expectedPath is null)
+                    return true;
+
+                var processPath = process.MainModule?.FileName;
+                if (string.Equals(Path.GetFullPath(processPath ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            catch
+            {
+            }
+            finally
+            {
+                process.Dispose();
+            }
+        }
+
+        return false;
+    }
+
+    private static string? FindKandoExecutablePath(string configuredPath)
+    {
+        if (!string.IsNullOrWhiteSpace(configuredPath) && File.Exists(configuredPath))
+            return configuredPath;
+
+        var baseDirectory = AppContext.BaseDirectory;
+        var candidates = new[]
+        {
+            Path.Combine(baseDirectory, "Kando", "kando.exe"),
+            Path.Combine(baseDirectory, "Kando", "Kando.exe"),
+            Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "kando.exe"),
+            Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "Kando.exe"),
+            Path.Combine(baseDirectory, "kando.exe"),
+            Path.Combine(baseDirectory, "Kando.exe"),
+            Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "kando.exe")),
+            Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "Kando.exe"))
+        };
+        return candidates.FirstOrDefault(File.Exists);
+    }
+
+    private static string QuoteArgument(string value)
+        => "\"" + value.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal) + "\"";
+
+    private static List<KandoMenuInfo> ReadKandoMenus()
+    {
+        var path = GetKandoMenusPath();
+        if (!File.Exists(path))
+            return [];
+
+        try
+        {
+            using var document = JsonDocument.Parse(File.ReadAllText(path));
+            if (!document.RootElement.TryGetProperty("menus", out var menusElement) || menusElement.ValueKind != JsonValueKind.Array)
+                return [];
+
+            var menus = new List<KandoMenuInfo>();
+            foreach (var menuElement in menusElement.EnumerateArray())
+            {
+                var shortcut = JsonString(menuElement, "shortcut");
+                var name = "";
+                if (menuElement.TryGetProperty("root", out var rootElement))
+                    name = JsonString(rootElement, "name");
+
+                if (string.IsNullOrWhiteSpace(name))
+                    name = "未命名菜单";
+
+                menus.Add(new KandoMenuInfo(name, shortcut));
+            }
+
+            return menus;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private void KandoMenuRefreshTimer_Tick(object? sender, object e)
+    {
+        if (Navigation.SelectedItem is not NavigationViewItem { Tag: "quickActions" })
+        {
+            _kandoMenuRefreshTimer.Stop();
+            _refreshKandoMenuList = null;
+            return;
+        }
+
+        var writeTime = GetKandoMenusWriteTimeUtc();
+        if (writeTime == _lastKandoMenusWriteTimeUtc)
+            return;
+
+        _lastKandoMenusWriteTimeUtc = writeTime;
+        _refreshKandoMenuList?.Invoke();
+    }
+
+    private static string GetKandoMenusPath()
+        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kando", "menus.json");
+
+    private static DateTime GetKandoMenusWriteTimeUtc()
+    {
+        try
+        {
+            var path = GetKandoMenusPath();
+            return File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MinValue;
+        }
+        catch
+        {
+            return DateTime.MinValue;
+        }
+    }
+
+    private static string JsonString(JsonElement element, string propertyName)
+        => element.TryGetProperty(propertyName, out var value) && value.ValueKind == JsonValueKind.String
+            ? value.GetString() ?? ""
+            : "";
+
+    private static int KandoMenuIndex(IReadOnlyList<KandoMenuInfo> menus, LegacyOptions options)
+        => KandoMenuIndex(menus, options.KandoMenuName);
+
+    private static int KandoMenuIndex(IReadOnlyList<KandoMenuInfo> menus, string selectedMenuName)
+    {
+        if (!string.IsNullOrWhiteSpace(selectedMenuName))
+        {
+            var nameIndex = menus.ToList().FindIndex(menu => string.Equals(menu.Name, selectedMenuName, StringComparison.OrdinalIgnoreCase));
+            if (nameIndex >= 0)
+                return nameIndex;
+        }
+
+        return 0;
+    }
+
+    private static string DisplayFallback(string value)
+        => string.IsNullOrWhiteSpace(value) ? "未设置" : value;
+
+    private static bool TryCreateHotKeySettingsFromKandoShortcut(string shortcut, out string settings)
+    {
+        settings = "";
+        if (string.IsNullOrWhiteSpace(shortcut))
+            return false;
+
+        var windows = false;
+        var control = false;
+        var shift = false;
+        var alt = false;
+        int? keyCode = null;
+
+        foreach (var rawPart in shortcut.Split('+', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var part = rawPart.Trim();
+            if (part.Length == 0)
+                continue;
+
+            var normalized = part.Replace("Left", "", StringComparison.OrdinalIgnoreCase)
+                .Replace("Right", "", StringComparison.OrdinalIgnoreCase);
+
+            if (normalized.Equals("Control", StringComparison.OrdinalIgnoreCase) || normalized.Equals("Ctrl", StringComparison.OrdinalIgnoreCase))
+            {
+                control = true;
+                continue;
+            }
+
+            if (normalized.Equals("Shift", StringComparison.OrdinalIgnoreCase))
+            {
+                shift = true;
+                continue;
+            }
+
+            if (normalized.Equals("Alt", StringComparison.OrdinalIgnoreCase) || normalized.Equals("Menu", StringComparison.OrdinalIgnoreCase))
+            {
+                alt = true;
+                continue;
+            }
+
+            if (normalized.Equals("Meta", StringComparison.OrdinalIgnoreCase)
+                || normalized.Equals("Win", StringComparison.OrdinalIgnoreCase)
+                || normalized.Equals("Windows", StringComparison.OrdinalIgnoreCase)
+                || normalized.Equals("Super", StringComparison.OrdinalIgnoreCase))
+            {
+                windows = true;
+                continue;
+            }
+
+            if (!TryKandoShortcutKeyCode(normalized, out var parsedKeyCode))
+                return false;
+
+            keyCode = parsedKeyCode;
+        }
+
+        if (keyCode is null)
+            return false;
+
+        settings = HotKeySettingsJson(windows, control, shift, alt, keyCode.Value);
+        return true;
+    }
+
+    private static bool TryKandoShortcutKeyCode(string key, out int keyCode)
+    {
+        keyCode = 0;
+        if (key.StartsWith("Key", StringComparison.OrdinalIgnoreCase) && key.Length == 4 && char.IsLetter(key[3]))
+        {
+            keyCode = char.ToUpperInvariant(key[3]);
+            return true;
+        }
+
+        if (key.StartsWith("Digit", StringComparison.OrdinalIgnoreCase) && key.Length == 6 && char.IsDigit(key[5]))
+        {
+            keyCode = key[5];
+            return true;
+        }
+
+        if (key.Length == 1 && char.IsLetterOrDigit(key[0]))
+        {
+            keyCode = char.ToUpperInvariant(key[0]);
+            return true;
+        }
+
+        if (key.StartsWith("F", StringComparison.OrdinalIgnoreCase)
+            && int.TryParse(key[1..], NumberStyles.None, CultureInfo.InvariantCulture, out var functionKey)
+            && functionKey is >= 1 and <= 24)
+        {
+            keyCode = 111 + functionKey;
+            return true;
+        }
+
+        keyCode = key.ToLowerInvariant() switch
+        {
+            "space" => 0x20,
+            "escape" or "esc" => 0x1B,
+            "tab" => 0x09,
+            "enter" or "return" => 0x0D,
+            "backspace" => 0x08,
+            "delete" or "del" => 0x2E,
+            "insert" or "ins" => 0x2D,
+            "home" => 0x24,
+            "end" => 0x23,
+            "pageup" => 0x21,
+            "pagedown" => 0x22,
+            "arrowleft" or "left" => 0x25,
+            "arrowup" or "up" => 0x26,
+            "arrowright" or "right" => 0x27,
+            "arrowdown" or "down" => 0x28,
+            _ => 0
+        };
+
+        return keyCode != 0;
+    }
+
+    private readonly record struct KandoMenuInfo(string Name, string Shortcut)
+    {
+        public string DisplayText
+        {
+            get
+            {
+                var shortcut = string.IsNullOrWhiteSpace(Shortcut) ? "未绑定快捷键" : Shortcut;
+                return $"{Name}    {shortcut}";
+            }
+        }
+    }
+
     private async Task DownloadSharedSettingsAsync()
     {
         var urls = new[]
@@ -3401,7 +4035,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(2);
-        text.Children.Add(new TextBlock { Text = title, Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.62, FontSize = 12 });
         grid.Children.Add(text);
 
@@ -3427,13 +4061,58 @@ public sealed partial class MainWindow : Window
         return border;
     }
 
+    private FrameworkElement NewKandoMenuRow(string title, string subtitle, FrameworkElement trailing, bool isSelected, Action onClick)
+    {
+        var grid = new Grid
+        {
+            ColumnSpacing = 8
+        };
+        grid.ColumnDefinitions.Add(new ColumnDefinition());
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var text = NewCardPanel(2);
+        text.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
+        text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.62, FontSize = 12 });
+        grid.Children.Add(text);
+
+        Grid.SetColumn(trailing, 1);
+        grid.Children.Add(trailing);
+
+        var border = new Border
+        {
+            Background = isSelected ? SelectionBrush() : SubtleBrush(),
+            CornerRadius = new CornerRadius(8),
+            Padding = new Thickness(12, 10, 12, 10),
+            Child = grid
+        };
+        border.PointerReleased += (_, args) =>
+        {
+            var point = args.GetCurrentPoint(border);
+            if (point.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse || point.Properties.PointerUpdateKind != Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+                return;
+
+            args.Handled = true;
+            onClick();
+        };
+        border.Tapped += (_, args) =>
+        {
+            if (args.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
+                return;
+
+            onClick();
+        };
+        border.PointerEntered += (_, _) => border.Opacity = 0.9;
+        border.PointerExited += (_, _) => border.Opacity = 1;
+        return border;
+    }
+
     private FrameworkElement NewApplicationRow(string title, string subtitle, FrameworkElement trailing, bool isSelected = false, Action? onClick = null)
     {
         var panel = NewCardPanel(10);
         panel.Children.Add(new TextBlock
         {
             Text = title,
-            Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style,
+            Style = BodyStrongTextBlockStyle,
             TextWrapping = TextWrapping.WrapWholeWords,
             MaxLines = 2
         });
@@ -3474,7 +4153,7 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(gestureBox);
 
         var text = NewCardPanel(4);
-        text.Children.Add(new TextBlock { Text = DisplayName(action.Name), Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = DisplayName(action.Name), Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = ActionSummary(application, action), Opacity = 0.68, TextWrapping = TextWrapping.Wrap });
         foreach (var command in action.Commands.Take(1))
         {
@@ -3595,7 +4274,7 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewDialogMapCard()
     {
         var content = NewCardPanel(10);
-        content.Children.Add(new TextBlock { Text = "编辑入口", Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        content.Children.Add(new TextBlock { Text = "编辑入口", Style = BodyStrongTextBlockStyle });
         content.Children.Add(new TextBlock { Text = "旧版对话框已整理为 WinUI 重构目标：程序匹配、动作设置、命令选择、触发条件、导入导出。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap });
         content.Children.Add(NewSmallCommandBar(["程序设置", "动作设置", "命令设置", "触发条件", "导入/导出"]));
         return NewCard(content);
@@ -3604,7 +4283,7 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewInfoCard(string title, string subtitle, string detail)
     {
         var content = NewCardPanel();
-        content.Children.Add(new TextBlock { Text = title, Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        content.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
         content.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.72 });
         content.Children.Add(new TextBlock { Text = detail, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
         return NewCard(content);
@@ -3648,7 +4327,7 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewGestureGroup(string title, LegacyGesture[] gestures)
     {
         var panel = NewCardPanel(10);
-        panel.Children.Add(new TextBlock { Text = $"{title}  {gestures.Length} 个", Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style });
+        panel.Children.Add(new TextBlock { Text = $"{title}  {gestures.Length} 个", Style = BodyStrongTextBlockStyle });
 
         var wrap = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         foreach (var gesture in gestures)
@@ -3661,7 +4340,7 @@ public sealed partial class MainWindow : Window
                 HorizontalAlignment = HorizontalAlignment.Center,
                 TextAlignment = TextAlignment.Center,
                 TextWrapping = TextWrapping.Wrap,
-                Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style
+                Style = BodyStrongTextBlockStyle
             });
             content.Children.Add(new TextBlock
             {
@@ -3702,7 +4381,7 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewSettingsGroup(string title, FrameworkElement[] rows)
     {
         var panel = NewCardPanel(0);
-        panel.Children.Add(new TextBlock { Text = title, Style = Application.Current.Resources["BodyStrongTextBlockStyle"] as Style, Margin = new Thickness(0, 0, 0, 12) });
+        panel.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle, Margin = new Thickness(0, 0, 0, 12) });
         foreach (var row in rows)
             panel.Children.Add(row);
         return NewCard(panel);
@@ -3720,6 +4399,13 @@ public sealed partial class MainWindow : Window
         _pendingOptionUpdates[key] = value;
         _optionSaveTimer.Stop();
         _ = FlushPendingOptionUpdatesAsync();
+    }
+
+    private async Task UpdateOptionAndWaitAsync(string key, string value)
+    {
+        _pendingOptionUpdates[key] = value;
+        _optionSaveTimer.Stop();
+        await FlushPendingOptionUpdatesAsync();
     }
 
     private async void OptionSaveTimer_Tick(object? sender, object e)
@@ -4173,7 +4859,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(2);
-        text.Children.Add(new TextBlock { Text = title, Style = Application.Current.Resources["BodyTextBlockStyle"] as Style });
+        text.Children.Add(new TextBlock { Text = title, Style = ResourceStyle("BodyTextBlockStyle") });
         if (!string.IsNullOrWhiteSpace(subtitle))
             text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.62, TextWrapping = TextWrapping.Wrap });
         grid.Children.Add(text);
