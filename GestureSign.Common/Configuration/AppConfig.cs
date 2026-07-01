@@ -401,6 +401,18 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        public static string KandoSettingsHotKey
+        {
+            get
+            {
+                return GetValue(nameof(KandoSettingsHotKey), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(KandoSettingsHotKey), value);
+            }
+        }
+
         public static string KandoExecutablePath
         {
             get

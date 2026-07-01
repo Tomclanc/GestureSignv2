@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9783">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
@@ -44,13 +44,22 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 下载
 
-前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9783) 下载最新版安装包。
+前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9783/GestureSign-V2-Kando-x64.msi)
+- GestureSign V2 8.1.9802
 
 ## 更新内容
+
+### 8.1.9802
+
+- “快捷操作”页面改为 PowerToys 风格布局，展示 Kando 动态预览、启用开关、设置快捷键和打开 Kando 设置按钮。
+- 新增动作时可以直接绘制手势图案，也可以用触控板或触控录制真实轨迹，保存后会自动创建或更新对应手势。
+- 修复程序分组匹配 Edge / Chromium 浏览器时不稳定的问题，浏览器分组会同时匹配 `MicrosoftEdge`、`msedge`、`msedge.exe`、`msedgewebview2`、`firefox`、`chrome` 等别名。
+- 修复后台手势查找未过滤停用动作的问题；动作停用后不会继续触发，也不会悄悄回退执行全局同名动作。
+- 补充内置快捷键插件兜底，避免缺少 `GestureSign.CorePlugins.dll` 时快捷键命令被跳过。
+- 安装包默认安装到 `%LocalAppData%\GestureSign V2`，并调整升级打包方式，减少升级时提示查找旧 MSI 源文件的问题。
 
 ### 8.1.9783
 
@@ -220,11 +229,11 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 ## Download
 
-Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9783).
+Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases).
 
 Current version:
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9783/GestureSign-V2-Kando-x64.msi)
+- GestureSign V2 8.1.9802
 
 ## Installation
 
@@ -308,11 +317,11 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 ## ダウンロード
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9783) から入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases) から入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-Kando-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9783/GestureSign-V2-Kando-x64.msi)
+- GestureSign V2 8.1.9802
 
 ## インストール
 

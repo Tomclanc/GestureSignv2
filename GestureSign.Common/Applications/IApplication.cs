@@ -14,6 +14,7 @@ namespace GestureSign.Common.Applications
         bool MatchActivated { get; set; }
         string MatchString { get; set; }
         bool IsRegEx { get; set; }
+        bool IsEnabled { get; set; }
         string Group { get; set; }
 
         void AddAction(IAction Action);

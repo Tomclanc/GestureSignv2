@@ -23,6 +23,8 @@ namespace GestureSign.Common.Applications
         public virtual bool MatchActivated { get; set; }
         public virtual string MatchString { get; set; }
         public virtual bool IsRegEx { get; set; }
+        [DefaultValue(true)]
+        public virtual bool IsEnabled { get; set; } = true;
         [DefaultValue("")]
         public virtual string Group { get; set; }
 
@@ -80,6 +82,7 @@ namespace GestureSign.Common.Applications
                 switch (MatchUsing)
                 {
                     case MatchUsing.WindowClass:
+                    case (MatchUsing)3:
                         windowMatchString = Window.ClassName;
 
                         break;
@@ -89,8 +92,7 @@ namespace GestureSign.Common.Applications
                         break;
                     case MatchUsing.ExecutableFilename:
                         windowMatchString = Window.Process.MainModule.ModuleName;
-
-                        break;
+                        return ApplicationManager.CompareExecutableFileName(compareMatchString, windowMatchString, IsRegEx);
                     case MatchUsing.All:
                         return true;
                 }

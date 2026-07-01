@@ -17,6 +17,18 @@ internal sealed class LegacyDataStore
     private const string ActionsFileName = "Actions.gsa";
     private const string GesturesFileName = "Gestures.gest";
     private const string ConfigFileName = "GestureSign.config";
+    private static readonly string[] BrowserExecutableAliases =
+    [
+        "MicrosoftEdge",
+        "msedge",
+        "msedge.exe",
+        "msedgewebview2",
+        "MicrosoftEdgeCP",
+        "firefox",
+        "chrome",
+        "iexplore"
+    ];
+
     private readonly JsonArray _actionsRoot;
     private readonly JsonArray _gesturesRoot;
     private readonly string _defaultsPath;
@@ -68,6 +80,7 @@ internal sealed class LegacyDataStore
         var actionsRoot = LoadJsonArray(actionsPath);
         var gesturesRoot = LoadJsonArray(gesturesPath);
         var changedActions = NormalizeBuiltInApplications(actionsRoot);
+        changedActions |= NormalizeMatchUsingValues(actionsRoot);
         changedActions |= EnsureSettingsWindowIgnored(actionsRoot);
         var changedGestures = NormalizeGestureNames(gesturesRoot, actionsRoot, out var changedGestureActions);
         var actionsFromDefaults = IsDefaultsPath(actionsPath);
@@ -588,6 +601,21 @@ internal sealed class LegacyDataStore
             };
         }).ToList();
 
+    private static bool NormalizeMatchUsingValues(JsonArray root)
+    {
+        var changed = false;
+        foreach (var app in root.OfType<JsonObject>())
+        {
+            if (app.IntValue("MatchUsing", 0) != 3)
+                continue;
+
+            app["MatchUsing"] = 0;
+            changed = true;
+        }
+
+        return changed;
+    }
+
     private static LegacyAction ReadAction(JsonObject action)
     {
         var commands = action["Commands"] as JsonArray;
@@ -664,8 +692,37 @@ internal sealed class LegacyDataStore
                     app["Group"] = "";
                     changed = true;
                 }
+
+                if (EnsureBrowserExecutableAliases(app, matchString))
+                    changed = true;
             }
         }
+
+        return changed;
+    }
+
+    private static bool EnsureBrowserExecutableAliases(JsonObject app, string matchString)
+    {
+        var aliases = matchString
+            .Split(['|', ';', ','], StringSplitOptions.RemoveEmptyEntries)
+            .Select(alias => alias.Trim())
+            .Where(alias => alias.Length != 0)
+            .ToList();
+        var aliasSet = aliases.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var changed = false;
+
+        foreach (var alias in BrowserExecutableAliases)
+        {
+            if (aliasSet.Contains(alias))
+                continue;
+
+            aliases.Add(alias);
+            aliasSet.Add(alias);
+            changed = true;
+        }
+
+        if (changed)
+            app["MatchString"] = string.Join("|", aliases);
 
         return changed;
     }
@@ -817,6 +874,7 @@ internal sealed class LegacyDataStore
                 OpenSettingsHotKey = settings.StringValue("OpenSettingsHotKey", ""),
                 KandoEnabled = settings.BoolValue("KandoEnabled", false),
                 KandoHotKey = settings.StringValue("KandoHotKey", ""),
+                KandoSettingsHotKey = settings.StringValue("KandoSettingsHotKey", ""),
                 KandoExecutablePath = settings.StringValue("KandoExecutablePath", ""),
                 KandoMenuName = settings.StringValue("KandoMenuName", ""),
                 KandoTrigger = settings.StringValue("KandoTrigger", "")
@@ -1018,6 +1076,7 @@ internal sealed record LegacyOptions
     public string OpenSettingsHotKey { get; init; } = "";
     public bool KandoEnabled { get; init; }
     public string KandoHotKey { get; init; } = "";
+    public string KandoSettingsHotKey { get; init; } = "";
     public string KandoExecutablePath { get; init; } = "";
     public string KandoMenuName { get; init; } = "";
     public string KandoTrigger { get; init; } = "";

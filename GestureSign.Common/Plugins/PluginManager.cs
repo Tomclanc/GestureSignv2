@@ -205,8 +205,20 @@ namespace GestureSign.Common.Plugins
                 }
             }
 
+            EnsureBuiltInFallbackPlugins(host);
 
             return bFailed;
+        }
+
+        private void EnsureBuiltInFallbackPlugins(IHostControl host)
+        {
+            if (FindPluginByClassAndFilename("GestureSign.CorePlugins.HotKey.HotKeyPlugin", "GestureSign.CorePlugins.dll") != null)
+                return;
+
+            var hotKey = new BuiltInHotKeyPlugin { HostControl = host };
+            hotKey.Initialize();
+            _Plugins.Add(new PluginInfo(hotKey, "GestureSign.CorePlugins.HotKey.HotKeyPlugin", "GestureSign.CorePlugins.dll"));
+            Logging.LogMessage("Built-in fallback plugin loaded. Plugin=GestureSign.CorePlugins.HotKey.HotKeyPlugin");
         }
 
         private void OnGestureActionExecuted(GestureActionExecutedEventArgs e)

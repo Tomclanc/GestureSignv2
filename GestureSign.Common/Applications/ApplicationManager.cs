@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
+using GestureSign.Common.Log;
 using ManagedWinapi.Windows;
 
 namespace GestureSign.Common.Applications
@@ -23,6 +24,17 @@ namespace GestureSign.Common.Applications
         private List<IApplication> _applications;
         IEnumerable<IApplication> _recognizedApplication;
         private Timer _timer;
+        private static readonly string[] BrowserExecutableAliases =
+        {
+            "MicrosoftEdge",
+            "msedge",
+            "msedge.exe",
+            "msedgewebview2",
+            "MicrosoftEdgeCP",
+            "firefox",
+            "chrome",
+            "iexplore"
+        };
         #endregion
 
         #region Public Instance Properties
@@ -136,6 +148,18 @@ namespace GestureSign.Common.Applications
             // Derive capture window from capture point
             CaptureWindow = GetWindowFromPoint(e.FirstCapturedPoints.FirstOrDefault());
             _recognizedApplication = GetApplicationFromWindow(CaptureWindow);
+            if (RecognizedOnlyGlobal(_recognizedApplication))
+            {
+                var foregroundWindow = SystemWindow.ForegroundWindow;
+                var foregroundApplications = GetApplicationFromWindow(foregroundWindow, true)
+                    .Where(app => !(app is GlobalApp))
+                    .ToArray();
+                if (foregroundApplications.Length != 0)
+                {
+                    CaptureWindow = foregroundWindow;
+                    _recognizedApplication = foregroundApplications;
+                }
+            }
         }
 
         #endregion
@@ -228,6 +252,7 @@ namespace GestureSign.Common.Applications
                             if (!LoadLegacy())
                                 if (!LoadDefaults())
                                     _applications = new List<IApplication>();
+                    NormalizeBuiltInApplications();
                     OnLoadApplicationsCompleted?.Invoke(this, EventArgs.Empty);
                 };
 
@@ -310,10 +335,10 @@ namespace GestureSign.Common.Applications
             {
                 return new List<IAction>();
             }
-            var recognizedActions = _recognizedApplication.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions).Where(a => predicate(a)).ToList();
+            var recognizedActions = _recognizedApplication.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions).Where(a => IsActionExecutable(a) && predicate(a)).ToList();
             // If there is was no action found on given application, try to get an action for global application
             if (recognizedActions.Count == 0)
-                recognizedActions = GetGlobalApplication().Actions.Where(a => predicate(a)).ToList();
+                recognizedActions = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && predicate(a)).ToList();
 
             return recognizedActions;
         }
@@ -325,14 +350,35 @@ namespace GestureSign.Common.Applications
                 return Enumerable.Empty<IAction>();
             }
             // Attempt to retrieve an action on the application passed in
-            IEnumerable<IAction> finalAction =
-                application.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions.Where(a => a.GestureName == gestureName && MatchesGestureHotkey(a) && a.Commands != null && a.Commands.Any(com => com != null && com.IsEnabled)));
+            var recognizedApplications = application.ToList();
+            var finalAction =
+                recognizedApplications.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions.Where(a => IsActionExecutable(a) && a.GestureName == gestureName && MatchesGestureHotkey(a))).ToList();
             // If there is was no action found on given application, try to get an action for global application
-            if (!finalAction.Any() && useGlobal)
-                finalAction = GetGlobalApplication().Actions.Where(a => a.GestureName == gestureName && MatchesGestureHotkey(a));
+            if (finalAction.Count == 0 && useGlobal && !HasDefinedGestureAction(recognizedApplications, gestureName))
+                finalAction = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && a.GestureName == gestureName && MatchesGestureHotkey(a)).ToList();
 
+            Logging.LogMessage($"Gesture action lookup context. Gesture={gestureName}, Applications={DescribeApplications(recognizedApplications)}, Actions={finalAction.Count}");
             // Return whatever the result was
             return finalAction;
+        }
+
+        private static bool IsActionExecutable(IAction action)
+        {
+            return action != null &&
+                   action.IsEnabled &&
+                   action.Commands != null &&
+                   action.Commands.Any(command => command != null && command.IsEnabled);
+        }
+
+        private static bool HasDefinedGestureAction(IEnumerable<IApplication> applications, string gestureName)
+        {
+            return applications.Any(app =>
+                !(app is IgnoredApp) &&
+                !(app is GlobalApp) &&
+                app.Actions != null &&
+                app.Actions.Any(action => action != null &&
+                                          action.GestureName == gestureName &&
+                                          MatchesGestureHotkey(action)));
         }
 
         private static bool MatchesGestureHotkey(IAction action)
@@ -505,9 +551,15 @@ namespace GestureSign.Common.Applications
             var byClass = new List<IApplication>();
             foreach (var app in applications)
             {
+                if (!app.IsEnabled)
+                    continue;
+
                 switch (app.MatchUsing)
                 {
                     case MatchUsing.WindowClass:
+                        byClass.Add(app);
+                        break;
+                    case (MatchUsing)3:
                         byClass.Add(app);
                         break;
                     case MatchUsing.WindowTitle:
@@ -549,7 +601,7 @@ namespace GestureSign.Common.Applications
             {
                 try
                 {
-                    result.AddRange(byFileName.Where(a => a.MatchString != null && CompareString(a.MatchString, fileName, a.IsRegEx)));
+                    result.AddRange(byFileName.Where(a => a.MatchString != null && CompareExecutableFileName(a.MatchString, fileName, a.IsRegEx)));
                 }
                 catch
                 {
@@ -565,6 +617,94 @@ namespace GestureSign.Common.Applications
             return useRegEx
                 ? Regex.IsMatch(windowMatchString, compareMatchString, RegexOptions.Singleline | RegexOptions.IgnoreCase)
                 : string.Equals(windowMatchString.Trim(), compareMatchString.Trim(), StringComparison.CurrentCultureIgnoreCase);
+        }
+
+        private static bool RecognizedOnlyGlobal(IEnumerable<IApplication> applications)
+        {
+            return applications == null || !applications.Any(app => !(app is GlobalApp));
+        }
+
+        private static string DescribeApplications(IEnumerable<IApplication> applications)
+        {
+            if (applications == null)
+                return "(null)";
+
+            var names = applications.Select(app => $"{app.Name ?? app.GetType().Name}[{app.MatchUsing}:{app.MatchString}]").ToArray();
+            return names.Length == 0 ? "(empty)" : string.Join(",", names);
+        }
+
+        private void NormalizeBuiltInApplications()
+        {
+            if (_applications == null)
+                return;
+
+            foreach (var app in _applications.Where(IsBrowserApplication))
+                EnsureBrowserExecutableAliases(app);
+        }
+
+        private static bool IsBrowserApplication(IApplication app)
+        {
+            var matchString = app.MatchString ?? string.Empty;
+            var name = app.Name ?? string.Empty;
+            return app is UserApp &&
+                (string.Equals(name, "浏览器", StringComparison.OrdinalIgnoreCase) ||
+                 name.StartsWith("Browsers(", StringComparison.OrdinalIgnoreCase) ||
+                 matchString.IndexOf("firefox", StringComparison.OrdinalIgnoreCase) >= 0 &&
+                 matchString.IndexOf("chrome", StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private static void EnsureBrowserExecutableAliases(IApplication app)
+        {
+            var aliases = SplitExecutableMatchCandidates(app.MatchString).ToList();
+            var aliasSet = new HashSet<string>(aliases, StringComparer.OrdinalIgnoreCase);
+            foreach (var alias in BrowserExecutableAliases)
+            {
+                if (aliasSet.Contains(alias))
+                    continue;
+
+                aliases.Add(alias);
+                aliasSet.Add(alias);
+            }
+
+            app.MatchString = string.Join("|", aliases);
+            app.IsRegEx = true;
+        }
+
+        internal static bool CompareExecutableFileName(string compareMatchString, string windowFileName, bool useRegEx)
+        {
+            if (string.IsNullOrWhiteSpace(windowFileName)) return false;
+
+            var fileName = Path.GetFileName(windowFileName.Trim());
+            var baseName = Path.GetFileNameWithoutExtension(fileName);
+
+            if (useRegEx)
+            {
+                return Regex.IsMatch(fileName, compareMatchString, RegexOptions.Singleline | RegexOptions.IgnoreCase)
+                    || (!string.IsNullOrEmpty(baseName) && Regex.IsMatch(baseName, compareMatchString, RegexOptions.Singleline | RegexOptions.IgnoreCase));
+            }
+
+            foreach (var candidate in SplitExecutableMatchCandidates(compareMatchString))
+            {
+                if (string.Equals(fileName, candidate, StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+
+                if (!string.IsNullOrEmpty(baseName) && string.Equals(baseName, candidate, StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+
+                if (!candidate.EndsWith(".exe", StringComparison.CurrentCultureIgnoreCase) &&
+                    string.Equals(fileName, candidate + ".exe", StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private static IEnumerable<string> SplitExecutableMatchCandidates(string compareMatchString)
+        {
+            return (compareMatchString ?? string.Empty)
+                .Split(new[] { '|', ';', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(candidate => candidate.Trim())
+                .Where(candidate => candidate.Length != 0);
         }
 
 #pragma warning disable CS0618
@@ -629,6 +769,7 @@ namespace GestureSign.Common.Applications
                     ActivateWindow = grouping.First().ActivateWindow,
                     Condition = grouping.First().Condition,
                     GestureName = grouping.Key,
+                    IsEnabled = grouping.Any(legacyAction => legacyAction.IsEnabled),
                     Name = grouping.First().Name,
                 };
                 foreach (var legacyAction in grouping)

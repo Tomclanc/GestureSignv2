@@ -28,6 +28,9 @@ namespace GestureSign.Common.Applications
         [DefaultValue("")]
         public string Condition { get; set; }
 
+        [DefaultValue(true)]
+        public bool IsEnabled { get; set; } = true;
+
         public bool? ActivateWindow { get; set; }
 
         [JsonProperty(ItemTypeNameHandling = TypeNameHandling.None)]
@@ -87,6 +90,7 @@ namespace GestureSign.Common.Applications
             action.Name = Name == null ? null : string.Copy(Name);
             action.GestureName = GestureName == null ? null : string.Copy(GestureName);
             action.Condition = Condition == null ? null : string.Copy(Condition);
+            action.IsEnabled = IsEnabled;
             action._commands = new List<ICommand>(_commands);
             action.Hotkey = Hotkey == null ? null : new Hotkey() { KeyCode = Hotkey.KeyCode, ModifierKeys = Hotkey.ModifierKeys };
             action.ContinuousGesture = ContinuousGesture == null ? null : new ContinuousGesture(ContinuousGesture.ContactCount, ContinuousGesture.Gesture);

@@ -82,6 +82,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.XML" />
@@ -140,6 +141,7 @@
     <Compile Include="Applications\Command.cs" />
     <Compile Include="Applications\Action.cs" />
     <Compile Include="Plugins\HostControl.cs" />
+    <Compile Include="Plugins\BuiltInHotKeyPlugin.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
     <Compile Include="Plugins\IPluginInfo.cs" />
     <Compile Include="Plugins\GestureActionExecutedEventArgs.cs" />
@@ -169,6 +171,10 @@
     <ProjectReference Include="..\ManagedWinapi\ManagedWinapi.csproj">
       <Project>{FBD3EC1E-47E2-4D2D-81C9-D6506125A09A}</Project>
       <Name>ManagedWinapi</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WindowsInput\WindowsInput.csproj">
+      <Project>{3549cd6f-80f8-450f-b99e-cf0a736b1f2a}</Project>
+      <Name>WindowsInput</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

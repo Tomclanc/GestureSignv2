@@ -11,6 +11,7 @@ namespace GestureSign.Common.Applications
         string GestureName { get; set; }
         string Name { get; set; }
         string Condition { get; set; }
+        bool IsEnabled { get; set; }
         bool? ActivateWindow { get; set; }
         IEnumerable<ICommand> Commands { get; set; }
         Hotkey Hotkey { get; set; }

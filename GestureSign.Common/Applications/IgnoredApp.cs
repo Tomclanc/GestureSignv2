@@ -26,7 +26,7 @@ namespace GestureSign.Common.Applications
         #endregion
 
         private bool isEnabled;
-        public bool IsEnabled
+        public override bool IsEnabled
         {
             get
             {

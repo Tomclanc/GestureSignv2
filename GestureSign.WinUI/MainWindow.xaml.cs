@@ -1091,56 +1091,170 @@ public sealed partial class MainWindow : Window
         var root = NewSection();
         var options = _legacyData.Options;
 
-        var panel = NewCardPanel(12);
-        var enabled = new CheckBox { Content = "启用快捷操作", IsChecked = options.KandoEnabled };
-        enabled.Checked += async (_, _) => await RunUiActionAsync(EnableKandoQuickActionsAsync);
-        enabled.Unchecked += async (_, _) => await RunUiActionAsync(DisableKandoQuickActionsAsync);
-        panel.Children.Add(enabled);
-
-        var hotKeySettings = new TextBox { Text = options.KandoHotKey, Visibility = Visibility.Collapsed };
-        var hotKeyRow = NewKandoHotKeyOption(hotKeySettings, out var hotKeyRecorder);
-        panel.Children.Add(NewKandoMenuPicker(options, hotKeySettings, hotKeyRecorder));
-        panel.Children.Add(hotKeyRow);
-        panel.Children.Add(NewLightTextOption("Kando 程序路径", options.KandoExecutablePath, "KandoExecutablePath", "留空自动检测安装目录下的 Kando\\kando.exe"));
-
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        var test = NewPillButton("测试弹出菜单", false);
-        test.Click += async (_, _) => await RunUiActionAsync(TestKandoMenuAsync);
-        var settings = NewPillButton("打开 Kando 设置", false);
-        settings.Click += async (_, _) => await RunUiActionAsync(OpenKandoSettingsAsync);
-        var auto = NewPillButton("自动检测路径", false);
-        auto.Click += async (_, _) =>
-        {
-            var path = FindKandoExecutablePath("");
-            if (path is null)
-            {
-                await ShowInfoDialog("未找到 Kando", "请检查安装目录下是否存在 Kando\\kando.exe。");
-                return;
-            }
-            UpdateOptionAndReloadNow("KandoExecutablePath", path);
-            _legacyData = LegacyDataStore.Load();
-            ShowPage("quickActions");
-        };
-        buttons.Children.Add(test);
-        buttons.Children.Add(settings);
-        buttons.Children.Add(auto);
-        panel.Children.Add(buttons);
-
-        panel.Children.Add(new TextBlock
-        {
-            Text = "GestureSign 后台会注册这里的快捷键；按下后按选中的 Kando 菜单调用圆环菜单。",
-            TextWrapping = TextWrapping.Wrap,
-            Opacity = 0.72
-        });
-        panel.Children.Add(new TextBlock
-        {
-            Text = $"自动检测路径: {FindKandoExecutablePath(options.KandoExecutablePath) ?? "未找到 Kando 可执行文件"}",
-            TextWrapping = TextWrapping.Wrap,
-            Opacity = 0.72
-        });
-
-        root.Children.Add(NewCard(panel));
+        root.Children.Add(NewKandoPowerToysPreviewCard());
+        root.Children.Add(NewKandoPowerToysToggleRow(options.KandoEnabled));
+        root.Children.Add(NewKandoSettingsHotKeyRow(options.KandoSettingsHotKey));
+        root.Children.Add(NewKandoOpenSettingsRow());
         return root;
+    }
+
+    private FrameworkElement NewKandoPowerToysPreviewCard()
+    {
+        var image = new Image
+        {
+            Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/kando-preview.gif")),
+            Stretch = Stretch.UniformToFill,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        var surfaceColor = IsDark
+            ? Color.FromArgb(255, 24, 26, 30)
+            : Color.FromArgb(255, 238, 244, 250);
+        var feather = new Border
+        {
+            Height = 180,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Background = new LinearGradientBrush
+            {
+                StartPoint = new Point(0.5, 0),
+                EndPoint = new Point(0.5, 1),
+                GradientStops =
+                {
+                    new GradientStop { Color = Color.FromArgb(0, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0 },
+                    new GradientStop { Color = Color.FromArgb(28, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.28 },
+                    new GradientStop { Color = Color.FromArgb(96, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.55 },
+                    new GradientStop { Color = Color.FromArgb(190, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.82 },
+                    new GradientStop { Color = surfaceColor, Offset = 1 }
+                }
+            }
+        };
+
+        var preview = new Grid();
+        preview.Children.Add(image);
+        preview.Children.Add(feather);
+
+        var frame = new Border
+        {
+            Height = 320,
+            Background = new SolidColorBrush(surfaceColor),
+            Child = preview
+        };
+
+        return NewCard(frame, new Thickness(0));
+    }
+
+    private FrameworkElement NewKandoPowerToysToggleRow(bool isEnabled)
+    {
+        var toggle = new ToggleSwitch
+        {
+            IsOn = isEnabled,
+            OnContent = "\u5f00",
+            OffContent = "\u5173",
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        toggle.Toggled += async (_, _) =>
+        {
+            if (toggle.IsOn)
+                await RunUiActionAsync(EnableKandoQuickActionsAsync);
+            else
+                await RunUiActionAsync(DisableKandoQuickActionsAsync);
+        };
+
+        return NewPowerToysSettingCard("\uE945", "\u5feb\u6377\u64cd\u4f5c", null, toggle);
+    }
+
+    private FrameworkElement NewKandoSettingsHotKeyRow(string existingSettings)
+    {
+        var settings = new TextBox { Text = existingSettings, Visibility = Visibility.Collapsed };
+        var recorder = NewHotKeyRecorder(settings, existingSettings, onRecorded: value => UpdateOptionAndReloadNow("KandoSettingsHotKey", value));
+        recorder.Margin = new Thickness(0);
+        recorder.MinWidth = 260;
+        recorder.MaxWidth = 360;
+        recorder.HorizontalAlignment = HorizontalAlignment.Right;
+
+        settings.TextChanged += (_, _) => UpdateOptionAndReloadNow("KandoSettingsHotKey", settings.Text);
+
+        var clear = NewPillButton("\u6e05\u9664", false);
+        clear.Click += (_, _) =>
+        {
+            if (ReferenceEquals(_activeHotKeyRecorder, recorder))
+                StopHotKeyRecording();
+            settings.Text = "";
+            recorder.Text = "";
+            UpdateOptionAndReloadNow("KandoSettingsHotKey", "");
+        };
+
+        var panel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        panel.Children.Add(recorder);
+        panel.Children.Add(clear);
+
+        return NewPowerToysSettingCard("\uE765", "\u6253\u5f00 Kando \u8bbe\u7f6e\u9875\u9762\u7684\u5feb\u6377\u952e", null, panel);
+    }
+
+    private FrameworkElement NewKandoOpenSettingsRow()
+    {
+        var button = NewPillButton("\u6253\u5f00 Kando \u8bbe\u7f6e", false);
+        button.Click += async (_, _) => await RunUiActionAsync(OpenKandoSettingsAsync);
+        button.HorizontalAlignment = HorizontalAlignment.Right;
+        button.VerticalAlignment = VerticalAlignment.Center;
+
+        return NewPowerToysSettingCard("\uE713", "Kando \u8bbe\u7f6e", "\u914d\u7f6e\u83dc\u5355\u3001\u89e6\u53d1\u65b9\u5f0f\u3001\u5916\u89c2\u7b49", button);
+    }
+
+    private FrameworkElement NewPowerToysSettingCard(string glyph, string title, string? subtitle, FrameworkElement control)
+    {
+        var grid = new Grid
+        {
+            ColumnSpacing = 16,
+            MinHeight = 64
+        };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var icon = new FontIcon
+        {
+            Glyph = glyph,
+            FontSize = 24,
+            Width = 36,
+            Height = 36,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        grid.Children.Add(icon);
+
+        var text = NewCardPanel(2);
+        text.VerticalAlignment = VerticalAlignment.Center;
+        text.Children.Add(new TextBlock
+        {
+            Text = title,
+            Style = ResourceStyle("BodyTextBlockStyle"),
+            TextWrapping = TextWrapping.Wrap
+        });
+        if (!string.IsNullOrWhiteSpace(subtitle))
+        {
+            text.Children.Add(new TextBlock
+            {
+                Text = subtitle,
+                Opacity = 0.62,
+                TextWrapping = TextWrapping.Wrap
+            });
+        }
+
+        Grid.SetColumn(text, 1);
+        grid.Children.Add(text);
+
+        control.VerticalAlignment = VerticalAlignment.Center;
+        Grid.SetColumn(control, 2);
+        grid.Children.Add(control);
+
+        return NewCard(grid, new Thickness(16, 12, 16, 12));
     }
 
     private FrameworkElement NewKandoMenuPicker(LegacyOptions options, TextBox hotKeySettings, TextBox hotKeyRecorder)
@@ -1302,7 +1416,7 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9783", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9802", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -1313,6 +1427,27 @@ public sealed partial class MainWindow : Window
     private StackPanel NewSection() => new() { Spacing = 14 };
 
     private StackPanel NewCardPanel(double spacing = 6) => new() { Spacing = spacing };
+
+    private FrameworkElement NewDialogField(string title, string description, FrameworkElement control)
+    {
+        var panel = NewCardPanel(4);
+        panel.Children.Add(new TextBlock
+        {
+            Text = title,
+            Style = BodyStrongTextBlockStyle,
+            TextWrapping = TextWrapping.Wrap
+        });
+        panel.Children.Add(new TextBlock
+        {
+            Text = description,
+            Opacity = 0.68,
+            FontSize = 12,
+            TextWrapping = TextWrapping.Wrap
+        });
+        control.Margin = new Thickness(0, 4, 0, 0);
+        panel.Children.Add(control);
+        return panel;
+    }
 
     private static Grid NewTwoColumnRow(FrameworkElement left, FrameworkElement right)
     {
@@ -1699,20 +1834,20 @@ public sealed partial class MainWindow : Window
         matchUsing.Items.Add("可执行文件");
         matchUsing.Items.Add("窗口类");
         var regex = new CheckBox { Content = "使用正则匹配", Margin = new Thickness(0, 8, 0, 0) };
-        var panel = NewCardPanel(0);
-        panel.Children.Add(name);
-        panel.Children.Add(matchText);
-        panel.Children.Add(NewRunningProcessPicker(name, matchText, matchUsing));
-        panel.Children.Add(NewWindowPicker(name, matchText, matchUsing));
+        var panel = NewCardPanel(12);
+        panel.Children.Add(NewDialogField("程序名称", "用于在动作页列表中显示，建议填写容易识别的名称。", name));
+        panel.Children.Add(NewDialogField("匹配文本", "后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", matchText));
+        panel.Children.Add(NewDialogField("从运行中程序选择", "自动填入程序名称和可执行文件名，适合普通桌面程序。", NewRunningProcessPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField("拾取窗口", "点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", NewWindowPicker(name, matchText, matchUsing)));
         if (!ignored)
-            panel.Children.Add(group);
-        panel.Children.Add(matchUsing);
-        panel.Children.Add(regex);
+            panel.Children.Add(NewDialogField("分组", "可留空。相同分组会在动作页中归在一起，方便管理。", group));
+        panel.Children.Add(NewDialogField("匹配方式", "可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", matchUsing));
+        panel.Children.Add(NewDialogField("正则匹配", "开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", regex));
 
         if (!await ConfirmDialogAsync(ignored ? "添加忽略项" : "添加程序", panel, "添加"))
             return;
 
-        var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 3, _ => 2 };
+        var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 0, _ => 2 };
         if (ignored)
             _legacyData.AddIgnoredApplication(name.Text, matchUsingValue, matchText.Text, regex.IsChecked ?? false);
         else
@@ -1725,7 +1860,7 @@ public sealed partial class MainWindow : Window
         var name = new TextBox { PlaceholderText = "名称", Text = app.Name };
         var matchText = new TextBox { PlaceholderText = "窗口标题、类名或 exe", Text = app.MatchString, Margin = new Thickness(0, 8, 0, 0) };
         var group = new TextBox { PlaceholderText = "分组，可留空", Text = app.Group, Margin = new Thickness(0, 8, 0, 0) };
-        var matchUsing = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = app.MatchUsing switch { 1 => 0, 3 => 2, _ => 1 } };
+        var matchUsing = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = app.MatchUsing switch { 1 => 0, 0 => 2, 3 => 2, _ => 1 } };
         matchUsing.Items.Add("窗口标题");
         matchUsing.Items.Add("可执行文件");
         matchUsing.Items.Add("窗口类");
@@ -1734,25 +1869,25 @@ public sealed partial class MainWindow : Window
         var limitFingers = new TextBox { PlaceholderText = "限制手指数，0 表示不限", Text = app.LimitNumberOfFingers.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
         var blockThreshold = new TextBox { PlaceholderText = "触摸阻断阈值", Text = app.BlockTouchInputThreshold.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
 
-        var panel = NewCardPanel(0);
-        panel.Children.Add(name);
-        panel.Children.Add(matchText);
-        panel.Children.Add(NewRunningProcessPicker(name, matchText, matchUsing));
-        panel.Children.Add(NewWindowPicker(name, matchText, matchUsing));
+        var panel = NewCardPanel(12);
+        panel.Children.Add(NewDialogField("程序名称", "用于在动作页列表中显示，建议填写容易识别的名称。", name));
+        panel.Children.Add(NewDialogField("匹配文本", "后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", matchText));
+        panel.Children.Add(NewDialogField("从运行中程序选择", "自动填入程序名称和可执行文件名，适合普通桌面程序。", NewRunningProcessPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField("拾取窗口", "点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", NewWindowPicker(name, matchText, matchUsing)));
         if (app.Type != "忽略")
         {
-            panel.Children.Add(group);
-            panel.Children.Add(limitFingers);
-            panel.Children.Add(blockThreshold);
+            panel.Children.Add(NewDialogField("分组", "可留空。相同分组会在动作页中归在一起，方便管理。", group));
+            panel.Children.Add(NewDialogField("限制手指数", "该程序允许识别的最大触点数。填 0 表示不限制；填 2 表示只响应 1 指和 2 指手势，忽略更多触点。", limitFingers));
+            panel.Children.Add(NewDialogField("触摸阻断阈值", "触摸屏/触控板专用。开始手势后达到这个触点数时阻止原始触摸输入，避免页面同时滚动或点击；鼠标手势通常不受影响。", blockThreshold));
         }
-        panel.Children.Add(matchUsing);
-        panel.Children.Add(regex);
-        panel.Children.Add(enabled);
+        panel.Children.Add(NewDialogField("匹配方式", "可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", matchUsing));
+        panel.Children.Add(NewDialogField("正则匹配", "开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", regex));
+        panel.Children.Add(NewDialogField("启用状态", "关闭后该程序分组不会参与手势匹配，已有动作会保留。", enabled));
 
         if (!await ConfirmDialogAsync($"编辑 {app.Name}", panel, "保存"))
             return;
 
-        var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 3, _ => 2 };
+        var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 0, _ => 2 };
         _legacyData.UpdateApplication(app, name.Text, matchUsingValue, matchText.Text, group.Text, regex.IsChecked ?? false, enabled.IsChecked ?? true, ParseInt(limitFingers.Text, app.LimitNumberOfFingers), ParseInt(blockThreshold.Text, app.BlockTouchInputThreshold));
         ReloadData();
     }
@@ -1785,13 +1920,62 @@ public sealed partial class MainWindow : Window
 
         var name = new TextBox { PlaceholderText = "动作名称", Text = "新动作" };
         var gesture = new TextBox { PlaceholderText = "手势名称，例如 3Right", Margin = new Thickness(0, 8, 0, 0) };
+        var drawnPointPatterns = new List<List<(double X, double Y)>>();
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
+        var trainingStatus = new TextBlock { Text = "可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+        var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
+        trainByTouchpad.Click += async (_, _) =>
+        {
+            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
+            gesture.Text = gestureName;
+            await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
+        };
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
         panel.Children.Add(NewBuiltInGesturePicker(gesture));
+        panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
+        panel.Children.Add(drawPanel);
+        panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
+        panel.Children.Add(trainingStatus);
         if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
             return;
-        _legacyData.AddAction(app, name.Text, gesture.Text);
+
+        var validDrawnPointPatterns = drawnPointPatterns
+            .Where(pattern => pattern.Count >= 2)
+            .Cast<IReadOnlyList<(double X, double Y)>>()
+            .ToList();
+        if (validDrawnPointPatterns.Count > 0)
+        {
+            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
+            var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
+            if (existingGesture is null)
+                _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
+            else
+                _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
+            gesture.Text = gestureName;
+            _legacyData = LegacyDataStore.Load();
+        }
+
+        if (string.IsNullOrWhiteSpace(gesture.Text))
+        {
+            await ShowInfoDialog("缺少手势", "请先选择、输入或绘制一个手势。");
+            return;
+        }
+
+        var targetApp = _legacyData.Applications.FirstOrDefault(candidate =>
+            ReferenceEquals(candidate.Source, app.Source) ||
+            string.Equals(candidate.Name, app.Name, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(candidate.Type, app.Type, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(candidate.MatchString, app.MatchString, StringComparison.OrdinalIgnoreCase));
+        if (targetApp is null)
+        {
+            await ShowInfoDialog("程序分组已变化", "刚才录制手势后配置已刷新，请重新打开该分组再添加动作。");
+            ReloadData();
+            return;
+        }
+
+        _legacyData.AddAction(targetApp, name.Text, gesture.Text);
         ReloadData();
     }
 
@@ -3090,25 +3274,27 @@ public sealed partial class MainWindow : Window
     }
 
     private static bool StartKando(LegacyOptions options, string arguments)
+        => StartKandoProcess(options, arguments) is not null;
+
+    private static Process? StartKandoProcess(LegacyOptions options, string arguments)
     {
         try
         {
             var executablePath = FindKandoExecutablePath(options.KandoExecutablePath);
             if (executablePath is null)
-                return false;
+                return null;
 
-            Process.Start(new ProcessStartInfo
+            return Process.Start(new ProcessStartInfo
             {
                 FileName = executablePath,
                 Arguments = arguments,
                 WorkingDirectory = Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory,
                 UseShellExecute = false
             });
-            return true;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
@@ -5647,6 +5833,7 @@ public sealed partial class MainWindow : Window
         {
             1 => "窗口标题",
             2 => "可执行文件",
+            0 => "窗口类",
             3 => "窗口类",
             4 => "全局",
             _ => "窗口类"

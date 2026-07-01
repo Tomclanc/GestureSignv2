@@ -1,6 +1,12 @@
 param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
-    [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi")
+    [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
+    [string]$PackageName = "GestureSign V2",
+    [string]$PackageVersion = "8.1.9802",
+    [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
+    [string]$InstallFolderName = "GestureSign V2",
+    [string]$CompressionLevel = "low",
+    [switch]$SkipMajorUpgrade
 )
 
 $ErrorActionPreference = "Stop"
@@ -40,6 +46,12 @@ function Get-RelativePath {
     }
     else {
         [System.IO.Path]::GetFullPath($TargetPath)
+    }
+    if ([string]::Equals(
+        $baseUri.LocalPath.TrimEnd('\'),
+        $targetFullPath.TrimEnd('\'),
+        [System.StringComparison]::OrdinalIgnoreCase)) {
+        return "."
     }
     $targetUri = [System.Uri]$targetFullPath
     return [System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri($targetUri).ToString()).Replace('/', '\')
@@ -157,40 +169,47 @@ function Add-DirectoryXml {
 
 $directoryXml = New-Object System.Collections.Generic.List[string]
 Add-DirectoryXml -Output $directoryXml -Parent "" -Indent 8
+$majorUpgradeXml = if ($SkipMajorUpgrade) {
+    "    <!-- Major upgrade removal is intentionally disabled for this build. -->"
+}
+else {
+    "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallFinalize`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
+}
 
 $wxs = @"
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="GestureSign V2" Manufacturer="TransposonY / WinUI rebuild" Version="8.1.9783" UpgradeCode="6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1" Scope="$scope">
-    <MajorUpgrade AllowSameVersionUpgrades="yes" Schedule="afterInstallValidate" DowngradeErrorMessage="A newer version of GestureSign is already installed." />
-    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+  <Package Name="$(Escape-Xml $PackageName)" Manufacturer="TransposonY / WinUI rebuild" Version="$(Escape-Xml $PackageVersion)" UpgradeCode="$(Escape-Xml $UpgradeCode)" Scope="$scope">
+$majorUpgradeXml
+    <Property Id="DISABLEROLLBACK" Value="1" />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="$(Escape-Xml $CompressionLevel)" />
     <Icon Id="GestureSignIcon" SourceFile="$(Escape-Xml $($iconPath.ProviderPath))" />
     <Property Id="ARPPRODUCTICON" Value="GestureSignIcon" />
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
 
     <StandardDirectory Id="$installRootDirectory">
-      <Directory Id="INSTALLFOLDER" Name="GestureSign V2">
+      <Directory Id="INSTALLFOLDER" Name="$(Escape-Xml $InstallFolderName)">
 $($directoryXml -join "`r`n")
       </Directory>
     </StandardDirectory>
     <StandardDirectory Id="ProgramMenuFolder">
-      <Directory Id="ProgramMenuDir" Name="GestureSign V2" />
+      <Directory Id="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" />
     </StandardDirectory>
     <StandardDirectory Id="DesktopFolder" />
 
 $($components -join "`r`n")
     <Component Id="StartMenuShortcutComponent" Directory="ProgramMenuDir" Guid="*">
-      <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="GestureSign V2" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
+      <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>
 
     <Component Id="DesktopShortcutComponent" Directory="DesktopFolder" Guid="*">
-      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="GestureSign V2" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
+      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="desktopShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>
 
-    <Feature Id="MainFeature" Title="GestureSign V2" Level="1">
+    <Feature Id="MainFeature" Title="$(Escape-Xml $PackageName)" Level="1">
 $($componentRefs -join "`r`n")
 $($cleanupComponentRefs -join "`r`n")
       <ComponentRef Id="StartMenuShortcutComponent" />
@@ -206,7 +225,7 @@ if (Test-Path -LiteralPath $OutputMsi) {
     Remove-Item -LiteralPath $OutputMsi -Force
 }
 
-& wix build -arch x64 -dcl high -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
+& wix build -arch x64 -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
 if ($LASTEXITCODE -ne 0) {
     throw "WiX build failed with exit code $LASTEXITCODE"
 }

@@ -15,6 +15,7 @@ namespace GestureSign.Daemon.Triggers
         private List<KeyValuePair<Hotkey, List<IAction>>> _hotKeyMap = new List<KeyValuePair<Hotkey, List<IAction>>>();
         private Hotkey _openSettingsHotKey;
         private Hotkey _kandoHotKey;
+        private Hotkey _kandoSettingsHotKey;
 
         public HotKeyManager()
         {
@@ -29,6 +30,7 @@ namespace GestureSign.Daemon.Triggers
                 RegisterHotKeys(hotKeyActions);
             RegisterOpenSettingsHotKey();
             RegisterKandoHotKey();
+            RegisterKandoSettingsHotKey();
         }
 
         private void Instance_ForegroundApplicationsChanged(object sender, ApplicationChangedEventArgs appsChanged)
@@ -54,11 +56,13 @@ namespace GestureSign.Daemon.Triggers
             {
                 UnloadHotKeys();
                 UnloadKandoHotKey();
+                UnloadKandoSettingsHotKey();
             }
             else
             {
                 RegisterForegroundHotKeys();
                 RegisterKandoHotKey();
+                RegisterKandoSettingsHotKey();
             }
             RegisterOpenSettingsHotKey();
         }
@@ -67,9 +71,15 @@ namespace GestureSign.Daemon.Triggers
         {
             RegisterOpenSettingsHotKey();
             if (PointCapture.Instance.Mode != Common.Input.CaptureMode.UserDisabled)
+            {
                 RegisterKandoHotKey();
+                RegisterKandoSettingsHotKey();
+            }
             else
+            {
                 UnloadKandoHotKey();
+                UnloadKandoSettingsHotKey();
+            }
         }
 
         private void RegisterForegroundHotKeys()
@@ -194,6 +204,36 @@ namespace GestureSign.Daemon.Triggers
             _kandoHotKey = null;
         }
 
+        private void RegisterKandoSettingsHotKey()
+        {
+            UnloadKandoSettingsHotKey();
+            int keyCode;
+            int modifierKeys;
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoSettingsHotKey, out keyCode, out modifierKeys))
+                return;
+
+            _kandoSettingsHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys };
+            _kandoSettingsHotKey.HotkeyPressed += KandoSettingsHotKey_HotkeyPressed;
+            try
+            {
+                _kandoSettingsHotKey.Register();
+            }
+            catch (HotkeyAlreadyInUseException)
+            {
+                UnloadKandoSettingsHotKey();
+            }
+        }
+
+        private void UnloadKandoSettingsHotKey()
+        {
+            if (_kandoSettingsHotKey == null)
+                return;
+
+            _kandoSettingsHotKey.HotkeyPressed -= KandoSettingsHotKey_HotkeyPressed;
+            _kandoSettingsHotKey.Dispose();
+            _kandoSettingsHotKey = null;
+        }
+
         private static bool TryParseHotKey(string settings, out int keyCode, out int modifierKeys)
         {
             keyCode = 0;
@@ -239,6 +279,11 @@ namespace GestureSign.Daemon.Triggers
         private void KandoHotKey_HotkeyPressed(object sender, EventArgs e)
         {
             KandoLauncher.ShowMenu();
+        }
+
+        private void KandoSettingsHotKey_HotkeyPressed(object sender, EventArgs e)
+        {
+            KandoLauncher.OpenSettings();
         }
 
         private void Hotkey_HotkeyPressed(object sender, EventArgs e)
