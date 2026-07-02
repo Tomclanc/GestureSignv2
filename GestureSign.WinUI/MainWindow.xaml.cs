@@ -28,6 +28,7 @@ using Windows.Graphics;
 using Windows.Devices.Input;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.System.Profile;
 using Windows.UI;
 using Button = Microsoft.UI.Xaml.Controls.Button;
 using ComboBox = Microsoft.UI.Xaml.Controls.ComboBox;
@@ -47,6 +48,7 @@ public sealed partial class MainWindow : Window
     private const int PickOutlineCornerRadius = 18;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
+    private const string AppVersion = "8.1.9807";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -59,6 +61,18 @@ public sealed partial class MainWindow : Window
     private const string TouchPadEdgeLeftDownGesture = "TouchPadEdge.Left.Down";
     private const string TouchPadEdgeRightUpGesture = "TouchPadEdge.Right.Up";
     private const string TouchPadEdgeRightDownGesture = "TouchPadEdge.Right.Down";
+    private const string TouchScreenEdgeTopGesture = "TouchScreenEdge.Top";
+    private const string TouchScreenEdgeBottomGesture = "TouchScreenEdge.Bottom";
+    private const string TouchScreenEdgeLeftGesture = "TouchScreenEdge.Left";
+    private const string TouchScreenEdgeRightGesture = "TouchScreenEdge.Right";
+    private const string TouchScreenEdgeTopLeftGesture = "TouchScreenEdge.Top.Left";
+    private const string TouchScreenEdgeTopRightGesture = "TouchScreenEdge.Top.Right";
+    private const string TouchScreenEdgeBottomLeftGesture = "TouchScreenEdge.Bottom.Left";
+    private const string TouchScreenEdgeBottomRightGesture = "TouchScreenEdge.Bottom.Right";
+    private const string TouchScreenEdgeLeftUpGesture = "TouchScreenEdge.Left.Up";
+    private const string TouchScreenEdgeLeftDownGesture = "TouchScreenEdge.Left.Down";
+    private const string TouchScreenEdgeRightUpGesture = "TouchScreenEdge.Right.Up";
+    private const string TouchScreenEdgeRightDownGesture = "TouchScreenEdge.Right.Down";
 
     private LegacyDataStore _legacyData;
     private readonly TrainingPipeServer _trainingPipeServer;
@@ -85,8 +99,10 @@ public sealed partial class MainWindow : Window
     private IntPtr _pickOutlineHwnd;
     private IntPtr _pickOutlineWindow;
     private readonly DispatcherTimer _kandoMenuRefreshTimer = new();
+    private readonly DispatcherTimer _windowModeRefreshTimer = new();
     private DateTime _lastKandoMenusWriteTimeUtc;
     private Action? _refreshKandoMenuList;
+    private bool? _lastXboxBigScreenMode;
 
     public MainWindow()
     {
@@ -104,6 +120,8 @@ public sealed partial class MainWindow : Window
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
         _kandoMenuRefreshTimer.Interval = TimeSpan.FromSeconds(1);
         _kandoMenuRefreshTimer.Tick += KandoMenuRefreshTimer_Tick;
+        _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
+        _windowModeRefreshTimer.Tick += (_, _) => ApplyXboxBigScreenTitleBarMode();
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
         ApplyMicaDimmingOverlay();
         ExtendsContentIntoTitleBar = true;
@@ -120,6 +138,7 @@ public sealed partial class MainWindow : Window
         };
         _ = EnsureDaemonRunningAsync();
         _ = EnsureKandoStartedIfEnabledAsync();
+        _windowModeRefreshTimer.Start();
     }
 
     private void ApplyMicaDimmingOverlay()
@@ -186,8 +205,54 @@ public sealed partial class MainWindow : Window
 
         if (AppWindow.Presenter is OverlappedPresenter presenter)
         {
+            ApplyXboxBigScreenTitleBarMode(presenter);
             presenter.PreferredMinimumWidth = ScaleLogicalLength(MinimumWindowWidth);
             presenter.PreferredMinimumHeight = ScaleLogicalLength(MinimumWindowHeight);
+        }
+    }
+
+    private void ApplyXboxBigScreenTitleBarMode()
+    {
+        if (AppWindow.Presenter is OverlappedPresenter presenter)
+            ApplyXboxBigScreenTitleBarMode(presenter);
+    }
+
+    private void ApplyXboxBigScreenTitleBarMode(OverlappedPresenter presenter)
+    {
+        var isXboxBigScreenMode = IsXboxBigScreenMode();
+        if (_lastXboxBigScreenMode == isXboxBigScreenMode)
+            return;
+
+        presenter.SetBorderAndTitleBar(!isXboxBigScreenMode, !isXboxBigScreenMode);
+        _lastXboxBigScreenMode = isXboxBigScreenMode;
+    }
+
+    private static bool IsXboxBigScreenMode()
+    {
+        if (string.Equals(AnalyticsInfo.VersionInfo.DeviceFamily, "Windows.Xbox", StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return HasActiveGamingConfigurationSession();
+    }
+
+    private static bool HasActiveGamingConfigurationSession()
+    {
+        try
+        {
+            using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\GamingConfiguration");
+            if (key is null)
+                return false;
+
+            return key.GetValue("LastPresenceTimestamp") switch
+            {
+                int value => value != 0,
+                long value => value != 0,
+                _ => false
+            };
+        }
+        catch
+        {
+            return false;
         }
     }
 
@@ -552,6 +617,7 @@ public sealed partial class MainWindow : Window
         ]));
 
         root.Children.Add(NewTouchPadMapCard());
+        root.Children.Add(NewTouchScreenMapCard());
         return root;
     }
 
@@ -590,6 +656,81 @@ public sealed partial class MainWindow : Window
         map.Children.Add(left);
 
         var center = NewTouchPadCenter();
+        Grid.SetColumn(center, 1);
+        Grid.SetRow(center, 1);
+        map.Children.Add(center);
+
+        Grid.SetColumn(right, 2);
+        Grid.SetRow(right, 1);
+        map.Children.Add(right);
+
+        Grid.SetColumn(bottom, 1);
+        Grid.SetRow(bottom, 2);
+        map.Children.Add(bottom);
+
+        var cornerCells = new[]
+        {
+            (Column: 0, Row: 0),
+            (Column: 2, Row: 0),
+            (Column: 0, Row: 2),
+            (Column: 2, Row: 2)
+        };
+        foreach (var cell in cornerCells)
+        {
+            var corner = NewTouchPadMapFiller();
+            Grid.SetColumn(corner, cell.Column);
+            Grid.SetRow(corner, cell.Row);
+            map.Children.Add(corner);
+        }
+
+        panel.Children.Add(new Border
+        {
+            Background = TouchPadSurfaceBrush(),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(12),
+            Padding = new Thickness(14),
+            Child = map
+        });
+
+        return NewCard(panel, new Thickness(14));
+    }
+
+    private FrameworkElement NewTouchScreenMapCard()
+    {
+        var panel = NewCardPanel(14);
+        panel.Children.Add(new TextBlock
+        {
+            Text = "触控屏边缘",
+            Style = BodyStrongTextBlockStyle
+        });
+
+        var map = new Grid
+        {
+            ColumnSpacing = 12,
+            RowSpacing = 12,
+            MinHeight = 700
+        };
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.7, GridUnitType.Star) });
+        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(270) });
+        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
+
+        var edges = TouchScreenEdges();
+        var top = NewTouchPadZone(edges[0]);
+        var bottom = NewTouchPadZone(edges[1]);
+        var left = NewTouchPadZone(edges[2]);
+        var right = NewTouchPadZone(edges[3]);
+
+        Grid.SetColumn(top, 1);
+        map.Children.Add(top);
+
+        Grid.SetRow(left, 1);
+        map.Children.Add(left);
+
+        var center = NewTouchScreenCenter();
         Grid.SetColumn(center, 1);
         Grid.SetRow(center, 1);
         map.Children.Add(center);
@@ -737,6 +878,35 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(new TextBlock
         {
             Text = "触控板",
+            TextAlignment = TextAlignment.Center,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            Style = ResourceStyle("SubtitleTextBlockStyle")
+        });
+
+        return new Border
+        {
+            Background = TouchPadCenterBrush(),
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(8),
+            Child = panel
+        };
+    }
+
+    private FrameworkElement NewTouchScreenCenter()
+    {
+        var panel = NewCardPanel(8);
+        panel.HorizontalAlignment = HorizontalAlignment.Center;
+        panel.VerticalAlignment = VerticalAlignment.Center;
+        panel.Children.Add(new FontIcon
+        {
+            Glyph = "\uE815",
+            FontSize = 26,
+            HorizontalAlignment = HorizontalAlignment.Center
+        });
+        panel.Children.Add(new TextBlock
+        {
+            Text = "触控屏",
             TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Style = ResourceStyle("SubtitleTextBlockStyle")
@@ -1011,6 +1181,35 @@ public sealed partial class MainWindow : Window
                 new("点击", TouchPadEdgeRightGesture),
                 new("上滑", TouchPadEdgeRightUpGesture),
                 new("下滑", TouchPadEdgeRightDownGesture)
+            ])
+        ];
+
+    private static IReadOnlyList<TouchPadEdgeZone> TouchScreenEdges()
+        =>
+        [
+            new("上边缘", TouchPadEdgeMarker.Horizontal,
+            [
+                new("点击", TouchScreenEdgeTopGesture),
+                new("左滑", TouchScreenEdgeTopLeftGesture),
+                new("右滑", TouchScreenEdgeTopRightGesture)
+            ]),
+            new("下边缘", TouchPadEdgeMarker.Horizontal,
+            [
+                new("点击", TouchScreenEdgeBottomGesture),
+                new("左滑", TouchScreenEdgeBottomLeftGesture),
+                new("右滑", TouchScreenEdgeBottomRightGesture)
+            ]),
+            new("左边缘", TouchPadEdgeMarker.None,
+            [
+                new("点击", TouchScreenEdgeLeftGesture),
+                new("上滑", TouchScreenEdgeLeftUpGesture),
+                new("下滑", TouchScreenEdgeLeftDownGesture)
+            ]),
+            new("右边缘", TouchPadEdgeMarker.None,
+            [
+                new("点击", TouchScreenEdgeRightGesture),
+                new("上滑", TouchScreenEdgeRightUpGesture),
+                new("下滑", TouchScreenEdgeRightDownGesture)
             ])
         ];
 
@@ -1416,7 +1615,7 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "WinUI 3 前端重构预览\n版本：8.1.9802", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
+        content.Children.Add(new TextBlock { Text = $"WinUI 3 前端重构预览\n版本：{AppVersion}", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
         content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
         content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
         root.Children.Add(NewCard(content));
@@ -2054,6 +2253,18 @@ public sealed partial class MainWindow : Window
         combo.Items.Add("触控板左边缘下滑");
         combo.Items.Add("触控板右边缘上滑");
         combo.Items.Add("触控板右边缘下滑");
+        combo.Items.Add("触控屏上边缘点击");
+        combo.Items.Add("触控屏下边缘点击");
+        combo.Items.Add("触控屏左边缘点击");
+        combo.Items.Add("触控屏右边缘点击");
+        combo.Items.Add("触控屏上边缘左滑");
+        combo.Items.Add("触控屏上边缘右滑");
+        combo.Items.Add("触控屏下边缘左滑");
+        combo.Items.Add("触控屏下边缘右滑");
+        combo.Items.Add("触控屏左边缘上滑");
+        combo.Items.Add("触控屏左边缘下滑");
+        combo.Items.Add("触控屏右边缘上滑");
+        combo.Items.Add("触控屏右边缘下滑");
         combo.SelectionChanged += (_, _) =>
         {
             var gestureName = BuiltInGestureNameFromIndex(combo.SelectedIndex);
@@ -2078,6 +2289,18 @@ public sealed partial class MainWindow : Window
             TouchPadEdgeLeftDownGesture => 10,
             TouchPadEdgeRightUpGesture => 11,
             TouchPadEdgeRightDownGesture => 12,
+            TouchScreenEdgeTopGesture => 13,
+            TouchScreenEdgeBottomGesture => 14,
+            TouchScreenEdgeLeftGesture => 15,
+            TouchScreenEdgeRightGesture => 16,
+            TouchScreenEdgeTopLeftGesture => 17,
+            TouchScreenEdgeTopRightGesture => 18,
+            TouchScreenEdgeBottomLeftGesture => 19,
+            TouchScreenEdgeBottomRightGesture => 20,
+            TouchScreenEdgeLeftUpGesture => 21,
+            TouchScreenEdgeLeftDownGesture => 22,
+            TouchScreenEdgeRightUpGesture => 23,
+            TouchScreenEdgeRightDownGesture => 24,
             _ => 0
         };
 
@@ -2096,6 +2319,18 @@ public sealed partial class MainWindow : Window
             10 => TouchPadEdgeLeftDownGesture,
             11 => TouchPadEdgeRightUpGesture,
             12 => TouchPadEdgeRightDownGesture,
+            13 => TouchScreenEdgeTopGesture,
+            14 => TouchScreenEdgeBottomGesture,
+            15 => TouchScreenEdgeLeftGesture,
+            16 => TouchScreenEdgeRightGesture,
+            17 => TouchScreenEdgeTopLeftGesture,
+            18 => TouchScreenEdgeTopRightGesture,
+            19 => TouchScreenEdgeBottomLeftGesture,
+            20 => TouchScreenEdgeBottomRightGesture,
+            21 => TouchScreenEdgeLeftUpGesture,
+            22 => TouchScreenEdgeLeftDownGesture,
+            23 => TouchScreenEdgeRightUpGesture,
+            24 => TouchScreenEdgeRightDownGesture,
             _ => string.Empty
         };
 
@@ -5141,6 +5376,18 @@ public sealed partial class MainWindow : Window
             "touchpadedge.left.down" => "触控板左边缘下滑",
             "touchpadedge.right.up" => "触控板右边缘上滑",
             "touchpadedge.right.down" => "触控板右边缘下滑",
+            "touchscreenedge.top" => "触控屏上边缘点击",
+            "touchscreenedge.bottom" => "触控屏下边缘点击",
+            "touchscreenedge.left" => "触控屏左边缘点击",
+            "touchscreenedge.right" => "触控屏右边缘点击",
+            "touchscreenedge.top.left" => "触控屏上边缘左滑",
+            "touchscreenedge.top.right" => "触控屏上边缘右滑",
+            "touchscreenedge.bottom.left" => "触控屏下边缘左滑",
+            "touchscreenedge.bottom.right" => "触控屏下边缘右滑",
+            "touchscreenedge.left.up" => "触控屏左边缘上滑",
+            "touchscreenedge.left.down" => "触控屏左边缘下滑",
+            "touchscreenedge.right.up" => "触控屏右边缘上滑",
+            "touchscreenedge.right.down" => "触控屏右边缘下滑",
             "left" => "向左",
             "right" => "向右",
             "up" => "向上",

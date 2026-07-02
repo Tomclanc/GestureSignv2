@@ -29,10 +29,21 @@ namespace GestureSign.Daemon.Triggers
         private const int EdgePercent = 8;
         private const int MaxTapTravel = 35;
         private const int MinSwipeTravel = 90;
+        private readonly Devices _sourceDevice;
+        private readonly string _gesturePrefix;
+        private readonly string _logPrefix;
         private PendingEdgeTrigger _pendingEdgeTrigger;
 
         public TouchPadEdgeTrigger()
+            : this(Devices.TouchPad, "TouchPadEdge", "TouchPad")
         {
+        }
+
+        public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix)
+        {
+            _sourceDevice = sourceDevice;
+            _gesturePrefix = gesturePrefix;
+            _logPrefix = logPrefix;
             PointCapture.Instance.CaptureStarted += PointCapture_CaptureStarted;
             PointCapture.Instance.BeforePointsCaptured += PointCapture_BeforePointsCaptured;
         }
@@ -42,7 +53,7 @@ namespace GestureSign.Daemon.Triggers
             _pendingEdgeTrigger = null;
 
             var pointCapture = PointCapture.Instance;
-            if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != Devices.TouchPad)
+            if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != _sourceDevice)
                 return;
 
             if (e.Points == null || e.Points.Count != 1 || e.Points[0].Count == 0)
@@ -51,7 +62,7 @@ namespace GestureSign.Daemon.Triggers
             var edge = GetStartEdge(e.Points[0].First());
             if (edge == null)
             {
-                Logging.LogMessage($"TouchPad edge capture ignored. Reason=NotOnEdge, Point={FormatPoint(e.Points[0].First())}");
+                Logging.LogMessage($"{_logPrefix} edge capture ignored. Reason=NotOnEdge, Point={FormatPoint(e.Points[0].First())}");
                 return;
             }
 
@@ -60,20 +71,20 @@ namespace GestureSign.Daemon.Triggers
                 .Any(name => ApplicationManager.Instance.GetRecognizedDefinedAction(name)?.Any() == true);
             if (!hasAnyAction)
             {
-                Logging.LogMessage($"TouchPad edge capture ignored. Reason=NoAction, Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
+                Logging.LogMessage($"{_logPrefix} edge capture ignored. Reason=NoAction, Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
                 return;
             }
 
             _pendingEdgeTrigger = new PendingEdgeTrigger(edge.Value, e.FirstCapturedPoints.FirstOrDefault());
             e.Cancel = false;
             e.BlockTouchInputThreshold = 0;
-            Logging.LogMessage($"TouchPad edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
+            Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
         }
 
         private void PointCapture_BeforePointsCaptured(object sender, PointsCapturedEventArgs e)
         {
             var pointCapture = PointCapture.Instance;
-            if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != Devices.TouchPad)
+            if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != _sourceDevice)
                 return;
 
             if (_pendingEdgeTrigger != null)
@@ -83,7 +94,7 @@ namespace GestureSign.Daemon.Triggers
                     : GetEdgeGestureName(_pendingEdgeTrigger.Edge, e.Points[0]);
                 if (pendingGestureName == null)
                 {
-                    Logging.LogMessage($"TouchPad edge trigger canceled. Edge={_pendingEdgeTrigger.Edge}, Reason=NoTapOrSwipe");
+                    Logging.LogMessage($"{_logPrefix} edge trigger canceled. Edge={_pendingEdgeTrigger.Edge}, Reason=NoTapOrSwipe");
                     _pendingEdgeTrigger = null;
                     return;
                 }
@@ -92,12 +103,12 @@ namespace GestureSign.Daemon.Triggers
                 var pendingActions = ApplicationManager.Instance.GetRecognizedDefinedAction(pendingGestureName)?.ToList();
                 if (pendingActions == null || pendingActions.Count == 0)
                 {
-                    Logging.LogMessage($"TouchPad edge trigger canceled. Edge={pendingGestureName}, Reason=NoAction");
+                    Logging.LogMessage($"{_logPrefix} edge trigger canceled. Edge={pendingGestureName}, Reason=NoAction");
                     _pendingEdgeTrigger = null;
                     return;
                 }
 
-                Logging.LogMessage($"TouchPad edge trigger fired. Edge={pendingGestureName}, Actions={pendingActions.Count}");
+                Logging.LogMessage($"{_logPrefix} edge trigger fired. Edge={pendingGestureName}, Actions={pendingActions.Count}");
                 e.Cancel = true;
                 OnTriggerFired(new TriggerFiredEventArgs(pendingActions, _pendingEdgeTrigger.FiredPoint));
                 _pendingEdgeTrigger = null;
@@ -113,12 +124,12 @@ namespace GestureSign.Daemon.Triggers
             if (actions == null || actions.Count == 0)
                 return;
 
-            Logging.LogMessage($"TouchPad edge trigger fired. Edge={edgeGestureName}, Actions={actions.Count}");
+            Logging.LogMessage($"{_logPrefix} edge trigger fired. Edge={edgeGestureName}, Actions={actions.Count}");
             e.Cancel = true;
             OnTriggerFired(new TriggerFiredEventArgs(actions, e.FirstCapturedPoints.FirstOrDefault()));
         }
 
-        private static string GetEdgeGestureName(List<Point> points)
+        private string GetEdgeGestureName(List<Point> points)
         {
             var edge = GetStartEdge(points.First());
             return edge == null ? null : GetEdgeGestureName(edge.Value, points);
@@ -152,7 +163,7 @@ namespace GestureSign.Daemon.Triggers
             return null;
         }
 
-        private static string GetEdgeGestureName(Edge edge, List<Point> points)
+        private string GetEdgeGestureName(Edge edge, List<Point> points)
         {
             var start = points.First();
             var end = points.Last();
@@ -165,19 +176,19 @@ namespace GestureSign.Daemon.Triggers
             {
                 case Edge.Top:
                     if (IsHorizontalSwipe(dx, dy))
-                        return dx < 0 ? TopLeftGestureName : TopRightGestureName;
+                        return dx < 0 ? $"{_gesturePrefix}.Top.Left" : $"{_gesturePrefix}.Top.Right";
                     break;
                 case Edge.Bottom:
                     if (IsHorizontalSwipe(dx, dy))
-                        return dx < 0 ? BottomLeftGestureName : BottomRightGestureName;
+                        return dx < 0 ? $"{_gesturePrefix}.Bottom.Left" : $"{_gesturePrefix}.Bottom.Right";
                     break;
                 case Edge.Left:
                     if (IsVerticalSwipe(dx, dy))
-                        return dy < 0 ? LeftUpGestureName : LeftDownGestureName;
+                        return dy < 0 ? $"{_gesturePrefix}.Left.Up" : $"{_gesturePrefix}.Left.Down";
                     break;
                 case Edge.Right:
                     if (IsVerticalSwipe(dx, dy))
-                        return dy < 0 ? RightUpGestureName : RightDownGestureName;
+                        return dy < 0 ? $"{_gesturePrefix}.Right.Up" : $"{_gesturePrefix}.Right.Down";
                     break;
             }
 
@@ -194,43 +205,43 @@ namespace GestureSign.Daemon.Triggers
             return Math.Abs(dy) >= MinSwipeTravel && Math.Abs(dy) > Math.Abs(dx) * 1.5;
         }
 
-        private static string GetTapGestureName(Edge edge)
+        private string GetTapGestureName(Edge edge)
         {
             switch (edge)
             {
                 case Edge.Top:
-                    return TopGestureName;
+                    return $"{_gesturePrefix}.Top";
                 case Edge.Bottom:
-                    return BottomGestureName;
+                    return $"{_gesturePrefix}.Bottom";
                 case Edge.Left:
-                    return LeftGestureName;
+                    return $"{_gesturePrefix}.Left";
                 case Edge.Right:
-                    return RightGestureName;
+                    return $"{_gesturePrefix}.Right";
                 default:
                     return null;
             }
         }
 
-        private static IEnumerable<string> GetCandidateGestureNames(Edge edge)
+        private IEnumerable<string> GetCandidateGestureNames(Edge edge)
         {
             yield return GetTapGestureName(edge);
             switch (edge)
             {
                 case Edge.Top:
-                    yield return TopLeftGestureName;
-                    yield return TopRightGestureName;
+                    yield return $"{_gesturePrefix}.Top.Left";
+                    yield return $"{_gesturePrefix}.Top.Right";
                     break;
                 case Edge.Bottom:
-                    yield return BottomLeftGestureName;
-                    yield return BottomRightGestureName;
+                    yield return $"{_gesturePrefix}.Bottom.Left";
+                    yield return $"{_gesturePrefix}.Bottom.Right";
                     break;
                 case Edge.Left:
-                    yield return LeftUpGestureName;
-                    yield return LeftDownGestureName;
+                    yield return $"{_gesturePrefix}.Left.Up";
+                    yield return $"{_gesturePrefix}.Left.Down";
                     break;
                 case Edge.Right:
-                    yield return RightUpGestureName;
-                    yield return RightDownGestureName;
+                    yield return $"{_gesturePrefix}.Right.Up";
+                    yield return $"{_gesturePrefix}.Right.Down";
                     break;
             }
         }

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -53,13 +53,20 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
+- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
 
 ## 更新内容
+
+### 8.1.9807
+
+- 新增触控屏边缘操作，可为屏幕上 / 下 / 左 / 右边缘点击和边缘滑动单独绑定动作。
+- 适配 Windows 11 Xbox 大屏模式，进入大屏模式时隐藏右上角窗口按钮，退出后自动恢复。
+- “显示触发的手势操作”提示增加淡入淡出动画，出现和消失更自然。
+- 优化提示和大屏模式状态刷新，减少切换时的突兀感。
 
 ### 8.1.9783
 
@@ -243,11 +250,11 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807).
 
 Current version:
 
-- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
+- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
 
 ## Installation
 
@@ -345,11 +352,11 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
+- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
 
 ## インストール
 

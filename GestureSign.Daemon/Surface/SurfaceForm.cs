@@ -26,6 +26,10 @@ namespace GestureSign.Daemon.Surface
         private GraphicsPath _graphicsPath = new GraphicsPath();
         private GraphicsPath _dirtyGraphicsPath = new GraphicsPath();
         private Timer _gestureHintTimer;
+        private Timer _gestureHintFadeTimer;
+        private DateTime _gestureHintFadeStartedUtc;
+        private int _gestureHintFadeDurationMs;
+        private bool _gestureHintFadingOut;
 
         private bool _settingsChanged;
 
@@ -35,6 +39,10 @@ namespace GestureSign.Daemon.Surface
         private const byte AC_SRC_ALPHA = 0x01;
         private const int MinimumVisiblePenWidth = 7;
         private const int MinimumVisibleAlpha = 192;
+        private const int GestureHintFadeInMs = 140;
+        private const int GestureHintHoldMs = 1050;
+        private const int GestureHintFadeOutMs = 220;
+        private const int GestureHintFrameIntervalMs = 16;
         #endregion
 
         #region Constructors
@@ -65,6 +73,7 @@ namespace GestureSign.Daemon.Surface
                     SystemEvents.DisplaySettingsChanged -= AppConfig_ConfigChanged;
                     SystemEvents.UserPreferenceChanged -= AppConfig_ConfigChanged;
                     _gestureHintTimer?.Dispose();
+                    _gestureHintFadeTimer?.Dispose();
                 }
 
                 _penWidth = 0;
@@ -111,6 +120,8 @@ namespace GestureSign.Daemon.Surface
                 }
             }
 
+            StopGestureHintTimers();
+            StopGestureHintTimers();
             ClearSurfaces();
             EnsureDrawingSurface();
             EnsureSurfaceVisible();
@@ -125,6 +136,7 @@ namespace GestureSign.Daemon.Surface
         {
             if (_penWidth <= 0 || _lastStroke == null)
                 return;
+            StopGestureHintTimers();
             HideSurface();
 
             ClearSurfaces();
@@ -161,6 +173,7 @@ namespace GestureSign.Daemon.Surface
                 InitializeForm();
             }
 
+            StopGestureHintTimers();
             ClearSurfaces();
             EnsureDrawingSurface();
             EnsureSurfaceVisible();
@@ -172,24 +185,98 @@ namespace GestureSign.Daemon.Surface
                 DrawCompleteGesture(points);
 
             DrawActionHint(string.IsNullOrWhiteSpace(text) ? "已触发" : text.Trim());
-            UpdateFullSurface();
+            UpdateFullSurface(0);
 
-            _gestureHintTimer?.Dispose();
-            _gestureHintTimer = new Timer { Interval = 1200 };
-            _gestureHintTimer.Tick += (timerSender, timerArgs) =>
-            {
-                _gestureHintTimer.Stop();
-                _gestureHintTimer.Dispose();
-                _gestureHintTimer = null;
-                HideSurface();
-                ClearSurfaces();
-            };
-            _gestureHintTimer.Start();
+            StartGestureHintFade(false);
         }
 
         #endregion
 
         #region Private Methods
+
+        private void StopGestureHintTimers()
+        {
+            _gestureHintTimer?.Stop();
+            _gestureHintTimer?.Dispose();
+            _gestureHintTimer = null;
+            _gestureHintFadeTimer?.Stop();
+            _gestureHintFadeTimer?.Dispose();
+            _gestureHintFadeTimer = null;
+        }
+
+        private void StartGestureHintHold()
+        {
+            _gestureHintTimer?.Dispose();
+            _gestureHintTimer = new Timer { Interval = GestureHintHoldMs };
+            _gestureHintTimer.Tick += (timerSender, timerArgs) =>
+            {
+                _gestureHintTimer.Stop();
+                _gestureHintTimer.Dispose();
+                _gestureHintTimer = null;
+                StartGestureHintFade(true);
+            };
+            _gestureHintTimer.Start();
+        }
+
+        private void StartGestureHintFade(bool fadeOut)
+        {
+            _gestureHintFadeTimer?.Dispose();
+            _gestureHintFadingOut = fadeOut;
+            _gestureHintFadeDurationMs = fadeOut ? GestureHintFadeOutMs : GestureHintFadeInMs;
+            _gestureHintFadeStartedUtc = DateTime.UtcNow;
+            _gestureHintFadeTimer = new Timer { Interval = GestureHintFrameIntervalMs };
+            _gestureHintFadeTimer.Tick += GestureHintFadeTimer_Tick;
+            _gestureHintFadeTimer.Start();
+        }
+
+        private void GestureHintFadeTimer_Tick(object sender, EventArgs e)
+        {
+            if (_bitmap == null)
+            {
+                StopGestureHintTimers();
+                return;
+            }
+
+            var elapsedMs = (DateTime.UtcNow - _gestureHintFadeStartedUtc).TotalMilliseconds;
+            var progress = Math.Max(0d, Math.Min(1d, elapsedMs / _gestureHintFadeDurationMs));
+            var eased = _gestureHintFadingOut
+                ? EaseInOutCubic(progress)
+                : EaseOutCubic(progress);
+            var opacity = _gestureHintFadingOut
+                ? (byte)Math.Round(255 * (1d - eased))
+                : (byte)Math.Round(255 * eased);
+
+            UpdateFullSurface(opacity);
+
+            if (progress < 1d)
+                return;
+
+            _gestureHintFadeTimer.Stop();
+            _gestureHintFadeTimer.Dispose();
+            _gestureHintFadeTimer = null;
+
+            if (_gestureHintFadingOut)
+            {
+                HideSurface();
+                ClearSurfaces();
+                return;
+            }
+
+            StartGestureHintHold();
+        }
+
+        private static double EaseOutCubic(double progress)
+        {
+            var inverse = 1d - progress;
+            return 1d - inverse * inverse * inverse;
+        }
+
+        private static double EaseInOutCubic(double progress)
+        {
+            return progress < 0.5d
+                ? 4d * progress * progress * progress
+                : 1d - Math.Pow(-2d * progress + 2d, 3d) / 2d;
+        }
 
         private void DrawSegments(List<List<Point>> points)
         {
@@ -602,9 +689,9 @@ namespace GestureSign.Daemon.Surface
             SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty, 255);
         }
 
-        private void UpdateFullSurface()
+        private void UpdateFullSurface(byte opacity = 255)
         {
-            SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), 255);
+            SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), opacity);
         }
 
         #endregion
