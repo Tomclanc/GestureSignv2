@@ -9,8 +9,11 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
+  </a>
+  <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
+    <img alt="WinGet" src="https://img.shields.io/badge/winget-Tomclanc.GestureSignV2-0078D4?style=flat-square">
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI%203-0078D4?style=flat-square">
@@ -44,22 +47,19 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 下载
 
-前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases) 下载最新版安装包。
+GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 安装：
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802) 下载最新版安装包。
 
 当前版本：
 
-- GestureSign V2 8.1.9802
+- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
 
 ## 更新内容
-
-### 8.1.9802
-
-- “快捷操作”页面改为 PowerToys 风格布局，展示 Kando 动态预览、启用开关、设置快捷键和打开 Kando 设置按钮。
-- 新增动作时可以直接绘制手势图案，也可以用触控板或触控录制真实轨迹，保存后会自动创建或更新对应手势。
-- 修复程序分组匹配 Edge / Chromium 浏览器时不稳定的问题，浏览器分组会同时匹配 `MicrosoftEdge`、`msedge`、`msedge.exe`、`msedgewebview2`、`firefox`、`chrome` 等别名。
-- 修复后台手势查找未过滤停用动作的问题；动作停用后不会继续触发，也不会悄悄回退执行全局同名动作。
-- 补充内置快捷键插件兜底，避免缺少 `GestureSign.CorePlugins.dll` 时快捷键命令被跳过。
-- 安装包默认安装到 `%LocalAppData%\GestureSign V2`，并调整升级打包方式，减少升级时提示查找旧 MSI 源文件的问题。
 
 ### 8.1.9783
 
@@ -148,6 +148,14 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 安装
 
+推荐使用 winget 安装：
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+也可以手动下载安装包：
+
 1. 下载 MSI 安装包。
 2. 双击安装，按提示完成安装。
 3. 从桌面快捷方式或开始菜单打开 `GestureSign V2`。
@@ -229,13 +237,27 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 ## Download
 
-Get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases).
+GestureSign V2 is available from Windows Package Manager. Install it with winget:
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802).
 
 Current version:
 
-- GestureSign V2 8.1.9802
+- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
 
 ## Installation
+
+Recommended:
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+Manual installation:
 
 1. Download the MSI installer.
 2. Double-click the installer and follow the setup prompts.
@@ -317,13 +339,27 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 ## ダウンロード
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases) から入手できます。
+GestureSign V2 は Windows Package Manager からインストールできます:
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9802) からも入手できます。
 
 現在のバージョン:
 
-- GestureSign V2 8.1.9802
+- [GestureSign-V2-8.1.9802-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9802/GestureSign-V2-8.1.9802-x64.msi)
 
 ## インストール
+
+推奨:
+
+```powershell
+winget install --id Tomclanc.GestureSignV2 --source winget
+```
+
+手動インストール:
 
 1. MSI インストーラーをダウンロードします。
 2. インストーラーをダブルクリックし、画面の案内に従ってセットアップを完了します。
