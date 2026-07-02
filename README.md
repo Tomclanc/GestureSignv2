@@ -24,7 +24,7 @@
   简体中文 | <a href="#english">English</a> | <a href="#日本語">日本語</a>
 </p>
 
-![GestureSign V2 主界面](docs/assets/screenshot-main.png)
+![GestureSign V2 主界面](docs/assets/screenshot-main-2026-07-02.png)
 
 ## 项目简介
 
