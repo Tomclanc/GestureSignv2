@@ -128,6 +128,8 @@ namespace GestureSign.Common.Plugins
                         continue;
                     }
 
+                    NormalizeLegacyHotKeyCommand(executableAction, currentCommand);
+
                     target.WaitForIdle(200);
 
                     // Locate the plugin associated with this action
@@ -235,6 +237,49 @@ namespace GestureSign.Common.Plugins
         public bool PluginExists(string PluginClass, string PluginFilename)
         {
             return _Plugins.Exists(p => p.Class == PluginClass && p.Filename == PluginFilename);
+        }
+
+        private static void NormalizeLegacyHotKeyCommand(IAction action, ICommand command)
+        {
+            if (action == null || command == null)
+                return;
+
+            if (!IsEdgeGesture(action.GestureName))
+                return;
+
+            if (string.IsNullOrWhiteSpace(command.PluginClass) ||
+                command.PluginClass.IndexOf("RunCommand", StringComparison.OrdinalIgnoreCase) < 0)
+            {
+                return;
+            }
+
+            var settings = command.CommandSettings ?? string.Empty;
+            var commandName = command.Name ?? string.Empty;
+            var looksLikeHotKey =
+                settings.IndexOf("\"KeyCode\"", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                settings.IndexOf("\"Control\"", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                commandName.IndexOf("快捷键", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                commandName.IndexOf("HotKey", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                commandName.IndexOf("Hot Key", StringComparison.OrdinalIgnoreCase) >= 0;
+
+            if (!looksLikeHotKey)
+                return;
+
+            command.PluginClass = "GestureSign.CorePlugins.HotKey.HotKeyPlugin";
+            command.PluginFilename = "GestureSign.CorePlugins.dll";
+            if (string.IsNullOrWhiteSpace(command.CommandSettings) ||
+                command.CommandSettings.IndexOf("\"Command\"", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                command.CommandSettings = "{\"Windows\":false,\"Control\":true,\"Shift\":false,\"Alt\":false,\"KeyCode\":[67],\"SendByKeybdEvent\":false}";
+            }
+            Logging.LogMessage($"Gesture command normalized. Action={action.Name}, Gesture={action.GestureName}, Command={command.Name}, Plugin=GestureSign.CorePlugins.HotKey.HotKeyPlugin");
+        }
+
+        private static bool IsEdgeGesture(string gestureName)
+        {
+            return !string.IsNullOrWhiteSpace(gestureName) &&
+                   (gestureName.StartsWith("TouchScreenEdge.", StringComparison.OrdinalIgnoreCase) ||
+                    gestureName.StartsWith("TouchPadEdge.", StringComparison.OrdinalIgnoreCase));
         }
 
         #endregion

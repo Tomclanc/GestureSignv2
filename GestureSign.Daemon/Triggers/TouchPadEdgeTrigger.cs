@@ -29,21 +29,45 @@ namespace GestureSign.Daemon.Triggers
         private const int EdgePercent = 8;
         private const int MaxTapTravel = 35;
         private const int MinSwipeTravel = 90;
+        private const int CaptionButtonWidth = 180;
+        private const int CaptionButtonHeight = 72;
         private readonly Devices _sourceDevice;
         private readonly string _gesturePrefix;
         private readonly string _logPrefix;
+        private readonly int _edgePercent;
+        private readonly int _maxTapTravel;
+        private readonly int _minSwipeTravel;
+        private readonly double _swipeDominanceRatio;
+        private readonly bool _allowCornerEdges;
+        private readonly bool _allowOppositeEdgeFallback;
         private PendingEdgeTrigger _pendingEdgeTrigger;
 
         public TouchPadEdgeTrigger()
-            : this(Devices.TouchPad, "TouchPadEdge", "TouchPad")
+            : this(Devices.TouchPad, "TouchPadEdge", "TouchPad", EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false, false)
         {
         }
 
         public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix)
+            : this(sourceDevice, gesturePrefix, logPrefix, EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false, false)
+        {
+        }
+
+        public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix, int edgePercent, int maxTapTravel, int minSwipeTravel, double swipeDominanceRatio, bool allowCornerEdges)
+            : this(sourceDevice, gesturePrefix, logPrefix, edgePercent, maxTapTravel, minSwipeTravel, swipeDominanceRatio, allowCornerEdges, false)
+        {
+        }
+
+        public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix, int edgePercent, int maxTapTravel, int minSwipeTravel, double swipeDominanceRatio, bool allowCornerEdges, bool allowOppositeEdgeFallback)
         {
             _sourceDevice = sourceDevice;
             _gesturePrefix = gesturePrefix;
             _logPrefix = logPrefix;
+            _edgePercent = edgePercent;
+            _maxTapTravel = maxTapTravel;
+            _minSwipeTravel = minSwipeTravel;
+            _swipeDominanceRatio = swipeDominanceRatio;
+            _allowCornerEdges = allowCornerEdges;
+            _allowOppositeEdgeFallback = allowOppositeEdgeFallback;
             PointCapture.Instance.CaptureStarted += PointCapture_CaptureStarted;
             PointCapture.Instance.BeforePointsCaptured += PointCapture_BeforePointsCaptured;
         }
@@ -67,7 +91,8 @@ namespace GestureSign.Daemon.Triggers
             }
 
             ApplicationManager.Instance.GetForegroundApplications();
-            var hasAnyAction = GetCandidateGestureNames(edge.Value)
+            var actionEdge = GetActionEdge(edge.Value);
+            var hasAnyAction = GetCandidateGestureNames(actionEdge)
                 .Any(name => ApplicationManager.Instance.GetRecognizedDefinedAction(name)?.Any() == true);
             if (!hasAnyAction)
             {
@@ -75,10 +100,11 @@ namespace GestureSign.Daemon.Triggers
                 return;
             }
 
-            _pendingEdgeTrigger = new PendingEdgeTrigger(edge.Value, e.FirstCapturedPoints.FirstOrDefault());
+            _pendingEdgeTrigger = new PendingEdgeTrigger(actionEdge, e.FirstCapturedPoints.FirstOrDefault());
             e.Cancel = false;
+            e.ForceCapture = true;
             e.BlockTouchInputThreshold = 0;
-            Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
+            Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, ActionEdge={actionEdge}, Point={FormatPoint(e.Points[0].First())}");
         }
 
         private void PointCapture_BeforePointsCaptured(object sender, PointsCapturedEventArgs e)
@@ -110,7 +136,7 @@ namespace GestureSign.Daemon.Triggers
 
                 Logging.LogMessage($"{_logPrefix} edge trigger fired. Edge={pendingGestureName}, Actions={pendingActions.Count}");
                 e.Cancel = true;
-                OnTriggerFired(new TriggerFiredEventArgs(pendingActions, _pendingEdgeTrigger.FiredPoint));
+                OnTriggerFired(new TriggerFiredEventArgs(pendingActions, _pendingEdgeTrigger.FiredPoint, ClonePoints(e.Points)));
                 _pendingEdgeTrigger = null;
                 return;
             }
@@ -126,7 +152,12 @@ namespace GestureSign.Daemon.Triggers
 
             Logging.LogMessage($"{_logPrefix} edge trigger fired. Edge={edgeGestureName}, Actions={actions.Count}");
             e.Cancel = true;
-            OnTriggerFired(new TriggerFiredEventArgs(actions, e.FirstCapturedPoints.FirstOrDefault()));
+            OnTriggerFired(new TriggerFiredEventArgs(actions, e.FirstCapturedPoints.FirstOrDefault(), ClonePoints(e.Points)));
+        }
+
+        private static List<List<Point>> ClonePoints(IEnumerable<List<Point>> points)
+        {
+            return points?.Select(stroke => stroke?.ToList() ?? new List<Point>()).ToList();
         }
 
         private string GetEdgeGestureName(List<Point> points)
@@ -135,7 +166,7 @@ namespace GestureSign.Daemon.Triggers
             return edge == null ? null : GetEdgeGestureName(edge.Value, points);
         }
 
-        private static Edge? GetStartEdge(Point start)
+        private Edge? GetStartEdge(Point start)
         {
             var bounds = Screen.FromPoint(start).Bounds;
             if (bounds.Width <= 0 || bounds.Height <= 0)
@@ -143,13 +174,19 @@ namespace GestureSign.Daemon.Triggers
 
             var x = start.X - bounds.Left;
             var y = start.Y - bounds.Top;
-            var edgeWidth = Math.Max(1, bounds.Width * EdgePercent / 100);
-            var edgeHeight = Math.Max(1, bounds.Height * EdgePercent / 100);
+            var edgeWidth = Math.Max(1, bounds.Width * _edgePercent / 100);
+            var edgeHeight = Math.Max(1, bounds.Height * _edgePercent / 100);
 
             var top = y <= edgeHeight;
             var bottom = y >= bounds.Height - edgeHeight;
             var left = x <= edgeWidth;
             var right = x >= bounds.Width - edgeWidth;
+
+            if ((_sourceDevice == Devices.TouchScreen || _sourceDevice == Devices.Mouse) && IsCaptionButtonRegion(bounds, x, y))
+            {
+                Logging.LogMessage($"{_logPrefix} edge capture ignored. Reason=CaptionButtonRegion, Point={FormatPoint(start)}");
+                return null;
+            }
 
             if (top && !left && !right)
                 return Edge.Top;
@@ -160,6 +197,18 @@ namespace GestureSign.Daemon.Triggers
             if (right && !top && !bottom)
                 return Edge.Right;
 
+            if (_allowCornerEdges)
+            {
+                if (top && left)
+                    return y <= x ? Edge.Top : Edge.Left;
+                if (top && right)
+                    return y <= bounds.Width - x ? Edge.Top : Edge.Right;
+                if (bottom && left)
+                    return bounds.Height - y <= x ? Edge.Bottom : Edge.Left;
+                if (bottom && right)
+                    return bounds.Height - y <= bounds.Width - x ? Edge.Bottom : Edge.Right;
+            }
+
             return null;
         }
 
@@ -169,7 +218,7 @@ namespace GestureSign.Daemon.Triggers
             var end = points.Last();
             var dx = end.X - start.X;
             var dy = end.Y - start.Y;
-            if (PointPatternMath.GetDistance(start, end) <= MaxTapTravel)
+            if (PointPatternMath.GetDistance(start, end) <= _maxTapTravel)
                 return GetTapGestureName(edge);
 
             switch (edge)
@@ -195,14 +244,14 @@ namespace GestureSign.Daemon.Triggers
             return null;
         }
 
-        private static bool IsHorizontalSwipe(int dx, int dy)
+        private bool IsHorizontalSwipe(int dx, int dy)
         {
-            return Math.Abs(dx) >= MinSwipeTravel && Math.Abs(dx) > Math.Abs(dy) * 1.5;
+            return Math.Abs(dx) >= _minSwipeTravel && Math.Abs(dx) > Math.Abs(dy) * _swipeDominanceRatio;
         }
 
-        private static bool IsVerticalSwipe(int dx, int dy)
+        private bool IsVerticalSwipe(int dx, int dy)
         {
-            return Math.Abs(dy) >= MinSwipeTravel && Math.Abs(dy) > Math.Abs(dx) * 1.5;
+            return Math.Abs(dy) >= _minSwipeTravel && Math.Abs(dy) > Math.Abs(dx) * _swipeDominanceRatio;
         }
 
         private string GetTapGestureName(Edge edge)
@@ -246,9 +295,56 @@ namespace GestureSign.Daemon.Triggers
             }
         }
 
+        private Edge GetActionEdge(Edge edge)
+        {
+            if (!_allowOppositeEdgeFallback)
+                return edge;
+
+            if (HasAnyAction(edge))
+                return edge;
+
+            var opposite = GetOppositeEdge(edge);
+            if (HasAnyAction(opposite))
+            {
+                Logging.LogMessage($"{_logPrefix} edge action fallback. RawEdge={edge}, ActionEdge={opposite}");
+                return opposite;
+            }
+
+            return edge;
+        }
+
+        private bool HasAnyAction(Edge edge)
+        {
+            return GetCandidateGestureNames(edge)
+                .Any(name => ApplicationManager.Instance.GetRecognizedDefinedAction(name)?.Any() == true);
+        }
+
+        private static Edge GetOppositeEdge(Edge edge)
+        {
+            switch (edge)
+            {
+                case Edge.Top:
+                    return Edge.Bottom;
+                case Edge.Bottom:
+                    return Edge.Top;
+                case Edge.Left:
+                    return Edge.Right;
+                case Edge.Right:
+                    return Edge.Left;
+                default:
+                    return edge;
+            }
+        }
+
         private static string FormatPoint(Point point)
         {
             return $"{point.X},{point.Y}";
+        }
+
+        private static bool IsCaptionButtonRegion(Rectangle bounds, int x, int y)
+        {
+            return y <= CaptionButtonHeight &&
+                   (x <= CaptionButtonWidth || x >= bounds.Width - CaptionButtonWidth);
         }
 
         private enum Edge

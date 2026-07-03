@@ -2,7 +2,7 @@ param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "8.1.9807",
+    [string]$PackageVersion = "8.2.8",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",
@@ -57,6 +57,23 @@ function Get-RelativePath {
     return [System.Uri]::UnescapeDataString($baseUri.MakeRelativeUri($targetUri).ToString()).Replace('/', '\')
 }
 
+function Find-MSBuild {
+    $vswhere = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\Installer\vswhere.exe"
+    if (Test-Path -LiteralPath $vswhere) {
+        $msbuild = & $vswhere -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\**\Bin\MSBuild.exe | Select-Object -First 1
+        if ($msbuild -and (Test-Path -LiteralPath $msbuild)) {
+            return $msbuild
+        }
+    }
+
+    $fallback = Join-Path ${env:ProgramFiles(x86)} "Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\MSBuild.exe"
+    if (Test-Path -LiteralPath $fallback) {
+        return $fallback
+    }
+
+    return "msbuild.exe"
+}
+
 $publish = Resolve-Path -LiteralPath $PublishDir
 $publishPath = $publish.ProviderPath
 $wxsPath = Join-Path $PSScriptRoot "GestureSign.generated.kando.wxs"
@@ -64,6 +81,19 @@ $iconPath = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\GestureSign.W
 $scope = "perUser"
 $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
+$uninstallerProject = Join-Path $PSScriptRoot "Uninstaller\GestureSign.Uninstaller.csproj"
+if (Test-Path -LiteralPath $uninstallerProject) {
+    $msbuild = Find-MSBuild
+    & $msbuild $uninstallerProject /p:Configuration=Release /v:m
+    if ($LASTEXITCODE -ne 0) {
+        throw "Uninstaller build failed with exit code $LASTEXITCODE"
+    }
+
+    $uninstallerExe = Join-Path $PSScriptRoot "Uninstaller\bin\Release\GestureSign-Uninstall.exe"
+    if (Test-Path -LiteralPath $uninstallerExe) {
+        Copy-Item -LiteralPath $uninstallerExe -Destination (Join-Path $publishPath "GestureSign-Uninstall.exe") -Force
+    }
+}
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName
 if ($files.Count -eq 0) {
@@ -173,7 +203,7 @@ $majorUpgradeXml = if ($SkipMajorUpgrade) {
     "    <!-- Major upgrade removal is intentionally disabled for this build. -->"
 }
 else {
-    "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallFinalize`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
+    "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallValidate`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
 }
 
 $wxs = @"
@@ -182,10 +212,15 @@ $wxs = @"
   <Package Name="$(Escape-Xml $PackageName)" Manufacturer="TransposonY / WinUI rebuild" Version="$(Escape-Xml $PackageVersion)" UpgradeCode="$(Escape-Xml $UpgradeCode)" Scope="$scope">
 $majorUpgradeXml
     <Property Id="DISABLEROLLBACK" Value="1" />
+    <Property Id="CLEANALL" Secure="yes" Value="0" />
     <MediaTemplate EmbedCab="yes" CompressionLevel="$(Escape-Xml $CompressionLevel)" />
     <Icon Id="GestureSignIcon" SourceFile="$(Escape-Xml $($iconPath.ProviderPath))" />
     <Property Id="ARPPRODUCTICON" Value="GestureSignIcon" />
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
+    <CustomAction Id="CleanupAllGestureSignData" Directory="INSTALLFOLDER" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command &quot;`$paths=@([Environment]::GetFolderPath('LocalApplicationData') + '\GestureSign V2', [Environment]::GetFolderPath('ApplicationData') + '\GestureSign V2'); foreach (`$path in `$paths) { if (Test-Path -LiteralPath `$path) { Remove-Item -LiteralPath `$path -Recurse -Force -ErrorAction SilentlyContinue } }; Remove-Item -LiteralPath 'HKCU:\Software\GestureSign V2' -Recurse -Force -ErrorAction SilentlyContinue&quot;" />
+    <InstallExecuteSequence>
+      <Custom Action="CleanupAllGestureSignData" After="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND CLEANALL=&quot;1&quot; AND NOT UPGRADINGPRODUCTCODE" />
+    </InstallExecuteSequence>
 
     <StandardDirectory Id="$installRootDirectory">
       <Directory Id="INSTALLFOLDER" Name="$(Escape-Xml $InstallFolderName)">
@@ -200,6 +235,7 @@ $($directoryXml -join "`r`n")
 $($components -join "`r`n")
     <Component Id="StartMenuShortcutComponent" Directory="ProgramMenuDir" Guid="*">
       <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
+      <Shortcut Id="UninstallShortcut" Directory="ProgramMenuDir" Name="&#x5378;&#x8F7D; $(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign-Uninstall.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>

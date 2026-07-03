@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text;
 using GestureSign.Common.Localization;
 using GestureSign.Common.Plugins;
 using GestureSign.CorePlugins.Common;
@@ -76,14 +77,19 @@ namespace GestureSign.CorePlugins.RunCommand
             string clipboardString = string.Empty;
             var parser = new EnvironmentVariablesParser(pointInfo);
             string command = parser.ExpandEnvironmentVariables(_Settings.Command);
+            bool usePowerShell = string.Equals(_Settings.Shell, "PowerShell", StringComparison.OrdinalIgnoreCase);
 
             using (Process process = new Process())
             {
-                process.StartInfo.FileName = "cmd.exe";
-                process.StartInfo.Arguments = $"{(_Settings.ShowCmd ? "/K " : "/C ")}\"{string.Join(" & ", command.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))}\"";
+                process.StartInfo.FileName = usePowerShell ? "powershell.exe" : "cmd.exe";
+                process.StartInfo.Arguments = usePowerShell
+                    ? $"-NoProfile -ExecutionPolicy Bypass {(_Settings.ShowCmd ? "-NoExit " : "")}-EncodedCommand {EncodePowerShellCommand(command)}"
+                    : $"{(_Settings.ShowCmd ? "/K " : "/C ")}\"{string.Join(" & ", command.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries))}\"";
                 process.StartInfo.WindowStyle = _Settings.ShowCmd ? ProcessWindowStyle.Normal : ProcessWindowStyle.Hidden;
                 process.StartInfo.CreateNoWindow = !_Settings.ShowCmd;
-                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.UseShellExecute = _Settings.RunAsAdministrator;
+                if (_Settings.RunAsAdministrator)
+                    process.StartInfo.Verb = "runas";
                 process.Start();
             }
 
@@ -116,6 +122,11 @@ namespace GestureSign.CorePlugins.RunCommand
             newGUI.Loaded += (o, e) => { TypedGUI.Settings = _Settings; };
 
             return newGUI;
+        }
+
+        private static string EncodePowerShellCommand(string command)
+        {
+            return Convert.ToBase64String(Encoding.Unicode.GetBytes(command ?? string.Empty));
         }
 
         #endregion

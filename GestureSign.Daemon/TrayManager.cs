@@ -35,6 +35,7 @@ namespace GestureSign.Daemon
         private ToolStripMenuItem _controlPanelMenuItem;
         private ToolStripMenuItem _exitGestureSignMenuItem;
         private Icon _currentTrayIcon;
+        private TouchFriendlyTrayMenu _touchTrayMenu;
         private static DateTime _lastControlPanelStartUtc = DateTime.MinValue;
         private static readonly object _controlPanelStartLock = new object();
 
@@ -53,10 +54,11 @@ namespace GestureSign.Daemon
             _controlPanelMenuItem = new ToolStripMenuItem();
             _exitGestureSignMenuItem = new ToolStripMenuItem();
 
-            _trayIcon.ContextMenuStrip = _trayMenu;
+            _trayIcon.ContextMenuStrip = null;
             _trayIcon.Text = "GestureSign";
             _trayIcon.DoubleClick += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.Click += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
+            _trayIcon.MouseUp += TrayIcon_MouseUp;
             SetTrayIcon(TrayIconState.Normal);
 
             _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _controlPanelMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
@@ -87,6 +89,7 @@ namespace GestureSign.Daemon
             };
 
             ApplyTrayMenuTheme();
+            RebuildTouchTrayMenu();
         }
 
         private enum TrayIconState
@@ -202,6 +205,21 @@ namespace GestureSign.Daemon
                 item.BackColor = backColor;
                 item.ForeColor = foreColor;
             }
+
+            ApplyTouchTrayMenuTheme();
+        }
+
+        private void ApplyTouchTrayMenuTheme()
+        {
+            if (_touchTrayMenu == null || _touchTrayMenu.IsDisposed)
+                return;
+
+            bool lightTheme = IsLightTheme();
+            Color backColor = lightTheme ? Color.FromArgb(250, 250, 250) : Color.FromArgb(32, 32, 32);
+            Color foreColor = lightTheme ? Color.FromArgb(24, 24, 24) : Color.FromArgb(242, 242, 242);
+            Color selectedColor = lightTheme ? Color.FromArgb(232, 240, 254) : Color.FromArgb(63, 63, 63);
+            Color borderColor = lightTheme ? Color.FromArgb(210, 210, 210) : Color.FromArgb(64, 64, 64);
+            _touchTrayMenu.ApplyTheme(backColor, foreColor, selectedColor, borderColor);
         }
 
         private static bool IsLightTheme()
@@ -274,6 +292,290 @@ namespace GestureSign.Daemon
             }
         }
 
+        private sealed class TouchFriendlyTrayMenu : Form
+        {
+            private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
+            private const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
+            private const int DWMWA_SYSTEMBACKDROP_TYPE = 38;
+            private const int DWMSBT_MAINWINDOW = 2;
+            private const int DWMWCP_ROUND = 2;
+            private const int CornerRadius = 14;
+            private readonly Action _disableGestures;
+            private readonly Action _openControlPanel;
+            private readonly Func<Task> _exitGestureSign;
+            private readonly Font _menuFont;
+            private readonly Rectangle[] _itemBounds = new Rectangle[3];
+            private bool _lightTheme = true;
+            private Color _normalBackColor;
+            private Color _selectedBackColor;
+            private Color _borderColor;
+            private Color _accentLineColor;
+            private Color _foreColor;
+            private int _hoverIndex = -1;
+            private string _disableText = "";
+            private string _controlPanelText = "";
+            private string _exitText = "";
+
+            [DllImport("dwmapi.dll")]
+            private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int attributeValue, int attributeSize);
+
+            public TouchFriendlyTrayMenu(Action disableGestures, Action openControlPanel, Func<Task> exitGestureSign)
+            {
+                _disableGestures = disableGestures;
+                _openControlPanel = openControlPanel;
+                _exitGestureSign = exitGestureSign;
+                _menuFont = new Font("Microsoft YaHei UI", 9.25f, FontStyle.Regular, GraphicsUnit.Point);
+
+                FormBorderStyle = FormBorderStyle.None;
+                ShowInTaskbar = false;
+                StartPosition = FormStartPosition.Manual;
+                TopMost = true;
+                AutoScaleMode = AutoScaleMode.Dpi;
+                DoubleBuffered = true;
+                Padding = new Padding(13, 12, 13, 12);
+                Width = 292;
+                Height = 178;
+                BackColor = Color.FromArgb(245, 248, 252);
+                SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
+                Deactivate += (o, e) => Hide();
+            }
+
+            public void UpdateItems(string disableText, string controlPanelText, string exitText)
+            {
+                _disableText = disableText;
+                _controlPanelText = controlPanelText;
+                _exitText = exitText;
+                Invalidate();
+            }
+
+            public void ApplyTheme(Color backColor, Color foreColor, Color selectedColor, Color borderColor)
+            {
+                _lightTheme = IsLightTheme();
+                _normalBackColor = _lightTheme
+                    ? Color.FromArgb(112, 247, 250, 255)
+                    : Color.FromArgb(150, 31, 35, 43);
+                _selectedBackColor = _lightTheme
+                    ? Color.FromArgb(184, 255, 255, 255)
+                    : Color.FromArgb(176, 58, 64, 76);
+                _borderColor = _lightTheme
+                    ? Color.FromArgb(140, 126, 142, 170)
+                    : Color.FromArgb(150, 91, 101, 120);
+                _accentLineColor = _lightTheme
+                    ? Color.FromArgb(96, 120, 137, 166)
+                    : Color.FromArgb(118, 118, 130, 150);
+                _foreColor = _lightTheme
+                    ? Color.FromArgb(24, 24, 24)
+                    : Color.FromArgb(246, 246, 246);
+                BackColor = _lightTheme
+                    ? Color.FromArgb(245, 248, 252)
+                    : Color.FromArgb(32, 35, 42);
+
+                ApplyBackdrop();
+                Invalidate();
+            }
+
+            public void ShowNearCursor()
+            {
+                var screen = Screen.FromPoint(Cursor.Position).WorkingArea;
+                var x = Math.Min(Cursor.Position.X, screen.Right - Width);
+                var y = Math.Min(Cursor.Position.Y, screen.Bottom - Height);
+                x = Math.Max(screen.Left, x);
+                y = Math.Max(screen.Top, y);
+                Location = new Point(x, y);
+
+                if (!Visible)
+                    Show();
+                Activate();
+                BringToFront();
+            }
+
+            protected override CreateParams CreateParams
+            {
+                get
+                {
+                    const int CS_DROPSHADOW = 0x00020000;
+                    var createParams = base.CreateParams;
+                    createParams.ClassStyle |= CS_DROPSHADOW;
+                    return createParams;
+                }
+            }
+
+            protected override void OnPaintBackground(PaintEventArgs e)
+            {
+                base.OnPaintBackground(e);
+            }
+
+            protected override void OnPaint(PaintEventArgs e)
+            {
+                base.OnPaint(e);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+
+                var bounds = new Rectangle(0, 0, Width - 1, Height - 1);
+                using (GraphicsPath path = CreateRoundedRectanglePath(bounds, CornerRadius))
+                using (Brush fill = new SolidBrush(_normalBackColor))
+                using (Pen pen = new Pen(_borderColor))
+                using (Pen highlight = new Pen(Color.FromArgb(_lightTheme ? 130 : 55, Color.White)))
+                {
+                    e.Graphics.FillPath(fill, path);
+                    e.Graphics.DrawPath(highlight, path);
+                    e.Graphics.DrawPath(pen, path);
+                }
+
+                UpdateItemBounds();
+
+                for (var index = 0; index < _itemBounds.Length; index++)
+                {
+                    if (index == _hoverIndex)
+                    {
+                        using (GraphicsPath hoverPath = CreateRoundedRectanglePath(_itemBounds[index], 8))
+                        using (Brush hoverBrush = new SolidBrush(_selectedBackColor))
+                            e.Graphics.FillPath(hoverBrush, hoverPath);
+                    }
+                }
+
+                using (Pen separator = new Pen(Color.FromArgb(_lightTheme ? 100 : 130, _accentLineColor)))
+                {
+                    var left = Padding.Left + 8;
+                    var right = Width - Padding.Right - 8;
+                    e.Graphics.DrawLine(separator, left, _itemBounds[0].Bottom + 4, right, _itemBounds[0].Bottom + 4);
+                    e.Graphics.DrawLine(separator, left, _itemBounds[1].Bottom + 4, right, _itemBounds[1].Bottom + 4);
+                }
+
+                DrawMenuText(e.Graphics, _disableText, _itemBounds[0]);
+                DrawMenuText(e.Graphics, _controlPanelText, _itemBounds[1]);
+                DrawMenuText(e.Graphics, _exitText, _itemBounds[2]);
+            }
+
+            protected override void OnHandleCreated(EventArgs e)
+            {
+                base.OnHandleCreated(e);
+                ApplyBackdrop();
+            }
+
+            protected override void OnSizeChanged(EventArgs e)
+            {
+                base.OnSizeChanged(e);
+                Region oldRegion = Region;
+                Region = new Region(CreateRoundedRectanglePath(new Rectangle(Point.Empty, Size), CornerRadius));
+                if (oldRegion != null)
+                    oldRegion.Dispose();
+            }
+
+            protected override void OnMouseMove(MouseEventArgs e)
+            {
+                base.OnMouseMove(e);
+                var hoverIndex = HitTest(e.Location);
+                if (hoverIndex == _hoverIndex)
+                    return;
+
+                _hoverIndex = hoverIndex;
+                Invalidate();
+            }
+
+            protected override void OnMouseLeave(EventArgs e)
+            {
+                base.OnMouseLeave(e);
+                if (_hoverIndex == -1)
+                    return;
+
+                _hoverIndex = -1;
+                Invalidate();
+            }
+
+            protected override async void OnMouseUp(MouseEventArgs e)
+            {
+                base.OnMouseUp(e);
+                if (e.Button != MouseButtons.Left)
+                    return;
+
+                var itemIndex = HitTest(e.Location);
+                if (itemIndex < 0)
+                    return;
+
+                Hide();
+                switch (itemIndex)
+                {
+                    case 0:
+                        _disableGestures();
+                        break;
+                    case 1:
+                        _openControlPanel();
+                        break;
+                    case 2:
+                        await _exitGestureSign();
+                        break;
+                }
+            }
+
+            protected override void Dispose(bool disposing)
+            {
+                if (disposing)
+                    _menuFont.Dispose();
+                base.Dispose(disposing);
+            }
+
+            private void UpdateItemBounds()
+            {
+                const int itemHeight = 40;
+                const int itemGap = 9;
+                var x = Padding.Left + 8;
+                var width = Width - Padding.Left - Padding.Right - 16;
+                var y = Padding.Top + 2;
+
+                for (var index = 0; index < _itemBounds.Length; index++)
+                {
+                    _itemBounds[index] = new Rectangle(x, y, width, itemHeight);
+                    y += itemHeight + itemGap;
+                }
+            }
+
+            private int HitTest(Point point)
+            {
+                UpdateItemBounds();
+                for (var index = 0; index < _itemBounds.Length; index++)
+                {
+                    if (_itemBounds[index].Contains(point))
+                        return index;
+                }
+
+                return -1;
+            }
+
+            private void DrawMenuText(Graphics graphics, string text, Rectangle bounds)
+            {
+                var textBounds = new Rectangle(bounds.Left + 18, bounds.Top, bounds.Width - 36, bounds.Height);
+                TextRenderer.DrawText(
+                    graphics,
+                    text,
+                    _menuFont,
+                    textBounds,
+                    _foreColor,
+                    TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix);
+            }
+
+            private void ApplyBackdrop()
+            {
+                if (!IsHandleCreated || Environment.OSVersion.Version.Build < 22000)
+                    return;
+
+                try
+                {
+                    int darkMode = _lightTheme ? 0 : 1;
+                    DwmSetWindowAttribute(Handle, DWMWA_USE_IMMERSIVE_DARK_MODE, ref darkMode, sizeof(int));
+
+                    int cornerPreference = DWMWCP_ROUND;
+                    DwmSetWindowAttribute(Handle, DWMWA_WINDOW_CORNER_PREFERENCE, ref cornerPreference, sizeof(int));
+
+                    int backdrop = DWMSBT_MAINWINDOW;
+                    DwmSetWindowAttribute(Handle, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int));
+                }
+                catch
+                {
+                }
+            }
+        }
+
         private void TrayIcon_Click(object sender, MouseEventArgs e)
         {
             switch (e.Button)
@@ -281,13 +583,56 @@ namespace GestureSign.Daemon
                 case MouseButtons.Left:
                     if (e.Clicks == 2 && PointCapture.Instance.Mode != CaptureMode.Training)
                         StartControlPanel();
+                    else if (e.Clicks == 1)
+                        ShowTouchTrayMenu();
                     break;
                 case MouseButtons.Right:
+                    ShowTouchTrayMenu();
                     break;
                 case MouseButtons.Middle:
                     ToggleDisableGestures();
                     break;
             }
+        }
+
+        private void TrayIcon_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                ShowTouchTrayMenu();
+        }
+
+        private void ShowTouchTrayMenu()
+        {
+            if (_touchTrayMenu == null || _touchTrayMenu.IsDisposed)
+                RebuildTouchTrayMenu();
+
+            if (_touchTrayMenu == null)
+                return;
+
+            _touchTrayMenu.UpdateItems(
+                _disableGesturesMenuItem.Text,
+                LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
+            _touchTrayMenu.ShowNearCursor();
+        }
+
+        private void RebuildTouchTrayMenu()
+        {
+            if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
+                _touchTrayMenu.Dispose();
+
+            _touchTrayMenu = new TouchFriendlyTrayMenu(
+                () =>
+                {
+                    ToggleDisableGestures();
+                    _touchTrayMenu.UpdateItems(
+                        _disableGesturesMenuItem.Text,
+                        LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
+                },
+                StartControlPanel,
+                async () => await ExitGestureSignAsync());
+            ApplyTouchTrayMenuTheme();
         }
 
         #endregion
@@ -391,6 +736,7 @@ namespace GestureSign.Daemon
 
         internal static async Task ExitGestureSignAsync()
         {
+            Logging.LogMessage("ExitGestureSignAsync started.");
             KandoLauncher.Stop();
 
             try
@@ -405,6 +751,7 @@ namespace GestureSign.Daemon
             await Task.Delay(500);
             CloseOtherGestureSignProcesses();
             Application.DoEvents();
+            Logging.LogMessage("ExitGestureSignAsync calling Application.Exit.");
             Application.Exit();
         }
 
@@ -483,6 +830,7 @@ namespace GestureSign.Daemon
         {
             if (_trayIcon != null) _trayIcon.Visible = false;
             if (_currentTrayIcon != null) _currentTrayIcon.Dispose();
+            if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed) _touchTrayMenu.Dispose();
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         }
 
@@ -506,6 +854,12 @@ namespace GestureSign.Daemon
                 _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Disable");
                 SetTrayIcon(e.Mode == CaptureMode.Training ? TrayIconState.Training : TrayIconState.Normal);
             }
+
+            if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
+                _touchTrayMenu.UpdateItems(
+                    _disableGesturesMenuItem.Text,
+                    LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
         }
 
         #endregion

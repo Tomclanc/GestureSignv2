@@ -9,6 +9,7 @@ using GestureSign.Common.Localization;
 using GestureSign.Common.Log;
 using GestureSign.Common.Plugins;
 using GestureSign.Daemon.Input;
+using GestureSign.Daemon.Native;
 using GestureSign.Daemon.Triggers;
 
 namespace GestureSign.Daemon
@@ -31,9 +32,11 @@ namespace GestureSign.Daemon
                     try
                     {
                         Application.ThreadException += Application_ThreadException;
+                        AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
                         Logging.LoggedExceptionOccurred += (o, e) => ShowException(e);
                         Logging.OpenLogFile();
                         Logging.LogMessage($"GestureSign daemon started. Executable={Application.ExecutablePath}, Config={GestureSign.Common.Configuration.AppConfig.ConfigPath}, Log={Logging.LogFilePath}");
+                        DisableEfficiencyModeForDaemon();
 
                         if (!LocalizationProvider.Instance.LoadFromFile("Daemon"))
                         {
@@ -79,10 +82,50 @@ namespace GestureSign.Daemon
             }
         }
 
+        private static void DisableEfficiencyModeForDaemon()
+        {
+            const uint processPowerThrottlingCurrentVersion = 1;
+            const uint processPowerThrottlingExecutionSpeed = 0x1;
+
+            try
+            {
+                var state = new NativeMethods.PROCESS_POWER_THROTTLING_STATE
+                {
+                    Version = processPowerThrottlingCurrentVersion,
+                    ControlMask = processPowerThrottlingExecutionSpeed,
+                    StateMask = 0
+                };
+
+                var success = NativeMethods.SetProcessInformation(
+                    NativeMethods.GetCurrentProcess(),
+                    NativeMethods.PROCESS_INFORMATION_CLASS.ProcessPowerThrottling,
+                    ref state,
+                    System.Runtime.InteropServices.Marshal.SizeOf(typeof(NativeMethods.PROCESS_POWER_THROTTLING_STATE)));
+
+                Logging.LogMessage(success
+                    ? "Efficiency mode opt-out applied for daemon process."
+                    : "Efficiency mode opt-out was not applied.");
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+            }
+        }
+
         private static void Application_ApplicationExit(object sender, EventArgs e)
         {
+            Logging.LogMessage("GestureSign daemon exiting. Reason=ApplicationExit");
             NamedPipe.Instance.Dispose();
             PointCapture.Instance.Dispose();
+        }
+
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logging.LogMessage($"GestureSign daemon unhandled exception. IsTerminating={e.IsTerminating}");
+            if (e.ExceptionObject is Exception exception)
+                Logging.LogException(exception);
+            else
+                Logging.LogMessage(e.ExceptionObject?.ToString() ?? "Unhandled exception object was null.");
         }
 
         private static void Application_ThreadException(object sender, ThreadExceptionEventArgs e)
@@ -110,7 +153,10 @@ namespace GestureSign.Daemon
 
             // Exits the program when the user clicks Abort.
             if (result == DialogResult.Abort)
+            {
+                Logging.LogMessage("GestureSign daemon exiting. Reason=ThreadExceptionAbort");
                 Application.Exit();
+            }
         }
 
         private static void ShowException(Exception exception)

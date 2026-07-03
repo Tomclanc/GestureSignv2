@@ -12,6 +12,8 @@ namespace GestureSign.Daemon.Input
 {
     public class PointEventTranslator
     {
+        private const int CaptionButtonWidth = 180;
+        private const int CaptionButtonHeight = 72;
         private int _lastPointsCount;
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
@@ -66,6 +68,9 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseUp(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             var button = (MouseActions)mouseMessage.Button;
+            if (IsCaptionButtonRegion(mouseMessage.Point) && button == AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
+                return;
+
             if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && button != AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
@@ -80,6 +85,9 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            if (IsCaptionButtonRegion(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+                return;
+
             if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
                 return;
 
@@ -89,6 +97,12 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            if (IsCaptionButtonRegion(mouseMessage.Point) && (MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
+            {
+                Logging.LogMessage($"Mouse gesture ignored. Reason=CaptionButtonRegion, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                return;
+            }
+
             if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point))
                 return;
 
@@ -112,6 +126,23 @@ namespace GestureSign.Daemon.Input
                 var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
                 ApplicationManager.GetWindowInfo(targetWindow, out _, out _, out var fileName);
                 return string.Equals(fileName, "msedge.exe", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsCaptionButtonRegion(System.Drawing.Point point)
+        {
+            try
+            {
+                var screen = System.Windows.Forms.Screen.FromPoint(point);
+                var bounds = screen.Bounds;
+                var x = point.X - bounds.Left;
+                var y = point.Y - bounds.Top;
+                return y <= CaptionButtonHeight &&
+                       (x <= CaptionButtonWidth || x >= bounds.Width - CaptionButtonWidth);
             }
             catch
             {

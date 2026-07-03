@@ -2,6 +2,7 @@ using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
 using GestureSign.Common.InterProcessCommunication;
+using GestureSign.Common.Log;
 using ManagedWinapi.Hooks;
 using Microsoft.Win32;
 using System;
@@ -31,10 +32,12 @@ namespace GestureSign.Daemon.Input
             _keyboardHook = new LowLevelKeyboardHook();
             _keyboardHook.KeyIntercepted += KeyboardHook_KeyIntercepted;
             _keyboardHook.StartHook();
+            Logging.LogMessage("Keyboard hook started.");
             if (AppConfig.DrawingButton != MouseActions.None)
                 Task.Delay(1000).ContinueWith((t) =>
                 {
                     LowLevelMouseHook.StartHook();
+                    Logging.LogMessage($"Mouse hook started. Reason=InitialDelay, DrawingButton={AppConfig.DrawingButton}");
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
 
@@ -70,8 +73,15 @@ namespace GestureSign.Daemon.Input
         private void AppConfig_ConfigChanged(object sender, System.EventArgs e)
         {
             if (AppConfig.DrawingButton != MouseActions.None)
+            {
                 LowLevelMouseHook.StartHook();
-            else LowLevelMouseHook.Unhook();
+                Logging.LogMessage($"Mouse hook started. Reason=ConfigChanged, DrawingButton={AppConfig.DrawingButton}");
+            }
+            else
+            {
+                LowLevelMouseHook.Unhook();
+                Logging.LogMessage("Mouse hook stopped. Reason=ConfigChanged, DrawingButton=None");
+            }
 
             UpdateDeviceState();
         }

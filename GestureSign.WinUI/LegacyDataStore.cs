@@ -82,6 +82,7 @@ internal sealed class LegacyDataStore
         var changedActions = NormalizeBuiltInApplications(actionsRoot);
         changedActions |= NormalizeMatchUsingValues(actionsRoot);
         changedActions |= EnsureSettingsWindowIgnored(actionsRoot);
+        changedActions |= NormalizeEdgeCommandPlugins(actionsRoot);
         var changedGestures = NormalizeGestureNames(gesturesRoot, actionsRoot, out var changedGestureActions);
         var actionsFromDefaults = IsDefaultsPath(actionsPath);
         var gesturesFromDefaults = IsDefaultsPath(gesturesPath);
@@ -784,6 +785,38 @@ internal sealed class LegacyDataStore
         }
 
         return changedGestures;
+    }
+
+    private static bool NormalizeEdgeCommandPlugins(JsonArray actionsRoot)
+    {
+        var changed = false;
+        foreach (var action in actionsRoot.OfType<JsonObject>()
+                     .SelectMany(app => app["Actions"] as JsonArray ?? [])
+                     .OfType<JsonObject>())
+        {
+            var gestureName = action.StringValue("GestureName", "");
+            if (!gestureName.StartsWith("TouchScreenEdge.", StringComparison.OrdinalIgnoreCase) &&
+                !gestureName.StartsWith("TouchPadEdge.", StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            foreach (var command in (action["Commands"] as JsonArray ?? []).OfType<JsonObject>())
+            {
+                var commandName = command.StringValue("Name", "");
+                var pluginClass = command.StringValue("PluginClass", "");
+                if (!commandName.Contains("快捷键", StringComparison.OrdinalIgnoreCase) ||
+                    !pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                command["PluginClass"] = "GestureSign.CorePlugins.HotKey.HotKeyPlugin";
+                command["PluginFilename"] = "GestureSign.CorePlugins.dll";
+                if (string.IsNullOrWhiteSpace(command.StringValue("CommandSettings", "")) ||
+                    command.StringValue("CommandSettings", "").Contains("\"Command\"", StringComparison.OrdinalIgnoreCase))
+                    command["CommandSettings"] = "{\"Windows\":false,\"Control\":true,\"Shift\":false,\"Alt\":false,\"KeyCode\":[67],\"SendByKeybdEvent\":false}";
+                changed = true;
+            }
+        }
+
+        return changed;
     }
 
     private static Dictionary<string, string> GestureNameMap() => new(StringComparer.Ordinal)

@@ -27,12 +27,13 @@ namespace GestureSign.CorePlugins.RunCommand
                 _Settings = new RunCommandSettings();
                 _Settings.Command = txtCommand.Text.Trim();
                 _Settings.ShowCmd = this.showCmdCheckBox.IsChecked.Value;
+                _Settings.Shell = string.IsNullOrWhiteSpace(_Settings.Shell) ? "CMD" : _Settings.Shell;
 
                 return _Settings;
             }
             set
             {
-                _Settings = value;
+                _Settings = value ?? new RunCommandSettings();
                 txtCommand.Text = _Settings.Command;
                 this.showCmdCheckBox.IsChecked = _Settings.ShowCmd;
             }

@@ -112,6 +112,17 @@ namespace GestureSign.Daemon.Native
         [DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         internal static extern int GetCurrentThreadId();
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        internal static extern IntPtr GetCurrentProcess();
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool SetProcessInformation(
+            IntPtr hProcess,
+            PROCESS_INFORMATION_CLASS processInformationClass,
+            ref PROCESS_POWER_THROTTLING_STATE processInformation,
+            int processInformationSize);
+
         [DllImport("user32.dll")]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
 
@@ -167,6 +178,19 @@ namespace GestureSign.Daemon.Native
             Effective = 0,
             Angular = 1,
             Raw = 2,
+        }
+
+        internal enum PROCESS_INFORMATION_CLASS
+        {
+            ProcessPowerThrottling = 4
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct PROCESS_POWER_THROTTLING_STATE
+        {
+            public uint Version;
+            public uint ControlMask;
+            public uint StateMask;
         }
 
         [Flags]

@@ -17,6 +17,10 @@
 
         public bool ShowCmd { get; set; }
 
+        public string Shell { get; set; }
+
+        public bool RunAsAdministrator { get; set; }
+
         #endregion
     }
 }

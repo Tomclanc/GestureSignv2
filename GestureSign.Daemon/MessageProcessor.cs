@@ -3,6 +3,7 @@ using GestureSign.Common.Configuration;
 using GestureSign.Common.Gestures;
 using GestureSign.Common.Input;
 using GestureSign.Common.InterProcessCommunication;
+using GestureSign.Common.Log;
 using GestureSign.Daemon.Input;
 using System.Threading;
 
@@ -19,6 +20,7 @@ namespace GestureSign.Daemon
 
         public bool ProcessMessages(IpcCommands command, object data)
         {
+            Logging.LogMessage($"Daemon IPC command received. Command={command}");
             _synchronizationContext.Post(state =>
             {
                 switch (command)
@@ -51,6 +53,7 @@ namespace GestureSign.Daemon
                         TrayManager.StartControlPanel();
                         break;
                     case IpcCommands.Exit:
+                        Logging.LogMessage("Daemon exit requested by IPC.");
                         _ = TrayManager.ExitGestureSignAsync();
                         break;
                 }

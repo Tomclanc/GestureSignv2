@@ -40,7 +40,8 @@ namespace GestureSign.Daemon.Triggers
             AddTrigger(new MouseTrigger());
             AddTrigger(new ContinuousGestureTrigger());
             AddTrigger(new TouchPadEdgeTrigger());
-            AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.TouchScreen, "TouchScreenEdge", "TouchScreen"));
+            AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.TouchScreen, "TouchScreenEdge", "TouchScreen", 12, 70, 60, 1.2, true, true));
+            AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.Mouse, "TouchScreenEdge", "TouchScreenMouse", 12, 70, 60, 1.2, true));
         }
 
         #endregion
@@ -61,7 +62,10 @@ namespace GestureSign.Daemon.Triggers
 
             if (e.FiredActions == null || e.FiredActions.Count == 0) return;
             var point = new List<Point>(new[] { e.FiredPoint });
-            PluginManager.Instance.ExecuteAction(e.FiredActions, PointCapture.Instance.Mode, PointCapture.Instance.SourceDevice, new List<int>(new[] { 1 }), point, new List<List<Point>>(new[] { point }));
+            var points = e.Points != null && e.Points.Count > 0
+                ? e.Points
+                : new List<List<Point>>(new[] { point });
+            PluginManager.Instance.ExecuteAction(e.FiredActions, PointCapture.Instance.Mode, PointCapture.Instance.SourceDevice, new List<int>(new[] { 1 }), point, points);
         }
 
         #endregion

@@ -557,7 +557,7 @@ namespace GestureSign.Daemon.Input
                 return false;
             }
 
-            State = CaptureState.CapturingInvalid;
+            State = captureStartedArgs.ForceCapture ? CaptureState.Capturing : CaptureState.CapturingInvalid;
 
             // Clear old gesture from point list so we can start adding the new captures points to the list 
             _pointsCaptured = new Dictionary<int, List<Point>>(firstPoint.Count);

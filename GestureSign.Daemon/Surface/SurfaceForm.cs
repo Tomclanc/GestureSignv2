@@ -121,7 +121,6 @@ namespace GestureSign.Daemon.Surface
             }
 
             StopGestureHintTimers();
-            StopGestureHintTimers();
             ClearSurfaces();
             EnsureDrawingSurface();
             EnsureSurfaceVisible();
@@ -591,15 +590,27 @@ namespace GestureSign.Daemon.Surface
                 {
                     var g = _bitmap.BeginDraw();
 
-                    _graphicsPath.Widen(_dirtyMarkerPen);
-                    g.SetClip(_graphicsPath);
-                    g.Clear(Color.Transparent);
+                    if (_graphicsPath.PointCount > 0)
+                    {
+                        _graphicsPath.Widen(_dirtyMarkerPen);
+                        g.SetClip(_graphicsPath);
+                        g.Clear(Color.Transparent);
+                    }
+                    else
+                    {
+                        g.Clear(Color.Transparent);
+                    }
                     _bitmap.EndDraw();
 
-                    var pathDirty = Rectangle.Ceiling(_graphicsPath.GetBounds());
-                    pathDirty.Offset(Bounds.Location);
-                    pathDirty.Intersect(Bounds);
-                    pathDirty.Offset(-Bounds.X, -Bounds.Y); //挪回来变为基于窗口的坐标
+                    var pathDirty = _graphicsPath.PointCount > 0
+                        ? Rectangle.Ceiling(_graphicsPath.GetBounds())
+                        : new Rectangle(0, 0, Width, Height);
+                    if (_graphicsPath.PointCount > 0)
+                    {
+                        pathDirty.Offset(Bounds.Location);
+                        pathDirty.Intersect(Bounds);
+                        pathDirty.Offset(-Bounds.X, -Bounds.Y); //挪回来变为基于窗口的坐标
+                    }
 
                     SetDiBitmap(_bitmap, pathDirty);
 
