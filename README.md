@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -35,14 +35,15 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 ## 主要特性
 
 - WinUI 3 重构界面，适配 Windows 11 圆角、Mica 风格、深色 / 亮色模式动态切换。
-- 支持触控板手势、鼠标手势、手势轨迹显示和手势缩略图预览。
+- 支持触控板手势、触摸屏手势、鼠标手势、手势轨迹显示和手势缩略图预览。
 - 新增“快捷操作”页面，内置 Kando 圆环菜单，可用独立快捷键唤起漂亮的径向菜单。
-- 新增“触控板边缘”页面，可为触控板上 / 下 / 左 / 右边缘点击和边缘滑动单独绑定动作。
+- 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
 - 支持按程序、窗口类名、可执行文件、标题和分组管理动作。
-- 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；命令编辑器可从已安装应用列表选择程序，也可手动浏览 exe。
+- 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；音量、亮度、打开文件、运行命令等常用命令提供专用编辑控件。
 - 支持忽略列表，可按 exe、窗口类名、标题等规则排除指定程序。
 - 支持优先使用系统触控板设置、Edge 自带手势，并可排除全屏场景。
 - 支持托盘图标、托盘菜单、单实例启动和更方便阅读的手势日志；托盘可一键暂停/恢复手势识别。
+- 支持简体中文、英文、繁体中文（台湾）、日语、韩语界面语言。
 - 针对高 DPI、高刷新率屏幕做了界面和输入体验优化。
 
 ## 下载
@@ -53,13 +54,26 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13) 下载最新版安装包或便携版。
 
 当前版本：
 
-- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
+- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
+- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
 
 ## 更新内容
+
+### 8.2.13
+
+- 重构 WinUI 3 设置界面，完善 Windows 11 风格、Mica / 圆角托盘菜单和深色模式适配。
+- 新增“边缘交互”页面，支持触控板与触摸屏四边点击和边缘滑动动作配置。
+- 修复触摸屏边缘手势触发、轨迹显示、托盘菜单交互和命令执行相关问题。
+- 适配 Windows 11 Xbox 大屏模式，进入 / 退出大屏模式时自动调整窗口控制按钮。
+- 改进命令编辑体验：音量、亮度、打开文件、运行命令等命令提供专用编辑控件。
+- 运行命令支持 CMD / PowerShell、管理员权限和显示窗口选项。
+- 完善简体中文、英文、繁体中文（台湾）、日语、韩语多语言适配。
+- 新增选项页“退出”操作，可退出相关进程；卸载时可选择清理相关残留文件。
+- 同步发布 MSI 安装包和 x64 便携版。
 
 ### 8.1.9807
 
@@ -196,7 +210,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - “忽略”：添加不参与识别的程序、窗口或匹配规则。
 - “手势”：查看、导入、导出、重训和整理手势库。
 - “快捷操作”：选择 Kando 菜单、同步唤起快捷键、打开 Kando 设置或测试弹出菜单。
-- “触控板边缘”：设置触控板四边点击和边缘滑动动作。
+- “边缘交互”：设置触控板和触摸屏四边点击与边缘滑动动作。
 - “选项”：调整轨迹颜色、宽度、透明度、输入设备、全屏排除和启动项。
 - “关于”：查看版本、项目链接、日志和维护信息。
 
@@ -233,13 +247,15 @@ The original GestureSign has not been actively maintained for a long time. On ne
 ## Features
 
 - Rebuilt WinUI 3 interface with Windows 11 rounded corners, Mica styling, and light / dark theme support.
-- Touchpad gestures, mouse gestures, gesture trails, and gesture thumbnail previews.
+- Touchpad, touchscreen, and mouse gestures with gesture trails and thumbnail previews.
 - New Quick Actions page with bundled Kando radial menus and a dedicated hotkey trigger.
+- New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
 - Per-app actions with matching by executable, window class, title, and groups.
-- Common commands such as hotkeys, browser actions, window actions, media controls, and system operations.
+- Common commands such as hotkeys, browser actions, window actions, media controls, system operations, file launching, volume, brightness, and command execution.
 - Ignore list support for excluding specific apps, windows, or matching rules.
 - Options to prefer Windows touchpad gestures or built-in browser gestures, with fullscreen exclusions.
 - Tray icon, tray menu, single-instance startup, readable gesture logs, and one-click pause/resume from the tray.
+- Simplified Chinese, English, Traditional Chinese (Taiwan), Japanese, and Korean UI languages.
 - Improved UI and input behavior for high-DPI and high-refresh-rate displays.
 
 ## Download
@@ -250,11 +266,12 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807).
+You can also get the latest installer or portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13).
 
 Current version:
 
-- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
+- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
+- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
 
 ## Installation
 
@@ -299,6 +316,7 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 - Ignore: Exclude apps, windows, or matching rules from gesture recognition.
 - Gestures: View, import, export, retrain, and organize the gesture library.
 - Quick Actions: Select Kando menus, sync hotkeys, open Kando settings, or test the radial menu.
+- Edge Interaction: Configure touchpad and touchscreen edge taps and edge swipes.
 - Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior.
 - About: View the version, project links, logs, and maintenance information.
 
@@ -335,13 +353,15 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 ## 主な機能
 
 - Windows 11 の角丸、Mica スタイル、ライト / ダークテーマに対応した WinUI 3 インターフェイス。
-- タッチパッドジェスチャー、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
+- タッチパッド、タッチスクリーン、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
 - Kando のラジアルメニューを同梱した Quick Actions ページと、専用ホットキーによる呼び出し。
+- タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
 - 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
 - ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。
 - 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
 - Windows タッチパッドジェスチャーやブラウザー内蔵ジェスチャーを優先するオプションと、全画面除外設定。
 - トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ、トレイからの一時停止 / 再開。
+- 簡体字中国語、英語、繁体字中国語（台湾）、日本語、韓国語の UI 言語。
 - 高 DPI および高リフレッシュレート環境向けの UI と入力体験の改善。
 
 ## ダウンロード
@@ -352,11 +372,12 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.1.9807) からも入手できます。
+最新のインストーラーとポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-8.1.9807-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.1.9807/GestureSign-V2-8.1.9807-x64.msi)
+- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
+- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
 
 ## インストール
 
@@ -401,6 +422,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - Ignore: ジェスチャー認識から除外するアプリ、ウィンドウ、マッチングルールを設定します。
 - Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
 - Quick Actions: Kando メニューの選択、ホットキー同期、Kando 設定の起動、ラジアルメニューのテストを行います。
+- Edge Interaction: タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定します。
 - Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整します。
 - About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
 
