@@ -33,5 +33,5 @@ using GestureSign.Common;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("8.2.13.0")]
-[assembly: AssemblyFileVersion("8.2.13.0")]
+[assembly: AssemblyVersion("8.2.15.0")]
+[assembly: AssemblyFileVersion("8.2.15.0")]

@@ -15,9 +15,9 @@
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>8.2.13</Version>
-    <AssemblyVersion>8.2.13.0</AssemblyVersion>
-    <FileVersion>8.2.13.0</FileVersion>
+    <Version>8.2.15</Version>
+    <AssemblyVersion>8.2.15.0</AssemblyVersion>
+    <FileVersion>8.2.15.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
@@ -29,6 +29,7 @@
   <ItemGroup>
     <Content Include="Assets\logo.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Assets\logo.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="Assets\Square44x44Logo.targetsize-*.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Assets\kando-preview.gif" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\GestureSign.ControlPanel\Defaults\Actions.gsa" Link="Defaults\Actions.gsa" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\GestureSign.ControlPanel\Defaults\Gestures.gest" Link="Defaults\Gestures.gest" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

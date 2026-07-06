@@ -48,7 +48,7 @@ public sealed partial class MainWindow : Window
     private const int PickOutlineCornerRadius = 18;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "8.2.13";
+    private const string AppVersion = "8.2.15";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
