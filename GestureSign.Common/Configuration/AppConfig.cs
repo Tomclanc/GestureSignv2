@@ -27,6 +27,9 @@ namespace GestureSign.Common.Configuration
         private static ExeConfigurationFileMap ExeMap;
         private static string _applicationDataPath;
         private static string _localApplicationDataPath;
+        private const string ApplicationDataFolderName = "GestureSign V2";
+        private const string DataLocationFileName = "DataLocation.txt";
+        private const string OneDriveDataLocationValue = "OneDrive";
 
         private static System.Configuration.Configuration Config
         {
@@ -464,13 +467,7 @@ namespace GestureSign.Common.Configuration
             ConfigPath = Path.Combine(ApplicationDataPath, Constants.ConfigFileName);
             BackupPath = Path.Combine(LocalApplicationDataPath, "Backup");
 #else
-            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            ApplicationDataPath = Path.Combine(appDataPath, "GestureSign V2");
-            LocalApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2");
-            EnsureApplicationDataMigrated(Path.Combine(appDataPath, "GestureSign"), ApplicationDataPath);
-
-            ConfigPath = Path.Combine(ApplicationDataPath, Constants.ConfigFileName);
-            BackupPath = LocalApplicationDataPath + "\\Backup";
+            ConfigureApplicationDataPaths();
 
 #endif
             ExeMap = new ExeConfigurationFileMap
@@ -479,6 +476,57 @@ namespace GestureSign.Common.Configuration
                 RoamingUserConfigFilename = ConfigPath,
             };
             Timer = new Timer(SaveFile, null, Timeout.Infinite, Timeout.Infinite);
+        }
+
+        private static void ConfigureApplicationDataPaths()
+        {
+            var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var defaultApplicationDataPath = Path.Combine(appDataPath, ApplicationDataFolderName);
+            LocalApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationDataFolderName);
+
+            var oneDrivePath = GetOneDriveApplicationDataPath();
+            ApplicationDataPath = IsOneDriveSyncPreferred() && !string.IsNullOrEmpty(oneDrivePath)
+                ? oneDrivePath
+                : defaultApplicationDataPath;
+
+            EnsureApplicationDataMigrated(Path.Combine(appDataPath, "GestureSign"), ApplicationDataPath);
+            if (!string.Equals(ApplicationDataPath, defaultApplicationDataPath, StringComparison.OrdinalIgnoreCase))
+                EnsureApplicationDataMigrated(defaultApplicationDataPath, ApplicationDataPath);
+
+            ConfigPath = Path.Combine(ApplicationDataPath, Constants.ConfigFileName);
+            BackupPath = LocalApplicationDataPath + "\\Backup";
+        }
+
+        private static string GetOneDriveApplicationDataPath()
+        {
+            var root = GetOneDriveRootPath();
+            return string.IsNullOrEmpty(root) ? null : Path.Combine(root, "Apps", ApplicationDataFolderName);
+        }
+
+        private static string GetOneDriveRootPath()
+        {
+            foreach (var variable in new[] { "OneDrive", "OneDriveConsumer", "OneDriveCommercial" })
+            {
+                var path = Environment.GetEnvironmentVariable(variable);
+                if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+                    return path;
+            }
+
+            return null;
+        }
+
+        private static bool IsOneDriveSyncPreferred()
+        {
+            try
+            {
+                var path = Path.Combine(LocalApplicationDataPath, DataLocationFileName);
+                return File.Exists(path)
+                    && string.Equals(File.ReadAllText(path).Trim(), OneDriveDataLocationValue, StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static void EnsureApplicationDataMigrated(string legacyPath, string targetPath)
@@ -521,6 +569,14 @@ namespace GestureSign.Common.Configuration
         {
             WithConfigFileLock(() =>
             {
+#if !Portable
+                ConfigureApplicationDataPaths();
+                ExeMap = new ExeConfigurationFileMap
+                {
+                    ExeConfigFilename = ConfigPath,
+                    RoamingUserConfigFilename = ConfigPath,
+                };
+#endif
                 _loadFlag = true;
                 _config = null;
                 _settingCache.Clear();

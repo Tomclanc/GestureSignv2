@@ -17,6 +17,9 @@ internal sealed class LegacyDataStore
     private const string ActionsFileName = "Actions.gsa";
     private const string GesturesFileName = "Gestures.gest";
     private const string ConfigFileName = "GestureSign.config";
+    private const string ApplicationDataFolderName = "GestureSign V2";
+    private const string DataLocationFileName = "DataLocation.txt";
+    private const string OneDriveDataLocationValue = "OneDrive";
     private static readonly string[] BrowserExecutableAliases =
     [
         "MicrosoftEdge",
@@ -42,6 +45,8 @@ internal sealed class LegacyDataStore
     public string? ActionsPath { get; private init; }
     public string? GesturesPath { get; private init; }
     public string? ConfigPath { get; private init; }
+    public bool OneDriveSyncEnabled { get; private init; }
+    public string? OneDriveSyncPath { get; private init; }
 
     private LegacyDataStore(JsonArray actionsRoot, JsonArray gesturesRoot, string defaultsPath)
     {
@@ -53,9 +58,16 @@ internal sealed class LegacyDataStore
     public static LegacyDataStore Load()
     {
         var applicationDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        var roamingPath = Path.Combine(applicationDataPath, "GestureSign V2");
+        var defaultRoamingPath = Path.Combine(applicationDataPath, ApplicationDataFolderName);
+        var oneDrivePath = GetOneDriveApplicationDataPath();
+        var oneDriveSyncEnabled = IsOneDriveSyncEnabled();
+        var roamingPath = oneDriveSyncEnabled && !string.IsNullOrWhiteSpace(oneDrivePath)
+            ? oneDrivePath
+            : defaultRoamingPath;
         var legacyRoamingPath = Path.Combine(applicationDataPath, "GestureSign");
         EnsureRoamingDataMigrated(legacyRoamingPath, roamingPath);
+        if (!string.Equals(roamingPath, defaultRoamingPath, StringComparison.OrdinalIgnoreCase))
+            EnsureRoamingDataMigrated(defaultRoamingPath, roamingPath);
         var portablePath = Path.Combine(AppContext.BaseDirectory, "AppData");
         var defaultsPath = FirstExistingDirectory(
             Path.Combine(AppContext.BaseDirectory, "Defaults"),
@@ -97,14 +109,89 @@ internal sealed class LegacyDataStore
             Gestures = LoadGestures(gesturesRoot),
             Options = LoadOptions(configPath),
             RoamingPath = roamingPath,
-            LocalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2"),
+            LocalPath = LocalApplicationDataPath(),
             ActionsPath = actionsPath,
             GesturesPath = gesturesPath,
             ConfigPath = configPath,
+            OneDriveSyncEnabled = oneDriveSyncEnabled,
+            OneDriveSyncPath = oneDrivePath,
             DataSource = actionsPath is null || actionsFromDefaults
                 ? "默认配置"
                 : "用户配置"
         };
+    }
+
+    public static bool CanUseOneDriveSync() => !string.IsNullOrWhiteSpace(GetOneDriveApplicationDataPath());
+
+    public static bool IsOneDriveSyncEnabled()
+    {
+        try
+        {
+            var path = Path.Combine(LocalApplicationDataPath(), DataLocationFileName);
+            return File.Exists(path)
+                && string.Equals(File.ReadAllText(path).Trim(), OneDriveDataLocationValue, StringComparison.OrdinalIgnoreCase)
+                && CanUseOneDriveSync();
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    public void SetOneDriveSyncEnabled(bool enabled)
+    {
+        var targetPath = enabled
+            ? GetOneDriveApplicationDataPath() ?? throw new InvalidOperationException("未检测到 OneDrive 文件夹。")
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationDataFolderName);
+
+        CopyConfigurationFiles(targetPath, ActionsPath, GesturesPath, ConfigPath);
+        WriteDataLocation(enabled);
+    }
+
+    public static string? GetOneDriveApplicationDataPath()
+    {
+        var root = GetOneDriveRootPath();
+        return string.IsNullOrWhiteSpace(root) ? null : Path.Combine(root, "Apps", ApplicationDataFolderName);
+    }
+
+    private static string? GetOneDriveRootPath()
+    {
+        foreach (var variable in new[] { "OneDrive", "OneDriveConsumer", "OneDriveCommercial" })
+        {
+            var path = Environment.GetEnvironmentVariable(variable);
+            if (!string.IsNullOrWhiteSpace(path) && Directory.Exists(path))
+                return path;
+        }
+
+        return null;
+    }
+
+    private static string LocalApplicationDataPath()
+        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationDataFolderName);
+
+    private static void WriteDataLocation(bool oneDrive)
+    {
+        var localPath = LocalApplicationDataPath();
+        Directory.CreateDirectory(localPath);
+        var path = Path.Combine(localPath, DataLocationFileName);
+        if (oneDrive)
+            File.WriteAllText(path, OneDriveDataLocationValue);
+        else if (File.Exists(path))
+            File.Delete(path);
+    }
+
+    private static void CopyConfigurationFiles(string targetPath, string? actionsPath, string? gesturesPath, string? configPath)
+    {
+        Directory.CreateDirectory(targetPath);
+        CopyConfigurationFile(actionsPath, Path.Combine(targetPath, ActionsFileName));
+        CopyConfigurationFile(gesturesPath, Path.Combine(targetPath, GesturesFileName));
+        CopyConfigurationFile(configPath, Path.Combine(targetPath, ConfigFileName));
+    }
+
+    private static void CopyConfigurationFile(string? sourcePath, string destinationPath)
+    {
+        if (!string.IsNullOrWhiteSpace(sourcePath) && File.Exists(sourcePath))
+            File.Copy(sourcePath, destinationPath, true);
     }
 
     private static void EnsureRoamingDataMigrated(string legacyPath, string targetPath)

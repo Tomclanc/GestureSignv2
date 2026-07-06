@@ -671,6 +671,28 @@ public sealed partial class MainWindow : Window
         return L("全部动作", "All Actions", "全部動作", "すべてのアクション", "모든 동작");
     }
 
+    private LegacyApplication? ResolveDefaultActionTarget()
+    {
+        var userApps = _legacyData.Applications
+            .Where(app => app.Type != "忽略")
+            .ToList();
+
+        if (_selectedActionScope.StartsWith("app:", StringComparison.Ordinal))
+            return userApps.FirstOrDefault(app => string.Equals(ActionScopeKey(app), _selectedActionScope, StringComparison.Ordinal));
+
+        if (_selectedActionScope.StartsWith("group:", StringComparison.Ordinal))
+            return FilterApplicationsByScope(userApps).FirstOrDefault();
+
+        return userApps.FirstOrDefault();
+    }
+
+    private LegacyApplication? FindMatchingApplication(LegacyApplication app)
+        => _legacyData.Applications.FirstOrDefault(candidate =>
+            ReferenceEquals(candidate.Source, app.Source) ||
+            string.Equals(candidate.Name, app.Name, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(candidate.Type, app.Type, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(candidate.MatchString, app.MatchString, StringComparison.OrdinalIgnoreCase));
+
     private static string ActionScopeKey(LegacyApplication app)
         => $"app:{app.Name}|{app.MatchUsing}|{app.MatchString}";
 
@@ -1407,6 +1429,7 @@ public sealed partial class MainWindow : Window
             NewToggleRow(L("排除全屏播放视频（试验）", "Ignore fullscreen video playback (experimental)", "排除全螢幕影片播放（實驗）", "全画面動画再生を除外（実験）", "전체 화면 동영상 재생 제외(실험)"), options.IgnoreFullScreenVideo, "IgnoreFullScreenVideo"),
             NewToggleRow(L("使用笔时忽略触摸输入", "Ignore touch input while using pen", "使用筆時忽略觸控輸入", "ペン使用中はタッチ入力を無視", "펜 사용 중 터치 입력 무시"), options.IgnoreTouchInputWhenUsingPen, "IgnoreTouchInputWhenUsingPen"),
             NewToggleRow(L("显示托盘图标", "Show tray icon", "顯示系統匣圖示", "トレイアイコンを表示", "트레이 아이콘 표시"), options.ShowTrayIcon, "ShowTrayIcon"),
+            NewOneDriveSyncRow(),
             NewOpenSettingsHotKeyRow(options.OpenSettingsHotKey),
             NewToggleRow(L("错误日志提示", "Error log notifications", "錯誤記錄提示", "エラーログ通知", "오류 로그 알림"), options.SendErrorReport, "SendErrorReport"),
             NewButtonRow(L("配置文件", "Configuration files", "設定檔", "設定ファイル", "구성 파일"), [L("备份", "Backup", "備份", "バックアップ", "백업"), L("恢复", "Restore", "還原", "復元", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "設定フォルダーを開く", "구성 폴더 열기")]),
@@ -2139,7 +2162,7 @@ public sealed partial class MainWindow : Window
                     await AddApplicationAsync(true);
                     break;
                 case "新动作":
-                    await AddActionAsync(_legacyData.Applications.FirstOrDefault(app => app.Type != "忽略"));
+                    await AddActionAsync(ResolveDefaultActionTarget());
                     break;
                 case "导入手势文件":
                     await ImportGesturesAsync();
@@ -2281,6 +2304,52 @@ public sealed partial class MainWindow : Window
             gesture.Text = gestureName;
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
+        var commandName = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键", Margin = new Thickness(0, 8, 0, 0) };
+        var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
+        AddPluginItems(commandPlugin);
+        var commandPluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var commandSettings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var commandHotkey = NewHotKeyRecorder(commandSettings, "");
+        var commandAppPicker = NewCommandAppPicker(commandPlugin, commandPluginClass, commandSettings);
+        var commandTypedSettings = NewTypedCommandSettingsEditor(commandPluginClass, commandSettings);
+        var commandPreview = NewCardPanel(6);
+        void RefreshCommandPreview()
+        {
+            commandPreview.Children.Clear();
+            var pluginClassValue = commandPluginClass.Text.Trim();
+            var commandTitle = string.IsNullOrWhiteSpace(commandName.Text)
+                ? PluginName(pluginClassValue)
+                : DisplayName(commandName.Text);
+            var commandSubtitle = CommandPreviewText(pluginClassValue, commandSettings.Text);
+            commandPreview.Children.Add(NewListRow(commandTitle, commandSubtitle, null));
+        }
+        void UpdateCommandEditor()
+        {
+            var pluginClassValue = PluginClassFromIndex(commandPlugin.SelectedIndex);
+            commandPluginClass.Text = pluginClassValue;
+            if (!pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(commandSettings.Text))
+                commandSettings.Text = PluginSettingsTemplate(pluginClassValue);
+            UpdateCommandEditorVisibility(pluginClassValue, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, pluginClassValue, commandSettings.Text);
+            RefreshCommandPreview();
+        }
+        commandPlugin.SelectionChanged += (_, _) =>
+        {
+            var pluginClassValue = PluginClassFromIndex(commandPlugin.SelectedIndex);
+            commandPluginClass.Text = pluginClassValue;
+            commandSettings.Text = pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(pluginClassValue);
+            UpdateCommandEditorVisibility(pluginClassValue, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, pluginClassValue, commandSettings.Text);
+            RefreshCommandPreview();
+        };
+        commandName.TextChanged += (_, _) => RefreshCommandPreview();
+        commandPluginClass.TextChanged += (_, _) =>
+        {
+            UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
+            RefreshCommandPreview();
+        };
+        commandSettings.TextChanged += (_, _) => RefreshCommandPreview();
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
@@ -2289,6 +2358,16 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
+        panel.Children.Add(new TextBlock { Text = "要执行的命令", Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
+        panel.Children.Add(commandName);
+        panel.Children.Add(commandPlugin);
+        panel.Children.Add(commandPluginClass);
+        panel.Children.Add(commandHotkey);
+        panel.Children.Add(commandAppPicker);
+        panel.Children.Add(commandTypedSettings);
+        panel.Children.Add(commandSettings);
+        panel.Children.Add(commandPreview);
+        UpdateCommandEditor();
         if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
             return;
 
@@ -2314,11 +2393,7 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        var targetApp = _legacyData.Applications.FirstOrDefault(candidate =>
-            ReferenceEquals(candidate.Source, app.Source) ||
-            string.Equals(candidate.Name, app.Name, StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(candidate.Type, app.Type, StringComparison.OrdinalIgnoreCase) &&
-            string.Equals(candidate.MatchString, app.MatchString, StringComparison.OrdinalIgnoreCase));
+        var targetApp = FindMatchingApplication(app);
         if (targetApp is null)
         {
             await ShowInfoDialog("程序分组已变化", "刚才录制手势后配置已刷新，请重新打开该分组再添加动作。");
@@ -2326,7 +2401,23 @@ public sealed partial class MainWindow : Window
             return;
         }
 
+        var actionName = name.Text;
+        var gestureNameValue = gesture.Text;
+        var commandPluginClassValue = commandPluginClass.Text.Trim();
+        var commandSettingsValue = commandSettings.Text;
+        var addInitialCommand = ShouldCreateCommand(commandPluginClassValue, commandSettingsValue);
         _legacyData.AddAction(targetApp, name.Text, gesture.Text);
+        if (addInitialCommand)
+        {
+            _legacyData = LegacyDataStore.Load();
+            targetApp = FindMatchingApplication(app);
+            var createdAction = targetApp?.Actions.LastOrDefault(candidate =>
+                string.Equals(candidate.Name, actionName, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(candidate.GestureName, gestureNameValue, StringComparison.OrdinalIgnoreCase));
+            if (createdAction is not null)
+                _legacyData.AddCommand(createdAction, commandName.Text, commandPluginClassValue, commandSettingsValue);
+        }
+        _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadData();
     }
 
@@ -5170,7 +5261,10 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewGesturePreview(string gestureName, double width, double height)
     {
         var gesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
-        UIElement child = gesture is not null && gesture.PointPatterns.Count > 0
+        var edgePreview = NewEdgeGesturePreview(gestureName, width, height);
+        UIElement child = edgePreview is not null
+            ? edgePreview
+            : gesture is not null && gesture.PointPatterns.Count > 0
             ? NewGestureCanvas(gesture, width, height)
             : new TextBlock
             {
@@ -5191,6 +5285,176 @@ public sealed partial class MainWindow : Window
             Height = height,
             Child = child
         };
+    }
+
+    private FrameworkElement? NewEdgeGesturePreview(string gestureName, double width, double height)
+    {
+        if (!TryParseEdgeGesture(gestureName, out var isTouchScreen, out var edge, out var direction))
+            return null;
+
+        var canvas = new Canvas { Width = width, Height = height };
+        var accent = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212));
+        var secondary = new SolidColorBrush(Color.FromArgb(255, 0, 153, 188));
+        var muted = IsDark
+            ? new SolidColorBrush(Color.FromArgb(132, 255, 255, 255))
+            : new SolidColorBrush(Color.FromArgb(255, 118, 128, 140));
+        var deviceFill = IsDark
+            ? new SolidColorBrush(Color.FromArgb(34, 255, 255, 255))
+            : new SolidColorBrush(Color.FromArgb(255, 249, 252, 255));
+
+        var deviceWidth = isTouchScreen ? 72d : 96d;
+        var deviceHeight = isTouchScreen ? 58d : 46d;
+        var left = (width - deviceWidth) / 2;
+        var top = (height - deviceHeight) / 2;
+        var right = left + deviceWidth;
+        var bottom = top + deviceHeight;
+
+        var body = new Microsoft.UI.Xaml.Shapes.Rectangle
+        {
+            Width = deviceWidth,
+            Height = deviceHeight,
+            RadiusX = isTouchScreen ? 7 : 10,
+            RadiusY = isTouchScreen ? 7 : 10,
+            Stroke = muted,
+            StrokeThickness = 1.6,
+            Fill = deviceFill
+        };
+        Canvas.SetLeft(body, left);
+        Canvas.SetTop(body, top);
+        canvas.Children.Add(body);
+
+        if (isTouchScreen)
+            AddPreviewLine(canvas, left + deviceWidth * 0.38, bottom - 5, right - deviceWidth * 0.38, bottom - 5, muted, 1.4);
+        else
+            AddPreviewLine(canvas, left + 10, top + deviceHeight * 0.68, right - 10, top + deviceHeight * 0.68, muted, 1.2);
+
+        AddEdgeHighlight(canvas, edge, left, top, right, bottom, accent);
+        if (string.IsNullOrWhiteSpace(direction))
+            AddTapDot(canvas, edge, left, top, right, bottom, accent);
+        else
+            AddEdgeArrow(canvas, edge, direction, left, top, right, bottom, accent, secondary);
+
+        return canvas;
+    }
+
+    private static bool TryParseEdgeGesture(string gestureName, out bool isTouchScreen, out string edge, out string direction)
+    {
+        isTouchScreen = false;
+        edge = "";
+        direction = "";
+        if (string.IsNullOrWhiteSpace(gestureName))
+            return false;
+
+        var parts = gestureName.Split('.');
+        if (parts.Length < 2)
+            return false;
+
+        isTouchScreen = string.Equals(parts[0], "TouchScreenEdge", StringComparison.OrdinalIgnoreCase);
+        var isTouchPad = string.Equals(parts[0], "TouchPadEdge", StringComparison.OrdinalIgnoreCase);
+        if (!isTouchScreen && !isTouchPad)
+            return false;
+
+        edge = parts[1];
+        direction = parts.Length >= 3 ? parts[2] : "";
+        return edge.Equals("Top", StringComparison.OrdinalIgnoreCase)
+            || edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase)
+            || edge.Equals("Left", StringComparison.OrdinalIgnoreCase)
+            || edge.Equals("Right", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static void AddEdgeHighlight(Canvas canvas, string edge, double left, double top, double right, double bottom, Brush brush)
+    {
+        const double inset = 3;
+        if (edge.Equals("Top", StringComparison.OrdinalIgnoreCase))
+            AddPreviewLine(canvas, left + 8, top + inset, right - 8, top + inset, brush, 4);
+        else if (edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase))
+            AddPreviewLine(canvas, left + 8, bottom - inset, right - 8, bottom - inset, brush, 4);
+        else if (edge.Equals("Left", StringComparison.OrdinalIgnoreCase))
+            AddPreviewLine(canvas, left + inset, top + 8, left + inset, bottom - 8, brush, 4);
+        else if (edge.Equals("Right", StringComparison.OrdinalIgnoreCase))
+            AddPreviewLine(canvas, right - inset, top + 8, right - inset, bottom - 8, brush, 4);
+    }
+
+    private static void AddTapDot(Canvas canvas, string edge, double left, double top, double right, double bottom, Brush brush)
+    {
+        var x = (left + right) / 2;
+        var y = (top + bottom) / 2;
+        if (edge.Equals("Top", StringComparison.OrdinalIgnoreCase))
+            y = top + 12;
+        else if (edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase))
+            y = bottom - 12;
+        else if (edge.Equals("Left", StringComparison.OrdinalIgnoreCase))
+            x = left + 12;
+        else if (edge.Equals("Right", StringComparison.OrdinalIgnoreCase))
+            x = right - 12;
+
+        var dot = new Microsoft.UI.Xaml.Shapes.Ellipse
+        {
+            Width = 9,
+            Height = 9,
+            Fill = brush
+        };
+        Canvas.SetLeft(dot, x - 4.5);
+        Canvas.SetTop(dot, y - 4.5);
+        canvas.Children.Add(dot);
+    }
+
+    private static void AddEdgeArrow(Canvas canvas, string edge, string direction, double left, double top, double right, double bottom, Brush brush, Brush secondaryBrush)
+    {
+        var midX = (left + right) / 2;
+        var midY = (top + bottom) / 2;
+        Point start;
+        Point end;
+        if (direction.Equals("Left", StringComparison.OrdinalIgnoreCase) || direction.Equals("Right", StringComparison.OrdinalIgnoreCase))
+        {
+            var y = edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase) ? bottom - 15 : top + 15;
+            start = direction.Equals("Left", StringComparison.OrdinalIgnoreCase) ? new Point(right - 22, y) : new Point(left + 22, y);
+            end = direction.Equals("Left", StringComparison.OrdinalIgnoreCase) ? new Point(left + 22, y) : new Point(right - 22, y);
+        }
+        else
+        {
+            var x = edge.Equals("Right", StringComparison.OrdinalIgnoreCase) ? right - 15 : left + 15;
+            start = direction.Equals("Up", StringComparison.OrdinalIgnoreCase) ? new Point(x, bottom - 16) : new Point(x, top + 16);
+            end = direction.Equals("Up", StringComparison.OrdinalIgnoreCase) ? new Point(x, top + 16) : new Point(x, bottom - 16);
+        }
+
+        AddArrow(canvas, start, end, brush, 3.8);
+        var origin = new Microsoft.UI.Xaml.Shapes.Ellipse
+        {
+            Width = 7,
+            Height = 7,
+            Fill = secondaryBrush
+        };
+        Canvas.SetLeft(origin, start.X - 3.5);
+        Canvas.SetTop(origin, start.Y - 3.5);
+        canvas.Children.Add(origin);
+    }
+
+    private static void AddArrow(Canvas canvas, Point start, Point end, Brush brush, double thickness)
+    {
+        AddPreviewLine(canvas, start.X, start.Y, end.X, end.Y, brush, thickness);
+        var angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
+        const double arrowLength = 9;
+        const double arrowAngle = Math.PI / 7;
+        var leftHead = new Point(end.X - arrowLength * Math.Cos(angle - arrowAngle), end.Y - arrowLength * Math.Sin(angle - arrowAngle));
+        var rightHead = new Point(end.X - arrowLength * Math.Cos(angle + arrowAngle), end.Y - arrowLength * Math.Sin(angle + arrowAngle));
+        AddPreviewLine(canvas, end.X, end.Y, leftHead.X, leftHead.Y, brush, thickness);
+        AddPreviewLine(canvas, end.X, end.Y, rightHead.X, rightHead.Y, brush, thickness);
+    }
+
+    private static void AddPreviewLine(Canvas canvas, double x1, double y1, double x2, double y2, Brush brush, double thickness)
+    {
+        canvas.Children.Add(new Microsoft.UI.Xaml.Shapes.Line
+        {
+            X1 = x1,
+            Y1 = y1,
+            X2 = x2,
+            Y2 = y2,
+            Stroke = brush,
+            StrokeThickness = thickness,
+            StrokeStartLineCap = Microsoft.UI.Xaml.Media.PenLineCap.Round,
+            StrokeEndLineCap = Microsoft.UI.Xaml.Media.PenLineCap.Round
+        });
     }
 
     private FrameworkElement NewGestureCanvas(LegacyGesture gesture, double width, double height)
@@ -5518,6 +5782,52 @@ public sealed partial class MainWindow : Window
             }
         };
         return NewSettingRow(L("以管理员身份启动", "Start as administrator", "以系統管理員身分啟動", "管理者として起動", "관리자 권한으로 시작"), L("创建或删除 StartGestureSign 计划任务，需要 UAC 确认。", "Creates or removes the StartGestureSign scheduled task. UAC confirmation is required.", "建立或刪除 StartGestureSign 排程工作，需要 UAC 確認。", "StartGestureSign タスクを作成または削除します。UAC 確認が必要です。", "StartGestureSign 예약 작업을 만들거나 삭제합니다. UAC 확인이 필요합니다."), toggle);
+    }
+
+    private FrameworkElement NewOneDriveSyncRow()
+    {
+        var oneDrivePath = _legacyData.OneDriveSyncPath;
+        var canSync = !string.IsNullOrWhiteSpace(oneDrivePath);
+        var toggle = new ToggleSwitch
+        {
+            IsOn = _legacyData.OneDriveSyncEnabled,
+            IsEnabled = canSync,
+            OnContent = L("开", "On", "開", "オン", "켬"),
+            OffContent = L("关", "Off", "關", "オフ", "끔"),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        toggle.Toggled += async (_, _) =>
+        {
+            if (!toggle.IsEnabled)
+                return;
+
+            var requestedValue = toggle.IsOn;
+            try
+            {
+                await FlushPendingOptionUpdatesAsync();
+                await Task.Run(() => _legacyData.SetOneDriveSyncEnabled(requestedValue));
+                _legacyData = LegacyDataStore.Load();
+                await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
+                ShowSelectedPage();
+            }
+            catch (Exception ex)
+            {
+                toggle.IsOn = !requestedValue;
+                LogException(ex);
+                await ShowInfoDialog(
+                    L("OneDrive 同步设置失败", "OneDrive sync setting failed", "OneDrive 同步設定失敗", "OneDrive 同期設定に失敗しました", "OneDrive 동기화 설정 실패"),
+                    ex.Message);
+            }
+        };
+
+        var subtitle = canSync
+            ? string.Format(CultureInfo.CurrentCulture,
+                L("配置将保存到 {0}，OneDrive 会负责跨设备同步。", "Configuration will be saved to {0}; OneDrive handles cross-device sync.", "設定會儲存到 {0}，由 OneDrive 跨裝置同步。", "設定は {0} に保存され、OneDrive がデバイス間で同期します。", "구성은 {0}에 저장되고 OneDrive가 기기 간 동기화합니다."),
+                oneDrivePath)
+            : L("未检测到 OneDrive 文件夹。请先登录并启用 OneDrive。", "No OneDrive folder was detected. Sign in to OneDrive first.", "未偵測到 OneDrive 資料夾。請先登入並啟用 OneDrive。", "OneDrive フォルダーが見つかりません。先に OneDrive にサインインしてください。", "OneDrive 폴더를 찾을 수 없습니다. 먼저 OneDrive에 로그인하세요.");
+
+        return NewSettingRow(L("同步配置到 OneDrive", "Sync configuration to OneDrive", "同步設定到 OneDrive", "設定を OneDrive に同期", "구성을 OneDrive에 동기화"), subtitle, toggle);
     }
 
     private FrameworkElement NewOpenSettingsHotKeyRow(string existingSettings)
@@ -6016,6 +6326,65 @@ public sealed partial class MainWindow : Window
 
         var scope = app.Type == "全局" ? L("全局动作", "Global Actions", "全域動作", "グローバルアクション", "전역 동작") : ApplicationDisplayName(app.Name);
         return $"{scope} · {commands}";
+    }
+
+    private string CommandPreviewText(string pluginClass, string settings)
+    {
+        var pluginName = PluginName(pluginClass);
+        if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
+        {
+            var hotKey = HotKeyDisplayText(settings);
+            return string.IsNullOrWhiteSpace(hotKey)
+                ? $"{pluginName} · {L("尚未录制快捷键", "No shortcut recorded", "尚未錄製快速鍵", "ショートカット未登録", "단축키가 아직 없습니다")}"
+                : $"{pluginName} · {hotKey}";
+        }
+
+        if (pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
+        {
+            var command = JsonStringValue(settings, "Command", "");
+            return string.IsNullOrWhiteSpace(command)
+                ? $"{pluginName} · {L("尚未填写命令", "No command entered", "尚未填寫命令", "コマンド未入力", "명령이 아직 없습니다")}"
+                : $"{pluginName} · {command}";
+        }
+
+        if (pluginClass.Contains("OpenFile", StringComparison.OrdinalIgnoreCase))
+        {
+            var path = JsonStringValue(settings, "Path", "");
+            return string.IsNullOrWhiteSpace(path)
+                ? $"{pluginName} · {L("尚未选择文件", "No file selected", "尚未選擇檔案", "ファイル未選択", "파일이 아직 없습니다")}"
+                : $"{pluginName} · {path}";
+        }
+
+        if (pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase))
+        {
+            var value = JsonStringValue(settings, "Value", "");
+            var key = JsonStringValue(settings, "Key", "");
+            var target = string.IsNullOrWhiteSpace(value) ? key : value;
+            return string.IsNullOrWhiteSpace(target)
+                ? $"{pluginName} · {L("尚未选择应用", "No app selected", "尚未選擇應用程式", "アプリ未選択", "앱이 아직 없습니다")}"
+                : $"{pluginName} · {target}";
+        }
+
+        return string.IsNullOrWhiteSpace(settings)
+            ? pluginName
+            : $"{pluginName} · {settings}";
+    }
+
+    private static bool ShouldCreateCommand(string pluginClass, string settings)
+    {
+        if (string.IsNullOrWhiteSpace(pluginClass))
+            return false;
+
+        if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
+            return !string.IsNullOrWhiteSpace(HotKeyDisplayText(settings));
+        if (pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
+            return !string.IsNullOrWhiteSpace(JsonStringValue(settings, "Command", ""));
+        if (pluginClass.Contains("OpenFile", StringComparison.OrdinalIgnoreCase))
+            return !string.IsNullOrWhiteSpace(JsonStringValue(settings, "Path", ""));
+        if (pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase))
+            return !string.IsNullOrWhiteSpace(JsonStringValue(settings, "Key", ""));
+
+        return IsSettingsFreePlugin(pluginClass) || !string.IsNullOrWhiteSpace(settings);
     }
 
     private string PluginName(string pluginClass)

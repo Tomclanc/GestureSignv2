@@ -388,6 +388,12 @@ namespace GestureSign.Common.Gestures
             return matchName;
         }
 
+        public string PreviewGestureName(Point[][] points)
+        {
+            var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
+            return GetGestureSetNameMatch(points, sourceGesture, _gestureLevel, out _);
+        }
+
         public string GetMostSimilarGestureName(IGesture gesture)
         {
             return GetMostSimilarGestureName(gesture.PointPatterns);

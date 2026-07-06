@@ -65,6 +65,7 @@ namespace GestureSign.Daemon.Input
         private Dictionary<int, Point> _touchPadRawStartPoints;
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
         private List<List<Point>> _lastVisualFeedbackPoints;
+        private string _liveGestureHintName;
 
         #endregion
 
@@ -207,16 +208,26 @@ namespace GestureSign.Daemon.Input
             CaptureStarted += (o, e) =>
             {
                 _lastVisualFeedbackPoints = null;
+                _liveGestureHintName = null;
                 _surfaceForm.StartDrawing(e.FirstCapturedPoints);
             };
-            CaptureEnded += (o, e) => { _surfaceForm.EndDrawing(); };
-            CaptureCanceled += (o, e) => { _surfaceForm.EndDrawing(); };
+            CaptureEnded += (o, e) =>
+            {
+                _liveGestureHintName = null;
+                _surfaceForm.EndDrawing();
+            };
+            CaptureCanceled += (o, e) =>
+            {
+                _liveGestureHintName = null;
+                _surfaceForm.EndDrawing();
+            };
             PointCaptured += (o, e) =>
             {
                 if (State == CaptureState.Capturing || SourceDevice == Devices.TouchPad && State == CaptureState.CapturingInvalid)
                 {
                     _surfaceForm.DrawPoints(e.Points);
                     _lastVisualFeedbackPoints = ClonePoints(e.Points);
+                    ShowLiveGestureHintIfMatched(e.Points);
                 }
             };
             PluginManager.Instance.GestureActionExecuted += PluginManager_GestureActionExecuted;
@@ -250,12 +261,25 @@ namespace GestureSign.Daemon.Input
 
         private void PluginManager_GestureActionExecuted(object sender, GestureActionExecutedEventArgs e)
         {
-            if (!AppConfig.ShowGestureActionHint)
+            // Action hints are shown while the gesture is still being drawn.
+            // Keeping the old post-execution hint would make the label appear after release.
+        }
+
+        private void ShowLiveGestureHintIfMatched(List<List<Point>> points)
+        {
+            if (!AppConfig.ShowGestureActionHint || Mode == CaptureMode.Training || points == null || points.Count == 0)
                 return;
 
-            var text = string.IsNullOrWhiteSpace(e.ActionName) ? e.GestureName : e.ActionName;
-            var points = ClonePoints(_lastVisualFeedbackPoints);
-            _surfaceForm.ShowGestureActionHint(points, text);
+            var gestureName = GestureManager.Instance.PreviewGestureName(points.Select(stroke => stroke.ToArray()).ToArray());
+            if (string.IsNullOrWhiteSpace(gestureName))
+                return;
+
+            var action = ApplicationManager.Instance.GetRecognizedDefinedAction(gestureName)?.FirstOrDefault();
+            if (action == null || string.IsNullOrWhiteSpace(action.Name) || string.Equals(action.Name, _liveGestureHintName, StringComparison.Ordinal))
+                return;
+
+            _liveGestureHintName = action.Name;
+            _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name);
         }
 
         private static List<List<Point>> ClonePoints(IEnumerable<List<Point>> points)

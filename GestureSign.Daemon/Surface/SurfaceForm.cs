@@ -133,7 +133,7 @@ namespace GestureSign.Daemon.Surface
 
         public void EndDrawing()
         {
-            if (_penWidth <= 0 || _lastStroke == null)
+            if (_bitmap == null && _lastStroke == null)
                 return;
             StopGestureHintTimers();
             HideSurface();
@@ -187,6 +187,38 @@ namespace GestureSign.Daemon.Surface
             UpdateFullSurface(0);
 
             StartGestureHintFade(false);
+        }
+
+        public void ShowLiveGestureHint(List<List<Point>> points, string text)
+        {
+            if (!AppConfig.ShowGestureActionHint || string.IsNullOrWhiteSpace(text))
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => ShowLiveGestureHint(points, text)));
+                return;
+            }
+
+            if (_settingsChanged)
+            {
+                _settingsChanged = false;
+                InitializeForm();
+            }
+
+            StopGestureHintTimers();
+            ClearSurfaces();
+            EnsureDrawingSurface();
+            EnsureSurfaceVisible();
+
+            if (_penWidth <= 0)
+                InitializePen();
+
+            if (_penWidth > 0 && points != null && points.Any(p => p.Count > 1))
+                DrawCompleteGesture(points);
+
+            DrawActionHint(text.Trim());
+            UpdateFullSurface(255);
         }
 
         #endregion

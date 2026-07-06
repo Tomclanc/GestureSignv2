@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.14">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -38,10 +38,12 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - 支持触控板手势、触摸屏手势、鼠标手势、手势轨迹显示和手势缩略图预览。
 - 新增“快捷操作”页面，内置 Kando 圆环菜单，可用独立快捷键唤起漂亮的径向菜单。
 - 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
+- 边缘手势可作为普通动作加入任意程序分组，当前应用动作优先，未命中时自动回退全局动作。
 - 支持按程序、窗口类名、可执行文件、标题和分组管理动作。
-- 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；音量、亮度、打开文件、运行命令等常用命令提供专用编辑控件。
+- 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；新增动作时可直接配置要执行的命令，音量、亮度、打开文件、运行命令等常用命令提供专用编辑控件。
 - 支持忽略列表，可按 exe、窗口类名、标题等规则排除指定程序。
 - 支持优先使用系统触控板设置、Edge 自带手势，并可排除全屏场景。
+- 支持将配置文件切换到 OneDrive `Apps\GestureSign V2` 目录，由 OneDrive 负责跨设备同步。
 - 支持托盘图标、托盘菜单、单实例启动和更方便阅读的手势日志；托盘可一键暂停/恢复手势识别。
 - 支持简体中文、英文、繁体中文（台湾）、日语、韩语界面语言。
 - 针对高 DPI、高刷新率屏幕做了界面和输入体验优化。
@@ -54,14 +56,24 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13) 下载最新版安装包或便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.14) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
-- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
+- [GestureSign-V2-8.2.14-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.14/GestureSign-V2-8.2.14-x64.msi)
 
 ## 更新内容
+
+### 8.2.14
+
+- 新增 OneDrive 配置同步选项，可将 GestureSign V2 配置切换到当前用户 OneDrive 的 `Apps\GestureSign V2` 目录。
+- 新增动作时可在弹窗底部直接配置“要执行的命令”，保存动作时同步创建初始命令。
+- “新动作”按钮会默认添加到当前选中的程序或分组，不再总是落到全局动作。
+- 边缘手势动作支持程序/分组匹配：当前应用动作优先，找不到可执行动作时回退全局动作。
+- 触控板边缘、触控屏边缘动作在动作列表中显示专用缩略图，不再显示英文原始手势名。
+- 手势名称匹配改为忽略大小写，减少旧配置或手动输入导致的边缘动作不触发问题。
+- 手势动作提示改为识别过程中实时显示匹配到的动作名称，松手后立即消失。
+- MSI 继续内置 Kando，安装后释放到 `GestureSign V2\Kando\kando.exe`。
 
 ### 8.2.13
 
@@ -250,10 +262,12 @@ The original GestureSign has not been actively maintained for a long time. On ne
 - Touchpad, touchscreen, and mouse gestures with gesture trails and thumbnail previews.
 - New Quick Actions page with bundled Kando radial menus and a dedicated hotkey trigger.
 - New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
+- Edge gestures can also be added to regular app groups; app-specific actions take priority and fall back to global actions when no executable app action is found.
 - Per-app actions with matching by executable, window class, title, and groups.
-- Common commands such as hotkeys, browser actions, window actions, media controls, system operations, file launching, volume, brightness, and command execution.
+- Common commands such as hotkeys, browser actions, window actions, media controls, system operations, file launching, volume, brightness, and command execution. New actions can include their initial command directly from the add-action dialog.
 - Ignore list support for excluding specific apps, windows, or matching rules.
 - Options to prefer Windows touchpad gestures or built-in browser gestures, with fullscreen exclusions.
+- Optional OneDrive sync stores configuration under `OneDrive\Apps\GestureSign V2` and lets OneDrive handle cross-device synchronization.
 - Tray icon, tray menu, single-instance startup, readable gesture logs, and one-click pause/resume from the tray.
 - Simplified Chinese, English, Traditional Chinese (Taiwan), Japanese, and Korean UI languages.
 - Improved UI and input behavior for high-DPI and high-refresh-rate displays.
@@ -266,12 +280,11 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer or portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.14).
 
 Current version:
 
-- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
-- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
+- [GestureSign-V2-8.2.14-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.14/GestureSign-V2-8.2.14-x64.msi)
 
 ## Installation
 
@@ -292,6 +305,12 @@ Configuration files are stored in:
 
 ```text
 %AppData%\GestureSign V2
+```
+
+When OneDrive sync is enabled, configuration is stored in:
+
+```text
+%UserProfile%\OneDrive\Apps\GestureSign V2
 ```
 
 Log files are stored in:
@@ -356,10 +375,12 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - タッチパッド、タッチスクリーン、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
 - Kando のラジアルメニューを同梱した Quick Actions ページと、専用ホットキーによる呼び出し。
 - タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
+- エッジジェスチャーは通常のアプリグループにも追加でき、アプリ別アクションを優先し、見つからない場合はグローバルアクションへフォールバックします。
 - 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
-- ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。
+- ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。新規アクション作成時に初期コマンドも同じダイアログで設定できます。
 - 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
 - Windows タッチパッドジェスチャーやブラウザー内蔵ジェスチャーを優先するオプションと、全画面除外設定。
+- OneDrive 同期を有効にすると、設定を `OneDrive\Apps\GestureSign V2` に保存し、OneDrive でデバイス間同期できます。
 - トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ、トレイからの一時停止 / 再開。
 - 簡体字中国語、英語、繁体字中国語（台湾）、日本語、韓国語の UI 言語。
 - 高 DPI および高リフレッシュレート環境向けの UI と入力体験の改善。
@@ -372,12 +393,11 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーとポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.13) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.14) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-8.2.13-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-x64.msi)
-- [GestureSign-V2-8.2.13-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.13/GestureSign-V2-8.2.13-portable-x64.zip)
+- [GestureSign-V2-8.2.14-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.14/GestureSign-V2-8.2.14-x64.msi)
 
 ## インストール
 
@@ -398,6 +418,12 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ```text
 %AppData%\GestureSign V2
+```
+
+OneDrive 同期を有効にした場合、設定ファイルは次の場所に保存されます:
+
+```text
+%UserProfile%\OneDrive\Apps\GestureSign V2
 ```
 
 ログファイルは次の場所に保存されます:

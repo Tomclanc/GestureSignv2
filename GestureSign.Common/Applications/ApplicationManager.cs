@@ -352,10 +352,10 @@ namespace GestureSign.Common.Applications
             // Attempt to retrieve an action on the application passed in
             var recognizedApplications = application.ToList();
             var finalAction =
-                recognizedApplications.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions.Where(a => IsActionExecutable(a) && a.GestureName == gestureName && MatchesGestureHotkey(a))).ToList();
+                recognizedApplications.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions.Where(a => IsActionExecutable(a) && GestureNameEquals(a.GestureName, gestureName) && MatchesGestureHotkey(a))).ToList();
             // If there is was no action found on given application, try to get an action for global application
             if (finalAction.Count == 0 && useGlobal && !HasDefinedGestureAction(recognizedApplications, gestureName))
-                finalAction = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && a.GestureName == gestureName && MatchesGestureHotkey(a)).ToList();
+                finalAction = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && GestureNameEquals(a.GestureName, gestureName) && MatchesGestureHotkey(a)).ToList();
 
             Logging.LogMessage($"Gesture action lookup context. Gesture={gestureName}, Applications={DescribeApplications(recognizedApplications)}, Actions={finalAction.Count}");
             // Return whatever the result was
@@ -377,8 +377,14 @@ namespace GestureSign.Common.Applications
                 !(app is GlobalApp) &&
                 app.Actions != null &&
                 app.Actions.Any(action => action != null &&
-                                          action.GestureName == gestureName &&
+                                          IsActionExecutable(action) &&
+                                          GestureNameEquals(action.GestureName, gestureName) &&
                                           MatchesGestureHotkey(action)));
+        }
+
+        private static bool GestureNameEquals(string actionGestureName, string gestureName)
+        {
+            return string.Equals(actionGestureName, gestureName, StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool MatchesGestureHotkey(IAction action)
