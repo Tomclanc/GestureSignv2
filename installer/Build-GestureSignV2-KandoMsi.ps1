@@ -235,7 +235,6 @@ $($directoryXml -join "`r`n")
 $($components -join "`r`n")
     <Component Id="StartMenuShortcutComponent" Directory="ProgramMenuDir" Guid="*">
       <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
-      <Shortcut Id="UninstallShortcut" Directory="ProgramMenuDir" Name="&#x5378;&#x8F7D; $(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign-Uninstall.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>

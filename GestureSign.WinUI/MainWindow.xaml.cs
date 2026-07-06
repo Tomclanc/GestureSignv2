@@ -304,7 +304,7 @@ public sealed partial class MainWindow : Window
     private void ConfigureWindow()
     {
         AppWindow.Resize(ScaleLogicalSize(DefaultWindowWidth, DefaultWindowHeight));
-        AppWindow.SetIcon("Assets/logo.ico");
+        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico"));
         CenterWindow();
         ConfigureCaptionButtons();
 
@@ -613,7 +613,7 @@ public sealed partial class MainWindow : Window
         var selectedApps = FilterApplicationsByScope(userApps).ToList();
         var allActions = selectedApps.SelectMany(app => app.Actions.Select(action => (Application: app, Action: action))).ToList();
         actionsPanel.Children.Add(NewCardHeader(ActionScopeTitle(userApps), $"{L("当前范围", "Current scope", "目前範圍", "現在の範囲", "현재 범위")} {CountText(selectedApps.Count, L("个程序", "apps", "個程式", "個のアプリ", "개 프로그램"))}、{CountText(allActions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), "新动作"));
-        actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
+        // actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
         foreach (var action in allActions.Take(12))
             actionsPanel.Children.Add(NewActionRow(action.Application, action.Action));
         if (allActions.Count > 12)
@@ -2300,8 +2300,8 @@ public sealed partial class MainWindow : Window
         var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
         trainByTouchpad.Click += async (_, _) =>
         {
-            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
-            gesture.Text = gestureName;
+            var gestureName = ResolveGestureName(gesture, name.Text);
+            SetGestureText(gesture, gestureName);
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
         var commandName = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键", Margin = new Thickness(0, 8, 0, 0) };
@@ -2377,21 +2377,23 @@ public sealed partial class MainWindow : Window
             .ToList();
         if (validDrawnPointPatterns.Count > 0)
         {
-            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
+            var gestureName = ResolveGestureName(gesture, name.Text);
             var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
             if (existingGesture is null)
                 _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
             else
                 _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
-            gesture.Text = gestureName;
+            SetGestureText(gesture, gestureName);
             _legacyData = LegacyDataStore.Load();
         }
 
-        if (string.IsNullOrWhiteSpace(gesture.Text))
+        var finalGestureName = ResolveGestureName(gesture, "");
+        if (string.IsNullOrWhiteSpace(finalGestureName))
         {
             await ShowInfoDialog("缺少手势", "请先选择、输入或绘制一个手势。");
             return;
         }
+        SetGestureText(gesture, finalGestureName);
 
         var targetApp = FindMatchingApplication(app);
         if (targetApp is null)
@@ -2402,11 +2404,11 @@ public sealed partial class MainWindow : Window
         }
 
         var actionName = name.Text;
-        var gestureNameValue = gesture.Text;
+        var gestureNameValue = finalGestureName;
         var commandPluginClassValue = commandPluginClass.Text.Trim();
         var commandSettingsValue = commandSettings.Text;
         var addInitialCommand = ShouldCreateCommand(commandPluginClassValue, commandSettingsValue);
-        _legacyData.AddAction(targetApp, name.Text, gesture.Text);
+        _legacyData.AddAction(targetApp, name.Text, finalGestureName);
         if (addInitialCommand)
         {
             _legacyData = LegacyDataStore.Load();
@@ -2424,7 +2426,8 @@ public sealed partial class MainWindow : Window
     private async Task EditActionAsync(LegacyAction action)
     {
         var name = new TextBox { PlaceholderText = "动作名称", Text = DisplayName(action.Name) };
-        var gesture = new TextBox { PlaceholderText = "手势名称", Text = action.GestureName, Margin = new Thickness(0, 8, 0, 0) };
+        var gesture = new TextBox { PlaceholderText = "手势名称", Margin = new Thickness(0, 8, 0, 0) };
+        SetGestureText(gesture, action.GestureName);
         var condition = new TextBox { PlaceholderText = "触发条件，可留空", Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var enabled = new CheckBox { Content = "启用", IsChecked = action.IsEnabled };
         var activateWindow = new CheckBox { Content = "执行前激活目标窗口", IsChecked = action.ActivateWindow };
@@ -2441,8 +2444,8 @@ public sealed partial class MainWindow : Window
         var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
         trainByTouchpad.Click += async (_, _) =>
         {
-            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
-            gesture.Text = gestureName;
+            var gestureName = ResolveGestureName(gesture, name.Text);
+            SetGestureText(gesture, gestureName);
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
         var panel = NewCardPanel(0);
@@ -2467,22 +2470,22 @@ public sealed partial class MainWindow : Window
             .ToList();
         if (validDrawnPointPatterns.Count > 0)
         {
-            var gestureName = string.IsNullOrWhiteSpace(gesture.Text) ? name.Text : gesture.Text;
+            var gestureName = ResolveGestureName(gesture, name.Text);
             var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
             if (existingGesture is null)
                 _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
             else
                 _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
-            gesture.Text = gestureName;
+            SetGestureText(gesture, gestureName);
         }
 
-        _legacyData.UpdateAction(action, name.Text, gesture.Text, condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ParseInt(ignoredDevices.Text, action.IgnoredDevices), hotkeyJson.Text, continuousGestureJson.Text);
+        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ParseInt(ignoredDevices.Text, action.IgnoredDevices), hotkeyJson.Text, continuousGestureJson.Text);
         ReloadData();
     }
 
     private FrameworkElement NewBuiltInGesturePicker(TextBox gesture)
     {
-        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(gesture.Text) };
+        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
         combo.Items.Add("选择内置触发方式");
         combo.Items.Add("触控板上边缘点击");
         combo.Items.Add("触控板下边缘点击");
@@ -2508,14 +2511,83 @@ public sealed partial class MainWindow : Window
         combo.Items.Add("触控屏左边缘下滑");
         combo.Items.Add("触控屏右边缘上滑");
         combo.Items.Add("触控屏右边缘下滑");
+        combo.Items.Clear();
+        for (var index = 0; index <= 24; index++)
+            combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
+        combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+
         combo.SelectionChanged += (_, _) =>
         {
             var gestureName = BuiltInGestureNameFromIndex(combo.SelectedIndex);
             if (!string.IsNullOrWhiteSpace(gestureName))
-                gesture.Text = gestureName;
+                SetGestureText(gesture, gestureName);
         };
         return combo;
     }
+
+    private string ResolveGestureName(TextBox gesture, string fallback)
+    {
+        var text = (gesture.Text ?? string.Empty).Trim();
+        if (string.IsNullOrWhiteSpace(text))
+            return fallback;
+
+        if (gesture.Tag is string tag && BuiltInGestureIndex(tag) > 0 &&
+            (string.Equals(text, tag, StringComparison.OrdinalIgnoreCase) ||
+             string.Equals(text, BuiltInGestureDisplayName(tag), StringComparison.OrdinalIgnoreCase)))
+            return tag;
+
+        for (var index = 1; index <= 24; index++)
+        {
+            var gestureName = BuiltInGestureNameFromIndex(index);
+            if (string.Equals(text, BuiltInGestureDisplayName(gestureName), StringComparison.OrdinalIgnoreCase))
+                return gestureName;
+        }
+
+        return text;
+    }
+
+    private void SetGestureText(TextBox gesture, string gestureName)
+    {
+        gesture.Text = BuiltInGestureDisplayName(gestureName);
+        gesture.Tag = BuiltInGestureIndex(gestureName) > 0 ? gestureName : null;
+    }
+
+    private string BuiltInGestureDisplayName(string gestureName)
+    {
+        var index = BuiltInGestureIndex(gestureName);
+        return index > 0 ? BuiltInGestureDisplayNameFromIndex(index) : gestureName;
+    }
+
+    private string BuiltInGestureDisplayNameFromIndex(int index, string fallback = "")
+        => index switch
+        {
+            0 => L("选择内置触发方式", "Choose built-in trigger", "選擇內建觸發方式", "組み込みトリガーを選択", "기본 제공 트리거 선택"),
+            1 => L("触控板上边缘点击", "Touchpad top edge tap", "觸控板上邊緣點擊", "タッチパッド上端タップ", "터치패드 위쪽 가장자리 탭"),
+            2 => L("触控板下边缘点击", "Touchpad bottom edge tap", "觸控板下邊緣點擊", "タッチパッド下端タップ", "터치패드 아래쪽 가장자리 탭"),
+            3 => L("触控板左边缘点击", "Touchpad left edge tap", "觸控板左邊緣點擊", "タッチパッド左端タップ", "터치패드 왼쪽 가장자리 탭"),
+            4 => L("触控板右边缘点击", "Touchpad right edge tap", "觸控板右邊緣點擊", "タッチパッド右端タップ", "터치패드 오른쪽 가장자리 탭"),
+            5 => L("触控板上边缘左滑", "Touchpad top edge swipe left", "觸控板上邊緣左滑", "タッチパッド上端を左へスワイプ", "터치패드 위쪽 가장자리 왼쪽 스와이프"),
+            6 => L("触控板上边缘右滑", "Touchpad top edge swipe right", "觸控板上邊緣右滑", "タッチパッド上端を右へスワイプ", "터치패드 위쪽 가장자리 오른쪽 스와이프"),
+            7 => L("触控板下边缘左滑", "Touchpad bottom edge swipe left", "觸控板下邊緣左滑", "タッチパッド下端を左へスワイプ", "터치패드 아래쪽 가장자리 왼쪽 스와이프"),
+            8 => L("触控板下边缘右滑", "Touchpad bottom edge swipe right", "觸控板下邊緣右滑", "タッチパッド下端を右へスワイプ", "터치패드 아래쪽 가장자리 오른쪽 스와이프"),
+            9 => L("触控板左边缘上滑", "Touchpad left edge swipe up", "觸控板左邊緣上滑", "タッチパッド左端を上へスワイプ", "터치패드 왼쪽 가장자리 위로 스와이프"),
+            10 => L("触控板左边缘下滑", "Touchpad left edge swipe down", "觸控板左邊緣下滑", "タッチパッド左端を下へスワイプ", "터치패드 왼쪽 가장자리 아래로 스와이프"),
+            11 => L("触控板右边缘上滑", "Touchpad right edge swipe up", "觸控板右邊緣上滑", "タッチパッド右端を上へスワイプ", "터치패드 오른쪽 가장자리 위로 스와이프"),
+            12 => L("触控板右边缘下滑", "Touchpad right edge swipe down", "觸控板右邊緣下滑", "タッチパッド右端を下へスワイプ", "터치패드 오른쪽 가장자리 아래로 스와이프"),
+            13 => L("触摸屏上边缘点击", "Touchscreen top edge tap", "觸控螢幕上邊緣點擊", "タッチスクリーン上端タップ", "터치스크린 위쪽 가장자리 탭"),
+            14 => L("触摸屏下边缘点击", "Touchscreen bottom edge tap", "觸控螢幕下邊緣點擊", "タッチスクリーン下端タップ", "터치스크린 아래쪽 가장자리 탭"),
+            15 => L("触摸屏左边缘点击", "Touchscreen left edge tap", "觸控螢幕左邊緣點擊", "タッチスクリーン左端タップ", "터치스크린 왼쪽 가장자리 탭"),
+            16 => L("触摸屏右边缘点击", "Touchscreen right edge tap", "觸控螢幕右邊緣點擊", "タッチスクリーン右端タップ", "터치스크린 오른쪽 가장자리 탭"),
+            17 => L("触摸屏上边缘左滑", "Touchscreen top edge swipe left", "觸控螢幕上邊緣左滑", "タッチスクリーン上端を左へスワイプ", "터치스크린 위쪽 가장자리 왼쪽 스와이프"),
+            18 => L("触摸屏上边缘右滑", "Touchscreen top edge swipe right", "觸控螢幕上邊緣右滑", "タッチスクリーン上端を右へスワイプ", "터치스크린 위쪽 가장자리 오른쪽 스와이프"),
+            19 => L("触摸屏下边缘左滑", "Touchscreen bottom edge swipe left", "觸控螢幕下邊緣左滑", "タッチスクリーン下端を左へスワイプ", "터치스크린 아래쪽 가장자리 왼쪽 스와이프"),
+            20 => L("触摸屏下边缘右滑", "Touchscreen bottom edge swipe right", "觸控螢幕下邊緣右滑", "タッチスクリーン下端を右へスワイプ", "터치스크린 아래쪽 가장자리 오른쪽 스와이프"),
+            21 => L("触摸屏左边缘上滑", "Touchscreen left edge swipe up", "觸控螢幕左邊緣上滑", "タッチスクリーン左端を上へスワイプ", "터치스크린 왼쪽 가장자리 위로 스와이프"),
+            22 => L("触摸屏左边缘下滑", "Touchscreen left edge swipe down", "觸控螢幕左邊緣下滑", "タッチスクリーン左端を下へスワイプ", "터치스크린 왼쪽 가장자리 아래로 스와이프"),
+            23 => L("触摸屏右边缘上滑", "Touchscreen right edge swipe up", "觸控螢幕右邊緣上滑", "タッチスクリーン右端を上へスワイプ", "터치스크린 오른쪽 가장자리 위로 스와이프"),
+            24 => L("触摸屏右边缘下滑", "Touchscreen right edge swipe down", "觸控螢幕右邊緣下滑", "タッチスクリーン右端を下へスワイプ", "터치스크린 오른쪽 가장자리 아래로 스와이프"),
+            _ => fallback
+        };
 
     private static int BuiltInGestureIndex(string gestureName)
         => gestureName switch
@@ -5289,7 +5361,7 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement? NewEdgeGesturePreview(string gestureName, double width, double height)
     {
-        if (!TryParseEdgeGesture(gestureName, out var isTouchScreen, out var edge, out var direction))
+        if (!TryParseEdgeGesture(gestureName, out var isTouchScreen, out var isTouchPad, out var edge, out var direction))
             return null;
 
         var canvas = new Canvas { Width = width, Height = height };
@@ -5301,6 +5373,12 @@ public sealed partial class MainWindow : Window
         var deviceFill = IsDark
             ? new SolidColorBrush(Color.FromArgb(34, 255, 255, 255))
             : new SolidColorBrush(Color.FromArgb(255, 249, 252, 255));
+
+        if (isTouchPad)
+        {
+            AddTouchPadEdgePreview(canvas, width, height, edge, direction, accent, secondary, muted, deviceFill);
+            return canvas;
+        }
 
         var deviceWidth = isTouchScreen ? 72d : 96d;
         var deviceHeight = isTouchScreen ? 58d : 46d;
@@ -5337,9 +5415,42 @@ public sealed partial class MainWindow : Window
         return canvas;
     }
 
-    private static bool TryParseEdgeGesture(string gestureName, out bool isTouchScreen, out string edge, out string direction)
+    private static void AddTouchPadEdgePreview(Canvas canvas, double width, double height, string edge, string direction, Brush accent, Brush secondary, Brush muted, Brush deviceFill)
+    {
+        var deviceWidth = Math.Min(98d, width - 34d);
+        var deviceHeight = Math.Min(58d, height - 12d);
+        var left = (width - deviceWidth) / 2;
+        var top = (height - deviceHeight) / 2;
+        var right = left + deviceWidth;
+        var bottom = top + deviceHeight;
+
+        var body = new Microsoft.UI.Xaml.Shapes.Rectangle
+        {
+            Width = deviceWidth,
+            Height = deviceHeight,
+            RadiusX = 9,
+            RadiusY = 9,
+            Stroke = muted,
+            StrokeThickness = 1.7,
+            Fill = deviceFill
+        };
+        Canvas.SetLeft(body, left);
+        Canvas.SetTop(body, top);
+        canvas.Children.Add(body);
+
+        AddPreviewLine(canvas, left + deviceWidth * 0.39, bottom - 5.5, right - deviceWidth * 0.39, bottom - 5.5, muted, 1.5);
+        AddEdgeHighlight(canvas, edge, left, top, right, bottom, accent);
+
+        if (string.IsNullOrWhiteSpace(direction))
+            AddTapDot(canvas, edge, left, top, right, bottom, accent);
+        else
+            AddEdgeArrow(canvas, edge, direction, left, top, right, bottom, accent, secondary);
+    }
+
+    private static bool TryParseEdgeGesture(string gestureName, out bool isTouchScreen, out bool isTouchPad, out string edge, out string direction)
     {
         isTouchScreen = false;
+        isTouchPad = false;
         edge = "";
         direction = "";
         if (string.IsNullOrWhiteSpace(gestureName))
@@ -5350,7 +5461,7 @@ public sealed partial class MainWindow : Window
             return false;
 
         isTouchScreen = string.Equals(parts[0], "TouchScreenEdge", StringComparison.OrdinalIgnoreCase);
-        var isTouchPad = string.Equals(parts[0], "TouchPadEdge", StringComparison.OrdinalIgnoreCase);
+        isTouchPad = string.Equals(parts[0], "TouchPadEdge", StringComparison.OrdinalIgnoreCase);
         if (!isTouchScreen && !isTouchPad)
             return false;
 
@@ -5460,11 +5571,11 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewGestureCanvas(LegacyGesture gesture, double width, double height)
     {
         var canvas = new Canvas { Width = width, Height = height };
-        DrawGestureLines(canvas, gesture.PointPatterns, width, height);
+        DrawGestureLines(canvas, gesture.PointPatterns, width, height, fillTwoDimensionalBounds: true);
         return canvas;
     }
 
-    private static void DrawGestureLines(Canvas canvas, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns, double width, double height)
+    private static void DrawGestureLines(Canvas canvas, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns, double width, double height, bool fillTwoDimensionalBounds = false)
     {
         var allPoints = pointPatterns.SelectMany(line => line).ToList();
         if (allPoints.Count == 0)
@@ -5474,14 +5585,45 @@ public sealed partial class MainWindow : Window
         var maxX = allPoints.Max(point => point.X);
         var minY = allPoints.Min(point => point.Y);
         var maxY = allPoints.Max(point => point.Y);
-        var rangeX = Math.Max(1, maxX - minX);
-        var rangeY = Math.Max(1, maxY - minY);
+        var rangeX = maxX - minX;
+        var rangeY = maxY - minY;
         var padding = 14d;
-        var scale = Math.Min((width - padding * 2) / rangeX, (height - padding * 2) / rangeY);
-        var drawingWidth = rangeX * scale;
-        var drawingHeight = rangeY * scale;
-        var offsetX = (width - drawingWidth) / 2;
-        var offsetY = (height - drawingHeight) / 2;
+        var contentWidth = Math.Max(1, width - padding * 2);
+        var contentHeight = Math.Max(1, height - padding * 2);
+        var hasWidth = rangeX > 0.001;
+        var hasHeight = rangeY > 0.001;
+        var isTwoDimensional = hasWidth && hasHeight && Math.Min(rangeX / rangeY, rangeY / rangeX) >= 0.22;
+
+        double scaleX;
+        double scaleY;
+        double offsetX;
+        double offsetY;
+        if (!hasWidth && !hasHeight)
+        {
+            scaleX = 1;
+            scaleY = 1;
+            offsetX = width / 2;
+            offsetY = height / 2;
+        }
+        else if (fillTwoDimensionalBounds && isTwoDimensional)
+        {
+            scaleX = contentWidth / rangeX;
+            scaleY = contentHeight / rangeY;
+            offsetX = padding;
+            offsetY = padding;
+        }
+        else
+        {
+            var safeRangeX = hasWidth ? rangeX : 1;
+            var safeRangeY = hasHeight ? rangeY : 1;
+            var scale = Math.Min(contentWidth / safeRangeX, contentHeight / safeRangeY);
+            var drawingWidth = hasWidth ? rangeX * scale : 0;
+            var drawingHeight = hasHeight ? rangeY * scale : 0;
+            scaleX = scale;
+            scaleY = scale;
+            offsetX = (width - drawingWidth) / 2;
+            offsetY = (height - drawingHeight) / 2;
+        }
 
         var colors = new[]
         {
@@ -5497,7 +5639,7 @@ public sealed partial class MainWindow : Window
             var line = pointPatterns[index];
             if (line.Count == 1)
             {
-                var point = NormalizePreviewPoint(line[0], minX, minY, scale, offsetX, offsetY);
+                var point = NormalizePreviewPoint(line[0], minX, minY, scaleX, scaleY, offsetX, offsetY);
                 var dot = new Microsoft.UI.Xaml.Shapes.Ellipse
                 {
                     Width = 8,
@@ -5519,13 +5661,13 @@ public sealed partial class MainWindow : Window
                 StrokeLineJoin = PenLineJoin.Round
             };
             foreach (var point in line)
-                polyline.Points.Add(NormalizePreviewPoint(point, minX, minY, scale, offsetX, offsetY));
+                polyline.Points.Add(NormalizePreviewPoint(point, minX, minY, scaleX, scaleY, offsetX, offsetY));
             canvas.Children.Add(polyline);
         }
     }
 
-    private static Windows.Foundation.Point NormalizePreviewPoint((double X, double Y) point, double minX, double minY, double scale, double offsetX, double offsetY)
-        => new(offsetX + (point.X - minX) * scale, offsetY + (point.Y - minY) * scale);
+    private static Windows.Foundation.Point NormalizePreviewPoint((double X, double Y) point, double minX, double minY, double scaleX, double scaleY, double offsetX, double offsetY)
+        => new(offsetX + (point.X - minX) * scaleX, offsetY + (point.Y - minY) * scaleY);
 
     private FrameworkElement NewDialogMapCard()
     {
