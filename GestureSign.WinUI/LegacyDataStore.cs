@@ -254,6 +254,7 @@ internal sealed class LegacyDataStore
             ["MatchUsing"] = matchUsing,
             ["MatchString"] = matchString,
             ["IsRegEx"] = isRegex,
+            ["IsEnabled"] = true,
             ["Group"] = group,
             ["Actions"] = new JsonArray()
         });
@@ -455,8 +456,9 @@ internal sealed class LegacyDataStore
         SaveGestures();
     }
 
-    public void AddGestureFromPointPatterns(string name, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
+    public string AddGestureFromPointPatterns(string name, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
     {
+        var gestureName = GetUniqueGestureName(name);
         var points = new JsonArray();
         foreach (var pattern in pointPatterns)
         {
@@ -468,10 +470,29 @@ internal sealed class LegacyDataStore
 
         _gesturesRoot.Add(new JsonObject
         {
-            ["Name"] = GetUniqueGestureName(name),
+            ["Name"] = gestureName,
             ["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points })
         });
         SaveGestures();
+        return gestureName;
+    }
+
+    public string SaveGesturePointPatternsForAction(string name, LegacyAction? action, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
+    {
+        var gestureName = string.IsNullOrWhiteSpace(name) ? "NewGesture" : name.Trim();
+        var existingGesture = Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
+        var usedByOtherAction = _actionsRoot.OfType<JsonObject>()
+            .SelectMany(app => app["Actions"] as JsonArray ?? [])
+            .OfType<JsonObject>()
+            .Any(candidate =>
+                !ReferenceEquals(candidate, action?.Source) &&
+                string.Equals(candidate.StringValue("GestureName", ""), gestureName, StringComparison.OrdinalIgnoreCase));
+
+        if (existingGesture is null || usedByOtherAction)
+            return AddGestureFromPointPatterns(gestureName, pointPatterns);
+
+        UpdateGesturePointPatterns(existingGesture, pointPatterns);
+        return gestureName;
     }
 
     public void UpdateGesturePoints(LegacyGesture gesture, int fingerCount, IReadOnlyList<(double X, double Y)> points)

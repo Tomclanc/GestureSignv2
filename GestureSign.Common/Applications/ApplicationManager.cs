@@ -662,6 +662,7 @@ namespace GestureSign.Common.Applications
 
         private static bool CompareString(string compareMatchString, string windowMatchString, bool useRegEx)
         {
+            if (string.IsNullOrWhiteSpace(compareMatchString)) return false;
             if (string.IsNullOrEmpty(windowMatchString)) return false;
             return useRegEx
                 ? Regex.IsMatch(windowMatchString, compareMatchString, RegexOptions.Singleline | RegexOptions.IgnoreCase)
@@ -721,6 +722,7 @@ namespace GestureSign.Common.Applications
 
         internal static bool CompareExecutableFileName(string compareMatchString, string windowFileName, bool useRegEx)
         {
+            if (string.IsNullOrWhiteSpace(compareMatchString)) return false;
             if (string.IsNullOrWhiteSpace(windowFileName)) return false;
 
             var fileName = Path.GetFileName(windowFileName.Trim());

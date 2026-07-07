@@ -76,14 +76,69 @@ function Find-MSBuild {
 
 $publish = Resolve-Path -LiteralPath $PublishDir
 $publishPath = $publish.ProviderPath
+$repoRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
+$repoKandoPath = Join-Path $repoRoot.ProviderPath "Kando"
+$publishKandoPath = Join-Path $publishPath "Kando"
 $wxsPath = Join-Path $PSScriptRoot "GestureSign.generated.kando.wxs"
 $iconPath = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\GestureSign.WinUI\Assets\logo.ico")
 $scope = "perUser"
 $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
+$msbuild = Find-MSBuild
+
+$backendSolution = Join-Path $repoRoot.ProviderPath "GestureSign.sln"
+$backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
+& $msbuild $backendSolution /p:Configuration=Release /p:Platform="Any CPU" /v:m
+if ($LASTEXITCODE -ne 0) {
+    throw "Backend build failed with exit code $LASTEXITCODE"
+}
+
+if (!(Test-Path -LiteralPath (Join-Path $backendOutputPath "GestureSign.exe"))) {
+    throw "Backend build output is missing GestureSign.exe: $backendOutputPath"
+}
+
+if (!(Test-Path -LiteralPath $publishPath)) {
+    New-Item -ItemType Directory -Path $publishPath | Out-Null
+}
+
+$winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
+& $msbuild $winUiProject /t:Restore,Build /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /v:m
+if ($LASTEXITCODE -ne 0) {
+    throw "WinUI build failed with exit code $LASTEXITCODE"
+}
+
+$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64"
+if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"))) {
+    throw "WinUI build output is missing GestureSign.WinUI.exe: $winUiOutputPath"
+}
+
+Copy-Item -Path (Join-Path $winUiOutputPath "*") -Destination $publishPath -Recurse -Force
+Copy-Item -Path (Join-Path $backendOutputPath "*") -Destination $publishPath -Recurse -Force
+foreach ($requiredBackendFile in @("GestureSign.exe", "GestureSign.Common.dll", "GestureSign.CorePlugins.dll", "ManagedWinapi.dll", "WindowsInput.dll")) {
+    if (!(Test-Path -LiteralPath (Join-Path $publishPath $requiredBackendFile))) {
+        throw "Backend file is missing from publish directory: $requiredBackendFile"
+    }
+}
+
+foreach ($requiredWinUiFile in @("GestureSign.WinUI.exe", "GestureSign.WinUI.dll")) {
+    if (!(Test-Path -LiteralPath (Join-Path $publishPath $requiredWinUiFile))) {
+        throw "WinUI file is missing from publish directory: $requiredWinUiFile"
+    }
+}
+
+if (!(Test-Path -LiteralPath (Join-Path $publishKandoPath "kando.exe")) -and (Test-Path -LiteralPath (Join-Path $repoKandoPath "kando.exe"))) {
+    if (!(Test-Path -LiteralPath $publishKandoPath)) {
+        New-Item -ItemType Directory -Path $publishKandoPath | Out-Null
+    }
+    Copy-Item -Path (Join-Path $repoKandoPath "*") -Destination $publishKandoPath -Recurse -Force
+}
+
+if (!(Test-Path -LiteralPath (Join-Path $publishKandoPath "kando.exe"))) {
+    throw "Kando bundle is missing. Expected kando.exe in publish directory or repository Kando folder."
+}
+
 $uninstallerProject = Join-Path $PSScriptRoot "Uninstaller\GestureSign.Uninstaller.csproj"
 if (Test-Path -LiteralPath $uninstallerProject) {
-    $msbuild = Find-MSBuild
     & $msbuild $uninstallerProject /p:Configuration=Release /v:m
     if ($LASTEXITCODE -ne 0) {
         throw "Uninstaller build failed with exit code $LASTEXITCODE"

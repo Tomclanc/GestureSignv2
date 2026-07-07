@@ -77,6 +77,9 @@ namespace GestureSign.Common.Applications
         {
             string compareMatchString = MatchString ?? String.Empty;
             string windowMatchString = String.Empty;
+            if (MatchUsing != MatchUsing.All && string.IsNullOrWhiteSpace(compareMatchString))
+                return false;
+
             try
             {
                 switch (MatchUsing)

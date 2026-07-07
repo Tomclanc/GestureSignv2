@@ -61,7 +61,8 @@
                 <controls:NavigationViewItem Content="关于" Tag="about" Icon="Help" />
             </controls:NavigationView.MenuItems>
 
-            <ScrollViewer Padding="28,8,32,32"
+            <ScrollViewer x:Name="MainContentScrollViewer"
+                          Padding="28,8,32,32"
                           Background="Transparent">
                 <StackPanel Spacing="18">
                     <TextBlock x:Name="PageTitle"

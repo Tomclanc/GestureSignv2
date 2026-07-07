@@ -50,7 +50,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "8.2.16";
+    private const string AppVersion = "16.2";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -83,6 +83,7 @@ public sealed partial class MainWindow : Window
     private readonly DispatcherTimer _daemonWatchdogTimer = new();
     private readonly Dictionary<string, string> _pendingOptionUpdates = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<FrameworkElement, TypedCommandSettingsEditor> _typedCommandSettingsEditors = new();
+    private readonly HashSet<string> _pendingApplicationEnabledToggles = new(StringComparer.Ordinal);
     private TextBlock? _pendingTrainingStatus;
     private bool _isSavingOptions;
     private string _selectedActionScope = "all";
@@ -115,6 +116,8 @@ public sealed partial class MainWindow : Window
     private bool? _lastXboxBigScreenMode;
     private string _uiCultureName = "";
     private static DateTime _lastDaemonStartAttemptUtc = DateTime.MinValue;
+    private const string ActionsPageAppsScrollViewerName = "ActionsPageAppsScrollViewer";
+    private const string ActionsPageActionListScrollViewerName = "ActionsPageActionListScrollViewer";
 
     public MainWindow()
     {
@@ -186,14 +189,60 @@ public sealed partial class MainWindow : Window
         _legacyData = LegacyDataStore.Load();
         if (Navigation.SelectedItem is NavigationViewItem { Tag: "actions" } && PageHost.Children.FirstOrDefault() is StackPanel root)
         {
+            var scrollOffsets = CaptureActionsPageScrollOffsets(root);
+            var mainScrollOffset = MainContentScrollViewer.VerticalOffset;
             while (root.Children.Count > 1)
                 root.Children.RemoveAt(1);
             foreach (var element in BuildActionsContent())
                 root.Children.Add(element);
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                RestoreActionsPageScrollOffsets(root, scrollOffsets);
+                MainContentScrollViewer.ChangeView(null, mainScrollOffset, null, disableAnimation: true);
+                DispatcherQueue.TryEnqueue(() =>
+                {
+                    RestoreActionsPageScrollOffsets(root, scrollOffsets);
+                    MainContentScrollViewer.ChangeView(null, mainScrollOffset, null, disableAnimation: true);
+                });
+            });
             return;
         }
 
         ShowSelectedPage();
+    }
+
+    private static Dictionary<string, double> CaptureActionsPageScrollOffsets(DependencyObject root)
+    {
+        var offsets = new Dictionary<string, double>(StringComparer.Ordinal)
+        {
+            [ActionsPageAppsScrollViewerName] = FindNamedScrollViewer(root, ActionsPageAppsScrollViewerName)?.VerticalOffset ?? 0,
+            [ActionsPageActionListScrollViewerName] = FindNamedScrollViewer(root, ActionsPageActionListScrollViewerName)?.VerticalOffset ?? 0
+        };
+        return offsets;
+    }
+
+    private static void RestoreActionsPageScrollOffsets(DependencyObject root, IReadOnlyDictionary<string, double> offsets)
+    {
+        foreach (var (name, offset) in offsets)
+        {
+            if (FindNamedScrollViewer(root, name) is { } scrollViewer)
+                scrollViewer.ChangeView(null, offset, null, disableAnimation: true);
+        }
+    }
+
+    private static ScrollViewer? FindNamedScrollViewer(DependencyObject root, string name)
+    {
+        if (root is ScrollViewer scrollViewer && string.Equals(scrollViewer.Name, name, StringComparison.Ordinal))
+            return scrollViewer;
+
+        var count = VisualTreeHelper.GetChildrenCount(root);
+        for (var index = 0; index < count; index++)
+        {
+            if (FindNamedScrollViewer(VisualTreeHelper.GetChild(root, index), name) is { } child)
+                return child;
+        }
+
+        return null;
     }
 
     private bool IsDark => Root.ActualTheme == ElementTheme.Dark;
@@ -624,11 +673,11 @@ public sealed partial class MainWindow : Window
             foreach (var app in group)
             {
                 var appKey = ActionScopeKey(app);
-                var buttons = NewInlineButtons(
-                    (L("编辑", "Edit", "編輯", "編集", "편집"), async () => await EditApplicationAsync(app)),
-                    (app.IsEnabled ? L("停用", "Disable", "停用", "無効化", "사용 안 함") : L("启用", "Enable", "啟用", "有効化", "사용"), async () => await ToggleEnabledAsync(app.Source)),
-                    (L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), async () => await AddActionAsync(app)),
-                    (L("删除", "Delete", "刪除", "削除", "삭제"), async () => await DeleteApplicationAsync(app)));
+                var buttons = NewInlineButtonsWithContext(
+                    (L("编辑", "Edit", "編輯", "編集", "편집"), async _ => await EditApplicationAsync(app)),
+                    (app.Source.BoolValue("IsEnabled", true) ? L("停用", "Disable", "停用", "無効化", "사용 안 함") : L("启用", "Enable", "啟用", "有効化", "사용"), async button => await ToggleApplicationEnabledAsync(app, button)),
+                    (L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), async _ => await AddActionAsync(app)),
+                    (L("删除", "Delete", "刪除", "削除", "삭제"), async _ => await DeleteApplicationAsync(app)));
                 appsPanel.Children.Add(NewApplicationRow(ApplicationDisplayName(app.Name), $"{MatchSummary(app)} · {CountText(app.Actions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", buttons, _selectedActionScope == appKey, () =>
                 {
                     _selectedActionScope = appKey;
@@ -642,12 +691,12 @@ public sealed partial class MainWindow : Window
         var allActions = selectedApps.SelectMany(app => app.Actions.Select(action => (Application: app, Action: action))).ToList();
         actionsPanel.Children.Add(NewCardHeader(ActionScopeTitle(userApps), $"{L("当前范围", "Current scope", "目前範圍", "現在の範囲", "현재 범위")} {CountText(selectedApps.Count, L("个程序", "apps", "個程式", "個のアプリ", "개 프로그램"))}、{CountText(allActions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), "新动作"));
         // actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
-        foreach (var action in allActions.Take(12))
-            actionsPanel.Children.Add(NewActionRow(action.Application, action.Action));
-        if (allActions.Count > 12)
-            actionsPanel.Children.Add(NewListRow(L("更多动作", "More Actions", "更多動作", "その他のアクション", "더 많은 동작"), $"{L("还有", "There are", "還有", "残り", "남은")} {CountText(allActions.Count - 12, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))} {L("将在虚拟化列表接入后显示。", "to show after the virtualized list is connected.", "會在虛擬化清單接入後顯示。", "は仮想化リスト接続後に表示されます。", "은 가상화 목록 연결 후 표시됩니다.")}", null));
+        var actionList = NewCardPanel(12);
+        foreach (var action in allActions)
+            actionList.Children.Add(NewActionRow(action.Application, action.Action));
+        actionsPanel.Children.Add(NewActionsPageScrollViewer(actionList, name: ActionsPageActionListScrollViewerName));
 
-        var appsCard = NewCard(appsPanel, new Thickness(14));
+        var appsCard = NewCard(NewActionsPageScrollViewer(appsPanel, hideScrollBar: true, name: ActionsPageAppsScrollViewerName), new Thickness(14));
         var actionsCard = NewCard(actionsPanel, new Thickness(14));
         Grid.SetColumn(actionsCard, 1);
         grid.Children.Add(appsCard);
@@ -2099,10 +2148,15 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewInlineButtons(params (string Text, Func<Task> Action)[] buttons)
     {
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        panel.BringIntoViewRequested += (_, args) => args.Handled = true;
         foreach (var item in buttons)
         {
             var button = NewPillButton(item.Text, false);
-            button.Click += async (_, _) => await RunUiActionAsync(item.Action);
+            button.BringIntoViewRequested += (_, args) => args.Handled = true;
+            button.Click += async (_, args) =>
+            {
+                await RunUiActionAsync(item.Action);
+            };
             panel.Children.Add(button);
         }
 
@@ -2112,10 +2166,15 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewInlineButtonsWithContext(params (string Text, Func<Button, Task> Action)[] buttons)
     {
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6, VerticalAlignment = VerticalAlignment.Center };
+        panel.BringIntoViewRequested += (_, args) => args.Handled = true;
         foreach (var item in buttons)
         {
             var button = NewPillButton(item.Text, false);
-            button.Click += async (_, _) => await RunUiActionAsync(() => item.Action(button));
+            button.BringIntoViewRequested += (_, args) => args.Handled = true;
+            button.Click += async (_, args) =>
+            {
+                await RunUiActionAsync(() => item.Action(button));
+            };
             panel.Children.Add(button);
         }
 
@@ -2296,14 +2355,49 @@ public sealed partial class MainWindow : Window
         ReloadData();
     }
 
-    private async Task ToggleEnabledAsync(System.Text.Json.Nodes.JsonObject source, Button? toggleButton = null)
+    private async Task<bool> ToggleEnabledAsync(System.Text.Json.Nodes.JsonObject source, Button? toggleButton = null)
     {
         var isEnabled = source.BoolValue("IsEnabled", true);
         var newEnabled = !isEnabled;
         _legacyData.SetEnabled(source, newEnabled);
         if (toggleButton != null)
-            toggleButton.Content = newEnabled ? "停用" : "启用";
-        await NotifyDaemonAsync(DaemonCommand.LoadApplications);
+        {
+            toggleButton.Content = newEnabled
+                ? L("停用", "Disable", "停用", "無効化", "사용 안 함")
+                : L("启用", "Enable", "啟用", "有効化", "사용");
+            toggleButton.UpdateLayout();
+        }
+        _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
+        return newEnabled;
+    }
+
+    private async Task ToggleApplicationEnabledAsync(LegacyApplication app, Button toggleButton)
+    {
+        var toggleKey = ActionScopeKey(app);
+        if (!_pendingApplicationEnabledToggles.Add(toggleKey))
+            return;
+
+        toggleButton.IsEnabled = false;
+        try
+        {
+            _legacyData = LegacyDataStore.Load();
+            var currentApp = FindMatchingApplication(app) ?? app;
+            var isEnabled = currentApp.Source.BoolValue("IsEnabled", true);
+            var newEnabled = !isEnabled;
+            _legacyData.SetEnabled(currentApp.Source, newEnabled);
+            toggleButton.Content = newEnabled
+                ? L("停用", "Disable", "停用", "無効化", "사용 안 함")
+                : L("启用", "Enable", "啟用", "有効化", "사용");
+            toggleButton.UpdateLayout();
+            _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
+        }
+        finally
+        {
+            toggleButton.IsEnabled = true;
+            _pendingApplicationEnabledToggles.Remove(toggleKey);
+        }
+
+        await Task.CompletedTask;
     }
 
     private async Task AddActionAsync(LegacyApplication? app)
@@ -2400,11 +2494,7 @@ public sealed partial class MainWindow : Window
         if (validDrawnPointPatterns.Count > 0)
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
-            var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
-            if (existingGesture is null)
-                _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
-            else
-                _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
+            gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, null, validDrawnPointPatterns);
             SetGestureText(gesture, gestureName);
             _legacyData = LegacyDataStore.Load();
         }
@@ -2493,11 +2583,7 @@ public sealed partial class MainWindow : Window
         if (validDrawnPointPatterns.Count > 0)
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
-            var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
-            if (existingGesture is null)
-                _legacyData.AddGestureFromPointPatterns(gestureName, validDrawnPointPatterns);
-            else
-                _legacyData.UpdateGesturePointPatterns(existingGesture, validDrawnPointPatterns);
+            gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, action, validDrawnPointPatterns);
             SetGestureText(gesture, gestureName);
         }
 
@@ -3847,11 +3933,7 @@ public sealed partial class MainWindow : Window
         _trainingPipeServer.Stop();
 
         var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? "NewGesture" : _pendingTrainingGestureName;
-        var existingGesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, name, StringComparison.OrdinalIgnoreCase));
-        if (existingGesture is null)
-            _legacyData.AddGestureFromPointPatterns(name, pointPatterns);
-        else
-            _legacyData.UpdateGesturePointPatterns(existingGesture, pointPatterns);
+        _legacyData.SaveGesturePointPatternsForAction(name, null, pointPatterns);
 
         _legacyData = LegacyDataStore.Load();
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
@@ -5190,6 +5272,25 @@ public sealed partial class MainWindow : Window
         };
     }
 
+    private ScrollViewer NewActionsPageScrollViewer(UIElement content, bool hideScrollBar = false, string? name = null)
+    {
+        var maxHeight = Root.ActualHeight > 0
+            ? Math.Max(420, Math.Min(820, Root.ActualHeight - 250))
+            : 620;
+
+        return new ScrollViewer
+        {
+            Name = name ?? "",
+            Content = content,
+            MaxHeight = maxHeight,
+            VerticalScrollBarVisibility = hideScrollBar ? ScrollBarVisibility.Hidden : ScrollBarVisibility.Auto,
+            VerticalScrollMode = ScrollMode.Enabled,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            HorizontalScrollMode = ScrollMode.Disabled,
+            ZoomMode = ZoomMode.Disabled
+        };
+    }
+
     private async System.Threading.Tasks.Task ShowInfoDialog(string title, string message)
     {
         var dialog = new ContentDialog
@@ -5286,21 +5387,23 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewApplicationRow(string title, string subtitle, FrameworkElement trailing, bool isSelected = false, Action? onClick = null)
     {
         var panel = NewCardPanel(10);
-        panel.Children.Add(new TextBlock
+        var titleBlock = new TextBlock
         {
             Text = title,
             Style = BodyStrongTextBlockStyle,
             TextWrapping = TextWrapping.WrapWholeWords,
             MaxLines = 2
-        });
-        panel.Children.Add(new TextBlock
+        };
+        var subtitleBlock = new TextBlock
         {
             Text = subtitle,
             Opacity = 0.62,
             FontSize = 12,
             TextWrapping = TextWrapping.WrapWholeWords,
             MaxLines = 2
-        });
+        };
+        panel.Children.Add(titleBlock);
+        panel.Children.Add(subtitleBlock);
         panel.Children.Add(trailing);
 
         var border = new Border
@@ -5312,11 +5415,33 @@ public sealed partial class MainWindow : Window
         };
         if (onClick is not null)
         {
-            border.Tapped += (_, _) => onClick();
+            void SelectRow(object _, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs args)
+            {
+                if (IsInteractiveEventSource(args.OriginalSource as DependencyObject))
+                    return;
+
+                onClick();
+            }
+
+            titleBlock.Tapped += SelectRow;
+            subtitleBlock.Tapped += SelectRow;
             border.PointerEntered += (_, _) => border.Opacity = 0.9;
             border.PointerExited += (_, _) => border.Opacity = 1;
         }
         return border;
+    }
+
+    private static bool IsInteractiveEventSource(DependencyObject? source)
+    {
+        while (source is not null)
+        {
+            if (source is ButtonBase or TextBox or ComboBox or ToggleSwitch or Slider)
+                return true;
+
+            source = VisualTreeHelper.GetParent(source);
+        }
+
+        return false;
     }
 
     private FrameworkElement NewActionRow(LegacyApplication application, LegacyAction action)
@@ -6100,7 +6225,7 @@ public sealed partial class MainWindow : Window
                 swatches.Children.Add(row);
                 row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
             }
-            row.Children.Add(NewColorPresetButton(preset.Label, preset.Value, preset.Colors, color));
+            row.Children.Add(NewColorPresetButton(preset.Title, preset.Value, preset.Colors, color));
             index++;
         }
         swatches.Children.Add(row);
@@ -6109,10 +6234,10 @@ public sealed partial class MainWindow : Window
         return NewSettingRow(L("轨迹颜色", "Trail color", "軌跡色彩", "軌跡の色", "궤적 색상"), L("点击颜色后立即生效。", "Color changes take effect immediately.", "點擊色彩後立即生效。", "色を選ぶとすぐに反映されます。", "색상을 선택하면 즉시 적용됩니다."), panel);
     }
 
-    private static IReadOnlyList<(string Label, string Value, Color[] Colors)> VisualFeedbackColorPresets()
+    private IReadOnlyList<(string Title, string Value, Color[] Colors)> VisualFeedbackColorPresets()
         =>
         [
-            ("默认蓝", "DeepSkyBlue", [Color.FromArgb(255, 0, 191, 255)]),
+            (L("默认蓝", "Default Blue", "預設藍", "既定の青", "기본 파랑"), "DeepSkyBlue", [Color.FromArgb(255, 0, 191, 255)]),
             ("Windows", "theme:windows",
             [
                 Color.FromArgb(255, 0, 120, 212),
@@ -6120,17 +6245,17 @@ public sealed partial class MainWindow : Window
                 Color.FromArgb(255, 123, 97, 255),
                 Color.FromArgb(255, 16, 124, 16)
             ]),
-            ("系统蓝", "#0078D4", [Color.FromArgb(255, 0, 120, 212)]),
-            ("青色", "Cyan", [Color.FromArgb(255, 0, 255, 255)]),
-            ("绿色", "LimeGreen", [Color.FromArgb(255, 50, 205, 50)]),
-            ("薄荷", "MediumSeaGreen", [Color.FromArgb(255, 60, 179, 113)]),
-            ("黄色", "Gold", [Color.FromArgb(255, 255, 215, 0)]),
-            ("橙色", "Orange", [Color.FromArgb(255, 255, 165, 0)]),
-            ("红色", "Red", [Color.FromArgb(255, 255, 0, 0)]),
-            ("粉色", "DeepPink", [Color.FromArgb(255, 255, 20, 147)]),
-            ("紫色", "MediumPurple", [Color.FromArgb(255, 147, 112, 219)]),
-            ("白色", "White", [Color.FromArgb(255, 255, 255, 255)]),
-            ("黑色", "Black", [Color.FromArgb(255, 0, 0, 0)]),
+            (L("系统蓝", "System Blue", "系統藍", "システムブルー", "시스템 파랑"), "#0078D4", [Color.FromArgb(255, 0, 120, 212)]),
+            (L("青色", "Cyan", "青色", "シアン", "청록"), "Cyan", [Color.FromArgb(255, 0, 255, 255)]),
+            (L("绿色", "Green", "綠色", "緑", "초록"), "LimeGreen", [Color.FromArgb(255, 50, 205, 50)]),
+            (L("薄荷", "Mint", "薄荷", "ミント", "민트"), "MediumSeaGreen", [Color.FromArgb(255, 60, 179, 113)]),
+            (L("黄色", "Yellow", "黃色", "黄", "노랑"), "Gold", [Color.FromArgb(255, 255, 215, 0)]),
+            (L("橙色", "Orange", "橙色", "オレンジ", "주황"), "Orange", [Color.FromArgb(255, 255, 165, 0)]),
+            (L("红色", "Red", "紅色", "赤", "빨강"), "Red", [Color.FromArgb(255, 255, 0, 0)]),
+            (L("粉色", "Pink", "粉色", "ピンク", "분홍"), "DeepPink", [Color.FromArgb(255, 255, 20, 147)]),
+            (L("紫色", "Purple", "紫色", "紫", "보라"), "MediumPurple", [Color.FromArgb(255, 147, 112, 219)]),
+            (L("白色", "White", "白色", "白", "흰색"), "White", [Color.FromArgb(255, 255, 255, 255)]),
+            (L("黑色", "Black", "黑色", "黒", "검정"), "Black", [Color.FromArgb(255, 0, 0, 0)]),
             ("LGBTQ+", "theme:pride",
             [
                 Color.FromArgb(255, 228, 3, 3),
@@ -6140,7 +6265,7 @@ public sealed partial class MainWindow : Window
                 Color.FromArgb(255, 0, 77, 255),
                 Color.FromArgb(255, 117, 7, 135)
             ]),
-            ("团结色", "theme:unity",
+            (L("团结色", "Unity", "團結色", "ユニティ", "연대"), "theme:unity",
             [
                 Color.FromArgb(255, 0, 0, 0),
                 Color.FromArgb(255, 206, 17, 38),
@@ -6307,17 +6432,20 @@ public sealed partial class MainWindow : Window
         foreach (var item in items)
             combo.Items.Add(item);
         combo.SelectedIndex = Math.Clamp(selectedIndex, 0, items.Length - 1);
-        combo.SelectionChanged += (_, _) =>
+        combo.SelectionChanged += async (_, _) =>
         {
             if (combo.SelectedIndex >= 0 && combo.SelectedIndex < values.Length)
             {
                 var value = values[combo.SelectedIndex];
                 if (string.Equals(configKey, "CultureName", StringComparison.OrdinalIgnoreCase))
                 {
+                    if (string.Equals(_uiCultureName, value, StringComparison.OrdinalIgnoreCase))
+                        return;
+
                     _uiCultureName = value;
                     ApplyUiCulture(value);
                     RefreshNavigationText();
-                    UpdateOptionAndReloadNow(configKey, value);
+                    await UpdateOptionAndWaitAsync(configKey, value);
                     ShowSelectedPage();
                     return;
                 }
@@ -6906,12 +7034,17 @@ public sealed partial class MainWindow : Window
     private static string FindDaemonPath()
     {
         var baseDirectory = AppContext.BaseDirectory;
-        var candidates = new[]
+        var packageDirectory = Environment.GetEnvironmentVariable("GESTURESIGN_PACKAGE_DIR");
+        var candidates = new List<string>
         {
             Path.Combine(baseDirectory, "GestureSign.exe"),
             Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "bin", "Release", "GestureSign.exe")),
             Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "..", "bin", "Release", "GestureSign.exe"))
         };
+
+        if (!string.IsNullOrWhiteSpace(packageDirectory))
+            candidates.Insert(1, Path.Combine(packageDirectory, "GestureSign.exe"));
+
         return candidates.FirstOrDefault(File.Exists) ?? candidates[0];
     }
 
