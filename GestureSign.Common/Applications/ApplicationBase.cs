@@ -1,4 +1,4 @@
-﻿using ManagedWinapi.Windows;
+using ManagedWinapi.Windows;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -91,7 +91,7 @@ namespace GestureSign.Common.Applications
 
                         break;
                     case MatchUsing.ExecutableFilename:
-                        windowMatchString = Window.Process.MainModule.ModuleName;
+                        windowMatchString = ApplicationManager.GetWindowExecutableFileName(Window);
                         return ApplicationManager.CompareExecutableFileName(compareMatchString, windowMatchString, IsRegEx);
                     case MatchUsing.All:
                         return true;

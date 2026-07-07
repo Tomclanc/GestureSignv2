@@ -860,6 +860,10 @@ namespace ManagedWinapi.Windows
 
         public string GetProcessFilePath()
         {
+            var queryFullPath = QueryProcessFullImageName(ProcessId);
+            if (!string.IsNullOrEmpty(queryFullPath))
+                return queryFullPath;
+
             var processHandle = OpenProcess(0x0400 | 0x0010, false, ProcessId);
 
             if (processHandle == IntPtr.Zero)
@@ -881,6 +885,27 @@ namespace ManagedWinapi.Windows
             CloseHandle(processHandle);
 
             return result;
+        }
+
+        private static string QueryProcessFullImageName(int processId)
+        {
+            const uint processQueryLimitedInformation = 0x1000;
+            var processHandle = OpenProcess(processQueryLimitedInformation, false, processId);
+            if (processHandle == IntPtr.Zero)
+                return null;
+
+            try
+            {
+                var buffer = new StringBuilder(32768);
+                var size = buffer.Capacity;
+                return QueryFullProcessImageName(processHandle, 0, buffer, ref size)
+                    ? buffer.ToString()
+                    : null;
+            }
+            finally
+            {
+                CloseHandle(processHandle);
+            }
         }
 
         /// <summary>
@@ -1576,6 +1601,9 @@ namespace ManagedWinapi.Windows
 
         [DllImport("psapi.dll")]
         static extern uint GetModuleFileNameEx(IntPtr hProcess, IntPtr hModule, [Out] StringBuilder lpBaseName, [In] [MarshalAs(UnmanagedType.U4)] int nSize);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern bool QueryFullProcessImageName(IntPtr hProcess, uint dwFlags, StringBuilder lpExeName, ref int lpdwSize);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]

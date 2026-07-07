@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Drawing;
@@ -34,6 +34,16 @@ namespace GestureSign.Common.Applications
             "firefox",
             "chrome",
             "iexplore"
+        };
+
+        private static readonly string[] WindowsTerminalExecutableAliases =
+        {
+            "WindowsTerminal",
+            "WindowsTerminal.exe",
+            "wt",
+            "wt.exe",
+            "OpenConsole",
+            "OpenConsole.exe"
         };
         #endregion
 
@@ -508,7 +518,12 @@ namespace GestureSign.Common.Applications
             {
                 if (VersionHelper.IsWindows10OrGreater() && "ApplicationFrameWindow".Equals(window.ClassName))
                 {
-                    var realWindow = window.AllChildWindows.FirstOrDefault(w => "Windows.UI.Core.CoreWindow".Equals(w.ClassName));
+                    var realWindow = window.AllDescendantWindows.FirstOrDefault(w => "Windows.UI.Core.CoreWindow".Equals(w.ClassName));
+                    if (realWindow != null)
+                        return realWindow;
+
+                    realWindow = window.AllDescendantWindows
+                        .FirstOrDefault(w => !IsApplicationFrameHostExecutable(GetWindowExecutableFileName(w)));
                     if (realWindow != null)
                         return realWindow;
                 }
@@ -540,10 +555,38 @@ namespace GestureSign.Common.Applications
 
             try
             {
-                fileName = Path.GetFileName(realWindow.GetProcessFilePath());
+                fileName = GetWindowExecutableFileName(realWindow);
+                if (string.IsNullOrWhiteSpace(fileName) && !ReferenceEquals(realWindow, window))
+                    fileName = GetWindowExecutableFileName(window);
             }
             catch { }
             return realWindow;
+        }
+
+        internal static string GetWindowExecutableFileName(SystemWindow window)
+        {
+            if (window == null)
+                return string.Empty;
+
+            try
+            {
+                var filePath = window.GetProcessFilePath();
+                if (!string.IsNullOrWhiteSpace(filePath))
+                    return Path.GetFileName(filePath);
+            }
+            catch { }
+
+            try
+            {
+                var processName = window.Process?.ProcessName;
+                if (!string.IsNullOrWhiteSpace(processName))
+                    return processName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                        ? processName
+                        : processName + ".exe";
+            }
+            catch { }
+
+            return string.Empty;
         }
 
         #endregion
@@ -691,6 +734,9 @@ namespace GestureSign.Common.Applications
 
             foreach (var candidate in SplitExecutableMatchCandidates(compareMatchString))
             {
+                if (IsWindowsTerminalExecutable(candidate) && IsWindowsTerminalExecutable(fileName))
+                    return true;
+
                 if (string.Equals(fileName, candidate, StringComparison.CurrentCultureIgnoreCase))
                     return true;
 
@@ -703,6 +749,22 @@ namespace GestureSign.Common.Applications
             }
 
             return false;
+        }
+
+        private static bool IsApplicationFrameHostExecutable(string fileName)
+        {
+            return string.Equals(fileName, "ApplicationFrameHost.exe", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, "ApplicationFrameHost", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static bool IsWindowsTerminalExecutable(string fileName)
+        {
+            if (string.IsNullOrWhiteSpace(fileName))
+                return false;
+
+            var normalized = Path.GetFileName(fileName.Trim());
+            return WindowsTerminalExecutableAliases.Any(alias =>
+                string.Equals(normalized, alias, StringComparison.OrdinalIgnoreCase));
         }
 
         private static IEnumerable<string> SplitExecutableMatchCandidates(string compareMatchString)

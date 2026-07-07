@@ -21,6 +21,7 @@ using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Foundation;
@@ -46,9 +47,10 @@ public sealed partial class MainWindow : Window
     private const int MinimumWindowHeight = 760;
     private const int PickOutlineThickness = 12;
     private const int PickOutlineCornerRadius = 18;
+    private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "8.2.15";
+    private const string AppVersion = "8.2.16";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -99,6 +101,10 @@ public sealed partial class MainWindow : Window
     private IntPtr _mouseHook;
     private LowLevelMouseProc? _mouseHookProc;
     private TaskCompletionSource<PickedWindowInfo?>? _windowPickCompletion;
+    private PickedWindowInfo? _pendingPickedWindowInfo;
+    private IntPtr _hoverPickWindow;
+    private NativePoint _hoverPickPoint;
+    private CancellationTokenSource? _hoverPickConfirmation;
     private RECT? _pickOutlineRect;
     private IntPtr _pickOutlineHwnd;
     private IntPtr _pickOutlineWindow;
@@ -132,6 +138,7 @@ public sealed partial class MainWindow : Window
         _windowModeRefreshTimer.Tick += (_, _) => ApplyXboxBigScreenTitleBarMode();
         _daemonWatchdogTimer.Interval = TimeSpan.FromSeconds(3);
         _daemonWatchdogTimer.Tick += async (_, _) => await EnsureDaemonRunningAsync();
+        Closed += (_, _) => StopWindowPicking();
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
         ApplyMicaDimmingOverlay();
         ExtendsContentIntoTitleBar = true;
@@ -304,7 +311,7 @@ public sealed partial class MainWindow : Window
     private void ConfigureWindow()
     {
         AppWindow.Resize(ScaleLogicalSize(DefaultWindowWidth, DefaultWindowHeight));
-        AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico"));
+        AppWindow.SetIcon("Assets/logo.ico");
         CenterWindow();
         ConfigureCaptionButtons();
 
@@ -468,6 +475,27 @@ public sealed partial class MainWindow : Window
 
     [DllImport("user32.dll")]
     private static extern uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    private static extern bool IsWindow(IntPtr hwnd);
+
+    [DllImport("user32.dll")]
+    private static extern bool IsWindowVisible(IntPtr hwnd);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    private static extern IntPtr OpenProcess(uint desiredAccess, bool inheritHandle, uint processId);
+
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern bool QueryFullProcessImageName(IntPtr process, uint flags, StringBuilder exeName, ref int size);
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    private static extern bool CloseHandle(IntPtr handle);
+
+    private delegate bool EnumWindowsProc(IntPtr hwnd, IntPtr lParam);
 
     private void CenterWindow()
     {
@@ -1966,14 +1994,8 @@ public sealed partial class MainWindow : Window
             .Where(process => !string.IsNullOrWhiteSpace(process.ProcessName))
             .Select(process =>
             {
-                try
-                {
-                    return new RunningProcessInfo(process.ProcessName, Path.GetFileName(process.MainModule?.FileName ?? $"{process.ProcessName}.exe"));
-                }
-                catch
-                {
-                    return new RunningProcessInfo(process.ProcessName, $"{process.ProcessName}.exe");
-                }
+                var fileName = GetProcessFileName(process);
+                return new RunningProcessInfo(process.ProcessName, string.IsNullOrWhiteSpace(fileName) ? $"{process.ProcessName}.exe" : fileName);
             })
             .DistinctBy(process => process.FileName, StringComparer.OrdinalIgnoreCase)
             .OrderBy(process => process.Name)
@@ -5571,11 +5593,11 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewGestureCanvas(LegacyGesture gesture, double width, double height)
     {
         var canvas = new Canvas { Width = width, Height = height };
-        DrawGestureLines(canvas, gesture.PointPatterns, width, height, fillTwoDimensionalBounds: true);
+        DrawGestureLines(canvas, gesture.PointPatterns, width, height);
         return canvas;
     }
 
-    private static void DrawGestureLines(Canvas canvas, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns, double width, double height, bool fillTwoDimensionalBounds = false)
+    private static void DrawGestureLines(Canvas canvas, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns, double width, double height)
     {
         var allPoints = pointPatterns.SelectMany(line => line).ToList();
         if (allPoints.Count == 0)
@@ -5592,7 +5614,6 @@ public sealed partial class MainWindow : Window
         var contentHeight = Math.Max(1, height - padding * 2);
         var hasWidth = rangeX > 0.001;
         var hasHeight = rangeY > 0.001;
-        var isTwoDimensional = hasWidth && hasHeight && Math.Min(rangeX / rangeY, rangeY / rangeX) >= 0.22;
 
         double scaleX;
         double scaleY;
@@ -5604,13 +5625,6 @@ public sealed partial class MainWindow : Window
             scaleY = 1;
             offsetX = width / 2;
             offsetY = height / 2;
-        }
-        else if (fillTwoDimensionalBounds && isTwoDimensional)
-        {
-            scaleX = contentWidth / rangeX;
-            scaleY = contentHeight / rangeY;
-            offsetX = padding;
-            offsetY = padding;
         }
         else
         {
@@ -6907,7 +6921,8 @@ public sealed partial class MainWindow : Window
             return null;
 
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
-        _windowPickCompletion = new TaskCompletionSource<PickedWindowInfo?>();
+        var completion = new TaskCompletionSource<PickedWindowInfo?>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _windowPickCompletion = completion;
         _mouseHookProc = LowLevelMouseCallback;
         _mouseHook = SetWindowsHookEx(14, _mouseHookProc, GetModuleHandle(null), 0);
         if (_mouseHook == IntPtr.Zero)
@@ -6918,46 +6933,151 @@ public sealed partial class MainWindow : Window
         }
 
         ShowWindow(hwnd, 6);
-        var completed = await Task.WhenAny(_windowPickCompletion.Task, Task.Delay(TimeSpan.FromSeconds(12)));
-        var result = completed == _windowPickCompletion.Task ? await _windowPickCompletion.Task : null;
+        var completed = await Task.WhenAny(completion.Task, Task.Delay(TimeSpan.FromSeconds(12)));
+        var result = completed == completion.Task ? await completion.Task : null;
         StopWindowPicking();
-        ShowWindow(hwnd, 9);
-        SetForegroundWindow(hwnd);
+        await RestoreMainWindowAfterPickingAsync(hwnd);
         return result;
+    }
+
+    private async Task RestoreMainWindowAfterPickingAsync(IntPtr hwnd)
+    {
+        if (_isExitingApplication || !IsWindow(hwnd))
+            return;
+
+        await Task.Delay(120);
+        if (_isExitingApplication || !IsWindow(hwnd))
+            return;
+
+        const int swRestore = 9;
+        const uint swpNoSize = 0x0001;
+        const uint swpNoMove = 0x0002;
+        const uint swpShowWindow = 0x0040;
+        var flags = swpNoSize | swpNoMove | swpShowWindow;
+
+        ShowWindow(hwnd, swRestore);
+        SetWindowPos(hwnd, new IntPtr(-1), 0, 0, 0, 0, flags);
+        SetWindowPos(hwnd, new IntPtr(-2), 0, 0, 0, 0, flags);
+        SetForegroundWindow(hwnd);
+        Root.Focus(FocusState.Programmatic);
     }
 
     private void StopWindowPicking()
     {
+        var completion = _windowPickCompletion;
+        _windowPickCompletion = null;
+        completion?.TrySetResult(null);
+
         if (_mouseHook != IntPtr.Zero)
         {
             UnhookWindowsHookEx(_mouseHook);
             _mouseHook = IntPtr.Zero;
         }
         ClearPickOutline();
+        ResetHoverPickCandidate();
         _mouseHookProc = null;
-        _windowPickCompletion = null;
+        _pendingPickedWindowInfo = null;
+    }
+
+    private void TrackHoverPickCandidate(NativePoint point, TaskCompletionSource<PickedWindowInfo?> completion)
+    {
+        var hwnd = TopLevelWindowFromPoint(point);
+        if (hwnd == IntPtr.Zero)
+        {
+            ResetHoverPickCandidate();
+            return;
+        }
+
+        if (hwnd == _hoverPickWindow)
+        {
+            _hoverPickPoint = point;
+            return;
+        }
+
+        ResetHoverPickCandidate();
+        _hoverPickWindow = hwnd;
+        _hoverPickPoint = point;
+        var confirmation = new CancellationTokenSource();
+        _hoverPickConfirmation = confirmation;
+        _ = ConfirmWindowPickAfterHoverAsync(hwnd, completion, confirmation.Token);
+    }
+
+    private async Task ConfirmWindowPickAfterHoverAsync(IntPtr hwnd, TaskCompletionSource<PickedWindowInfo?> completion, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await Task.Delay(WindowPickHoverConfirmMilliseconds, cancellationToken);
+            if (cancellationToken.IsCancellationRequested ||
+                _hoverPickWindow != hwnd ||
+                _windowPickCompletion != completion ||
+                completion.Task.IsCompleted)
+            {
+                return;
+            }
+
+            var info = TryPickWindowAtPoint(_hoverPickPoint);
+            completion.TrySetResult(info);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+            completion.TrySetResult(null);
+        }
+    }
+
+    private void ResetHoverPickCandidate()
+    {
+        _hoverPickWindow = IntPtr.Zero;
+        _hoverPickPoint = default;
+        var confirmation = _hoverPickConfirmation;
+        _hoverPickConfirmation = null;
+        if (confirmation is null)
+            return;
+
+        confirmation.Cancel();
+        confirmation.Dispose();
     }
 
     private IntPtr LowLevelMouseCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
         const int wmMouseMove = 0x0200;
         const int wmLButtonDown = 0x0201;
-        if (nCode >= 0 && _windowPickCompletion is not null)
+        const int wmLButtonUp = 0x0202;
+        var hook = _mouseHook;
+        try
         {
-            var mouse = Marshal.PtrToStructure<MouseLlHookStruct>(lParam);
-            if (wParam == wmMouseMove)
+            var completion = _windowPickCompletion;
+            if (nCode >= 0 && completion is not null)
             {
-                DrawPickOutline(mouse.Point);
-            }
-            else if (wParam == wmLButtonDown)
-            {
-                var info = TryPickWindowAtPoint(mouse.Point);
-                _windowPickCompletion.TrySetResult(info);
-                return new IntPtr(1);
+                var mouse = Marshal.PtrToStructure<MouseLlHookStruct>(lParam);
+                if (wParam == wmMouseMove)
+                {
+                    TrackHoverPickCandidate(mouse.Point, completion);
+                    DrawPickOutline(mouse.Point);
+                }
+                else if (wParam == wmLButtonDown)
+                {
+                    _pendingPickedWindowInfo = TryPickWindowAtPoint(mouse.Point);
+                    return new IntPtr(1);
+                }
+                else if (wParam == wmLButtonUp)
+                {
+                    var info = _pendingPickedWindowInfo ?? TryPickWindowAtPoint(mouse.Point);
+                    completion.TrySetResult(info);
+                    return new IntPtr(1);
+                }
             }
         }
+        catch (Exception ex)
+        {
+            LogException(ex);
+            _windowPickCompletion?.TrySetResult(null);
+        }
 
-        return CallNextHookEx(_mouseHook, nCode, wParam, lParam);
+        return CallNextHookEx(hook, nCode, wParam, lParam);
     }
 
     private static PickedWindowInfo? TryPickWindowUnderCursor()
@@ -7205,7 +7325,56 @@ public sealed partial class MainWindow : Window
 
     private static PickedWindowInfo? TryPickWindowAtPoint(NativePoint point)
     {
-        var hwnd = TopLevelWindowFromPoint(point);
+        var root = TopLevelWindowFromPoint(point);
+        if (root == IntPtr.Zero)
+            return null;
+
+        var hwnd = ResolvePickedWindow(root);
+        if (hwnd == IntPtr.Zero)
+            return null;
+
+        return ReadPickedWindowInfo(hwnd);
+    }
+
+    private static IntPtr ResolvePickedWindow(IntPtr root)
+    {
+        var rootInfo = ReadPickedWindowInfo(root);
+        if (rootInfo is null)
+            return root;
+
+        var rootFileName = rootInfo.FileName;
+        var shouldSearchChildren =
+            string.IsNullOrWhiteSpace(rootFileName) ||
+            rootFileName.Equals("ApplicationFrameHost.exe", StringComparison.OrdinalIgnoreCase) ||
+            rootInfo.ClassName.Equals("ApplicationFrameWindow", StringComparison.OrdinalIgnoreCase);
+
+        if (!shouldSearchChildren)
+            return root;
+
+        return EnumerateChildWindows(root)
+            .Select(hwnd => new { Hwnd = hwnd, Info = ReadPickedWindowInfo(hwnd) })
+            .Where(item => item.Info is not null && IsWindowVisible(item.Hwnd))
+            .Where(item => !string.IsNullOrWhiteSpace(item.Info!.FileName))
+            .Where(item => !item.Info!.FileName.Equals("ApplicationFrameHost.exe", StringComparison.OrdinalIgnoreCase))
+            .OrderByDescending(item => !string.IsNullOrWhiteSpace(item.Info!.Title))
+            .ThenBy(item => item.Info!.FileName, StringComparer.OrdinalIgnoreCase)
+            .Select(item => item.Hwnd)
+            .FirstOrDefault(root);
+    }
+
+    private static IEnumerable<IntPtr> EnumerateChildWindows(IntPtr parent)
+    {
+        var windows = new List<IntPtr>();
+        EnumChildWindows(parent, (hwnd, _) =>
+        {
+            windows.Add(hwnd);
+            return true;
+        }, IntPtr.Zero);
+        return windows;
+    }
+
+    private static PickedWindowInfo? ReadPickedWindowInfo(IntPtr hwnd)
+    {
         if (hwnd == IntPtr.Zero)
             return null;
 
@@ -7214,18 +7383,69 @@ public sealed partial class MainWindow : Window
         var className = new StringBuilder(256);
         GetClassName(hwnd, className, className.Capacity);
         GetWindowThreadProcessId(hwnd, out var pid);
-        var fileName = "";
+        var fileName = GetProcessFileName(pid);
+
+        return new PickedWindowInfo(title.ToString(), className.ToString(), fileName);
+    }
+
+    private static string GetProcessFileName(Process process)
+    {
         try
         {
-            using var process = Process.GetProcessById((int)pid);
-            fileName = Path.GetFileName(process.MainModule?.FileName ?? "");
+            var moduleFileName = process.MainModule?.FileName;
+            if (!string.IsNullOrWhiteSpace(moduleFileName))
+                return Path.GetFileName(moduleFileName);
         }
         catch
         {
-            fileName = "";
         }
 
-        return new PickedWindowInfo(title.ToString(), className.ToString(), fileName);
+        return GetProcessFileName((uint)Math.Max(0, process.Id));
+    }
+
+    private static string GetProcessFileName(uint processId)
+    {
+        if (processId == 0)
+            return "";
+
+        const uint processQueryLimitedInformation = 0x1000;
+        var handle = OpenProcess(processQueryLimitedInformation, false, processId);
+        if (handle == IntPtr.Zero)
+            return GetProcessNameFallback(processId);
+
+        try
+        {
+            var buffer = new StringBuilder(32768);
+            var size = buffer.Capacity;
+            return QueryFullProcessImageName(handle, 0, buffer, ref size)
+                ? Path.GetFileName(buffer.ToString())
+                : GetProcessNameFallback(processId);
+        }
+        catch
+        {
+            return GetProcessNameFallback(processId);
+        }
+        finally
+        {
+            CloseHandle(handle);
+        }
+    }
+
+    private static string GetProcessNameFallback(uint processId)
+    {
+        try
+        {
+            var processName = Process.GetProcessById((int)processId).ProcessName;
+            return string.IsNullOrWhiteSpace(processName)
+                ? ""
+                : processName.EndsWith(".exe", StringComparison.OrdinalIgnoreCase)
+                    ? processName
+                    : processName + ".exe";
+        }
+        catch
+        {
+            return "";
+        }
     }
 
     private string MatchUsingText(int matchUsing)

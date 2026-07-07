@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.15">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.16">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,14 +56,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.15) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.16) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-8.2.15-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.15/GestureSign-V2-8.2.15-x64.msi)
+- [GestureSign-V2-8.2.16-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.16/GestureSign-V2-8.2.16-x64.msi)
 
 ## 更新内容
 
+### 8.2.16
+
+- 修复“添加程序 / 捕捉窗口”对 Windows Terminal 等现代窗口识别不稳定的问题，优先使用低权限进程路径查询，并兼容 `WindowsTerminal.exe`、`wt.exe`、`OpenConsole.exe` 等终端进程名。
+- 捕捉窗口时增加悬停确认：选中同一个目标窗口持续 3 秒会自动确认并返回 GestureSign V2，触控板操作时不再必须点击目标窗口。
+- 优化捕捉结束后的窗口恢复逻辑，减少触控板点击后无法回到保存弹窗、退出捕捉时偶发闪退的问题。
+- 修复普通手势缩略图被强制拉伸的问题，保留原有比例显示；触控板边缘动作继续使用完整触控板样式缩略图。
+- MSI 和便携版恢复简洁正式命名，统一发布为 `GestureSign-V2-8.2.16-x64.msi` 与 `GestureSign-V2-8.2.16-portable-x64.zip`。
 ### 8.2.15
 
 - 优化触控板边缘手势缩略图，改为显示完整触控板样式，动作列表更直观。
@@ -289,11 +296,11 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.15).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.16).
 
 Current version:
 
-- [GestureSign-V2-8.2.15-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.15/GestureSign-V2-8.2.15-x64.msi)
+- [GestureSign-V2-8.2.16-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.16/GestureSign-V2-8.2.16-x64.msi)
 
 ## Installation
 
@@ -402,11 +409,11 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.15) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v8.2.16) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-8.2.15-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.15/GestureSign-V2-8.2.15-x64.msi)
+- [GestureSign-V2-8.2.16-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v8.2.16/GestureSign-V2-8.2.16-x64.msi)
 
 ## インストール
 
