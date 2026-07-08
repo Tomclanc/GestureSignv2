@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,13 +56,18 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
+- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
+- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
 
 ## 更新内容
+
+### 16.4
+
+- 优化微信图片等独立窗口中的手势触发稳定性：绘制过程中若已匹配到当前分组的可执行动作，松手瞬间漂移到无动作手势时会保守回退到最近的有效候选。
 
 ### 16.3
 
@@ -316,11 +321,12 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4).
 
 Current version:
 
-- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
+- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
+- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
 
 ## Installation
 
@@ -429,11 +435,12 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
+- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
+- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
 
 ## インストール
 

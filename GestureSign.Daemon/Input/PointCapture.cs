@@ -66,6 +66,9 @@ namespace GestureSign.Daemon.Input
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
         private List<List<Point>> _lastVisualFeedbackPoints;
         private string _liveGestureHintName;
+        private string _fallbackGestureName;
+        private string _fallbackGestureActionName;
+        private int _fallbackGesturePointCount;
 
         #endregion
 
@@ -267,7 +270,7 @@ namespace GestureSign.Daemon.Input
 
         private void ShowLiveGestureHintIfMatched(List<List<Point>> points)
         {
-            if (!AppConfig.ShowGestureActionHint || Mode == CaptureMode.Training || points == null || points.Count == 0)
+            if (Mode == CaptureMode.Training || points == null || points.Count == 0)
                 return;
 
             var gestureName = GestureManager.Instance.PreviewGestureName(points.Select(stroke => stroke.ToArray()).ToArray());
@@ -275,11 +278,23 @@ namespace GestureSign.Daemon.Input
                 return;
 
             var action = ApplicationManager.Instance.GetRecognizedDefinedAction(gestureName)?.FirstOrDefault();
-            if (action == null || string.IsNullOrWhiteSpace(action.Name) || string.Equals(action.Name, _liveGestureHintName, StringComparison.Ordinal))
+            if (action == null || string.IsNullOrWhiteSpace(action.Name))
+                return;
+
+            _fallbackGestureName = gestureName;
+            _fallbackGestureActionName = action.Name;
+            _fallbackGesturePointCount = CountGesturePoints(points);
+
+            if (!AppConfig.ShowGestureActionHint || string.Equals(action.Name, _liveGestureHintName, StringComparison.Ordinal))
                 return;
 
             _liveGestureHintName = action.Name;
             _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name);
+        }
+
+        private static int CountGesturePoints(IEnumerable<List<Point>> points)
+        {
+            return points?.Sum(stroke => stroke?.Count ?? 0) ?? 0;
         }
 
         private static List<List<Point>> ClonePoints(IEnumerable<List<Point>> points)
@@ -585,6 +600,10 @@ namespace GestureSign.Daemon.Input
 
             // Clear old gesture from point list so we can start adding the new captures points to the list 
             _pointsCaptured = new Dictionary<int, List<Point>>(firstPoint.Count);
+            _liveGestureHintName = null;
+            _fallbackGestureName = null;
+            _fallbackGestureActionName = null;
+            _fallbackGesturePointCount = 0;
             if (AppConfig.IsOrderByLocation)
             {
                 foreach (var rawData in firstPoint.OrderBy(p => p.Point.X))
@@ -639,11 +658,12 @@ namespace GestureSign.Daemon.Input
             }
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
-            if (GestureManager.Instance.GestureName != null)
+            var recognizedGestureName = ResolveActionGestureName(GestureManager.Instance.GestureName, pointsInformation.Points);
+            if (recognizedGestureName != null)
             {
                 List<Point> capturedPoints = SourceDevice == Devices.TouchPad ? new List<Point>() { _touchPadStartPoint } : pointsInformation.FirstCapturedPoints;
-                Logging.LogMessage($"Gesture recognized. Name={GestureManager.Instance.GestureName}, Contacts={string.Join(",", _pointsCaptured.Keys)}");
-                OnGestureRecognized(new RecognitionEventArgs(GestureManager.Instance.GestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
+                Logging.LogMessage($"Gesture recognized. Name={recognizedGestureName}, Contacts={string.Join(",", _pointsCaptured.Keys)}");
+                OnGestureRecognized(new RecognitionEventArgs(recognizedGestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
             }
             else
             {
@@ -656,6 +676,29 @@ namespace GestureSign.Daemon.Input
             _touchPadRawStartPoints = null;
             _touchPadVisualPoints = null;
             _touchPadRawVisualOrigin = PointF.Empty;
+        }
+
+        private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)
+        {
+            if (string.IsNullOrWhiteSpace(_fallbackGestureName))
+                return recognizedGestureName;
+
+            if (!string.IsNullOrWhiteSpace(recognizedGestureName) &&
+                ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)?.Any() == true)
+            {
+                return recognizedGestureName;
+            }
+
+            var totalPointCount = CountGesturePoints(points);
+            var maxTrailingPointCount = Math.Max(12, totalPointCount / 3);
+            if (totalPointCount - _fallbackGesturePointCount > maxTrailingPointCount)
+                return recognizedGestureName;
+
+            if (ApplicationManager.Instance.GetRecognizedDefinedAction(_fallbackGestureName)?.Any() != true)
+                return recognizedGestureName;
+
+            Logging.LogMessage($"Gesture fallback applied. Original={recognizedGestureName ?? "(null)"}, Fallback={_fallbackGestureName}, Action={_fallbackGestureActionName}, TrailingPoints={totalPointCount - _fallbackGesturePointCount}");
+            return _fallbackGestureName;
         }
 
         //private void CancelCapture(int num)
