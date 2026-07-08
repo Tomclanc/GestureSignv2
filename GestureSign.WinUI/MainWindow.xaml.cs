@@ -203,18 +203,8 @@ public sealed partial class MainWindow : Window
             var mainScrollOffset = MainContentScrollViewer.VerticalOffset;
             while (root.Children.Count > 1)
                 root.Children.RemoveAt(1);
-            foreach (var element in BuildActionsContent())
+            foreach (var element in BuildActionsContent(scrollOffsets, mainScrollOffset))
                 root.Children.Add(element);
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                RestoreActionsPageScrollOffsets(root, scrollOffsets);
-                MainContentScrollViewer.ChangeView(null, mainScrollOffset, null, disableAnimation: true);
-                DispatcherQueue.TryEnqueue(() =>
-                {
-                    RestoreActionsPageScrollOffsets(root, scrollOffsets);
-                    MainContentScrollViewer.ChangeView(null, mainScrollOffset, null, disableAnimation: true);
-                });
-            });
             return;
         }
 
@@ -655,7 +645,9 @@ public sealed partial class MainWindow : Window
         return root;
     }
 
-    private IEnumerable<UIElement> BuildActionsContent()
+    private IEnumerable<UIElement> BuildActionsContent(
+        IReadOnlyDictionary<string, double>? scrollOffsetsToRestore = null,
+        double? mainScrollOffsetToRestore = null)
     {
         _actionsScopeRefreshTimer.Stop();
         _actionsPageActionsPanel = null;
@@ -689,7 +681,7 @@ public sealed partial class MainWindow : Window
 
         var actionsPanel = NewCardPanel(12);
         _actionsPageActionsPanel = actionsPanel;
-        PopulateActionsScopePanel(actionsPanel, userApps);
+        PopulateActionsScopePanel(actionsPanel, userApps, scrollOffsetsToRestore: scrollOffsetsToRestore, mainScrollOffsetToRestore: mainScrollOffsetToRestore);
 
         var appsCard = NewCard(NewActionsPageScrollViewer(appsPanel, hideScrollBar: true, name: ActionsPageAppsScrollViewerName), new Thickness(14));
         var actionsCard = NewCard(actionsPanel, new Thickness(14));
@@ -742,13 +734,17 @@ public sealed partial class MainWindow : Window
         }
 
         var scrollOffsets = preserveScroll ? CaptureActionsPageScrollOffsets(PageHost) : null;
+        var mainScrollOffset = preserveScroll ? MainContentScrollViewer.VerticalOffset : (double?)null;
         var userApps = _legacyData.Applications.Where(app => app.Type != "忽略").ToList();
-        PopulateActionsScopePanel(_actionsPageActionsPanel, userApps, ++_actionsScopeRenderVersion);
-        if (scrollOffsets is not null)
-            RestoreActionsPageScrollOffsets(PageHost, scrollOffsets);
+        PopulateActionsScopePanel(_actionsPageActionsPanel, userApps, ++_actionsScopeRenderVersion, scrollOffsets, mainScrollOffset);
     }
 
-    private void PopulateActionsScopePanel(StackPanel actionsPanel, IReadOnlyList<LegacyApplication> userApps, int renderVersion = 0)
+    private void PopulateActionsScopePanel(
+        StackPanel actionsPanel,
+        IReadOnlyList<LegacyApplication> userApps,
+        int renderVersion = 0,
+        IReadOnlyDictionary<string, double>? scrollOffsetsToRestore = null,
+        double? mainScrollOffsetToRestore = null)
     {
         if (renderVersion == 0)
             renderVersion = ++_actionsScopeRenderVersion;
@@ -761,10 +757,16 @@ public sealed partial class MainWindow : Window
         // actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
         var actionList = NewCardPanel(12);
         actionsPanel.Children.Add(NewActionsPageScrollViewer(actionList, name: ActionsPageActionListScrollViewerName));
-        PopulateActionRowsInBatches(actionList, allActions, renderVersion, 0);
+        PopulateActionRowsInBatches(actionList, allActions, renderVersion, 0, scrollOffsetsToRestore, mainScrollOffsetToRestore);
     }
 
-    private void PopulateActionRowsInBatches(StackPanel actionList, IReadOnlyList<(LegacyApplication Application, LegacyAction Action)> actions, int renderVersion, int startIndex)
+    private void PopulateActionRowsInBatches(
+        StackPanel actionList,
+        IReadOnlyList<(LegacyApplication Application, LegacyAction Action)> actions,
+        int renderVersion,
+        int startIndex,
+        IReadOnlyDictionary<string, double>? scrollOffsetsToRestore = null,
+        double? mainScrollOffsetToRestore = null)
     {
         if (renderVersion != _actionsScopeRenderVersion)
             return;
@@ -775,9 +777,35 @@ public sealed partial class MainWindow : Window
             actionList.Children.Add(NewActionRow(actions[index].Application, actions[index].Action));
 
         if (endIndex >= actions.Count)
+        {
+            RestoreActionsPageScrollOffsetsAfterRender(renderVersion, scrollOffsetsToRestore, mainScrollOffsetToRestore);
+            return;
+        }
+
+        DispatcherQueue.TryEnqueue(() => PopulateActionRowsInBatches(actionList, actions, renderVersion, endIndex, scrollOffsetsToRestore, mainScrollOffsetToRestore));
+    }
+
+    private void RestoreActionsPageScrollOffsetsAfterRender(
+        int renderVersion,
+        IReadOnlyDictionary<string, double>? scrollOffsetsToRestore,
+        double? mainScrollOffsetToRestore)
+    {
+        if (scrollOffsetsToRestore is null && mainScrollOffsetToRestore is null)
             return;
 
-        DispatcherQueue.TryEnqueue(() => PopulateActionRowsInBatches(actionList, actions, renderVersion, endIndex));
+        void Restore()
+        {
+            if (renderVersion != _actionsScopeRenderVersion)
+                return;
+
+            if (scrollOffsetsToRestore is not null)
+                RestoreActionsPageScrollOffsets(PageHost, scrollOffsetsToRestore);
+            if (mainScrollOffsetToRestore is not null)
+                MainContentScrollViewer.ChangeView(null, mainScrollOffsetToRestore.Value, null, disableAnimation: true);
+        }
+
+        Restore();
+        DispatcherQueue.TryEnqueue(Restore);
     }
 
     private UIElement BuildIgnoredPage()
