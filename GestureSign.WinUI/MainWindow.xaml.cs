@@ -193,14 +193,16 @@ public sealed partial class MainWindow : Window
         ShowSelectedPage();
     }
 
-    private void ReloadActionDataOnly()
+    private void ReloadActionDataOnly(
+        IReadOnlyDictionary<string, double>? scrollOffsetsToRestore = null,
+        double? mainScrollOffsetToRestore = null)
     {
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         _legacyData = LegacyDataStore.Load();
         if (Navigation.SelectedItem is NavigationViewItem { Tag: "actions" } && PageHost.Children.FirstOrDefault() is StackPanel root)
         {
-            var scrollOffsets = CaptureActionsPageScrollOffsets(root);
-            var mainScrollOffset = MainContentScrollViewer.VerticalOffset;
+            var scrollOffsets = scrollOffsetsToRestore ?? CaptureActionsPageScrollOffsets(root);
+            var mainScrollOffset = mainScrollOffsetToRestore ?? MainContentScrollViewer.VerticalOffset;
             while (root.Children.Count > 1)
                 root.Children.RemoveAt(1);
             foreach (var element in BuildActionsContent(scrollOffsets, mainScrollOffset))
@@ -806,6 +808,16 @@ public sealed partial class MainWindow : Window
 
         Restore();
         DispatcherQueue.TryEnqueue(Restore);
+        var restoreAttempts = 0;
+        var restoreTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
+        restoreTimer.Tick += (_, _) =>
+        {
+            restoreAttempts++;
+            Restore();
+            if (restoreAttempts >= 8 || renderVersion != _actionsScopeRenderVersion)
+                restoreTimer.Stop();
+        };
+        restoreTimer.Start();
     }
 
     private UIElement BuildIgnoredPage()
@@ -2590,6 +2602,8 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(commandSettings);
         panel.Children.Add(commandPreview);
         UpdateCommandEditor();
+        var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
+        var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
         if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
             return;
 
@@ -2640,7 +2654,7 @@ public sealed partial class MainWindow : Window
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         if (validDrawnPointPatterns.Count > 0)
             _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
-        ReloadActionDataOnly();
+        ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
     private async Task EditActionAsync(LegacyAction action)
@@ -2683,6 +2697,8 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(ignoredDevices);
         panel.Children.Add(hotkeyRecorder);
         // panel.Children.Add(continuousGestureJson);
+        var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
+        var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
         if (!await ConfirmDialogAsync($"编辑动作 {DisplayName(action.Name)}", panel, "保存"))
             return;
 
@@ -2705,7 +2721,7 @@ public sealed partial class MainWindow : Window
                 if (currentAction is null)
                 {
                     await ShowInfoDialog("动作已变化", "保存手势图案后动作列表已刷新，但没有找到正在编辑的动作。请重新打开这个动作再保存。");
-                    ReloadActionDataOnly();
+                    ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
                     return;
                 }
 
@@ -2716,7 +2732,7 @@ public sealed partial class MainWindow : Window
         _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ParseInt(ignoredDevices.Text, action.IgnoredDevices), hotkeyJson.Text, continuousGestureJson.Text);
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
-        ReloadActionDataOnly();
+        ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
     private FrameworkElement NewBuiltInGesturePicker(TextBox gesture)
