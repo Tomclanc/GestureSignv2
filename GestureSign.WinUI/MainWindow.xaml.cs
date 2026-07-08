@@ -50,7 +50,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.2";
+    private const string AppVersion = "16.3";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -111,10 +111,14 @@ public sealed partial class MainWindow : Window
     private IntPtr _pickOutlineWindow;
     private readonly DispatcherTimer _kandoMenuRefreshTimer = new();
     private readonly DispatcherTimer _windowModeRefreshTimer = new();
+    private readonly DispatcherTimer _actionsScopeRefreshTimer = new();
     private DateTime _lastKandoMenusWriteTimeUtc;
     private Action? _refreshKandoMenuList;
     private bool? _lastXboxBigScreenMode;
     private string _uiCultureName = "";
+    private StackPanel? _actionsPageActionsPanel;
+    private readonly Dictionary<string, Border> _actionsPageScopeRows = new(StringComparer.Ordinal);
+    private int _actionsScopeRenderVersion;
     private static DateTime _lastDaemonStartAttemptUtc = DateTime.MinValue;
     private const string ActionsPageAppsScrollViewerName = "ActionsPageAppsScrollViewer";
     private const string ActionsPageActionListScrollViewerName = "ActionsPageActionListScrollViewer";
@@ -139,6 +143,12 @@ public sealed partial class MainWindow : Window
         _kandoMenuRefreshTimer.Tick += KandoMenuRefreshTimer_Tick;
         _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
         _windowModeRefreshTimer.Tick += (_, _) => ApplyXboxBigScreenTitleBarMode();
+        _actionsScopeRefreshTimer.Interval = TimeSpan.FromMilliseconds(16);
+        _actionsScopeRefreshTimer.Tick += (_, _) =>
+        {
+            _actionsScopeRefreshTimer.Stop();
+            RefreshActionsScopePanel(preserveScroll: false);
+        };
         _daemonWatchdogTimer.Interval = TimeSpan.FromSeconds(3);
         _daemonWatchdogTimer.Tick += async (_, _) => await EnsureDaemonRunningAsync();
         Closed += (_, _) => StopWindowPicking();
@@ -647,6 +657,9 @@ public sealed partial class MainWindow : Window
 
     private IEnumerable<UIElement> BuildActionsContent()
     {
+        _actionsScopeRefreshTimer.Stop();
+        _actionsPageActionsPanel = null;
+        _actionsPageScopeRows.Clear();
         var grid = new Grid { ColumnSpacing = 16 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(320) });
         grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -654,21 +667,13 @@ public sealed partial class MainWindow : Window
         var appsPanel = NewCardPanel(12);
         var userApps = _legacyData.Applications.Where(app => app.Type != "忽略").ToList();
         appsPanel.Children.Add(NewCardHeader(L("程序", "Applications", "程式", "アプリ", "프로그램"), $"{L("添加、编辑、删除或按分组管理匹配程序。数据源:", "Add, edit, delete, or group matching applications. Source:", "新增、編輯、刪除或依群組管理比對程式。資料來源:", "一致するアプリを追加、編集、削除、グループ管理します。データ元:", "매칭 프로그램을 추가, 편집, 삭제하거나 그룹별로 관리합니다. 데이터 원본:")} {_legacyData.DataSource}", L("添加程序", "Add App", "新增程式", "アプリを追加", "프로그램 추가"), "添加程序"));
-        appsPanel.Children.Add(NewListRow(L("全部动作", "All Actions", "全部動作", "すべてのアクション", "모든 동작"), CountText(userApps.Sum(app => app.Actions.Count), L("个动作", "actions", "個動作", "個のアクション", "개 동작")), null, _selectedActionScope == "all", () =>
-        {
-            _selectedActionScope = "all";
-            ShowSelectedPage();
-        }));
+        AddActionScopeRow(appsPanel, "all", NewListRow(L("全部动作", "All Actions", "全部動作", "すべてのアクション", "모든 동작"), CountText(userApps.Sum(app => app.Actions.Count), L("个动作", "actions", "個動作", "個のアクション", "개 동작")), null, _selectedActionScope == "all", () => SelectActionScope("all")));
         foreach (var group in userApps.GroupBy(app => string.IsNullOrWhiteSpace(app.Group) ? "(默认)" : app.Group))
         {
             var groupKey = $"group:{group.Key}";
             if (ShouldShowApplicationGroup(group.Key))
             {
-                appsPanel.Children.Add(NewListRow($"{group.Key}  {CountText(group.Count(), L("程序", "apps", "程式", "アプリ", "개 프로그램"))}", CountText(group.Sum(app => app.Actions.Count), L("个动作", "actions", "個動作", "個のアクション", "개 동작")), null, _selectedActionScope == groupKey, () =>
-                {
-                    _selectedActionScope = groupKey;
-                    ShowSelectedPage();
-                }));
+                AddActionScopeRow(appsPanel, groupKey, NewListRow($"{group.Key}  {CountText(group.Count(), L("程序", "apps", "程式", "アプリ", "개 프로그램"))}", CountText(group.Sum(app => app.Actions.Count), L("个动作", "actions", "個動作", "個のアクション", "개 동작")), null, _selectedActionScope == groupKey, () => SelectActionScope(groupKey)));
             }
             foreach (var app in group)
             {
@@ -678,23 +683,13 @@ public sealed partial class MainWindow : Window
                     (app.Source.BoolValue("IsEnabled", true) ? L("停用", "Disable", "停用", "無効化", "사용 안 함") : L("启用", "Enable", "啟用", "有効化", "사용"), async button => await ToggleApplicationEnabledAsync(app, button)),
                     (L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), async _ => await AddActionAsync(app)),
                     (L("删除", "Delete", "刪除", "削除", "삭제"), async _ => await DeleteApplicationAsync(app)));
-                appsPanel.Children.Add(NewApplicationRow(ApplicationDisplayName(app.Name), $"{MatchSummary(app)} · {CountText(app.Actions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", buttons, _selectedActionScope == appKey, () =>
-                {
-                    _selectedActionScope = appKey;
-                    ShowSelectedPage();
-                }));
+                AddActionScopeRow(appsPanel, appKey, NewApplicationRow(ApplicationDisplayName(app.Name), $"{MatchSummary(app)} · {CountText(app.Actions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", buttons, _selectedActionScope == appKey, () => SelectActionScope(appKey)));
             }
         }
 
         var actionsPanel = NewCardPanel(12);
-        var selectedApps = FilterApplicationsByScope(userApps).ToList();
-        var allActions = selectedApps.SelectMany(app => app.Actions.Select(action => (Application: app, Action: action))).ToList();
-        actionsPanel.Children.Add(NewCardHeader(ActionScopeTitle(userApps), $"{L("当前范围", "Current scope", "目前範圍", "現在の範囲", "현재 범위")} {CountText(selectedApps.Count, L("个程序", "apps", "個程式", "個のアプリ", "개 프로그램"))}、{CountText(allActions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), "新动作"));
-        // actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
-        var actionList = NewCardPanel(12);
-        foreach (var action in allActions)
-            actionList.Children.Add(NewActionRow(action.Application, action.Action));
-        actionsPanel.Children.Add(NewActionsPageScrollViewer(actionList, name: ActionsPageActionListScrollViewerName));
+        _actionsPageActionsPanel = actionsPanel;
+        PopulateActionsScopePanel(actionsPanel, userApps);
 
         var appsCard = NewCard(NewActionsPageScrollViewer(appsPanel, hideScrollBar: true, name: ActionsPageAppsScrollViewerName), new Thickness(14));
         var actionsCard = NewCard(actionsPanel, new Thickness(14));
@@ -704,6 +699,85 @@ public sealed partial class MainWindow : Window
         yield return grid;
 
         yield return NewDialogMapCard();
+    }
+
+    private void AddActionScopeRow(StackPanel panel, string scopeKey, FrameworkElement row)
+    {
+        if (row is Border border)
+            _actionsPageScopeRows[scopeKey] = border;
+
+        panel.Children.Add(row);
+    }
+
+    private void SelectActionScope(string scopeKey)
+    {
+        if (string.Equals(_selectedActionScope, scopeKey, StringComparison.Ordinal))
+            return;
+
+        _selectedActionScope = scopeKey;
+        UpdateActionScopeSelectionRows();
+        ScheduleActionsScopePanelRefresh();
+    }
+
+    private void ScheduleActionsScopePanelRefresh()
+    {
+        _actionsScopeRefreshTimer.Stop();
+        RefreshActionsScopePanel(preserveScroll: false);
+    }
+
+    private void UpdateActionScopeSelectionRows()
+    {
+        foreach (var (scopeKey, row) in _actionsPageScopeRows)
+            row.Background = string.Equals(_selectedActionScope, scopeKey, StringComparison.Ordinal)
+                ? SelectionBrush()
+                : SubtleBrush();
+    }
+
+    private void RefreshActionsScopePanel(bool preserveScroll = true)
+    {
+        if (_actionsPageActionsPanel is null)
+        {
+            ShowSelectedPage();
+            return;
+        }
+
+        var scrollOffsets = preserveScroll ? CaptureActionsPageScrollOffsets(PageHost) : null;
+        var userApps = _legacyData.Applications.Where(app => app.Type != "忽略").ToList();
+        PopulateActionsScopePanel(_actionsPageActionsPanel, userApps, ++_actionsScopeRenderVersion);
+        if (scrollOffsets is not null)
+            RestoreActionsPageScrollOffsets(PageHost, scrollOffsets);
+    }
+
+    private void PopulateActionsScopePanel(StackPanel actionsPanel, IReadOnlyList<LegacyApplication> userApps, int renderVersion = 0)
+    {
+        if (renderVersion == 0)
+            renderVersion = ++_actionsScopeRenderVersion;
+
+        actionsPanel.Children.Clear();
+
+        var selectedApps = FilterApplicationsByScope(userApps).ToList();
+        var allActions = selectedApps.SelectMany(app => app.Actions.Select(action => (Application: app, Action: action))).ToList();
+        actionsPanel.Children.Add(NewCardHeader(ActionScopeTitle(userApps), $"{L("当前范围", "Current scope", "目前範圍", "現在の範囲", "현재 범위")} {CountText(selectedApps.Count, L("个程序", "apps", "個程式", "個のアプリ", "개 프로그램"))}、{CountText(allActions.Count, L("个动作", "actions", "個動作", "個のアクション", "개 동작"))}", L("新动作", "New Action", "新增動作", "新規アクション", "새 동작"), "新动作"));
+        // actionsPanel.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("备份", "Backup", "備份", "バックアップ", "백업"), "备份"), (L("恢复", "Restore", "還原", "復元", "복원"), "恢复")]));
+        var actionList = NewCardPanel(12);
+        actionsPanel.Children.Add(NewActionsPageScrollViewer(actionList, name: ActionsPageActionListScrollViewerName));
+        PopulateActionRowsInBatches(actionList, allActions, renderVersion, 0);
+    }
+
+    private void PopulateActionRowsInBatches(StackPanel actionList, IReadOnlyList<(LegacyApplication Application, LegacyAction Action)> actions, int renderVersion, int startIndex)
+    {
+        if (renderVersion != _actionsScopeRenderVersion)
+            return;
+
+        const int batchSize = 3;
+        var endIndex = Math.Min(actions.Count, startIndex + batchSize);
+        for (var index = startIndex; index < endIndex; index++)
+            actionList.Children.Add(NewActionRow(actions[index].Application, actions[index].Action));
+
+        if (endIndex >= actions.Count)
+            return;
+
+        DispatcherQueue.TryEnqueue(() => PopulateActionRowsInBatches(actionList, actions, renderVersion, endIndex));
     }
 
     private UIElement BuildIgnoredPage()
@@ -769,6 +843,10 @@ public sealed partial class MainWindow : Window
             string.Equals(candidate.Name, app.Name, StringComparison.OrdinalIgnoreCase) &&
             string.Equals(candidate.Type, app.Type, StringComparison.OrdinalIgnoreCase) &&
             string.Equals(candidate.MatchString, app.MatchString, StringComparison.OrdinalIgnoreCase));
+
+    private LegacyApplication? FindApplicationForAction(LegacyAction action)
+        => _legacyData.Applications.FirstOrDefault(app =>
+            app.Actions.Any(candidate => ReferenceEquals(candidate.Source, action.Source)));
 
     private static string ActionScopeKey(LegacyApplication app)
         => $"app:{app.Name}|{app.MatchUsing}|{app.MatchString}";
@@ -2532,11 +2610,15 @@ public sealed partial class MainWindow : Window
                 _legacyData.AddCommand(createdAction, commandName.Text, commandPluginClassValue, commandSettingsValue);
         }
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
-        ReloadData();
+        if (validDrawnPointPatterns.Count > 0)
+            _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
+        ReloadActionDataOnly();
     }
 
     private async Task EditActionAsync(LegacyAction action)
     {
+        var originalApp = FindApplicationForAction(action);
+        var originalActionIndex = originalApp?.Actions.ToList().FindIndex(candidate => ReferenceEquals(candidate.Source, action.Source)) ?? -1;
         var name = new TextBox { PlaceholderText = "动作名称", Text = DisplayName(action.Name) };
         var gesture = new TextBox { PlaceholderText = "手势名称", Margin = new Thickness(0, 8, 0, 0) };
         SetGestureText(gesture, action.GestureName);
@@ -2585,10 +2667,28 @@ public sealed partial class MainWindow : Window
             var gestureName = ResolveGestureName(gesture, name.Text);
             gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, action, validDrawnPointPatterns);
             SetGestureText(gesture, gestureName);
+            _legacyData = LegacyDataStore.Load();
+            if (originalApp is not null)
+            {
+                var currentApp = FindMatchingApplication(originalApp);
+                var currentAction = originalActionIndex >= 0
+                    ? currentApp?.Actions.ElementAtOrDefault(originalActionIndex)
+                    : null;
+                if (currentAction is null)
+                {
+                    await ShowInfoDialog("动作已变化", "保存手势图案后动作列表已刷新，但没有找到正在编辑的动作。请重新打开这个动作再保存。");
+                    ReloadActionDataOnly();
+                    return;
+                }
+
+                action = currentAction;
+            }
         }
 
         _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ParseInt(ignoredDevices.Text, action.IgnoredDevices), hotkeyJson.Text, continuousGestureJson.Text);
-        ReloadData();
+        _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
+        _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
+        ReloadActionDataOnly();
     }
 
     private FrameworkElement NewBuiltInGesturePicker(TextBox gesture)
@@ -3933,23 +4033,21 @@ public sealed partial class MainWindow : Window
         _trainingPipeServer.Stop();
 
         var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? "NewGesture" : _pendingTrainingGestureName;
-        _legacyData.SaveGesturePointPatternsForAction(name, null, pointPatterns);
-
-        _legacyData = LegacyDataStore.Load();
-        _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
-        _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
 
         if (_pendingTrainingStatus is not null)
         {
-            _pendingTrainingStatus.Text = $"已录制并保存手势 {name}。";
+            _pendingTrainingStatus.Text = $"已录制手势 {name}，点击保存后生效。";
             _pendingTrainingPreview?.Invoke(pointPatterns);
             _pendingTrainingGestureName = null;
             _pendingTrainingStatus = null;
             _pendingTrainingPreview = null;
-            ReloadData();
             return;
         }
 
+        _legacyData.SaveGesturePointPatternsForAction(name, null, pointPatterns);
+        _legacyData = LegacyDataStore.Load();
+        _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
+        _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         _pendingTrainingGestureName = null;
         _pendingTrainingPreview = null;
         ReloadData();
@@ -5330,9 +5428,30 @@ public sealed partial class MainWindow : Window
             Padding = new Thickness(12, 10, 12, 10),
             Child = grid
         };
+        border.BringIntoViewRequested += (_, args) => args.Handled = true;
         if (onClick is not null)
         {
-            border.Tapped += (_, _) => onClick();
+            border.PointerReleased += (_, args) =>
+            {
+                if (IsInteractiveEventSource(args.OriginalSource as DependencyObject))
+                    return;
+
+                var point = args.GetCurrentPoint(border);
+                if (point.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse ||
+                    point.Properties.PointerUpdateKind != Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+                    return;
+
+                args.Handled = true;
+                onClick();
+            };
+            border.Tapped += (_, args) =>
+            {
+                if (args.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse ||
+                    IsInteractiveEventSource(args.OriginalSource as DependencyObject))
+                    return;
+
+                onClick();
+            };
             border.PointerEntered += (_, _) => border.Opacity = 0.9;
             border.PointerExited += (_, _) => border.Opacity = 1;
         }
@@ -5413,18 +5532,30 @@ public sealed partial class MainWindow : Window
             Padding = new Thickness(12, 10, 12, 10),
             Child = panel
         };
+        border.BringIntoViewRequested += (_, args) => args.Handled = true;
         if (onClick is not null)
         {
-            void SelectRow(object _, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs args)
+            border.PointerReleased += (_, args) =>
             {
                 if (IsInteractiveEventSource(args.OriginalSource as DependencyObject))
                     return;
 
-                onClick();
-            }
+                var point = args.GetCurrentPoint(border);
+                if (point.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse ||
+                    point.Properties.PointerUpdateKind != Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
+                    return;
 
-            titleBlock.Tapped += SelectRow;
-            subtitleBlock.Tapped += SelectRow;
+                args.Handled = true;
+                onClick();
+            };
+            border.Tapped += (_, args) =>
+            {
+                if (args.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse ||
+                    IsInteractiveEventSource(args.OriginalSource as DependencyObject))
+                    return;
+
+                onClick();
+            };
             border.PointerEntered += (_, _) => border.Opacity = 0.9;
             border.PointerExited += (_, _) => border.Opacity = 1;
         }

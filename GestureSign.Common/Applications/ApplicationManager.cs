@@ -568,6 +568,9 @@ namespace GestureSign.Common.Applications
             if (window == null)
                 return string.Empty;
 
+            if (IsExplorerWindow(window))
+                return "explorer.exe";
+
             try
             {
                 var filePath = window.GetProcessFilePath();
@@ -587,6 +590,31 @@ namespace GestureSign.Common.Applications
             catch { }
 
             return string.Empty;
+        }
+
+        private static bool IsExplorerWindow(SystemWindow window)
+        {
+            try
+            {
+                var className = window.ClassName;
+                if (IsExplorerWindowClass(className))
+                    return true;
+
+                return window.AllDescendantWindows.Any(child => IsExplorerWindowClass(child.ClassName));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsExplorerWindowClass(string className)
+        {
+            return string.Equals(className, "CabinetWClass", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(className, "ExploreWClass", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(className, "Progman", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(className, "WorkerW", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(className, "SHELLDLL_DefView", StringComparison.OrdinalIgnoreCase);
         }
 
         #endregion

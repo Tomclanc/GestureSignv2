@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.2">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,13 +56,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.2) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.2/GestureSign-V2-16.2-x64.msi)
+- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
 
 ## 更新内容
+
+### 16.3
+
+- 优化动作页左侧程序分组的快速点击体验，程序行改为鼠标释放时立即切换，减少 WinUI 点击判定带来的延迟。
+- 右侧动作列表改为可中断的分批渲染，快速切换分组时旧列表绘制会自动作废，只保留最后一次选择。
+- 修复靠近左侧列表底部的程序分组点击时可能触发自动滚动，导致切换偶发变慢的问题。
+- 修复编辑动作时通过触控板/触控录制新手势后，动作没有立即生效、缩略图不能及时更新的问题。
+- 增强 Windows 资源管理器窗口识别，对资源管理器和桌面 Shell 窗口稳定兜底为 `explorer.exe`，减少必须手动拾取窗口后才生效的情况。
 
 ### 16.2
 
@@ -307,11 +315,11 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.2).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3).
 
 Current version:
 
-- [GestureSign-V2-16.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.2/GestureSign-V2-16.2-x64.msi)
+- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
 
 ## Installation
 
@@ -420,11 +428,11 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.2) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.3) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.2/GestureSign-V2-16.2-x64.msi)
+- [GestureSign-V2-16.3-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.3/GestureSign-V2-16.3-x64.msi)
 
 ## インストール
 
