@@ -31,6 +31,13 @@ internal sealed class LegacyDataStore
         "chrome",
         "iexplore"
     ];
+    private static readonly string[] WeChatExecutableAliases =
+    [
+        "WeChat",
+        "WeChat.exe",
+        "WeChatAppEx",
+        "WeChatAppEx.exe"
+    ];
 
     private readonly JsonArray _actionsRoot;
     private readonly JsonArray _gesturesRoot;
@@ -805,12 +812,27 @@ internal sealed class LegacyDataStore
                 if (EnsureBrowserExecutableAliases(app, matchString))
                     changed = true;
             }
+
+            if (IsWeChatApplication(name, matchString) &&
+                EnsureExecutableAliases(app, matchString, WeChatExecutableAliases))
+            {
+                changed = true;
+            }
         }
 
         return changed;
     }
 
     private static bool EnsureBrowserExecutableAliases(JsonObject app, string matchString)
+        => EnsureExecutableAliases(app, matchString, BrowserExecutableAliases);
+
+    private static bool IsWeChatApplication(string name, string matchString)
+        => name.Contains("微信", StringComparison.OrdinalIgnoreCase) ||
+           name.Contains("WeChat", StringComparison.OrdinalIgnoreCase) ||
+           matchString.Contains("WeChat", StringComparison.OrdinalIgnoreCase) ||
+           matchString.Contains("WeChatAppEx", StringComparison.OrdinalIgnoreCase);
+
+    private static bool EnsureExecutableAliases(JsonObject app, string matchString, IEnumerable<string> requiredAliases)
     {
         var aliases = matchString
             .Split(['|', ';', ','], StringSplitOptions.RemoveEmptyEntries)
@@ -820,7 +842,7 @@ internal sealed class LegacyDataStore
         var aliasSet = aliases.ToHashSet(StringComparer.OrdinalIgnoreCase);
         var changed = false;
 
-        foreach (var alias in BrowserExecutableAliases)
+        foreach (var alias in requiredAliases)
         {
             if (aliasSet.Contains(alias))
                 continue;

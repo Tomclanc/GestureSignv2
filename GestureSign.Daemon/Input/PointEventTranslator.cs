@@ -68,6 +68,9 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseUp(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             var button = (MouseActions)mouseMessage.Button;
+            if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
+                return;
+
             if (IsCaptionButtonRegion(mouseMessage.Point) && button == AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
@@ -85,6 +88,9 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+                return;
+
             if (IsCaptionButtonRegion(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
                 return;
 
@@ -97,6 +103,13 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point))
+            {
+                if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
+                    Logging.LogMessage($"Mouse gesture passed through. Reason=RemoteDesktop, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                return;
+            }
+
             if (IsCaptionButtonRegion(mouseMessage.Point) && (MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
             {
                 Logging.LogMessage($"Mouse gesture ignored. Reason=CaptionButtonRegion, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
@@ -131,6 +144,29 @@ namespace GestureSign.Daemon.Input
             {
                 return false;
             }
+        }
+
+        private static bool ShouldPassThroughRemoteDesktopInput(System.Drawing.Point point)
+        {
+            try
+            {
+                var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+                ApplicationManager.GetWindowInfo(targetWindow, out _, out _, out var fileName);
+                return IsRemoteDesktopProcess(fileName);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsRemoteDesktopProcess(string fileName)
+        {
+            return string.Equals(fileName, "mstsc.exe", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, "msrdc.exe", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, "RdClient.Windows.exe", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, "Windows365.exe", StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(fileName, "vmconnect.exe", StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool IsCaptionButtonRegion(System.Drawing.Point point)

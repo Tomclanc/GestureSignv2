@@ -45,6 +45,14 @@ namespace GestureSign.Common.Applications
             "OpenConsole",
             "OpenConsole.exe"
         };
+
+        private static readonly string[] WeChatExecutableAliases =
+        {
+            "WeChat",
+            "WeChat.exe",
+            "WeChatAppEx",
+            "WeChatAppEx.exe"
+        };
         #endregion
 
         #region Public Instance Properties
@@ -718,6 +726,9 @@ namespace GestureSign.Common.Applications
 
             foreach (var app in _applications.Where(IsBrowserApplication))
                 EnsureBrowserExecutableAliases(app);
+
+            foreach (var app in _applications.Where(IsWeChatApplication))
+                EnsureExecutableAliases(app, WeChatExecutableAliases);
         }
 
         private static bool IsBrowserApplication(IApplication app)
@@ -732,10 +743,26 @@ namespace GestureSign.Common.Applications
         }
 
         private static void EnsureBrowserExecutableAliases(IApplication app)
+            => EnsureExecutableAliases(app, BrowserExecutableAliases);
+
+        private static bool IsWeChatApplication(IApplication app)
+        {
+            if (!(app is UserApp))
+                return false;
+
+            var matchString = app.MatchString ?? string.Empty;
+            var name = app.Name ?? string.Empty;
+            return name.IndexOf("微信", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   name.IndexOf("WeChat", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   matchString.IndexOf("WeChat", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                   matchString.IndexOf("WeChatAppEx", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static void EnsureExecutableAliases(IApplication app, IEnumerable<string> requiredAliases)
         {
             var aliases = SplitExecutableMatchCandidates(app.MatchString).ToList();
             var aliasSet = new HashSet<string>(aliases, StringComparer.OrdinalIgnoreCase);
-            foreach (var alias in BrowserExecutableAliases)
+            foreach (var alias in requiredAliases)
             {
                 if (aliasSet.Contains(alias))
                     continue;

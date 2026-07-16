@@ -68,6 +68,9 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ### 16.4
 
 - 优化微信图片等独立窗口中的手势触发稳定性：绘制过程中若已匹配到当前分组的可执行动作，松手瞬间漂移到无动作手势时会保守回退到最近的有效候选。
+- 微信程序分组会自动包含 `WeChatAppEx.exe`，覆盖微信小程序、微信内 PDF/图片等独立窗口。
+- 普通手势缩略图增加方向箭头，新建或录制的手势在动作列表中更容易判断绘制方向。
+- 远程桌面窗口默认透传鼠标手势输入，修复本机 GestureSign 截获右键轨迹后，远端 Edge 等应用无法触发自身鼠标手势的问题；支持 `mstsc.exe`、`msrdc.exe`、`RdClient.Windows.exe`、`Windows365.exe` 和 `vmconnect.exe`。
 
 ### 16.3
 

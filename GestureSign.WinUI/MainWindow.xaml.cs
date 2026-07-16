@@ -5974,14 +5974,53 @@ public sealed partial class MainWindow : Window
                 StrokeEndLineCap = PenLineCap.Round,
                 StrokeLineJoin = PenLineJoin.Round
             };
-            foreach (var point in line)
-                polyline.Points.Add(NormalizePreviewPoint(point, minX, minY, scaleX, scaleY, offsetX, offsetY));
+            var normalizedPoints = line
+                .Select(point => NormalizePreviewPoint(point, minX, minY, scaleX, scaleY, offsetX, offsetY))
+                .ToList();
+            foreach (var point in normalizedPoints)
+                polyline.Points.Add(point);
             canvas.Children.Add(polyline);
+            AddGestureArrowHead(canvas, normalizedPoints, new SolidColorBrush(colors[index % colors.Length]), 3);
         }
     }
 
     private static Windows.Foundation.Point NormalizePreviewPoint((double X, double Y) point, double minX, double minY, double scaleX, double scaleY, double offsetX, double offsetY)
         => new(offsetX + (point.X - minX) * scaleX, offsetY + (point.Y - minY) * scaleY);
+
+    private static void AddGestureArrowHead(Canvas canvas, IReadOnlyList<Windows.Foundation.Point> points, Brush brush, double thickness)
+    {
+        if (points.Count < 2)
+            return;
+
+        var end = points[^1];
+        var start = points[^2];
+        for (var i = points.Count - 3; i >= 0 && Distance(start, end) < 8; i--)
+            start = points[i];
+
+        var distance = Distance(start, end);
+        if (distance < 2)
+            return;
+
+        var angle = Math.Atan2(end.Y - start.Y, end.X - start.X);
+        var arrowLength = Math.Clamp(distance * 0.38, 8, 13);
+        var arrowAngle = Math.PI / 6;
+        var leftHead = new Windows.Foundation.Point(
+            end.X - arrowLength * Math.Cos(angle - arrowAngle),
+            end.Y - arrowLength * Math.Sin(angle - arrowAngle));
+        var rightHead = new Windows.Foundation.Point(
+            end.X - arrowLength * Math.Cos(angle + arrowAngle),
+            end.Y - arrowLength * Math.Sin(angle + arrowAngle));
+
+        AddPreviewLine(canvas, end.X, end.Y, leftHead.X, leftHead.Y, brush, thickness);
+        AddPreviewLine(canvas, end.X, end.Y, rightHead.X, rightHead.Y, brush, thickness);
+    }
+
+    private static double Distance(Windows.Foundation.Point a, Windows.Foundation.Point b)
+    {
+        var dx = b.X - a.X;
+        var dy = b.Y - a.Y;
+        return Math.Sqrt(dx * dx + dy * dy);
+    }
 
     private FrameworkElement NewDialogMapCard()
     {
