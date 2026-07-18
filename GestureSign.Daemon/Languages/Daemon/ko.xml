@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="한국어" Culture="ko-KR" Version="0.14">
+  <Messages>
+    <Error>오류</Error>
+    <ContactCountError>터치 포인트 수를 가져올 수 없습니다. 장치 드라이버를 다시 설치해 주세요.</ContactCountError>
+    <ComponentNotFoundMessage>{0}을(를) 찾을 수 없습니다. GestureSign을 다시 설치해 주세요.</ComponentNotFoundMessage>
+  </Messages>
+  <TrayMenu>
+    <Disable>제스처 인식 끄기</Disable>
+    <Enable>제스처 인식 켜기</Enable>
+    <Settings>설정</Settings>
+    <Exit>종료</Exit>
+  </TrayMenu>
+</Language>

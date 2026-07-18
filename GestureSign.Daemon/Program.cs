@@ -77,7 +77,7 @@ namespace GestureSign.Daemon
                 }
                 else
                 {
-                    NamedPipe.SendMessageAsync(IpcCommands.StartControlPanel, Constants.Daemon, wait: false).Wait();
+                    NamedPipe.SendMessageAsync(IpcCommands.StartSettings, Constants.Daemon, wait: false).Wait();
                 }
             }
         }

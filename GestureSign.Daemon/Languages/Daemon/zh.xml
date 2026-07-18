@@ -8,7 +8,7 @@
   <TrayMenu>
     <Disable>关闭手势识别</Disable>
     <Enable>启用手势识别</Enable>
-    <ControlPanel>设置</ControlPanel>
+    <Settings>设置</Settings>
     <Exit>退出</Exit>
   </TrayMenu>
 </Language>

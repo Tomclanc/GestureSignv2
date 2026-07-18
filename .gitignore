@@ -167,3 +167,6 @@ installer/GestureSign-Setup.exe
 
 # Local scratch artifacts
 /work/
+
+# Bundled locally when producing MSI and portable release assets.
+/Kando/

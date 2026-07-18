@@ -273,7 +273,7 @@ namespace GestureSign.Daemon.Triggers
 
         private void OpenSettingsHotKey_HotkeyPressed(object sender, EventArgs e)
         {
-            TrayManager.StartControlPanel();
+            TrayManager.StartSettings();
         }
 
         private void KandoHotKey_HotkeyPressed(object sender, EventArgs e)

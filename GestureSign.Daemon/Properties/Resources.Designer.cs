@@ -78,7 +78,7 @@ namespace GestureSign.Daemon.Properties {
         ///  &lt;/Messages&gt;
         ///  &lt;TrayMenu&gt;
         ///    &lt;Disable&gt;Disable GestureSign&lt;/Disable&gt;
-        ///    &lt;ControlPanel&gt;Control Panel&lt;/ControlPanel&gt;
+        ///    &lt;Settings&gt;Settings&lt;/Settings&gt;
         ///    &lt;Exit&gt;Exit&lt;/Exit&gt;
         ///  &lt;/TrayMenu&gt;
         ///&lt;/Language&gt;.

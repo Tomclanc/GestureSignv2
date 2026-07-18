@@ -20,6 +20,11 @@ namespace GestureSign.Common.Localization
 
         protected LocalizationProvider()
         {
+            UpdateCultureInfo();
+        }
+
+        private void UpdateCultureInfo()
+        {
             try
             {
                 _cultureInfo = String.IsNullOrEmpty(AppConfig.CultureName) ? CultureInfo.CurrentUICulture : CultureInfo.CreateSpecificCulture(AppConfig.CultureName);
@@ -28,6 +33,12 @@ namespace GestureSign.Common.Localization
             {
                 _cultureInfo = CultureInfo.CurrentUICulture;
             }
+        }
+
+        public void ReloadCulture()
+        {
+            UpdateCultureInfo();
+            Texts.Clear();
         }
 
         public bool HasData

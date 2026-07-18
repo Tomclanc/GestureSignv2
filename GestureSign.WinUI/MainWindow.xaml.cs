@@ -691,8 +691,6 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(appsCard);
         grid.Children.Add(actionsCard);
         yield return grid;
-
-        yield return NewDialogMapCard();
     }
 
     private void AddActionScopeRow(StackPanel panel, string scopeKey, FrameworkElement row)
@@ -7251,13 +7249,17 @@ public sealed partial class MainWindow : Window
         var packageDirectory = Environment.GetEnvironmentVariable("GESTURESIGN_PACKAGE_DIR");
         var candidates = new List<string>
         {
+            Path.Combine(baseDirectory, "Backend", "GestureSign.exe"),
             Path.Combine(baseDirectory, "GestureSign.exe"),
             Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "bin", "Release", "GestureSign.exe")),
             Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "..", "bin", "Release", "GestureSign.exe"))
         };
 
         if (!string.IsNullOrWhiteSpace(packageDirectory))
-            candidates.Insert(1, Path.Combine(packageDirectory, "GestureSign.exe"));
+        {
+            candidates.Insert(1, Path.Combine(packageDirectory, "Backend", "GestureSign.exe"));
+            candidates.Insert(2, Path.Combine(packageDirectory, "GestureSign.exe"));
+        }
 
         return candidates.FirstOrDefault(File.Exists) ?? candidates[0];
     }
@@ -7910,7 +7912,7 @@ public sealed partial class MainWindow : Window
             if (string.IsNullOrWhiteSpace(user))
                 return;
 
-            var pipeName = $"GestureSignControlPanel-{user}";
+            var pipeName = $"GestureSignSettings-{user}";
             while (!cancellationToken.IsCancellationRequested)
             {
                 try

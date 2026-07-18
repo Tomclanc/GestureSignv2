@@ -49,8 +49,8 @@ namespace GestureSign.Daemon
                     case IpcCommands.DisableRecognition:
                         PointCapture.Instance.Mode = CaptureMode.UserDisabled;
                         break;
-                    case IpcCommands.StartControlPanel:
-                        TrayManager.StartControlPanel();
+                    case IpcCommands.StartSettings:
+                        TrayManager.StartSettings();
                         break;
                     case IpcCommands.Exit:
                         Logging.LogMessage("Daemon exit requested by IPC.");

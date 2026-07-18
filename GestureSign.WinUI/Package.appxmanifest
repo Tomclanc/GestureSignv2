@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap10 rescap">
+
+  <Identity
+    Name="TomClancy.GestureSignV2"
+    Publisher="CN=A82713FB-4ABE-47C7-8184-01CF24575B7F"
+    Version="16.4.16.0" />
+
+  <Properties>
+    <DisplayName>GestureSign V2</DisplayName>
+    <PublisherDisplayName>风夏</PublisherDisplayName>
+    <Logo>Assets\Store\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26200.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-US" />
+    <Resource Language="zh-CN" />
+    <Resource Language="zh-TW" />
+    <Resource Language="ja-JP" />
+    <Resource Language="ko-KR" />
+  </Resources>
+
+  <Applications>
+    <Application
+      Id="GestureSignV2"
+      Executable="$targetnametoken$.exe"
+      EntryPoint="$targetentrypoint$">
+      <uap:VisualElements
+        DisplayName="GestureSign V2"
+        Description="GestureSign V2"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Store\Square150x150Logo.png"
+        Square44x44Logo="Assets\Store\Square44x44Logo.png">
+        <uap:DefaultTile
+          ShortName="GestureSign V2"
+          Square71x71Logo="Assets\Store\Square71x71Logo.png"
+          Wide310x150Logo="Assets\Store\Wide310x150Logo.png"
+          Square310x310Logo="Assets\Store\Square310x310Logo.png" />
+        <uap:SplashScreen Image="Assets\Store\SplashScreen.png" BackgroundColor="transparent" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

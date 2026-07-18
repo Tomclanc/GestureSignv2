@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<Language DisplayName="English" Culture="en" Version="0.14">
+<Language DisplayName="English" Culture="en-US" Version="0.14">
   <Messages>
     <Error>Error</Error>
     <ContactCountError>Can not get the number of contacts! Please try to reinstall the device driver!</ContactCountError>
@@ -8,7 +8,7 @@
   <TrayMenu>
     <Disable>Disable GestureSign</Disable>
     <Enable>Enable GestureSign</Enable>
-    <ControlPanel>Control Panel</ControlPanel>
+    <Settings>Settings</Settings>
     <Exit>Exit</Exit>
   </TrayMenu>
 </Language>

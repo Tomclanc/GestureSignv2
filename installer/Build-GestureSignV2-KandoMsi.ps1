@@ -2,7 +2,7 @@ param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "8.2.8",
+    [string]$PackageVersion = "16.4.16",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",
@@ -79,6 +79,7 @@ $publishPath = $publish.ProviderPath
 $repoRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
 $repoKandoPath = Join-Path $repoRoot.ProviderPath "Kando"
 $publishKandoPath = Join-Path $publishPath "Kando"
+$publishBackendPath = Join-Path $publishPath "Backend"
 $wxsPath = Join-Path $PSScriptRoot "GestureSign.generated.kando.wxs"
 $iconPath = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\GestureSign.WinUI\Assets\logo.ico")
 $scope = "perUser"
@@ -88,6 +89,9 @@ $msbuild = Find-MSBuild
 
 $backendSolution = Join-Path $repoRoot.ProviderPath "GestureSign.sln"
 $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
+if (Test-Path -LiteralPath $backendOutputPath) {
+    Remove-Item -LiteralPath $backendOutputPath -Recurse -Force
+}
 & $msbuild $backendSolution /p:Configuration=Release /p:Platform="Any CPU" /v:m
 if ($LASTEXITCODE -ne 0) {
     throw "Backend build failed with exit code $LASTEXITCODE"
@@ -97,9 +101,10 @@ if (!(Test-Path -LiteralPath (Join-Path $backendOutputPath "GestureSign.exe"))) 
     throw "Backend build output is missing GestureSign.exe: $backendOutputPath"
 }
 
-if (!(Test-Path -LiteralPath $publishPath)) {
-    New-Item -ItemType Directory -Path $publishPath | Out-Null
+if (Test-Path -LiteralPath $publishPath) {
+    Remove-Item -LiteralPath $publishPath -Recurse -Force
 }
+New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
 & $msbuild $winUiProject /t:Restore,Build /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /v:m
@@ -113,9 +118,10 @@ if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"
 }
 
 Copy-Item -Path (Join-Path $winUiOutputPath "*") -Destination $publishPath -Recurse -Force
-Copy-Item -Path (Join-Path $backendOutputPath "*") -Destination $publishPath -Recurse -Force
+New-Item -ItemType Directory -Path $publishBackendPath | Out-Null
+Copy-Item -Path (Join-Path $backendOutputPath "*") -Destination $publishBackendPath -Recurse -Force
 foreach ($requiredBackendFile in @("GestureSign.exe", "GestureSign.Common.dll", "GestureSign.CorePlugins.dll", "ManagedWinapi.dll", "WindowsInput.dll")) {
-    if (!(Test-Path -LiteralPath (Join-Path $publishPath $requiredBackendFile))) {
+    if (!(Test-Path -LiteralPath (Join-Path $publishBackendPath $requiredBackendFile))) {
         throw "Backend file is missing from publish directory: $requiredBackendFile"
     }
 }

@@ -76,11 +76,7 @@ internal sealed class LegacyDataStore
         if (!string.Equals(roamingPath, defaultRoamingPath, StringComparison.OrdinalIgnoreCase))
             EnsureRoamingDataMigrated(defaultRoamingPath, roamingPath);
         var portablePath = Path.Combine(AppContext.BaseDirectory, "AppData");
-        var defaultsPath = FirstExistingDirectory(
-            Path.Combine(AppContext.BaseDirectory, "Defaults"),
-            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "GestureSign.ControlPanel", "Defaults")),
-            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "GestureSign.ControlPanel", "Defaults")))
-            ?? Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", "GestureSign.ControlPanel", "Defaults"));
+        var defaultsPath = Path.Combine(AppContext.BaseDirectory, "Defaults");
 
         var actionsPath = FirstExisting(
             Path.Combine(roamingPath, ActionsFileName),

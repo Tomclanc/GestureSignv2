@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="日本語" Culture="ja-JP" Version="0.14">
+  <Messages>
+    <Error>エラー</Error>
+    <ContactCountError>タッチポイント数を取得できません。デバイスドライバーを再インストールしてください。</ContactCountError>
+    <ComponentNotFoundMessage>{0} が見つかりません。GestureSign を再インストールしてください。</ComponentNotFoundMessage>
+  </Messages>
+  <TrayMenu>
+    <Disable>ジェスチャー認識を無効にする</Disable>
+    <Enable>ジェスチャー認識を有効にする</Enable>
+    <Settings>設定</Settings>
+    <Exit>終了</Exit>
+  </TrayMenu>
+</Language>

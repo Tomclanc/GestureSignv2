@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,17 +56,23 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
-- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
+- [GestureSign-V2-16.4.16-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.16/GestureSign-V2-16.4.16-x64.msi)
+- [GestureSign-V2-16.4.16-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.16/GestureSign-V2-16.4.16-portable-x64.zip)
 
 ## 更新内容
 
-### 16.4
+### 16.4.16
 
+- 托盘菜单会跟随 GestureSign V2 的界面语言动态切换，托盘提示名称统一为 `GestureSign V2`；单击菜单“设置”或双击托盘图标都会进入新的 WinUI 3 设置界面。
+- 移除旧版 WPF 控制面板及相关打包文件，动作页底部旧版“编辑入口”同步隐藏，避免误入已经停用的旧界面。
+- 优化 ROG Xbox 等触屏设备上的托盘菜单操作：增大菜单宽度、字体和单项触控区域，消除菜单项之间无法点击的空隙，并修复右键事件重复显示菜单的问题。
+- 修复 MSIX / 微软商店安装后后台可能因 `System.Memory`、`System.Resources.Extensions` 等依赖版本冲突而启动失败的问题，前端和后台依赖改为隔离部署。
+- 完善 MSIX 商店身份、图标资源、语言资源和启动布局，移除不需要的调试文件，提升商店审核环境中的启动稳定性。
+- 修复动作页新增、编辑、启用或停用动作后列表可能跳回顶部的问题，并优化程序分组快速切换和动作缩略图即时刷新。
 - 优化微信图片等独立窗口中的手势触发稳定性：绘制过程中若已匹配到当前分组的可执行动作，松手瞬间漂移到无动作手势时会保守回退到最近的有效候选。
 - 微信程序分组会自动包含 `WeChatAppEx.exe`，覆盖微信小程序、微信内 PDF/图片等独立窗口。
 - 普通手势缩略图增加方向箭头，新建或录制的手势在动作列表中更容易判断绘制方向。
@@ -324,7 +330,7 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16).
 
 Current version:
 
@@ -438,7 +444,7 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16) からも入手できます。
 
 現在のバージョン:
 

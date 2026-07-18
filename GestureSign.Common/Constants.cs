@@ -11,9 +11,8 @@
         public const string ArchivesExtension = ".ges";
         public const string BackupFileExtension = ".gsb";
         public const string ConfigFileName = ProductName + ".config";
-        public const string ControlPanel = ProductName + "ControlPanel";
+        public const string Settings = ProductName + "Settings";
         public const string Daemon = ProductName + "Daemon";
-        public const string ControlPanelFileName = ProductName + ".ControlPanel.exe";
         public const string DaemonFileName = ProductName + ".exe";
     }
 }

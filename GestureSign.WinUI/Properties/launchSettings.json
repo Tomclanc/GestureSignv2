@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "GestureSign.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "GestureSign.WinUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

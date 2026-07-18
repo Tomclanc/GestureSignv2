@@ -5,7 +5,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 DAEMON_RESOURCES = ROOT / "GestureSign.Daemon" / "Resources"
-CONTROL_PANEL_RESOURCES = ROOT / "GestureSign.ControlPanel" / "Resources"
 PREVIEW_DIR = ROOT / "publish" / "icon-preview"
 LOGO_PATH = ROOT / "tools" / "logo.png"
 
@@ -104,7 +103,6 @@ def main():
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
     save_icon(DAEMON_RESOURCES / "normal_daemon.ico", "normal")
     save_icon(DAEMON_RESOURCES / "normal.ico", "normal")
-    save_icon(CONTROL_PANEL_RESOURCES / "normal.ico", "normal")
     save_icon(DAEMON_RESOURCES / "stop.ico", "stop")
     save_icon(DAEMON_RESOURCES / "add.ico", "add")
 

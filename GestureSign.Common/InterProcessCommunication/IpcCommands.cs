@@ -2,7 +2,7 @@
 {
     public enum IpcCommands
     {
-        StartControlPanel,
+        StartSettings,
         StartTeaching,
         StopTraining,
         LoadApplications,

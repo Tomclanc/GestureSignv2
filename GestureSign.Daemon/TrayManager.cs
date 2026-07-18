@@ -21,6 +21,8 @@ namespace GestureSign.Daemon
 {
     public class TrayManager : ILoadable, ITrayManager
     {
+        private const string TrayTooltipText = "GestureSign V2";
+
         #region Private Variables
 
         static readonly TrayManager _Instance = new TrayManager();
@@ -32,12 +34,13 @@ namespace GestureSign.Daemon
         private NotifyIcon _trayIcon;
         private ContextMenuStrip _trayMenu;
         private ToolStripMenuItem _disableGesturesMenuItem;
-        private ToolStripMenuItem _controlPanelMenuItem;
+        private ToolStripMenuItem _settingsMenuItem;
         private ToolStripMenuItem _exitGestureSignMenuItem;
         private Icon _currentTrayIcon;
         private TouchFriendlyTrayMenu _touchTrayMenu;
-        private static DateTime _lastControlPanelStartUtc = DateTime.MinValue;
-        private static readonly object _controlPanelStartLock = new object();
+        private string _loadedCultureName;
+        private static DateTime _lastSettingsStartUtc = DateTime.MinValue;
+        private static readonly object _settingsStartLock = new object();
 
         #endregion
 
@@ -51,17 +54,17 @@ namespace GestureSign.Daemon
             _trayIcon = new NotifyIcon();
             _trayMenu = new ContextMenuStrip();
             _disableGesturesMenuItem = new ToolStripMenuItem();
-            _controlPanelMenuItem = new ToolStripMenuItem();
+            _settingsMenuItem = new ToolStripMenuItem();
             _exitGestureSignMenuItem = new ToolStripMenuItem();
 
             _trayIcon.ContextMenuStrip = null;
-            _trayIcon.Text = "GestureSign";
+            _trayIcon.Text = TrayTooltipText;
             _trayIcon.DoubleClick += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.Click += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.MouseUp += TrayIcon_MouseUp;
             SetTrayIcon(TrayIconState.Normal);
 
-            _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _controlPanelMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
+            _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _settingsMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
             _trayMenu.Name = "TrayMenu";
             _trayMenu.ShowCheckMargin = false;
             _trayMenu.ShowImageMargin = false;
@@ -74,11 +77,11 @@ namespace GestureSign.Daemon
             _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Disable");
             _disableGesturesMenuItem.Click += (o, e) => { ToggleDisableGestures(); };
 
-            _controlPanelMenuItem.Name = "ControlPanel";
-            _controlPanelMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel");
-            _controlPanelMenuItem.Click += (o, e) =>
+            _settingsMenuItem.Name = "Settings";
+            _settingsMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings");
+            _settingsMenuItem.Click += (o, e) =>
             {
-                StartControlPanel();
+                StartSettings();
             };
 
             _exitGestureSignMenuItem.Name = "ExitGestureSign";
@@ -106,17 +109,17 @@ namespace GestureSign.Daemon
             {
                 case TrayIconState.Disabled:
                     _currentTrayIcon = CreateStatusIcon(Color.FromArgb(220, 38, 38), true);
-                    _trayIcon.Text = "GestureSign - 手势识别已关闭";
+                    _trayIcon.Text = TrayTooltipText;
                     break;
                 case TrayIconState.Training:
                     _currentTrayIcon = CreateStatusIcon(Color.FromArgb(37, 99, 235), false);
-                    _trayIcon.Text = "GestureSign";
+                    _trayIcon.Text = TrayTooltipText;
                     break;
                 default:
                     _currentTrayIcon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
                     if (_currentTrayIcon == null)
                         _currentTrayIcon = CreateStatusIcon(Color.FromArgb(0, 120, 212), false);
-                    _trayIcon.Text = "GestureSign";
+                    _trayIcon.Text = TrayTooltipText;
                     break;
             }
             _trayIcon.Icon = _currentTrayIcon;
@@ -301,7 +304,7 @@ namespace GestureSign.Daemon
             private const int DWMWCP_ROUND = 2;
             private const int CornerRadius = 14;
             private readonly Action _disableGestures;
-            private readonly Action _openControlPanel;
+            private readonly Action _openSettings;
             private readonly Func<Task> _exitGestureSign;
             private readonly Font _menuFont;
             private readonly Rectangle[] _itemBounds = new Rectangle[3];
@@ -319,12 +322,12 @@ namespace GestureSign.Daemon
             [DllImport("dwmapi.dll")]
             private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int attributeValue, int attributeSize);
 
-            public TouchFriendlyTrayMenu(Action disableGestures, Action openControlPanel, Func<Task> exitGestureSign)
+            public TouchFriendlyTrayMenu(Action disableGestures, Action openSettings, Func<Task> exitGestureSign)
             {
                 _disableGestures = disableGestures;
-                _openControlPanel = openControlPanel;
+                _openSettings = openSettings;
                 _exitGestureSign = exitGestureSign;
-                _menuFont = new Font("Microsoft YaHei UI", 9.25f, FontStyle.Regular, GraphicsUnit.Point);
+                _menuFont = new Font("Microsoft YaHei UI", 10.5f, FontStyle.Regular, GraphicsUnit.Point);
 
                 FormBorderStyle = FormBorderStyle.None;
                 ShowInTaskbar = false;
@@ -332,9 +335,9 @@ namespace GestureSign.Daemon
                 TopMost = true;
                 AutoScaleMode = AutoScaleMode.Dpi;
                 DoubleBuffered = true;
-                Padding = new Padding(13, 12, 13, 12);
-                Width = 292;
-                Height = 178;
+                Padding = new Padding(14);
+                Width = 320;
+                Height = 194;
                 BackColor = Color.FromArgb(245, 248, 252);
                 SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
                 Deactivate += (o, e) => Hide();
@@ -438,8 +441,8 @@ namespace GestureSign.Daemon
                 {
                     var left = Padding.Left + 8;
                     var right = Width - Padding.Right - 8;
-                    e.Graphics.DrawLine(separator, left, _itemBounds[0].Bottom + 4, right, _itemBounds[0].Bottom + 4);
-                    e.Graphics.DrawLine(separator, left, _itemBounds[1].Bottom + 4, right, _itemBounds[1].Bottom + 4);
+                    e.Graphics.DrawLine(separator, left, _itemBounds[0].Bottom, right, _itemBounds[0].Bottom);
+                    e.Graphics.DrawLine(separator, left, _itemBounds[1].Bottom, right, _itemBounds[1].Bottom);
                 }
 
                 DrawMenuText(e.Graphics, _disableText, _itemBounds[0]);
@@ -500,7 +503,7 @@ namespace GestureSign.Daemon
                         _disableGestures();
                         break;
                     case 1:
-                        _openControlPanel();
+                        _openSettings();
                         break;
                     case 2:
                         await _exitGestureSign();
@@ -517,8 +520,7 @@ namespace GestureSign.Daemon
 
             private void UpdateItemBounds()
             {
-                const int itemHeight = 40;
-                const int itemGap = 9;
+                const int itemHeight = 54;
                 var x = Padding.Left + 8;
                 var width = Width - Padding.Left - Padding.Right - 16;
                 var y = Padding.Top + 2;
@@ -526,7 +528,7 @@ namespace GestureSign.Daemon
                 for (var index = 0; index < _itemBounds.Length; index++)
                 {
                     _itemBounds[index] = new Rectangle(x, y, width, itemHeight);
-                    y += itemHeight + itemGap;
+                    y += itemHeight;
                 }
             }
 
@@ -582,12 +584,11 @@ namespace GestureSign.Daemon
             {
                 case MouseButtons.Left:
                     if (e.Clicks == 2 && PointCapture.Instance.Mode != CaptureMode.Training)
-                        StartControlPanel();
+                        StartSettings();
                     else if (e.Clicks == 1)
                         ShowTouchTrayMenu();
                     break;
                 case MouseButtons.Right:
-                    ShowTouchTrayMenu();
                     break;
                 case MouseButtons.Middle:
                     ToggleDisableGestures();
@@ -611,7 +612,7 @@ namespace GestureSign.Daemon
 
             _touchTrayMenu.UpdateItems(
                 _disableGesturesMenuItem.Text,
-                LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
                 LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
             _touchTrayMenu.ShowNearCursor();
         }
@@ -627,10 +628,10 @@ namespace GestureSign.Daemon
                     ToggleDisableGestures();
                     _touchTrayMenu.UpdateItems(
                         _disableGesturesMenuItem.Text,
-                        LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
                         LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
                 },
-                StartControlPanel,
+                StartSettings,
                 async () => await ExitGestureSignAsync());
             ApplyTouchTrayMenuTheme();
         }
@@ -677,32 +678,60 @@ namespace GestureSign.Daemon
             if (_trayIcon == null)
                 return;
 
+            ReloadLocalizationIfNeeded();
+
             if (_trayIcon.Icon == null)
                 SetTrayIcon(TrayIconState.Normal);
 
             _trayIcon.Visible = AppConfig.ShowTrayIcon;
         }
 
-        public static void StartControlPanel()
+        private void ReloadLocalizationIfNeeded()
         {
-            lock (_controlPanelStartLock)
+            string cultureName = String.IsNullOrEmpty(AppConfig.CultureName)
+                ? System.Globalization.CultureInfo.CurrentUICulture.Name
+                : AppConfig.CultureName;
+            if (String.Equals(_loadedCultureName, cultureName, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            _loadedCultureName = cultureName;
+            LocalizationProvider.Instance.ReloadCulture();
+            if (!LocalizationProvider.Instance.LoadFromFile("Daemon"))
+                LocalizationProvider.Instance.LoadFromResource(Properties.Resources.en);
+
+            bool recognitionDisabled = PointCapture.Instance.Mode == CaptureMode.UserDisabled;
+            _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue(
+                recognitionDisabled ? "TrayMenu.Enable" : "TrayMenu.Disable");
+            _settingsMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings");
+            _exitGestureSignMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit");
+
+            if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
+                _touchTrayMenu.UpdateItems(
+                    _disableGesturesMenuItem.Text,
+                    _settingsMenuItem.Text,
+                    _exitGestureSignMenuItem.Text);
+        }
+
+        public static void StartSettings()
+        {
+            lock (_settingsStartLock)
             {
                 DateTime now = DateTime.UtcNow;
-                if ((now - _lastControlPanelStartUtc).TotalMilliseconds < 1200)
+                if ((now - _lastSettingsStartUtc).TotalMilliseconds < 1200)
                     return;
-                _lastControlPanelStartUtc = now;
+                _lastSettingsStartUtc = now;
             }
 
-            string path = FindControlPanelPath();
+            string path = FindSettingsPath();
             if (File.Exists(path))
             {
-                using (Process controlPanel = new Process())
+                using (Process settings = new Process())
                 {
                     try
                     {
-                        controlPanel.StartInfo.FileName = path;
-                        controlPanel.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
-                        controlPanel.Start();
+                        settings.StartInfo.FileName = path;
+                        settings.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
+                        settings.Start();
                     }
                     catch (Exception exception)
                     {
@@ -720,18 +749,18 @@ namespace GestureSign.Daemon
             }
         }
 
-        private static string FindControlPanelPath()
+        private static string FindSettingsPath()
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string[] candidates =
             {
+                Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSign.WinUI.exe")),
                 Path.Combine(baseDirectory, "GestureSign.WinUI.exe"),
                 Path.Combine(baseDirectory, "GestureSign-WinUI-Preview", "GestureSign.WinUI.exe"),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "publish", "GestureSign-WinUI-Preview", "GestureSign.WinUI.exe")),
-                Path.Combine(baseDirectory, Constants.ControlPanelFileName)
+                Path.GetFullPath(Path.Combine(baseDirectory, "..", "publish", "GestureSign-WinUI-Preview", "GestureSign.WinUI.exe"))
             };
 
-            return candidates.FirstOrDefault(File.Exists) ?? candidates.Last();
+            return candidates.FirstOrDefault(File.Exists) ?? candidates[0];
         }
 
         internal static async Task ExitGestureSignAsync()
@@ -741,7 +770,7 @@ namespace GestureSign.Daemon
 
             try
             {
-                await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.ControlPanel, wait: false);
+                await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.Settings, wait: false);
             }
             catch (Exception exception)
             {
@@ -858,7 +887,7 @@ namespace GestureSign.Daemon
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
                 _touchTrayMenu.UpdateItems(
                     _disableGesturesMenuItem.Text,
-                    LocalizationProvider.Instance.GetTextValue("TrayMenu.ControlPanel"),
+                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
                     LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
         }
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="繁體中文（台灣）" Culture="zh-TW" Version="0.14">
+  <Messages>
+    <Error>錯誤</Error>
+    <ContactCountError>無法取得觸控點數量！請嘗試重新安裝裝置驅動程式。</ContactCountError>
+    <ComponentNotFoundMessage>找不到元件 {0}，請重新下載或安裝 GestureSign。</ComponentNotFoundMessage>
+  </Messages>
+  <TrayMenu>
+    <Disable>關閉手勢辨識</Disable>
+    <Enable>啟用手勢辨識</Enable>
+    <Settings>設定</Settings>
+    <Exit>結束</Exit>
+  </TrayMenu>
+</Language>
