@@ -50,7 +50,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4";
+    private const string AppVersion = "16.4.17";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -1962,11 +1962,36 @@ public sealed partial class MainWindow : Window
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
         content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), Margin = new Thickness(0, 12, 0, 0) });
-        content.Children.Add(new TextBlock { Text = $"WinUI 3 前端重构预览\n版本：{AppVersion}", Opacity = 0.72, Margin = new Thickness(0, 4, 0, 0) });
-        content.Children.Add(new TextBlock { Text = "作者: TransposonY\n发现问题或建议欢迎反馈: 553078206@qq.com\nQQ 交流群: 576981420", TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 0) });
-        content.Children.Add(NewSmallCommandBar(["打开官网", "Windows 应用商店版", "发送反馈", "查看日志"]));
+        content.Children.Add(new TextBlock
+        {
+            Text = $"{L("WinUI3重构", "WinUI 3 Rebuild", "WinUI3重構", "WinUI 3 再構築", "WinUI 3 재구축")}\n{L("版本", "Version", "版本", "バージョン", "버전")}：{AppVersion}",
+            Opacity = 0.72,
+            Margin = new Thickness(0, 4, 0, 0)
+        });
+        content.Children.Add(new TextBlock
+        {
+            Text = L(
+                "作者：风夏\nQQ 交流群：1054687130\n发现问题或建议欢迎反馈：z1021847549@outlook.com",
+                "Author: 风夏\nQQ group: 1054687130\nFeedback: z1021847549@outlook.com",
+                "作者：风夏\nQQ 交流群：1054687130\n問題或建議請回饋至：z1021847549@outlook.com",
+                "作者：风夏\nQQ グループ：1054687130\n問題や提案：z1021847549@outlook.com",
+                "작성자: 风夏\nQQ 그룹: 1054687130\n문제 및 제안: z1021847549@outlook.com"),
+            TextWrapping = TextWrapping.Wrap,
+            Margin = new Thickness(0, 16, 0, 0)
+        });
+        content.Children.Add(NewSmallCommandBar([
+            L("打开官网", "Open website", "開啟官網", "公式サイト", "웹사이트 열기"),
+            L("Windows 应用商店版", "Microsoft Store", "Microsoft Store 版本", "Microsoft Store", "Microsoft Store"),
+            L("发送反馈", "Send feedback", "傳送回饋", "フィードバック", "피드백 보내기"),
+            L("查看日志", "View logs", "檢視記錄", "ログを表示", "로그 보기")
+        ]));
         root.Children.Add(NewCard(content));
-        root.Children.Add(NewInfoCard("Project Page", "https://github.com/TransposonY/GestureSign", "Thanks: highsign, MahApps.Metro, WGestures."));
+        root.Children.Add(NewInfoCard(
+            L("项目页面", "Project Pages", "專案頁面", "プロジェクトページ", "프로젝트 페이지"),
+            $"GestureSign V2: https://github.com/Tomclanc/GestureSignv2\n" +
+            $"{L("原始项目（TransposonY）", "Original project (TransposonY)", "原始專案（TransposonY）", "オリジナル（TransposonY）", "원본 프로젝트 (TransposonY)")}: https://github.com/TransposonY/GestureSign\n" +
+            "Kando (Simon Schneegans): https://github.com/kando-menu/kando",
+            "Thanks: highsign, MahApps.Metro, WGestures."));
         return root;
     }
 
@@ -2380,10 +2405,30 @@ public sealed partial class MainWindow : Window
                     await DownloadSharedSettingsAsync();
                     break;
                 case "查看日志":
+                case "View logs":
+                case "檢視記錄":
+                case "ログを表示":
+                case "로그 보기":
                     await ShowLogAsync();
                     break;
                 case "发送反馈":
+                case "Send feedback":
+                case "傳送回饋":
+                case "フィードバック":
+                case "피드백 보내기":
                     await SendFeedbackAsync();
+                    break;
+                case "打开官网":
+                case "Open website":
+                case "開啟官網":
+                case "公式サイト":
+                case "웹사이트 열기":
+                    Process.Start(new ProcessStartInfo("https://github.com/Tomclanc/GestureSignv2") { UseShellExecute = true });
+                    break;
+                case "Windows 应用商店版":
+                case "Microsoft Store":
+                case "Microsoft Store 版本":
+                    Process.Start(new ProcessStartInfo("ms-windows-store://pdp/?productid=9P2WKMHF43PN") { UseShellExecute = true });
                     break;
                 default:
                     break;
@@ -5357,7 +5402,7 @@ public sealed partial class MainWindow : Window
     {
         var logPath = Path.Combine(_legacyData.LocalPath, "GestureSign.log");
         var body = File.Exists(logPath) ? Uri.EscapeDataString($"请描述问题:%0D%0A%0D%0A日志路径: {logPath}") : Uri.EscapeDataString("请描述问题:");
-        Process.Start(new ProcessStartInfo($"mailto:553078206@qq.com?subject=GestureSign%20Feedback&body={body}") { UseShellExecute = true });
+        Process.Start(new ProcessStartInfo($"mailto:z1021847549@outlook.com?subject=GestureSign%20V2%20Feedback&body={body}") { UseShellExecute = true });
         await ShowInfoDialog("反馈", "已打开默认邮件客户端；日志路径也已写入邮件正文。");
     }
 
@@ -6033,7 +6078,7 @@ public sealed partial class MainWindow : Window
     {
         var content = NewCardPanel();
         content.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
-        content.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.72 });
+        content.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.72, TextWrapping = TextWrapping.Wrap });
         content.Children.Add(new TextBlock { Text = detail, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
         return NewCard(content);
     }

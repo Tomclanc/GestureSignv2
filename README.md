@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.17">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,14 +56,20 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.17) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.16-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.16/GestureSign-V2-16.4.16-x64.msi)
-- [GestureSign-V2-16.4.16-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.16/GestureSign-V2-16.4.16-portable-x64.zip)
+- [GestureSign-V2-16.4.17-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.17/GestureSign-V2-16.4.17-x64.msi)
+- [GestureSign-V2-16.4.17-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.17/GestureSign-V2-16.4.17-portable-x64.zip)
 
 ## 更新内容
+
+### 16.4.17
+
+- 更新“关于”页面，维护者信息改为“风夏”，并显示完整版本号 `16.4.17`。
+- 将版本说明统一为“WinUI3重构”，更新 QQ 交流群为 `1054687130`，反馈邮箱为 `z1021847549@outlook.com`。
+- 项目页面补充 GestureSign V2 当前仓库、TransposonY 原始项目及 Kando 项目链接，并保留 highsign、MahApps.Metro、WGestures 致谢信息。
 
 ### 16.4.16
 
