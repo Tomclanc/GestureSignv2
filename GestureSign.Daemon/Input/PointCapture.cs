@@ -273,7 +273,7 @@ namespace GestureSign.Daemon.Input
             if (Mode == CaptureMode.Training || points == null || points.Count == 0)
                 return;
 
-            var gestureName = GestureManager.Instance.PreviewGestureName(points.Select(stroke => stroke.ToArray()).ToArray());
+            var gestureName = PreviewActionGestureName(points);
             if (string.IsNullOrWhiteSpace(gestureName))
                 return;
 
@@ -290,6 +290,22 @@ namespace GestureSign.Daemon.Input
 
             _liveGestureHintName = action.Name;
             _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name);
+        }
+
+        private static string PreviewActionGestureName(IEnumerable<List<Point>> points)
+        {
+            var pointArray = points?.Select(stroke => stroke?.ToArray() ?? Array.Empty<Point>()).ToArray();
+            if (pointArray == null || pointArray.Length == 0)
+                return null;
+
+            var actionGestureNames = ApplicationManager.Instance
+                .GetRecognizedDefinedAction(action => !string.IsNullOrWhiteSpace(action.GestureName))
+                .Select(action => action.GestureName)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+
+            return GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames)
+                   ?? GestureManager.Instance.PreviewGestureName(pointArray);
         }
 
         private static int CountGesturePoints(IEnumerable<List<Point>> points)
@@ -680,6 +696,18 @@ namespace GestureSign.Daemon.Input
 
         private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)
         {
+            var actionGestureName = PreviewActionGestureName(points);
+            if (!string.IsNullOrWhiteSpace(actionGestureName) &&
+                ApplicationManager.Instance.GetRecognizedDefinedAction(actionGestureName)?.Any() == true)
+            {
+                if (!string.Equals(actionGestureName, recognizedGestureName, StringComparison.OrdinalIgnoreCase))
+                {
+                    Logging.LogMessage($"Gesture action-aware match applied. Original={recognizedGestureName ?? "(null)"}, Preferred={actionGestureName}");
+                }
+
+                return actionGestureName;
+            }
+
             if (string.IsNullOrWhiteSpace(_fallbackGestureName))
                 return recognizedGestureName;
 

@@ -394,6 +394,71 @@ namespace GestureSign.Common.Gestures
             return GetGestureSetNameMatch(points, sourceGesture, _gestureLevel, out _);
         }
 
+        public string PreviewGestureName(Point[][] points, IEnumerable<string> preferredGestureNames)
+        {
+            if (preferredGestureNames == null)
+                return null;
+
+            var preferredNames = new HashSet<string>(
+                preferredGestureNames.Where(name => !string.IsNullOrWhiteSpace(name)),
+                StringComparer.OrdinalIgnoreCase);
+            if (preferredNames.Count == 0)
+                return null;
+
+            var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
+            var preferredGestures = sourceGesture?
+                .Where(gesture => preferredNames.Contains(gesture.Name))
+                .ToList();
+
+            var gestureName = GetGestureSetNameMatch(points, preferredGestures, _gestureLevel, out _);
+            if (string.IsNullOrWhiteSpace(gestureName))
+                return null;
+
+            var matchedGesture = preferredGestures?
+                .FirstOrDefault(gesture => string.Equals(gesture.Name, gestureName, StringComparison.OrdinalIgnoreCase));
+            if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= _gestureLevel)
+                return null;
+
+            return HasComparableShapeExtents(points, matchedGesture.PointPatterns[_gestureLevel].Points)
+                ? gestureName
+                : null;
+        }
+
+        private static bool HasComparableShapeExtents(Point[][] captured, Point[][] template)
+        {
+            if (captured == null || template == null || captured.Length != template.Length)
+                return false;
+
+            for (var index = 0; index < captured.Length; index++)
+            {
+                var capturedBalance = GetAxisBalance(captured[index]);
+                var templateBalance = GetAxisBalance(template[index]);
+                var largerBalance = Math.Max(capturedBalance, templateBalance);
+
+                // Straight strokes have almost no movement on their minor axis. If either
+                // shape has a meaningful second axis (for example an L turn), require the
+                // other shape to preserve enough of that turn instead of matching a scroll.
+                if (largerBalance >= 0.18 &&
+                    Math.Min(capturedBalance, templateBalance) / largerBalance < 0.45)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private static double GetAxisBalance(Point[] points)
+        {
+            if (points == null || points.Length < 2)
+                return 0;
+
+            var width = points.Max(point => point.X) - points.Min(point => point.X);
+            var height = points.Max(point => point.Y) - points.Min(point => point.Y);
+            var majorExtent = Math.Max(width, height);
+            return majorExtent <= 0 ? 0 : (double)Math.Min(width, height) / majorExtent;
+        }
+
         public string GetMostSimilarGestureName(IGesture gesture)
         {
             return GetMostSimilarGestureName(gesture.PointPatterns);

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.17">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,14 +56,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.17) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.17-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.17/GestureSign-V2-16.4.17-x64.msi)
-- [GestureSign-V2-16.4.17-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.17/GestureSign-V2-16.4.17-portable-x64.zip)
+- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
+- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
+- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.19
+
+- 手势识别会优先匹配当前应用中实际绑定了动作的手势，改善便签、微信图片和微信小程序等窗口中相似手势难以触发的问题。
+- 为应用优先匹配增加横纵形状比例校验，防止双指垂直滚动被误识别为“向右再向上”等 L 形浏览器手势。
+- 应用内版本、MSI 构建版本和 MSIX 包版本统一更新为 `16.4.19`。
 
 ### 16.4.17
 
@@ -245,7 +252,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 也可以手动下载安装包：
 
-1. 下载 MSI 安装包。
+1. 下载 MSI 或 MSIX 安装包。
 2. 双击安装，按提示完成安装。
 3. 从桌面快捷方式或开始菜单打开 `GestureSign V2`。
 4. 在“动作”页面启用手势识别，并按需添加程序、手势和命令。
@@ -336,12 +343,18 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19).
 
 Current version:
 
-- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
-- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
+- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
+- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
+- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
+
+### What's new in 16.4.19
+
+- Prefer gestures that are actually bound to actions in the current app, improving recognition in Sticky Notes, WeChat image windows, and WeChat mini programs.
+- Validate horizontal and vertical shape proportions during app-aware matching so two-finger vertical scrolling no longer triggers right-then-up L-shaped browser gestures.
 
 ## Installation
 
@@ -353,7 +366,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 Manual installation:
 
-1. Download the MSI installer.
+1. Download the MSI or MSIX installer.
 2. Double-click the installer and follow the setup prompts.
 3. Open `GestureSign V2` from the desktop shortcut or Start menu.
 4. Go to the Actions page, enable gesture recognition, and add apps, gestures, and commands as needed.
@@ -450,12 +463,18 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.16) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-x64.msi)
-- [GestureSign-V2-16.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4/GestureSign-V2-16.4-portable-x64.zip)
+- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
+- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
+- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
+
+### 16.4.19 の更新内容
+
+- 現在のアプリで実際にアクションへ割り当てられたジェスチャーを優先し、付箋、WeChat の画像ウィンドウ、ミニプログラムでの認識を改善しました。
+- アプリ優先マッチング時に縦横の形状比率を検証し、2 本指の縦スクロールが右上方向の L 字型ブラウザージェスチャーとして誤認識される問題を修正しました。
 
 ## インストール
 
@@ -467,7 +486,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 手動インストール:
 
-1. MSI インストーラーをダウンロードします。
+1. MSI または MSIX インストーラーをダウンロードします。
 2. インストーラーをダブルクリックし、画面の案内に従ってセットアップを完了します。
 3. デスクトップショートカットまたはスタートメニューから `GestureSign V2` を開きます。
 4. Actions ページでジェスチャー認識を有効にし、必要に応じてアプリ、ジェスチャー、コマンドを追加します。
