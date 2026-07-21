@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,10 @@ namespace GestureSign.Common.Applications
         private List<IApplication> _applications;
         IEnumerable<IApplication> _recognizedApplication;
         private Timer _timer;
+        private SystemWindow _recentClashPartyWindow;
+        private DateTime _recentClashPartyWindowUtc;
+        private SystemWindow _lastObservedForegroundWindow;
+        private const int ClashPartyTargetGraceMilliseconds = 3000;
         private static readonly string[] BrowserExecutableAliases =
         {
             "MicrosoftEdge",
@@ -86,6 +91,7 @@ namespace GestureSign.Common.Applications
         {
             // Load applications from disk, if file couldn't be loaded, create an empty applications list
             LoadingTask = LoadApplications();
+            ObserveForegroundWindow(SystemWindow.ForegroundWindow);
         }
 
         #endregion
@@ -110,7 +116,7 @@ namespace GestureSign.Common.Applications
                 }
             }
 
-            CaptureWindow = GetWindowFromPoint(e.FirstCapturedPoints.FirstOrDefault());
+            CaptureWindow = ResolveCaptureWindow(pointCapture, e.FirstCapturedPoints.FirstOrDefault());
             _recognizedApplication = GetApplicationFromWindow(CaptureWindow);
 
             int maxThreshold = 0, maxLimitNumber = 1;
@@ -123,6 +129,7 @@ namespace GestureSign.Common.Applications
                         maxLimitNumber = a.LimitNumberOfFingers > maxLimitNumber ? a.LimitNumberOfFingers : maxLimitNumber;
                         if ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(e.FirstCapturedPoints.FirstOrDefault()))
                         {
+                            Logging.LogMessage($"Gesture capture rejected by application filter. Reason=FullscreenIgnored, Application={a.Name}, Contacts={e.Points.Count}");
                             e.Cancel = true;
                             return;
                         }
@@ -134,6 +141,7 @@ namespace GestureSign.Common.Applications
                     case IgnoredApp a:
                         if (a.IsEnabled)
                         {
+                            Logging.LogMessage($"Gesture capture rejected by application filter. Reason=IgnoredApplication, Application={a.Name}, Contacts={e.Points.Count}, Window={CaptureWindow?.HWnd}");
                             e.Cancel = true;
                             return;
                         }
@@ -143,11 +151,21 @@ namespace GestureSign.Common.Applications
                 }
             }
             e.Cancel = (pointCapture.SourceDevice & Devices.TouchDevice) != 0 && (e.Points.Count < maxLimitNumber);
+            if (e.Cancel)
+                Logging.LogMessage($"Gesture capture rejected by application filter. Reason=FingerLimit, Contacts={e.Points.Count}, Required={maxLimitNumber}, Applications={string.Join(",", _recognizedApplication.Select(app => app.Name))}");
             e.BlockTouchInputThreshold = maxThreshold;
         }
 
         protected void PointCapture_BeforePointsCaptured(object sender, PointsCapturedEventArgs e)
         {
+            var pointCapture = (IPointCapture)sender;
+            if (pointCapture.SourceDevice == Devices.TouchPad)
+            {
+                CaptureWindow = ResolveCaptureWindow(pointCapture, e.FirstCapturedPoints.FirstOrDefault());
+                _recognizedApplication = GetApplicationFromWindow(CaptureWindow);
+                return;
+            }
+
             var appsToMatch = Applications.Where(a => a is UserApp && a.MatchActivated);
             if (appsToMatch.Any())
             {
@@ -164,7 +182,7 @@ namespace GestureSign.Common.Applications
             }
 
             // Derive capture window from capture point
-            CaptureWindow = GetWindowFromPoint(e.FirstCapturedPoints.FirstOrDefault());
+            CaptureWindow = ResolveCaptureWindow(pointCapture, e.FirstCapturedPoints.FirstOrDefault());
             _recognizedApplication = GetApplicationFromWindow(CaptureWindow);
             if (RecognizedOnlyGlobal(_recognizedApplication))
             {
@@ -313,7 +331,97 @@ namespace GestureSign.Common.Applications
 
         public SystemWindow GetWindowFromPoint(Point point)
         {
-            return SystemWindow.FromPointEx(point.X, point.Y, true, true);
+            var pointWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+            if (!IsDesktopShellSurface(pointWindow))
+                return pointWindow;
+
+            var topLevelWindow = FindVisibleTopLevelWindowAtPoint(point);
+            if (topLevelWindow != null)
+            {
+                Logging.LogMessage($"Window hit-test corrected. Reason=VisibleTopLevelOverDesktop, PointHwnd={pointWindow?.HWnd}, TargetHwnd={topLevelWindow.HWnd}");
+                return topLevelWindow;
+            }
+
+            return pointWindow;
+        }
+
+        public void ObserveForegroundWindow(SystemWindow window)
+        {
+            if (window == null || window.HWnd == IntPtr.Zero)
+                return;
+
+            // Electron applications may hide their browser window as soon as a
+            // global mouse gesture begins. Preserve the previous Clash Party HWND
+            // when WinEvent reports that the foreground changed to the shell.
+            if (IsDesktopShellSurface(window) && IsClashPartyWindow(_lastObservedForegroundWindow))
+            {
+                _recentClashPartyWindow = _lastObservedForegroundWindow;
+                _recentClashPartyWindowUtc = DateTime.UtcNow;
+                Logging.LogMessage($"Clash Party foreground target cached. Hwnd={_recentClashPartyWindow.HWnd}, Reason=ForegroundChangedToShell");
+            }
+
+            _lastObservedForegroundWindow = window;
+        }
+
+        private static SystemWindow FindVisibleTopLevelWindowAtPoint(Point point)
+        {
+            var currentProcessId = Process.GetCurrentProcess().Id;
+            foreach (var window in SystemWindow.AllToplevelWindows)
+            {
+                try
+                {
+                    if (window == null ||
+                        window.HWnd == IntPtr.Zero ||
+                        !window.Visible ||
+                        window.ProcessId == currentProcessId ||
+                        IsShellHitTestSurface(window) ||
+                        !GetPhysicalWindowRectangle(window).Contains(point))
+                    {
+                        continue;
+                    }
+
+                    return window;
+                }
+                catch
+                {
+                    // A protected or disappearing top-level window should not abort
+                    // hit testing for the remaining windows.
+                }
+            }
+
+            return null;
+        }
+
+        private static Rectangle GetPhysicalWindowRectangle(SystemWindow window)
+        {
+            const int dwmwaExtendedFrameBounds = 9;
+            if (DwmGetWindowAttribute(window.HWnd, dwmwaExtendedFrameBounds, out DwmRect rect, Marshal.SizeOf(typeof(DwmRect))) == 0 &&
+                rect.Right > rect.Left && rect.Bottom > rect.Top)
+            {
+                return Rectangle.FromLTRB(rect.Left, rect.Top, rect.Right, rect.Bottom);
+            }
+
+            return window.Rectangle.ToRectangle();
+        }
+
+        private static bool IsShellHitTestSurface(SystemWindow window)
+        {
+            if (window == null)
+                return false;
+
+            try
+            {
+                var className = window.ClassName;
+                return string.Equals(className, "Progman", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "WorkerW", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "SHELLDLL_DefView", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "Shell_SecondaryTrayWnd", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public IApplication[] GetApplicationFromWindow(SystemWindow window, bool userApplicationOnly = false)
@@ -623,6 +731,89 @@ namespace GestureSign.Common.Applications
                    string.Equals(className, "Progman", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(className, "WorkerW", StringComparison.OrdinalIgnoreCase) ||
                    string.Equals(className, "SHELLDLL_DefView", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private SystemWindow ResolveCaptureWindow(IPointCapture pointCapture, Point capturePoint)
+        {
+            var pointWindow = GetWindowFromPoint(capturePoint);
+
+            // Touchpad gestures target the active application; the cursor can be
+            // parked over an unrelated taskbar or tray surface.
+            if (pointCapture.SourceDevice == Devices.TouchPad)
+                return SystemWindow.ForegroundWindow ?? pointWindow;
+
+            // Clash Party can expose a click-through/elevated Electron surface to a
+            // normal mouse-hook process, making WindowFromPoint report Progman even
+            // while Clash Party is the active window. Keep this fallback deliberately
+            // narrow so drawing on the desktop cannot close an arbitrary foreground app.
+            if (pointCapture.SourceDevice == Devices.Mouse &&
+                IsDesktopShellSurface(pointWindow))
+            {
+                var foregroundWindow = SystemWindow.ForegroundWindow;
+                if (IsClashPartyWindow(foregroundWindow))
+                {
+                    _recentClashPartyWindow = foregroundWindow;
+                    _recentClashPartyWindowUtc = DateTime.UtcNow;
+                    Logging.LogMessage($"Gesture capture target corrected. Reason=ClashPartyShellHit, PointHwnd={pointWindow?.HWnd}, ForegroundHwnd={foregroundWindow.HWnd}");
+                    return foregroundWindow;
+                }
+
+                var recentAge = DateTime.UtcNow - _recentClashPartyWindowUtc;
+                if (_recentClashPartyWindow != null &&
+                    recentAge.TotalMilliseconds >= 0 &&
+                    recentAge.TotalMilliseconds <= ClashPartyTargetGraceMilliseconds &&
+                    IsClashPartyWindow(_recentClashPartyWindow))
+                {
+                    Logging.LogMessage($"Gesture capture target corrected. Reason=ClashPartyRecentShellHit, PointHwnd={pointWindow?.HWnd}, CachedHwnd={_recentClashPartyWindow.HWnd}, AgeMs={recentAge.TotalMilliseconds:0}");
+                    return _recentClashPartyWindow;
+                }
+
+                if (recentAge.TotalMilliseconds > ClashPartyTargetGraceMilliseconds)
+                    _recentClashPartyWindow = null;
+            }
+
+            return pointWindow;
+        }
+
+        private static bool IsDesktopShellSurface(SystemWindow window)
+        {
+            if (window == null)
+                return false;
+
+            try
+            {
+                var className = window.ClassName;
+                return string.Equals(className, "Progman", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "WorkerW", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(className, "SHELLDLL_DefView", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsClashPartyWindow(SystemWindow window)
+        {
+            if (window == null || window.HWnd == IntPtr.Zero)
+                return false;
+
+            try
+            {
+                var processName = window.Process?.ProcessName;
+                if (string.Equals(processName, "Clash Party", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            catch { }
+
+            try
+            {
+                return string.Equals(window.Title?.Trim(), "Clash Party", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -976,6 +1167,18 @@ namespace GestureSign.Common.Applications
 
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out DwmRect value, int valueSize);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct DwmRect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
 
         #endregion
     }

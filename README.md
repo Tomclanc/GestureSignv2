@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,15 +56,133 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
-- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
-- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
+- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
+- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
+- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.45
+
+- 在新增、编辑动作和边缘命令时，为“智能关闭”显示使用说明：部分窗口需要先切换到前台；关闭高权限程序时，以管理员身份运行 GestureSign V2 效果更好。
+
+### 16.4.44
+
+- 修复 Clash Party 上绘制手势时，目标窗口被 Windows 错报为 `TopLevelWindowForOverflowXamlIsland`，导致智能关闭连续命中资源管理器、需要多次尝试的问题；仅在手势起点位于唯一可见的 Clash Party 主窗口内时纠偏。
+- 管理员运行后台时直接向 Clash Party 发送 Alt+F4，不再额外启动一次性 UIAccess 助手。
+- 移除 16.4.42–16.4.43 的常驻 UIAccess 输入通道与自动重启逻辑，恢复为不常驻辅助进程的稳定路径；同时保留配置未变化时不重装鼠标钩子的修复。
+
+### 16.4.43
+
+- 为常驻 UIAccess 输入助手增加监督与自动重启：鼠标管道断开或助手异常退出后，主进程会记录退出状态并重新创建助手。
+- 修复助手静默退出后 Clash Party 重新丢失移动/抬起事件、快捷键通道回退到普通权限发送的问题。
+
+### 16.4.42
+
+- 借鉴 FastGestures 的 UIAccess + `SendInput` 路径，新增常驻 UIAccess 快捷键通道，将目标窗口和按键组合通过本地命名管道交给已签名助手执行。
+- 普通“发送快捷键”、内置快捷键和“智能关闭”优先使用常驻助手，避免 Clash Party 等受保护窗口拒绝普通权限进程注入的按键。
+- 常驻通道不可用时自动退回原有快捷键发送及一次性 Alt+F4 助手，不影响启动初期或非打包环境。
+
+### 16.4.41
+
+- 被动 UIAccess 鼠标中继扩展到本地和远程桌面会话，让 Clash Party 在电脑前直接操作时也能补齐移动与抬起事件。
+- 配置内容未改变时不再重复卸载和安装鼠标钩子，避免设置界面的周期刷新打断正在绘制的手势。
+- 保持父进程监视计时器存活，确保主进程退出后中继助手同步退出，不留下后台残留进程。
+
+### 16.4.40
+
+- 通过 Windows Shell 启动已签名的 UIAccess 被动中继，修复普通启动方式被系统拒绝的问题。
+
+### 16.4.39
+
+- 新增仅在远程桌面会话启用的被动 UIAccess 鼠标中继，用于补齐 Clash Party 等受保护窗口上缺失的右键手势轨迹。
+- 中继只观察并转发输入，永不拦截鼠标消息；主 GestureSign 进程继续保持普通权限，避免影响 RDP 输入。
+- 普通低级鼠标钩子仍是主通道，中继事件仅在主通道没有开始捕捉时接管，避免普通程序重复触发。
+
+### 16.4.38
+
+- 修复 RDP 注入的右键不更新 `GetAsyncKeyState`，导致鼠标轮询在按下后立即误判松开、远程右键轨迹只剩 1–2 个点的问题。远程会话恢复使用原有低级钩子路径，轮询补点仅用于本机控制台会话。
+- 本地轮询只有先观察到真实按下状态后才允许补充松开事件，避免对合成输入制造额外右键点击。
+
+### 16.4.37
+
+- 撤销主后台 UIAccess，避免远程桌面会话中的右键输入被高权限全局钩子长期占用。
+- 普通权限鼠标钩子在高权限窗口上超过 35 毫秒没有移动事件时，改用只读的鼠标位置与按键状态轮询补齐轨迹和松开事件；不阻断或重放 RDP 输入，也不启用触控板指针捕捉层。
+
+### 16.4.36
+
+- 修复普通权限鼠标钩子在轨迹进入高权限 Clash Party 窗口后收不到移动点、手势被当成普通右键的问题。MSIX 后台使用已签名的 UIAccess 清单读取鼠标轨迹，同时继续采用普通 Release 编译并保持 UIAccess 指针捕捉层关闭，避免再次影响触控板录制与识别。
+
+### 16.4.35
+
+- 修复高 DPI 屏幕上鼠标手势使用物理像素坐标、而普通 Win32 窗口矩形被 DPI 虚拟化，导致 Clash Party 等透明/高权限窗口命中范围偏移的问题。桌面壳层回退现在使用 DWM 扩展边框的物理像素坐标。
+- 智能关闭命中桌面时，如果系统中恰好只有一个可见且标题、窗口类、进程名均匹配的 Clash Party 主窗口，则只对本次智能关闭恢复该目标；不会影响其他手势，也不会选中隐藏的托盘窗口。
+
+### 16.4.34
+
+- 针对 Clash Party 不触发正常前台切换、而是在手势开始时直接隐藏 Electron 主窗口的情况，新增窗口隐藏事件监听；仅缓存标题和窗口类同时匹配的 Clash Party 主窗口，避免误用托盘、渲染器或输入法子窗口。
+
+### 16.4.33
+
+- 修复 Clash Party 在开始鼠标手势时立即隐藏 Electron 主窗口，导致目标退化为桌面、智能关闭失效的问题。后台现在会观察前台窗口切换，并在 Clash Party 切换到桌面壳层的瞬间保留原窗口句柄供本次手势使用。
+
+### 16.4.32
+
+- 统一修复 Clash Party 等透明或高权限窗口的命中：当 Windows 返回桌面壳层时，后台手势与 WinUI 窗口拾取都会按 Z 顺序寻找鼠标坐标下真正可见的顶层窗口。
+- 运行中程序列表改为逐进程容错读取；无法取得完整路径时回退为 `进程名.exe`，并取消数量截断。
+- 新增程序分组使用 exe 匹配时不再允许保存空的匹配内容，避免生成永远无法命中的程序分组。
+
+### 16.4.31
+
+- Clash Party 的鼠标绘制手势在首次确认前台窗口后保留 3 秒稳定目标，避免右键短捕捉让桌面夺走前台、导致随后完成的智能关闭手势再次落到 `Progman`。
+
+### 16.4.30
+
+- 修复在 Clash Party 前台使用鼠标绘制手势时，Electron 窗口被命中为桌面 `Progman/WorkerW`、导致智能关闭被安全跳过的问题；该回退仅对前台 Clash Party 生效，不改变普通桌面手势的目标选择。
+
+### 16.4.29
+
+- 触控板手势改为锁定手势开始时的前台窗口，不再因鼠标停在任务栏、托盘或溢出面板上而把“智能关闭”发送给 Windows Shell。
+- 仅为绑定“智能关闭”的 L 形手势增加有限识别容差；普通手势仍使用原阈值，并继续校验横纵转角比例，降低双指滚动误触风险。
+- “智能关闭”不再重新激活可能过期的捕捉窗口，改善 Clash Party 和 Windows Terminal 的触发稳定性。
+
+### 16.4.28
+
+- 恢复 16.4.21 的普通 Release 手势捕捉后台；仅在关闭 Clash Party 时启动一次性、已签名的 UIAccess 快捷键助手，避免 UIAccess 捕捉路径影响触控板录制和识别。
+- 移除 VS Code 智能关闭中的 UI Automation 遍历，改用轻量标题回退判断，避免外部窗口检查拖住动作线程。
+- 手势在开始阶段被取消时记录具体原因，包括忽略程序、全屏排除和触点数量限制。
+- 重新生成 MSIX 方形及商店图标资源，修复任务管理器应用分组图标缺失。
+
+### 16.4.27
+
+- 修复一次智能关闭卡在目标窗口重新定位或标题读取后，后续所有手势动作都排队失效的问题。智能关闭现在直接使用手势开始时捕获的稳定窗口句柄，只在 VS Code 判定需要时读取标题。
+
+### 16.4.26
+
+- 修复 UIAccess 版本启动后双指手势偶发被捕捉层提前取消、或绘制的 L 手势被误识别为其他手势的问题。
+- 后台改为使用普通 Release 的稳定触控捕捉路径，同时在打包阶段嵌入并签名 UIAccess 清单；继续支持向高权限 Clash Party 发送 `Alt+F4`，且不再启用会干扰触控板识别的指针输入目标窗口。
+
+### 16.4.25
+
+- Clash Party 的“智能关闭”固定使用 `Alt+F4`，撤销与其 Electron 关闭逻辑不兼容的窗口消息方案；配合签名 UIAccess 后台，可向高权限 Clash Party 窗口发送真实关闭快捷键。
+
+### 16.4.24
+
+- MSIX 后台改用项目原有的 UIAccess 发布配置并进行可执行文件签名，使手势命令可以控制 Clash Party 等以高权限运行的窗口。
+
+### 16.4.22
+
+- 修复 VS Code 只剩空编辑区时“智能关闭”仍发送 `Ctrl+W`、无法关闭窗口的问题：有编辑器标签时发送 `Ctrl+W`，没有编辑器标签时发送 `Ctrl+Shift+W`。
+- VS Code 的标签判定只在执行“智能关闭”时进行一次；其他程序仍沿用进程名和窗口类的快速判定，不采用连续发送两个关闭快捷键的方式。
+
+### 16.4.21
+
+- 修复 MSIX 安装版内置 Kando 在任务栏错误显示 GestureSign 图标的问题；Kando 窗口现在使用独立的 `menu.kando.Kando` 身份和自身原生图标。
+- 新增“智能关闭”命令：浏览器、资源管理器、微信等使用 `Ctrl+W`，Windows Terminal 使用 `Ctrl+Shift+W`，Excel、Windows 设置及其他程序使用 `Alt+F4`。
 
 ### 16.4.19
 
@@ -343,18 +461,20 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45).
 
 Current version:
 
-- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
-- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
-- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
+- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
+- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
+- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
 
-### What's new in 16.4.19
+### What's new in 16.4.45
 
-- Prefer gestures that are actually bound to actions in the current app, improving recognition in Sticky Notes, WeChat image windows, and WeChat mini programs.
-- Validate horizontal and vertical shape proportions during app-aware matching so two-finger vertical scrolling no longer triggers right-then-up L-shaped browser gestures.
+- Added Smart Close, which quickly selects Ctrl+W, Ctrl+Shift+W, or Alt+F4 for browsers, File Explorer, WeChat, Windows Terminal, VS Code, and standard desktop windows.
+- Improved target recovery and gesture capture for Clash Party, protected windows, touchpads, mouse gestures, and Remote Desktop sessions without keeping a privileged input helper running.
+- Added an in-app Smart Close note explaining foreground-window requirements and when running GestureSign V2 as administrator may help.
+- Restored Kando's own taskbar identity and icon, and refreshed the Store asset set.
 
 ## Installation
 
@@ -463,18 +583,20 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.19) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.19-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-x64.msi)
-- [GestureSign-V2-16.4.19-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19-portable-x64.zip)
-- [GestureSign-V2-16.4.19.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.19/GestureSign-V2-16.4.19.0-x64-store.msix)
+- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
+- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
+- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
 
-### 16.4.19 の更新内容
+### 16.4.45 の更新内容
 
-- 現在のアプリで実際にアクションへ割り当てられたジェスチャーを優先し、付箋、WeChat の画像ウィンドウ、ミニプログラムでの認識を改善しました。
-- アプリ優先マッチング時に縦横の形状比率を検証し、2 本指の縦スクロールが右上方向の L 字型ブラウザージェスチャーとして誤認識される問題を修正しました。
+- ブラウザー、エクスプローラー、WeChat、Windows Terminal、VS Code、通常のデスクトップウィンドウに応じて Ctrl+W、Ctrl+Shift+W、Alt+F4 を選ぶ「スマートクローズ」を追加しました。
+- 常駐する高権限入力ヘルパーを使用せず、Clash Party、高権限ウィンドウ、タッチパッド、マウスジェスチャー、リモートデスクトップでの対象判定と入力取得を改善しました。
+- スマートクローズに、前面ウィンドウへの切り替えと管理者としての実行に関する説明を追加しました。
+- Kando 固有のタスクバー ID とアイコンを復元し、Microsoft Store 用アセットを更新しました。
 
 ## インストール
 

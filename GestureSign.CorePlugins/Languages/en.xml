@@ -160,6 +160,10 @@
       <Name>Maximize or Restore</Name>
       <Description>Maximize or restore current window</Description>
     </MaximizeRestore>
+    <SmartClose>
+      <Name>Smart Close</Name>
+      <Description>Selects Ctrl+W, Ctrl+Shift+W, or Alt+F4 for the current app. Some windows must be brought to the foreground first; running GestureSign V2 as administrator works better with elevated apps.</Description>
+    </SmartClose>
     <Minimize>
       <Name>Minimize</Name>
       <Description>Minimize current window</Description>

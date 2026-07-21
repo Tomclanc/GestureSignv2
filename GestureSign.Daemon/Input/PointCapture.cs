@@ -298,13 +298,27 @@ namespace GestureSign.Daemon.Input
             if (pointArray == null || pointArray.Length == 0)
                 return null;
 
-            var actionGestureNames = ApplicationManager.Instance
-                .GetRecognizedDefinedAction(action => !string.IsNullOrWhiteSpace(action.GestureName))
+            var actions = ApplicationManager.Instance
+                .GetRecognizedDefinedAction(action => !string.IsNullOrWhiteSpace(action.GestureName));
+            var smartCloseGestureNames = actions
+                .Where(action => action.Commands != null && action.Commands.Any(command =>
+                    command != null &&
+                    command.IsEnabled &&
+                    !string.IsNullOrWhiteSpace(command.PluginClass) &&
+                    command.PluginClass.IndexOf("SmartClose", StringComparison.OrdinalIgnoreCase) >= 0))
+                .Select(action => action.GestureName)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
+            var actionGestureNames = actions
                 .Select(action => action.GestureName)
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
 
-            return GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames)
+            // Smart Close is commonly drawn as a compact L. Give only that action a
+            // modest tolerance boost; the axis-balance guard still rejects straight
+            // two-finger scrolling strokes.
+            return GestureManager.Instance.PreviewGestureName(pointArray, smartCloseGestureNames, 74)
+                   ?? GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames)
                    ?? GestureManager.Instance.PreviewGestureName(pointArray);
         }
 
@@ -330,6 +344,7 @@ namespace GestureSign.Daemon.Input
                 {
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
+                    _pointEventTranslator?.Dispose();
                     _pointerInputTargetWindow?.Dispose();
                     _inputProvider?.Dispose();
                     _surfaceForm?.Dispose();
@@ -367,9 +382,12 @@ namespace GestureSign.Daemon.Input
         {
             if (eventType == EVENT_SYSTEM_FOREGROUND || eventType == EVENT_SYSTEM_MINIMIZEEND)
             {
-                if (State != CaptureState.Ready || Mode != CaptureMode.Normal || hwnd.Equals(IntPtr.Zero))
+                if (hwnd.Equals(IntPtr.Zero))
                     return;
                 var systemWindow = new SystemWindow(hwnd);
+                ApplicationManager.Instance.ObserveForegroundWindow(systemWindow);
+                if (State != CaptureState.Ready || Mode != CaptureMode.Normal)
+                    return;
                 if (!systemWindow.Visible)
                     return;
                 var apps = ApplicationManager.Instance.GetApplicationFromWindow(systemWindow);

@@ -11,6 +11,9 @@ using GestureSign.Common.Plugins;
 using GestureSign.Daemon.Input;
 using GestureSign.Daemon.Native;
 using GestureSign.Daemon.Triggers;
+using ManagedWinapi.Windows;
+using WindowsInput;
+using WindowsInput.Native;
 
 namespace GestureSign.Daemon
 {
@@ -20,8 +23,11 @@ namespace GestureSign.Daemon
         /// 应用程序的主入口点。
         /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
+            if (TryRunUiAccessShortcutHelper(args))
+                return;
+
             bool createdNew;
             using (new Mutex(true, Constants.Daemon, out createdNew))
             {
@@ -80,6 +86,34 @@ namespace GestureSign.Daemon
                     NamedPipe.SendMessageAsync(IpcCommands.StartSettings, Constants.Daemon, wait: false).Wait();
                 }
             }
+        }
+
+        private static bool TryRunUiAccessShortcutHelper(string[] args)
+        {
+            if (args == null || args.Length != 2 ||
+                !string.Equals(args[0], "--uiaccess-alt-f4", StringComparison.OrdinalIgnoreCase) ||
+                !long.TryParse(args[1], out var rawWindowHandle))
+            {
+                return false;
+            }
+
+            var windowHandle = new IntPtr(rawWindowHandle);
+            if (windowHandle == IntPtr.Zero)
+                return true;
+
+            try
+            {
+                SystemWindow.ForegroundWindow = new SystemWindow(windowHandle);
+                Thread.Sleep(40);
+                new InputSimulator().Keyboard.ModifiedKeyStroke(VirtualKeyCode.LMENU, VirtualKeyCode.F4);
+            }
+            catch
+            {
+                // The helper is intentionally one-shot. The normal daemon remains alive
+                // even when the target window disappears before the shortcut is sent.
+            }
+
+            return true;
         }
 
         private static void DisableEfficiencyModeForDaemon()

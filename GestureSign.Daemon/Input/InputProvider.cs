@@ -17,6 +17,7 @@ namespace GestureSign.Daemon.Input
         private MessageWindow _messageWindow;
         private CustomNamedPipeServer _deviceStateServer;
         private int _stateUpdating;
+        private MouseActions _hookDrawingButton;
 
         public LowLevelMouseHook LowLevelMouseHook;
         private LowLevelKeyboardHook _keyboardHook;
@@ -29,6 +30,7 @@ namespace GestureSign.Daemon.Input
 
             AppConfig.ConfigChanged += AppConfig_ConfigChanged;
             LowLevelMouseHook = new LowLevelMouseHook();
+            _hookDrawingButton = AppConfig.DrawingButton;
             _keyboardHook = new LowLevelKeyboardHook();
             _keyboardHook.KeyIntercepted += KeyboardHook_KeyIntercepted;
             _keyboardHook.StartHook();
@@ -72,15 +74,23 @@ namespace GestureSign.Daemon.Input
 
         private void AppConfig_ConfigChanged(object sender, System.EventArgs e)
         {
-            if (AppConfig.DrawingButton != MouseActions.None)
+            var drawingButton = AppConfig.DrawingButton;
+            if (drawingButton == _hookDrawingButton)
+            {
+                UpdateDeviceState();
+                return;
+            }
+
+            _hookDrawingButton = drawingButton;
+            if (drawingButton != MouseActions.None)
             {
                 LowLevelMouseHook.StartHook();
-                Logging.LogMessage($"Mouse hook started. Reason=ConfigChanged, DrawingButton={AppConfig.DrawingButton}");
+                Logging.LogMessage($"Mouse hook started. Reason=DrawingButtonChanged, DrawingButton={drawingButton}");
             }
             else
             {
                 LowLevelMouseHook.Unhook();
-                Logging.LogMessage("Mouse hook stopped. Reason=ConfigChanged, DrawingButton=None");
+                Logging.LogMessage("Mouse hook stopped. Reason=DrawingButtonChanged, DrawingButton=None");
             }
 
             UpdateDeviceState();

@@ -332,6 +332,11 @@ namespace GestureSign.Common.Gestures
 
         public string GetGestureSetNameMatch(Point[][] points, List<IGesture> sourceGestures, int sourceGestureLevel, out List<IGesture> matching)//PointF[]
         {
+            return GetGestureSetNameMatch(points, sourceGestures, sourceGestureLevel, out matching, ProbabilityThreshold);
+        }
+
+        private string GetGestureSetNameMatch(Point[][] points, List<IGesture> sourceGestures, int sourceGestureLevel, out List<IGesture> matching, int probabilityThreshold)//PointF[]
+        {
             if (points.Length == 0 || sourceGestures == null || sourceGestures.Count == 0)
             { matching = null; return null; }
             // Update gesture analyzer with latest gestures and get gesture match from current points array
@@ -350,7 +355,7 @@ namespace GestureSign.Common.Gestures
             }
 
             var numbers = Enumerable.Range(0, gestures.Count);
-            numbers = comparisonResults.Aggregate(numbers, (current, matchResultsList) => current.Where(i => matchResultsList[i].Probability > ProbabilityThreshold).ToList());
+            numbers = comparisonResults.Aggregate(numbers, (current, matchResultsList) => current.Where(i => matchResultsList[i].Probability > probabilityThreshold).ToList());
 
             List<IGesture> matchingResult = new List<IGesture>();
             List<KeyValuePair<string, double>> recognizedResult = new List<KeyValuePair<string, double>>();
@@ -396,6 +401,11 @@ namespace GestureSign.Common.Gestures
 
         public string PreviewGestureName(Point[][] points, IEnumerable<string> preferredGestureNames)
         {
+            return PreviewGestureName(points, preferredGestureNames, ProbabilityThreshold);
+        }
+
+        public string PreviewGestureName(Point[][] points, IEnumerable<string> preferredGestureNames, int probabilityThreshold)
+        {
             if (preferredGestureNames == null)
                 return null;
 
@@ -410,7 +420,7 @@ namespace GestureSign.Common.Gestures
                 .Where(gesture => preferredNames.Contains(gesture.Name))
                 .ToList();
 
-            var gestureName = GetGestureSetNameMatch(points, preferredGestures, _gestureLevel, out _);
+            var gestureName = GetGestureSetNameMatch(points, preferredGestures, _gestureLevel, out _, probabilityThreshold);
             if (string.IsNullOrWhiteSpace(gestureName))
                 return null;
 

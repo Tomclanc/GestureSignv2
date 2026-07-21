@@ -16,6 +16,7 @@ using System.IO.Compression;
 using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
+using GestureSign.Shared;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
@@ -50,7 +51,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4.19";
+    private const string AppVersion = "16.4.45";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -518,6 +519,9 @@ public sealed partial class MainWindow : Window
     [DllImport("dwmapi.dll")]
     private static extern int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out RECT rect, int attributeSize);
 
+    [DllImport("dwmapi.dll", EntryPoint = "DwmGetWindowAttribute")]
+    private static extern int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out int value, int attributeSize);
+
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     private static extern int GetWindowText(IntPtr hwnd, StringBuilder text, int maxCount);
 
@@ -530,6 +534,10 @@ public sealed partial class MainWindow : Window
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     private static extern bool EnumChildWindows(IntPtr hwndParent, EnumWindowsProc lpEnumFunc, IntPtr lParam);
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool EnumWindows(EnumWindowsProc lpEnumFunc, IntPtr lParam);
 
     [DllImport("user32.dll")]
     private static extern bool IsWindow(IntPtr hwnd);
@@ -1290,6 +1298,7 @@ public sealed partial class MainWindow : Window
             SelectedIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass)
         };
         AddPluginItems(plugin);
+        var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox
         {
             PlaceholderText = "自定义插件类名",
@@ -1321,9 +1330,13 @@ public sealed partial class MainWindow : Window
                 pluginClass.Text = selectedClass;
 
             if (resetSettings)
+            {
                 settings.Text = PluginSettingsTemplate(pluginClass.Text);
+                UpdateDefaultCommandName(name, pluginClass.Text);
+            }
 
             UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
+            UpdatePluginDescription(pluginDescription, pluginClass.Text);
         }
 
         plugin.SelectionChanged += (_, _) => UpdateEditor(true);
@@ -1331,6 +1344,7 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(8);
         panel.Children.Add(name);
         panel.Children.Add(plugin);
+        panel.Children.Add(pluginDescription);
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
         panel.Children.Add(appPicker);
@@ -2180,16 +2194,33 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewRunningProcessPicker(TextBox name, TextBox matchText, ComboBox matchUsing)
     {
-        var processes = Process.GetProcesses()
-            .Where(process => !string.IsNullOrWhiteSpace(process.ProcessName))
-            .Select(process =>
+        var runningProcesses = new List<RunningProcessInfo>();
+        foreach (var process in Process.GetProcesses())
+        {
+            using (process)
             {
-                var fileName = GetProcessFileName(process);
-                return new RunningProcessInfo(process.ProcessName, string.IsNullOrWhiteSpace(fileName) ? $"{process.ProcessName}.exe" : fileName);
-            })
+                try
+                {
+                    var processName = process.ProcessName;
+                    if (string.IsNullOrWhiteSpace(processName))
+                        continue;
+
+                    var fileName = GetProcessFileName(process);
+                    runningProcesses.Add(new RunningProcessInfo(
+                        processName,
+                        string.IsNullOrWhiteSpace(fileName) ? $"{processName}.exe" : fileName));
+                }
+                catch
+                {
+                    // Protected and short-lived processes should not prevent the rest
+                    // of the running-process list from being displayed.
+                }
+            }
+        }
+
+        var processes = runningProcesses
             .DistinctBy(process => process.FileName, StringComparer.OrdinalIgnoreCase)
             .OrderBy(process => process.Name)
-            .Take(160)
             .ToList();
 
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, Margin = new Thickness(0, 8, 0, 0) };
@@ -2229,6 +2260,12 @@ public sealed partial class MainWindow : Window
             if (info is null)
             {
                 await ShowInfoDialog("拾取失败", "没有拾取到目标窗口。请重新点击拾取，然后在目标窗口上左键单击。");
+                return;
+            }
+
+            if (mode.SelectedIndex == 0 && string.IsNullOrWhiteSpace(info.FileName))
+            {
+                await ShowInfoDialog("读取进程失败", "已经拾取到窗口，但无法读取可执行文件名。请改用标题/类名，或从运行中程序列表选择。");
                 return;
             }
 
@@ -2584,6 +2621,7 @@ public sealed partial class MainWindow : Window
         var commandName = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键", Margin = new Thickness(0, 8, 0, 0) };
         var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(commandPlugin);
+        var commandPluginDescription = NewPluginDescriptionTextBlock();
         var commandPluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
         var commandSettings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var commandHotkey = NewHotKeyRecorder(commandSettings, "");
@@ -2607,6 +2645,7 @@ public sealed partial class MainWindow : Window
             if (!pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(commandSettings.Text))
                 commandSettings.Text = PluginSettingsTemplate(pluginClassValue);
             UpdateCommandEditorVisibility(pluginClassValue, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, pluginClassValue);
             UpdateTypedCommandSettingsEditor(commandTypedSettings, pluginClassValue, commandSettings.Text);
             RefreshCommandPreview();
         }
@@ -2615,7 +2654,9 @@ public sealed partial class MainWindow : Window
             var pluginClassValue = PluginClassFromIndex(commandPlugin.SelectedIndex);
             commandPluginClass.Text = pluginClassValue;
             commandSettings.Text = pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(pluginClassValue);
+            UpdateDefaultCommandName(commandName, pluginClassValue);
             UpdateCommandEditorVisibility(pluginClassValue, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, pluginClassValue);
             UpdateTypedCommandSettingsEditor(commandTypedSettings, pluginClassValue, commandSettings.Text);
             RefreshCommandPreview();
         };
@@ -2623,6 +2664,7 @@ public sealed partial class MainWindow : Window
         commandPluginClass.TextChanged += (_, _) =>
         {
             UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, commandPluginClass.Text);
             UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
             RefreshCommandPreview();
         };
@@ -2638,6 +2680,7 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(new TextBlock { Text = "要执行的命令", Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         panel.Children.Add(commandName);
         panel.Children.Add(commandPlugin);
+        panel.Children.Add(commandPluginDescription);
         panel.Children.Add(commandPluginClass);
         panel.Children.Add(commandHotkey);
         panel.Children.Add(commandAppPicker);
@@ -2957,6 +3000,7 @@ public sealed partial class MainWindow : Window
         var name = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键" };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(plugin);
+        var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, "");
@@ -2969,6 +3013,7 @@ public sealed partial class MainWindow : Window
             if (!pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) && string.IsNullOrWhiteSpace(settings.Text))
                 settings.Text = PluginSettingsTemplate(pluginClassValue);
             UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings, appPicker);
+            UpdatePluginDescription(pluginDescription, pluginClassValue);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         }
         plugin.SelectionChanged += (_, _) =>
@@ -2976,12 +3021,15 @@ public sealed partial class MainWindow : Window
             var pluginClassValue = PluginClassFromIndex(plugin.SelectedIndex);
             pluginClass.Text = pluginClassValue;
             settings.Text = pluginClassValue.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(pluginClass.Text);
+            UpdateDefaultCommandName(name, pluginClassValue);
             UpdateCommandEditorVisibility(pluginClassValue, pluginClass, hotkey, settings, appPicker);
+            UpdatePluginDescription(pluginDescription, pluginClassValue);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         };
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(plugin);
+        panel.Children.Add(pluginDescription);
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
         panel.Children.Add(appPicker);
@@ -3010,6 +3058,7 @@ public sealed partial class MainWindow : Window
         var name = new TextBox { PlaceholderText = "命令名称", Text = command.Name };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
+        var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, command.Settings);
@@ -3022,12 +3071,14 @@ public sealed partial class MainWindow : Window
                 pluginClass.Text = knownClass;
             settings.Text = PluginSettingsTemplate(pluginClass.Text);
             UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
+            UpdatePluginDescription(pluginDescription, pluginClass.Text);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
         };
         var enabled = new CheckBox { Content = "启用", IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(plugin);
+        panel.Children.Add(pluginDescription);
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
         panel.Children.Add(appPicker);
@@ -3035,6 +3086,7 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(settings);
         panel.Children.Add(enabled);
         UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings, appPicker);
+        UpdatePluginDescription(pluginDescription, command.PluginClass);
         UpdateTypedCommandSettingsEditor(typedSettings, command.PluginClass, settings.Text);
         if (!await ConfirmDialogAsync($"编辑命令 {command.Name}", panel, "保存"))
             return;
@@ -3746,6 +3798,7 @@ public sealed partial class MainWindow : Window
             || pluginClass.Contains("NextApplication", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("TouchKeyboard", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("MaximizeRestore", StringComparison.OrdinalIgnoreCase)
+            || pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("Minimize", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("ToggleWindowTopmost", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("ToggleDisableGestures", StringComparison.OrdinalIgnoreCase);
@@ -4481,13 +4534,15 @@ public sealed partial class MainWindow : Window
             if (executablePath is null)
                 return null;
 
-            return Process.Start(new ProcessStartInfo
+            var process = Process.Start(new ProcessStartInfo
             {
                 FileName = executablePath,
                 Arguments = arguments,
                 WorkingDirectory = Path.GetDirectoryName(executablePath) ?? AppContext.BaseDirectory,
                 UseShellExecute = false
             });
+            KandoTaskbarIdentity.ApplyWhenWindowAvailable(executablePath);
+            return process;
         }
         catch
         {
@@ -6961,6 +7016,8 @@ public sealed partial class MainWindow : Window
             return L("触摸键盘", "Touch Keyboard", "觸控鍵盤", "タッチキーボード", "터치 키보드");
         if (pluginClass.Contains("MaximizeRestore", StringComparison.OrdinalIgnoreCase))
             return L("最大化/还原", "Maximize/Restore", "最大化/還原", "最大化/復元", "최대화/복원");
+        if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
+            return L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기");
         if (pluginClass.Contains("Minimize", StringComparison.OrdinalIgnoreCase))
             return L("最小化", "Minimize", "最小化", "最小化", "최소화");
         if (pluginClass.Contains("ToggleWindowTopmost", StringComparison.OrdinalIgnoreCase))
@@ -6972,6 +7029,49 @@ public sealed partial class MainWindow : Window
 
         var lastDot = pluginClass.LastIndexOf('.');
         return lastDot >= 0 && lastDot + 1 < pluginClass.Length ? pluginClass[(lastDot + 1)..] : pluginClass;
+    }
+
+    private void UpdateDefaultCommandName(TextBox commandName, string pluginClass)
+    {
+        var smartCloseName = L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기");
+        var isSmartClose = pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase);
+        if (isSmartClose &&
+            (string.Equals(commandName.Text, "发送快捷键", StringComparison.Ordinal) ||
+             string.Equals(commandName.Text, L("快捷键", "Hotkey", "快速鍵", "ショートカット", "단축키"), StringComparison.Ordinal)))
+        {
+            commandName.Text = smartCloseName;
+        }
+        else if (!isSmartClose && string.Equals(commandName.Text, smartCloseName, StringComparison.Ordinal))
+        {
+            commandName.Text = PluginName(pluginClass);
+        }
+    }
+
+    private static TextBlock NewPluginDescriptionTextBlock()
+        => new()
+        {
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap,
+            Margin = new Thickness(2, 6, 2, 0),
+            Visibility = Visibility.Collapsed
+        };
+
+    private void UpdatePluginDescription(TextBlock description, string pluginClass)
+    {
+        if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
+        {
+            description.Text = L(
+                "根据当前程序选择 Ctrl+W、Ctrl+Shift+W 或 Alt+F4。部分窗口需要先切换到前台；关闭高权限程序时，以管理员身份运行 GestureSign V2 效果更好。",
+                "Selects Ctrl+W, Ctrl+Shift+W, or Alt+F4 for the current app. Some windows must be brought to the foreground first; running GestureSign V2 as administrator works better with elevated apps.",
+                "依目前程式選擇 Ctrl+W、Ctrl+Shift+W 或 Alt+F4。部分視窗需要先切換到前景；關閉高權限程式時，以系統管理員身分執行 GestureSign V2 效果較好。",
+                "現在のアプリに応じて Ctrl+W、Ctrl+Shift+W、Alt+F4 を選択します。一部のウィンドウは先に前面へ切り替える必要があります。管理者権限のアプリには GestureSign V2 を管理者として実行すると安定します。",
+                "현재 앱에 따라 Ctrl+W, Ctrl+Shift+W 또는 Alt+F4를 선택합니다. 일부 창은 먼저 앞으로 전환해야 하며, 관리자 권한 앱에는 GestureSign V2를 관리자 권한으로 실행하는 편이 좋습니다.");
+            description.Visibility = Visibility.Visible;
+            return;
+        }
+
+        description.Text = string.Empty;
+        description.Visibility = Visibility.Collapsed;
     }
 
     private void AddPluginItems(ComboBox plugin)
@@ -6991,6 +7091,7 @@ public sealed partial class MainWindow : Window
         plugin.Items.Add(L("窗口置顶", "Toggle Topmost", "視窗置頂", "最前面表示切替", "항상 위 전환"));
         plugin.Items.Add(L("临时禁用", "Temporarily Disable", "暫時停用", "一時無効化", "임시 비활성화"));
         plugin.Items.Add(L("切换禁用", "Toggle Disable", "切換停用", "無効化切替", "비활성화 전환"));
+        plugin.Items.Add(L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기"));
         plugin.Items.Add(L("自定义插件", "Custom Plugin", "自訂外掛", "カスタムプラグイン", "사용자 지정 플러그인"));
     }
 
@@ -7011,18 +7112,19 @@ public sealed partial class MainWindow : Window
             12 => "GestureSign.CorePlugins.ToggleWindowTopmost",
             13 => "GestureSign.CorePlugins.TemporarilyDisable",
             14 => "GestureSign.CorePlugins.ToggleDisableGestures",
-            15 => "",
+            15 => "GestureSign.CorePlugins.SmartClose",
+            16 => "",
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
-            return 15;
+            return 16;
         if (pluginClass.Contains("PreviousApplication", StringComparison.OrdinalIgnoreCase))
-            return 15;
+            return 16;
         if (pluginClass.Contains("NextApplication", StringComparison.OrdinalIgnoreCase))
-            return 15;
+            return 16;
         if (pluginClass.Contains("Volume", StringComparison.OrdinalIgnoreCase))
             return 1;
         if (pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
@@ -7051,9 +7153,11 @@ public sealed partial class MainWindow : Window
             return 13;
         if (pluginClass.Contains("ToggleDisableGestures", StringComparison.OrdinalIgnoreCase))
             return 14;
+        if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
+            return 15;
         if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
             return 0;
-        return 15;
+        return 16;
     }
 
     private static string PluginSettingsTemplate(string pluginClass)
@@ -7714,8 +7818,70 @@ public sealed partial class MainWindow : Window
             return IntPtr.Zero;
 
         var root = GetAncestor(hwnd, 2);
-        return root == IntPtr.Zero ? hwnd : root;
+        root = root == IntPtr.Zero ? hwnd : root;
+        if (!ShouldUseTopLevelWindowFallback(root))
+            return root;
+
+        var topLevelWindow = FindVisibleTopLevelWindowAtPoint(point);
+        return topLevelWindow == IntPtr.Zero ? root : topLevelWindow;
     }
+
+    private static bool ShouldUseTopLevelWindowFallback(IntPtr hwnd)
+    {
+        if (hwnd == IntPtr.Zero)
+            return true;
+
+        GetWindowThreadProcessId(hwnd, out var processId);
+        if (processId == (uint)Environment.ProcessId)
+            return true;
+
+        var className = new StringBuilder(256);
+        GetClassName(hwnd, className, className.Capacity);
+        return IsShellHitTestClass(className.ToString());
+    }
+
+    private static IntPtr FindVisibleTopLevelWindowAtPoint(NativePoint point)
+    {
+        var result = IntPtr.Zero;
+        EnumWindows((hwnd, _) =>
+        {
+            if (!IsWindowVisible(hwnd) || IsWindowCloaked(hwnd))
+                return true;
+
+            GetWindowThreadProcessId(hwnd, out var processId);
+            if (processId == 0 || processId == (uint)Environment.ProcessId)
+                return true;
+
+            var className = new StringBuilder(256);
+            GetClassName(hwnd, className, className.Capacity);
+            if (IsShellHitTestClass(className.ToString()))
+                return true;
+
+            if (!TryGetVisibleWindowRect(hwnd, out var rect) ||
+                point.X < rect.Left || point.X >= rect.Right ||
+                point.Y < rect.Top || point.Y >= rect.Bottom)
+            {
+                return true;
+            }
+
+            result = hwnd;
+            return false;
+        }, IntPtr.Zero);
+        return result;
+    }
+
+    private static bool IsWindowCloaked(IntPtr hwnd)
+    {
+        const int dwmwaCloaked = 14;
+        return DwmGetWindowAttribute(hwnd, dwmwaCloaked, out int cloaked, sizeof(int)) == 0 && cloaked != 0;
+    }
+
+    private static bool IsShellHitTestClass(string className)
+        => className.Equals("Progman", StringComparison.OrdinalIgnoreCase) ||
+           className.Equals("WorkerW", StringComparison.OrdinalIgnoreCase) ||
+           className.Equals("SHELLDLL_DefView", StringComparison.OrdinalIgnoreCase) ||
+           className.Equals("Shell_TrayWnd", StringComparison.OrdinalIgnoreCase) ||
+           className.Equals("Shell_SecondaryTrayWnd", StringComparison.OrdinalIgnoreCase);
 
     private static PickedWindowInfo? TryPickWindowAtPoint(NativePoint point)
     {

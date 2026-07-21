@@ -161,6 +161,10 @@
       <Name>最大化或还原</Name>
       <Description>最大化或还原当前窗口</Description>
     </MaximizeRestore>
+    <SmartClose>
+      <Name>智能关闭</Name>
+      <Description>根据当前程序选择 Ctrl+W、Ctrl+Shift+W 或 Alt+F4。部分窗口需要先切换到前台；关闭高权限程序时，以管理员身份运行 GestureSign V2 效果更好。</Description>
+    </SmartClose>
     <Minimize>
       <Name>最小化</Name>
       <Description>最小化当前窗口</Description>

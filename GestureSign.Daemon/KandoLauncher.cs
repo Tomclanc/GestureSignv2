@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using GestureSign.Shared;
 
 namespace GestureSign.Daemon
 {
@@ -125,6 +126,7 @@ namespace GestureSign.Daemon
                     UseShellExecute = false,
                     CreateNoWindow = true
                 });
+                KandoTaskbarIdentity.ApplyWhenWindowAvailable(executablePath);
                 return true;
             }
             catch (Exception ex)

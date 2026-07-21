@@ -7,6 +7,7 @@ using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using ManagedWinapi.Hooks;
 using ManagedWinapi.Windows;
+using System.Runtime.InteropServices;
 
 namespace GestureSign.Daemon.Input
 {
@@ -18,6 +19,10 @@ namespace GestureSign.Daemon.Input
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
         private List<RawData> _lastTouchPadRawData;
+        private readonly System.Windows.Forms.Timer _mouseStatePollTimer;
+        private DateTime _lastMouseHookEventUtc;
+        private bool _mousePollingFallbackActive;
+        private bool _mousePollingObservedButtonDown;
 
         internal Devices SourceDevice { get; private set; }
 
@@ -25,10 +30,18 @@ namespace GestureSign.Daemon.Input
         {
             _pressedMouseButton = new HashSet<MouseActions>();
             _touchPadReleaseTimer = new System.Threading.Timer(_ => ReleaseTouchPadIfIdle(), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            _mouseStatePollTimer = new System.Windows.Forms.Timer { Interval = 12 };
+            _mouseStatePollTimer.Tick += (_, __) => PollMouseGestureState();
             inputProvider.PointsIntercepted += TranslateTouchEvent;
             inputProvider.LowLevelMouseHook.MouseDown += LowLevelMouseHook_MouseDown;
             inputProvider.LowLevelMouseHook.MouseMove += LowLevelMouseHook_MouseMove;
             inputProvider.LowLevelMouseHook.MouseUp += LowLevelMouseHook_MouseUp;
+        }
+
+        internal void Dispose()
+        {
+            _mouseStatePollTimer?.Dispose();
+            _touchPadReleaseTimer?.Dispose();
         }
 
         #region Custom Events
@@ -67,6 +80,7 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseUp(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            _lastMouseHookEventUtc = DateTime.UtcNow;
             var button = (MouseActions)mouseMessage.Button;
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
                 return;
@@ -84,10 +98,17 @@ namespace GestureSign.Daemon.Input
                 handled = args.Handled;
             }
             _pressedMouseButton.Remove(button);
+            if (button == AppConfig.DrawingButton)
+            {
+                _mouseStatePollTimer.Stop();
+                _mousePollingFallbackActive = false;
+                _mousePollingObservedButtonDown = false;
+            }
         }
 
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            _lastMouseHookEventUtc = DateTime.UtcNow;
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
                 return;
 
@@ -103,6 +124,7 @@ namespace GestureSign.Daemon.Input
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
+            _lastMouseHookEventUtc = DateTime.UtcNow;
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point))
             {
                 if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
@@ -127,7 +149,105 @@ namespace GestureSign.Daemon.Input
                 handled = args.Handled;
             }
             _pressedMouseButton.Add((MouseActions)mouseMessage.Button);
+            if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
+            {
+                _mousePollingFallbackActive = false;
+                _mousePollingObservedButtonDown = false;
+                if (!IsRemoteSession())
+                    _mouseStatePollTimer.Start();
+            }
         }
+
+        private void PollMouseGestureState()
+        {
+            var drawingButton = AppConfig.DrawingButton;
+            if (SourceDevice != Devices.Mouse || !_pressedMouseButton.Contains(drawingButton))
+            {
+                _mouseStatePollTimer.Stop();
+                _mousePollingFallbackActive = false;
+                return;
+            }
+
+            var point = System.Windows.Forms.Cursor.Position;
+            if (IsMouseButtonDown(drawingButton))
+            {
+                _mousePollingObservedButtonDown = true;
+                // Normal low-level hook events remain authoritative. Polling only
+                // fills a gap after the hook has gone quiet over a protected window.
+                if ((DateTime.UtcNow - _lastMouseHookEventUtc).TotalMilliseconds < 35)
+                    return;
+
+                if (!_mousePollingFallbackActive)
+                {
+                    _mousePollingFallbackActive = true;
+                    Logging.LogMessage($"Mouse gesture polling fallback started. Button={drawingButton}, Point={point.X},{point.Y}");
+                }
+
+                OnPointMove(new InputPointsEventArgs(
+                    new List<InputPoint>(new[] { new InputPoint(1, point) }),
+                    Devices.Mouse));
+                return;
+            }
+
+            if (!_mousePollingObservedButtonDown)
+            {
+                // RDP and some synthetic input sources do not update asynchronous
+                // key state. Never invent a release unless polling first observed
+                // the button as genuinely pressed; the hook remains authoritative.
+                if ((DateTime.UtcNow - _lastMouseHookEventUtc).TotalMilliseconds >= 120)
+                    _mouseStatePollTimer.Stop();
+                return;
+            }
+
+            _pressedMouseButton.Remove(drawingButton);
+            _mouseStatePollTimer.Stop();
+            var args = new InputPointsEventArgs(
+                new List<InputPoint>(new[] { new InputPoint(1, point) }),
+                Devices.Mouse);
+            OnPointUp(args);
+            Logging.LogMessage($"Mouse gesture polling fallback released. Button={drawingButton}, Active={_mousePollingFallbackActive}, Point={point.X},{point.Y}");
+            _mousePollingFallbackActive = false;
+            _mousePollingObservedButtonDown = false;
+        }
+
+        private static bool IsRemoteSession()
+        {
+            const int smRemoteSession = 0x1000;
+            return GetSystemMetrics(smRemoteSession) != 0;
+        }
+
+        private static bool IsMouseButtonDown(MouseActions button)
+        {
+            int virtualKey;
+            switch (button)
+            {
+                case MouseActions.Left:
+                    virtualKey = 0x01;
+                    break;
+                case MouseActions.Right:
+                    virtualKey = 0x02;
+                    break;
+                case MouseActions.Middle:
+                    virtualKey = 0x04;
+                    break;
+                case MouseActions.XButton1:
+                    virtualKey = 0x05;
+                    break;
+                case MouseActions.XButton2:
+                    virtualKey = 0x06;
+                    break;
+                default:
+                    return false;
+            }
+
+            return (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int virtualKey);
+
+        [DllImport("user32.dll")]
+        private static extern int GetSystemMetrics(int index);
 
         private static bool ShouldPreferMouseGesturesAtPoint(System.Drawing.Point point)
         {

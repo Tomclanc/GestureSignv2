@@ -85,6 +85,8 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationClient" />
+    <Reference Include="UIAutomationTypes" />
     <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd</HintPath>
@@ -163,6 +165,7 @@
     <Compile Include="DefaultBrowser.cs" />
     <Compile Include="Minimize.cs" />
     <Compile Include="MaximizeRestore.cs" />
+    <Compile Include="SmartClose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenBrightness\BrightnessSettings.cs" />
     <Compile Include="ScreenBrightness\ScreenBrightnessPlugin.cs" />

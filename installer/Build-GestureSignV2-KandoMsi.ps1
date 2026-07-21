@@ -2,7 +2,7 @@ param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "16.4.19",
+    [string]$PackageVersion = "16.4.45",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",
@@ -74,8 +74,7 @@ function Find-MSBuild {
     return "msbuild.exe"
 }
 
-$publish = Resolve-Path -LiteralPath $PublishDir
-$publishPath = $publish.ProviderPath
+$publishPath = [System.IO.Path]::GetFullPath($PublishDir)
 $repoRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
 $repoKandoPath = Join-Path $repoRoot.ProviderPath "Kando"
 $publishKandoPath = Join-Path $publishPath "Kando"
@@ -107,12 +106,12 @@ if (Test-Path -LiteralPath $publishPath) {
 New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
-& $msbuild $winUiProject /t:Restore,Build /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:SelfContained=true /v:m
+& $msbuild $winUiProject /restore /t:Publish /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:StorePackage=false /p:SelfContained=true /v:m
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
 
-$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64"
+$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish"
 if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"))) {
     throw "WinUI build output is missing GestureSign.WinUI.exe: $winUiOutputPath"
 }

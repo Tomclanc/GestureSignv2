@@ -24,6 +24,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
+    <Compile Include="..\Shared\KandoTaskbarIdentity.cs" Link="KandoTaskbarIdentity.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />

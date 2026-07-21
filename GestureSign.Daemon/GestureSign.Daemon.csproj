@@ -149,6 +149,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="KandoLauncher.cs" />
+    <Compile Include="..\Shared\KandoTaskbarIdentity.cs">
+      <Link>KandoTaskbarIdentity.cs</Link>
+    </Compile>
     <Compile Include="TrayManager.cs" />
     <Compile Include="Triggers\ContinuousGestureTrigger.cs" />
     <Compile Include="Triggers\MouseTrigger.cs" />
