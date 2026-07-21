@@ -15,6 +15,9 @@
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
     <img alt="WinGet" src="https://img.shields.io/badge/winget-Tomclanc.GestureSignV2-0078D4?style=flat-square">
   </a>
+  <a href="https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB">
+    <img alt="Microsoft Store" src="https://img.shields.io/badge/Microsoft%20Store-Download-0078D4?style=flat-square&logo=microsoft">
+  </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI%203-0078D4?style=flat-square">
   <img alt="Platform" src="https://img.shields.io/badge/Platform-x64-555?style=flat-square">
@@ -55,6 +58,8 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 ```powershell
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
+
+也可以直接从 [Microsoft Store 获取 GestureSign V2](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB)。
 
 也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) 下载最新版安装包。
 
@@ -465,6 +470,8 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
+You can also [get GestureSign V2 from the Microsoft Store](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB).
+
 You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46).
 
 Current version:
@@ -590,6 +597,8 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 ```powershell
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
+
+[Microsoft Store から GestureSign V2 を入手](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB)することもできます。
 
 最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) からも入手できます。
 
