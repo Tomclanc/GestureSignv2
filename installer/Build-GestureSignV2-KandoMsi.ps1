@@ -2,7 +2,7 @@ param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "16.4.45",
+    [string]$PackageVersion = "16.4.46",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",

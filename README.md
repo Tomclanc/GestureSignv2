@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -56,15 +56,19 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
-- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
-- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
+- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
+- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
+- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.46
+
+- 补充 Windows 11 浅色主题专用的透明小图标资源，避免任务栏右键菜单等位置为 GestureSign V2 图标自动添加蓝色底板。
 
 ### 16.4.45
 
@@ -461,13 +465,17 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46).
 
 Current version:
 
-- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
-- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
-- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
+- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
+- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
+- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
+
+### What's new in 16.4.46
+
+- Added transparent compact-icon resources for the Windows 11 light theme so the shell no longer adds a blue plate behind the GestureSign V2 icon in taskbar menus.
 
 ### What's new in 16.4.45
 
@@ -583,13 +591,17 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.45) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.45-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-x64.msi)
-- [GestureSign-V2-16.4.45-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45-portable-x64.zip)
-- [GestureSign-V2-16.4.45.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.45/GestureSign-V2-16.4.45.0-x64-store.msix)
+- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
+- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
+- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
+
+### 16.4.46 の更新内容
+
+- Windows 11 のライトテーマ向け透明小型アイコンを追加し、タスクバーのメニューなどで GestureSign V2 アイコンに青い背景が付かないようにしました。
 
 ### 16.4.45 の更新内容
 

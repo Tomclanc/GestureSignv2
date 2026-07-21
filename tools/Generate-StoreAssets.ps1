@@ -48,6 +48,15 @@ try {
     Write-CenteredLogo 'Wide310x150Logo.png' 310 150 120
     Write-CenteredLogo 'Wide310x150Logo.scale-200.png' 620 300 240
     Write-CenteredLogo 'SplashScreen.png' 620 300 200
+
+    # Windows 11 uses a separate unplated icon qualifier in light theme.  If it
+    # is missing, the shell may put the app glyph on an accent-coloured plate in
+    # taskbar jump lists and other compact surfaces.
+    Get-ChildItem -LiteralPath $destinationPath -File -Filter 'Square44x44Logo.targetsize-*_altform-unplated.png' |
+        ForEach-Object {
+            $lightName = $_.Name.Replace('_altform-unplated.png', '_altform-lightunplated.png')
+            Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $destinationPath $lightName) -Force
+        }
 }
 finally {
     $sourceImage.Dispose()
