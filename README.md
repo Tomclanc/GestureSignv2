@@ -53,13 +53,17 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 
 ## 下载
 
+### Microsoft Store（推荐）
+
+<a href="https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB"><img alt="从 Microsoft Store 获取" width="240px" src="https://get.microsoft.com/images/zh-cn%20dark.svg" /></a>
+
+### WinGet
+
 GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 安装：
 
 ```powershell
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
-
-也可以直接从 [Microsoft Store 获取 GestureSign V2](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB)。
 
 也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) 下载最新版安装包。
 
@@ -464,13 +468,17 @@ The original GestureSign has not been actively maintained for a long time. On ne
 
 ## Download
 
+### Microsoft Store (recommended)
+
+<a href="https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB"><img alt="Get it from Microsoft Store" width="240px" src="https://get.microsoft.com/images/en-us%20dark.svg" /></a>
+
+### WinGet
+
 GestureSign V2 is available from Windows Package Manager. Install it with winget:
 
 ```powershell
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
-
-You can also [get GestureSign V2 from the Microsoft Store](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB).
 
 You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46).
 
@@ -592,13 +600,17 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 
 ## ダウンロード
 
+### Microsoft Store（推奨）
+
+<a href="https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB"><img alt="Microsoft Store から入手" width="240px" src="https://get.microsoft.com/images/ja%20dark.svg" /></a>
+
+### WinGet
+
 GestureSign V2 は Windows Package Manager からインストールできます:
 
 ```powershell
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
-
-[Microsoft Store から GestureSign V2 を入手](https://apps.microsoft.com/store/detail/9P2WKMHF43PN?cid=DevShareMCLPCB)することもできます。
 
 最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) からも入手できます。
 
