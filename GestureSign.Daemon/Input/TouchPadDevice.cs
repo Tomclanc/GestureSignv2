@@ -40,7 +40,7 @@ namespace GestureSign.Daemon.Input
                     int contactIdentifier = GetContactId(nodeIndex, pRawDataPacket);
                     Point point = GetCoordinate(nodeIndex, currentScr, pRawDataPacket);
 
-                    ushort[] usageList = GetButtonList(_hPreparsedData.DangerousGetHandle(), _pRawData, nodeIndex, _dwSizHid);
+                    ushort[] usageList = GetButtonList(_hPreparsedData.DangerousGetHandle(), pRawDataPacket, nodeIndex, _dwSizHid);
                     bool tip = contactsAreActive || Array.IndexOf(usageList, NativeMethods.TipId) >= 0;
 
                     _outputTouchs.Add(new RawData(tip ? DeviceStates.Tip : DeviceStates.None, contactIdentifier, point));

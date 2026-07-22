@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
-- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
-- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
+- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
+- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
+- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.47
+
+- 将缺少明确抬手数据时的触控板释放补判从 450 毫秒缩短到 120 毫秒，让边缘手势在手指释放后更快执行。
+- 修复一批 HID 报告中后续数据包仍读取首包按钮状态的问题，提升触控板多包输入的稳定性。
+- MSIX 打包时显式包含 Backend 与 Kando，防止商店包缺少手势后台或径向菜单文件。
 
 ### 16.4.46
 
@@ -480,13 +486,19 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47).
 
 Current version:
 
-- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
-- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
-- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
+- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
+- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
+- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
+
+### What's new in 16.4.47
+
+- Reduced the Precision Touchpad idle-release fallback from 450 ms to 120 ms so edge actions run almost immediately after lifting a finger.
+- Fixed multi-report HID parsing so each packet reads its own button state instead of reusing the first packet.
+- Explicitly included Backend and Kando files in MSIX packages to prevent incomplete Store builds.
 
 ### What's new in 16.4.46
 
@@ -612,13 +624,19 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.46) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.46-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-x64.msi)
-- [GestureSign-V2-16.4.46-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46-portable-x64.zip)
-- [GestureSign-V2-16.4.46.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.46/GestureSign-V2-16.4.46.0-x64-store.msix)
+- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
+- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
+- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
+
+### 16.4.47 の更新内容
+
+- Precision Touchpad が明示的なリリース情報を送らない場合の待機時間を 450 ms から 120 ms に短縮し、指を離した直後にエッジ操作を実行できるようにしました。
+- 複数 HID レポートの各パケットから正しいボタン状態を読み取るよう修正し、タッチパッド入力の安定性を改善しました。
+- MSIX に Backend と Kando を明示的に含め、不完全な Store パッケージが生成されないようにしました。
 
 ### 16.4.46 の更新内容
 

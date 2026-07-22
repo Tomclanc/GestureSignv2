@@ -161,6 +161,8 @@ $RECYCLE.BIN/
 
 # Installer build artifacts
 installer/*.msi
+installer/*.msix
+installer/*.zip
 installer/*.wixpdb
 installer/GestureSign.generated.kando.wxs
 installer/GestureSign-Setup.exe

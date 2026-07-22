@@ -450,7 +450,10 @@ namespace GestureSign.Daemon.Input
             _lastTouchPadRawData = rawData
                 .Select(point => new RawData(DeviceStates.None, point.ContactIdentifier, point.RawPoints))
                 .ToList();
-            _touchPadReleaseTimer.Change(450, System.Threading.Timeout.Infinite);
+            // Some Precision Touchpad drivers stop reporting instead of sending an
+            // explicit all-contacts-up packet. Keep the idle fallback short so an
+            // edge gesture executes as soon as the user lifts their finger.
+            _touchPadReleaseTimer.Change(120, System.Threading.Timeout.Infinite);
         }
 
         private void ReleaseTouchPadIfIdle()

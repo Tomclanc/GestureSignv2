@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup Condition="'$(StorePackage)' == 'true'">
     <Content Include="Assets\Store\**\*.png" />
+    <Content Include="..\bin\Release\**\*.*" Link="Backend\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Content Include="..\Kando\**\*.*" Link="Kando\%(RecursiveDir)%(Filename)%(Extension)" Condition="Exists('..\Kando')" />
     <!-- SDK metadata is compile-time input and is invalid as application metadata. -->
     <Content Remove="**\*.winmd" />
     <None Remove="**\*.winmd" />
