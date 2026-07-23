@@ -24,6 +24,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
@@ -51,7 +52,8 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4.47";
+    private const string AppVersion = "16.4.51";
+    private const string PackagedDaemonExecutionAlias = "GestureSignV2Daemon.exe";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
     private const string TouchPadEdgeLeftGesture = "TouchPadEdge.Left";
@@ -85,6 +87,9 @@ public sealed partial class MainWindow : Window
     private readonly Dictionary<string, string> _pendingOptionUpdates = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<FrameworkElement, TypedCommandSettingsEditor> _typedCommandSettingsEditors = new();
     private readonly HashSet<string> _pendingApplicationEnabledToggles = new(StringComparer.Ordinal);
+    private ToggleSwitch? _startupToggle;
+    private ToggleSwitch? _adminStartupToggle;
+    private bool _isUpdatingStartupToggles;
     private TextBlock? _pendingTrainingStatus;
     private bool _isSavingOptions;
     private string _selectedActionScope = "all";
@@ -1631,7 +1636,7 @@ public sealed partial class MainWindow : Window
             NewToggleRow(L("启用初始超时", "Enable initial timeout", "啟用初始逾時", "初期タイムアウトを有効にする", "초기 시간 제한 사용"), options.InitialTimeout > 0, "InitialTimeout", options.InitialTimeout == 0 ? "1000" : options.InitialTimeout.ToString(), "0"),
             NewSliderRow(L("初始超时", "Initial timeout", "初始逾時", "初期タイムアウト", "초기 시간 제한"), options.InitialTimeout / 1000d, 0, 2, 0.1, "InitialTimeout", value => ((int)Math.Round(value * 1000)).ToString(CultureInfo.InvariantCulture), value => CurrentLanguage == UiLanguage.English ? $"{value:0.0} sec" : $"{value:0.0} 秒"),
             NewStartupToggleRow(),
-            NewAdminStartupToggleRow(options.RunAsAdmin),
+            NewAdminStartupToggleRow(),
             NewToggleRow(L("排除全屏游戏/应用", "Ignore fullscreen games/apps", "排除全螢幕遊戲/應用程式", "全画面ゲーム/アプリを除外", "전체 화면 게임/앱 제외"), options.IgnoreFullScreen, "IgnoreFullScreen"),
             NewToggleRow(L("排除全屏播放视频（试验）", "Ignore fullscreen video playback (experimental)", "排除全螢幕影片播放（實驗）", "全画面動画再生を除外（実験）", "전체 화면 동영상 재생 제외(실험)"), options.IgnoreFullScreenVideo, "IgnoreFullScreenVideo"),
             NewToggleRow(L("使用笔时忽略触摸输入", "Ignore touch input while using pen", "使用筆時忽略觸控輸入", "ペン使用中はタッチ入力を無視", "펜 사용 중 터치 입력 무시"), options.IgnoreTouchInputWhenUsingPen, "IgnoreTouchInputWhenUsingPen"),
@@ -6334,47 +6339,102 @@ public sealed partial class MainWindow : Window
             OffContent = L("关", "Off", "關", "オフ", "끔"),
             VerticalAlignment = VerticalAlignment.Center
         };
+        _startupToggle = toggle;
         toggle.Toggled += async (_, _) =>
         {
+            if (_isUpdatingStartupToggles)
+                return;
+
+            var requestedValue = toggle.IsOn;
             try
             {
-                SetStartupEnabled(toggle.IsOn);
+                _isUpdatingStartupToggles = true;
+                if (requestedValue)
+                {
+                    var runAsAdministrator = IsCurrentProcessElevated();
+                    if (runAsAdministrator)
+                    {
+                        await SetAdminStartupEnabledAsync(true);
+                        SetStartupShortcutEnabled(false);
+                    }
+                    else
+                    {
+                        if (IsAdminStartupTaskRegistered())
+                            await SetAdminStartupEnabledAsync(false);
+                        SetStartupShortcutEnabled(true);
+                    }
+
+                    UpdateOptionAndReload("RunAsAdmin", runAsAdministrator ? "True" : "False");
+                }
+                else
+                {
+                    SetStartupShortcutEnabled(false);
+                    if (IsAdminStartupTaskRegistered())
+                        await SetAdminStartupEnabledAsync(false);
+                    UpdateOptionAndReload("RunAsAdmin", "False");
+                }
+
+                RefreshStartupToggleStates();
             }
             catch (Exception ex)
             {
-                toggle.IsOn = IsStartupEnabled();
+                RefreshStartupToggleStates();
                 await ShowInfoDialog(L("启动项设置失败", "Startup setting failed", "啟動項設定失敗", "スタートアップ設定に失敗しました", "시작 항목 설정 실패"), ex.Message);
             }
+            finally
+            {
+                _isUpdatingStartupToggles = false;
+            }
         };
-        return NewSettingRow(L("Windows 启动时运行", "Run at Windows startup", "Windows 啟動時執行", "Windows 起動時に実行", "Windows 시작 시 실행"), L("登录后启动后台托盘和手势识别服务。", "Start the tray and gesture recognition service after sign-in.", "登入後啟動背景系統匣與手勢辨識服務。", "サインイン後にトレイとジェスチャ認識サービスを起動します。", "로그인 후 트레이와 제스처 인식 서비스를 시작합니다."), toggle);
+        return NewSettingRow(L("Windows 启动时运行", "Run at Windows startup", "Windows 啟動時執行", "Windows 起動時に実行", "Windows 시작 시 실행"), L("按当前权限保存启动方式：管理员运行时启用将以管理员身份启动，普通运行时启用则普通启动。", "Uses the current permission level: enabling while elevated starts as administrator; otherwise it starts normally.", "依目前權限儲存啟動方式：以系統管理員執行時啟用將以系統管理員身分啟動，否則一般啟動。", "現在の権限で起動方法を保存します。管理者として有効にすると管理者権限で、それ以外は通常権限で起動します。", "현재 권한으로 시작 방식을 저장합니다. 관리자 권한에서 켜면 관리자로, 그 외에는 일반 권한으로 시작합니다."), toggle);
     }
 
-    private FrameworkElement NewAdminStartupToggleRow(bool isOn)
+    private FrameworkElement NewAdminStartupToggleRow()
     {
         var toggle = new ToggleSwitch
         {
-            IsOn = isOn,
+            IsOn = IsAdminStartupEnabled(),
             OnContent = L("开", "On", "開", "オン", "켬"),
             OffContent = L("关", "Off", "關", "オフ", "끔"),
             VerticalAlignment = VerticalAlignment.Center
         };
+        _adminStartupToggle = toggle;
         toggle.Toggled += async (_, _) =>
         {
+            if (_isUpdatingStartupToggles)
+                return;
+
+            var requestedValue = toggle.IsOn;
             try
             {
-                if (toggle.IsOn)
+                _isUpdatingStartupToggles = true;
+                if (requestedValue)
+                {
                     await SetAdminStartupEnabledAsync(true);
+                    SetStartupShortcutEnabled(false);
+                }
                 else
+                {
+                    var keepStartupEnabled = IsStartupEnabled();
                     await SetAdminStartupEnabledAsync(false);
-                UpdateOptionAndReload("RunAsAdmin", toggle.IsOn ? "True" : "False");
+                    if (keepStartupEnabled)
+                        SetStartupShortcutEnabled(true);
+                }
+
+                UpdateOptionAndReload("RunAsAdmin", requestedValue ? "True" : "False");
+                RefreshStartupToggleStates();
             }
             catch (Exception ex)
             {
-                toggle.IsOn = !toggle.IsOn;
+                RefreshStartupToggleStates();
                 await ShowInfoDialog(L("管理员启动设置失败", "Administrator startup setting failed", "系統管理員啟動設定失敗", "管理者起動設定に失敗しました", "관리자 시작 설정 실패"), ex.Message);
             }
+            finally
+            {
+                _isUpdatingStartupToggles = false;
+            }
         };
-        return NewSettingRow(L("以管理员身份启动", "Start as administrator", "以系統管理員身分啟動", "管理者として起動", "관리자 권한으로 시작"), L("创建或删除 StartGestureSign 计划任务，需要 UAC 确认。", "Creates or removes the StartGestureSign scheduled task. UAC confirmation is required.", "建立或刪除 StartGestureSign 排程工作，需要 UAC 確認。", "StartGestureSign タスクを作成または削除します。UAC 確認が必要です。", "StartGestureSign 예약 작업을 만들거나 삭제합니다. UAC 확인이 필요합니다."), toggle);
+        return NewSettingRow(L("以管理员身份启动", "Start as administrator", "以系統管理員身分啟動", "管理者として起動", "관리자 권한으로 시작"), L("使用最高权限计划任务启动；关闭后若自启动仍开启，将自动切换为普通启动。需要 UAC 确认。", "Starts through a highest-privilege scheduled task. Turning this off switches enabled startup back to normal. UAC confirmation is required.", "透過最高權限排程工作啟動；關閉後若自動啟動仍開啟，將自動切換為一般啟動。需要 UAC 確認。", "最高権限のタスクで起動します。オフにしても自動起動が有効なら通常起動へ切り替わります。UAC の確認が必要です。", "최고 권한 예약 작업으로 시작합니다. 끄더라도 자동 시작이 켜져 있으면 일반 시작으로 전환됩니다. UAC 확인이 필요합니다."), toggle);
     }
 
     private FrameworkElement NewOneDriveSyncRow()
@@ -7338,9 +7398,86 @@ public sealed partial class MainWindow : Window
     }
 
     private static bool IsStartupEnabled()
-        => File.Exists(StartupShortcutPath());
+        => File.Exists(StartupShortcutPath()) || IsAdminStartupEnabled();
 
-    private static void SetStartupEnabled(bool enabled)
+    private static bool IsAdminStartupEnabled()
+    {
+        var taskXml = ReadAdminStartupTaskXml();
+        if (string.IsNullOrWhiteSpace(taskXml))
+            return false;
+
+        try
+        {
+            var document = XDocument.Parse(taskXml);
+            var command = document.Descendants().FirstOrDefault(element => element.Name.LocalName == "Command")?.Value ?? string.Empty;
+            if (string.Equals(Path.GetFileName(command), PackagedDaemonExecutionAlias, StringComparison.OrdinalIgnoreCase))
+                return true;
+
+            return string.Equals(Path.GetFullPath(command.Trim('"')), Path.GetFullPath(FindDaemonPath()), StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool IsAdminStartupTaskRegistered()
+        => !string.IsNullOrWhiteSpace(ReadAdminStartupTaskXml());
+
+    private static string? ReadAdminStartupTaskXml()
+    {
+        try
+        {
+            using var process = Process.Start(new ProcessStartInfo("schtasks.exe")
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                Arguments = "/query /tn StartGestureSign /xml"
+            });
+            if (process is null)
+                return null;
+
+            var output = process.StandardOutput.ReadToEnd();
+            if (!process.WaitForExit(3000))
+            {
+                try { process.Kill(true); } catch { }
+                return null;
+            }
+
+            return process.ExitCode == 0 ? output : null;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static bool IsCurrentProcessElevated()
+    {
+        try
+        {
+            using var identity = WindowsIdentity.GetCurrent();
+            return new WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator);
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private void RefreshStartupToggleStates()
+    {
+        var adminEnabled = IsAdminStartupEnabled();
+        if (_startupToggle is not null)
+            _startupToggle.IsOn = File.Exists(StartupShortcutPath()) || adminEnabled;
+        if (_adminStartupToggle is not null)
+            _adminStartupToggle.IsOn = adminEnabled;
+    }
+
+    private static void SetStartupShortcutEnabled(bool enabled)
     {
         var shortcut = StartupShortcutPath();
         if (!enabled)
@@ -7371,23 +7508,139 @@ public sealed partial class MainWindow : Window
         if (enabled && !File.Exists(daemonPath))
             throw new FileNotFoundException("未找到后台程序 GestureSign.exe。", daemonPath);
 
-        var args = enabled
-            ? $" /create /tn StartGestureSign /f /sc onlogon /rl highest /tr \"\\\"{daemonPath}\\\"\""
-            : " /delete /tn StartGestureSign /f";
-
-        using var process = Process.Start(new ProcessStartInfo("schtasks.exe", args)
+        string? taskXmlPath = null;
+        var alreadyElevated = IsCurrentProcessElevated();
+        var startInfo = new ProcessStartInfo("schtasks.exe")
         {
-            UseShellExecute = true,
-            Verb = "runas",
+            UseShellExecute = !alreadyElevated,
+            Verb = alreadyElevated ? string.Empty : "runas",
+            CreateNoWindow = alreadyElevated,
+            RedirectStandardOutput = alreadyElevated,
+            RedirectStandardError = alreadyElevated,
             WindowStyle = ProcessWindowStyle.Hidden
-        });
-        if (process is null)
-            throw new InvalidOperationException("无法启动 schtasks.exe。");
+        };
 
-        await process.WaitForExitAsync();
-        if (process.ExitCode != 0)
-            throw new InvalidOperationException($"schtasks 退出代码: {process.ExitCode}");
+        try
+        {
+            if (enabled)
+            {
+                taskXmlPath = Path.Combine(Path.GetTempPath(), $"GestureSign-Startup-{Guid.NewGuid():N}.xml");
+                var xmlSettings = new XmlWriterSettings
+                {
+                    Encoding = Encoding.Unicode,
+                    Indent = true
+                };
+                using (var xmlWriter = XmlWriter.Create(taskXmlPath, xmlSettings))
+                    BuildAdminStartupTaskXml(daemonPath).Save(xmlWriter);
+                startInfo.ArgumentList.Add("/create");
+                startInfo.ArgumentList.Add("/tn");
+                startInfo.ArgumentList.Add("StartGestureSign");
+                startInfo.ArgumentList.Add("/f");
+                startInfo.ArgumentList.Add("/xml");
+                startInfo.ArgumentList.Add(taskXmlPath);
+            }
+            else
+            {
+                startInfo.ArgumentList.Add("/delete");
+                startInfo.ArgumentList.Add("/tn");
+                startInfo.ArgumentList.Add("StartGestureSign");
+                startInfo.ArgumentList.Add("/f");
+            }
+
+            using var process = Process.Start(startInfo);
+            if (process is null)
+                throw new InvalidOperationException("无法启动 schtasks.exe。");
+
+            var standardOutputTask = alreadyElevated ? process.StandardOutput.ReadToEndAsync() : Task.FromResult(string.Empty);
+            var standardErrorTask = alreadyElevated ? process.StandardError.ReadToEndAsync() : Task.FromResult(string.Empty);
+            await process.WaitForExitAsync();
+            var standardOutput = await standardOutputTask;
+            var standardError = await standardErrorTask;
+            if (process.ExitCode != 0)
+            {
+                var details = string.Join(Environment.NewLine, new[] { standardError, standardOutput }
+                    .Where(value => !string.IsNullOrWhiteSpace(value))
+                    .Select(value => value.Trim()));
+                throw new InvalidOperationException(string.IsNullOrWhiteSpace(details)
+                    ? $"schtasks 退出代码: {process.ExitCode}"
+                    : $"schtasks 退出代码: {process.ExitCode}{Environment.NewLine}{details}");
+            }
+        }
+        finally
+        {
+            if (!string.IsNullOrWhiteSpace(taskXmlPath) && File.Exists(taskXmlPath))
+            {
+                try { File.Delete(taskXmlPath); } catch { }
+            }
+        }
     }
+
+    private static XDocument BuildAdminStartupTaskXml(string daemonPath)
+    {
+        XNamespace ns = "http://schemas.microsoft.com/windows/2004/02/mit/task";
+        var userSid = WindowsIdentity.GetCurrent().User?.Value
+            ?? throw new InvalidOperationException("无法读取当前用户 SID。");
+        var isPackagedInstall = daemonPath.Contains("\\WindowsApps\\", StringComparison.OrdinalIgnoreCase);
+
+        var exec = new XElement(ns + "Exec");
+        if (isPackagedInstall)
+        {
+            var aliasPath = PackagedDaemonExecutionAliasPath();
+            if (!File.Exists(aliasPath))
+                throw new FileNotFoundException("未找到 GestureSign V2 后台启动别名，请重新安装当前版本。", aliasPath);
+            exec.Add(
+                new XElement(ns + "Command", aliasPath)
+            );
+        }
+        else
+        {
+            exec.Add(
+                new XElement(ns + "Command", daemonPath),
+                new XElement(ns + "WorkingDirectory", Path.GetDirectoryName(daemonPath) ?? AppContext.BaseDirectory)
+            );
+        }
+
+        return new XDocument(
+            new XDeclaration("1.0", "utf-8", null),
+            new XElement(ns + "Task",
+                new XAttribute("version", "1.4"),
+                new XElement(ns + "RegistrationInfo",
+                    new XElement(ns + "Description", "Start GestureSign V2 with highest privileges at user logon."),
+                    new XElement(ns + "URI", "\\StartGestureSign")),
+                new XElement(ns + "Triggers",
+                    new XElement(ns + "LogonTrigger",
+                        new XElement(ns + "Enabled", true),
+                        new XElement(ns + "UserId", userSid))),
+                new XElement(ns + "Principals",
+                    new XElement(ns + "Principal",
+                        new XAttribute("id", "Author"),
+                        new XElement(ns + "UserId", userSid),
+                        new XElement(ns + "LogonType", "InteractiveToken"),
+                        new XElement(ns + "RunLevel", "HighestAvailable"))),
+                new XElement(ns + "Settings",
+                    new XElement(ns + "MultipleInstancesPolicy", "IgnoreNew"),
+                    new XElement(ns + "DisallowStartIfOnBatteries", false),
+                    new XElement(ns + "StopIfGoingOnBatteries", false),
+                    new XElement(ns + "AllowHardTerminate", true),
+                    new XElement(ns + "StartWhenAvailable", true),
+                    new XElement(ns + "RunOnlyIfNetworkAvailable", false),
+                    new XElement(ns + "IdleSettings",
+                        new XElement(ns + "StopOnIdleEnd", false),
+                        new XElement(ns + "RestartOnIdle", false)),
+                    new XElement(ns + "AllowStartOnDemand", true),
+                    new XElement(ns + "Enabled", true),
+                    new XElement(ns + "Hidden", false),
+                    new XElement(ns + "RunOnlyIfIdle", false),
+                    new XElement(ns + "WakeToRun", false),
+                    new XElement(ns + "ExecutionTimeLimit", "PT0S"),
+                    new XElement(ns + "Priority", 7)),
+                new XElement(ns + "Actions",
+                    new XAttribute("Context", "Author"),
+                exec)));
+    }
+
+    private static string PackagedDaemonExecutionAliasPath()
+        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "WindowsApps", PackagedDaemonExecutionAlias);
 
     private static string StartupShortcutPath()
         => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "GestureSign.lnk");

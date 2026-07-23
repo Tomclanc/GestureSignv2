@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,22 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
-- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
-- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
+- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
+- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
+- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.51
+
+- 修复以管理员身份运行时无法正确创建开机启动计划任务、重启后没有自动运行的问题。
+- “Windows 启动时运行”现在按启用时的权限保存启动方式：管理员运行时以最高权限启动，普通运行时保持普通启动；两种方式会自动互斥切换。
+- 微软商店安装版新增后台执行别名，使计划任务无需依赖会随更新变化的 `WindowsApps` 版本目录；同时允许笔记本使用电池时启动。
+- 启动选项会读取实际快捷方式和计划任务状态，失败时显示 `schtasks` 的具体错误信息。
 
 ### 16.4.47
 
@@ -486,13 +493,20 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51).
 
 Current version:
 
-- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
-- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
-- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
+- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
+- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
+- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
+
+### What's new in 16.4.51
+
+- Fixed administrator startup task creation and the issue where GestureSign V2 did not start after signing in again.
+- Startup now preserves the permission level used when enabling it: elevated sessions create a highest-privilege task, while normal sessions use a regular startup shortcut. The two modes switch cleanly without conflicting.
+- Added a packaged daemon execution alias so Store installations no longer depend on versioned `WindowsApps` paths, and allowed startup while running on battery power.
+- Startup toggles now reflect the actual shortcut and scheduled-task state, with detailed `schtasks` errors when registration fails.
 
 ### What's new in 16.4.47
 
@@ -624,13 +638,20 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.47) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.47-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-x64.msi)
-- [GestureSign-V2-16.4.47-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47-portable-x64.zip)
-- [GestureSign-V2-16.4.47.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.47/GestureSign-V2-16.4.47.0-x64-store.msix)
+- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
+- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
+- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
+
+### 16.4.51 の更新内容
+
+- 管理者として実行した際のスタートアップタスク作成と、再ログイン後に GestureSign V2 が起動しない問題を修正しました。
+- スタートアップを有効にしたときの権限を保持し、管理者実行時は最高権限タスク、通常実行時は通常のスタートアップショートカットを使用します。両方式は競合せず自動的に切り替わります。
+- Store 版にバックグラウンド実行エイリアスを追加し、更新で変化する `WindowsApps` のバージョン別パスに依存しないようにしました。バッテリー駆動時の起動にも対応しました。
+- 実際のショートカットとタスク状態を設定画面へ反映し、登録失敗時には `schtasks` の詳細を表示します。
 
 ### 16.4.47 の更新内容
 

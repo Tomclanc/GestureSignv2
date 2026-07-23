@@ -2,14 +2,16 @@
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap10 rescap">
+  IgnorableNamespaces="uap uap3 uap10 desktop rescap">
 
   <Identity
     Name="TomClancy.GestureSignV2"
     Publisher="CN=A82713FB-4ABE-47C7-8184-01CF24575B7F"
-    Version="16.4.47.0" />
+    Version="16.4.51.0" />
 
   <Properties>
     <DisplayName>GestureSign V2</DisplayName>
@@ -47,6 +49,16 @@
           Square310x310Logo="Assets\Store\Square310x310Logo.png" />
         <uap:SplashScreen Image="Assets\Store\SplashScreen.png" BackgroundColor="transparent" />
       </uap:VisualElements>
+      <Extensions>
+        <uap3:Extension
+          Category="windows.appExecutionAlias"
+          Executable="Backend\GestureSign.exe"
+          EntryPoint="Windows.FullTrustApplication">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="GestureSignV2Daemon.exe" />
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
