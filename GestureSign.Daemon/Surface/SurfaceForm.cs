@@ -221,6 +221,32 @@ namespace GestureSign.Daemon.Surface
             UpdateFullSurface(255);
         }
 
+        public void ClearLiveGestureHint(List<List<Point>> points)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => ClearLiveGestureHint(points)));
+                return;
+            }
+
+            StopGestureHintTimers();
+            ClearSurfaces();
+
+            if (_penWidth <= 0)
+                InitializePen();
+
+            if (_penWidth <= 0 || points == null || !points.Any(p => p.Count > 1))
+            {
+                HideSurface();
+                return;
+            }
+
+            EnsureDrawingSurface();
+            EnsureSurfaceVisible();
+            DrawCompleteGesture(points);
+            UpdateFullSurface(255);
+        }
+
         #endregion
 
         #region Private Methods

@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,20 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
-- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
-- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
+- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
+- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
+- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.55
+
+- “显示触发的手势操作”现在会随当前轨迹动态更新；继续绘制导致手势不再匹配动作时，会立即清除之前显示的动作名称。
+- 清除动作名称时保留仍在绘制的手势轨迹；轨迹显示关闭时则隐藏提示层，避免残留旧提示。
 
 ### 16.4.54
 
@@ -499,13 +504,18 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55).
 
 Current version:
 
-- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
-- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
-- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
+- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
+- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
+- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
+
+### What's new in 16.4.55
+
+- The “Show triggered gesture action” label now follows the current live trace and clears immediately when additional drawing invalidates the action match.
+- Clearing the action label preserves an enabled gesture trail; when trail drawing is disabled, the hint surface is hidden so stale text cannot remain.
 
 ### What's new in 16.4.54
 
@@ -650,13 +660,18 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
-- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
-- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
+- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
+- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
+- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
+
+### 16.4.55 の更新内容
+
+- 「実行されるジェスチャー操作を表示」が現在の軌跡に合わせて動的に更新され、描画を追加して操作との一致が失われると以前の操作名をすぐ消去します。
+- 操作名を消去しても有効なジェスチャー軌跡は保持し、軌跡表示が無効な場合はヒント面を非表示にして古い文字が残らないようにしました。
 
 ### 16.4.54 の更新内容
 

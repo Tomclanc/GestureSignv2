@@ -275,11 +275,17 @@ namespace GestureSign.Daemon.Input
 
             var gestureName = PreviewActionGestureName(points);
             if (string.IsNullOrWhiteSpace(gestureName))
+            {
+                ClearLiveGestureHintIfShown(points);
                 return;
+            }
 
             var action = ApplicationManager.Instance.GetRecognizedDefinedAction(gestureName)?.FirstOrDefault();
             if (action == null || string.IsNullOrWhiteSpace(action.Name))
+            {
+                ClearLiveGestureHintIfShown(points);
                 return;
+            }
 
             _fallbackGestureName = gestureName;
             _fallbackGestureActionName = action.Name;
@@ -290,6 +296,15 @@ namespace GestureSign.Daemon.Input
 
             _liveGestureHintName = action.Name;
             _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name);
+        }
+
+        private void ClearLiveGestureHintIfShown(List<List<Point>> points)
+        {
+            if (string.IsNullOrWhiteSpace(_liveGestureHintName))
+                return;
+
+            _liveGestureHintName = null;
+            _surfaceForm.ClearLiveGestureHint(ClonePoints(points));
         }
 
         private static string PreviewActionGestureName(IEnumerable<List<Point>> points)
