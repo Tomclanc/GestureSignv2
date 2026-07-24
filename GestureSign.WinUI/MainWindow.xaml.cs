@@ -52,7 +52,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4.55";
+    private const string AppVersion = "16.4.56";
     private const uint WmGetIcon = 0x007F;
     private const int IconSmall = 0;
     private const int IconBig = 1;

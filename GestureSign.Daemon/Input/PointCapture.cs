@@ -300,10 +300,21 @@ namespace GestureSign.Daemon.Input
 
         private void ClearLiveGestureHintIfShown(List<List<Point>> points)
         {
-            if (string.IsNullOrWhiteSpace(_liveGestureHintName))
-                return;
+            if (!string.IsNullOrWhiteSpace(_fallbackGestureName))
+            {
+                Logging.LogMessage($"Live gesture action invalidated. Gesture={_fallbackGestureName}, Action={_fallbackGestureActionName}");
+            }
+
+            _fallbackGestureName = null;
+            _fallbackGestureActionName = null;
+            _fallbackGesturePointCount = 0;
+
+            var hadVisibleHint = !string.IsNullOrWhiteSpace(_liveGestureHintName);
 
             _liveGestureHintName = null;
+            if (!hadVisibleHint)
+                return;
+
             _surfaceForm.ClearLiveGestureHint(ClonePoints(points));
         }
 

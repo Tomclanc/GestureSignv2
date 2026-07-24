@@ -11,7 +11,7 @@
   <Identity
     Name="TomClancy.GestureSignV2"
     Publisher="CN=A82713FB-4ABE-47C7-8184-01CF24575B7F"
-    Version="16.4.55.0" />
+    Version="16.4.56.0" />
 
   <Properties>
     <DisplayName>GestureSign V2</DisplayName>

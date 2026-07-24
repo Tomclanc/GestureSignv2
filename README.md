@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,20 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
-- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
-- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
+- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
+- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
+- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.56
+
+- 手势动作候选现在会随完整绘制轨迹动态更新；继续绘制造成当前手势不再匹配时，会同时清除提示名称和待执行动作。
+- 取消后的轨迹若匹配到另一个动作，会切换为新动作；若始终没有重新匹配，抬手时不再误触发之前的动作。
 
 ### 16.4.55
 
@@ -504,13 +509,18 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56).
 
 Current version:
 
-- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
-- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
-- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
+- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
+- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
+- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
+
+### What's new in 16.4.56
+
+- The pending gesture action now follows the complete live trace; drawing beyond a valid match clears both the visible label and the action waiting to execute.
+- If the revised trace matches another gesture, that new action is selected; otherwise releasing no longer runs the earlier, invalidated action.
 
 ### What's new in 16.4.55
 
@@ -660,13 +670,18 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.55) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.55-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-x64.msi)
-- [GestureSign-V2-16.4.55-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55-portable-x64.zip)
-- [GestureSign-V2-16.4.55.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.55/GestureSign-V2-16.4.55.0-x64-store.msix)
+- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
+- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
+- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
+
+### 16.4.56 の更新内容
+
+- 実行待ちのジェスチャー操作が描画中の軌跡全体に合わせて動的に更新され、有効な一致の後に描き足して不一致になると表示名と実行候補の両方を消去します。
+- 修正後の軌跡が別のジェスチャーに一致した場合は新しい操作へ切り替え、一致しないまま指を離した場合は以前の操作を誤実行しません。
 
 ### 16.4.55 の更新内容
 
