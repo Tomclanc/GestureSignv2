@@ -39,6 +39,13 @@ function Write-CenteredLogo {
 
 try {
     Write-CenteredLogo 'StoreLogo.png' 50 50 40
+    Write-CenteredLogo 'StoreLogo.scale-100.png' 50 50 40
+    Write-CenteredLogo 'StoreLogo.scale-125.png' 63 63 50
+    Write-CenteredLogo 'StoreLogo.scale-150.png' 75 75 60
+    Write-CenteredLogo 'StoreLogo.scale-200.png' 100 100 80
+    Write-CenteredLogo 'StoreLogo.scale-250.png' 125 125 100
+    Write-CenteredLogo 'StoreLogo.scale-300.png' 150 150 120
+    Write-CenteredLogo 'StoreLogo.scale-400.png' 200 200 160
     Write-CenteredLogo 'Square71x71Logo.png' 71 71 57
     Write-CenteredLogo 'Square71x71Logo.scale-200.png' 142 142 114
     Write-CenteredLogo 'Square150x150Logo.png' 150 150 120

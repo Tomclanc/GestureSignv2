@@ -52,7 +52,13 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4.51";
+    private const string AppVersion = "16.4.54";
+    private const uint WmGetIcon = 0x007F;
+    private const int IconSmall = 0;
+    private const int IconBig = 1;
+    private const int IconSmall2 = 2;
+    private const int GclpHicon = -14;
+    private const int GclpHiconSmall = -34;
     private const string PackagedDaemonExecutionAlias = "GestureSignV2Daemon.exe";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
@@ -369,6 +375,8 @@ public sealed partial class MainWindow : Window
     {
         AppWindow.Resize(ScaleLogicalSize(DefaultWindowWidth, DefaultWindowHeight));
         AppWindow.SetIcon("Assets/logo.ico");
+        ApplyNativeWindowClassIcons();
+        Activated += (_, _) => ApplyNativeWindowClassIcons();
         CenterWindow();
         ConfigureCaptionButtons();
 
@@ -378,6 +386,23 @@ public sealed partial class MainWindow : Window
             presenter.PreferredMinimumWidth = ScaleLogicalLength(MinimumWindowWidth);
             presenter.PreferredMinimumHeight = ScaleLogicalLength(MinimumWindowHeight);
         }
+    }
+
+    private void ApplyNativeWindowClassIcons()
+    {
+        var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+        if (hwnd == IntPtr.Zero)
+            return;
+
+        var largeIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconBig), IntPtr.Zero);
+        var smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall2), IntPtr.Zero);
+        if (smallIcon == IntPtr.Zero)
+            smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall), IntPtr.Zero);
+
+        if (largeIcon != IntPtr.Zero)
+            SetClassLongPtr(hwnd, GclpHicon, largeIcon);
+        if (smallIcon != IntPtr.Zero)
+            SetClassLongPtr(hwnd, GclpHiconSmall, smallIcon);
     }
 
     private void ApplyXboxBigScreenTitleBarMode()
@@ -439,6 +464,12 @@ public sealed partial class MainWindow : Window
 
     [DllImport("user32.dll")]
     private static extern uint GetDpiForWindow(IntPtr hwnd);
+
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll", EntryPoint = "SetClassLongPtrW", SetLastError = true)]
+    private static extern IntPtr SetClassLongPtr(IntPtr hwnd, int index, IntPtr newValue);
 
     [DllImport("user32.dll")]
     private static extern bool GetCursorPos(out NativePoint point);

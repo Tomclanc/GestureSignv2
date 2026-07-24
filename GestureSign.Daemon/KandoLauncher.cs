@@ -10,6 +10,32 @@ namespace GestureSign.Daemon
 {
     internal static class KandoLauncher
     {
+        public static void StartIfEnabled()
+        {
+            if (!AppConfig.KandoEnabled)
+            {
+                Logging.LogMessage("Kando auto-start skipped: quick actions are disabled.");
+                return;
+            }
+
+            var executablePath = FindExecutablePath();
+            if (string.IsNullOrWhiteSpace(executablePath))
+            {
+                Logging.LogMessage("Kando auto-start skipped: Kando.exe was not found.");
+                return;
+            }
+
+            if (IsRunning(executablePath))
+            {
+                Logging.LogMessage("Kando auto-start skipped: Kando is already running.");
+                return;
+            }
+
+            Logging.LogMessage(StartKando(executablePath, string.Empty)
+                ? $"Kando auto-start requested. Executable={executablePath}"
+                : $"Kando auto-start failed. Executable={executablePath}");
+        }
+
         public static bool ShowMenu()
         {
             var executablePath = FindExecutablePath();
@@ -134,6 +160,33 @@ namespace GestureSign.Daemon
                 Logging.LogException(ex);
                 return false;
             }
+        }
+
+        private static bool IsRunning(string executablePath)
+        {
+            var expectedPath = Path.GetFullPath(executablePath);
+            foreach (var process in Process.GetProcessesByName("kando")
+                         .Concat(Process.GetProcessesByName("Kando"))
+                         .GroupBy(process => process.Id)
+                         .Select(group => group.First()))
+            {
+                try
+                {
+                    var processPath = process.MainModule?.FileName;
+                    if (string.Equals(Path.GetFullPath(processPath ?? string.Empty), expectedPath, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+                catch
+                {
+                    // A process at another integrity level may not expose MainModule.
+                }
+                finally
+                {
+                    process.Dispose();
+                }
+            }
+
+            return false;
         }
 
         private static string QuoteArgument(string value)

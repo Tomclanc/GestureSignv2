@@ -67,6 +67,12 @@ namespace GestureSign.Daemon
                         PluginManager.Instance.Load(hostControl, uiContext);
                         TrayManager.Instance.Load();
 
+                        ThreadPool.QueueUserWorkItem(_ =>
+                        {
+                            Thread.Sleep(600);
+                            KandoLauncher.StartIfEnabled();
+                        });
+
                         NamedPipe.Instance.RunNamedPipeServer(Constants.Daemon, new MessageProcessor(uiContext));
 
                         Application.ApplicationExit += Application_ApplicationExit;

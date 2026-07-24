@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
-- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
-- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
+- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
+- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
+- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
 
 ## 更新内容
+
+### 16.4.54
+
+- “快捷操作”启用时，GestureSign V2 随 Windows 启动后会自动拉起内置 Kando；关闭该选项时不启动 Kando，并避免重复创建进程。
+- 为 WinUI 主窗口补充原生窗口类大小图标，改善任务管理器等传统 Win32 界面对主程序图标的识别。
+- 为应用包 `StoreLogo` 补齐 100%–400% DPI 缩放资源，修复任务管理器最外层 GestureSign V2 应用分组显示通用窗口图标的问题。
 
 ### 16.4.51
 
@@ -493,13 +499,19 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54).
 
 Current version:
 
-- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
-- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
-- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
+- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
+- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
+- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
+
+### What's new in 16.4.54
+
+- Automatically starts the bundled Kando after Windows sign-in when Quick Actions is enabled, skips it when disabled, and avoids duplicate Kando processes.
+- Sets native large and small class icons on the WinUI main window for better identification in classic Win32 surfaces such as Task Manager.
+- Adds 100%–400% DPI variants for the package `StoreLogo`, fixing the generic icon on the top-level GestureSign V2 application group in Task Manager.
 
 ### What's new in 16.4.51
 
@@ -638,13 +650,19 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.51) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.54) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.51-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-x64.msi)
-- [GestureSign-V2-16.4.51-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51-portable-x64.zip)
-- [GestureSign-V2-16.4.51.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.51/GestureSign-V2-16.4.51.0-x64-store.msix)
+- [GestureSign-V2-16.4.54-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-x64.msi)
+- [GestureSign-V2-16.4.54-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54-portable-x64.zip)
+- [GestureSign-V2-16.4.54.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.54/GestureSign-V2-16.4.54.0-x64-store.msix)
+
+### 16.4.54 の更新内容
+
+- 「クイック操作」が有効な場合、Windows サインイン後に同梱の Kando を自動起動します。無効な場合は起動せず、重複プロセスも作成しません。
+- WinUI メインウィンドウへネイティブの大小クラスアイコンを設定し、タスクマネージャーなど従来の Win32 画面での識別を改善しました。
+- パッケージの `StoreLogo` に 100%～400% の DPI リソースを追加し、タスクマネージャーの最上位 GestureSign V2 グループに汎用アイコンが表示される問題を修正しました。
 
 ### 16.4.51 の更新内容
 
