@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,15 +65,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
-- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
-- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
+- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
+- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
 
 ## 更新内容
+
+### 16.4.57
+
+- GitHub MSI 与便携版新增更新检查，可选择每 10 分钟、1 小时、1 天、1 个月或仅手动检查；后台服务会按设置持续检查并通过托盘通知新版本。
+- 更新检查仅用于 GitHub 安装渠道，Microsoft Store / MSIX 版本继续由商店负责更新。
+- 统一调整选项页面设置行的垂直对齐，使标题、说明文字与开关、滑块、下拉框保持在同一水平中心线上。
+- 便携版改用标准 ZIP 结构重新打包，并验证关键程序文件和压缩目录，修复部分解压工具提示压缩包无效的问题。
 
 ### 16.4.56
 
@@ -509,13 +515,19 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57).
 
 Current version:
 
-- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
-- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
-- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
+- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
+- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
+
+### What's new in 16.4.57
+
+- Added update checks for the GitHub MSI and portable editions, with 10-minute, hourly, daily, monthly, and manual-only schedules. The background service keeps the selected schedule active and reports new releases through a tray notification.
+- Update checking is limited to GitHub distribution builds; Microsoft Store / MSIX installations continue to receive updates from the Store.
+- Vertically aligned labels, descriptions, toggles, sliders, and combo boxes across the Options page.
+- Rebuilt the portable edition as a standards-compliant ZIP and verified its directory and required executables for broader extractor compatibility.
 
 ### What's new in 16.4.56
 
@@ -670,13 +682,19 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.56) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.56-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-x64.msi)
-- [GestureSign-V2-16.4.56-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56-portable-x64.zip)
-- [GestureSign-V2-16.4.56.0-x64-store.msix](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.56/GestureSign-V2-16.4.56.0-x64-store.msix)
+- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
+- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
+
+### 16.4.57 の更新内容
+
+- GitHub 配布の MSI 版とポータブル版に更新確認を追加し、10 分、1 時間、1 日、1 か月、手動のみから間隔を選択できます。バックグラウンドサービスが設定を維持し、新しいリリースをトレイ通知で知らせます。
+- 更新確認は GitHub 配布版のみで使用し、Microsoft Store / MSIX 版は引き続き Store から更新されます。
+- オプション画面のタイトル、説明、トグル、スライダー、コンボボックスを同じ垂直中心線に揃えました。
+- ポータブル版を標準 ZIP として再作成し、必須実行ファイルとディレクトリ構造を検証して解凍ツールとの互換性を改善しました。
 
 ### 16.4.56 の更新内容
 

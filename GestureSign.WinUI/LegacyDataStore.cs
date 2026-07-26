@@ -1029,6 +1029,9 @@ internal sealed class LegacyDataStore
                 RunAsAdmin = settings.BoolValue("RunAsAdmin", false),
                 VisualFeedbackColor = settings.StringValue("VisualFeedbackColor", ""),
                 ShowGestureActionHint = settings.BoolValue("ShowGestureActionHint", false),
+                CheckForUpdates = settings.BoolValue("CheckForUpdates", false),
+                UpdateCheckInterval = settings.StringValue("UpdateCheckInterval", "Day"),
+                LastUpdateCheckUtc = settings.StringValue("LastUpdateCheckUtc", ""),
                 CultureName = settings.StringValue("CultureName", ""),
                 OpenSettingsHotKey = settings.StringValue("OpenSettingsHotKey", ""),
                 KandoEnabled = settings.BoolValue("KandoEnabled", false),
@@ -1231,6 +1234,9 @@ internal sealed record LegacyOptions
     public bool RunAsAdmin { get; init; }
     public string VisualFeedbackColor { get; init; } = "";
     public bool ShowGestureActionHint { get; init; }
+    public bool CheckForUpdates { get; init; }
+    public string UpdateCheckInterval { get; init; } = "Day";
+    public string LastUpdateCheckUtc { get; init; } = "";
     public string CultureName { get; init; } = "";
     public string OpenSettingsHotKey { get; init; } = "";
     public bool KandoEnabled { get; init; }

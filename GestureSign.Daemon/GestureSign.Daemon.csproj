@@ -112,6 +112,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
@@ -149,8 +150,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="KandoLauncher.cs" />
+    <Compile Include="GitHubUpdateChecker.cs" />
     <Compile Include="..\Shared\KandoTaskbarIdentity.cs">
       <Link>KandoTaskbarIdentity.cs</Link>
+    </Compile>
+    <Compile Include="..\Shared\ProductVersion.cs">
+      <Link>ProductVersion.cs</Link>
     </Compile>
     <Compile Include="TrayManager.cs" />
     <Compile Include="Triggers\ContinuousGestureTrigger.cs" />

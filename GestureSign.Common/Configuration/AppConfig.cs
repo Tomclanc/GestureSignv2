@@ -380,6 +380,42 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        public static bool CheckForUpdates
+        {
+            get
+            {
+                return GetValue(nameof(CheckForUpdates), false);
+            }
+            set
+            {
+                SetValue(nameof(CheckForUpdates), value);
+            }
+        }
+
+        public static string UpdateCheckInterval
+        {
+            get
+            {
+                return GetValue(nameof(UpdateCheckInterval), "Day");
+            }
+            set
+            {
+                SetValue(nameof(UpdateCheckInterval), value);
+            }
+        }
+
+        public static string LastUpdateCheckUtc
+        {
+            get
+            {
+                return GetValue(nameof(LastUpdateCheckUtc), string.Empty);
+            }
+            set
+            {
+                SetValue(nameof(LastUpdateCheckUtc), value);
+            }
+        }
+
         public static bool KandoEnabled
         {
             get

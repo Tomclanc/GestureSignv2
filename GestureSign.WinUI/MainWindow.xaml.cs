@@ -52,7 +52,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = "16.4.56";
+    private const string AppVersion = ProductVersion.Current;
     private const uint WmGetIcon = 0x007F;
     private const int IconSmall = 0;
     private const int IconBig = 1;
@@ -98,6 +98,7 @@ public sealed partial class MainWindow : Window
     private bool _isUpdatingStartupToggles;
     private TextBlock? _pendingTrainingStatus;
     private bool _isSavingOptions;
+    private bool _isCheckingForUpdates;
     private string _selectedActionScope = "all";
     private bool _recognitionEnabled = true;
     private bool _updatingRecognitionToggle;
@@ -163,7 +164,10 @@ public sealed partial class MainWindow : Window
         };
         _daemonWatchdogTimer.Interval = TimeSpan.FromSeconds(3);
         _daemonWatchdogTimer.Tick += async (_, _) => await EnsureDaemonRunningAsync();
-        Closed += (_, _) => StopWindowPicking();
+        Closed += (_, _) =>
+        {
+            StopWindowPicking();
+        };
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
         ApplyMicaDimmingOverlay();
         ExtendsContentIntoTitleBar = true;
@@ -1661,8 +1665,8 @@ public sealed partial class MainWindow : Window
             NewPenButtonRow(options.PenGestureButton)
         ]));
 
-        root.Children.Add(NewSettingsGroup(L("系统", "System", "系統", "システム", "시스템"),
-        [
+        var systemRows = new List<FrameworkElement>
+        {
             NewComboRow(L("语言", "Language", "語言", "言語", "언어"), [L("跟随系统", "Follow system", "跟隨系統", "システムに合わせる", "시스템 설정 따르기"), "简体中文", "English", "繁體中文（台灣）", "日本語", "한국어"], ["", "zh-CN", "en-US", "zh-TW", "ja-JP", "ko-KR"], "CultureName", CultureIndex(_uiCultureName)),
             NewToggleRow(L("启用初始超时", "Enable initial timeout", "啟用初始逾時", "初期タイムアウトを有効にする", "초기 시간 제한 사용"), options.InitialTimeout > 0, "InitialTimeout", options.InitialTimeout == 0 ? "1000" : options.InitialTimeout.ToString(), "0"),
             NewSliderRow(L("初始超时", "Initial timeout", "初始逾時", "初期タイムアウト", "초기 시간 제한"), options.InitialTimeout / 1000d, 0, 2, 0.1, "InitialTimeout", value => ((int)Math.Round(value * 1000)).ToString(CultureInfo.InvariantCulture), value => CurrentLanguage == UiLanguage.English ? $"{value:0.0} sec" : $"{value:0.0} 秒"),
@@ -1677,7 +1681,10 @@ public sealed partial class MainWindow : Window
             NewToggleRow(L("错误日志提示", "Error log notifications", "錯誤記錄提示", "エラーログ通知", "오류 로그 알림"), options.SendErrorReport, "SendErrorReport"),
             NewButtonRow(L("配置文件", "Configuration files", "設定檔", "設定ファイル", "구성 파일"), [L("备份", "Backup", "備份", "バックアップ", "백업"), L("恢复", "Restore", "還原", "復元", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "設定フォルダーを開く", "구성 폴더 열기")]),
             NewButtonRow(L("退出", "Exit", "結束", "終了", "종료"), [L("退出", "Exit", "結束", "終了", "종료")])
-        ]));
+        };
+        if (!IsPackagedInstallation())
+            systemRows.Insert(systemRows.Count - 2, NewUpdateSettingsRow(options));
+        root.Children.Add(NewSettingsGroup(L("系统", "System", "系統", "システム", "시스템"), systemRows.ToArray()));
 
         return root;
     }
@@ -6514,6 +6521,164 @@ public sealed partial class MainWindow : Window
         return NewSettingRow(L("同步配置到 OneDrive", "Sync configuration to OneDrive", "同步設定到 OneDrive", "設定を OneDrive に同期", "구성을 OneDrive에 동기화"), subtitle, toggle);
     }
 
+    private FrameworkElement NewUpdateSettingsRow(LegacyOptions options)
+    {
+        var toggle = new ToggleSwitch
+        {
+            IsOn = options.CheckForUpdates,
+            OnContent = L("开", "On", "開", "オン", "켬"),
+            OffContent = L("关", "Off", "關", "オフ", "끔"),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var interval = new ComboBox
+        {
+            MinWidth = 120,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        var intervalItems = new[]
+        {
+            (L("10 分钟", "10 minutes", "10 分鐘", "10 分", "10분"), "TenMinutes"),
+            (L("1 小时", "1 hour", "1 小時", "1 時間", "1시간"), "Hour"),
+            (L("1 天", "1 day", "1 天", "1 日", "1일"), "Day"),
+            (L("1 个月", "1 month", "1 個月", "1 か月", "1개월"), "Month"),
+            (L("仅手动", "Manual only", "僅手動", "手動のみ", "수동만"), "Manual")
+        };
+        foreach (var (text, value) in intervalItems)
+            interval.Items.Add(new ComboBoxItem { Content = text, Tag = value });
+        interval.SelectedIndex = UpdateIntervalIndex(options.UpdateCheckInterval);
+        interval.IsEnabled = toggle.IsOn;
+
+        var checkNow = NewPillButton(L("立即检查", "Check now", "立即檢查", "今すぐ確認", "지금 확인"), false);
+        checkNow.Click += async (_, _) =>
+        {
+            checkNow.IsEnabled = false;
+            var originalContent = checkNow.Content;
+            checkNow.Content = L("正在检查…", "Checking…", "正在檢查…", "確認中…", "확인 중…");
+            try
+            {
+                await CheckForUpdatesAsync(manual: true);
+            }
+            finally
+            {
+                checkNow.Content = originalContent;
+                checkNow.IsEnabled = true;
+            }
+        };
+
+        toggle.Toggled += async (_, _) =>
+        {
+            interval.IsEnabled = toggle.IsOn;
+            await UpdateOptionAndWaitAsync("CheckForUpdates", toggle.IsOn ? "True" : "False");
+        };
+        interval.SelectionChanged += async (_, _) =>
+        {
+            if (interval.SelectedItem is not ComboBoxItem { Tag: string value })
+                return;
+
+            await UpdateOptionAndWaitAsync("UpdateCheckInterval", value);
+        };
+
+        var controls = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 8,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        controls.Children.Add(toggle);
+        controls.Children.Add(interval);
+        controls.Children.Add(checkNow);
+        return NewSettingRow(
+            L("检查更新", "Check for updates", "檢查更新", "更新を確認", "업데이트 확인"),
+            L("仅 GitHub MSI 和便携版；发现新版本后可打开 Release 下载页面。", "GitHub MSI and portable editions only. Opens the Release download page when a newer version is found.", "僅適用於 GitHub MSI 和便攜版；發現新版本後可開啟 Release 下載頁面。", "GitHub の MSI／ポータブル版のみ。新しいバージョンが見つかると Release のダウンロードページを開けます。", "GitHub MSI 및 포터블 버전 전용입니다. 새 버전이 발견되면 Release 다운로드 페이지를 열 수 있습니다."),
+            controls);
+    }
+
+    private async Task CheckForUpdatesAsync(bool manual)
+    {
+        if (_isCheckingForUpdates)
+            return;
+
+        _isCheckingForUpdates = true;
+        try
+        {
+            var latest = await GitHubUpdateService.GetLatestReleaseAsync();
+            await SaveLastUpdateCheckAsync();
+            if (!GitHubUpdateService.TryParseVersion(AppVersion, out var currentVersion))
+                currentVersion = new Version(0, 0);
+
+            if (latest.Version > currentVersion)
+            {
+                var dialog = new ContentDialog
+                {
+                    XamlRoot = Root.XamlRoot,
+                    Title = L("发现新版本", "Update available", "發現新版本", "新しいバージョンがあります", "새 버전 발견"),
+                    Content = string.Format(
+                        CultureInfo.CurrentCulture,
+                        L("当前版本：{0}\n最新版本：{1}", "Current version: {0}\nLatest version: {1}", "目前版本：{0}\n最新版本：{1}", "現在のバージョン：{0}\n最新バージョン：{1}", "현재 버전: {0}\n최신 버전: {1}"),
+                        AppVersion,
+                        latest.TagName.TrimStart('v', 'V')),
+                    PrimaryButtonText = L("打开下载页面", "Open download page", "開啟下載頁面", "ダウンロードページを開く", "다운로드 페이지 열기"),
+                    CloseButtonText = L("稍后", "Later", "稍後", "後で", "나중에"),
+                    DefaultButton = ContentDialogButton.Primary
+                };
+                if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                    await Launcher.LaunchUriAsync(latest.ReleaseUri);
+            }
+            else if (manual)
+            {
+                await ShowInfoDialog(
+                    L("已是最新版本", "You're up to date", "已是最新版本", "最新バージョンです", "최신 버전입니다"),
+                    string.Format(CultureInfo.CurrentCulture, L("当前版本：{0}", "Current version: {0}", "目前版本：{0}", "現在のバージョン：{0}", "현재 버전: {0}"), AppVersion));
+            }
+        }
+        catch (Exception ex)
+        {
+            await SaveLastUpdateCheckAsync();
+            LogException(ex);
+            if (manual)
+            {
+                await ShowInfoDialog(
+                    L("检查更新失败", "Update check failed", "檢查更新失敗", "更新の確認に失敗しました", "업데이트 확인 실패"),
+                    ex.Message);
+            }
+        }
+        finally
+        {
+            _isCheckingForUpdates = false;
+        }
+    }
+
+    private async Task SaveLastUpdateCheckAsync()
+    {
+        var value = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
+        await Task.Run(() => _legacyData.UpdateOption("LastUpdateCheckUtc", value));
+        _legacyData = LegacyDataStore.Load();
+    }
+
+    private static int UpdateIntervalIndex(string value)
+        => value?.Trim().ToLowerInvariant() switch
+        {
+            "tenminutes" => 0,
+            "hour" => 1,
+            "month" => 3,
+            "manual" => 4,
+            _ => 2
+        };
+
+    private static bool IsPackagedInstallation()
+    {
+        try
+        {
+            _ = Windows.ApplicationModel.Package.Current.Id.Name;
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
     private FrameworkElement NewOpenSettingsHotKeyRow(string existingSettings)
     {
         var settings = new TextBox { Text = existingSettings, Visibility = Visibility.Collapsed };
@@ -6877,12 +7042,14 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(2);
+        text.VerticalAlignment = VerticalAlignment.Center;
         text.Children.Add(new TextBlock { Text = title, Style = ResourceStyle("BodyTextBlockStyle") });
         if (!string.IsNullOrWhiteSpace(subtitle))
             text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.62, TextWrapping = TextWrapping.Wrap });
         grid.Children.Add(text);
 
         Grid.SetColumn(control, 1);
+        control.VerticalAlignment = VerticalAlignment.Center;
         grid.Children.Add(control);
         return new Border
         {

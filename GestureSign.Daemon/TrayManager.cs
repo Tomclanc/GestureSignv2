@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -38,6 +39,8 @@ namespace GestureSign.Daemon
         private ToolStripMenuItem _exitGestureSignMenuItem;
         private Icon _currentTrayIcon;
         private TouchFriendlyTrayMenu _touchTrayMenu;
+        private readonly GitHubUpdateChecker _updateChecker = new GitHubUpdateChecker();
+        private string _updateReleaseUrl;
         private string _loadedCultureName;
         private static DateTime _lastSettingsStartUtc = DateTime.MinValue;
         private static readonly object _settingsStartLock = new object();
@@ -62,6 +65,7 @@ namespace GestureSign.Daemon
             _trayIcon.DoubleClick += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.Click += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.MouseUp += TrayIcon_MouseUp;
+            _trayIcon.BalloonTipClicked += (o, e) => OpenPendingUpdateRelease();
             SetTrayIcon(TrayIconState.Normal);
 
             _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _settingsMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
@@ -665,6 +669,7 @@ namespace GestureSign.Daemon
         public void Load()
         {
             SetupTrayIconAndTrayMenu();
+            _updateChecker.UpdateAvailable += UpdateChecker_UpdateAvailable;
             ApplyConfiguration();
 
             AppConfig.ConfigChanged += (o, ea) =>
@@ -684,6 +689,47 @@ namespace GestureSign.Daemon
                 SetTrayIcon(TrayIconState.Normal);
 
             _trayIcon.Visible = AppConfig.ShowTrayIcon;
+            _updateChecker.Configure();
+        }
+
+        private void UpdateChecker_UpdateAvailable(object sender, UpdateAvailableEventArgs e)
+        {
+            if (_trayMenu == null || _trayMenu.IsDisposed)
+                return;
+
+            try
+            {
+                _trayMenu.BeginInvoke(new Action(() =>
+                {
+                    _updateReleaseUrl = e.ReleaseUrl;
+                    bool chinese = (_loadedCultureName ?? String.Empty).StartsWith("zh", StringComparison.OrdinalIgnoreCase);
+                    _trayIcon.BalloonTipTitle = chinese ? "GestureSign V2 有新版本" : "GestureSign V2 update available";
+                    _trayIcon.BalloonTipText = chinese
+                        ? String.Format(CultureInfo.CurrentCulture, "新版本 {0} 已发布，点击打开下载页面。", e.Version)
+                        : String.Format(CultureInfo.CurrentCulture, "Version {0} is available. Click to open the download page.", e.Version);
+                    _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+                    _trayIcon.ShowBalloonTip(10000);
+                }));
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+            }
+        }
+
+        private void OpenPendingUpdateRelease()
+        {
+            if (String.IsNullOrWhiteSpace(_updateReleaseUrl))
+                return;
+
+            try
+            {
+                Process.Start(new ProcessStartInfo(_updateReleaseUrl) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+            }
         }
 
         private void ReloadLocalizationIfNeeded()
@@ -860,6 +906,7 @@ namespace GestureSign.Daemon
             if (_trayIcon != null) _trayIcon.Visible = false;
             if (_currentTrayIcon != null) _currentTrayIcon.Dispose();
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed) _touchTrayMenu.Dispose();
+            _updateChecker.Dispose();
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         }
 
