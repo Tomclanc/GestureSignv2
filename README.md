@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,14 +65,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
-- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
+- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
+- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
 
 ## 更新内容
+
+### 16.4.58
+
+- 更新提示新增“立即更新”，可直接下载对应的 GitHub MSI 或便携 ZIP，无需手动打开 Release 页面。
+- MSI 版会调用 Windows Installer 覆盖升级；便携版会安全退出 GestureSign 与 Kando、保留便携 `AppData` 配置、替换程序目录并自动重新启动。
+- 下载过程显示实时进度，并检查完整文件长度和 MSI / ZIP 包结构；失败时保留当前版本并显示具体错误。
+- 新增独立更新辅助程序，在主程序退出后执行文件替换，并在便携版更新失败时尝试回滚原目录。
 
 ### 16.4.57
 
@@ -515,12 +522,19 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58).
 
 Current version:
 
-- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
-- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
+- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
+- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+
+### What's new in 16.4.58
+
+- Added an “Update now” action that downloads the matching GitHub MSI or portable ZIP without requiring a manual visit to the Release page.
+- MSI installations are upgraded through Windows Installer. Portable installations close GestureSign and Kando safely, preserve portable `AppData`, replace the application directory, and restart automatically.
+- The download dialog shows live progress and validates the completed length plus MSI / ZIP package structure. Failures leave the current version intact and report the error.
+- Added a standalone update helper that replaces files after the main application exits and attempts to roll back the original portable directory if replacement fails.
 
 ### What's new in 16.4.57
 
@@ -682,12 +696,19 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.57) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.57-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-x64.msi)
-- [GestureSign-V2-16.4.57-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.57/GestureSign-V2-16.4.57-portable-x64.zip)
+- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
+- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+
+### 16.4.58 の更新内容
+
+- 更新通知に「今すぐ更新」を追加し、Release ページを手動で開かずに GitHub の MSI またはポータブル ZIP を直接ダウンロードできます。
+- MSI 版は Windows Installer で上書き更新します。ポータブル版は GestureSign と Kando を安全に終了し、`AppData` 設定を保持したままプログラムディレクトリを置き換えて自動再起動します。
+- ダウンロード進捗を表示し、完了サイズと MSI / ZIP の構造を検証します。失敗時は現在のバージョンを保持してエラー内容を表示します。
+- メインアプリ終了後にファイルを置き換える独立した更新ヘルパーを追加し、ポータブル版の置換失敗時には元ディレクトリの復元を試みます。
 
 ### 16.4.57 の更新内容
 

@@ -2,7 +2,7 @@ param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "16.4.57",
+    [string]$PackageVersion = "16.4.58",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",
@@ -154,6 +154,21 @@ if (Test-Path -LiteralPath $uninstallerProject) {
         Copy-Item -LiteralPath $uninstallerExe -Destination (Join-Path $publishPath "GestureSign-Uninstall.exe") -Force
     }
 }
+
+$updaterProject = Join-Path $PSScriptRoot "Updater\GestureSign.Updater.csproj"
+if (!(Test-Path -LiteralPath $updaterProject)) {
+    throw "Updater project is missing: $updaterProject"
+}
+& $msbuild $updaterProject /p:Configuration=Release /v:m
+if ($LASTEXITCODE -ne 0) {
+    throw "Updater build failed with exit code $LASTEXITCODE"
+}
+
+$updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.exe"
+if (!(Test-Path -LiteralPath $updaterExe)) {
+    throw "Updater build output is missing: $updaterExe"
+}
+Copy-Item -LiteralPath $updaterExe -Destination (Join-Path $publishPath "GestureSign-Updater.exe") -Force
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName
 if ($files.Count -eq 0) {

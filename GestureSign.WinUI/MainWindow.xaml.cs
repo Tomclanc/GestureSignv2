@@ -6590,7 +6590,7 @@ public sealed partial class MainWindow : Window
         controls.Children.Add(checkNow);
         return NewSettingRow(
             L("检查更新", "Check for updates", "檢查更新", "更新を確認", "업데이트 확인"),
-            L("仅 GitHub MSI 和便携版；发现新版本后可打开 Release 下载页面。", "GitHub MSI and portable editions only. Opens the Release download page when a newer version is found.", "僅適用於 GitHub MSI 和便攜版；發現新版本後可開啟 Release 下載頁面。", "GitHub の MSI／ポータブル版のみ。新しいバージョンが見つかると Release のダウンロードページを開けます。", "GitHub MSI 및 포터블 버전 전용입니다. 새 버전이 발견되면 Release 다운로드 페이지를 열 수 있습니다."),
+            L("仅 GitHub MSI 和便携版；发现新版本后可直接下载并覆盖更新。", "GitHub MSI and portable editions only. New releases can be downloaded and installed in place.", "僅適用於 GitHub MSI 和便攜版；發現新版本後可直接下載並覆蓋更新。", "GitHub の MSI／ポータブル版のみ。新しいバージョンを直接ダウンロードして上書き更新できます。", "GitHub MSI 및 포터블 버전 전용입니다. 새 버전을 바로 다운로드하여 덮어쓸 수 있습니다."),
             controls);
     }
 
@@ -6618,11 +6618,15 @@ public sealed partial class MainWindow : Window
                         L("当前版本：{0}\n最新版本：{1}", "Current version: {0}\nLatest version: {1}", "目前版本：{0}\n最新版本：{1}", "現在のバージョン：{0}\n最新バージョン：{1}", "현재 버전: {0}\n최신 버전: {1}"),
                         AppVersion,
                         latest.TagName.TrimStart('v', 'V')),
-                    PrimaryButtonText = L("打开下载页面", "Open download page", "開啟下載頁面", "ダウンロードページを開く", "다운로드 페이지 열기"),
+                    PrimaryButtonText = L("立即更新", "Update now", "立即更新", "今すぐ更新", "지금 업데이트"),
+                    SecondaryButtonText = L("打开下载页面", "Open download page", "開啟下載頁面", "ダウンロードページを開く", "다운로드 페이지 열기"),
                     CloseButtonText = L("稍后", "Later", "稍後", "後で", "나중에"),
                     DefaultButton = ContentDialogButton.Primary
                 };
-                if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                var result = await dialog.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                    await DownloadAndInstallUpdateAsync(latest);
+                else if (result == ContentDialogResult.Secondary)
                     await Launcher.LaunchUriAsync(latest.ReleaseUri);
             }
             else if (manual)
@@ -6654,6 +6658,179 @@ public sealed partial class MainWindow : Window
         var value = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
         await Task.Run(() => _legacyData.UpdateOption("LastUpdateCheckUtc", value));
         _legacyData = LegacyDataStore.Load();
+    }
+
+    private async Task DownloadAndInstallUpdateAsync(GitHubReleaseInfo latest)
+    {
+        var msiInstallation = IsMsiInstallation();
+        var versionText = latest.TagName.TrimStart('v', 'V');
+        var assetName = msiInstallation
+            ? $"GestureSign-V2-{versionText}-x64.msi"
+            : $"GestureSign-V2-{versionText}-portable-x64.zip";
+        var assetUri = GitHubUpdateService.GetAssetUri(latest, assetName);
+        var updateDirectory = Path.Combine(Path.GetTempPath(), "GestureSign-V2-Updates");
+        Directory.CreateDirectory(updateDirectory);
+        var packagePath = Path.Combine(updateDirectory, $"{Guid.NewGuid():N}-{assetName}");
+
+        using var cancellation = new CancellationTokenSource();
+        var status = new TextBlock
+        {
+            Text = string.Format(CultureInfo.CurrentCulture, L("正在下载 {0}…", "Downloading {0}…", "正在下載 {0}…", "{0} をダウンロードしています…", "{0} 다운로드 중…"), assetName),
+            TextWrapping = TextWrapping.Wrap
+        };
+        var progressBar = new ProgressBar { Minimum = 0, Maximum = 100, IsIndeterminate = true };
+        var content = NewCardPanel(12);
+        content.Children.Add(status);
+        content.Children.Add(progressBar);
+        var downloadDialog = new ContentDialog
+        {
+            XamlRoot = Root.XamlRoot,
+            Title = L("正在下载更新", "Downloading update", "正在下載更新", "更新をダウンロード中", "업데이트 다운로드 중"),
+            Content = content,
+            CloseButtonText = L("取消", "Cancel", "取消", "キャンセル", "취소")
+        };
+        var completed = false;
+        downloadDialog.Closed += (_, _) =>
+        {
+            if (!completed)
+                cancellation.Cancel();
+        };
+
+        var progress = new Progress<double>(value =>
+        {
+            progressBar.IsIndeterminate = false;
+            progressBar.Value = value;
+            status.Text = string.Format(
+                CultureInfo.CurrentCulture,
+                L("正在下载更新… {0:0}%", "Downloading update… {0:0}%", "正在下載更新… {0:0}%", "更新をダウンロード中… {0:0}%", "업데이트 다운로드 중… {0:0}%"),
+                value);
+        });
+
+        var dialogOperation = downloadDialog.ShowAsync();
+        try
+        {
+            await GitHubUpdateService.DownloadAssetAsync(assetUri, packagePath, progress, cancellation.Token);
+            status.Text = L("正在验证更新包…", "Verifying update package…", "正在驗證更新套件…", "更新パッケージを確認しています…", "업데이트 패키지 확인 중…");
+            GitHubUpdateService.ValidateDownloadedAsset(packagePath, msiInstallation);
+            completed = true;
+            downloadDialog.Hide();
+            await dialogOperation;
+        }
+        catch (OperationCanceledException)
+        {
+            TryDeleteDownloadedUpdate(packagePath);
+            return;
+        }
+        catch (Exception ex)
+        {
+            completed = true;
+            downloadDialog.Hide();
+            await dialogOperation;
+            TryDeleteDownloadedUpdate(packagePath);
+            LogException(ex);
+            await ShowInfoDialog(
+                L("下载更新失败", "Update download failed", "下載更新失敗", "更新のダウンロードに失敗しました", "업데이트 다운로드 실패"),
+                ex.Message);
+            return;
+        }
+
+        var updaterPath = Path.Combine(AppContext.BaseDirectory, "GestureSign-Updater.exe");
+        if (!File.Exists(updaterPath))
+        {
+            TryDeleteDownloadedUpdate(packagePath);
+            await ShowInfoDialog(
+                L("无法安装更新", "Unable to install update", "無法安裝更新", "更新をインストールできません", "업데이트를 설치할 수 없음"),
+                L("当前版本缺少更新辅助程序，请先从 Release 页面手动更新一次。", "This build does not contain the update helper. Please update manually from the Release page once.", "目前版本缺少更新輔助程式，請先從 Release 頁面手動更新一次。", "このビルドには更新ヘルパーがありません。Release ページから一度手動で更新してください。", "현재 빌드에 업데이트 도우미가 없습니다. Release 페이지에서 한 번 수동 업데이트하세요."));
+            return;
+        }
+
+        var targetDirectory = Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var arguments = string.Join(" ", new[]
+        {
+            "--mode", QuoteCommandLineArgument(msiInstallation ? "msi" : "portable"),
+            "--package", QuoteCommandLineArgument(packagePath),
+            "--target", QuoteCommandLineArgument(targetDirectory),
+            "--launch", QuoteCommandLineArgument("GestureSign.WinUI.exe"),
+            "--wait-pid", Environment.ProcessId.ToString(CultureInfo.InvariantCulture)
+        });
+
+        try
+        {
+            Process.Start(new ProcessStartInfo(updaterPath, arguments)
+            {
+                UseShellExecute = true,
+                WorkingDirectory = AppContext.BaseDirectory
+            });
+        }
+        catch (Exception ex)
+        {
+            TryDeleteDownloadedUpdate(packagePath);
+            LogException(ex);
+            await ShowInfoDialog(
+                L("无法启动更新", "Unable to start update", "無法啟動更新", "更新を開始できません", "업데이트를 시작할 수 없음"),
+                ex.Message);
+            return;
+        }
+
+        await ExitAllGestureSignProcessesAsync();
+    }
+
+    private static bool IsMsiInstallation()
+    {
+        var appDirectory = Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var roots = new[]
+        {
+            Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall"),
+            Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Uninstall"),
+            Registry.LocalMachine.OpenSubKey(@"Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall")
+        };
+
+        try
+        {
+            foreach (var root in roots.Where(item => item is not null))
+            {
+                foreach (var keyName in root!.GetSubKeyNames())
+                {
+                    using var key = root.OpenSubKey(keyName);
+                    var displayName = key?.GetValue("DisplayName") as string;
+                    if (!string.Equals(displayName, "GestureSign V2", StringComparison.OrdinalIgnoreCase) ||
+                        !string.Equals(key?.GetValue("WindowsInstaller")?.ToString(), "1", StringComparison.Ordinal))
+                        continue;
+
+                    var installLocation = key?.GetValue("InstallLocation") as string;
+                    if (string.IsNullOrWhiteSpace(installLocation))
+                        continue;
+                    var installedDirectory = Path.GetFullPath(installLocation).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+                    if (string.Equals(installedDirectory, appDirectory, StringComparison.OrdinalIgnoreCase))
+                        return true;
+                }
+            }
+        }
+        catch
+        {
+        }
+        finally
+        {
+            foreach (var root in roots)
+                root?.Dispose();
+        }
+
+        return false;
+    }
+
+    private static string QuoteCommandLineArgument(string value)
+        => $"\"{value.Replace("\"", "\\\"")}\"";
+
+    private static void TryDeleteDownloadedUpdate(string path)
+    {
+        try
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+        catch
+        {
+        }
     }
 
     private static int UpdateIntervalIndex(string value)
