@@ -1,6 +1,9 @@
 param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
-    [string]$OutputMsi = (Join-Path $PSScriptRoot "GestureSign-V2-Kando-x64.msi"),
+    [string]$OutputMsi = "",
+    [ValidateSet("x64", "arm64")]
+    [string]$Architecture = "x64",
+    [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
     [string]$PackageVersion = "16.4.58",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
@@ -10,6 +13,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($OutputMsi)) {
+    $OutputMsi = Join-Path $PSScriptRoot "GestureSign-V2-Kando-$Architecture.msi"
+}
 
 function Get-StableId {
     param(
@@ -76,7 +83,12 @@ function Find-MSBuild {
 
 $publishPath = [System.IO.Path]::GetFullPath($PublishDir)
 $repoRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
-$repoKandoPath = Join-Path $repoRoot.ProviderPath "Kando"
+$repoKandoPath = if ([string]::IsNullOrWhiteSpace($KandoSourceDir)) {
+    Join-Path $repoRoot.ProviderPath "Kando"
+}
+else {
+    [System.IO.Path]::GetFullPath($KandoSourceDir)
+}
 $publishKandoPath = Join-Path $publishPath "Kando"
 $publishBackendPath = Join-Path $publishPath "Backend"
 $wxsPath = Join-Path $PSScriptRoot "GestureSign.generated.kando.wxs"
@@ -106,12 +118,12 @@ if (Test-Path -LiteralPath $publishPath) {
 New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
-& $msbuild $winUiProject /restore /t:Publish /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /p:StorePackage=false /p:SelfContained=true /v:m
+& $msbuild $winUiProject /restore /t:Publish /p:Configuration=Release /p:Platform=$Architecture /p:RuntimeIdentifier="win-$Architecture" /p:StorePackage=false /p:SelfContained=true /v:m
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
 
-$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\x64\Release\net8.0-windows10.0.22621.0\win-x64\publish"
+$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net8.0-windows10.0.22621.0\win-$Architecture\publish"
 if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"))) {
     throw "WinUI build output is missing GestureSign.WinUI.exe: $winUiOutputPath"
 }
@@ -131,10 +143,11 @@ foreach ($requiredWinUiFile in @("GestureSign.WinUI.exe", "GestureSign.WinUI.dll
     }
 }
 
-if (!(Test-Path -LiteralPath (Join-Path $publishKandoPath "kando.exe")) -and (Test-Path -LiteralPath (Join-Path $repoKandoPath "kando.exe"))) {
-    if (!(Test-Path -LiteralPath $publishKandoPath)) {
-        New-Item -ItemType Directory -Path $publishKandoPath | Out-Null
+if (Test-Path -LiteralPath (Join-Path $repoKandoPath "kando.exe")) {
+    if (Test-Path -LiteralPath $publishKandoPath) {
+        Remove-Item -LiteralPath $publishKandoPath -Recurse -Force
     }
+    New-Item -ItemType Directory -Path $publishKandoPath | Out-Null
     Copy-Item -Path (Join-Path $repoKandoPath "*") -Destination $publishKandoPath -Recurse -Force
 }
 
@@ -335,7 +348,7 @@ if (Test-Path -LiteralPath $OutputMsi) {
     Remove-Item -LiteralPath $OutputMsi -Force
 }
 
-& wix build -arch x64 -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
+& wix build -arch $Architecture -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
 if ($LASTEXITCODE -ne 0) {
     throw "WiX build failed with exit code $LASTEXITCODE"
 }
