@@ -20,7 +20,7 @@
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI%203-0078D4?style=flat-square">
-  <img alt="Platform" src="https://img.shields.io/badge/Platform-x64-555?style=flat-square">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-x64%20%7C%20ARM64-555?style=flat-square">
 </p>
 
 <p align="center">
@@ -71,6 +71,12 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
 - [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
+
+> [!WARNING]
+> ARM64 版本目前属于早期版本且尚未签名。开发者暂时没有 ARM64 Windows on ARM 设备，无法进行真实设备安装和运行测试；该构建仅完成编译、打包和 PE 架构静态检查，请谨慎使用并反馈问题。
+
+ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ## 更新内容
 
@@ -464,8 +470,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 兼容性
 
-- 推荐系统：Windows 11 x64
-- 安装包：MSI x64
+- 推荐系统：Windows 11 x64；Windows on ARM64 目前为未经实机测试的早期预览支持。
+- 安装包：MSI x64、便携版 x64、MSI ARM64 Early Preview
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -528,6 +534,12 @@ Current version:
 
 - [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
 - [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi) (Windows on ARM64 early preview)
+
+> [!WARNING]
+> The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
+
+ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ### What's new in 16.4.58
 
@@ -638,8 +650,8 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 
 ## Compatibility
 
-- Recommended OS: Windows 11 x64
-- Installer: MSI x64
+- Recommended OS: Windows 11 x64; Windows on ARM64 support is currently an untested early preview.
+- Packages: x64 MSI, x64 portable ZIP, and ARM64 Early Preview MSI
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -702,6 +714,12 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
 - [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
+
+> [!WARNING]
+> ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
+
+ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ### 16.4.58 の更新内容
 
@@ -812,8 +830,8 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 
 ## 互換性
 
-- 推奨 OS: Windows 11 x64
-- インストーラー: MSI x64
+- 推奨 OS: Windows 11 x64。Windows on ARM64 対応は現在、実機未検証の早期プレビューです。
+- パッケージ: x64 MSI、x64 ポータブル ZIP、ARM64 Early Preview MSI
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## フィードバック
