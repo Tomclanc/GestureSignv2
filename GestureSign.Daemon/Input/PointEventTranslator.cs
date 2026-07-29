@@ -82,6 +82,9 @@ namespace GestureSign.Daemon.Input
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
             var button = (MouseActions)mouseMessage.Button;
+            if (ShouldPassThroughGestureSignUi(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
+                return;
+
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
                 return;
 
@@ -109,6 +112,9 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
+            if (ShouldPassThroughGestureSignUi(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+                return;
+
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
                 return;
 
@@ -125,6 +131,13 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
+            if (ShouldPassThroughGestureSignUi(mouseMessage.Point))
+            {
+                if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
+                    Logging.LogMessage($"Mouse gesture passed through. Reason=GestureSignUi, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                return;
+            }
+
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point))
             {
                 if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
@@ -273,6 +286,49 @@ namespace GestureSign.Daemon.Input
                 var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
                 ApplicationManager.GetWindowInfo(targetWindow, out _, out _, out var fileName);
                 return IsRemoteDesktopProcess(fileName);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool ShouldPassThroughGestureSignUi(System.Drawing.Point point)
+        {
+            try
+            {
+                var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+                if (IsGestureSignUiWindow(targetWindow))
+                    return true;
+
+                // Packaged WinUI content and its transient text-selection/context-menu
+                // surfaces can be reported through a Windows host window instead of
+                // GestureSign.WinUI.exe. The foreground top-level window remains the
+                // reliable owner in that case.
+                return IsGestureSignUiWindow(SystemWindow.ForegroundWindow);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsGestureSignUiWindow(SystemWindow window)
+        {
+            if (window == null || window.HWnd == IntPtr.Zero)
+                return false;
+
+            try
+            {
+                ApplicationManager.GetWindowInfo(window, out _, out var title, out var fileName);
+                if (string.Equals(fileName, "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(fileName, "GestureSign.WinUI", StringComparison.OrdinalIgnoreCase))
+                    return true;
+
+                // ApplicationFrameHost and XAML popup windows may own the hit-test
+                // handle for packaged UI. Limit the title fallback to the exact app
+                // window so other applications keep their configured mouse gestures.
+                return string.Equals(title?.Trim(), "GestureSign V2", StringComparison.OrdinalIgnoreCase);
             }
             catch
             {

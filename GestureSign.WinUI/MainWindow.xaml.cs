@@ -29,6 +29,7 @@ using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Devices.Input;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage.Pickers;
 using Windows.System;
 using Windows.System.Profile;
@@ -2715,7 +2716,18 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
-        panel.Children.Add(NewBuiltInGesturePicker(gesture));
+        panel.Children.Add(NewGesturePickerRow(
+            gesture,
+            selectedGesture =>
+            {
+                showRecordedGesture(selectedGesture.PointPatterns);
+                drawnPointPatterns.Clear();
+            },
+            () =>
+            {
+                showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
+                drawnPointPatterns.Clear();
+            }));
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
@@ -2816,7 +2828,18 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(0);
         panel.Children.Add(name);
         panel.Children.Add(gesture);
-        panel.Children.Add(NewBuiltInGesturePicker(gesture));
+        panel.Children.Add(NewGesturePickerRow(
+            gesture,
+            selectedGesture =>
+            {
+                showRecordedGesture(selectedGesture.PointPatterns);
+                drawnPointPatterns.Clear();
+            },
+            () =>
+            {
+                showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
+                drawnPointPatterns.Clear();
+            }));
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
@@ -2864,7 +2887,63 @@ public sealed partial class MainWindow : Window
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
-    private FrameworkElement NewBuiltInGesturePicker(TextBox gesture)
+    private FrameworkElement NewGesturePickerRow(
+        TextBox gesture,
+        Action<LegacyGesture>? onRecordedGestureSelected = null,
+        Action? onBuiltInGestureSelected = null)
+    {
+        ComboBox? recordedPicker = null;
+        var builtInPicker = NewBuiltInGesturePicker(gesture, () =>
+        {
+            if (recordedPicker is not null && recordedPicker.SelectedIndex > 0)
+                recordedPicker.SelectedIndex = 0;
+            onBuiltInGestureSelected?.Invoke();
+        });
+        recordedPicker = NewRecordedGesturePicker(gesture, selectedGesture =>
+        {
+            if (builtInPicker.SelectedIndex > 0)
+                builtInPicker.SelectedIndex = 0;
+            onRecordedGestureSelected?.Invoke(selectedGesture);
+        });
+
+        builtInPicker.Margin = new Thickness(0);
+        recordedPicker.Margin = new Thickness(0);
+        builtInPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
+        recordedPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
+        return NewTwoColumnRow(builtInPicker, recordedPicker);
+    }
+
+    private ComboBox NewRecordedGesturePicker(TextBox gesture, Action<LegacyGesture>? onGestureSelected = null)
+    {
+        var gestures = _legacyData.Gestures
+            .OrderBy(item => item.FingerCount)
+            .ThenBy(item => DisplayName(item.Name), StringComparer.CurrentCultureIgnoreCase)
+            .ToArray();
+        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
+        combo.Items.Add(L("选择已录制手势", "Choose recorded gesture", "選擇已錄製手勢", "記録済みジェスチャを選択", "녹화된 제스처 선택"));
+        foreach (var item in gestures)
+        {
+            combo.Items.Add($"{DisplayName(item.Name)} · {CountText(item.FingerCount, L("指", "finger(s)", "指", "本指", "손가락"))}");
+        }
+
+        var currentGestureName = ResolveGestureName(gesture, gesture.Text);
+        var selectedGestureIndex = Array.FindIndex(gestures, item =>
+            string.Equals(item.Name, currentGestureName, StringComparison.OrdinalIgnoreCase));
+        combo.SelectedIndex = selectedGestureIndex >= 0 ? selectedGestureIndex + 1 : 0;
+        combo.SelectionChanged += (_, _) =>
+        {
+            var index = combo.SelectedIndex - 1;
+            if (index < 0 || index >= gestures.Length)
+                return;
+
+            var selectedGesture = gestures[index];
+            SetGestureText(gesture, selectedGesture.Name);
+            onGestureSelected?.Invoke(selectedGesture);
+        };
+        return combo;
+    }
+
+    private ComboBox NewBuiltInGesturePicker(TextBox gesture, Action? onGestureSelected = null)
     {
         var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
         combo.Items.Add("选择内置触发方式");
@@ -2901,7 +2980,10 @@ public sealed partial class MainWindow : Window
         {
             var gestureName = BuiltInGestureNameFromIndex(combo.SelectedIndex);
             if (!string.IsNullOrWhiteSpace(gestureName))
+            {
                 SetGestureText(gesture, gestureName);
+                onGestureSelected?.Invoke();
+            }
         };
         return combo;
     }
@@ -5017,6 +5099,44 @@ public sealed partial class MainWindow : Window
             TextWrapping = TextWrapping.Wrap
         };
 
+        // Live refresh can replace Text while the user is selecting it, clearing
+        // WinUI's native selection before the built-in Copy command runs. Keep a
+        // stable snapshot and copy it directly from a log-specific context menu.
+        var selectedLogText = string.Empty;
+        var logContextMenuOpen = false;
+        logTextBlock.SelectionChanged += (_, _) =>
+        {
+            if (!string.IsNullOrEmpty(logTextBlock.SelectedText))
+                selectedLogText = logTextBlock.SelectedText;
+        };
+
+        var copyLogSelectionItem = new MenuFlyoutItem { Text = "复制" };
+        copyLogSelectionItem.Click += (_, _) =>
+        {
+            var text = !string.IsNullOrEmpty(logTextBlock.SelectedText)
+                ? logTextBlock.SelectedText
+                : selectedLogText;
+            if (string.IsNullOrEmpty(text))
+                return;
+
+            var dataPackage = new DataPackage();
+            dataPackage.SetText(text);
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
+        };
+
+        var logContextMenu = new MenuFlyout();
+        logContextMenu.Items.Add(copyLogSelectionItem);
+        logContextMenu.Opening += (_, _) =>
+        {
+            logContextMenuOpen = true;
+            if (!string.IsNullOrEmpty(logTextBlock.SelectedText))
+                selectedLogText = logTextBlock.SelectedText;
+            copyLogSelectionItem.IsEnabled = !string.IsNullOrEmpty(selectedLogText);
+        };
+        logContextMenu.Closed += (_, _) => logContextMenuOpen = false;
+        logTextBlock.ContextFlyout = logContextMenu;
+
         var scrollViewer = new ScrollViewer
         {
             Content = logTextBlock,
@@ -5124,7 +5244,7 @@ public sealed partial class MainWindow : Window
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
         timer.Tick += async (_, _) =>
         {
-            if (isRefreshing)
+            if (isRefreshing || logContextMenuOpen || !string.IsNullOrEmpty(logTextBlock.SelectedText))
                 return;
             isRefreshing = true;
             try

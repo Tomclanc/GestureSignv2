@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.64">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,12 +65,12 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.64) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
-- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.64-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-x64.msi)
+- [GestureSign-V2-16.4.64-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
 
 > [!WARNING]
@@ -79,6 +79,13 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ## 更新内容
+
+### 16.4.64
+
+- 新增、编辑动作时可从下拉菜单直接选择手势库中已经录制的手势，并同步载入对应图案。
+- 统一按钮、输入框和下拉框的 8 px 圆角，使动作编辑窗口及其他页面的控件风格一致。
+- GestureSign V2 自身窗口中的右键操作不再被鼠标手势捕捉，其他应用中的右键手势保持不变。
+- 日志窗口新增可靠的专用“复制”菜单；选中文字或打开右键菜单时暂停实时刷新，避免选区在复制前被清空。
 
 ### 16.4.58
 
@@ -528,18 +535,25 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.64).
 
 Current version:
 
-- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
-- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.64-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-x64.msi)
+- [GestureSign-V2-16.4.64-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi) (Windows on ARM64 early preview)
 
 > [!WARNING]
 > The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
 
 ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
+
+### What's new in 16.4.64
+
+- Action add/edit dialogs can now select an existing recorded gesture directly from the gesture library and load its recorded pattern.
+- Standardized buttons, text boxes, and combo boxes on an 8 px corner radius for consistent UI styling.
+- Right-clicks inside GestureSign V2 are no longer captured as mouse gestures, while mouse gestures in other applications remain unchanged.
+- Added a reliable log-specific Copy command and paused live refresh while text is selected or its context menu is open, preventing the selection from disappearing before copy.
 
 ### What's new in 16.4.58
 
@@ -708,18 +722,25 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.58) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.64) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.58-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-x64.msi)
-- [GestureSign-V2-16.4.58-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-portable-x64.zip)
+- [GestureSign-V2-16.4.64-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-x64.msi)
+- [GestureSign-V2-16.4.64-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.64/GestureSign-V2-16.4.64-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
 
 > [!WARNING]
 > ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
 
 ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
+
+### 16.4.64 の更新内容
+
+- 操作の追加・編集画面から、ジェスチャーライブラリに記録済みのジェスチャーを直接選択し、その軌跡を読み込めるようにしました。
+- ボタン、テキストボックス、コンボボックスの角丸を 8 px に統一し、UI の一貫性を改善しました。
+- GestureSign V2 自身のウィンドウ内での右クリックをマウスジェスチャーとして捕捉しないようにし、他のアプリの右クリックジェスチャーは維持しました。
+- ログ専用の「コピー」メニューを追加し、文字列選択中または右クリックメニュー表示中は自動更新を一時停止して、コピー前に選択範囲が消える問題を修正しました。
 
 ### 16.4.58 の更新内容
 
