@@ -876,7 +876,14 @@ public sealed partial class MainWindow : Window
         var ignoredApps = _legacyData.Applications.Where(app => app.Type == "忽略").ToList();
         table.Children.Add(NewTableHeader([L("启用", "Enabled", "啟用", "有効", "사용"), L("匹配类型", "Match Type", "比對類型", "一致タイプ", "매칭 유형"), L("程序名称", "App Name", "程式名稱", "アプリ名", "프로그램 이름"), L("匹配文本", "Match Text", "比對文字", "一致テキスト", "매칭 텍스트"), L("正则", "Regex", "正則", "正規表現", "정규식")]));
         foreach (var app in ignoredApps)
-            table.Children.Add(NewTableRow([app.IsEnabled ? L("开", "On", "開", "オン", "켬") : L("关", "Off", "關", "オフ", "끔"), MatchUsingText(app.MatchUsing), app.Name, app.MatchString, app.IsRegEx ? L("是", "Yes", "是", "はい", "예") : L("否", "No", "否", "いいえ", "아니요")], false, NewInlineButtons((L("编辑", "Edit", "編輯", "編集", "편집"), async () => await EditApplicationAsync(app)), (app.IsEnabled ? L("停用", "Disable", "停用", "無効化", "사용 안 함") : L("启用", "Enable", "啟用", "有効化", "사용"), async () => await ToggleEnabledAsync(app.Source)), (L("删除", "Delete", "刪除", "削除", "삭제"), async () => await DeleteApplicationAsync(app)))));
+            table.Children.Add(NewTableRow([app.IsEnabled ? L("开", "On", "開", "オン", "켬") : L("关", "Off", "關", "オフ", "끔"), MatchUsingText(app.MatchUsing), app.Name, app.MatchString, app.IsRegEx ? L("是", "Yes", "是", "はい", "예") : L("否", "No", "否", "いいえ", "아니요")], false, NewInlineButtonsWithContext(
+                (L("编辑", "Edit", "編輯", "編集", "편집"), async _ => await EditApplicationAsync(app)),
+                (app.IsEnabled ? L("停用", "Disable", "停用", "無効化", "사용 안 함") : L("启用", "Enable", "啟用", "有効化", "사용"), async button =>
+                {
+                    await ToggleApplicationEnabledAsync(app, button);
+                    ReloadData();
+                }),
+                (L("删除", "Delete", "刪除", "削除", "삭제"), async _ => await DeleteApplicationAsync(app)))));
         if (ignoredApps.Count == 0)
             table.Children.Add(NewTableRow(["-", "-", L("暂无忽略项", "No ignored items", "暫無忽略項", "無視項目はありません", "무시 항목 없음"), L("可以从这里添加窗口标题、类名或 exe 匹配", "Add title, class, or exe matches here.", "可在此新增標題、類別或 exe 比對。", "ここでタイトル、クラス、exe の一致を追加できます。", "여기서 제목, 클래스 또는 exe 매칭을 추가할 수 있습니다."), "-"]));
         table.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "インポート", "가져오기"), "导入"), (L("导出", "Export", "匯出", "エクスポート", "내보내기"), "导出"), (L("下载列表", "Download List", "下載清單", "リストをダウンロード", "목록 다운로드"), "下载列表")]));
