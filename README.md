@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.66">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,12 +65,12 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.66) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-16.4.66-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-x64.msi)
-- [GestureSign-V2-16.4.66-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-portable-x64.zip)
+- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
+- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
 
 > [!WARNING]
@@ -80,9 +80,9 @@ ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8E
 
 ## 更新内容
 
-### 16.4.66
+### 17.1
 
-- WinUI 3 前端和手势识别后台全面迁移到 .NET 10，并以自包含方式发布。
+- WinUI 3 前端和手势识别后台全面迁移到 .NET 10；GitHub MSI 与便携版改用共享运行环境，以减小下载和安装体积。
 - 全面转向 64 位架构，仅生成 x64 与 ARM64 程序，不再生成或携带 x86 二进制文件。
 - 优化后台长期运行的内存与原生资源占用：手势结束或取消后及时释放轨迹、训练缓存和 GDI 绘制资源。
 - 修复命名管道异常重建时旧管道句柄未释放的问题，避免设置窗口反复连接后资源逐步累积。
@@ -103,6 +103,7 @@ ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8E
 
 - 更新提示新增“立即更新”，可直接下载对应的 GitHub MSI 或便携 ZIP，无需手动打开 Release 页面。
 - MSI 版会调用 Windows Installer 覆盖升级；便携版会安全退出 GestureSign 与 Kando、保留便携 `AppData` 配置、替换程序目录并自动重新启动。
+- GitHub 提供的 MSI 与便携版采用共享运行环境以减小下载和安装体积；首次启动若缺少 x64 .NET 10 Desktop Runtime 或 Windows App Runtime，系统会显示获取/下载提示。Kando 与全部语言资源仍完整保留。
 - 下载过程显示实时进度，并检查完整文件长度和 MSI / ZIP 包结构；失败时保留当前版本并显示具体错误。
 - 新增独立更新辅助程序，在主程序退出后执行文件替换，并在便携版更新失败时尝试回滚原目录。
 
@@ -547,12 +548,12 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.66).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1).
 
 Current version:
 
-- [GestureSign-V2-16.4.66-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-x64.msi)
-- [GestureSign-V2-16.4.66-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-portable-x64.zip)
+- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
+- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi) (Windows on ARM64 early preview)
 
 > [!WARNING]
@@ -560,9 +561,9 @@ Current version:
 
 ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
-### What's new in 16.4.66
+### What's new in 17.1
 
-- Migrated both the WinUI 3 frontend and gesture-recognition daemon to self-contained .NET 10 builds.
+- Migrated both the WinUI 3 frontend and gesture-recognition daemon to .NET 10; GitHub MSI and portable builds now use shared runtimes to reduce download and installed size.
 - Completed the 64-bit transition: only x64 and ARM64 binaries are produced, with no x86 payloads.
 - Reduced long-running daemon memory and native-resource retention by releasing gesture, training, and GDI drawing buffers promptly after use.
 - Fixed stale named-pipe handles being retained when an IPC server is rebuilt after a fault.
@@ -583,6 +584,7 @@ ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8EC
 
 - Added an “Update now” action that downloads the matching GitHub MSI or portable ZIP without requiring a manual visit to the Release page.
 - MSI installations are upgraded through Windows Installer. Portable installations close GestureSign and Kando safely, preserve portable `AppData`, replace the application directory, and restart automatically.
+- GitHub MSI and portable builds use shared runtimes to reduce download and installed size. On first launch, Windows shows an acquisition/download prompt if the x64 .NET 10 Desktop Runtime or Windows App Runtime is missing. Kando and all language resources remain included.
 - The download dialog shows live progress and validates the completed length plus MSI / ZIP package structure. Failures leave the current version intact and report the error.
 - Added a standalone update helper that replaces files after the main application exits and attempts to roll back the original portable directory if replacement fails.
 
@@ -746,12 +748,12 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v16.4.66) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-16.4.66-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-x64.msi)
-- [GestureSign-V2-16.4.66-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.66/GestureSign-V2-16.4.66-portable-x64.zip)
+- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
+- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
 
 > [!WARNING]
@@ -759,9 +761,9 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
-### 16.4.66 の更新内容
+### 17.1 の更新内容
 
-- WinUI 3 フロントエンドとジェスチャー認識バックグラウンドを、自己完結型の .NET 10 ビルドへ全面移行しました。
+- WinUI 3 フロントエンドとジェスチャー認識バックグラウンドを .NET 10 へ全面移行し、GitHub の MSI とポータブル版は共有ランタイム方式で容量を削減しました。
 - 64 ビット移行を完了し、x64 と ARM64 のみを生成して x86 バイナリを含めない構成にしました。
 - ジェスチャー終了・キャンセル後に軌跡、トレーニングキャッシュ、GDI 描画リソースを速やかに解放し、長時間動作時のメモリ使用量を改善しました。
 - IPC サーバーの障害再作成時に古い名前付きパイプハンドルが残る問題を修正しました。

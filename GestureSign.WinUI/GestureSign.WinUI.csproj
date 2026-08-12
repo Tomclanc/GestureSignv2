@@ -17,14 +17,20 @@
     <WindowsPackageType Condition="'$(StorePackage)' == 'true'">MSIX</WindowsPackageType>
     <EnableMsixTooling Condition="'$(StorePackage)' == 'true'">true</EnableMsixTooling>
     <AppxPackageSigningEnabled Condition="'$(StorePackage)' == 'true'">false</AppxPackageSigningEnabled>
-    <SelfContained>true</SelfContained>
-    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <!-- GitHub MSI/portable builds use shared runtimes to keep downloads small.
+         The native .NET apphost and Windows App SDK bootstrapper show the
+         appropriate acquisition UI when a required runtime is missing. -->
+    <SelfContained Condition="'$(StorePackage)' != 'true'">false</SelfContained>
+    <SelfContained Condition="'$(StorePackage)' == 'true'">true</SelfContained>
+    <WindowsAppSDKSelfContained Condition="'$(StorePackage)' != 'true'">false</WindowsAppSDKSelfContained>
+    <WindowsAppSDKSelfContained Condition="'$(StorePackage)' == 'true'">false</WindowsAppSDKSelfContained>
+    <WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI Condition="'$(StorePackage)' != 'true'">true</WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>8.2.15</Version>
-    <AssemblyVersion>8.2.15.0</AssemblyVersion>
-    <FileVersion>8.2.15.0</FileVersion>
+    <Version>17.1.0</Version>
+    <AssemblyVersion>17.1.0.0</AssemblyVersion>
+    <FileVersion>17.1.0.0</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
@@ -32,6 +38,10 @@
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
   </ItemGroup>
   <ItemGroup>
+    <!-- Request the Desktop Runtime rather than only the base .NET runtime.
+         The background process uses WinForms, so installing this one runtime
+         satisfies both the WinUI front end and GestureSign.exe. -->
+    <FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.5.0" />
@@ -47,7 +57,9 @@
   </ItemGroup>
   <ItemGroup Condition="'$(StorePackage)' == 'true'">
     <Content Include="Assets\Store\**\*.png" />
-    <Content Include="..\bin\Release\**\*.*" Link="Backend\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Content Include="..\bin\Release\**\*.*"
+             Exclude="..\bin\Release\**\*.pdb;..\bin\Release\createdump.exe;..\bin\Release\clretwrc.dll;..\bin\Release\mscordaccore*.dll;..\bin\Release\mscordbi.dll"
+             Link="Backend\%(RecursiveDir)%(Filename)%(Extension)" />
     <Content Include="..\Kando\**\*.*" Link="Kando\%(RecursiveDir)%(Filename)%(Extension)" Condition="Exists('..\Kando')" />
     <!-- SDK metadata is compile-time input and is invalid as application metadata. -->
     <Content Remove="**\*.winmd" />

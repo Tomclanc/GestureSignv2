@@ -5,10 +5,10 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "16.4.66",
+    [string]$PackageVersion = "17.1",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
-    [string]$CompressionLevel = "low",
+    [string]$CompressionLevel = "high",
     [switch]$SkipMajorUpgrade
 )
 
@@ -103,7 +103,7 @@ $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
 if (Test-Path -LiteralPath $backendOutputPath) {
     Remove-Item -LiteralPath $backendOutputPath -Recurse -Force
 }
-& dotnet publish $backendProject -c Release -r "win-$Architecture" --self-contained true -o $backendOutputPath /p:PlatformTarget=$Architecture /m:1 /nr:false /v:minimal
+& dotnet publish $backendProject -c Release -r "win-$Architecture" --self-contained false -o $backendOutputPath /p:PlatformTarget=$Architecture /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw ".NET 10 $Architecture backend publish failed with exit code $LASTEXITCODE"
 }
@@ -119,7 +119,7 @@ New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
 $winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net10.0-windows10.0.26100.0\win-$Architecture\publish"
-& dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained true -o $winUiOutputPath /p:Platform=$Architecture /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
+& dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained false -o $winUiOutputPath /p:Platform=$Architecture /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
@@ -182,6 +182,22 @@ if (!(Test-Path -LiteralPath $updaterExe)) {
     throw "Updater build output is missing: $updaterExe"
 }
 Copy-Item -LiteralPath $updaterExe -Destination (Join-Path $publishPath "GestureSign-Updater.exe") -Force
+
+# Remove files used solely for debugging self-contained .NET deployments. These
+# files are not required for normal startup, crash logging, or updating.
+foreach ($payloadRoot in @($publishPath, $publishBackendPath)) {
+    Get-ChildItem -LiteralPath $payloadRoot -Filter "*.pdb" -File -ErrorAction SilentlyContinue |
+        Remove-Item -Force
+
+    foreach ($diagnosticFile in @("createdump.exe", "clretwrc.dll", "mscordaccore.dll", "mscordbi.dll")) {
+        $diagnosticPath = Join-Path $payloadRoot $diagnosticFile
+        if (Test-Path -LiteralPath $diagnosticPath) {
+            Remove-Item -LiteralPath $diagnosticPath -Force
+        }
+    }
+    Get-ChildItem -LiteralPath $payloadRoot -Filter "mscordaccore_*.dll" -File -ErrorAction SilentlyContinue |
+        Remove-Item -Force
+}
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName
 if ($files.Count -eq 0) {
