@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseSystemDrawing>true</UseSystemDrawing>
+    <AssemblyName>GestureSign</AssemblyName>
+    <RootNamespace>GestureSign.Daemon</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <ApplicationIcon>Resources\normal.ico</ApplicationIcon>
+    <ApplicationManifest>Properties\app.common.manifest</ApplicationManifest>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Shared\KandoTaskbarIdentity.cs" Link="KandoTaskbarIdentity.cs" />
+    <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
+    <ProjectReference Include="..\GestureSign.Common\GestureSign.Common.Net10.csproj" />
+    <ProjectReference Include="..\GestureSign.CorePlugins\GestureSign.CorePlugins.Net10.csproj" />
+    <ProjectReference Include="..\GestureSign.ExtraPlugins\ClipboardMatch\ClipboardMatch.Net10.csproj" />
+    <ProjectReference Include="..\GestureSign.ExtraPlugins\TextCopyer\TextCopyer.Net10.csproj" />
+    <ProjectReference Include="..\GestureSign.PointPatterns\GestureSign.PointPatterns.Net10.csproj" />
+    <ProjectReference Include="..\ManagedWinapi\ManagedWinapi.Net10.csproj" />
+    <ProjectReference Include="..\WindowsInput\WindowsInput.Net10.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Languages\**\*.*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\Defaults\Actions.gsa" Link="Defaults\Actions.gsa" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="..\Defaults\Gestures.gest" Link="Defaults\Gestures.gest" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="PlaceExtraPlugins" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
+    <ItemGroup>
+      <ExtraPlugin Include="$(PublishDir)GestureSign.ClipboardMatch.Plugin.dll;$(PublishDir)GestureSign.ExtraPlugins.TextCopyer.dll" />
+    </ItemGroup>
+    <MakeDir Directories="$(PublishDir)Plugins" />
+    <Copy SourceFiles="@(ExtraPlugin)" DestinationFolder="$(PublishDir)Plugins" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

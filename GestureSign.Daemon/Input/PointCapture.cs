@@ -217,11 +217,13 @@ namespace GestureSign.Daemon.Input
             CaptureEnded += (o, e) =>
             {
                 _liveGestureHintName = null;
+                _lastVisualFeedbackPoints = null;
                 _surfaceForm.EndDrawing();
             };
             CaptureCanceled += (o, e) =>
             {
                 _liveGestureHintName = null;
+                _lastVisualFeedbackPoints = null;
                 _surfaceForm.EndDrawing();
             };
             PointCaptured += (o, e) =>
@@ -705,6 +707,7 @@ namespace GestureSign.Daemon.Input
             if (pointsInformation.Cancel)
             {
                 Logging.LogMessage("Gesture capture canceled after preprocessing.");
+                ResetCaptureBuffers();
                 return;
             }
 
@@ -715,6 +718,10 @@ namespace GestureSign.Daemon.Input
 
                 if (!NamedPipe.SendMessageAsync(IpcCommands.GotGesture, Constants.Settings, _pointPatternCache.Select(p => p.Points).ToArray(), false).Result)
                     Mode = CaptureMode.Normal;
+
+                // The pipe call has completed synchronously. Keeping the training
+                // pattern here would retain the complete last recording indefinitely.
+                _pointPatternCache.Clear();
             }
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
@@ -732,10 +739,16 @@ namespace GestureSign.Daemon.Input
 
             OnAfterPointsCaptured(pointsInformation);
 
-            _pointsCaptured.Clear();
+            ResetCaptureBuffers();
+        }
+
+        private void ResetCaptureBuffers()
+        {
+            _pointsCaptured?.Clear();
             _touchPadRawStartPoints = null;
             _touchPadVisualPoints = null;
             _touchPadRawVisualOrigin = PointF.Empty;
+            _lastVisualFeedbackPoints = null;
         }
 
         private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)

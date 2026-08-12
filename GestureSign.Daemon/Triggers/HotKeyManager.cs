@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace GestureSign.Daemon.Triggers
 {
@@ -16,12 +17,14 @@ namespace GestureSign.Daemon.Triggers
         private Hotkey _openSettingsHotKey;
         private Hotkey _kandoHotKey;
         private Hotkey _kandoSettingsHotKey;
+        private bool _kandoEnabled;
 
         public HotKeyManager()
         {
             PointCapture.Instance.ForegroundApplicationsChanged += Instance_ForegroundApplicationsChanged;
             PointCapture.Instance.ModeChanged += Instance_ModeChanged;
             AppConfig.ConfigChanged += AppConfig_ConfigChanged;
+            _kandoEnabled = AppConfig.KandoEnabled;
 
             var hotKeyActions = ApplicationManager.Instance.GetApplicationFromWindow(SystemWindow.ForegroundWindow).Where(app => !(app is IgnoredApp)).SelectMany(app => app.Actions).Where(IsStandaloneHotKeyAction).ToList();
             hotKeyActions.AddRange(ApplicationManager.Instance.GetGlobalApplication().Actions.Where(IsStandaloneHotKeyAction));
@@ -69,6 +72,24 @@ namespace GestureSign.Daemon.Triggers
 
         private void AppConfig_ConfigChanged(object sender, EventArgs e)
         {
+            var kandoEnabled = AppConfig.KandoEnabled;
+            if (kandoEnabled != _kandoEnabled)
+            {
+                _kandoEnabled = kandoEnabled;
+                if (kandoEnabled)
+                    ThreadPool.QueueUserWorkItem(_ =>
+                    {
+                        if (AppConfig.KandoEnabled)
+                            KandoLauncher.StartIfEnabled();
+                    });
+                else
+                    ThreadPool.QueueUserWorkItem(_ =>
+                    {
+                        if (!AppConfig.KandoEnabled)
+                            KandoLauncher.Stop();
+                    });
+            }
+
             RegisterOpenSettingsHotKey();
             if (PointCapture.Instance.Mode != Common.Input.CaptureMode.UserDisabled)
             {

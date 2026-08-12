@@ -10,8 +10,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Xml;
+#if NETFRAMEWORK
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
+#endif
 using GestureSign.Common.Localization;
 using GestureSign.Common.Log;
 using Microsoft.Win32;
@@ -51,6 +53,7 @@ namespace GestureSign.CorePlugins.LaunchApp
             {
                 if (comboBox.ItemsSource != null) return;
 
+#if NETFRAMEWORK
                 var currentUser = WindowsIdentity.GetCurrent();
                 if (currentUser?.User == null) return;
                 var sid = currentUser.User.ToString();
@@ -164,6 +167,7 @@ namespace GestureSign.CorePlugins.LaunchApp
                         }
                     }
                 }
+#endif
             });
             getAppsTask.ContinueWith(task =>
             {
@@ -199,6 +203,7 @@ namespace GestureSign.CorePlugins.LaunchApp
 
         }
 
+#if NETFRAMEWORK
         private string ExtractDisplayName(Package package, string displayName)
         {
             var priPath = Path.Combine(package.InstalledLocation.Path, "resources.pri");
@@ -208,6 +213,7 @@ namespace GestureSign.CorePlugins.LaunchApp
             SHLoadIndirectString(manifestString, outBuff, outBuff.Capacity, IntPtr.Zero);
             return outBuff.ToString();
         }
+#endif
 
         private string ExtractDisplayName(string path, string packageName, string displayName)
         {

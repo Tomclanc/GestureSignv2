@@ -1,13 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <RootNamespace>GestureSign.WinUI</RootNamespace>
     <ApplicationManifest Condition="'$(StorePackage)' != 'true'">app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;arm64</Platforms>
-    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <Platforms>x64;ARM64</Platforms>
+    <PlatformTarget Condition="'$(Platform)' == 'ARM64'">ARM64</PlatformTarget>
+    <PlatformTarget Condition="'$(Platform)' != 'ARM64'">x64</PlatformTarget>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
     <UseWinUI>true</UseWinUI>
+    <WinUISDKReferences>false</WinUISDKReferences>
     <EnableDefaultPageItems>false</EnableDefaultPageItems>
     <WindowsPackageType Condition="'$(StorePackage)' != 'true'">None</WindowsPackageType>
     <WindowsPackageType Condition="'$(StorePackage)' == 'true'">MSIX</WindowsPackageType>
@@ -28,8 +32,10 @@
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.13" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="2.3.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.5.0" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\logo.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />

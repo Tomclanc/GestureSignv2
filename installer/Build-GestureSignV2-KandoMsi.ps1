@@ -5,7 +5,7 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "16.4.65",
+    [string]$PackageVersion = "16.4.66",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "low",
@@ -98,14 +98,14 @@ $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
 $msbuild = Find-MSBuild
 
-$backendSolution = Join-Path $repoRoot.ProviderPath "GestureSign.sln"
+$backendProject = Join-Path $repoRoot.ProviderPath "GestureSign.Daemon\GestureSign.Daemon.Net10.csproj"
 $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
 if (Test-Path -LiteralPath $backendOutputPath) {
     Remove-Item -LiteralPath $backendOutputPath -Recurse -Force
 }
-& $msbuild $backendSolution /p:Configuration=Release /p:Platform="Any CPU" /v:m
+& dotnet publish $backendProject -c Release -r "win-$Architecture" --self-contained true -o $backendOutputPath /p:PlatformTarget=$Architecture /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
-    throw "Backend build failed with exit code $LASTEXITCODE"
+    throw ".NET 10 $Architecture backend publish failed with exit code $LASTEXITCODE"
 }
 
 if (!(Test-Path -LiteralPath (Join-Path $backendOutputPath "GestureSign.exe"))) {
@@ -118,12 +118,12 @@ if (Test-Path -LiteralPath $publishPath) {
 New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
-& $msbuild $winUiProject /restore /t:Publish /p:Configuration=Release /p:Platform=$Architecture /p:RuntimeIdentifier="win-$Architecture" /p:StorePackage=false /p:SelfContained=true /v:m
+$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net10.0-windows10.0.26100.0\win-$Architecture\publish"
+& dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained true -o $winUiOutputPath /p:Platform=$Architecture /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
 
-$winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net8.0-windows10.0.22621.0\win-$Architecture\publish"
 if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"))) {
     throw "WinUI build output is missing GestureSign.WinUI.exe: $winUiOutputPath"
 }

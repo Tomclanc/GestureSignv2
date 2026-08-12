@@ -473,6 +473,13 @@ namespace GestureSign.Daemon.Surface
 
         private void InitializePen()
         {
+            // Configuration and DPI changes can rebuild the drawing resources several
+            // times during the lifetime of the daemon. Dispose the previous GDI+
+            // handles before replacing them so they do not remain alive until process
+            // shutdown (or finalization under memory pressure).
+            _drawingPen?.Dispose();
+            _dirtyMarkerPen?.Dispose();
+
             var configuredWidth = AppConfig.VisualFeedbackWidth;
             _penWidth = configuredWidth <= 0 ? 0 : Math.Max(configuredWidth, MinimumVisiblePenWidth);
             _drawingPen = new Pen(ApplyVisualFeedbackAlpha(AppConfig.VisualFeedbackColor), _penWidth * DpiHelper.GetSystemDpi() / 96f)

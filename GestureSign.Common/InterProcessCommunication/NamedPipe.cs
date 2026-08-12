@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using System.IO.Pipes;
 using System.IO;
-
-using System.Threading;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using GestureSign.Common.Log;
@@ -17,6 +16,7 @@ namespace GestureSign.Common.InterProcessCommunication
 {
     public class NamedPipe : IDisposable
     {
+        private const int WireMagic = 0x31505347; // "GSP1"
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool WaitNamedPipe(string name, int timeout);
@@ -38,13 +38,95 @@ namespace GestureSign.Common.InterProcessCommunication
         {
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                BinaryFormatter binForm = new BinaryFormatter();
-
                 pipe.CopyTo(memoryStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
                 command = (IpcCommands)memoryStream.ReadByte();
-                return memoryStream.Length == memoryStream.Position ? null : binForm.Deserialize(memoryStream);
+                if (memoryStream.Length == memoryStream.Position)
+                    return null;
+
+                using (var reader = new BinaryReader(memoryStream, Encoding.UTF8, true))
+                {
+                    if (reader.ReadInt32() != WireMagic)
+                        throw new InvalidDataException("Unsupported GestureSign IPC payload format.");
+
+                    switch (command)
+                    {
+                        case IpcCommands.GotGesture:
+                            return ReadPointPatterns(reader);
+                        case IpcCommands.SynDeviceState:
+                            return (Common.Input.Devices)reader.ReadInt32();
+                        default:
+                            return null;
+                    }
+                }
             }
+        }
+
+        internal static void WriteMessage(Stream stream, IpcCommands command, object message)
+        {
+            stream.WriteByte((byte)command);
+            if (message == null)
+                return;
+
+            using (var writer = new BinaryWriter(stream, Encoding.UTF8, true))
+            {
+                writer.Write(WireMagic);
+                switch (command)
+                {
+                    case IpcCommands.GotGesture:
+                        WritePointPatterns(writer, (Point[][][])message);
+                        break;
+                    case IpcCommands.SynDeviceState:
+                        writer.Write((int)(Common.Input.Devices)message);
+                        break;
+                    default:
+                        throw new InvalidDataException("IPC command does not define a payload format: " + command);
+                }
+            }
+        }
+
+        private static void WritePointPatterns(BinaryWriter writer, Point[][][] patterns)
+        {
+            writer.Write(patterns.Length);
+            foreach (var pattern in patterns)
+            {
+                writer.Write(pattern.Length);
+                foreach (var stroke in pattern)
+                {
+                    writer.Write(stroke.Length);
+                    foreach (var point in stroke)
+                    {
+                        writer.Write(point.X);
+                        writer.Write(point.Y);
+                    }
+                }
+            }
+        }
+
+        private static Point[][][] ReadPointPatterns(BinaryReader reader)
+        {
+            var patterns = new Point[ReadLength(reader)][][];
+            for (var patternIndex = 0; patternIndex < patterns.Length; patternIndex++)
+            {
+                var strokes = new Point[ReadLength(reader)][];
+                patterns[patternIndex] = strokes;
+                for (var strokeIndex = 0; strokeIndex < strokes.Length; strokeIndex++)
+                {
+                    var points = new Point[ReadLength(reader)];
+                    strokes[strokeIndex] = points;
+                    for (var pointIndex = 0; pointIndex < points.Length; pointIndex++)
+                        points[pointIndex] = new Point(reader.ReadInt32(), reader.ReadInt32());
+                }
+            }
+            return patterns;
+        }
+
+        private static int ReadLength(BinaryReader reader)
+        {
+            var length = reader.ReadInt32();
+            if (length < 0 || length > 100000)
+                throw new InvalidDataException("Invalid GestureSign IPC collection length.");
+            return length;
         }
 
         private static bool WaitForNamedPipeConnection(string pipeName, int interval = 1000)
@@ -87,12 +169,7 @@ namespace GestureSign.Common.InterProcessCommunication
 
                                pipeClient.Connect(10);
 
-                               ms.WriteByte((byte)command);
-                               if (message != null)
-                               {
-                                   BinaryFormatter bf = new BinaryFormatter();
-                                   bf.Serialize(ms, message);
-                               }
+                               WriteMessage(ms, command, message);
                                ms.Seek(0, SeekOrigin.Begin);
 
                                ms.CopyTo(pipeClient);

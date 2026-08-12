@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>GestureSign.Common</AssemblyName>
+    <RootNamespace>GestureSign.Common</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PlatformTarget>x64</PlatformTarget>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.0" />
+    <PackageReference Include="System.IO.Pipes.AccessControl" Version="5.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GestureSign.PointPatterns\GestureSign.PointPatterns.Net10.csproj" />
+    <ProjectReference Include="..\ManagedWinapi\ManagedWinapi.Net10.csproj" />
+    <ProjectReference Include="..\WindowsInput\WindowsInput.Net10.csproj" />
+  </ItemGroup>
+</Project>

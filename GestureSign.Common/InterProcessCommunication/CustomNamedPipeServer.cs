@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.IO.Pipes;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.AccessControl;
 using System.Security.Principal;
 
@@ -28,8 +27,13 @@ namespace GestureSign.Common.InterProcessCommunication
             PipeSecurity pipeSecurity = new PipeSecurity();
             pipeSecurity.SetAccessRule(new PipeAccessRule(new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null), PipeAccessRights.ReadWrite, AccessControlType.Allow));
 
-            _namedPipeServer = new NamedPipeServerStream(NamedPipe.GetUserPipeName(pipeName), PipeDirection.In, 1, PipeTransmissionMode.Message,
-                PipeOptions.Asynchronous, 0, 0, pipeSecurity);
+#if NET10_0_OR_GREATER
+            _namedPipeServer = NamedPipeServerStreamAcl.Create(NamedPipe.GetUserPipeName(pipeName), PipeDirection.In, 1,
+                PipeTransmissionMode.Message, PipeOptions.Asynchronous, 0, 0, pipeSecurity);
+#else
+            _namedPipeServer = new NamedPipeServerStream(NamedPipe.GetUserPipeName(pipeName), PipeDirection.In, 1,
+                PipeTransmissionMode.Message, PipeOptions.Asynchronous, 0, 0, pipeSecurity);
+#endif
 
             AsyncCallback ac = null;
             ac = o =>
@@ -49,6 +53,20 @@ namespace GestureSign.Common.InterProcessCommunication
                 catch (Exception e)
                 {
                     Logging.LogException(e);
+                    // A disconnected or faulted server cannot be reused. Dispose it
+                    // before replacing it so repeated settings/daemon IPC failures do
+                    // not accumulate pipe handles and their native buffers.
+                    try
+                    {
+                        server.Dispose();
+                    }
+                    catch
+                    {
+                    }
+
+                    if (disposedValue)
+                        return;
+
                     RunReceivingServer(pipeName, messageProcessor);
                 }
             };
@@ -72,12 +90,7 @@ namespace GestureSign.Common.InterProcessCommunication
                     object data = function.Invoke();
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        ms.WriteByte((byte)command);
-                        if (data != null)
-                        {
-                            BinaryFormatter bf = new BinaryFormatter();
-                            bf.Serialize(ms, data);
-                        }
+                        NamedPipe.WriteMessage(ms, command, data);
                         ms.Seek(0, SeekOrigin.Begin);
 
                         ms.CopyTo(s);

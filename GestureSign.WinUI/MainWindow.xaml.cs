@@ -17,7 +17,6 @@ using System.IO.Pipes;
 using System.Linq;
 using System.Runtime.InteropServices;
 using GestureSign.Shared;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
@@ -55,9 +54,16 @@ public sealed partial class MainWindow : Window
     private const byte LightMicaDimmingOverlayAlpha = 89;
     private const string AppVersion = ProductVersion.Current;
     private const uint WmGetIcon = 0x007F;
+    private const uint WmSetIcon = 0x0080;
     private const int IconSmall = 0;
     private const int IconBig = 1;
     private const int IconSmall2 = 2;
+    private const uint ImageIcon = 1;
+    private const uint LrLoadFromFile = 0x0010;
+    private const int SmCxIcon = 11;
+    private const int SmCyIcon = 12;
+    private const int SmCxSmallIcon = 49;
+    private const int SmCySmallIcon = 50;
     private const int GclpHicon = -14;
     private const int GclpHiconSmall = -34;
     private const string PackagedDaemonExecutionAlias = "GestureSignV2Daemon.exe";
@@ -133,6 +139,8 @@ public sealed partial class MainWindow : Window
     private StackPanel? _actionsPageActionsPanel;
     private readonly Dictionary<string, Border> _actionsPageScopeRows = new(StringComparer.Ordinal);
     private int _actionsScopeRenderVersion;
+    private IntPtr _nativeLargeIcon;
+    private IntPtr _nativeSmallIcon;
     private static DateTime _lastDaemonStartAttemptUtc = DateTime.MinValue;
     private const string ActionsPageAppsScrollViewerName = "ActionsPageAppsScrollViewer";
     private const string ActionsPageActionListScrollViewerName = "ActionsPageActionListScrollViewer";
@@ -140,7 +148,6 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        AppContext.SetSwitch("System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization", true);
         AppDomain.CurrentDomain.UnhandledException += (_, args) => LogException(args.ExceptionObject as Exception ?? new Exception(args.ExceptionObject?.ToString() ?? "Unknown unhandled exception"));
         TaskScheduler.UnobservedTaskException += (_, args) =>
         {
@@ -168,6 +175,7 @@ public sealed partial class MainWindow : Window
         Closed += (_, _) =>
         {
             StopWindowPicking();
+            ReleaseNativeWindowIcons();
         };
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
         ApplyMicaDimmingOverlay();
@@ -399,15 +407,67 @@ public sealed partial class MainWindow : Window
         if (hwnd == IntPtr.Zero)
             return;
 
-        var largeIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconBig), IntPtr.Zero);
-        var smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall2), IntPtr.Zero);
+        EnsureNativeWindowIcons();
+
+        var largeIcon = _nativeLargeIcon;
+        var smallIcon = _nativeSmallIcon;
+        if (largeIcon == IntPtr.Zero)
+            largeIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconBig), IntPtr.Zero);
         if (smallIcon == IntPtr.Zero)
-            smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall), IntPtr.Zero);
+        {
+            smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall2), IntPtr.Zero);
+            if (smallIcon == IntPtr.Zero)
+                smallIcon = SendMessage(hwnd, WmGetIcon, new IntPtr(IconSmall), IntPtr.Zero);
+        }
 
         if (largeIcon != IntPtr.Zero)
+        {
+            SendMessage(hwnd, WmSetIcon, new IntPtr(IconBig), largeIcon);
             SetClassLongPtr(hwnd, GclpHicon, largeIcon);
+        }
         if (smallIcon != IntPtr.Zero)
+        {
+            SendMessage(hwnd, WmSetIcon, new IntPtr(IconSmall), smallIcon);
+            SendMessage(hwnd, WmSetIcon, new IntPtr(IconSmall2), smallIcon);
             SetClassLongPtr(hwnd, GclpHiconSmall, smallIcon);
+        }
+    }
+
+    private void EnsureNativeWindowIcons()
+    {
+        if (_nativeLargeIcon != IntPtr.Zero && _nativeSmallIcon != IntPtr.Zero)
+            return;
+
+        var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
+        if (!File.Exists(iconPath))
+            return;
+
+        if (_nativeLargeIcon == IntPtr.Zero)
+        {
+            _nativeLargeIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
+                GetSystemMetrics(SmCxIcon), GetSystemMetrics(SmCyIcon), LrLoadFromFile);
+        }
+
+        if (_nativeSmallIcon == IntPtr.Zero)
+        {
+            _nativeSmallIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
+                GetSystemMetrics(SmCxSmallIcon), GetSystemMetrics(SmCySmallIcon), LrLoadFromFile);
+        }
+    }
+
+    private void ReleaseNativeWindowIcons()
+    {
+        if (_nativeLargeIcon != IntPtr.Zero)
+        {
+            DestroyIcon(_nativeLargeIcon);
+            _nativeLargeIcon = IntPtr.Zero;
+        }
+
+        if (_nativeSmallIcon != IntPtr.Zero)
+        {
+            DestroyIcon(_nativeSmallIcon);
+            _nativeSmallIcon = IntPtr.Zero;
+        }
     }
 
     private void ApplyXboxBigScreenTitleBarMode()
@@ -475,6 +535,15 @@ public sealed partial class MainWindow : Window
 
     [DllImport("user32.dll", EntryPoint = "SetClassLongPtrW", SetLastError = true)]
     private static extern IntPtr SetClassLongPtr(IntPtr hwnd, int index, IntPtr newValue);
+
+    [DllImport("user32.dll", EntryPoint = "LoadImageW", CharSet = CharSet.Unicode, SetLastError = true)]
+    private static extern IntPtr LoadImage(IntPtr instance, string name, uint type, int width, int height, uint load);
+
+    [DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int index);
+
+    [DllImport("user32.dll")]
+    private static extern bool DestroyIcon(IntPtr icon);
 
     [DllImport("user32.dll")]
     private static extern bool GetCursorPos(out NativePoint point);
@@ -8906,18 +8975,32 @@ public sealed partial class MainWindow : Window
 
         private static IReadOnlyList<IReadOnlyList<(double X, double Y)>> ReadTrainingGesture(Stream stream)
         {
-#pragma warning disable SYSLIB0011
             using var memory = new MemoryStream();
             stream.CopyTo(memory);
             memory.Position = 0;
             var command = memory.ReadByte();
             if (command != 6)
                 return [];
-            var formatter = new BinaryFormatter();
-            var data = formatter.Deserialize(memory);
-#pragma warning restore SYSLIB0011
-            if (data is not System.Drawing.Point[][][] raw)
+
+            using var reader = new BinaryReader(memory, Encoding.UTF8, leaveOpen: true);
+            const int wireMagic = 0x31505347; // "GSP1"
+            if (reader.ReadInt32() != wireMagic)
                 return [];
+
+            var patternCount = ReadIpcLength(reader);
+            var raw = new System.Drawing.Point[patternCount][][];
+            for (var patternIndex = 0; patternIndex < patternCount; patternIndex++)
+            {
+                var strokeCount = ReadIpcLength(reader);
+                raw[patternIndex] = new System.Drawing.Point[strokeCount][];
+                for (var strokeIndex = 0; strokeIndex < strokeCount; strokeIndex++)
+                {
+                    var pointCount = ReadIpcLength(reader);
+                    raw[patternIndex][strokeIndex] = new System.Drawing.Point[pointCount];
+                    for (var pointIndex = 0; pointIndex < pointCount; pointIndex++)
+                        raw[patternIndex][strokeIndex][pointIndex] = new System.Drawing.Point(reader.ReadInt32(), reader.ReadInt32());
+                }
+            }
 
             var newestPattern = raw.FirstOrDefault();
             if (newestPattern is null)
@@ -8927,6 +9010,14 @@ public sealed partial class MainWindow : Window
                 .Select(stroke => stroke.Select(point => ((double)point.X, (double)point.Y)).ToList())
                 .Where(stroke => stroke.Count > 0)
                 .ToList();
+        }
+
+        private static int ReadIpcLength(BinaryReader reader)
+        {
+            var length = reader.ReadInt32();
+            if (length is < 0 or > 100000)
+                throw new InvalidDataException("Invalid GestureSign IPC collection length.");
+            return length;
         }
     }
 }
