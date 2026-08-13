@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -20,7 +20,7 @@
   </a>
   <img alt="Windows 11" src="https://img.shields.io/badge/Windows-11-0078D4?style=flat-square">
   <img alt="WinUI 3" src="https://img.shields.io/badge/UI-WinUI%203-0078D4?style=flat-square">
-  <img alt="Platform" src="https://img.shields.io/badge/Platform-x64%20%7C%20ARM64-555?style=flat-square">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-x64-555?style=flat-square">
 </p>
 
 <p align="center">
@@ -65,12 +65,12 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
-- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
+- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
+- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
 
 > [!WARNING]
@@ -79,6 +79,14 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ## 更新内容
+
+### 17.2
+
+- 修复部分触摸屏及 OLED 设备无法触发手势的问题，改进原始触控数据包与触点 Tip 状态解析。
+- 完善便携版识别和卸载流程，可正确关闭相关进程并清理便携目录，同时保留可选的用户数据清理行为。
+- 卸载程序新增 Per-Monitor V2 高 DPI 适配，修复 200% 缩放下标题、说明、复选框和底部按钮被裁切的问题。
+- 卸载程序标题栏跟随 Windows 深色 / 亮色模式，并统一使用圆角按钮和圆角进度条；进度轨道、边框及状态色会随系统主题切换。
+- 修复卸载程序标题栏、任务栏及 Alt+Tab 使用系统默认图标的问题，统一显示 GestureSign V2 图标。
 
 ### 17.1
 
@@ -548,18 +556,26 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2).
 
 Current version:
 
-- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
-- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
+- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
+- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi) (Windows on ARM64 early preview)
 
 > [!WARNING]
 > The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
 
 ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
+
+### What's new in 17.2
+
+- Fixed gesture capture on some touchscreens and OLED devices by correcting raw touch packet and contact Tip-state parsing.
+- Improved portable-build detection and uninstall cleanup, including reliable process shutdown and optional user-data removal.
+- Added Per-Monitor V2 DPI support to the uninstaller and fixed clipped content at 200% display scaling.
+- Updated the uninstaller with system-aware light/dark title bars, rounded buttons, and a themed rounded progress bar.
+- Applied the GestureSign V2 icon consistently to the uninstaller title bar, taskbar, and Alt+Tab.
 
 ### What's new in 17.1
 
@@ -748,18 +764,26 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.1) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-17.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-x64.msi)
-- [GestureSign-V2-17.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.1/GestureSign-V2-17.1-portable-x64.zip)
+- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
+- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
 - [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
 
 > [!WARNING]
 > ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
 
 ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
+
+### 17.2 の更新内容
+
+- 一部のタッチスクリーンおよび OLED 端末でジェスチャーが反応しない問題を修正しました。
+- ポータブル版の検出、プロセス終了、アンインストール時のディレクトリ整理を改善しました。
+- アンインストーラーを Per-Monitor V2 高 DPI に対応させ、200% 表示時のレイアウト切れを修正しました。
+- アンインストーラーのタイトルバー、角丸ボタン、進行状況バーをシステムのライト／ダークテーマに対応させました。
+- アンインストーラーのタイトルバー、タスクバー、Alt+Tab に GestureSign V2 アイコンを適用しました。
 
 ### 17.1 の更新内容
 
