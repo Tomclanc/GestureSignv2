@@ -77,12 +77,18 @@ namespace GestureSign.Uninstaller
             _sourceDirectory = NormalizeDirectory(sourceDirectory);
             Text = "卸载 GestureSign V2";
             StartPosition = FormStartPosition.CenterScreen;
-            MinimumSize = new Size(580, 360);
-            Size = new Size(660, 400);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            AutoScaleMode = AutoScaleMode.Dpi;
+            // Scale the complete 96-DPI design canvas explicitly. The legacy
+            // WinForms autoscaler can apply an inverse scale to an explicitly
+            // sized form when hosted in PerMonitorV2 mode at 200%.
+            AutoScaleMode = AutoScaleMode.None;
+            var dpiScale = Math.Max(1F, GetDpiForSystem() / 96F);
+            Func<int, int> scale = value => (int)Math.Round(value * dpiScale);
+            Func<int, int, Point> point = (x, y) => new Point(scale(x), scale(y));
+            Func<int, int, Size> size = (width, height) => new Size(scale(width), scale(height));
             Font = new Font("Microsoft YaHei UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
+            ClientSize = size(660, 400);
 
             var back = _isDark ? Color.FromArgb(32, 32, 36) : Color.FromArgb(243, 246, 250);
             var card = _isDark ? Color.FromArgb(43, 45, 50) : Color.FromArgb(252, 253, 255);
@@ -96,8 +102,8 @@ namespace GestureSign.Uninstaller
             var panel = new Panel
             {
                 BackColor = card,
-                Location = new Point(28, 28),
-                Size = new Size(588, 270),
+                Location = point(28, 28),
+                Size = size(604, 270),
                 Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right
             };
             Controls.Add(panel);
@@ -106,36 +112,37 @@ namespace GestureSign.Uninstaller
             _title.Font = new Font(Font.FontFamily, 18F, FontStyle.Bold);
             _title.ForeColor = text;
             _title.AutoSize = false;
-            _title.Location = new Point(28, 26);
-            _title.Size = new Size(520, 40);
+            _title.Location = point(28, 26);
+            _title.Size = size(544, 40);
             panel.Controls.Add(_title);
 
             _subtitle.Text = "默认只删除程序文件，保留手势配置、日志、备份和用户数据。";
             _subtitle.ForeColor = subText;
             _subtitle.AutoSize = false;
-            _subtitle.Location = new Point(30, 78);
-            _subtitle.Size = new Size(530, 44);
+            _subtitle.Location = point(30, 78);
+            _subtitle.Size = size(544, 44);
             panel.Controls.Add(_subtitle);
 
             _deleteAll.Text = "同时删除所有相关文件（配置、日志、备份和安装残留文件）";
             _deleteAll.ForeColor = text;
             _deleteAll.BackColor = card;
             _deleteAll.AutoSize = false;
-            _deleteAll.Location = new Point(30, 130);
-            _deleteAll.Size = new Size(530, 34);
+            _deleteAll.Location = point(30, 130);
+            _deleteAll.Size = size(544, 34);
             panel.Controls.Add(_deleteAll);
 
             _status.Text = "准备就绪";
             _status.ForeColor = subText;
             _status.AutoSize = false;
-            _status.Location = new Point(30, 180);
-            _status.Size = new Size(530, 28);
+            _status.Location = point(30, 180);
+            _status.Size = size(544, 28);
+            _status.AutoEllipsis = true;
             panel.Controls.Add(_status);
 
             _progress.Style = ProgressBarStyle.Marquee;
             _progress.MarqueeAnimationSpeed = 0;
-            _progress.Location = new Point(30, 220);
-            _progress.Size = new Size(528, 18);
+            _progress.Location = point(30, 220);
+            _progress.Size = size(544, 18);
             panel.Controls.Add(_progress);
 
             _uninstallButton.Text = "卸载";
@@ -143,8 +150,8 @@ namespace GestureSign.Uninstaller
             _uninstallButton.ForeColor = Color.White;
             _uninstallButton.FlatStyle = FlatStyle.Flat;
             _uninstallButton.FlatAppearance.BorderSize = 0;
-            _uninstallButton.Location = new Point(410, 318);
-            _uninstallButton.Size = new Size(98, 36);
+            _uninstallButton.Location = point(426, 320);
+            _uninstallButton.Size = size(98, 36);
             _uninstallButton.Click += (_, __) => Uninstall();
             Controls.Add(_uninstallButton);
 
@@ -153,8 +160,8 @@ namespace GestureSign.Uninstaller
             _cancelButton.ForeColor = text;
             _cancelButton.FlatStyle = FlatStyle.Flat;
             _cancelButton.FlatAppearance.BorderColor = _isDark ? Color.FromArgb(78, 80, 86) : Color.FromArgb(214, 218, 224);
-            _cancelButton.Location = new Point(518, 318);
-            _cancelButton.Size = new Size(98, 36);
+            _cancelButton.Location = point(534, 320);
+            _cancelButton.Size = size(98, 36);
             _cancelButton.Click += (_, __) => Close();
             Controls.Add(_cancelButton);
 
@@ -192,6 +199,9 @@ namespace GestureSign.Uninstaller
             int attribute,
             ref int value,
             int valueSize);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetDpiForSystem();
 
         private async void Uninstall()
         {
