@@ -78,6 +78,7 @@ namespace GestureSign.Uninstaller
         {
             _sourceDirectory = NormalizeDirectory(sourceDirectory);
             Text = "卸载 GestureSign V2";
+            Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
