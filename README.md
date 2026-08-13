@@ -71,6 +71,11 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
+- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
+
+> ARM64 版本是未签名的早期预览版。开发者目前没有 ARM64 Windows on Arm 设备，无法进行真实设备安装和运行测试；该构建仅完成编译、打包和 PE 架构静态检查，请谨慎使用并反馈问题。
+
+ARM64 MSI SHA-256：`B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
 
 ## 更新内容
 
@@ -492,8 +497,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 兼容性
 
-- 推荐系统：Windows 11 x64。新版本仅生成 x64 程序。
-- 安装包：MSI x64、便携版 x64；不再提供 x86 或 ARM64 包。
+- 推荐系统：Windows 11 x64；Windows on ARM64 目前为未经实机测试的早期预览支持。
+- 安装包：MSI x64、便携版 x64、MSI ARM64 Early Preview；不再提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -511,6 +516,12 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 感谢原项目 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) 以及 HighSign、MahApps.Metro、WGestures 等项目。GestureSign V2 仍然站在这些工作的基础上继续前进。
 
 “快捷操作”功能集成并随安装包分发了 [Kando](https://github.com/kando-menu/kando) 的圆环菜单交互。Kando 是独立的开源项目，遵循 MIT License；安装包中保留了 Kando 自带的 `LICENSE` 和 Chromium 相关许可证文件。
+
+## 赞赏
+
+如果 GestureSign V2 对你有帮助，欢迎通过微信赞赏支持项目的持续开发。感谢每一份支持。
+
+<img alt="Tom 的微信赞赏码" width="360" src="docs/assets/donation-wechat.jpg" />
 
 ---
 
@@ -556,6 +567,11 @@ Current version:
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
+- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi) (Windows on ARM64 early preview)
+
+> The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
+
+ARM64 MSI SHA-256: `B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
 
 ### What's new in 17.2
 
@@ -694,8 +710,8 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 
 ## Compatibility
 
-- Recommended OS: Windows 11 x64. New releases target x64 only.
-- Packages: x64 MSI and x64 portable ZIP; x86 and ARM64 packages are no longer produced.
+- Recommended OS: Windows 11 x64; Windows on ARM64 support is currently an untested early preview.
+- Packages: x64 MSI, x64 portable ZIP, and ARM64 Early Preview MSI; no x86 package is produced.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -713,6 +729,12 @@ When reporting gesture, recording, saving, or UI issues, please include:
 Thanks to [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign), HighSign, MahApps.Metro, WGestures, and the projects this work builds on.
 
 The Quick Actions feature integrates and redistributes the radial menu experience from [Kando](https://github.com/kando-menu/kando). Kando is an independent open-source project under the MIT License; its bundled `LICENSE` and Chromium license files are preserved in the installer.
+
+## Support the project
+
+If GestureSign V2 is useful to you, you can support its continued development via WeChat Pay. Every contribution is appreciated.
+
+<img alt="Tom's WeChat appreciation code" width="360" src="docs/assets/donation-wechat.jpg" />
 
 ---
 
@@ -758,6 +780,11 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
+- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
+
+> ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
+
+ARM64 MSI SHA-256：`B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
 
 ### 17.2 の更新内容
 
@@ -895,8 +922,8 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 
 ## 互換性
 
-- 推奨 OS: Windows 11 x64。新しいリリースは x64 のみを対象とします。
-- パッケージ: x64 MSI と x64 ポータブル ZIP。x86 および ARM64 パッケージは生成しません。
+- 推奨 OS: Windows 11 x64。Windows on ARM64 対応は現在、実機未検証の早期プレビューです。
+- パッケージ: x64 MSI、x64 ポータブル ZIP、ARM64 Early Preview MSI。x86 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## フィードバック
@@ -914,3 +941,9 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign)、HighSign、MahApps.Metro、WGestures、および本プロジェクトの基礎となった各プロジェクトに感謝します。
 
 Quick Actions 機能では、[Kando](https://github.com/kando-menu/kando) のラジアルメニュー体験を統合し、インストーラーに同梱しています。Kando は MIT License の独立したオープンソースプロジェクトであり、同梱される `LICENSE` と Chromium 関連のライセンスファイルを保持しています。
+
+## プロジェクトを支援
+
+GestureSign V2 が役に立った場合は、WeChat Pay の赞赏码から継続開発を支援できます。ご支援ありがとうございます。
+
+<img alt="Tom の WeChat 赞赏码" width="360" src="docs/assets/donation-wechat.jpg" />

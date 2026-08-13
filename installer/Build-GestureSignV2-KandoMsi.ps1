@@ -1,7 +1,7 @@
 param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = "",
-    [ValidateSet("x64")]
+    [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
@@ -119,7 +119,8 @@ New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
 $winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net10.0-windows10.0.26100.0\win-$Architecture\publish"
-& dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained false -o $winUiOutputPath /p:Platform=$Architecture /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
+$platformTarget = if ($Architecture -eq "arm64") { "ARM64" } else { "x64" }
+& dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained false -o $winUiOutputPath /p:Platform=$platformTarget /p:PlatformTarget=$platformTarget /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
