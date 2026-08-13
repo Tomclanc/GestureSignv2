@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -60,7 +61,7 @@ namespace GestureSign.Uninstaller
 
     internal sealed class UninstallForm : Form
     {
-        private readonly bool _isDark = IsDarkTheme();
+        private bool _isDark = IsDarkTheme();
         private readonly Label _title = new Label();
         private readonly Label _subtitle = new Label();
         private readonly Label _status = new Label();
@@ -159,7 +160,38 @@ namespace GestureSign.Uninstaller
 
             if (IsPortableDirectory(_sourceDirectory))
                 _status.Text = "已检测到便携版：" + _sourceDirectory;
+
+            HandleCreated += (_, __) => ApplySystemTitleBarTheme();
         }
+
+        protected override void WndProc(ref Message message)
+        {
+            base.WndProc(ref message);
+            // WM_SETTINGCHANGE and WM_THEMECHANGED are delivered when Windows
+            // switches between light and dark application themes.
+            if (message.Msg == 0x001A || message.Msg == 0x031A)
+                ApplySystemTitleBarTheme();
+        }
+
+        private void ApplySystemTitleBarTheme()
+        {
+            if (!IsHandleCreated)
+                return;
+
+            _isDark = IsDarkTheme();
+            var enabled = _isDark ? 1 : 0;
+            // Attribute 20 is supported on current Windows 10/11 builds; 19 is
+            // retained as a fallback for older Windows 10 releases.
+            if (DwmSetWindowAttribute(Handle, 20, ref enabled, sizeof(int)) != 0)
+                DwmSetWindowAttribute(Handle, 19, ref enabled, sizeof(int));
+        }
+
+        [DllImport("dwmapi.dll")]
+        private static extern int DwmSetWindowAttribute(
+            IntPtr hwnd,
+            int attribute,
+            ref int value,
+            int valueSize);
 
         private async void Uninstall()
         {
