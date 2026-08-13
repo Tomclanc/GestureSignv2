@@ -1,24 +1,11 @@
 # GestureSign.WinUI
 
-WinUI 3 front-end prototype for GestureSign.
+GestureSign V2 的 WinUI 3 设置前端，目标框架为 .NET 10，目标架构仅为 x64。
 
-This project is intentionally separate from the original WPF control panel and daemon. It is a first pass at a Windows 11 Settings-style shell:
-
-- `NavigationView` left rail for Actions, Ignored apps, Gestures, Options, and About.
-- `MicaBackdrop` with `BaseAlt` where supported.
-- Rounded card surfaces and rounded command controls.
-- Per-monitor DPI manifest for high-DPI and high-refresh displays.
-- Uses the same transparent `logo.png` asset as the modernized taskbar/tray icon work.
-
-Build requirement:
-
-- Visual Studio 2022 Build Tools with `Microsoft.VisualStudio.Workload.VCTools`.
-- Windows App SDK package restore from NuGet.
-
-Build command:
+请从仓库根目录使用统一解决方案构建：
 
 ```powershell
-& 'C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\MSBuild\Current\Bin\amd64\MSBuild.exe' .\GestureSign.WinUI.sln /p:Configuration=Release /p:Platform=x64 /p:RuntimeIdentifier=win-x64 /restore
+dotnet build .\GestureSign.sln -c Release -p:Platform=x64
 ```
 
-The current machine has Windows App SDK packages restored, but the C++/MSVC workload is not present at `C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC`, so the WinUI XAML compiler cannot finish here yet.
+生成 MSI、便携版或 Microsoft Store 包时，请使用 `installer` 目录中的打包脚本。

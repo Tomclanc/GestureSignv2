@@ -71,12 +71,6 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
-
-> [!WARNING]
-> ARM64 版本目前属于早期版本且尚未签名。开发者暂时没有 ARM64 Windows on ARM 设备，无法进行真实设备安装和运行测试；该构建仅完成编译、打包和 PE 架构静态检查，请谨慎使用并反馈问题。
-
-ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ## 更新内容
 
@@ -91,7 +85,7 @@ ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8E
 ### 17.1
 
 - WinUI 3 前端和手势识别后台全面迁移到 .NET 10；GitHub MSI 与便携版改用共享运行环境，以减小下载和安装体积。
-- 全面转向 64 位架构，仅生成 x64 与 ARM64 程序，不再生成或携带 x86 二进制文件。
+- 全面转向 x64 架构，不再生成或携带 x86 二进制文件。
 - 优化后台长期运行的内存与原生资源占用：手势结束或取消后及时释放轨迹、训练缓存和 GDI 绘制资源。
 - 修复命名管道异常重建时旧管道句柄未释放的问题，避免设置窗口反复连接后资源逐步累积。
 - 关闭快捷操作后改由同权限后台服务结束 Kando，即使 GestureSign 以管理员身份运行，也能真正释放 Kando 的 Electron 子进程内存。
@@ -498,8 +492,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 兼容性
 
-- 推荐系统：Windows 11 x64；Windows on ARM64 目前为未经实机测试的早期预览支持。新版本不再生成 32 位程序。
-- 安装包：MSI x64、便携版 x64、MSI ARM64 Early Preview；不再提供 x86 包。
+- 推荐系统：Windows 11 x64。新版本仅生成 x64 程序。
+- 安装包：MSI x64、便携版 x64；不再提供 x86 或 ARM64 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -562,12 +556,6 @@ Current version:
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi) (Windows on ARM64 early preview)
-
-> [!WARNING]
-> The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
-
-ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ### What's new in 17.2
 
@@ -580,7 +568,7 @@ ARM64 MSI SHA-256: `AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8EC
 ### What's new in 17.1
 
 - Migrated both the WinUI 3 frontend and gesture-recognition daemon to .NET 10; GitHub MSI and portable builds now use shared runtimes to reduce download and installed size.
-- Completed the 64-bit transition: only x64 and ARM64 binaries are produced, with no x86 payloads.
+- Completed the x64 transition; x86 binaries are no longer produced or bundled.
 - Reduced long-running daemon memory and native-resource retention by releasing gesture, training, and GDI drawing buffers promptly after use.
 - Fixed stale named-pipe handles being retained when an IPC server is rebuilt after a fault.
 - Disabling Quick Actions now asks the same-integrity daemon to terminate Kando, reliably releasing its Electron child processes even when GestureSign runs elevated.
@@ -706,8 +694,8 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 
 ## Compatibility
 
-- Recommended OS: Windows 11 x64; Windows on ARM64 support is currently an untested early preview. New releases no longer produce 32-bit binaries.
-- Packages: x64 MSI, x64 portable ZIP, and ARM64 Early Preview MSI; no x86 package is produced.
+- Recommended OS: Windows 11 x64. New releases target x64 only.
+- Packages: x64 MSI and x64 portable ZIP; x86 and ARM64 packages are no longer produced.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -770,12 +758,6 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 - [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
 - [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-16.4.58-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v16.4.58/GestureSign-V2-16.4.58-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
-
-> [!WARNING]
-> ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
-
-ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8ECDBC5`
 
 ### 17.2 の更新内容
 
@@ -788,7 +770,7 @@ ARM64 MSI SHA-256：`AE92F541172C776F0A1E6751856AB02B96F9B7E929DA8EA708B19DFEA8E
 ### 17.1 の更新内容
 
 - WinUI 3 フロントエンドとジェスチャー認識バックグラウンドを .NET 10 へ全面移行し、GitHub の MSI とポータブル版は共有ランタイム方式で容量を削減しました。
-- 64 ビット移行を完了し、x64 と ARM64 のみを生成して x86 バイナリを含めない構成にしました。
+- x64 への移行を完了し、x86 バイナリを生成・同梱しない構成にしました。
 - ジェスチャー終了・キャンセル後に軌跡、トレーニングキャッシュ、GDI 描画リソースを速やかに解放し、長時間動作時のメモリ使用量を改善しました。
 - IPC サーバーの障害再作成時に古い名前付きパイプハンドルが残る問題を修正しました。
 - クイック操作を無効にした際、同じ権限のバックグラウンドサービスから Kando を終了し、管理者実行時でも Electron 子プロセスのメモリを確実に解放できるようにしました。
@@ -913,8 +895,8 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 
 ## 互換性
 
-- 推奨 OS: Windows 11 x64。Windows on ARM64 対応は現在、実機未検証の早期プレビューです。新しいリリースでは 32 ビット版を生成しません。
-- パッケージ: x64 MSI、x64 ポータブル ZIP、ARM64 Early Preview MSI。x86 パッケージは生成しません。
+- 推奨 OS: Windows 11 x64。新しいリリースは x64 のみを対象とします。
+- パッケージ: x64 MSI と x64 ポータブル ZIP。x86 および ARM64 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## フィードバック

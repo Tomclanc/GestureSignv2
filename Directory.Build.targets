@@ -1,9 +1,7 @@
 <Project>
-  <!-- GestureSign V2 is distributed for 64-bit Windows only. Keep legacy
-       solution configurations from accidentally producing a 32-bit binary. -->
+  <!-- GestureSign V2 is distributed for x64 Windows only. -->
   <PropertyGroup>
-    <PlatformTarget Condition="'$(Platform)' == 'ARM64' or '$(RuntimeIdentifier)' == 'win-arm64'">ARM64</PlatformTarget>
-    <PlatformTarget Condition="'$(PlatformTarget)' == '' or '$(PlatformTarget)' == 'AnyCPU'">x64</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
 </Project>

@@ -1,7 +1,7 @@
 param(
     [string]$PublishDir = (Join-Path $PSScriptRoot "publish\GestureSign-WinUI-Preview"),
     [string]$OutputMsi = "",
-    [ValidateSet("x64", "arm64")]
+    [ValidateSet("x64")]
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
@@ -98,7 +98,7 @@ $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
 $msbuild = Find-MSBuild
 
-$backendProject = Join-Path $repoRoot.ProviderPath "GestureSign.Daemon\GestureSign.Daemon.Net10.csproj"
+$backendProject = Join-Path $repoRoot.ProviderPath "GestureSign.Daemon\GestureSign.Daemon.csproj"
 $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
 if (Test-Path -LiteralPath $backendOutputPath) {
     Remove-Item -LiteralPath $backendOutputPath -Recurse -Force

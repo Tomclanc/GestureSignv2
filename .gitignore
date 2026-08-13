@@ -162,6 +162,8 @@ $RECYCLE.BIN/
 # Installer build artifacts
 installer/*.msi
 installer/*.msix
+installer/*.msixbundle
+installer/*.msixupload
 installer/*.zip
 installer/*.wixpdb
 installer/GestureSign.generated.kando.wxs
@@ -172,3 +174,4 @@ installer/GestureSign-Setup.exe
 
 # Bundled locally when producing MSI and portable release assets.
 /Kando/
+/GestureSign.WinUI/BundleArtifacts/
