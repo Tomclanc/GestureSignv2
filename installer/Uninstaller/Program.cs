@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -66,9 +67,10 @@ namespace GestureSign.Uninstaller
         private readonly Label _subtitle = new Label();
         private readonly Label _status = new Label();
         private readonly CheckBox _deleteAll = new CheckBox();
-        private readonly ProgressBar _progress = new ProgressBar();
-        private readonly Button _uninstallButton = new Button();
-        private readonly Button _cancelButton = new Button();
+        private readonly RoundedProgressBar _progress = new RoundedProgressBar();
+        private readonly RoundedButton _uninstallButton = new RoundedButton();
+        private readonly RoundedButton _cancelButton = new RoundedButton();
+        private readonly Panel _panel = new Panel();
         private readonly string _sourceDirectory;
         private bool _completed;
 
@@ -99,14 +101,11 @@ namespace GestureSign.Uninstaller
             BackColor = back;
             ForeColor = text;
 
-            var panel = new Panel
-            {
-                BackColor = card,
-                Location = point(28, 28),
-                Size = size(604, 270),
-                Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right
-            };
-            Controls.Add(panel);
+            _panel.BackColor = card;
+            _panel.Location = point(28, 28);
+            _panel.Size = size(604, 270);
+            _panel.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+            Controls.Add(_panel);
 
             _title.Text = "卸载 GestureSign V2";
             _title.Font = new Font(Font.FontFamily, 18F, FontStyle.Bold);
@@ -114,14 +113,14 @@ namespace GestureSign.Uninstaller
             _title.AutoSize = false;
             _title.Location = point(28, 26);
             _title.Size = size(544, 40);
-            panel.Controls.Add(_title);
+            _panel.Controls.Add(_title);
 
             _subtitle.Text = "默认只删除程序文件，保留手势配置、日志、备份和用户数据。";
             _subtitle.ForeColor = subText;
             _subtitle.AutoSize = false;
             _subtitle.Location = point(30, 78);
             _subtitle.Size = size(544, 44);
-            panel.Controls.Add(_subtitle);
+            _panel.Controls.Add(_subtitle);
 
             _deleteAll.Text = "同时删除所有相关文件（配置、日志、备份和安装残留文件）";
             _deleteAll.ForeColor = text;
@@ -129,7 +128,7 @@ namespace GestureSign.Uninstaller
             _deleteAll.AutoSize = false;
             _deleteAll.Location = point(30, 130);
             _deleteAll.Size = size(544, 34);
-            panel.Controls.Add(_deleteAll);
+            _panel.Controls.Add(_deleteAll);
 
             _status.Text = "准备就绪";
             _status.ForeColor = subText;
@@ -137,29 +136,26 @@ namespace GestureSign.Uninstaller
             _status.Location = point(30, 180);
             _status.Size = size(544, 28);
             _status.AutoEllipsis = true;
-            panel.Controls.Add(_status);
+            _panel.Controls.Add(_status);
 
             _progress.Style = ProgressBarStyle.Marquee;
             _progress.MarqueeAnimationSpeed = 0;
             _progress.Location = point(30, 220);
             _progress.Size = size(544, 18);
-            panel.Controls.Add(_progress);
+            _panel.Controls.Add(_progress);
 
             _uninstallButton.Text = "卸载";
-            _uninstallButton.BackColor = accent;
+            _uninstallButton.FillColor = accent;
             _uninstallButton.ForeColor = Color.White;
-            _uninstallButton.FlatStyle = FlatStyle.Flat;
-            _uninstallButton.FlatAppearance.BorderSize = 0;
             _uninstallButton.Location = point(426, 320);
             _uninstallButton.Size = size(98, 36);
             _uninstallButton.Click += (_, __) => Uninstall();
             Controls.Add(_uninstallButton);
 
             _cancelButton.Text = "取消";
-            _cancelButton.BackColor = _isDark ? Color.FromArgb(55, 57, 62) : Color.White;
+            _cancelButton.FillColor = _isDark ? Color.FromArgb(55, 57, 62) : Color.White;
             _cancelButton.ForeColor = text;
-            _cancelButton.FlatStyle = FlatStyle.Flat;
-            _cancelButton.FlatAppearance.BorderColor = _isDark ? Color.FromArgb(78, 80, 86) : Color.FromArgb(214, 218, 224);
+            _cancelButton.BorderColor = _isDark ? Color.FromArgb(78, 80, 86) : Color.FromArgb(214, 218, 224);
             _cancelButton.Location = point(534, 320);
             _cancelButton.Size = size(98, 36);
             _cancelButton.Click += (_, __) => Close();
@@ -168,6 +164,7 @@ namespace GestureSign.Uninstaller
             if (IsPortableDirectory(_sourceDirectory))
                 _status.Text = "已检测到便携版：" + _sourceDirectory;
 
+            ApplyVisualTheme();
             HandleCreated += (_, __) => ApplySystemTitleBarTheme();
         }
 
@@ -177,7 +174,10 @@ namespace GestureSign.Uninstaller
             // WM_SETTINGCHANGE and WM_THEMECHANGED are delivered when Windows
             // switches between light and dark application themes.
             if (message.Msg == 0x001A || message.Msg == 0x031A)
+            {
                 ApplySystemTitleBarTheme();
+                ApplyVisualTheme();
+            }
         }
 
         private void ApplySystemTitleBarTheme()
@@ -191,6 +191,33 @@ namespace GestureSign.Uninstaller
             // retained as a fallback for older Windows 10 releases.
             if (DwmSetWindowAttribute(Handle, 20, ref enabled, sizeof(int)) != 0)
                 DwmSetWindowAttribute(Handle, 19, ref enabled, sizeof(int));
+        }
+
+        private void ApplyVisualTheme()
+        {
+            _isDark = IsDarkTheme();
+            var back = _isDark ? Color.FromArgb(32, 32, 36) : Color.FromArgb(243, 246, 250);
+            var card = _isDark ? Color.FromArgb(43, 45, 50) : Color.FromArgb(252, 253, 255);
+            var text = _isDark ? Color.White : Color.FromArgb(32, 32, 32);
+            var subText = _isDark ? Color.FromArgb(205, 205, 205) : Color.FromArgb(92, 92, 92);
+
+            BackColor = back;
+            ForeColor = text;
+            _panel.BackColor = card;
+            _title.ForeColor = text;
+            _subtitle.ForeColor = subText;
+            _status.ForeColor = subText;
+            _deleteAll.BackColor = card;
+            _deleteAll.ForeColor = text;
+            _cancelButton.FillColor = _isDark ? Color.FromArgb(55, 57, 62) : Color.White;
+            _cancelButton.BorderColor = _isDark ? Color.FromArgb(78, 80, 86) : Color.FromArgb(214, 218, 224);
+            _cancelButton.ForeColor = text;
+            _progress.TrackColor = _isDark ? Color.FromArgb(56, 58, 64) : Color.FromArgb(228, 232, 238);
+            _progress.BorderColor = _isDark ? Color.FromArgb(83, 85, 92) : Color.FromArgb(205, 211, 220);
+            _progress.FillColor = Color.FromArgb(196, 43, 28);
+            _cancelButton.Invalidate();
+            _uninstallButton.Invalidate();
+            _progress.Invalidate();
         }
 
         [DllImport("dwmapi.dll")]
@@ -508,6 +535,179 @@ namespace GestureSign.Uninstaller
             {
                 return false;
             }
+        }
+    }
+
+    internal sealed class RoundedButton : Control
+    {
+        private bool _hovered;
+        private bool _pressed;
+
+        public RoundedButton()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.Selectable, true);
+            TabStop = true;
+            Cursor = Cursors.Hand;
+        }
+
+        public Color FillColor { get; set; } = Color.White;
+        public Color BorderColor { get; set; } = Color.Transparent;
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var bounds = new Rectangle(0, 0, Math.Max(1, Width - 1), Math.Max(1, Height - 1));
+            var radius = Math.Max(6, Math.Min(Height / 3, 14));
+            using (var path = CreateRoundedPath(bounds, radius))
+            using (var fill = new SolidBrush(GetStateColor()))
+            using (var border = new Pen(BorderColor))
+            using (var text = new SolidBrush(Enabled ? ForeColor : Color.FromArgb(145, ForeColor)))
+            {
+                e.Graphics.FillPath(fill, path);
+                if (BorderColor.A > 0)
+                    e.Graphics.DrawPath(border, path);
+                var flags = TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter |
+                            TextFormatFlags.SingleLine | TextFormatFlags.EndEllipsis;
+                TextRenderer.DrawText(e.Graphics, Text, Font, bounds, text.Color, flags);
+            }
+
+            if (Focused)
+            {
+                var focus = Rectangle.Inflate(bounds, -4, -4);
+                ControlPaint.DrawFocusRectangle(e.Graphics, focus, ForeColor, Color.Transparent);
+            }
+        }
+
+        protected override void OnMouseEnter(EventArgs e) { _hovered = true; Invalidate(); base.OnMouseEnter(e); }
+        protected override void OnMouseLeave(EventArgs e) { _hovered = false; _pressed = false; Invalidate(); base.OnMouseLeave(e); }
+        protected override void OnMouseDown(MouseEventArgs e) { if (e.Button == MouseButtons.Left) _pressed = true; Focus(); Invalidate(); base.OnMouseDown(e); }
+        protected override void OnMouseUp(MouseEventArgs e) { _pressed = false; Invalidate(); base.OnMouseUp(e); }
+        protected override void OnEnabledChanged(EventArgs e) { Invalidate(); base.OnEnabledChanged(e); }
+        protected override void OnTextChanged(EventArgs e) { Invalidate(); base.OnTextChanged(e); }
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
+            {
+                OnClick(EventArgs.Empty);
+                e.Handled = true;
+            }
+            base.OnKeyDown(e);
+        }
+
+        private Color GetStateColor()
+        {
+            if (!Enabled)
+                return Blend(FillColor, Color.Gray, 0.45F);
+            if (_pressed)
+                return Blend(FillColor, Color.Black, 0.22F);
+            if (_hovered)
+                return Blend(FillColor, Color.White, 0.12F);
+            return FillColor;
+        }
+
+        private static Color Blend(Color first, Color second, float amount)
+        {
+            amount = Math.Max(0F, Math.Min(1F, amount));
+            return Color.FromArgb(first.A,
+                (int)(first.R * (1 - amount) + second.R * amount),
+                (int)(first.G * (1 - amount) + second.G * amount),
+                (int)(first.B * (1 - amount) + second.B * amount));
+        }
+
+        internal static GraphicsPath CreateRoundedPath(Rectangle bounds, int radius)
+        {
+            var diameter = Math.Max(2, radius * 2);
+            var path = new GraphicsPath();
+            path.AddArc(bounds.Left, bounds.Top, diameter, diameter, 180, 90);
+            path.AddArc(bounds.Right - diameter, bounds.Top, diameter, diameter, 270, 90);
+            path.AddArc(bounds.Right - diameter, bounds.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(bounds.Left, bounds.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
+    }
+
+    internal sealed class RoundedProgressBar : Control
+    {
+        private readonly System.Windows.Forms.Timer _animationTimer;
+        private int _value;
+        private int _animationOffset;
+        private int _marqueeAnimationSpeed;
+
+        public RoundedProgressBar()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer |
+                     ControlStyles.ResizeRedraw | ControlStyles.UserPaint, true);
+            _animationTimer = new System.Windows.Forms.Timer();
+            _animationTimer.Tick += (_, __) =>
+            {
+                _animationOffset = (_animationOffset + Math.Max(2, Width / 45)) % Math.Max(1, Width);
+                Invalidate();
+            };
+        }
+
+        public Color TrackColor { get; set; } = Color.Gainsboro;
+        public Color BorderColor { get; set; } = Color.Silver;
+        public Color FillColor { get; set; } = Color.FromArgb(196, 43, 28);
+        public ProgressBarStyle Style { get; set; } = ProgressBarStyle.Blocks;
+        public int Value
+        {
+            get => _value;
+            set { _value = Math.Max(0, Math.Min(100, value)); Invalidate(); }
+        }
+        public int MarqueeAnimationSpeed
+        {
+            get => _marqueeAnimationSpeed;
+            set
+            {
+                _marqueeAnimationSpeed = Math.Max(0, value);
+                _animationTimer.Stop();
+                if (_marqueeAnimationSpeed > 0)
+                {
+                    _animationTimer.Interval = Math.Max(15, _marqueeAnimationSpeed);
+                    _animationTimer.Start();
+                }
+                Invalidate();
+            }
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+            var bounds = new Rectangle(0, 0, Math.Max(1, Width - 1), Math.Max(1, Height - 1));
+            var radius = Math.Max(3, Height / 2);
+            using (var path = RoundedButton.CreateRoundedPath(bounds, radius))
+            using (var track = new SolidBrush(TrackColor))
+            using (var border = new Pen(BorderColor))
+            {
+                e.Graphics.FillPath(track, path);
+                e.Graphics.DrawPath(border, path);
+                e.Graphics.SetClip(path);
+                using (var fill = new SolidBrush(FillColor))
+                {
+                    if (Style == ProgressBarStyle.Marquee && MarqueeAnimationSpeed > 0)
+                    {
+                        var segment = Math.Max(Height * 4, Width / 5);
+                        var x = _animationOffset - segment;
+                        e.Graphics.FillRectangle(fill, x, 0, segment, Height);
+                        if (x + segment < Width)
+                            e.Graphics.FillRectangle(fill, x + Width, 0, segment, Height);
+                    }
+                    else if (Value > 0)
+                    {
+                        e.Graphics.FillRectangle(fill, 0, 0, (int)Math.Round(Width * Value / 100D), Height);
+                    }
+                }
+                e.Graphics.ResetClip();
+            }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                _animationTimer.Dispose();
+            base.Dispose(disposing);
         }
     }
 
