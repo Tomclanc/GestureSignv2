@@ -5187,7 +5187,7 @@ public sealed partial class MainWindow : Window
         };
 
         var copyLogSelectionItem = new MenuFlyoutItem { Text = "复制" };
-        copyLogSelectionItem.Click += (_, _) =>
+        copyLogSelectionItem.Click += async (_, _) =>
         {
             var text = !string.IsNullOrEmpty(logTextBlock.SelectedText)
                 ? logTextBlock.SelectedText
@@ -5195,10 +5195,23 @@ public sealed partial class MainWindow : Window
             if (string.IsNullOrEmpty(text))
                 return;
 
-            var dataPackage = new DataPackage();
-            dataPackage.SetText(text);
-            Clipboard.SetContent(dataPackage);
-            Clipboard.Flush();
+            copyLogSelectionItem.IsEnabled = false;
+            try
+            {
+                await CopyTextToClipboardWithRetryAsync(text);
+                copyLogSelectionItem.Text = "已复制";
+            }
+            catch (Exception ex)
+            {
+                LogException(new InvalidOperationException("复制日志到剪贴板失败。", ex));
+                copyLogSelectionItem.Text = "复制失败，请重试";
+            }
+            finally
+            {
+                await Task.Delay(900);
+                copyLogSelectionItem.Text = "复制";
+                copyLogSelectionItem.IsEnabled = !string.IsNullOrEmpty(selectedLogText);
+            }
         };
 
         var logContextMenu = new MenuFlyout();
@@ -6715,6 +6728,29 @@ public sealed partial class MainWindow : Window
             : L("未检测到 OneDrive 文件夹。请先登录并启用 OneDrive。", "No OneDrive folder was detected. Sign in to OneDrive first.", "未偵測到 OneDrive 資料夾。請先登入並啟用 OneDrive。", "OneDrive フォルダーが見つかりません。先に OneDrive にサインインしてください。", "OneDrive 폴더를 찾을 수 없습니다. 먼저 OneDrive에 로그인하세요.");
 
         return NewSettingRow(L("同步配置到 OneDrive", "Sync configuration to OneDrive", "同步設定到 OneDrive", "設定を OneDrive に同期", "구성을 OneDrive에 동기화"), subtitle, toggle);
+    }
+
+    private static async Task CopyTextToClipboardWithRetryAsync(string text)
+    {
+        Exception? lastException = null;
+        for (var attempt = 0; attempt < 4; attempt++)
+        {
+            try
+            {
+                var dataPackage = new DataPackage();
+                dataPackage.SetText(text);
+                Clipboard.SetContent(dataPackage);
+                return;
+            }
+            catch (Exception ex)
+            {
+                lastException = ex;
+                if (attempt < 3)
+                    await Task.Delay(80 * (attempt + 1));
+            }
+        }
+
+        throw new InvalidOperationException("剪贴板暂时不可用。", lastException);
     }
 
     private FrameworkElement NewUpdateSettingsRow(LegacyOptions options)
