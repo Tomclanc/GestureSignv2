@@ -1,5 +1,6 @@
 using Microsoft.Win32;
 using System;
+using System.ComponentModel;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -15,6 +16,8 @@ namespace GestureSign.Uninstaller
 {
     internal static class Program
     {
+        internal static string ExecutablePath => Environment.ProcessPath ?? Application.ExecutablePath;
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -23,7 +26,7 @@ namespace GestureSign.Uninstaller
 
             if (!args.Contains("--from-temp", StringComparer.OrdinalIgnoreCase))
             {
-                RelaunchFromTemp(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+                RelaunchFromTemp(Path.GetDirectoryName(ExecutablePath));
                 return;
             }
 
@@ -35,7 +38,7 @@ namespace GestureSign.Uninstaller
 
         private static void RelaunchFromTemp(string sourceDirectory)
         {
-            var source = Assembly.GetExecutingAssembly().Location;
+            var source = ExecutablePath;
             var target = Path.Combine(Path.GetTempPath(), $"GestureSign-Uninstall-{Guid.NewGuid():N}.exe");
             File.Copy(source, target, true);
             Process.Start(new ProcessStartInfo(target, "--from-temp --source-dir " + QuoteArgument(sourceDirectory))
@@ -78,7 +81,7 @@ namespace GestureSign.Uninstaller
         {
             _sourceDirectory = NormalizeDirectory(sourceDirectory);
             Text = "卸载 GestureSign V2";
-            Icon = Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+            Icon = Icon.ExtractAssociatedIcon(Program.ExecutablePath);
             StartPosition = FormStartPosition.CenterScreen;
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -552,7 +555,9 @@ namespace GestureSign.Uninstaller
             Cursor = Cursors.Hand;
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color FillColor { get; set; } = Color.White;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BorderColor { get; set; } = Color.Transparent;
 
         protected override void OnPaint(PaintEventArgs e)
@@ -648,15 +653,21 @@ namespace GestureSign.Uninstaller
             };
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color TrackColor { get; set; } = Color.Gainsboro;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color BorderColor { get; set; } = Color.Silver;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Color FillColor { get; set; } = Color.FromArgb(196, 43, 28);
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ProgressBarStyle Style { get; set; } = ProgressBarStyle.Blocks;
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int Value
         {
             get => _value;
             set { _value = Math.Max(0, Math.Min(100, value)); Invalidate(); }
         }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public int MarqueeAnimationSpeed
         {
             get => _marqueeAnimationSpeed;

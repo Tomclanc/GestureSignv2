@@ -5,7 +5,7 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "17.2",
+    [string]$PackageVersion = "17.2.5",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -157,17 +157,20 @@ if (!(Test-Path -LiteralPath (Join-Path $publishKandoPath "kando.exe"))) {
 }
 
 $uninstallerProject = Join-Path $PSScriptRoot "Uninstaller\GestureSign.Uninstaller.csproj"
-if (Test-Path -LiteralPath $uninstallerProject) {
-    & $msbuild $uninstallerProject /p:Configuration=Release /v:m
-    if ($LASTEXITCODE -ne 0) {
-        throw "Uninstaller build failed with exit code $LASTEXITCODE"
-    }
-
-    $uninstallerExe = Join-Path $PSScriptRoot "Uninstaller\bin\Release\GestureSign-Uninstall.exe"
-    if (Test-Path -LiteralPath $uninstallerExe) {
-        Copy-Item -LiteralPath $uninstallerExe -Destination (Join-Path $publishPath "GestureSign-Uninstall.exe") -Force
-    }
+if (!(Test-Path -LiteralPath $uninstallerProject)) {
+    throw "Uninstaller project is missing: $uninstallerProject"
 }
+$uninstallerOutputPath = Join-Path $PSScriptRoot "Uninstaller\bin\publish\win-$Architecture"
+& dotnet publish $uninstallerProject -c Release -r "win-$Architecture" --self-contained false -o $uninstallerOutputPath /p:PlatformTarget=$platformTarget /p:PublishSingleFile=true /m:1 /nr:false /v:minimal
+if ($LASTEXITCODE -ne 0) {
+    throw ".NET 10 $Architecture uninstaller publish failed with exit code $LASTEXITCODE"
+}
+
+$uninstallerExe = Join-Path $uninstallerOutputPath "GestureSign-Uninstall.exe"
+if (!(Test-Path -LiteralPath $uninstallerExe)) {
+    throw "Uninstaller publish output is missing: $uninstallerExe"
+}
+Copy-Item -LiteralPath $uninstallerExe -Destination (Join-Path $publishPath "GestureSign-Uninstall.exe") -Force
 
 $updaterProject = Join-Path $PSScriptRoot "Updater\GestureSign.Updater.csproj"
 if (!(Test-Path -LiteralPath $updaterProject)) {
@@ -308,7 +311,7 @@ $majorUpgradeXml = if ($SkipMajorUpgrade) {
     "    <!-- Major upgrade removal is intentionally disabled for this build. -->"
 }
 else {
-    "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallValidate`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
+    "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallInitialize`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
 }
 
 $wxs = @"
@@ -316,7 +319,6 @@ $wxs = @"
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package Name="$(Escape-Xml $PackageName)" Manufacturer="TransposonY / WinUI rebuild" Version="$(Escape-Xml $PackageVersion)" UpgradeCode="$(Escape-Xml $UpgradeCode)" Scope="$scope">
 $majorUpgradeXml
-    <Property Id="DISABLEROLLBACK" Value="1" />
     <Property Id="CLEANALL" Secure="yes" Value="0" />
     <MediaTemplate EmbedCab="yes" CompressionLevel="$(Escape-Xml $CompressionLevel)" />
     <Icon Id="GestureSignIcon" SourceFile="$(Escape-Xml $($iconPath.ProviderPath))" />

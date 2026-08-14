@@ -45,8 +45,8 @@ public sealed partial class MainWindow : Window
 {
     private const int DefaultWindowWidth = 1360;
     private const int DefaultWindowHeight = 800;
-    private const int MinimumWindowWidth = 1180;
-    private const int MinimumWindowHeight = 760;
+    private const int MinimumWindowWidth = 640;
+    private const int MinimumWindowHeight = 520;
     private const int PickOutlineThickness = 12;
     private const int PickOutlineCornerRadius = 18;
     private const int WindowPickHoverConfirmMilliseconds = 3000;
@@ -772,7 +772,7 @@ public sealed partial class MainWindow : Window
         _actionsScopeRefreshTimer.Stop();
         _actionsPageActionsPanel = null;
         _actionsPageScopeRows.Clear();
-        var grid = new Grid { ColumnSpacing = 16 };
+        var grid = new Grid { ColumnSpacing = 16, RowSpacing = 16 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(320) });
         grid.ColumnDefinitions.Add(new ColumnDefinition());
 
@@ -808,6 +808,7 @@ public sealed partial class MainWindow : Window
         Grid.SetColumn(actionsCard, 1);
         grid.Children.Add(appsCard);
         grid.Children.Add(actionsCard);
+        ConfigureResponsiveTwoColumnGrid(grid, appsCard, actionsCard, 900, new GridLength(320));
         yield return grid;
     }
 
@@ -1048,6 +1049,7 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(twoFinger);
         grid.Children.Add(threeFinger);
         grid.Children.Add(custom);
+        ConfigureResponsiveGestureGrid(grid, twoFinger, threeFinger, custom, 760);
         root.Children.Add(grid);
         return root;
     }
@@ -2095,10 +2097,11 @@ public sealed partial class MainWindow : Window
         var root = NewSection();
         var content = NewCardPanel();
         content.Children.Add(new Image { Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/logo.png")), Width = 72, Height = 72, HorizontalAlignment = HorizontalAlignment.Left });
-        content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), Margin = new Thickness(0, 12, 0, 0) });
+        content.Children.Add(new TextBlock { Text = "GestureSign V2", Style = ResourceStyle("TitleTextBlockStyle"), IsTextSelectionEnabled = true, Margin = new Thickness(0, 12, 0, 0) });
         content.Children.Add(new TextBlock
         {
             Text = $"{L("WinUI3重构", "WinUI 3 Rebuild", "WinUI3重構", "WinUI 3 再構築", "WinUI 3 재구축")}\n{L("版本", "Version", "版本", "バージョン", "버전")}：{AppVersion}",
+            IsTextSelectionEnabled = true,
             Opacity = 0.72,
             Margin = new Thickness(0, 4, 0, 0)
         });
@@ -2110,6 +2113,7 @@ public sealed partial class MainWindow : Window
                 "作者：风夏\nQQ 交流群：1054687130\n問題或建議請回饋至：z1021847549@outlook.com",
                 "作者：风夏\nQQ グループ：1054687130\n問題や提案：z1021847549@outlook.com",
                 "작성자: 风夏\nQQ 그룹: 1054687130\n문제 및 제안: z1021847549@outlook.com"),
+            IsTextSelectionEnabled = true,
             TextWrapping = TextWrapping.Wrap,
             Margin = new Thickness(0, 16, 0, 0)
         });
@@ -2120,11 +2124,13 @@ public sealed partial class MainWindow : Window
             L("查看日志", "View logs", "檢視記錄", "ログを表示", "로그 보기")
         ]));
         root.Children.Add(NewCard(content));
-        root.Children.Add(NewInfoCard(
+        root.Children.Add(NewProjectLinksCard(
             L("项目页面", "Project Pages", "專案頁面", "プロジェクトページ", "프로젝트 페이지"),
-            $"GestureSign V2: https://github.com/Tomclanc/GestureSignv2\n" +
-            $"{L("原始项目（TransposonY）", "Original project (TransposonY)", "原始專案（TransposonY）", "オリジナル（TransposonY）", "원본 프로젝트 (TransposonY)")}: https://github.com/TransposonY/GestureSign\n" +
-            "Kando (Simon Schneegans): https://github.com/kando-menu/kando",
+            [
+                ("GestureSign V2", "https://github.com/Tomclanc/GestureSignv2"),
+                (L("原始项目（TransposonY）", "Original project (TransposonY)", "原始專案（TransposonY）", "オリジナル（TransposonY）", "원본 프로젝트 (TransposonY)"), "https://github.com/TransposonY/GestureSign"),
+                ("Kando (Simon Schneegans)", "https://github.com/kando-menu/kando")
+            ],
             "Thanks: highsign, MahApps.Metro, WGestures."));
         return root;
     }
@@ -2156,7 +2162,7 @@ public sealed partial class MainWindow : Window
 
     private static Grid NewTwoColumnRow(FrameworkElement left, FrameworkElement right)
     {
-        var row = new Grid { ColumnSpacing = 16, Margin = new Thickness(0, 8, 0, 0) };
+        var row = new Grid { ColumnSpacing = 16, RowSpacing = 10, Margin = new Thickness(0, 8, 0, 0) };
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         left.HorizontalAlignment = HorizontalAlignment.Left;
@@ -2166,7 +2172,181 @@ public sealed partial class MainWindow : Window
         row.Children.Add(left);
         Grid.SetColumn(right, 1);
         row.Children.Add(right);
+        ConfigureResponsiveTwoColumnGrid(row, left, right, 560, new GridLength(1, GridUnitType.Star));
         return row;
+    }
+
+    private static void ConfigureResponsiveTwoColumnGrid(
+        Grid grid,
+        FrameworkElement first,
+        FrameworkElement second,
+        double breakpoint,
+        GridLength firstColumnWidth,
+        GridLength? secondColumnWidth = null)
+    {
+        bool? isNarrow = null;
+
+        void Apply(double width)
+        {
+            if (width <= 0)
+                return;
+
+            var useNarrowLayout = width < breakpoint;
+            if (isNarrow == useNarrowLayout)
+                return;
+
+            isNarrow = useNarrowLayout;
+            grid.ColumnDefinitions.Clear();
+            grid.RowDefinitions.Clear();
+            if (useNarrowLayout)
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumn(first, 0);
+                Grid.SetRow(first, 0);
+                Grid.SetColumnSpan(first, 1);
+                Grid.SetColumn(second, 0);
+                Grid.SetRow(second, 1);
+                Grid.SetColumnSpan(second, 1);
+            }
+            else
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = firstColumnWidth });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = secondColumnWidth ?? new GridLength(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumn(first, 0);
+                Grid.SetRow(first, 0);
+                Grid.SetColumnSpan(first, 1);
+                Grid.SetColumn(second, 1);
+                Grid.SetRow(second, 0);
+                Grid.SetColumnSpan(second, 1);
+            }
+        }
+
+        grid.Loaded += (_, _) => Apply(grid.ActualWidth);
+        grid.SizeChanged += (_, args) => Apply(args.NewSize.Width);
+    }
+
+    private static void ConfigureResponsiveGestureGrid(
+        Grid grid,
+        FrameworkElement first,
+        FrameworkElement second,
+        FrameworkElement final,
+        double breakpoint)
+    {
+        bool? isNarrow = null;
+
+        void Apply(double width)
+        {
+            if (width <= 0)
+                return;
+
+            var useNarrowLayout = width < breakpoint;
+            if (isNarrow == useNarrowLayout)
+                return;
+
+            isNarrow = useNarrowLayout;
+            grid.ColumnDefinitions.Clear();
+            grid.RowDefinitions.Clear();
+            if (useNarrowLayout)
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                for (var index = 0; index < 3; index++)
+                    grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                Grid.SetColumn(first, 0);
+                Grid.SetRow(first, 0);
+                Grid.SetColumnSpan(first, 1);
+                Grid.SetColumn(second, 0);
+                Grid.SetRow(second, 1);
+                Grid.SetColumnSpan(second, 1);
+                Grid.SetColumn(final, 0);
+                Grid.SetRow(final, 2);
+                Grid.SetColumnSpan(final, 1);
+            }
+            else
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumn(first, 0);
+                Grid.SetRow(first, 0);
+                Grid.SetColumnSpan(first, 1);
+                Grid.SetColumn(second, 1);
+                Grid.SetRow(second, 0);
+                Grid.SetColumnSpan(second, 1);
+                Grid.SetColumn(final, 0);
+                Grid.SetRow(final, 1);
+                Grid.SetColumnSpan(final, 2);
+            }
+        }
+
+        grid.Loaded += (_, _) => Apply(grid.ActualWidth);
+        grid.SizeChanged += (_, args) => Apply(args.NewSize.Width);
+    }
+
+    private static void ConfigureResponsiveActionRow(
+        Grid grid,
+        FrameworkElement preview,
+        FrameworkElement details,
+        FrameworkElement buttons,
+        double breakpoint)
+    {
+        var originalButtonsMargin = buttons.Margin;
+        bool? isNarrow = null;
+
+        void Apply(double width)
+        {
+            if (width <= 0)
+                return;
+
+            var useNarrowLayout = width < breakpoint;
+            if (isNarrow == useNarrowLayout)
+                return;
+
+            isNarrow = useNarrowLayout;
+            grid.ColumnDefinitions.Clear();
+            grid.RowDefinitions.Clear();
+            if (useNarrowLayout)
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumn(preview, 0);
+                Grid.SetRow(preview, 0);
+                Grid.SetColumn(details, 1);
+                Grid.SetRow(details, 0);
+                Grid.SetColumn(buttons, 0);
+                Grid.SetRow(buttons, 1);
+                Grid.SetColumnSpan(buttons, 2);
+                buttons.Margin = new Thickness(
+                    originalButtonsMargin.Left,
+                    originalButtonsMargin.Top + 10,
+                    originalButtonsMargin.Right,
+                    originalButtonsMargin.Bottom);
+            }
+            else
+            {
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition());
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Grid.SetColumn(preview, 0);
+                Grid.SetRow(preview, 0);
+                Grid.SetColumn(details, 1);
+                Grid.SetRow(details, 0);
+                Grid.SetColumn(buttons, 2);
+                Grid.SetRow(buttons, 0);
+                Grid.SetColumnSpan(buttons, 1);
+                buttons.Margin = originalButtonsMargin;
+            }
+        }
+
+        grid.Loaded += (_, _) => Apply(grid.ActualWidth);
+        grid.SizeChanged += (_, args) => Apply(args.NewSize.Width);
     }
 
     private Border NewCard(UIElement content, Thickness? padding = null)
@@ -2217,13 +2397,13 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewRecognitionCardDynamic()
     {
-        var grid = new Grid { ColumnSpacing = 18 };
+        var grid = new Grid { ColumnSpacing = 18, RowSpacing = 10 };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         var text = NewCardPanel(4);
         text.Children.Add(new TextBlock { Text = L("手势识别", "Gesture Recognition", "手勢辨識", "ジェスチャ認識", "제스처 인식"), Style = BodyStrongTextBlockStyle });
-        text.Children.Add(new TextBlock { Text = L("移动到动作页后，这里负责控制后台识别服务的启停。", "After opening Actions, this controls the background recognition service.", "移到動作頁後，這裡負責控制背景辨識服務的啟停。", "アクションページでは、ここでバックグラウンド認識サービスを制御します。", "동작 페이지에서 백그라운드 인식 서비스 시작/중지를 제어합니다."), Opacity = 0.68 });
+        text.Children.Add(new TextBlock { Text = L("移动到动作页后，这里负责控制后台识别服务的启停。", "After opening Actions, this controls the background recognition service.", "移到動作頁後，這裡負責控制背景辨識服務的啟停。", "アクションページでは、ここでバックグラウンド認識サービスを制御します。", "동작 페이지에서 백그라운드 인식 서비스 시작/중지를 제어합니다."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap });
         grid.Children.Add(text);
 
         var toggle = new ToggleSwitch
@@ -2256,6 +2436,7 @@ public sealed partial class MainWindow : Window
         };
         Grid.SetColumn(toggle, 1);
         grid.Children.Add(toggle);
+        ConfigureResponsiveTwoColumnGrid(grid, text, toggle, 520, new GridLength(1, GridUnitType.Star), GridLength.Auto);
         return NewCard(grid);
     }
 
@@ -2281,7 +2462,7 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewCardHeader(string title, string subtitle, string buttonText, string command)
     {
-        var grid = new Grid { ColumnSpacing = 16 };
+        var grid = new Grid { ColumnSpacing = 16, RowSpacing = 10 };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
@@ -2291,8 +2472,10 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(text);
 
         var button = NewPillButton(buttonText, true, command);
+        button.HorizontalAlignment = HorizontalAlignment.Left;
         Grid.SetColumn(button, 1);
         grid.Children.Add(button);
+        ConfigureResponsiveTwoColumnGrid(grid, text, button, 520, new GridLength(1, GridUnitType.Star), GridLength.Auto);
         return grid;
     }
 
@@ -5766,21 +5949,66 @@ public sealed partial class MainWindow : Window
 
     private ScrollViewer NewActionsPageScrollViewer(UIElement content, bool hideScrollBar = false, string? name = null)
     {
-        var maxHeight = Root.ActualHeight > 0
-            ? Math.Max(420, Math.Min(820, Root.ActualHeight - 250))
-            : 620;
-
-        return new ScrollViewer
+        var scrollViewer = new ScrollViewer
         {
             Name = name ?? "",
             Content = content,
-            MaxHeight = maxHeight,
             VerticalScrollBarVisibility = hideScrollBar ? ScrollBarVisibility.Hidden : ScrollBarVisibility.Auto,
             VerticalScrollMode = ScrollMode.Enabled,
             HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
             HorizontalScrollMode = ScrollMode.Disabled,
             ZoomMode = ZoomMode.Disabled
         };
+
+        void UpdateMaximumHeight()
+        {
+            scrollViewer.MaxHeight = Root.ActualHeight > 0
+                ? Math.Max(300, Math.Min(820, Root.ActualHeight - 250))
+                : 620;
+        }
+
+        SizeChangedEventHandler updateForWindowSize = (_, _) => UpdateMaximumHeight();
+        scrollViewer.Loaded += (_, _) =>
+        {
+            UpdateMaximumHeight();
+            MainContentScrollViewer.SizeChanged += updateForWindowSize;
+        };
+        scrollViewer.Unloaded += (_, _) => MainContentScrollViewer.SizeChanged -= updateForWindowSize;
+
+        // WinUI keeps pointer-wheel input inside a nested ScrollViewer even
+        // after it reaches an edge. Hand the remaining wheel motion to the
+        // page so users can keep scrolling without moving the pointer out of
+        // the applications or actions list.
+        scrollViewer.AddHandler(
+            UIElement.PointerWheelChangedEvent,
+            new PointerEventHandler(ChainActionsPageWheelAtBoundary),
+            handledEventsToo: true);
+        return scrollViewer;
+    }
+
+    private void ChainActionsPageWheelAtBoundary(object sender, PointerRoutedEventArgs e)
+    {
+        if (sender is not ScrollViewer innerScrollViewer)
+            return;
+
+        var wheelDelta = e.GetCurrentPoint(innerScrollViewer).Properties.MouseWheelDelta;
+        const double boundaryTolerance = 0.5;
+        var reachedBoundary = wheelDelta < 0
+            ? innerScrollViewer.VerticalOffset >= innerScrollViewer.ScrollableHeight - boundaryTolerance
+            : wheelDelta > 0 && innerScrollViewer.VerticalOffset <= boundaryTolerance;
+        if (!reachedBoundary)
+            return;
+
+        var currentOffset = MainContentScrollViewer.VerticalOffset;
+        var targetOffset = Math.Clamp(
+            currentOffset - wheelDelta,
+            0,
+            MainContentScrollViewer.ScrollableHeight);
+        if (Math.Abs(targetOffset - currentOffset) <= boundaryTolerance)
+            return;
+
+        MainContentScrollViewer.ChangeView(null, targetOffset, null, disableAnimation: true);
+        e.Handled = true;
     }
 
     private async System.Threading.Tasks.Task ShowInfoDialog(string title, string message)
@@ -5971,7 +6199,7 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewActionRow(LegacyApplication application, LegacyAction action)
     {
-        var grid = new Grid { ColumnSpacing = 14 };
+        var grid = new Grid { ColumnSpacing = 14, RowSpacing = 10 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -5999,6 +6227,7 @@ public sealed partial class MainWindow : Window
             (L("删除", "Delete", "刪除", "削除", "삭제"), async _ => await DeleteActionAsync(application, action)));
         Grid.SetColumn(buttons, 2);
         grid.Children.Add(buttons);
+        ConfigureResponsiveActionRow(grid, gestureBox, text, buttons, 760);
         return NewCard(grid, new Thickness(12));
     }
 
@@ -6381,13 +6610,32 @@ public sealed partial class MainWindow : Window
         return NewCard(content);
     }
 
-    private FrameworkElement NewInfoCard(string title, string subtitle, string detail)
+    private FrameworkElement NewProjectLinksCard(
+        string title,
+        IReadOnlyList<(string Label, string Url)> links,
+        string detail)
     {
         var content = NewCardPanel();
-        content.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
-        content.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.72, TextWrapping = TextWrapping.Wrap });
-        content.Children.Add(new TextBlock { Text = detail, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
+        content.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle, IsTextSelectionEnabled = true });
+        foreach (var (label, url) in links)
+            content.Children.Add(NewSelectableHyperlinkLine(label, url));
+        content.Children.Add(new TextBlock { Text = detail, IsTextSelectionEnabled = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) });
         return NewCard(content);
+    }
+
+    private static TextBlock NewSelectableHyperlinkLine(string label, string url)
+    {
+        var text = new TextBlock
+        {
+            IsTextSelectionEnabled = true,
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap
+        };
+        text.Inlines.Add(new Microsoft.UI.Xaml.Documents.Run { Text = $"{label}: " });
+        var hyperlink = new Microsoft.UI.Xaml.Documents.Hyperlink { NavigateUri = new Uri(url) };
+        hyperlink.Inlines.Add(new Microsoft.UI.Xaml.Documents.Run { Text = url });
+        text.Inlines.Add(hyperlink);
+        return text;
     }
 
     private FrameworkElement NewTableHeader(string[] cells) => NewTableRow(cells, true);
@@ -6430,7 +6678,12 @@ public sealed partial class MainWindow : Window
         var panel = NewCardPanel(10);
         panel.Children.Add(new TextBlock { Text = $"{title}  {CountText(gestures.Length, L("个", "items", "個", "個", "개"))}", Style = BodyStrongTextBlockStyle });
 
-        var wrap = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var wrap = new VariableSizedWrapGrid
+        {
+            Orientation = Orientation.Horizontal,
+            HorizontalChildrenAlignment = HorizontalAlignment.Left,
+            VerticalChildrenAlignment = VerticalAlignment.Top
+        };
         foreach (var gesture in gestures)
         {
             var content = NewCardPanel(6);
@@ -6467,15 +6720,7 @@ public sealed partial class MainWindow : Window
         if (gestures.Length == 0)
             wrap.Children.Add(new TextBlock { Text = L("暂无手势", "No gestures", "暫無手勢", "ジェスチャなし", "제스처 없음"), Opacity = 0.68 });
 
-        panel.Children.Add(new ScrollViewer
-        {
-            Content = wrap,
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-            HorizontalScrollMode = ScrollMode.Enabled,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
-            VerticalScrollMode = ScrollMode.Disabled,
-            ZoomMode = ZoomMode.Disabled
-        });
+        panel.Children.Add(wrap);
         return NewCard(panel);
     }
 
@@ -7445,7 +7690,8 @@ public sealed partial class MainWindow : Window
     {
         var grid = new Grid
         {
-            ColumnSpacing = 16
+            ColumnSpacing = 16,
+            RowSpacing = 10
         };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -7459,7 +7705,9 @@ public sealed partial class MainWindow : Window
 
         Grid.SetColumn(control, 1);
         control.VerticalAlignment = VerticalAlignment.Center;
+        control.HorizontalAlignment = HorizontalAlignment.Left;
         grid.Children.Add(control);
+        ConfigureResponsiveTwoColumnGrid(grid, text, control, 600, new GridLength(1, GridUnitType.Star), GridLength.Auto);
         return new Border
         {
             Padding = new Thickness(0, 12, 0, 12),

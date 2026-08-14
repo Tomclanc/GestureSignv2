@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.5">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,31 +65,26 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.5) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
-- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi)（Windows on ARM64 早期预览版）
-
-> ARM64 版本是未签名的早期预览版。开发者目前没有 ARM64 Windows on Arm 设备，无法进行真实设备安装和运行测试；该构建仅完成编译、打包和 PE 架构静态检查，请谨慎使用并反馈问题。
-
-ARM64 MSI SHA-256：`B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
+- [GestureSign-V2-17.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-x64.msi)
+- [GestureSign-V2-17.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-portable-x64.zip)
 
 ## 更新内容
 
-### 17.2
+### 17.2.5
 
-- 修复部分触摸屏及 OLED 设备无法触发手势的问题，改进原始触控数据包与触点 Tip 状态解析。
-- 完善便携版识别和卸载流程，可正确关闭相关进程并清理便携目录，同时保留可选的用户数据清理行为。
-- 卸载程序新增 Per-Monitor V2 高 DPI 适配，修复 200% 缩放下标题、说明、复选框和底部按钮被裁切的问题。
-- 卸载程序标题栏跟随 Windows 深色 / 亮色模式，并统一使用圆角按钮和圆角进度条；进度轨道、边框及状态色会随系统主题切换。
-- 修复卸载程序标题栏、任务栏及 Alt+Tab 使用系统默认图标的问题，统一显示 GestureSign V2 图标。
+- 修复动作页内嵌程序列表或动作列表滚动到底后，鼠标滚轮无法继续滚动整个页面的问题。
+- “关于”页面以及页面标题、说明文字现在可以选择复制；项目地址改为可直接打开的 GitHub 超链接。
+- 新增类似 Windows 11 设置的响应式布局：窗口可缩小到 640 × 520，导航栏会自动切换展开、紧凑和覆盖模式，动作页、设置项、按钮及手势卡片会按宽度动态重排和换行。
+- 卸载程序迁移到 .NET 10 WinForms 单文件发布，并修复单文件模式下临时目录重启、图标读取和便携目录识别。
+- MSI 将旧版移除纳入安装事务并恢复回滚能力；如果新版安装失败，Windows Installer 可以更安全地恢复旧版本。
 
 ### 历史版本
 
-早期版本完成了 WinUI 3 与 .NET 10 迁移，并持续改进手势识别、触控板和触摸屏输入、智能关闭、Kando 快捷操作、应用更新、高 DPI、远程桌面兼容性、内存占用及安装体验。完整的逐版本更新记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+17.2 及更早版本完成了 WinUI 3 与 .NET 10 迁移，并持续改进触摸屏与手势识别、便携版卸载、高 DPI、智能关闭、Kando 快捷操作、应用更新、远程桌面兼容性、内存占用及安装体验。完整的逐版本记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -140,8 +135,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 兼容性
 
-- 推荐系统：Windows 11 x64；Windows on ARM64 目前为未经实机测试的早期预览支持。
-- 安装包：MSI x64、便携版 x64、MSI ARM64 Early Preview；不再提供 x86 包。
+- 推荐系统：Windows 11 x64；历史 Releases 中保留了未经实机测试的 ARM64 早期预览版，本次未更新。
+- 当前安装包：MSI x64、便携版 x64；不再提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -204,29 +199,24 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.5).
 
 Current version:
 
-- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
-- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi) (Windows on ARM64 early preview)
+- [GestureSign-V2-17.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-x64.msi)
+- [GestureSign-V2-17.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-portable-x64.zip)
 
-> The ARM64 build is an unsigned early preview. The developer does not currently have an ARM64 Windows on Arm device, so installation and runtime testing on real hardware has not been possible. This build has only passed compilation, packaging, and static PE architecture checks; use it with caution and report any issues.
+### What's new in 17.2.5
 
-ARM64 MSI SHA-256: `B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
-
-### What's new in 17.2
-
-- Fixed gesture capture on some touchscreens and OLED devices by correcting raw touch packet and contact Tip-state parsing.
-- Improved portable-build detection and uninstall cleanup, including reliable process shutdown and optional user-data removal.
-- Added Per-Monitor V2 DPI support to the uninstaller and fixed clipped content at 200% display scaling.
-- Updated the uninstaller with system-aware light/dark title bars, rounded buttons, and a themed rounded progress bar.
-- Applied the GestureSign V2 icon consistently to the uninstaller title bar, taskbar, and Alt+Tab.
+- Fixed mouse-wheel chaining on the Actions page so scrolling continues through the outer page after an embedded app or action list reaches its boundary.
+- Made the About page, page titles, and descriptions selectable, and converted project addresses into directly accessible GitHub hyperlinks.
+- Added Windows 11 Settings-style responsive layouts: the window can shrink to 640 × 520, navigation automatically switches between expanded, compact, and overlay modes, and action cards, settings, buttons, and gesture cards reflow as space changes.
+- Migrated the uninstaller to a .NET 10 WinForms single-file build and fixed temporary relaunch, icon lookup, and portable-directory detection under single-file execution.
+- Moved old-version removal into the MSI transaction and restored rollback support, allowing Windows Installer to recover the previous version more safely if a new installation fails.
 
 ### Previous releases
 
-Earlier releases completed the WinUI 3 and .NET 10 migration and continually improved gesture recognition, touchpad and touchscreen input, Smart Close, Kando Quick Actions, application updates, high-DPI behavior, Remote Desktop compatibility, memory usage, and installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete version-by-version history.
+Version 17.2 and earlier completed the WinUI 3 and .NET 10 migration and improved touchscreen and gesture recognition, portable uninstalling, high-DPI behavior, Smart Close, Kando Quick Actions, application updates, Remote Desktop compatibility, memory usage, and installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
 
 ## Installation
 
@@ -283,8 +273,8 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 
 ## Compatibility
 
-- Recommended OS: Windows 11 x64; Windows on ARM64 support is currently an untested early preview.
-- Packages: x64 MSI, x64 portable ZIP, and ARM64 Early Preview MSI; no x86 package is produced.
+- Recommended OS: Windows 11 x64. An untested ARM64 early preview remains available in older Releases but is not updated in this release.
+- Current packages: x64 MSI and x64 portable ZIP; no x86 package is produced.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -347,29 +337,24 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.5) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-17.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-x64.msi)
-- [GestureSign-V2-17.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-portable-x64.zip)
-- [GestureSign-V2-17.2-arm64-early-preview.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2/GestureSign-V2-17.2-arm64-early-preview.msi)（Windows on ARM64 早期プレビュー版）
+- [GestureSign-V2-17.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-x64.msi)
+- [GestureSign-V2-17.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.5/GestureSign-V2-17.2.5-portable-x64.zip)
 
-> ARM64 版は未署名の早期プレビューです。開発者は現在 ARM64 Windows on Arm デバイスを所有していないため、実機でのインストールおよび動作テストは行われていません。コンパイル、パッケージ作成、PE アーキテクチャの静的確認のみ完了しています。注意して使用し、問題があれば報告してください。
+### 17.2.5 の更新内容
 
-ARM64 MSI SHA-256：`B7539A51DA9E991FF948D86F4C4FAF8874F2A718CC70069C1F49679197DFEC87`
-
-### 17.2 の更新内容
-
-- 一部のタッチスクリーンおよび OLED 端末でジェスチャーが反応しない問題を修正しました。
-- ポータブル版の検出、プロセス終了、アンインストール時のディレクトリ整理を改善しました。
-- アンインストーラーを Per-Monitor V2 高 DPI に対応させ、200% 表示時のレイアウト切れを修正しました。
-- アンインストーラーのタイトルバー、角丸ボタン、進行状況バーをシステムのライト／ダークテーマに対応させました。
-- アンインストーラーのタイトルバー、タスクバー、Alt+Tab に GestureSign V2 アイコンを適用しました。
+- Actions ページのアプリ／アクション一覧が端まで到達した後も、マウスホイールで外側のページを続けてスクロールできるようにしました。
+- About ページ、ページタイトル、説明文を選択・コピー可能にし、プロジェクト URL を直接開ける GitHub ハイパーリンクへ変更しました。
+- Windows 11 設定風のレスポンシブレイアウトを追加しました。ウィンドウは 640 × 520 まで縮小でき、ナビゲーションは展開・コンパクト・オーバーレイを自動切り替えし、カード、設定項目、ボタン、ジェスチャーカードが幅に応じて再配置されます。
+- アンインストーラーを .NET 10 WinForms の単一ファイルへ移行し、単一ファイル実行時の一時ディレクトリ再起動、アイコン取得、ポータブルディレクトリ判定を修正しました。
+- 旧バージョンの削除を MSI トランザクションに含め、ロールバックを有効化しました。新バージョンのインストールに失敗した場合、Windows Installer が旧バージョンをより安全に復元できます。
 
 ### 過去のバージョン
 
-これまでのリリースでは、WinUI 3 と .NET 10 への移行を完了し、ジェスチャー認識、タッチパッド／タッチスクリーン入力、Smart Close、Kando Quick Actions、アプリ更新、高 DPI、リモートデスクトップ互換性、メモリ使用量、インストール体験を継続的に改善してきました。バージョンごとの完全な更新履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+17.2 以前のリリースでは WinUI 3 と .NET 10 への移行を完了し、タッチスクリーンとジェスチャー認識、ポータブル版のアンインストール、高 DPI、Smart Close、Kando Quick Actions、アプリ更新、リモートデスクトップ互換性、メモリ使用量、インストール体験を改善しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
@@ -426,8 +411,8 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 
 ## 互換性
 
-- 推奨 OS: Windows 11 x64。Windows on ARM64 対応は現在、実機未検証の早期プレビューです。
-- パッケージ: x64 MSI、x64 ポータブル ZIP、ARM64 Early Preview MSI。x86 パッケージは生成しません。
+- 推奨 OS: Windows 11 x64。実機未検証の ARM64 早期プレビュー版は過去の Releases に残していますが、今回は更新していません。
+- 現在のパッケージ: x64 MSI、x64 ポータブル ZIP。x86 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## フィードバック
