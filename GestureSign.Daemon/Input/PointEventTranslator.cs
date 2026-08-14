@@ -15,6 +15,7 @@ namespace GestureSign.Daemon.Input
     {
         private const int CaptionButtonWidth = 180;
         private const int CaptionButtonHeight = 72;
+        private readonly InputProvider _inputProvider;
         private int _lastPointsCount;
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
@@ -28,6 +29,7 @@ namespace GestureSign.Daemon.Input
 
         internal PointEventTranslator(InputProvider inputProvider)
         {
+            _inputProvider = inputProvider;
             _pressedMouseButton = new HashSet<MouseActions>();
             _touchPadReleaseTimer = new System.Threading.Timer(_ => ReleaseTouchPadIfIdle(), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             _mouseStatePollTimer = new System.Windows.Forms.Timer { Interval = 12 };
@@ -519,6 +521,7 @@ namespace GestureSign.Daemon.Input
                 return;
 
             OnPointUp(new InputPointsEventArgs(rawData, Devices.TouchPad));
+            _inputProvider.ResetSourceDevice(Devices.TouchPad);
             _lastPointsCount = 0;
             _lastTouchPadRawData = null;
         }

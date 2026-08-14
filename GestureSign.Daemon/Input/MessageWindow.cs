@@ -13,6 +13,7 @@ namespace GestureSign.Daemon.Input
 {
     public class MessageWindow : NativeWindow
     {
+        private const int WmResetSourceDevice = 0x8000 + 0x475;
         private Screen _currentScr;
 
         private static readonly HandleRef HwndMessage = new HandleRef(null, new IntPtr(-3));
@@ -120,6 +121,26 @@ namespace GestureSign.Daemon.Input
             UpdateRegisterState(registerTouchPad, NativeMethods.TouchPadUsage);
         }
 
+        public void RequestSourceDeviceReset(Devices sourceDevice)
+        {
+            NativeMethods.PostMessage(
+                new HandleRef(this, Handle),
+                WmResetSourceDevice,
+                (int)sourceDevice,
+                0);
+        }
+
+        private void ResetSourceDevice(Devices sourceDevice, string reason)
+        {
+            if (_sourceDevice != sourceDevice)
+                return;
+
+            _sourceDevice = Devices.None;
+            _requiringContactCount = 0;
+            _outputTouchs = new List<RawData>(1);
+            Logging.LogMessage($"Raw input source reset. Device={sourceDevice}, Reason={reason}");
+        }
+
         private void UpdateRegisterState(bool register, ushort usage)
         {
             if (register)
@@ -225,6 +246,11 @@ namespace GestureSign.Daemon.Input
                 case NativeMethods.WM_INPUT_DEVICE_CHANGE:
                     {
                         _validDevices.Clear();
+                        break;
+                    }
+                case WmResetSourceDevice:
+                    {
+                        ResetSourceDevice((Devices)message.WParam.ToInt32(), "IdleRelease");
                         break;
                     }
             }

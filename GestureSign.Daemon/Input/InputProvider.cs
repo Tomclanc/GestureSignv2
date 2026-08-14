@@ -103,6 +103,11 @@ namespace GestureSign.Daemon.Input
             PointsIntercepted?.Invoke(this, e);
         }
 
+        internal void ResetSourceDevice(Devices sourceDevice)
+        {
+            _messageWindow.RequestSourceDeviceReset(sourceDevice);
+        }
+
         private void OnPowerModeChanged(object sender, PowerModeChangedEventArgs e)
         {
             if (e.Mode == PowerModes.Resume)
