@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 
@@ -13,13 +14,14 @@ namespace GestureSign.WinUI;
 
 public partial class App : Application
 {
-    private const string SingleInstanceKey = "GestureSign.WinUI.Settings";
-    private const string SingleInstanceMutexName = "Local\\TransposonY.GestureSign.WinUI.Settings";
-    private const string LegacySingleInstanceMutexName = "Local\\GestureSignWinUI";
-    private const string SettingsWindowLockName = "GestureSign.WinUI.Settings.lock";
+    private const string SingleInstanceKeyBase = "GestureSign.WinUI.Settings";
+    private const string SingleInstanceMutexNameBase = "Local\\TransposonY.GestureSign.WinUI.Settings";
+    private const string LegacySingleInstanceMutexNameBase = "Local\\GestureSignWinUI";
+    private const string SettingsWindowLockNameBase = "GestureSign.WinUI.Settings";
     private const int SW_RESTORE = 9;
     private const int WM_CLOSE = 0x0010;
     private const uint GW_OWNER = 4;
+    private static readonly string InstanceScope = CreateInstanceScope();
 
     private static bool s_launched;
     private Mutex? _singleInstanceMutex;
@@ -43,7 +45,7 @@ public partial class App : Application
         s_launched = true;
 
         var currentInstance = AppInstance.GetCurrent();
-        var mainInstance = AppInstance.FindOrRegisterForKey(SingleInstanceKey);
+        var mainInstance = AppInstance.FindOrRegisterForKey($"{SingleInstanceKeyBase}.{InstanceScope}");
         if (!mainInstance.IsCurrent)
         {
             await mainInstance.RedirectActivationToAsync(currentInstance.GetActivatedEventArgs());
@@ -60,8 +62,8 @@ public partial class App : Application
             return;
         }
 
-        _singleInstanceMutex = new Mutex(true, SingleInstanceMutexName, out var createdNew);
-        _legacySingleInstanceMutex = new Mutex(true, LegacySingleInstanceMutexName, out var legacyCreatedNew);
+        _singleInstanceMutex = new Mutex(true, $"{SingleInstanceMutexNameBase}.{InstanceScope}", out var createdNew);
+        _legacySingleInstanceMutex = new Mutex(true, $"{LegacySingleInstanceMutexNameBase}.{InstanceScope}", out var legacyCreatedNew);
         if (!createdNew || !legacyCreatedNew)
         {
             ActivateExistingWindow(closeDuplicates: true);
@@ -110,7 +112,7 @@ public partial class App : Application
                 "GestureSign");
             Directory.CreateDirectory(directory);
 
-            var lockPath = Path.Combine(directory, SettingsWindowLockName);
+            var lockPath = Path.Combine(directory, $"{SettingsWindowLockNameBase}.{InstanceScope}.lock");
             _settingsWindowLock = new FileStream(lockPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
             _settingsWindowLock.SetLength(0);
             using var writer = new StreamWriter(_settingsWindowLock, Encoding.UTF8, leaveOpen: true);
@@ -132,7 +134,7 @@ public partial class App : Application
 
     private static bool ActivateExistingWindow(bool closeDuplicates)
     {
-        var windows = FindExistingGestureSignWindows(Environment.ProcessId);
+        var windows = FindExistingGestureSignWindows(Environment.ProcessId, Environment.ProcessPath ?? string.Empty);
         if (windows.Count == 0)
             return false;
 
@@ -148,7 +150,7 @@ public partial class App : Application
         return true;
     }
 
-    private static List<IntPtr> FindExistingGestureSignWindows(int currentProcessId)
+    private static List<IntPtr> FindExistingGestureSignWindows(int currentProcessId, string currentExecutablePath)
     {
         var windows = new List<IntPtr>();
         EnumWindows((hwnd, _) =>
@@ -174,7 +176,7 @@ public partial class App : Application
             var title = new StringBuilder(256);
             GetWindowText(hwnd, title, title.Capacity);
 
-            if (IsGestureSignSettingsWindow(processId, title.ToString()))
+            if (IsGestureSignSettingsWindow(processId, title.ToString(), currentExecutablePath))
                 windows.Add(hwnd);
 
             return true;
@@ -182,7 +184,7 @@ public partial class App : Application
         return windows;
     }
 
-    private static bool IsGestureSignSettingsWindow(int processId, string title)
+    private static bool IsGestureSignSettingsWindow(int processId, string title, string currentExecutablePath)
     {
         try
         {
@@ -192,10 +194,15 @@ public partial class App : Application
             try
             {
                 fileName = Path.GetFileName(process.MainModule?.FileName ?? string.Empty);
+                var processPath = process.MainModule?.FileName ?? string.Empty;
+                if (!PathsEqual(processPath, currentExecutablePath))
+                    return false;
             }
             catch
             {
-                // Some elevated processes do not expose MainModule. Process name and title are enough here.
+                // Do not redirect across installations when the executable
+                // location cannot be verified (for example, across elevation).
+                return false;
             }
 
             var titleLooksRight = title.Contains("GestureSign", StringComparison.OrdinalIgnoreCase);
@@ -211,7 +218,36 @@ public partial class App : Application
         }
         catch
         {
-            return title.Contains("GestureSign", StringComparison.OrdinalIgnoreCase);
+            return false;
+        }
+    }
+
+    private static string CreateInstanceScope()
+    {
+        var executablePath = Environment.ProcessPath;
+        if (string.IsNullOrWhiteSpace(executablePath))
+            executablePath = Path.Combine(AppContext.BaseDirectory, "GestureSign.WinUI.exe");
+
+        var normalizedPath = Path.GetFullPath(executablePath).TrimEnd(Path.DirectorySeparatorChar).ToUpperInvariant();
+        var hash = SHA256.HashData(Encoding.UTF8.GetBytes(normalizedPath));
+        return Convert.ToHexString(hash, 0, 8);
+    }
+
+    private static bool PathsEqual(string left, string right)
+    {
+        if (string.IsNullOrWhiteSpace(left) || string.IsNullOrWhiteSpace(right))
+            return false;
+
+        try
+        {
+            return string.Equals(
+                Path.GetFullPath(left).TrimEnd(Path.DirectorySeparatorChar),
+                Path.GetFullPath(right).TrimEnd(Path.DirectorySeparatorChar),
+                StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return false;
         }
     }
 

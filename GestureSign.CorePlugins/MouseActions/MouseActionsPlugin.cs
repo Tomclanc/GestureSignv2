@@ -75,13 +75,17 @@ namespace GestureSign.CorePlugins.MouseActions
             InputSimulator simulator = new InputSimulator();
             try
             {
+                var waitMilliseconds = Math.Clamp(_settings.WaitMilliseconds, 0, 3_600_000);
+                if (waitMilliseconds > 0)
+                    Thread.Sleep(waitMilliseconds);
+
                 int buttonId = (_settings.MouseAction & MouseActions.XButton1) != 0 ? 1 : 2;
                 var referencePoint = GetReferencePoint(_settings.ActionLocation, actionPoint);
 
                 if (_settings.MouseAction.GetButtons() != 0)
                 {
                     if (_settings.ActionLocation != ClickPositions.Current)
-                        Cursor.Position = referencePoint;
+                        MoveCursor(referencePoint, _settings.MoveDurationMilliseconds);
                 }
 
                 switch (_settings.MouseAction)
@@ -93,11 +97,11 @@ namespace GestureSign.CorePlugins.MouseActions
                         simulator.Mouse.VerticalScroll(_settings.ScrollAmount).Sleep(30);
                         return true;
                     case MouseActions.MoveMouseTo:
-                        Cursor.Position = _settings.MovePoint;
+                        MoveCursor(_settings.MovePoint, _settings.MoveDurationMilliseconds);
                         return true;
                     case MouseActions.MoveMouseBy:
                         referencePoint.Offset(_settings.MovePoint);
-                        Cursor.Position = referencePoint;
+                        MoveCursor(referencePoint, _settings.MoveDurationMilliseconds);
                         break;
                     case MouseActions.XButton1Click:
                     case MouseActions.XButton2Click:
@@ -129,6 +133,29 @@ namespace GestureSign.CorePlugins.MouseActions
                 return false;
             }
             return true;
+        }
+
+        private static void MoveCursor(Point target, int durationMilliseconds)
+        {
+            var duration = Math.Clamp(durationMilliseconds, 0, 10_000);
+            if (duration == 0)
+            {
+                Cursor.Position = target;
+                return;
+            }
+
+            var start = Cursor.Position;
+            var steps = Math.Clamp(duration / 10, 1, 240);
+            for (var step = 1; step <= steps; step++)
+            {
+                var progress = (double)step / steps;
+                var eased = progress * progress * (3 - 2 * progress);
+                Cursor.Position = new Point(
+                    (int)Math.Round(start.X + (target.X - start.X) * eased),
+                    (int)Math.Round(start.Y + (target.Y - start.Y) * eased));
+                if (step < steps)
+                    Thread.Sleep(Math.Max(1, duration / steps));
+            }
         }
 
         public bool Deserialize(string serializedData)

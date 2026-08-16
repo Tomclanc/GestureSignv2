@@ -5,7 +5,7 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "17.2.6",
+    [string]$PackageVersion = "17.2.9",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -120,6 +120,9 @@ New-Item -ItemType Directory -Path $publishPath | Out-Null
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
 $winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net10.0-windows10.0.26100.0\win-$Architecture\publish"
 $platformTarget = if ($Architecture -eq "arm64") { "ARM64" } else { "x64" }
+if (Test-Path -LiteralPath $winUiOutputPath) {
+    Remove-Item -LiteralPath $winUiOutputPath -Recurse -Force
+}
 & dotnet publish $winUiProject -c Release -r "win-$Architecture" --self-contained false -o $winUiOutputPath /p:Platform=$platformTarget /p:PlatformTarget=$platformTarget /p:StorePackage=false /p:WindowsPackageType=None /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
@@ -324,7 +327,7 @@ $majorUpgradeXml
     <Icon Id="GestureSignIcon" SourceFile="$(Escape-Xml $($iconPath.ProviderPath))" />
     <Property Id="ARPPRODUCTICON" Value="GestureSignIcon" />
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
-    <CustomAction Id="CleanupAllGestureSignData" Directory="INSTALLFOLDER" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -Command &quot;`$paths=@([Environment]::GetFolderPath('LocalApplicationData') + '\GestureSign V2', [Environment]::GetFolderPath('ApplicationData') + '\GestureSign V2'); foreach (`$path in `$paths) { if (Test-Path -LiteralPath `$path) { Remove-Item -LiteralPath `$path -Recurse -Force -ErrorAction SilentlyContinue } }; Remove-Item -LiteralPath 'HKCU:\Software\GestureSign V2' -Recurse -Force -ErrorAction SilentlyContinue&quot;" />
+    <CustomAction Id="CleanupAllGestureSignData" Directory="SystemFolder" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$p=`$env:LOCALAPPDATA+'\GestureSign V2',`$env:APPDATA+'\GestureSign V2','HKCU:\Software\GestureSign V2'; Remove-Item -LiteralPath `$p -Recurse -Force -EA 0&quot;" />
     <InstallExecuteSequence>
       <Custom Action="CleanupAllGestureSignData" After="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND CLEANALL=&quot;1&quot; AND NOT UPGRADINGPRODUCTCODE" />
     </InstallExecuteSequence>

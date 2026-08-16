@@ -8,7 +8,10 @@ DAEMON_RESOURCES = ROOT / "GestureSign.Daemon" / "Resources"
 PREVIEW_DIR = ROOT / "publish" / "icon-preview"
 LOGO_PATH = ROOT / "tools" / "logo.png"
 
-SIZES = [16, 20, 24, 32, 40, 48, 64, 128, 256]
+# Include the physical sizes Windows requests for common taskbar/icon DPI
+# combinations.  If a size is missing, the shell bitmap-scales a neighbouring
+# frame, which makes the taskbar icon noticeably softer at 125%-225% scaling.
+SIZES = [16, 20, 24, 30, 32, 36, 40, 44, 48, 60, 64, 72, 80, 96, 128, 256]
 
 
 def font(size):
@@ -91,9 +94,10 @@ def save_icon(path, kind):
 
 def save_preview(path, kind):
     frames = icon_frames(kind)
+    frames_by_size = {frame.size[0]: frame for frame in frames}
     canvas = Image.new("RGBA", (360, 112), (250, 250, 250, 255))
     x = 12
-    for frame in [frames[0], frames[3], frames[5], frames[-1].resize((80, 80), Image.Resampling.LANCZOS)]:
+    for frame in [frames_by_size[16], frames_by_size[32], frames_by_size[48], frames_by_size[256].resize((80, 80), Image.Resampling.LANCZOS)]:
         canvas.alpha_composite(frame.resize((80, 80), Image.Resampling.NEAREST if frame.size[0] <= 32 else Image.Resampling.LANCZOS), (x, 16))
         x += 88
     canvas.save(path)

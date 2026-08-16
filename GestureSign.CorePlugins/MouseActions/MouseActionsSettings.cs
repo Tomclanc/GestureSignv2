@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GestureSign.Common.Localization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GestureSign.CorePlugins.MouseActions
 {
@@ -54,6 +57,7 @@ namespace GestureSign.CorePlugins.MouseActions
     {
         public LegacyMouseActions MouseAction { get; set; }
         public LegacyClickPositions ClickPosition { get; set; }
+        [JsonConverter(typeof(MousePointJsonConverter))]
         public Point MovePoint { get; set; }
         public int ScrollAmount { get; set; }
     }
@@ -62,7 +66,52 @@ namespace GestureSign.CorePlugins.MouseActions
     {
         public MouseActions MouseAction { get; set; }
         public ClickPositions ActionLocation { get; set; }
+        [JsonConverter(typeof(MousePointJsonConverter))]
         public Point MovePoint { get; set; }
         public int ScrollAmount { get; set; }
+        public int WaitMilliseconds { get; set; }
+        public int MoveDurationMilliseconds { get; set; }
+    }
+
+    /// <summary>
+    /// Keeps mouse-action settings compatible with both the legacy Json.NET
+    /// Point string ("0, 0") and the WinUI object ({"X":0,"Y":0}).
+    /// </summary>
+    public sealed class MousePointJsonConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType) => objectType == typeof(Point);
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            if (reader.TokenType == JsonToken.StartObject)
+            {
+                var point = JObject.Load(reader);
+                return new Point(point.Value<int?>("X") ?? 0, point.Value<int?>("Y") ?? 0);
+            }
+
+            if (reader.TokenType == JsonToken.String)
+            {
+                var text = reader.Value as string;
+                var converter = TypeDescriptor.GetConverter(typeof(Point));
+                if (!string.IsNullOrWhiteSpace(text) && converter.CanConvertFrom(typeof(string)))
+                    return (Point)converter.ConvertFromInvariantString(text);
+            }
+
+            if (reader.TokenType == JsonToken.Null)
+                return Point.Empty;
+
+            throw new JsonSerializationException($"Unsupported mouse point JSON token: {reader.TokenType}.");
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            var point = value is Point typedPoint ? typedPoint : Point.Empty;
+            writer.WriteStartObject();
+            writer.WritePropertyName("X");
+            writer.WriteValue(point.X);
+            writer.WritePropertyName("Y");
+            writer.WriteValue(point.Y);
+            writer.WriteEndObject();
+        }
     }
 }

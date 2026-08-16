@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.6">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.9">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,22 +65,26 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.6) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.9) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-17.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-x64.msi)
-- [GestureSign-V2-17.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-portable-x64.zip)
+- [GestureSign-V2-17.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-x64.msi)
+- [GestureSign-V2-17.2.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-portable-x64.zip)
 
 ## 更新内容
 
-### 17.2.6
+### 17.2.9
 
-- 修复部分触控板驱动在手势结束时不发送完整抬起报告，导致使用触控板手势后触摸屏手势持续失效、只能重启后台恢复的问题；模拟释放现在会同步复位底层原始输入源。
+- 重做“鼠标动作”配置界面，支持点击类型、等待时间、鼠标移动、坐标系与移动速度等选项。
+- 移动鼠标时实时显示 X/Y 坐标，并支持按 `Ctrl+Shift` 捕捉当前鼠标位置。
+- 修复新版界面保存的坐标格式可能导致鼠标动作配置读取失败、右键单击不执行的问题，并兼容旧版配置。
+- 改进便携版和 MSI 的任务栏、窗口及托盘图标清晰度。
+- 延续触控板释放状态修复，避免部分设备使用触控板手势后触摸屏输入失效。
 
 ### 历史版本
 
-17.2.5 及更早版本完成了 WinUI 3 与 .NET 10 迁移，并持续改进响应式界面、页面滚动与文本选择、触摸屏与手势识别、便携版卸载、高 DPI、智能关闭、Kando 快捷操作、应用更新、远程桌面兼容性、内存占用及安装体验。完整的逐版本记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+17.2.8 及更早版本完成了 WinUI 3 与 .NET 10 迁移，并持续改进响应式界面、页面滚动与文本选择、触摸屏与手势识别、便携版卸载、高 DPI、智能关闭、Kando 快捷操作、应用更新、远程桌面兼容性、内存占用及安装体验。完整的逐版本记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -195,20 +199,24 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.6).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.9).
 
 Current version:
 
-- [GestureSign-V2-17.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-x64.msi)
-- [GestureSign-V2-17.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-portable-x64.zip)
+- [GestureSign-V2-17.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-x64.msi)
+- [GestureSign-V2-17.2.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-portable-x64.zip)
 
-### What's new in 17.2.6
+### What's new in 17.2.9
 
-- Fixed an input-state lock on touchpad drivers that omit the final all-contacts-up report. The simulated touchpad release now also resets the raw input source, so touchscreen gestures continue working after a touchpad gesture without restarting the background process.
+- Redesigned Mouse Action settings with click type, delay, pointer movement, coordinate mode, and movement speed controls.
+- Added live X/Y pointer coordinates and `Ctrl+Shift` capture of the current pointer position.
+- Fixed a coordinate-format compatibility issue that could prevent mouse actions, including right-click, from loading and running; legacy settings remain supported.
+- Improved taskbar, window, and tray icon sharpness in portable and MSI builds.
+- Retained the touchpad release-state fix that prevents touchscreen input from becoming unavailable on affected devices.
 
 ### Previous releases
 
-Version 17.2.5 and earlier completed the WinUI 3 and .NET 10 migration and improved responsive UI behavior, scrolling and text selection, touchscreen and gesture recognition, portable uninstalling, high-DPI behavior, Smart Close, Kando Quick Actions, application updates, Remote Desktop compatibility, memory usage, and installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
+Version 17.2.8 and earlier completed the WinUI 3 and .NET 10 migration and improved responsive UI behavior, scrolling and text selection, touchscreen and gesture recognition, portable uninstalling, high-DPI behavior, Smart Close, Kando Quick Actions, application updates, Remote Desktop compatibility, memory usage, and installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
 
 ## Installation
 
@@ -329,20 +337,24 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.6) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v17.2.9) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-17.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-x64.msi)
-- [GestureSign-V2-17.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.6/GestureSign-V2-17.2.6-portable-x64.zip)
+- [GestureSign-V2-17.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-x64.msi)
+- [GestureSign-V2-17.2.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v17.2.9/GestureSign-V2-17.2.9-portable-x64.zip)
 
-### 17.2.6 の更新内容
+### 17.2.9 の更新内容
 
-- 一部のタッチパッドドライバーが最後の全接点リリース報告を送信しない場合に入力状態が固定される問題を修正しました。タッチパッドの疑似リリース時に Raw Input の入力元もリセットされるため、バックグラウンドプロセスを再起動せずにタッチスクリーンジェスチャーを続けて使用できます。
+- マウス操作設定を刷新し、クリック種類、待機時間、ポインター移動、座標方式、移動速度を設定できるようにしました。
+- X/Y 座標のリアルタイム表示と、`Ctrl+Shift` による現在位置の取得に対応しました。
+- 新しい画面で保存した座標形式により右クリックなどのマウス操作設定を読み込めない場合がある問題を修正し、旧形式との互換性も維持しました。
+- ポータブル版と MSI 版のタスクバー、ウィンドウ、トレイアイコンの鮮明さを改善しました。
+- 一部端末でタッチパッドジェスチャー後にタッチスクリーン入力が使えなくなる問題への修正を継続して含みます。
 
 ### 過去のバージョン
 
-17.2.5 以前のリリースでは WinUI 3 と .NET 10 への移行を完了し、レスポンシブ UI、スクロールとテキスト選択、タッチスクリーンとジェスチャー認識、ポータブル版のアンインストール、高 DPI、Smart Close、Kando Quick Actions、アプリ更新、リモートデスクトップ互換性、メモリ使用量、インストール体験を改善しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+17.2.8 以前のリリースでは WinUI 3 と .NET 10 への移行を完了し、レスポンシブ UI、スクロールとテキスト選択、タッチスクリーンとジェスチャー認識、ポータブル版のアンインストール、高 DPI、Smart Close、Kando Quick Actions、アプリ更新、リモートデスクトップ互換性、メモリ使用量、インストール体験を改善しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 

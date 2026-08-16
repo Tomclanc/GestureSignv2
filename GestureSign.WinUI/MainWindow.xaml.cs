@@ -66,6 +66,8 @@ public sealed partial class MainWindow : Window
     private const int SmCySmallIcon = 50;
     private const int GclpHicon = -14;
     private const int GclpHiconSmall = -34;
+    private const int VkShift = 0x10;
+    private const int VkControl = 0x11;
     private const string PackagedDaemonExecutionAlias = "GestureSignV2Daemon.exe";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
@@ -141,6 +143,9 @@ public sealed partial class MainWindow : Window
     private int _actionsScopeRenderVersion;
     private IntPtr _nativeLargeIcon;
     private IntPtr _nativeSmallIcon;
+    private uint _nativeIconDpi;
+    private WindowIconSubclassProc? _windowIconSubclassProc;
+    private IntPtr _windowIconSubclassHwnd;
     private static DateTime _lastDaemonStartAttemptUtc = DateTime.MinValue;
     private const string ActionsPageAppsScrollViewerName = "ActionsPageAppsScrollViewer";
     private const string ActionsPageActionListScrollViewerName = "ActionsPageActionListScrollViewer";
@@ -175,6 +180,7 @@ public sealed partial class MainWindow : Window
         Closed += (_, _) =>
         {
             StopWindowPicking();
+            ReleaseNativeWindowIconSubclass();
             ReleaseNativeWindowIcons();
         };
         SystemBackdrop = new MicaBackdrop { Kind = MicaKind.BaseAlt };
@@ -389,7 +395,8 @@ public sealed partial class MainWindow : Window
         AppWindow.Resize(ScaleLogicalSize(DefaultWindowWidth, DefaultWindowHeight));
         AppWindow.SetIcon("Assets/logo.ico");
         ApplyNativeWindowClassIcons();
-        Activated += (_, _) => ApplyNativeWindowClassIcons();
+        Activated += (_, _) => QueueNativeWindowIconRefresh();
+        Root.Loaded += (_, _) => QueueNativeWindowIconRefresh();
         CenterWindow();
         ConfigureCaptionButtons();
 
@@ -401,13 +408,22 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    private void QueueNativeWindowIconRefresh()
+    {
+        // WinUI may write its 24 px icon after Activated/Loaded. Apply ours on
+        // the next dispatcher turn so ICON_BIG remains the DPI-sized frame
+        // consumed by the Windows 11 taskbar instead of being bitmap-scaled.
+        DispatcherQueue.TryEnqueue(ApplyNativeWindowClassIcons);
+    }
+
     private void ApplyNativeWindowClassIcons()
     {
         var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
         if (hwnd == IntPtr.Zero)
             return;
 
-        EnsureNativeWindowIcons();
+        EnsureNativeWindowIcons(hwnd);
+        EnsureNativeWindowIconSubclass(hwnd);
 
         var largeIcon = _nativeLargeIcon;
         var smallIcon = _nativeSmallIcon;
@@ -433,26 +449,70 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void EnsureNativeWindowIcons()
+    private void EnsureNativeWindowIconSubclass(IntPtr hwnd)
     {
-        if (_nativeLargeIcon != IntPtr.Zero && _nativeSmallIcon != IntPtr.Zero)
+        if (_windowIconSubclassHwnd == hwnd && _windowIconSubclassProc is not null)
+            return;
+
+        ReleaseNativeWindowIconSubclass();
+        _windowIconSubclassProc = NativeWindowIconSubclassCallback;
+        if (SetWindowSubclass(hwnd, _windowIconSubclassProc, UIntPtr.Zero, UIntPtr.Zero))
+            _windowIconSubclassHwnd = hwnd;
+        else
+            _windowIconSubclassProc = null;
+    }
+
+    private IntPtr NativeWindowIconSubclassCallback(
+        IntPtr hwnd,
+        uint message,
+        IntPtr wParam,
+        IntPtr lParam,
+        UIntPtr subclassId,
+        UIntPtr referenceData)
+    {
+        if (message == WmGetIcon)
+        {
+            var iconType = wParam.ToInt32();
+            if (iconType == IconBig && _nativeLargeIcon != IntPtr.Zero)
+                return _nativeLargeIcon;
+            if ((iconType == IconSmall || iconType == IconSmall2) && _nativeSmallIcon != IntPtr.Zero)
+                return _nativeSmallIcon;
+        }
+
+        return DefSubclassProc(hwnd, message, wParam, lParam);
+    }
+
+    private void ReleaseNativeWindowIconSubclass()
+    {
+        if (_windowIconSubclassHwnd != IntPtr.Zero && _windowIconSubclassProc is not null)
+            RemoveWindowSubclass(_windowIconSubclassHwnd, _windowIconSubclassProc, UIntPtr.Zero);
+
+        _windowIconSubclassHwnd = IntPtr.Zero;
+        _windowIconSubclassProc = null;
+    }
+
+    private void EnsureNativeWindowIcons(IntPtr hwnd)
+    {
+        var dpi = GetDpiForWindow(hwnd);
+        if (dpi == 0)
+            dpi = 96;
+
+        if (_nativeLargeIcon != IntPtr.Zero &&
+            _nativeSmallIcon != IntPtr.Zero &&
+            _nativeIconDpi == dpi)
             return;
 
         var iconPath = Path.Combine(AppContext.BaseDirectory, "Assets", "logo.ico");
         if (!File.Exists(iconPath))
             return;
 
-        if (_nativeLargeIcon == IntPtr.Zero)
-        {
-            _nativeLargeIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
-                GetSystemMetrics(SmCxIcon), GetSystemMetrics(SmCyIcon), LrLoadFromFile);
-        }
+        ReleaseNativeWindowIcons();
 
-        if (_nativeSmallIcon == IntPtr.Zero)
-        {
-            _nativeSmallIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
-                GetSystemMetrics(SmCxSmallIcon), GetSystemMetrics(SmCySmallIcon), LrLoadFromFile);
-        }
+        _nativeLargeIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
+            GetSystemMetricsForDpi(SmCxIcon, dpi), GetSystemMetricsForDpi(SmCyIcon, dpi), LrLoadFromFile);
+        _nativeSmallIcon = LoadImage(IntPtr.Zero, iconPath, ImageIcon,
+            GetSystemMetricsForDpi(SmCxSmallIcon, dpi), GetSystemMetricsForDpi(SmCySmallIcon, dpi), LrLoadFromFile);
+        _nativeIconDpi = dpi;
     }
 
     private void ReleaseNativeWindowIcons()
@@ -468,6 +528,8 @@ public sealed partial class MainWindow : Window
             DestroyIcon(_nativeSmallIcon);
             _nativeSmallIcon = IntPtr.Zero;
         }
+
+        _nativeIconDpi = 0;
     }
 
     private void ApplyXboxBigScreenTitleBarMode()
@@ -540,10 +602,34 @@ public sealed partial class MainWindow : Window
     private static extern IntPtr LoadImage(IntPtr instance, string name, uint type, int width, int height, uint load);
 
     [DllImport("user32.dll")]
-    private static extern int GetSystemMetrics(int index);
+    private static extern int GetSystemMetricsForDpi(int index, uint dpi);
 
     [DllImport("user32.dll")]
     private static extern bool DestroyIcon(IntPtr icon);
+
+    private delegate IntPtr WindowIconSubclassProc(
+        IntPtr hwnd,
+        uint message,
+        IntPtr wParam,
+        IntPtr lParam,
+        UIntPtr subclassId,
+        UIntPtr referenceData);
+
+    [DllImport("comctl32.dll", SetLastError = true)]
+    private static extern bool SetWindowSubclass(
+        IntPtr hwnd,
+        WindowIconSubclassProc callback,
+        UIntPtr subclassId,
+        UIntPtr referenceData);
+
+    [DllImport("comctl32.dll", SetLastError = true)]
+    private static extern bool RemoveWindowSubclass(
+        IntPtr hwnd,
+        WindowIconSubclassProc callback,
+        UIntPtr subclassId);
+
+    [DllImport("comctl32.dll")]
+    private static extern IntPtr DefSubclassProc(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
 
     [DllImport("user32.dll")]
     private static extern bool GetCursorPos(out NativePoint point);
@@ -3411,6 +3497,7 @@ public sealed partial class MainWindow : Window
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         };
         var panel = NewCardPanel(0);
+        panel.MinWidth = 520;
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
@@ -3460,6 +3547,7 @@ public sealed partial class MainWindow : Window
         };
         var enabled = new CheckBox { Content = "启用", IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
+        panel.MinWidth = 520;
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
@@ -3706,7 +3794,30 @@ public sealed partial class MainWindow : Window
 
         public required CheckBox RunCommandShowWindow { get; init; }
 
+        public required StackPanel MousePanel { get; init; }
+
+        public required ComboBox MouseEvent { get; init; }
+
+        public required TextBox MouseWaitMilliseconds { get; init; }
+
+        public required ToggleSwitch MouseMove { get; init; }
+
+        public required StackPanel MouseMovePanel { get; init; }
+
+        public required TextBox MouseX { get; init; }
+
+        public required TextBox MouseY { get; init; }
+
+        public required ComboBox MouseReference { get; init; }
+
+        public required ComboBox MouseMoveSpeed { get; init; }
+
         public bool Updating { get; set; }
+    }
+
+    private sealed record MouseEventChoice(string Label, int Action, int ScrollAmount = 3)
+    {
+        public override string ToString() => Label;
     }
 
     private FrameworkElement NewTypedCommandSettingsEditor(TextBox pluginClass, TextBox settings)
@@ -3788,10 +3899,137 @@ public sealed partial class MainWindow : Window
         runCommandPanel.Children.Add(runCommandText);
         runCommandPanel.Children.Add(runCommandOptions);
 
+        var mouseEvent = new ComboBox
+        {
+            Header = L("要发送的鼠标事件", "Mouse event to send", "要傳送的滑鼠事件", "送信するマウスイベント", "보낼 마우스 이벤트"),
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        foreach (var choice in MouseEventChoices())
+            mouseEvent.Items.Add(choice);
+        mouseEvent.SelectedIndex = 0;
+
+        var mouseWaitMilliseconds = new TextBox
+        {
+            Header = L("等待时间（毫秒）", "Wait (milliseconds)", "等待時間（毫秒）", "待機時間（ミリ秒）", "대기 시간(밀리초)"),
+            PlaceholderText = "0",
+            Text = "0"
+        };
+        var mouseMove = new ToggleSwitch
+        {
+            Header = L("移动鼠标", "Move mouse", "移動滑鼠", "マウスを移動", "마우스 이동"),
+            OnContent = L("开", "On", "開", "オン", "켜기"),
+            OffContent = L("关", "Off", "關", "オフ", "끄기")
+        };
+        var mouseX = new TextBox { Header = "X", PlaceholderText = "0", Text = "0" };
+        var mouseY = new TextBox { Header = "Y", PlaceholderText = "0", Text = "0" };
+        var mouseCoordinateGrid = new Grid { ColumnSpacing = 8 };
+        mouseCoordinateGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        mouseCoordinateGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        mouseCoordinateGrid.Children.Add(mouseX);
+        Grid.SetColumn(mouseY, 1);
+        mouseCoordinateGrid.Children.Add(mouseY);
+
+        var mouseReference = NewInlineComboBox([
+            L("屏幕绝对坐标", "Screen coordinates", "螢幕絕對座標", "画面の絶対座標", "화면 절대 좌표"),
+            L("手势起点（按下）", "Gesture start (down)", "手勢起點（按下）", "ジェスチャ開始（押下）", "제스처 시작(누름)"),
+            L("手势起点（抬起）", "Gesture start (up)", "手勢起點（放開）", "ジェスチャ開始（離す）", "제스처 시작(뗌)"),
+            L("手势终点（按下）", "Gesture end (down)", "手勢終點（按下）", "ジェスチャ終了（押下）", "제스처 끝(누름)"),
+            L("手势终点（抬起）", "Gesture end (up)", "手勢終點（放開）", "ジェスチャ終了（離す）", "제스처 끝(뗌)")
+        ], 0);
+        mouseReference.Header = L("相对于", "Relative to", "相對於", "基準", "기준");
+        mouseReference.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+        var mouseMoveSpeed = NewInlineComboBox([
+            L("立即", "Instant", "立即", "即時", "즉시"),
+            L("具有动画（低速）", "Animated (slow)", "動畫（低速）", "アニメーション（低速）", "애니메이션(느림)"),
+            L("具有动画（常速）", "Animated (normal)", "動畫（正常）", "アニメーション（標準）", "애니메이션(보통)"),
+            L("具有动画（高速）", "Animated (fast)", "動畫（高速）", "アニメーション（高速）", "애니메이션(빠름)")
+        ], 0);
+        mouseMoveSpeed.Header = L("鼠标移动方式", "Mouse movement", "滑鼠移動方式", "マウス移動方法", "마우스 이동 방식");
+        mouseMoveSpeed.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+        var captureMousePosition = NewPillButton(L("获取当前鼠标位置", "Capture current pointer position", "取得目前滑鼠位置", "現在のマウス位置を取得", "현재 마우스 위치 가져오기"), false);
+        captureMousePosition.HorizontalAlignment = HorizontalAlignment.Left;
+        var currentMousePosition = new TextBlock
+        {
+            Text = L("当前光标位置（屏幕）：X = —   Y = —", "Current pointer position (screen): X = —   Y = —", "目前滑鼠位置（螢幕）：X = —   Y = —", "現在のポインター位置（画面）：X = —   Y = —", "현재 포인터 위치(화면): X = —   Y = —"),
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap
+        };
+        var captureMousePositionHint = new TextBlock
+        {
+            Text = L("按 Ctrl+Shift 捕捉当前光标位置", "Press Ctrl+Shift to capture the current pointer position", "按 Ctrl+Shift 擷取目前滑鼠位置", "Ctrl+Shift を押して現在のポインター位置を取得", "Ctrl+Shift를 눌러 현재 포인터 위치 캡처"),
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap
+        };
+
+        void SetCapturedMousePosition(NativePoint point)
+        {
+            mouseX.Text = point.X.ToString(CultureInfo.InvariantCulture);
+            mouseY.Text = point.Y.ToString(CultureInfo.InvariantCulture);
+        }
+
+        captureMousePosition.Click += (_, _) =>
+        {
+            if (!GetCursorPos(out var point))
+                return;
+            SetCapturedMousePosition(point);
+        };
+
+        var mousePositionTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
+        var captureChordDown = false;
+        void RefreshMousePosition()
+        {
+            if (!mouseMove.IsOn || !GetCursorPos(out var point))
+            {
+                captureChordDown = false;
+                return;
+            }
+
+            currentMousePosition.Text = L(
+                $"当前光标位置（屏幕）：X = {point.X}   Y = {point.Y}",
+                $"Current pointer position (screen): X = {point.X}   Y = {point.Y}",
+                $"目前滑鼠位置（螢幕）：X = {point.X}   Y = {point.Y}",
+                $"現在のポインター位置（画面）：X = {point.X}   Y = {point.Y}",
+                $"현재 포인터 위치(화면): X = {point.X}   Y = {point.Y}");
+
+            var chordDown = IsAsyncKeyDown(VkControl) && IsAsyncKeyDown(VkShift);
+            if (chordDown && !captureChordDown)
+                SetCapturedMousePosition(point);
+            captureChordDown = chordDown;
+        }
+
+        mousePositionTimer.Tick += (_, _) => RefreshMousePosition();
+        root.Loaded += (_, _) =>
+        {
+            if (mouseMove.IsOn)
+                mousePositionTimer.Start();
+            RefreshMousePosition();
+        };
+        root.Unloaded += (_, _) =>
+        {
+            mousePositionTimer.Stop();
+            captureChordDown = false;
+        };
+
+        var mouseMovePanel = new StackPanel { Spacing = 8 };
+        mouseMovePanel.Children.Add(mouseCoordinateGrid);
+        mouseMovePanel.Children.Add(mouseReference);
+        mouseMovePanel.Children.Add(currentMousePosition);
+        mouseMovePanel.Children.Add(captureMousePositionHint);
+        mouseMovePanel.Children.Add(captureMousePosition);
+        mouseMovePanel.Children.Add(mouseMoveSpeed);
+        var mousePanel = new StackPanel { Spacing = 8 };
+        mousePanel.Children.Add(mouseEvent);
+        mousePanel.Children.Add(mouseWaitMilliseconds);
+        mousePanel.Children.Add(mouseMove);
+        mousePanel.Children.Add(mouseMovePanel);
+
         root.Children.Add(runCommandPanel);
         root.Children.Add(volumePanel);
         root.Children.Add(brightnessPanel);
         root.Children.Add(openFilePanel);
+        root.Children.Add(mousePanel);
 
         var editor = new TypedCommandSettingsEditor
         {
@@ -3809,7 +4047,16 @@ public sealed partial class MainWindow : Window
             RunCommandText = runCommandText,
             RunCommandShell = runCommandShell,
             RunCommandAdministrator = runCommandAdministrator,
-            RunCommandShowWindow = runCommandShowWindow
+            RunCommandShowWindow = runCommandShowWindow,
+            MousePanel = mousePanel,
+            MouseEvent = mouseEvent,
+            MouseWaitMilliseconds = mouseWaitMilliseconds,
+            MouseMove = mouseMove,
+            MouseMovePanel = mouseMovePanel,
+            MouseX = mouseX,
+            MouseY = mouseY,
+            MouseReference = mouseReference,
+            MouseMoveSpeed = mouseMoveSpeed
         };
         _typedCommandSettingsEditors[root] = editor;
 
@@ -3829,6 +4076,29 @@ public sealed partial class MainWindow : Window
         runCommandAdministrator.Unchecked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         runCommandShowWindow.Checked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         runCommandShowWindow.Unchecked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseEvent.SelectionChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseWaitMilliseconds.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseMove.Toggled += (_, _) =>
+        {
+            UpdateMouseMoveVisibility(editor);
+            if (mouseMove.IsOn)
+                mousePositionTimer.Start();
+            else
+            {
+                mousePositionTimer.Stop();
+                captureChordDown = false;
+            }
+            RefreshMousePosition();
+            SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        };
+        mouseX.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseY.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseReference.SelectionChanged += (_, _) =>
+        {
+            UpdateMouseCoordinateVisibility(editor);
+            SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        };
+        mouseMoveSpeed.SelectionChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
 
         return root;
     }
@@ -3865,6 +4135,7 @@ public sealed partial class MainWindow : Window
         editor.VolumePanel.Visibility = typed == CommandSettingsKind.Volume ? Visibility.Visible : Visibility.Collapsed;
         editor.BrightnessPanel.Visibility = typed == CommandSettingsKind.Brightness ? Visibility.Visible : Visibility.Collapsed;
         editor.OpenFilePanel.Visibility = typed == CommandSettingsKind.OpenFile ? Visibility.Visible : Visibility.Collapsed;
+        editor.MousePanel.Visibility = typed == CommandSettingsKind.MouseAction ? Visibility.Visible : Visibility.Collapsed;
 
         editor.Updating = true;
         try
@@ -3892,6 +4163,32 @@ public sealed partial class MainWindow : Window
                 editor.OpenFilePath.Text = JsonStringValue(settings, "Path", "");
                 editor.OpenFileVariables.Text = JsonStringValue(settings, "Variables", "");
             }
+            else if (typed == CommandSettingsKind.MouseAction)
+            {
+                var action = JsonIntValue(settings, "MouseAction", 257);
+                var scrollAmount = JsonIntValue(settings, "ScrollAmount", 3);
+                var choice = editor.MouseEvent.Items.OfType<MouseEventChoice>()
+                    .FirstOrDefault(item => item.Action == action && (!IsMouseScrollAction(action) || Math.Sign(item.ScrollAmount) == Math.Sign(scrollAmount)));
+                if (choice is null)
+                {
+                    choice = new MouseEventChoice(
+                        $"{L("现有动作", "Existing action", "現有動作", "既存の操作", "기존 동작")} ({action})",
+                        action,
+                        scrollAmount);
+                    editor.MouseEvent.Items.Add(choice);
+                }
+                editor.MouseEvent.SelectedItem = choice;
+                editor.MouseWaitMilliseconds.Text = JsonIntValue(settings, "WaitMilliseconds", 0).ToString(CultureInfo.InvariantCulture);
+                var actionLocation = JsonIntValue(settings, "ActionLocation", 2);
+                editor.MouseMove.IsOn = actionLocation != 2;
+                editor.MouseReference.SelectedIndex = MouseReferenceIndex(actionLocation);
+                var (x, y) = JsonPointValue(settings, "MovePoint");
+                editor.MouseX.Text = x.ToString(CultureInfo.InvariantCulture);
+                editor.MouseY.Text = y.ToString(CultureInfo.InvariantCulture);
+                editor.MouseMoveSpeed.SelectedIndex = MouseMoveSpeedIndex(JsonIntValue(settings, "MoveDurationMilliseconds", 0));
+                UpdateMouseMoveVisibility(editor);
+                UpdateMouseCoordinateVisibility(editor);
+            }
         }
         finally
         {
@@ -3910,6 +4207,7 @@ public sealed partial class MainWindow : Window
             CommandSettingsKind.Volume => VolumeSettingsJson(editor.VolumeMethod.SelectedIndex, ParsePercent(editor.VolumePercent.Text)),
             CommandSettingsKind.Brightness => BrightnessSettingsJson(editor.BrightnessMethod.SelectedIndex, ParsePercent(editor.BrightnessPercent.Text)),
             CommandSettingsKind.OpenFile => OpenFileSettingsJson(editor.OpenFilePath.Text, editor.OpenFileVariables.Text),
+            CommandSettingsKind.MouseAction => MouseActionSettingsJson(editor),
             _ => settings.Text
         };
     }
@@ -3917,13 +4215,24 @@ public sealed partial class MainWindow : Window
     private static void UpdateVolumePercentVisibility(TypedCommandSettingsEditor editor)
         => editor.VolumePercent.Visibility = editor.VolumeMethod.SelectedIndex == 2 ? Visibility.Collapsed : Visibility.Visible;
 
+    private static void UpdateMouseMoveVisibility(TypedCommandSettingsEditor editor)
+        => editor.MouseMovePanel.Visibility = editor.MouseMove.IsOn ? Visibility.Visible : Visibility.Collapsed;
+
+    private static void UpdateMouseCoordinateVisibility(TypedCommandSettingsEditor editor)
+    {
+        var visibility = editor.MouseReference.SelectedIndex == 0 ? Visibility.Visible : Visibility.Collapsed;
+        editor.MouseX.Visibility = visibility;
+        editor.MouseY.Visibility = visibility;
+    }
+
     private enum CommandSettingsKind
     {
         None,
         RunCommand,
         Volume,
         Brightness,
-        OpenFile
+        OpenFile,
+        MouseAction
     }
 
     private static CommandSettingsKind TypedCommandSettingsKind(string pluginClass)
@@ -3936,6 +4245,8 @@ public sealed partial class MainWindow : Window
             return CommandSettingsKind.Brightness;
         if (pluginClass.Contains("OpenFile", StringComparison.OrdinalIgnoreCase))
             return CommandSettingsKind.OpenFile;
+        if (pluginClass.Contains("MouseActions", StringComparison.OrdinalIgnoreCase))
+            return CommandSettingsKind.MouseAction;
         return CommandSettingsKind.None;
     }
 
@@ -3971,6 +4282,94 @@ public sealed partial class MainWindow : Window
             ["Path"] = path ?? "",
             ["Variables"] = variables ?? ""
         }.ToJsonString();
+
+    private IReadOnlyList<MouseEventChoice> MouseEventChoices()
+        =>
+        [
+            new(L("左键单击", "Left click", "左鍵按一下", "左クリック", "왼쪽 클릭"), 257),
+            new(L("右键单击", "Right click", "右鍵按一下", "右クリック", "오른쪽 클릭"), 258),
+            new(L("左键双击", "Left double-click", "左鍵按兩下", "左ダブルクリック", "왼쪽 두 번 클릭"), 513),
+            new(L("中键点击", "Middle click", "中鍵按一下", "中クリック", "가운데 클릭"), 260)
+        ];
+
+    private static string MouseActionSettingsJson(TypedCommandSettingsEditor editor)
+    {
+        var choice = editor.MouseEvent.SelectedItem as MouseEventChoice ?? new MouseEventChoice("Left click", 257);
+        var actionLocation = editor.MouseMove.IsOn ? MouseReferenceValue(editor.MouseReference.SelectedIndex) : 2;
+        return new JsonObject
+        {
+            ["MouseAction"] = choice.Action,
+            ["ActionLocation"] = actionLocation,
+            ["MovePoint"] = new JsonObject
+            {
+                ["X"] = ParseInt(editor.MouseX.Text, 0),
+                ["Y"] = ParseInt(editor.MouseY.Text, 0)
+            },
+            ["ScrollAmount"] = choice.ScrollAmount,
+            ["WaitMilliseconds"] = ParseBoundedInt(editor.MouseWaitMilliseconds.Text, 0, 0, 3_600_000),
+            ["MoveDurationMilliseconds"] = MouseMoveDuration(editor.MouseMoveSpeed.SelectedIndex)
+        }.ToJsonString();
+    }
+
+    private static (int X, int Y) JsonPointValue(string settings, string key)
+    {
+        try
+        {
+            if (JsonNode.Parse(settings) is JsonObject root && root[key] is JsonObject point)
+                return (point.IntValue("X", 0), point.IntValue("Y", 0));
+        }
+        catch
+        {
+        }
+
+        return (0, 0);
+    }
+
+    private static bool IsMouseScrollAction(int action)
+        => action is 4096 or 8192;
+
+    private static int MouseReferenceValue(int index)
+        => index switch
+        {
+            1 => 272,
+            2 => 288,
+            3 => 528,
+            4 => 544,
+            _ => 1
+        };
+
+    private static int MouseReferenceIndex(int value)
+        => value switch
+        {
+            272 => 1,
+            288 => 2,
+            528 => 3,
+            544 => 4,
+            _ => 0
+        };
+
+    private static int MouseMoveDuration(int index)
+        => index switch
+        {
+            1 => 800,
+            2 => 400,
+            3 => 180,
+            _ => 0
+        };
+
+    private static int MouseMoveSpeedIndex(int durationMilliseconds)
+        => durationMilliseconds switch
+        {
+            <= 0 => 0,
+            >= 600 => 1,
+            >= 280 => 2,
+            _ => 3
+        };
+
+    private static int ParseBoundedInt(string value, int fallback, int minimum, int maximum)
+        => int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var parsed)
+            ? Math.Clamp(parsed, minimum, maximum)
+            : fallback;
 
     private static int ParsePercent(string value)
         => int.TryParse(value, NumberStyles.Integer, CultureInfo.InvariantCulture, out var percent)
@@ -4277,6 +4676,9 @@ public sealed partial class MainWindow : Window
     private static bool IsVirtualKeyDown(int virtualKey)
         => (GetKeyState(virtualKey) & 0x8000) != 0;
 
+    private static bool IsAsyncKeyDown(int virtualKey)
+        => (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
+
     private void StartHotKeyRecording(TextBox recorder, TextBox settings, bool usesArrayKeyCode, Action<string>? onRecorded = null)
     {
         _activeHotKeyRecorder = recorder;
@@ -4411,6 +4813,9 @@ public sealed partial class MainWindow : Window
 
     [DllImport("user32.dll")]
     private static extern short GetKeyState(int nVirtKey);
+
+    [DllImport("user32.dll")]
+    private static extern short GetAsyncKeyState(int nVirtKey);
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
@@ -7876,9 +8281,30 @@ public sealed partial class MainWindow : Window
                 : $"{pluginName} · {target}";
         }
 
+        if (pluginClass.Contains("MouseActions", StringComparison.OrdinalIgnoreCase))
+            return $"{pluginName} · {MouseActionSummary(settings)}";
+
         return string.IsNullOrWhiteSpace(settings)
             ? pluginName
             : $"{pluginName} · {settings}";
+    }
+
+    private string MouseActionSummary(string settings)
+    {
+        var action = JsonIntValue(settings, "MouseAction", 257);
+        var scrollAmount = JsonIntValue(settings, "ScrollAmount", 3);
+        var choice = MouseEventChoices().FirstOrDefault(item =>
+            item.Action == action && (!IsMouseScrollAction(action) || Math.Sign(item.ScrollAmount) == Math.Sign(scrollAmount)));
+        var summary = choice?.Label ?? $"{L("现有动作", "Existing action", "現有動作", "既存の操作", "기존 동작")} ({action})";
+        var wait = JsonIntValue(settings, "WaitMilliseconds", 0);
+        if (wait > 0)
+            summary += $" · {L("等待", "Wait", "等待", "待機", "대기")} {wait} ms";
+        if (JsonIntValue(settings, "ActionLocation", 2) != 2)
+        {
+            var (x, y) = JsonPointValue(settings, "MovePoint");
+            summary += $" · {L("移动到", "Move to", "移動到", "移動先", "이동")} {x}, {y}";
+        }
+        return summary;
     }
 
     private static bool ShouldCreateCommand(string pluginClass, string settings)
@@ -8090,7 +8516,7 @@ public sealed partial class MainWindow : Window
         if (pluginClass.Contains("Delay", StringComparison.OrdinalIgnoreCase))
             return "{\"WaitType\":0,\"Timeout\":500}";
         if (pluginClass.Contains("MouseActions", StringComparison.OrdinalIgnoreCase))
-            return "{\"MouseAction\":257,\"ActionLocation\":2,\"MovePoint\":{\"X\":0,\"Y\":0},\"ScrollAmount\":3}";
+            return "{\"MouseAction\":257,\"ActionLocation\":2,\"MovePoint\":{\"X\":0,\"Y\":0},\"ScrollAmount\":3,\"WaitMilliseconds\":0,\"MoveDurationMilliseconds\":0}";
         if (pluginClass.Contains("ScreenBrightness", StringComparison.OrdinalIgnoreCase))
             return "{\"Method\":0,\"Percent\":10}";
         if (pluginClass.Contains("ActivateWindow", StringComparison.OrdinalIgnoreCase))

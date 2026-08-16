@@ -57,7 +57,9 @@ namespace GestureSign.CorePlugins.MouseActions
                     ActionLocation = action == MouseActions.MoveMouseBy ? (ClickPositions)RelativePositionComboBox.SelectedValue : (ClickPositions)PositionComboBox.SelectedValue,
                     MouseAction = action,
                     MovePoint = new System.Drawing.Point(x, y),
-                    ScrollAmount = scrollAmount
+                    ScrollAmount = scrollAmount,
+                    WaitMilliseconds = _settings?.WaitMilliseconds ?? 0,
+                    MoveDurationMilliseconds = _settings?.MoveDurationMilliseconds ?? 0
                 };
                 return _settings;
             }
