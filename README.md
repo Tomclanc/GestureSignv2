@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.0">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,24 +65,27 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.0) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-18.0.0-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-x64.msi)
-- [GestureSign-V2-18.0.0-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-portable-x64.zip)
+- [GestureSign-V2-18.0.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-x64.msi)
+- [GestureSign-V2-18.0.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-portable-x64.zip)
 
 ## 更新内容
 
-### 18.0.0
+### 18.0.2
 
-- 修复触摸屏边缘动作可能错误回退到对侧边缘的问题。现在从右侧滑动只会匹配右侧动作，不再触发仅绑定在左侧的动作；上下边缘也按实际起始边缘严格匹配。
-- 调整鼠标动作的位置选项文案，明确区分“第一个触点”和“最后一个触点”，并分别提供按下、抬起位置。
-- 开启“移动鼠标”后，可以直接选择对应触点作为鼠标移动和右键等操作的目标位置，原有配置继续兼容。
+- 新增“智能新建标签页”命令：Edge、浏览器、资源管理器和新版记事本使用 `Ctrl+T`，Windows 终端使用 `Ctrl+Shift+T`，VS Code / VSCodium 使用 `Ctrl+N`。
+- 改进 H3C MegaBook 等设备的双指触摸屏识别，能够合并同一轮输入中分散上报的触点帧。
+- 记录触点抬起时的最终坐标，修复部分触摸屏只有起点和终点时，边缘滑动方向无法识别的问题。
+- 从托盘暂停手势识别后，设置窗口中的停用页面会变淡并禁止操作，同时提供醒目的恢复入口；重新启用后立即恢复。
+- 调整手势选择器与触摸录制按钮的位置，使右侧控件与左侧按钮保持水平对齐。
+- 增加 Kando 可执行文件架构校验，确保 x64 与 ARM64 商店包分别包含正确架构的组件。
 
 ### 历史版本
 
-17.2.9 及更早版本完成了 WinUI 3 与 .NET 10 迁移，并持续改进鼠标动作、响应式界面、触摸屏与手势识别、触控板释放状态、便携版卸载、高 DPI、智能关闭、Kando 快捷操作、应用更新、远程桌面兼容性、内存占用及安装体验。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.0.0 及更早版本修复了边缘动作误触发，完善鼠标目标触点选择，并完成 WinUI 3 与 .NET 10 迁移、智能关闭、Kando 快捷操作以及触摸和手势识别等改进。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -197,22 +200,25 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.0).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2).
 
 Current version:
 
-- [GestureSign-V2-18.0.0-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-x64.msi)
-- [GestureSign-V2-18.0.0-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-portable-x64.zip)
+- [GestureSign-V2-18.0.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-x64.msi)
+- [GestureSign-V2-18.0.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-portable-x64.zip)
 
-### What's new in 18.0.0
+### What's new in 18.0.2
 
-- Fixed touchscreen edge actions incorrectly falling back to the opposite edge. A right-edge swipe now matches only right-edge actions instead of triggering an action configured only for the left edge; top and bottom edges follow the same strict matching rule.
-- Clarified Mouse Action position choices by distinguishing the first contact from the last contact, with separate down and up positions.
-- When Move Pointer is enabled, the selected contact position can be used as the target for pointer movement and mouse operations such as right-click. Existing configurations remain compatible.
+- Added Smart New Tab: Edge, browsers, File Explorer, and the new Notepad use `Ctrl+T`; Windows Terminal uses `Ctrl+Shift+T`; VS Code and VSCodium use `Ctrl+N`.
+- Improved two-finger touchscreen recognition on the H3C MegaBook and similar devices by merging contacts reported in separate input frames.
+- Captured the final touch-up coordinate so edge-swipe direction works on touchscreens that report only the start and final positions.
+- Pausing recognition from the tray now dims and disables inactive settings pages and shows a clear restore action; resuming restores the interface immediately.
+- Aligned the gesture picker and touch-recording controls horizontally with the buttons on the left.
+- Added Kando executable architecture validation so x64 and ARM64 packages contain the correct binaries.
 
 ### Previous releases
 
-Version 17.2.9 and earlier completed the WinUI 3 and .NET 10 migration and improved mouse actions, responsive UI behavior, touchscreen and gesture recognition, touchpad release recovery, portable uninstalling, high-DPI behavior, Smart Close, Kando Quick Actions, application updates, Remote Desktop compatibility, memory usage, and installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
+Version 18.0.0 and earlier fixed incorrect edge-action matching, refined mouse target-contact selection, completed the WinUI 3 and .NET 10 migration, and added Smart Close, Kando Quick Actions, and broader touch and gesture improvements. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
 
 ## Installation
 
@@ -333,22 +339,25 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.0) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.0.0-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-x64.msi)
-- [GestureSign-V2-18.0.0-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.0/GestureSign-V2-18.0.0-portable-x64.zip)
+- [GestureSign-V2-18.0.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-x64.msi)
+- [GestureSign-V2-18.0.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2/GestureSign-V2-18.0.2-portable-x64.zip)
 
-### 18.0.0 の更新内容
+### 18.0.2 の更新内容
 
-- タッチスクリーンのエッジ操作が反対側の設定へ誤ってフォールバックする問題を修正しました。右端からのスワイプは右端の操作だけに一致し、左端だけに設定した操作を実行しません。上下端も同じ厳密な規則で判定します。
-- マウス操作の位置選択を「最初の接触点」と「最後の接触点」に整理し、それぞれ押下位置と離す位置を明確にしました。
-- 「ポインターを移動」を有効にすると、選択した接触位置をポインター移動や右クリックなどの操作位置として使用できます。既存の設定との互換性も維持します。
+- 「Smart New Tab」コマンドを追加しました。Edge、ブラウザー、エクスプローラー、新しいメモ帳では `Ctrl+T`、Windows Terminal では `Ctrl+Shift+T`、VS Code / VSCodium では `Ctrl+N` を使用します。
+- H3C MegaBook などで別々の入力フレームとして報告される接触点を結合し、2 本指タッチスクリーン認識を改善しました。
+- 指を離したときの最終座標を記録し、開始点と終了点だけを報告するタッチスクリーンでもエッジスワイプの方向を認識できるようにしました。
+- トレイからジェスチャー認識を一時停止すると、無効な設定ページが薄く表示され操作できなくなり、分かりやすい再開ボタンが表示されます。
+- ジェスチャー選択とタッチ録画のコントロールを、左側のボタンと水平に揃えました。
+- Kando 実行ファイルのアーキテクチャ検証を追加し、x64 / ARM64 パッケージに正しいバイナリが含まれるようにしました。
 
 ### 過去のバージョン
 
-17.2.9 以前のリリースでは WinUI 3 と .NET 10 への移行を完了し、マウス操作、レスポンシブ UI、タッチスクリーンとジェスチャー認識、タッチパッドの解放状態、ポータブル版のアンインストール、高 DPI、Smart Close、Kando Quick Actions、アプリ更新、リモートデスクトップ互換性、メモリ使用量、インストール体験を改善しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.0.0 以前のリリースでは、エッジ操作の誤一致を修正し、マウスの対象接触点選択を改善したほか、WinUI 3 / .NET 10 への移行、Smart Close、Kando Quick Actions、タッチとジェスチャー認識の改善を行いました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 

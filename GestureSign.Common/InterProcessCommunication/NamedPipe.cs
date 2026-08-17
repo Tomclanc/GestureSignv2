@@ -55,6 +55,8 @@ namespace GestureSign.Common.InterProcessCommunication
                             return ReadPointPatterns(reader);
                         case IpcCommands.SynDeviceState:
                             return (Common.Input.Devices)reader.ReadInt32();
+                        case IpcCommands.SynRecognitionState:
+                            return reader.ReadBoolean();
                         default:
                             return null;
                     }
@@ -78,6 +80,9 @@ namespace GestureSign.Common.InterProcessCommunication
                         break;
                     case IpcCommands.SynDeviceState:
                         writer.Write((int)(Common.Input.Devices)message);
+                        break;
+                    case IpcCommands.SynRecognitionState:
+                        writer.Write((bool)message);
                         break;
                     default:
                         throw new InvalidDataException("IPC command does not define a payload format: " + command);

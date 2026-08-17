@@ -165,6 +165,10 @@
       <Name>智能关闭</Name>
       <Description>根据当前程序选择 Ctrl+W、Ctrl+Shift+W 或 Alt+F4。部分窗口需要先切换到前台；关闭高权限程序时，以管理员身份运行 GestureSign V2 效果更好。</Description>
     </SmartClose>
+    <SmartNewTab>
+      <Name>智能新建标签页</Name>
+      <Description>根据当前程序选择 Ctrl+T、Ctrl+Shift+T 或 Ctrl+N。Edge、资源管理器和新版记事本使用 Ctrl+T，Windows 终端使用 Ctrl+Shift+T，VS Code 使用 Ctrl+N。</Description>
+    </SmartNewTab>
     <Minimize>
       <Name>最小化</Name>
       <Description>最小化当前窗口</Description>

@@ -144,6 +144,12 @@ namespace GestureSign.Daemon
         {
             try
             {
+                if (!KandoExecutableCompatibility.IsSupportedOnCurrentOperatingSystem(executablePath, out var incompatibilityReason))
+                {
+                    Logging.LogMessage(incompatibilityReason);
+                    return false;
+                }
+
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = executablePath,

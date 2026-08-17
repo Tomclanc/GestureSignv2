@@ -104,7 +104,8 @@ namespace GestureSign.Common.InterProcessCommunication
                 catch (Exception)
                 {
                     s.Dispose();
-                    RunSendingServer(pipeName, command, function);
+                    if (!disposedValue)
+                        RunSendingServer(pipeName, command, function);
                 }
             };
             _namedPipeServer.BeginWaitForConnection(ac, _namedPipeServer);

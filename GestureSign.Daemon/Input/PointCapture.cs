@@ -496,6 +496,9 @@ namespace GestureSign.Daemon.Input
             {
                 e.Handled = Mode != CaptureMode.UserDisabled;
 
+                if ((SourceDevice & Devices.TouchDevice) != 0 && e.InputPointList != null)
+                    AddPoint(e.InputPointList);
+
                 EndCapture();
 
                 if (TemporarilyDisableCapture && Mode == CaptureMode.UserDisabled)

@@ -164,6 +164,10 @@
       <Name>Smart Close</Name>
       <Description>Selects Ctrl+W, Ctrl+Shift+W, or Alt+F4 for the current app. Some windows must be brought to the foreground first; running GestureSign V2 as administrator works better with elevated apps.</Description>
     </SmartClose>
+    <SmartNewTab>
+      <Name>Smart New Tab</Name>
+      <Description>Selects Ctrl+T, Ctrl+Shift+T, or Ctrl+N for the current app. Edge, File Explorer, and the new Notepad use Ctrl+T; Windows Terminal uses Ctrl+Shift+T; VS Code uses Ctrl+N.</Description>
+    </SmartNewTab>
     <Minimize>
       <Name>Minimize</Name>
       <Description>Minimize current window</Description>

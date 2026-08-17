@@ -20,6 +20,8 @@ namespace GestureSign.Daemon.Input
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
         private List<RawData> _lastTouchPadRawData;
+        private readonly Dictionary<int, RawData> _activeTouchScreenContacts = new Dictionary<int, RawData>();
+        private bool _suppressTouchScreenUntilReleased;
         private readonly System.Windows.Forms.Timer _mouseStatePollTimer;
         private DateTime _lastMouseHookEventUtc;
         private bool _mousePollingFallbackActive;
@@ -366,6 +368,12 @@ namespace GestureSign.Daemon.Input
 
         private void TranslateTouchEvent(object sender, RawPointsDataMessageEventArgs e)
         {
+            if (e.SourceDevice == Devices.TouchScreen)
+            {
+                TranslateTouchScreenEvent(e);
+                return;
+            }
+
             if ((e.SourceDevice & Devices.TouchDevice) != 0)
             {
                 var rawData = e.RawData;
@@ -498,6 +506,94 @@ namespace GestureSign.Daemon.Input
                     }
                 }
             }
+        }
+
+        private void TranslateTouchScreenEvent(RawPointsDataMessageEventArgs e)
+        {
+            var rawData = e.RawData;
+            if (rawData == null || rawData.Count == 0)
+                return;
+
+            var previousCount = _activeTouchScreenContacts.Count;
+            var releasedContacts = new List<RawData>();
+            foreach (var point in rawData)
+            {
+                if (point.State == DeviceStates.None)
+                {
+                    releasedContacts.Add(point);
+                    _activeTouchScreenContacts.Remove(point.ContactIdentifier);
+                }
+                else
+                {
+                    _activeTouchScreenContacts[point.ContactIdentifier] = point;
+                }
+            }
+
+            var activeContacts = _activeTouchScreenContacts.Values
+                .OrderBy(point => point.ContactIdentifier)
+                .ToList();
+
+            if (_suppressTouchScreenUntilReleased)
+            {
+                if (activeContacts.Count == 0)
+                {
+                    _suppressTouchScreenUntilReleased = false;
+                    _lastPointsCount = 0;
+                }
+                return;
+            }
+
+            if (SourceDevice == Devices.None && activeContacts.Count > 0)
+            {
+                _lastPointsCount = activeContacts.Count;
+                OnPointDown(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
+                return;
+            }
+
+            if (releasedContacts.Count > 0 || activeContacts.Count < previousCount)
+            {
+                var finalContacts = activeContacts.ToDictionary(point => point.ContactIdentifier);
+                foreach (var released in releasedContacts)
+                    finalContacts[released.ContactIdentifier] = released;
+
+                OnPointUp(new InputPointsEventArgs(
+                    finalContacts.Values.OrderBy(point => point.ContactIdentifier).ToList(),
+                    Devices.TouchScreen));
+                _lastPointsCount = activeContacts.Count;
+
+                if (activeContacts.Count > 0)
+                {
+                    _suppressTouchScreenUntilReleased = true;
+                    Logging.LogMessage($"TouchScreen residual contacts suppressed. ActiveContacts={activeContacts.Count}");
+                }
+                else
+                {
+                    _activeTouchScreenContacts.Clear();
+                }
+                return;
+            }
+
+            if (activeContacts.Count > previousCount)
+            {
+                var frameContactCount = rawData.Count(point => point.State != DeviceStates.None);
+                if (activeContacts.Count > frameContactCount)
+                {
+                    Logging.LogMessage($"TouchScreen contact frames merged. FrameContacts={frameContactCount}, ActiveContacts={activeContacts.Count}");
+                }
+
+                _lastPointsCount = activeContacts.Count;
+                if (PointCapture.Instance.InputPoints.Any(points => points.Count > 10))
+                {
+                    OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
+                    return;
+                }
+
+                OnPointDown(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
+                return;
+            }
+
+            if (activeContacts.Count > 0)
+                OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
         }
 
         private void ArmTouchPadRelease(Devices sourceDevice, IReadOnlyList<RawData> rawData)

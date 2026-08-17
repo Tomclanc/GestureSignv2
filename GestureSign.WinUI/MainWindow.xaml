@@ -95,24 +95,62 @@
                 <controls:NavigationViewItem Content="关于" Tag="about" Icon="Help" />
             </controls:NavigationView.MenuItems>
 
-            <ScrollViewer x:Name="MainContentScrollViewer"
-                          Padding="28,8,32,32"
-                          Background="Transparent">
-                <StackPanel Spacing="18">
-                    <TextBlock x:Name="PageTitle"
-                               Text="动作"
-                               FontSize="20"
-                               FontWeight="SemiBold"
-                               IsTextSelectionEnabled="True"
-                               Margin="0,12,0,0" />
-                    <TextBlock x:Name="PageSubtitle"
-                               Text="按程序管理手势动作。"
-                               IsTextSelectionEnabled="True"
-                               Opacity="0.72" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                    <Grid x:Name="PageHost" />
-                </StackPanel>
-            </ScrollViewer>
+                <Border x:Name="RecognitionDisabledBanner"
+                        Visibility="Collapsed"
+                        Margin="20,10,24,4"
+                        Padding="14,10"
+                        CornerRadius="6"
+                        Background="#22FFB900"
+                        BorderBrush="#66FFB900"
+                        BorderThickness="1">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <FontIcon Glyph="&#xE7BA;"
+                                  FontSize="18"
+                                  VerticalAlignment="Center" />
+                        <TextBlock x:Name="RecognitionDisabledText"
+                                   Grid.Column="1"
+                                   Text="手势识别已关闭"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   TextWrapping="Wrap" />
+                        <Button x:Name="RecognitionDisabledEnableButton"
+                                Grid.Column="2"
+                                Content="启用手势识别"
+                                Click="RecognitionDisabledEnableButton_Click" />
+                    </Grid>
+                </Border>
+
+                <ScrollViewer x:Name="MainContentScrollViewer"
+                              Grid.Row="1"
+                              Padding="28,8,32,32"
+                              Background="Transparent">
+                    <StackPanel Spacing="18">
+                        <TextBlock x:Name="PageTitle"
+                                   Text="动作"
+                                   FontSize="20"
+                                   FontWeight="SemiBold"
+                                   IsTextSelectionEnabled="True"
+                                   Margin="0,12,0,0" />
+                        <TextBlock x:Name="PageSubtitle"
+                                   Text="按程序管理手势动作。"
+                                   IsTextSelectionEnabled="True"
+                                   Opacity="0.72" />
+
+                        <Grid x:Name="PageHost" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
         </controls:NavigationView>
     </Grid>
 </Window>

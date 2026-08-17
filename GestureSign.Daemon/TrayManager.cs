@@ -39,6 +39,7 @@ namespace GestureSign.Daemon
         private ToolStripMenuItem _exitGestureSignMenuItem;
         private Icon _currentTrayIcon;
         private TouchFriendlyTrayMenu _touchTrayMenu;
+        private CustomNamedPipeServer _recognitionStateServer;
         private readonly GitHubUpdateChecker _updateChecker = new GitHubUpdateChecker();
         private string _updateReleaseUrl;
         private string _loadedCultureName;
@@ -669,6 +670,10 @@ namespace GestureSign.Daemon
         public void Load()
         {
             SetupTrayIconAndTrayMenu();
+            _recognitionStateServer = new CustomNamedPipeServer(
+                Constants.Daemon + "RecognitionState",
+                IpcCommands.SynRecognitionState,
+                () => PointCapture.Instance.Mode == CaptureMode.UserDisabled);
             _updateChecker.UpdateAvailable += UpdateChecker_UpdateAvailable;
             ApplyConfiguration();
 
@@ -906,6 +911,7 @@ namespace GestureSign.Daemon
             if (_trayIcon != null) _trayIcon.Visible = false;
             if (_currentTrayIcon != null) _currentTrayIcon.Dispose();
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed) _touchTrayMenu.Dispose();
+            _recognitionStateServer?.Dispose();
             _updateChecker.Dispose();
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         }

@@ -99,6 +99,7 @@ public sealed partial class MainWindow : Window
     private readonly TrainingPipeServer _trainingPipeServer;
     private readonly DispatcherTimer _optionSaveTimer = new();
     private readonly DispatcherTimer _daemonWatchdogTimer = new();
+    private readonly DispatcherTimer _recognitionStateTimer = new();
     private readonly Dictionary<string, string> _pendingOptionUpdates = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<FrameworkElement, TypedCommandSettingsEditor> _typedCommandSettingsEditors = new();
     private readonly HashSet<string> _pendingApplicationEnabledToggles = new(StringComparer.Ordinal);
@@ -111,6 +112,8 @@ public sealed partial class MainWindow : Window
     private string _selectedActionScope = "all";
     private bool _recognitionEnabled = true;
     private bool _updatingRecognitionToggle;
+    private bool _isRefreshingRecognitionState;
+    private ToggleSwitch? _recognitionToggle;
     private IntPtr _keyboardHook;
     private LowLevelKeyboardProc? _keyboardHookProc;
     private TextBox? _activeHotKeyRecorder;
@@ -177,8 +180,11 @@ public sealed partial class MainWindow : Window
         };
         _daemonWatchdogTimer.Interval = TimeSpan.FromSeconds(3);
         _daemonWatchdogTimer.Tick += async (_, _) => await EnsureDaemonRunningAsync();
+        _recognitionStateTimer.Interval = TimeSpan.FromMilliseconds(700);
+        _recognitionStateTimer.Tick += async (_, _) => await RefreshRecognitionStateAsync();
         Closed += (_, _) =>
         {
+            _recognitionStateTimer.Stop();
             StopWindowPicking();
             ReleaseNativeWindowIconSubclass();
             ReleaseNativeWindowIcons();
@@ -199,8 +205,10 @@ public sealed partial class MainWindow : Window
             ShowSelectedPage();
         };
         _ = EnsureDaemonRunningAsync();
+        _ = RefreshRecognitionStateAsync();
         _ = EnsureKandoStartedIfEnabledAsync();
         _daemonWatchdogTimer.Start();
+        _recognitionStateTimer.Start();
         _windowModeRefreshTimer.Start();
     }
 
@@ -210,6 +218,90 @@ public sealed partial class MainWindow : Window
             ? Color.FromArgb(DarkMicaDimmingOverlayAlpha, 48, 52, 58)
             : Color.FromArgb(LightMicaDimmingOverlayAlpha, 255, 255, 255);
         Root.Background = new SolidColorBrush(overlay);
+    }
+
+    private async void RecognitionDisabledEnableButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (await NotifyDaemonAsync(DaemonCommand.EnableRecognition))
+            ApplyRecognitionState(true);
+    }
+
+    private async Task RefreshRecognitionStateAsync()
+    {
+        if (_isRefreshingRecognitionState || _isExitingApplication)
+            return;
+
+        _isRefreshingRecognitionState = true;
+        try
+        {
+            var recognitionDisabled = await TryReadRecognitionDisabledAsync();
+            if (recognitionDisabled.HasValue)
+                ApplyRecognitionState(!recognitionDisabled.Value);
+        }
+        finally
+        {
+            _isRefreshingRecognitionState = false;
+        }
+    }
+
+    private void ApplyRecognitionState(bool enabled)
+    {
+        _recognitionEnabled = enabled;
+        RecognitionDisabledBanner.Visibility = enabled ? Visibility.Collapsed : Visibility.Visible;
+        MainContentScrollViewer.Opacity = enabled ? 1 : 0.38;
+        MainContentScrollViewer.IsHitTestVisible = enabled;
+
+        if (_recognitionToggle is null || _recognitionToggle.IsOn == enabled)
+            return;
+
+        _updatingRecognitionToggle = true;
+        try
+        {
+            _recognitionToggle.IsOn = enabled;
+        }
+        finally
+        {
+            _updatingRecognitionToggle = false;
+        }
+    }
+
+    private static async Task<bool?> TryReadRecognitionDisabledAsync()
+    {
+        try
+        {
+            var user = WindowsIdentity.GetCurrent().User?.ToString();
+            if (string.IsNullOrWhiteSpace(user))
+                return null;
+
+            await using var pipe = new NamedPipeClientStream(
+                ".",
+                $"GestureSignDaemonRecognitionState-{user}",
+                PipeDirection.In,
+                PipeOptions.Asynchronous,
+                TokenImpersonationLevel.None);
+            using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(450));
+            await pipe.ConnectAsync(cancellation.Token);
+
+            var payload = new byte[6];
+            var offset = 0;
+            while (offset < payload.Length)
+            {
+                var read = await pipe.ReadAsync(payload.AsMemory(offset), cancellation.Token);
+                if (read == 0)
+                    return null;
+                offset += read;
+            }
+
+            const byte recognitionStateCommand = 12;
+            const int wireMagic = 0x31505347;
+            return payload[0] == recognitionStateCommand && BitConverter.ToInt32(payload, 1) == wireMagic
+                ? payload[5] != 0
+                : null;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private void ReloadData()
@@ -344,6 +436,8 @@ public sealed partial class MainWindow : Window
 
     private void RefreshNavigationText()
     {
+        RecognitionDisabledText.Text = L("手势识别已关闭", "Gesture recognition is off", "手勢辨識已關閉", "ジェスチャ認識はオフです", "제스처 인식이 꺼져 있습니다");
+        RecognitionDisabledEnableButton.Content = L("启用手势识别", "Enable gesture recognition", "啟用手勢辨識", "ジェスチャ認識を有効にする", "제스처 인식 켜기");
         foreach (var item in Navigation.MenuItems.OfType<NavigationViewItem>())
         {
             if (item.Tag is not string tag)
@@ -2246,11 +2340,18 @@ public sealed partial class MainWindow : Window
         return panel;
     }
 
-    private static Grid NewTwoColumnRow(FrameworkElement left, FrameworkElement right)
+    private static Grid NewTwoColumnRow(
+        FrameworkElement left,
+        FrameworkElement right,
+        double breakpoint = 560,
+        GridLength? firstColumnWidth = null,
+        GridLength? secondColumnWidth = null)
     {
+        var resolvedFirstColumnWidth = firstColumnWidth ?? new GridLength(1, GridUnitType.Star);
+        var resolvedSecondColumnWidth = secondColumnWidth ?? new GridLength(1, GridUnitType.Star);
         var row = new Grid { ColumnSpacing = 16, RowSpacing = 10, Margin = new Thickness(0, 8, 0, 0) };
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = resolvedFirstColumnWidth });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = resolvedSecondColumnWidth });
         left.HorizontalAlignment = HorizontalAlignment.Left;
         left.VerticalAlignment = VerticalAlignment.Center;
         right.HorizontalAlignment = HorizontalAlignment.Left;
@@ -2258,9 +2359,23 @@ public sealed partial class MainWindow : Window
         row.Children.Add(left);
         Grid.SetColumn(right, 1);
         row.Children.Add(right);
-        ConfigureResponsiveTwoColumnGrid(row, left, right, 560, new GridLength(1, GridUnitType.Star));
+        ConfigureResponsiveTwoColumnGrid(
+            row,
+            left,
+            right,
+            breakpoint,
+            resolvedFirstColumnWidth,
+            resolvedSecondColumnWidth);
         return row;
     }
+
+    private static Grid NewGestureControlRow(FrameworkElement left, FrameworkElement right) =>
+        NewTwoColumnRow(
+            left,
+            right,
+            360,
+            new GridLength(3, GridUnitType.Star),
+            new GridLength(2, GridUnitType.Star));
 
     private static void ConfigureResponsiveTwoColumnGrid(
         Grid grid,
@@ -2499,16 +2614,19 @@ public sealed partial class MainWindow : Window
             OffContent = L("关", "Off", "關", "オフ", "끔"),
             VerticalAlignment = VerticalAlignment.Center
         };
+        _recognitionToggle = toggle;
         toggle.Toggled += async (_, _) =>
         {
             if (_updatingRecognitionToggle)
                 return;
 
-            _recognitionEnabled = toggle.IsOn;
             var command = toggle.IsOn ? DaemonCommand.EnableRecognition : DaemonCommand.DisableRecognition;
-            if (!await NotifyDaemonAsync(command))
+            if (await NotifyDaemonAsync(command))
             {
-                _recognitionEnabled = !toggle.IsOn;
+                ApplyRecognitionState(toggle.IsOn);
+            }
+            else
+            {
                 _updatingRecognitionToggle = true;
                 try
                 {
@@ -3075,7 +3193,7 @@ public sealed partial class MainWindow : Window
             }));
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
-        panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
+        panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         panel.Children.Add(new TextBlock { Text = "要执行的命令", Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         panel.Children.Add(commandName);
@@ -3187,7 +3305,7 @@ public sealed partial class MainWindow : Window
             }));
         panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
-        panel.Children.Add(NewTwoColumnRow(clearGestureButton, trainByTouchpad));
+        panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         panel.Children.Add(NewTwoColumnRow(enabled, activateWindow));
         panel.Children.Add(mouseHotkey);
@@ -3255,7 +3373,7 @@ public sealed partial class MainWindow : Window
         recordedPicker.Margin = new Thickness(0);
         builtInPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         recordedPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
-        return NewTwoColumnRow(builtInPicker, recordedPicker);
+        return NewGestureControlRow(builtInPicker, recordedPicker);
     }
 
     private ComboBox NewRecordedGesturePicker(TextBox gesture, Action<LegacyGesture>? onGestureSelected = null)
@@ -4582,6 +4700,7 @@ public sealed partial class MainWindow : Window
             || pluginClass.Contains("TouchKeyboard", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("MaximizeRestore", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase)
+            || pluginClass.Contains("SmartNewTab", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("Minimize", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("ToggleWindowTopmost", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("ToggleDisableGestures", StringComparison.OrdinalIgnoreCase);
@@ -5251,7 +5370,7 @@ public sealed partial class MainWindow : Window
 
         if (!StartKando(_legacyData.Options, BuildKandoShowMenuArguments(_legacyData.Options)))
         {
-            await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+            await ShowInfoDialog("Kando 未启动", "没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
             return;
         }
 
@@ -5269,7 +5388,7 @@ public sealed partial class MainWindow : Window
         await UpdateOptionAndWaitAsync("KandoEnabled", "False");
         _legacyData = LegacyDataStore.Load();
         ShowPage("quickActions");
-        await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+        await ShowInfoDialog("Kando 未启动", "没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
     }
 
     private async Task DisableKandoQuickActionsAsync()
@@ -5302,7 +5421,7 @@ public sealed partial class MainWindow : Window
         _legacyData = LegacyDataStore.Load();
 
         if (!StartKando(_legacyData.Options, "--settings"))
-            await ShowInfoDialog("Kando 未启动", "没有找到 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
+            await ShowInfoDialog("Kando 未启动", "没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。");
     }
 
     private static string BuildKandoShowMenuArguments(LegacyOptions options)
@@ -5312,16 +5431,22 @@ public sealed partial class MainWindow : Window
         return string.Empty;
     }
 
-    private static bool StartKando(LegacyOptions options, string arguments)
+    private bool StartKando(LegacyOptions options, string arguments)
         => StartKandoProcess(options, arguments) is not null;
 
-    private static Process? StartKandoProcess(LegacyOptions options, string arguments)
+    private Process? StartKandoProcess(LegacyOptions options, string arguments)
     {
         try
         {
             var executablePath = FindKandoExecutablePath(options.KandoExecutablePath);
             if (executablePath is null)
                 return null;
+
+            if (!KandoExecutableCompatibility.IsSupportedOnCurrentOperatingSystem(executablePath, out var incompatibilityReason))
+            {
+                LogException(new BadImageFormatException(incompatibilityReason));
+                return null;
+            }
 
             var process = Process.Start(new ProcessStartInfo
             {
@@ -5374,6 +5499,7 @@ public sealed partial class MainWindow : Window
 
         _isExitingApplication = true;
         _daemonWatchdogTimer.Stop();
+        _recognitionStateTimer.Stop();
         _kandoMenuRefreshTimer.Stop();
         _windowModeRefreshTimer.Stop();
         StopKandoProcesses(_legacyData.Options);
@@ -8359,6 +8485,8 @@ public sealed partial class MainWindow : Window
             return L("最大化/还原", "Maximize/Restore", "最大化/還原", "最大化/復元", "최대화/복원");
         if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
             return L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기");
+        if (pluginClass.Contains("SmartNewTab", StringComparison.OrdinalIgnoreCase))
+            return L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "スマート新規タブ", "스마트 새 탭");
         if (pluginClass.Contains("Minimize", StringComparison.OrdinalIgnoreCase))
             return L("最小化", "Minimize", "最小化", "最小化", "최소화");
         if (pluginClass.Contains("ToggleWindowTopmost", StringComparison.OrdinalIgnoreCase))
@@ -8375,14 +8503,20 @@ public sealed partial class MainWindow : Window
     private void UpdateDefaultCommandName(TextBox commandName, string pluginClass)
     {
         var smartCloseName = L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기");
+        var smartNewTabName = L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "スマート新規タブ", "스마트 새 탭");
         var isSmartClose = pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase);
-        if (isSmartClose &&
+        var isSmartNewTab = pluginClass.Contains("SmartNewTab", StringComparison.OrdinalIgnoreCase);
+        if ((isSmartClose || isSmartNewTab) &&
             (string.Equals(commandName.Text, "发送快捷键", StringComparison.Ordinal) ||
-             string.Equals(commandName.Text, L("快捷键", "Hotkey", "快速鍵", "ショートカット", "단축키"), StringComparison.Ordinal)))
+             string.Equals(commandName.Text, L("快捷键", "Hotkey", "快速鍵", "ショートカット", "단축키"), StringComparison.Ordinal) ||
+             string.Equals(commandName.Text, smartCloseName, StringComparison.Ordinal) ||
+             string.Equals(commandName.Text, smartNewTabName, StringComparison.Ordinal)))
         {
-            commandName.Text = smartCloseName;
+            commandName.Text = isSmartClose ? smartCloseName : smartNewTabName;
         }
-        else if (!isSmartClose && string.Equals(commandName.Text, smartCloseName, StringComparison.Ordinal))
+        else if (!isSmartClose && !isSmartNewTab &&
+                 (string.Equals(commandName.Text, smartCloseName, StringComparison.Ordinal) ||
+                  string.Equals(commandName.Text, smartNewTabName, StringComparison.Ordinal)))
         {
             commandName.Text = PluginName(pluginClass);
         }
@@ -8411,6 +8545,18 @@ public sealed partial class MainWindow : Window
             return;
         }
 
+        if (pluginClass.Contains("SmartNewTab", StringComparison.OrdinalIgnoreCase))
+        {
+            description.Text = L(
+                "根据当前程序选择 Ctrl+T、Ctrl+Shift+T 或 Ctrl+N。Edge、资源管理器和新版记事本使用 Ctrl+T，Windows 终端使用 Ctrl+Shift+T，VS Code 使用 Ctrl+N。",
+                "Selects Ctrl+T, Ctrl+Shift+T, or Ctrl+N for the current app. Edge, File Explorer, and the new Notepad use Ctrl+T; Windows Terminal uses Ctrl+Shift+T; VS Code uses Ctrl+N.",
+                "依目前程式選擇 Ctrl+T、Ctrl+Shift+T 或 Ctrl+N。Edge、檔案總管和新版記事本使用 Ctrl+T，Windows 終端機使用 Ctrl+Shift+T，VS Code 使用 Ctrl+N。",
+                "現在のアプリに応じて Ctrl+T、Ctrl+Shift+T、Ctrl+N を選択します。Edge、エクスプローラー、新しいメモ帳では Ctrl+T、Windows Terminal では Ctrl+Shift+T、VS Code では Ctrl+N を使用します。",
+                "현재 앱에 따라 Ctrl+T, Ctrl+Shift+T 또는 Ctrl+N을 선택합니다. Edge, 파일 탐색기 및 새 메모장은 Ctrl+T, Windows 터미널은 Ctrl+Shift+T, VS Code는 Ctrl+N을 사용합니다.");
+            description.Visibility = Visibility.Visible;
+            return;
+        }
+
         description.Text = string.Empty;
         description.Visibility = Visibility.Collapsed;
     }
@@ -8433,6 +8579,7 @@ public sealed partial class MainWindow : Window
         plugin.Items.Add(L("临时禁用", "Temporarily Disable", "暫時停用", "一時無効化", "임시 비활성화"));
         plugin.Items.Add(L("切换禁用", "Toggle Disable", "切換停用", "無効化切替", "비활성화 전환"));
         plugin.Items.Add(L("智能关闭", "Smart Close", "智慧關閉", "スマートクローズ", "스마트 닫기"));
+        plugin.Items.Add(L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "スマート新規タブ", "스마트 새 탭"));
         plugin.Items.Add(L("自定义插件", "Custom Plugin", "自訂外掛", "カスタムプラグイン", "사용자 지정 플러그인"));
     }
 
@@ -8454,18 +8601,19 @@ public sealed partial class MainWindow : Window
             13 => "GestureSign.CorePlugins.TemporarilyDisable",
             14 => "GestureSign.CorePlugins.ToggleDisableGestures",
             15 => "GestureSign.CorePlugins.SmartClose",
-            16 => "",
+            16 => "GestureSign.CorePlugins.SmartNewTab",
+            17 => "",
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
-            return 16;
+            return 17;
         if (pluginClass.Contains("PreviousApplication", StringComparison.OrdinalIgnoreCase))
-            return 16;
+            return 17;
         if (pluginClass.Contains("NextApplication", StringComparison.OrdinalIgnoreCase))
-            return 16;
+            return 17;
         if (pluginClass.Contains("Volume", StringComparison.OrdinalIgnoreCase))
             return 1;
         if (pluginClass.Contains("RunCommand", StringComparison.OrdinalIgnoreCase))
@@ -8496,9 +8644,11 @@ public sealed partial class MainWindow : Window
             return 14;
         if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
             return 15;
+        if (pluginClass.Contains("SmartNewTab", StringComparison.OrdinalIgnoreCase))
+            return 16;
         if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
             return 0;
-        return 16;
+        return 17;
     }
 
     private static string PluginSettingsTemplate(string pluginClass)

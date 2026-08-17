@@ -13,6 +13,7 @@
         SynDeviceState,
         EnableRecognition,
         DisableRecognition,
-        Exit
+        Exit,
+        SynRecognitionState
     }
 }
