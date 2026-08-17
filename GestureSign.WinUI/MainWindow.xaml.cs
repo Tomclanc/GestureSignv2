@@ -3931,10 +3931,10 @@ public sealed partial class MainWindow : Window
 
         var mouseReference = NewInlineComboBox([
             L("屏幕绝对坐标", "Screen coordinates", "螢幕絕對座標", "画面の絶対座標", "화면 절대 좌표"),
-            L("手势起点（按下）", "Gesture start (down)", "手勢起點（按下）", "ジェスチャ開始（押下）", "제스처 시작(누름)"),
-            L("手势起点（抬起）", "Gesture start (up)", "手勢起點（放開）", "ジェスチャ開始（離す）", "제스처 시작(뗌)"),
-            L("手势终点（按下）", "Gesture end (down)", "手勢終點（按下）", "ジェスチャ終了（押下）", "제스처 끝(누름)"),
-            L("手势终点（抬起）", "Gesture end (up)", "手勢終點（放開）", "ジェスチャ終了（離す）", "제스처 끝(뗌)")
+            L("第一个触点（按下）", "First contact (down)", "第一個觸點（按下）", "最初の接触点（押下）", "첫 번째 터치 지점(누름)"),
+            L("第一个触点（抬起）", "First contact (up)", "第一個觸點（放開）", "最初の接触点（離す）", "첫 번째 터치 지점(뗌)"),
+            L("最后一个触点（按下）", "Last contact (down)", "最後一個觸點（按下）", "最後の接触点（押下）", "마지막 터치 지점(누름)"),
+            L("最后一个触点（抬起）", "Last contact (up)", "最後一個觸點（放開）", "最後の接触点（離す）", "마지막 터치 지점(뗌)")
         ], 0);
         mouseReference.Header = L("相对于", "Relative to", "相對於", "基準", "기준");
         mouseReference.HorizontalAlignment = HorizontalAlignment.Stretch;

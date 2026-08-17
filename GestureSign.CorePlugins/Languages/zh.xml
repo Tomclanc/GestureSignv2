@@ -88,10 +88,10 @@
       </Buttons>
       <ClickPositions>
         <Custom>指定点</Custom>
-        <FirstDown>第一根手指落点</FirstDown>
-        <FirstUp>第一根手指抬起点</FirstUp>
-        <LastDown>最后手指落点</LastDown>
-        <LastUp>最后手指抬起点</LastUp>
+        <FirstDown>第一个触点（按下）</FirstDown>
+        <FirstUp>第一个触点（抬起）</FirstUp>
+        <LastDown>最后一个触点（按下）</LastDown>
+        <LastUp>最后一个触点（抬起）</LastUp>
         <Current>当前位置</Current>
       </ClickPositions>
       <Description>

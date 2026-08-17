@@ -88,10 +88,10 @@
       </Buttons>
       <ClickPositions>
         <Custom>Specified Point</Custom>
-        <FirstDown>First Finger Down</FirstDown>
-        <FirstUp>First Finger Up</FirstUp>
-        <LastDown>Last Finger Down</LastDown>
-        <LastUp>Last Finger Up</LastUp>
+        <FirstDown>First contact (down)</FirstDown>
+        <FirstUp>First contact (up)</FirstUp>
+        <LastDown>Last contact (down)</LastDown>
+        <LastUp>Last contact (up)</LastUp>
         <Current>Current Point</Current>
       </ClickPositions>
       <Description>

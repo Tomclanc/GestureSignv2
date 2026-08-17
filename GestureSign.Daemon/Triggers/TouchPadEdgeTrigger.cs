@@ -39,25 +39,19 @@ namespace GestureSign.Daemon.Triggers
         private readonly int _minSwipeTravel;
         private readonly double _swipeDominanceRatio;
         private readonly bool _allowCornerEdges;
-        private readonly bool _allowOppositeEdgeFallback;
         private PendingEdgeTrigger _pendingEdgeTrigger;
 
         public TouchPadEdgeTrigger()
-            : this(Devices.TouchPad, "TouchPadEdge", "TouchPad", EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false, false)
+            : this(Devices.TouchPad, "TouchPadEdge", "TouchPad", EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false)
         {
         }
 
         public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix)
-            : this(sourceDevice, gesturePrefix, logPrefix, EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false, false)
+            : this(sourceDevice, gesturePrefix, logPrefix, EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false)
         {
         }
 
         public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix, int edgePercent, int maxTapTravel, int minSwipeTravel, double swipeDominanceRatio, bool allowCornerEdges)
-            : this(sourceDevice, gesturePrefix, logPrefix, edgePercent, maxTapTravel, minSwipeTravel, swipeDominanceRatio, allowCornerEdges, false)
-        {
-        }
-
-        public TouchPadEdgeTrigger(Devices sourceDevice, string gesturePrefix, string logPrefix, int edgePercent, int maxTapTravel, int minSwipeTravel, double swipeDominanceRatio, bool allowCornerEdges, bool allowOppositeEdgeFallback)
         {
             _sourceDevice = sourceDevice;
             _gesturePrefix = gesturePrefix;
@@ -67,7 +61,6 @@ namespace GestureSign.Daemon.Triggers
             _minSwipeTravel = minSwipeTravel;
             _swipeDominanceRatio = swipeDominanceRatio;
             _allowCornerEdges = allowCornerEdges;
-            _allowOppositeEdgeFallback = allowOppositeEdgeFallback;
             PointCapture.Instance.CaptureStarted += PointCapture_CaptureStarted;
             PointCapture.Instance.BeforePointsCaptured += PointCapture_BeforePointsCaptured;
         }
@@ -91,8 +84,7 @@ namespace GestureSign.Daemon.Triggers
             }
 
             ApplicationManager.Instance.GetForegroundApplications();
-            var actionEdge = GetActionEdge(edge.Value);
-            var hasAnyAction = GetCandidateGestureNames(actionEdge)
+            var hasAnyAction = GetCandidateGestureNames(edge.Value)
                 .Any(name => ApplicationManager.Instance.GetRecognizedDefinedAction(name)?.Any() == true);
             if (!hasAnyAction)
             {
@@ -100,11 +92,11 @@ namespace GestureSign.Daemon.Triggers
                 return;
             }
 
-            _pendingEdgeTrigger = new PendingEdgeTrigger(actionEdge, e.FirstCapturedPoints.FirstOrDefault());
+            _pendingEdgeTrigger = new PendingEdgeTrigger(edge.Value, e.FirstCapturedPoints.FirstOrDefault());
             e.Cancel = false;
             e.ForceCapture = true;
             e.BlockTouchInputThreshold = 0;
-            Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, ActionEdge={actionEdge}, Point={FormatPoint(e.Points[0].First())}");
+            Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
         }
 
         private void PointCapture_BeforePointsCaptured(object sender, PointsCapturedEventArgs e)
@@ -292,47 +284,6 @@ namespace GestureSign.Daemon.Triggers
                     yield return $"{_gesturePrefix}.Right.Up";
                     yield return $"{_gesturePrefix}.Right.Down";
                     break;
-            }
-        }
-
-        private Edge GetActionEdge(Edge edge)
-        {
-            if (!_allowOppositeEdgeFallback)
-                return edge;
-
-            if (HasAnyAction(edge))
-                return edge;
-
-            var opposite = GetOppositeEdge(edge);
-            if (HasAnyAction(opposite))
-            {
-                Logging.LogMessage($"{_logPrefix} edge action fallback. RawEdge={edge}, ActionEdge={opposite}");
-                return opposite;
-            }
-
-            return edge;
-        }
-
-        private bool HasAnyAction(Edge edge)
-        {
-            return GetCandidateGestureNames(edge)
-                .Any(name => ApplicationManager.Instance.GetRecognizedDefinedAction(name)?.Any() == true);
-        }
-
-        private static Edge GetOppositeEdge(Edge edge)
-        {
-            switch (edge)
-            {
-                case Edge.Top:
-                    return Edge.Bottom;
-                case Edge.Bottom:
-                    return Edge.Top;
-                case Edge.Left:
-                    return Edge.Right;
-                case Edge.Right:
-                    return Edge.Left;
-                default:
-                    return edge;
             }
         }
 

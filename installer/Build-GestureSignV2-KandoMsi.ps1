@@ -5,7 +5,7 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "17.2.9",
+    [string]$PackageVersion = "18.0.0",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -78,7 +78,7 @@ function Find-MSBuild {
         return $fallback
     }
 
-    return "msbuild.exe"
+    return $null
 }
 
 $publishPath = [System.IO.Path]::GetFullPath($PublishDir)
@@ -179,7 +179,12 @@ $updaterProject = Join-Path $PSScriptRoot "Updater\GestureSign.Updater.csproj"
 if (!(Test-Path -LiteralPath $updaterProject)) {
     throw "Updater project is missing: $updaterProject"
 }
-& $msbuild $updaterProject /p:Configuration=Release /v:m
+if ($msbuild) {
+    & $msbuild $updaterProject /p:Configuration=Release /v:m
+}
+else {
+    & dotnet msbuild $updaterProject /p:Configuration=Release /v:m
+}
 if ($LASTEXITCODE -ne 0) {
     throw "Updater build failed with exit code $LASTEXITCODE"
 }
@@ -370,7 +375,13 @@ if (Test-Path -LiteralPath $OutputMsi) {
     Remove-Item -LiteralPath $OutputMsi -Force
 }
 
-& wix build -arch $Architecture -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
+$wixCommand = Get-Command wix -ErrorAction SilentlyContinue
+if ($wixCommand) {
+    & $wixCommand.Source build -arch $Architecture -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
+}
+else {
+    & dotnet tool run wix -- build -arch $Architecture -dcl $CompressionLevel -intermediatefolder (Join-Path $PSScriptRoot "obj\wix") -out $OutputMsi $wxsPath
+}
 if ($LASTEXITCODE -ne 0) {
     throw "WiX build failed with exit code $LASTEXITCODE"
 }

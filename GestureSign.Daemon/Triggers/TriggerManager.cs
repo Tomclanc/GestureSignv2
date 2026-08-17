@@ -40,7 +40,7 @@ namespace GestureSign.Daemon.Triggers
             AddTrigger(new MouseTrigger());
             AddTrigger(new ContinuousGestureTrigger());
             AddTrigger(new TouchPadEdgeTrigger());
-            AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.TouchScreen, "TouchScreenEdge", "TouchScreen", 12, 70, 60, 1.2, true, true));
+            AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.TouchScreen, "TouchScreenEdge", "TouchScreen", 12, 70, 60, 1.2, true));
             AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.Mouse, "TouchScreenEdge", "TouchScreenMouse", 12, 70, 60, 1.2, true));
         }
 
