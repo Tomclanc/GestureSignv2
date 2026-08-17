@@ -136,8 +136,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 兼容性
 
-- 推荐系统：Windows 11 x64；历史 Releases 中保留了未经实机测试的 ARM64 早期预览版，本次未更新。
-- 当前安装包：MSI x64、便携版 x64；不再提供 x86 包。
+- 推荐系统：Windows 11 x64；Microsoft Store 包同时提供 x64 与 ARM64 架构。
+- 当前安装包：MSI x64、便携版 x64；商店上传包包含 x64 / ARM64；不再提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -275,8 +275,8 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 
 ## Compatibility
 
-- Recommended OS: Windows 11 x64. An untested ARM64 early preview remains available in older Releases but is not updated in this release.
-- Current packages: x64 MSI and x64 portable ZIP; no x86 package is produced.
+- Recommended OS: Windows 11 x64. The Microsoft Store package also includes x64 and ARM64 variants.
+- Current packages: x64 MSI and x64 portable ZIP; the Store upload package contains x64 / ARM64 variants. No x86 package is produced.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -414,8 +414,8 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 
 ## 互換性
 
-- 推奨 OS: Windows 11 x64。実機未検証の ARM64 早期プレビュー版は過去の Releases に残していますが、今回は更新していません。
-- 現在のパッケージ: x64 MSI、x64 ポータブル ZIP。x86 パッケージは生成しません。
+- 推奨 OS: Windows 11 x64。Microsoft Store パッケージには x64 と ARM64 の両方を含めています。
+- 現在のパッケージ: x64 MSI、x64 ポータブル ZIP、x64 / ARM64 を含む Store アップロード パッケージ。x86 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## フィードバック
