@@ -316,7 +316,7 @@ internal sealed class LegacyDataStore
         SaveActions();
     }
 
-    public void AddAction(LegacyApplication application, string name, string gestureName)
+    public void AddAction(LegacyApplication application, string name, string gestureName, int ignoredDevices = 0)
     {
         var actions = GetOrCreateArray(application.Source, "Actions");
         actions.Add(new JsonObject
@@ -325,6 +325,7 @@ internal sealed class LegacyDataStore
             ["GestureName"] = gestureName,
             ["Condition"] = "",
             ["IsEnabled"] = true,
+            ["IgnoredDevices"] = ignoredDevices,
             ["Commands"] = new JsonArray()
         });
         SaveActions();

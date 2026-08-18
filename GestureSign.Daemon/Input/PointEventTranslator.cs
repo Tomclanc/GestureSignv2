@@ -21,7 +21,11 @@ namespace GestureSign.Daemon.Input
         private System.Threading.Timer _touchPadReleaseTimer;
         private List<RawData> _lastTouchPadRawData;
         private readonly Dictionary<int, RawData> _activeTouchScreenContacts = new Dictionary<int, RawData>();
-        private bool _suppressTouchScreenUntilReleased;
+        // Keep the order in which touchscreen contacts first appeared. The
+        // active-contact dictionary is keyed by HID id, which is not a finger
+        // order and must not be used for mouse-action target selection.
+        private readonly List<int> _touchScreenContactOrder = new List<int>();
+        private readonly Dictionary<int, RawData> _releasedTouchScreenContacts = new Dictionary<int, RawData>();
         private readonly System.Windows.Forms.Timer _mouseStatePollTimer;
         private DateTime _lastMouseHookEventUtc;
         private bool _mousePollingFallbackActive;
@@ -520,28 +524,26 @@ namespace GestureSign.Daemon.Input
             {
                 if (point.State == DeviceStates.None)
                 {
-                    releasedContacts.Add(point);
+                    // A number of HID drivers omit or reuse coordinates in the
+                    // tip-up report. The last active report is the reliable
+                    // release location for the current contact.
+                    var released = _activeTouchScreenContacts.TryGetValue(point.ContactIdentifier, out var active)
+                        ? new RawData(DeviceStates.None, point.ContactIdentifier, active.RawPoints)
+                        : point;
+                    releasedContacts.Add(released);
+                    _releasedTouchScreenContacts[point.ContactIdentifier] = released;
                     _activeTouchScreenContacts.Remove(point.ContactIdentifier);
                 }
                 else
                 {
+                    if (!_activeTouchScreenContacts.ContainsKey(point.ContactIdentifier) &&
+                        !_touchScreenContactOrder.Contains(point.ContactIdentifier))
+                        _touchScreenContactOrder.Add(point.ContactIdentifier);
                     _activeTouchScreenContacts[point.ContactIdentifier] = point;
                 }
             }
 
-            var activeContacts = _activeTouchScreenContacts.Values
-                .OrderBy(point => point.ContactIdentifier)
-                .ToList();
-
-            if (_suppressTouchScreenUntilReleased)
-            {
-                if (activeContacts.Count == 0)
-                {
-                    _suppressTouchScreenUntilReleased = false;
-                    _lastPointsCount = 0;
-                }
-                return;
-            }
+            var activeContacts = OrderTouchScreenContacts(_activeTouchScreenContacts.Values);
 
             if (SourceDevice == Devices.None && activeContacts.Count > 0)
             {
@@ -552,24 +554,29 @@ namespace GestureSign.Daemon.Input
 
             if (releasedContacts.Count > 0 || activeContacts.Count < previousCount)
             {
-                var finalContacts = activeContacts.ToDictionary(point => point.ContactIdentifier);
-                foreach (var released in releasedContacts)
-                    finalContacts[released.ContactIdentifier] = released;
-
-                OnPointUp(new InputPointsEventArgs(
-                    finalContacts.Values.OrderBy(point => point.ContactIdentifier).ToList(),
-                    Devices.TouchScreen));
                 _lastPointsCount = activeContacts.Count;
 
                 if (activeContacts.Count > 0)
                 {
-                    _suppressTouchScreenUntilReleased = true;
-                    Logging.LogMessage($"TouchScreen residual contacts suppressed. ActiveContacts={activeContacts.Count}");
+                    OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
+                    Logging.LogMessage($"TouchScreen release deferred until all contacts are up. ActiveContacts={activeContacts.Count}, ReleasedContacts={_releasedTouchScreenContacts.Count}");
                 }
                 else
                 {
+                    OnPointUp(new InputPointsEventArgs(
+                        OrderTouchScreenContacts(_releasedTouchScreenContacts.Values),
+                        Devices.TouchScreen));
                     _activeTouchScreenContacts.Clear();
+                    _releasedTouchScreenContacts.Clear();
+                    _touchScreenContactOrder.Clear();
                 }
+                return;
+            }
+
+            if (_releasedTouchScreenContacts.Count > 0)
+            {
+                if (activeContacts.Count > 0)
+                    OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
                 return;
             }
 
@@ -594,6 +601,28 @@ namespace GestureSign.Daemon.Input
 
             if (activeContacts.Count > 0)
                 OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
+        }
+
+        private List<RawData> OrderTouchScreenContacts(IEnumerable<RawData> contacts)
+        {
+            var byIdentifier = contacts
+                .GroupBy(point => point.ContactIdentifier)
+                .ToDictionary(group => group.Key, group => group.Last());
+            var ordered = new List<RawData>(byIdentifier.Count);
+
+            foreach (var identifier in _touchScreenContactOrder)
+            {
+                if (byIdentifier.TryGetValue(identifier, out var point))
+                {
+                    ordered.Add(point);
+                    byIdentifier.Remove(identifier);
+                }
+            }
+
+            // Keep deterministic behavior for any contact not observed in the
+            // order list, including malformed or late driver frames.
+            ordered.AddRange(byIdentifier.Values.OrderBy(point => point.ContactIdentifier));
+            return ordered;
         }
 
         private void ArmTouchPadRelease(Devices sourceDevice, IReadOnlyList<RawData> rawData)

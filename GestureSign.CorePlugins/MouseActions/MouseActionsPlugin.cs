@@ -197,13 +197,15 @@ namespace GestureSign.CorePlugins.MouseActions
             switch (position)
             {
                 case ClickPositions.LastUp:
-                    referencePoint = actionPoint.Points.Last().Last();
+                    referencePoint = actionPoint.LastCapturedPoints?.LastOrDefault()
+                        ?? actionPoint.Points.Last().Last();
                     break;
                 case ClickPositions.LastDown:
                     referencePoint = actionPoint.Points.Last().First();
                     break;
                 case ClickPositions.FirstUp:
-                    referencePoint = actionPoint.Points.First().Last();
+                    referencePoint = actionPoint.LastCapturedPoints?.FirstOrDefault()
+                        ?? actionPoint.Points.First().Last();
                     break;
                 case ClickPositions.FirstDown:
                     referencePoint = actionPoint.Points.First().First();

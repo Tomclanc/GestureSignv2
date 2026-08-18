@@ -150,9 +150,22 @@ namespace GestureSign.Common.Applications
                         return;
                 }
             }
-            e.Cancel = (pointCapture.SourceDevice & Devices.TouchDevice) != 0 && (e.Points.Count < maxLimitNumber);
-            if (e.Cancel)
-                Logging.LogMessage($"Gesture capture rejected by application filter. Reason=FingerLimit, Contacts={e.Points.Count}, Required={maxLimitNumber}, Applications={string.Join(",", _recognizedApplication.Select(app => app.Name))}");
+            e.RequiredContactCount = maxLimitNumber;
+            var requiresMoreContacts = (pointCapture.SourceDevice & Devices.TouchDevice) != 0 &&
+                                       e.Points.Count < maxLimitNumber;
+            if (requiresMoreContacts && pointCapture.SourceDevice == Devices.TouchScreen)
+            {
+                // Touchscreen HID devices commonly report "simultaneous" fingers in
+                // consecutive frames. Keep the first contact provisional so its
+                // complete path is available when the remaining contacts arrive.
+                Logging.LogMessage($"Gesture capture waiting for additional touchscreen contacts. Contacts={e.Points.Count}, Required={maxLimitNumber}, Applications={string.Join(",", _recognizedApplication.Select(app => app.Name))}");
+            }
+            else
+            {
+                e.Cancel = requiresMoreContacts;
+                if (e.Cancel)
+                    Logging.LogMessage($"Gesture capture rejected by application filter. Reason=FingerLimit, Contacts={e.Points.Count}, Required={maxLimitNumber}, Applications={string.Join(",", _recognizedApplication.Select(app => app.Name))}");
+            }
             e.BlockTouchInputThreshold = maxThreshold;
         }
 

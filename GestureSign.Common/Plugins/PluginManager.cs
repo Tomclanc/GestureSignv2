@@ -61,14 +61,14 @@ namespace GestureSign.Common.Plugins
                 return;
             }
             Logging.LogMessage($"Gesture action lookup completed. Gesture={e.GestureName}, Actions={executableActions.Count}, Device={pointCapture.SourceDevice}, Mode={pointCapture.Mode}");
-            ExecuteAction(executableActions, pointCapture.Mode, pointCapture.SourceDevice, e.ContactIdentifiers, e.FirstCapturedPoints, e.Points);
+            ExecuteAction(executableActions, pointCapture.Mode, pointCapture.SourceDevice, e.ContactIdentifiers, e.FirstCapturedPoints, e.Points, e.ContactOrder, e.LastCapturedPoints);
         }
 
         #endregion
 
         #region Public Methods
 
-        public void ExecuteAction(List<IAction> executableActions, CaptureMode mode, Devices devices, List<int> contactIdentifiers, List<Point> firstCapturedPoints, List<List<Point>> points)
+        public void ExecuteAction(List<IAction> executableActions, CaptureMode mode, Devices devices, List<int> contactIdentifiers, List<Point> firstCapturedPoints, List<List<Point>> points, List<int> contactOrder = null, List<Point> lastCapturedPoints = null)
         {
             // Exit if we're teaching
             if (mode == CaptureMode.Training)
@@ -82,7 +82,10 @@ namespace GestureSign.Common.Plugins
                 return;
             }
             var target = ApplicationManager.Instance.CaptureWindow;
-            var pointInfo = new PointInfo(firstCapturedPoints, points, target, _mainContext);
+            var actionPoints = OrderByContactOrder(points, contactIdentifiers, contactOrder);
+            var actionFirstCapturedPoints = OrderByContactOrder(firstCapturedPoints, contactIdentifiers, contactOrder);
+            var actionLastCapturedPoints = OrderByContactOrder(lastCapturedPoints, contactIdentifiers, contactOrder);
+            var pointInfo = new PointInfo(actionFirstCapturedPoints, actionLastCapturedPoints, actionPoints, target, _mainContext);
             var action = new Action<object>(o =>
             {
                 var executed = false;
@@ -175,6 +178,35 @@ namespace GestureSign.Common.Plugins
                 _lastActionTask = _lastActionTask.ContinueWith(action);
                 _lastActionTask.ContinueWith(observeExceptions, TaskContinuationOptions.OnlyOnFaulted);
             }
+        }
+
+        private static List<T> OrderByContactOrder<T>(List<T> values, List<int> contactIdentifiers, List<int> contactOrder)
+        {
+            if (values == null || contactIdentifiers == null || contactOrder == null ||
+                values.Count != contactIdentifiers.Count || contactOrder.Count == 0)
+                return values;
+
+            var ordered = new List<T>(values.Count);
+            var used = new bool[values.Count];
+            foreach (var identifier in contactOrder)
+            {
+                for (var index = 0; index < contactIdentifiers.Count; index++)
+                {
+                    if (!used[index] && contactIdentifiers[index] == identifier)
+                    {
+                        ordered.Add(values[index]);
+                        used[index] = true;
+                        break;
+                    }
+                }
+            }
+
+            for (var index = 0; index < values.Count; index++)
+            {
+                if (!used[index])
+                    ordered.Add(values[index]);
+            }
+            return ordered;
         }
 
         public bool LoadPlugins(IHostControl host)

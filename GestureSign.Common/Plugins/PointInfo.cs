@@ -19,8 +19,14 @@ namespace GestureSign.Common.Plugins
         #region Constructors
 
         public PointInfo(List<Point> pointLocation, List<List<Point>> points, SystemWindow target, SynchronizationContext syncContext)
+            : this(pointLocation, null, points, target, syncContext)
+        {
+        }
+
+        public PointInfo(List<Point> pointLocation, List<Point> lastCapturedPoints, List<List<Point>> points, SystemWindow target, SynchronizationContext syncContext)
         {
             _pointLocation = pointLocation;
+            LastCapturedPoints = lastCapturedPoints;
             Points = points;
             _targetWindow = target;
             _syncContext = syncContext;
@@ -55,6 +61,8 @@ namespace GestureSign.Common.Plugins
         }
 
         public List<List<Point>> Points { get; set; }
+
+        public List<Point> LastCapturedPoints { get; set; }
 
         #endregion
 

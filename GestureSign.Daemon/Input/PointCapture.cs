@@ -45,6 +45,9 @@ namespace GestureSign.Daemon.Input
         SynchronizationContext _currentContext;
 
         private Dictionary<int, List<Point>> _pointsCaptured;
+        private List<int> _touchScreenContactOrder;
+        private Dictionary<int, Point> _touchScreenUpPoints;
+        private int _requiredContactCount = 1;
         // Create variable to hold the only allowed instance of this class
         static readonly PointCapture _Instance = new PointCapture();
 
@@ -471,12 +474,23 @@ namespace GestureSign.Daemon.Input
                     _initialTimeoutTimer.Change(timeout, Timeout.Infinite);
                 }
 
+                if (SourceDevice == Devices.TouchScreen &&
+                    (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid) &&
+                    _pointsCaptured != null)
+                {
+                    MergeTouchScreenContacts(e.InputPointList);
+                    var contactCountSatisfied = _pointsCaptured.Count >= _requiredContactCount;
+                    e.Handled = contactCountSatisfied && Mode != CaptureMode.UserDisabled;
+                    Logging.LogMessage($"TouchScreen contacts merged into active capture. Contacts={_pointsCaptured.Count}, Required={_requiredContactCount}, Ready={contactCountSatisfied}");
+                    return;
+                }
+
                 // Try to begin capture process, if capture started then don't notify other applications of a Point event, otherwise do
                 if (!TryBeginCapture(e.InputPointList))
                 {
                     Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
                 }
-                else e.Handled = Mode != CaptureMode.UserDisabled;
+                else e.Handled = _pointsCaptured.Count >= _requiredContactCount && Mode != CaptureMode.UserDisabled;
             }
         }
 
@@ -494,12 +508,31 @@ namespace GestureSign.Daemon.Input
         {
             if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid && (SourceDevice & Devices.TouchDevice) != 0)
             {
-                e.Handled = Mode != CaptureMode.UserDisabled;
+                var contactCountSatisfied = SourceDevice != Devices.TouchScreen ||
+                                            _pointsCaptured?.Count >= _requiredContactCount;
+                e.Handled = contactCountSatisfied && Mode != CaptureMode.UserDisabled;
+
+                if (SourceDevice == Devices.TouchScreen && e.InputPointList != null)
+                    _touchScreenUpPoints = e.InputPointList
+                        .GroupBy(point => point.ContactIdentifier)
+                        .ToDictionary(group => group.Key, group => group.Last().Point);
 
                 if ((SourceDevice & Devices.TouchDevice) != 0 && e.InputPointList != null)
                     AddPoint(e.InputPointList);
 
-                EndCapture();
+                if (contactCountSatisfied)
+                {
+                    EndCapture();
+                }
+                else
+                {
+                    Logging.LogMessage($"TouchScreen provisional capture canceled. Reason=FingerLimit, Contacts={_pointsCaptured?.Count ?? 0}, Required={_requiredContactCount}");
+                    OnCaptureCanceled(new PointsCapturedEventArgs(
+                        _pointsCaptured?.Values.Select(points => new List<Point>(points)).ToList() ?? new List<List<Point>>(),
+                        _pointsCaptured?.Values.Select(points => points.FirstOrDefault()).ToList() ?? new List<Point>()));
+                    State = CaptureState.Ready;
+                    ResetCaptureBuffers();
+                }
 
                 if (TemporarilyDisableCapture && Mode == CaptureMode.UserDisabled)
                 {
@@ -662,6 +695,14 @@ namespace GestureSign.Daemon.Input
             }
 
             State = captureStartedArgs.ForceCapture ? CaptureState.Capturing : CaptureState.CapturingInvalid;
+            _requiredContactCount = Math.Max(1, captureStartedArgs.RequiredContactCount);
+
+            _touchScreenContactOrder = SourceDevice == Devices.TouchScreen
+                ? firstPoint.Select(point => point.ContactIdentifier).Distinct().ToList()
+                : null;
+            _touchScreenUpPoints = SourceDevice == Devices.TouchScreen
+                ? new Dictionary<int, Point>()
+                : null;
 
             // Clear old gesture from point list so we can start adding the new captures points to the list 
             _pointsCaptured = new Dictionary<int, List<Point>>(firstPoint.Count);
@@ -687,6 +728,32 @@ namespace GestureSign.Daemon.Input
             }
             AddPoint(firstPoint);
             return true;
+        }
+
+        private void MergeTouchScreenContacts(List<InputPoint> points)
+        {
+            if (points == null || _pointsCaptured == null)
+                return;
+
+            _touchScreenContactOrder ??= new List<int>();
+            foreach (var point in points)
+            {
+                if (!_touchScreenContactOrder.Contains(point.ContactIdentifier))
+                    _touchScreenContactOrder.Add(point.ContactIdentifier);
+
+                if (!_pointsCaptured.ContainsKey(point.ContactIdentifier))
+                    _pointsCaptured.Add(point.ContactIdentifier, new List<Point>(30));
+            }
+
+            var pointLocations = points
+                .GroupBy(point => point.ContactIdentifier)
+                .ToDictionary(group => group.Key, group => group.Last().Point);
+            var orderedStrokes = AppConfig.IsOrderByLocation
+                ? _pointsCaptured.OrderBy(stroke => pointLocations.TryGetValue(stroke.Key, out var point) ? point.X : int.MaxValue)
+                : _pointsCaptured.OrderBy(stroke => stroke.Key);
+            _pointsCaptured = orderedStrokes.ToDictionary(stroke => stroke.Key, stroke => stroke.Value);
+
+            AddPoint(points);
         }
 
         private void EndCapture()
@@ -732,8 +799,20 @@ namespace GestureSign.Daemon.Input
             if (recognizedGestureName != null)
             {
                 List<Point> capturedPoints = SourceDevice == Devices.TouchPad ? new List<Point>() { _touchPadStartPoint } : pointsInformation.FirstCapturedPoints;
+                var releasedPoints = SourceDevice == Devices.TouchScreen
+                    ? _pointsCaptured.Keys.Select(identifier =>
+                        _touchScreenUpPoints != null && _touchScreenUpPoints.TryGetValue(identifier, out var point)
+                            ? point
+                            : _pointsCaptured[identifier].LastOrDefault()).ToList()
+                    : null;
                 Logging.LogMessage($"Gesture recognized. Name={recognizedGestureName}, Contacts={string.Join(",", _pointsCaptured.Keys)}");
-                OnGestureRecognized(new RecognitionEventArgs(recognizedGestureName, pointsInformation.Points, capturedPoints, _pointsCaptured.Keys.ToList()));
+                OnGestureRecognized(new RecognitionEventArgs(
+                    recognizedGestureName,
+                    pointsInformation.Points,
+                    capturedPoints,
+                    _pointsCaptured.Keys.ToList(),
+                    _touchScreenContactOrder,
+                    releasedPoints));
             }
             else
             {
@@ -748,6 +827,9 @@ namespace GestureSign.Daemon.Input
         private void ResetCaptureBuffers()
         {
             _pointsCaptured?.Clear();
+            _touchScreenContactOrder = null;
+            _touchScreenUpPoints = null;
+            _requiredContactCount = 1;
             _touchPadRawStartPoints = null;
             _touchPadVisualPoints = null;
             _touchPadRawVisualOrigin = PointF.Empty;

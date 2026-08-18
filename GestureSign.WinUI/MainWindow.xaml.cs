@@ -68,6 +68,11 @@ public sealed partial class MainWindow : Window
     private const int GclpHiconSmall = -34;
     private const int VkShift = 0x10;
     private const int VkControl = 0x11;
+    private const int ActionDeviceTouchScreen = 1 << 0;
+    private const int ActionDeviceTouchPad = 1 << 1;
+    private const int ActionDeviceMouse = 1 << 2;
+    private const int ActionDevicePen = 1 << 3;
+    private const int ActionDeviceAll = ActionDeviceTouchScreen | ActionDeviceTouchPad | ActionDeviceMouse | ActionDevicePen;
     private const string PackagedDaemonExecutionAlias = "GestureSignV2Daemon.exe";
     private const string TouchPadEdgeTopGesture = "TouchPadEdge.Top";
     private const string TouchPadEdgeBottomGesture = "TouchPadEdge.Bottom";
@@ -1898,6 +1903,13 @@ public sealed partial class MainWindow : Window
 
     private sealed record TouchPadEdgeAction(string Title, string GestureName);
 
+    private sealed record ActionDeviceSelector(
+        FrameworkElement Content,
+        CheckBox TouchScreen,
+        CheckBox TouchPad,
+        CheckBox Mouse,
+        CheckBox Pen);
+
     private UIElement BuildOptionsPage()
     {
         var root = NewSection();
@@ -3115,6 +3127,7 @@ public sealed partial class MainWindow : Window
 
         var name = new TextBox { PlaceholderText = "动作名称", Text = "新动作" };
         var gesture = new TextBox { PlaceholderText = "手势名称，例如 3Right", Margin = new Thickness(0, 8, 0, 0) };
+        var deviceSelector = NewActionDeviceSelector(0);
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
         var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
         var trainingStatus = new TextBlock { Text = "可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
@@ -3195,6 +3208,7 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
+        panel.Children.Add(deviceSelector.Content);
         panel.Children.Add(new TextBlock { Text = "要执行的命令", Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         panel.Children.Add(commandName);
         panel.Children.Add(commandPlugin);
@@ -3231,6 +3245,13 @@ public sealed partial class MainWindow : Window
         }
         SetGestureText(gesture, finalGestureName);
 
+        var ignoredDevices = GetIgnoredActionDevices(deviceSelector);
+        if (ignoredDevices == ActionDeviceAll)
+        {
+            await ShowInfoDialog("请选择触发设备", "至少选择一种可以触发这个动作的输入设备。");
+            return;
+        }
+
         var targetApp = FindMatchingApplication(app);
         if (targetApp is null)
         {
@@ -3244,7 +3265,7 @@ public sealed partial class MainWindow : Window
         var commandPluginClassValue = commandPluginClass.Text.Trim();
         var commandSettingsValue = commandSettings.Text;
         var addInitialCommand = ShouldCreateCommand(commandPluginClassValue, commandSettingsValue);
-        _legacyData.AddAction(targetApp, name.Text, finalGestureName);
+        _legacyData.AddAction(targetApp, name.Text, finalGestureName, ignoredDevices);
         if (addInitialCommand)
         {
             _legacyData = LegacyDataStore.Load();
@@ -3274,7 +3295,7 @@ public sealed partial class MainWindow : Window
         var mouseHotkey = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = MouseActionIndex(action.MouseHotkey) };
         foreach (var item in new[] { "无鼠标快捷键", "滚轮前", "滚轮后", "左键", "右键", "中键", "X1 键", "X2 键" })
             mouseHotkey.Items.Add(item);
-        var ignoredDevices = new TextBox { PlaceholderText = "忽略设备位掩码，0 表示全部设备可触发", Text = action.IgnoredDevices.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
+        var deviceSelector = NewActionDeviceSelector(action.IgnoredDevices);
         var hotkeyJson = new TextBox { Text = action.HotkeyJson };
         var hotkeyRecorder = NewHotKeyRecorderWithClear(hotkeyJson, action.HotkeyJson, usesArrayKeyCode: false);
         var continuousGestureJson = new TextBox { PlaceholderText = "连续手势 JSON，可留空", Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
@@ -3309,7 +3330,7 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(trainingStatus);
         panel.Children.Add(NewTwoColumnRow(enabled, activateWindow));
         panel.Children.Add(mouseHotkey);
-        panel.Children.Add(ignoredDevices);
+        panel.Children.Add(deviceSelector.Content);
         panel.Children.Add(hotkeyRecorder);
         // panel.Children.Add(continuousGestureJson);
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
@@ -3344,7 +3365,14 @@ public sealed partial class MainWindow : Window
             }
         }
 
-        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ParseInt(ignoredDevices.Text, action.IgnoredDevices), hotkeyJson.Text, continuousGestureJson.Text);
+        var ignoredDevices = GetIgnoredActionDevices(deviceSelector);
+        if (ignoredDevices == ActionDeviceAll)
+        {
+            await ShowInfoDialog("请选择触发设备", "至少选择一种可以触发这个动作的输入设备。");
+            return;
+        }
+
+        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text);
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
@@ -3374,6 +3402,49 @@ public sealed partial class MainWindow : Window
         builtInPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         recordedPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         return NewGestureControlRow(builtInPicker, recordedPicker);
+    }
+
+    private ActionDeviceSelector NewActionDeviceSelector(int ignoredDevices)
+    {
+        var touchScreen = new CheckBox
+        {
+            Content = L("触摸屏", "Touchscreen", "觸控螢幕", "タッチスクリーン", "터치스크린"),
+            IsChecked = (ignoredDevices & ActionDeviceTouchScreen) == 0
+        };
+        var touchPad = new CheckBox
+        {
+            Content = L("触控板", "Touchpad", "觸控板", "タッチパッド", "터치패드"),
+            IsChecked = (ignoredDevices & ActionDeviceTouchPad) == 0
+        };
+        var mouse = new CheckBox
+        {
+            Content = L("鼠标", "Mouse", "滑鼠", "マウス", "마우스"),
+            IsChecked = (ignoredDevices & ActionDeviceMouse) == 0
+        };
+        var pen = new CheckBox
+        {
+            Content = L("触控笔", "Pen", "觸控筆", "ペン", "펜"),
+            IsChecked = (ignoredDevices & ActionDevicePen) == 0
+        };
+
+        var choices = NewCardPanel(0);
+        choices.Children.Add(NewTwoColumnRow(touchScreen, touchPad, 360));
+        choices.Children.Add(NewTwoColumnRow(mouse, pen, 360));
+        var content = NewDialogField(
+            L("触发设备", "Trigger devices", "觸發裝置", "トリガーデバイス", "트리거 장치"),
+            L("选择可以执行这个动作的输入设备。", "Select the input devices that can run this action.", "選擇可以執行這個動作的輸入裝置。", "このアクションを実行できる入力デバイスを選択します。", "이 동작을 실행할 입력 장치를 선택합니다."),
+            choices);
+        content.Margin = new Thickness(0, 8, 0, 0);
+        return new ActionDeviceSelector(content, touchScreen, touchPad, mouse, pen);
+    }
+
+    private static int GetIgnoredActionDevices(ActionDeviceSelector selector)
+    {
+        var allowedDevices = (selector.TouchScreen.IsChecked == true ? ActionDeviceTouchScreen : 0)
+            | (selector.TouchPad.IsChecked == true ? ActionDeviceTouchPad : 0)
+            | (selector.Mouse.IsChecked == true ? ActionDeviceMouse : 0)
+            | (selector.Pen.IsChecked == true ? ActionDevicePen : 0);
+        return ActionDeviceAll & ~allowedDevices;
     }
 
     private ComboBox NewRecordedGesturePicker(TextBox gesture, Action<LegacyGesture>? onGestureSelected = null)
@@ -8367,7 +8438,27 @@ public sealed partial class MainWindow : Window
             commands += $" {L("等", "and", "等", "ほか", "외")} {CountText(action.Commands.Count, L("个命令", "commands", "個命令", "個のコマンド", "개 명령"))}";
 
         var scope = app.Type == "全局" ? L("全局动作", "Global Actions", "全域動作", "グローバルアクション", "전역 동작") : ApplicationDisplayName(app.Name);
-        return $"{scope} · {commands}";
+        return $"{scope} · {ActionDeviceSummary(action.IgnoredDevices)} · {commands}";
+    }
+
+    private string ActionDeviceSummary(int ignoredDevices)
+    {
+        var allowedDevices = ActionDeviceAll & ~ignoredDevices;
+        if (allowedDevices == ActionDeviceAll)
+            return L("全部设备", "All devices", "全部裝置", "すべてのデバイス", "모든 장치");
+        if (allowedDevices == 0)
+            return L("无设备", "No devices", "無裝置", "デバイスなし", "장치 없음");
+
+        var devices = new List<string>(4);
+        if ((allowedDevices & ActionDeviceTouchScreen) != 0)
+            devices.Add(L("触摸屏", "Touchscreen", "觸控螢幕", "タッチスクリーン", "터치스크린"));
+        if ((allowedDevices & ActionDeviceTouchPad) != 0)
+            devices.Add(L("触控板", "Touchpad", "觸控板", "タッチパッド", "터치패드"));
+        if ((allowedDevices & ActionDeviceMouse) != 0)
+            devices.Add(L("鼠标", "Mouse", "滑鼠", "マウス", "마우스"));
+        if ((allowedDevices & ActionDevicePen) != 0)
+            devices.Add(L("触控笔", "Pen", "觸控筆", "ペン", "펜"));
+        return string.Join("、", devices);
     }
 
     private string CommandPreviewText(string pluginClass, string settings)
