@@ -1020,6 +1020,10 @@ internal sealed class LegacyDataStore
                 RegisterTouchPad = settings.BoolValue("RegisterTouchPad", true),
                 PreferWindowsTouchPadGestures = settings.BoolValue("PreferWindowsTouchPadGestures", false),
                 RegisterTouchScreen = settings.BoolValue("RegisterTouchScreen", true),
+                TouchScreenBlockLeftPercent = Math.Clamp(settings.IntValue("TouchScreenBlockLeftPercent", 0), 0, 45),
+                TouchScreenBlockTopPercent = Math.Clamp(settings.IntValue("TouchScreenBlockTopPercent", 0), 0, 45),
+                TouchScreenBlockRightPercent = Math.Clamp(settings.IntValue("TouchScreenBlockRightPercent", 0), 0, 45),
+                TouchScreenBlockBottomPercent = Math.Clamp(settings.IntValue("TouchScreenBlockBottomPercent", 0), 0, 45),
                 IgnoreFullScreen = settings.BoolValue("IgnoreFullScreen", false),
                 IgnoreFullScreenVideo = settings.BoolValue("IgnoreFullScreenVideo", false),
                 IgnoreTouchInputWhenUsingPen = settings.BoolValue("IgnoreTouchInputWhenUsingPen", true),
@@ -1225,6 +1229,10 @@ internal sealed record LegacyOptions
     public bool RegisterTouchPad { get; init; } = true;
     public bool PreferWindowsTouchPadGestures { get; init; }
     public bool RegisterTouchScreen { get; init; } = true;
+    public int TouchScreenBlockLeftPercent { get; init; }
+    public int TouchScreenBlockTopPercent { get; init; }
+    public int TouchScreenBlockRightPercent { get; init; }
+    public int TouchScreenBlockBottomPercent { get; init; }
     public bool IgnoreFullScreen { get; init; }
     public bool IgnoreFullScreenVideo { get; init; }
     public bool IgnoreTouchInputWhenUsingPen { get; init; } = true;

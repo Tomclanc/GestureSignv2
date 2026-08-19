@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.4">
+<a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.5">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,14 +65,19 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.4) 下载最新版安装包。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.5) 下载最新版安装包。
 
 当前版本：
 
-- [GestureSign-V2-18.0.2.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-x64.msi)
-- [GestureSign-V2-18.0.2.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-portable-x64.zip)
+- [GestureSign-V2-18.0.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-x64.msi)
+- [GestureSign-V2-18.0.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-portable-x64.zip)
 
 ## 更新内容
+
+### 18.0.2.5
+
+- 新增触摸屏四边屏蔽区设置，可分别配置左、上、右、下边缘的屏蔽比例（0%～45%）。从屏蔽区开始的单指或多指触摸不会被 GestureSign 识别，并交给当前应用处理。
+- 修复和完善触摸屏输入配置与手势捕捉边界处理，默认配置保持兼容。
 
 ### 18.0.2.4
 
@@ -199,12 +204,17 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.4).
+You can also get the latest installer from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.5).
 
 Current version:
 
-- [GestureSign-V2-18.0.2.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-x64.msi)
-- [GestureSign-V2-18.0.2.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-portable-x64.zip)
+- [GestureSign-V2-18.0.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-x64.msi)
+- [GestureSign-V2-18.0.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-portable-x64.zip)
+
+### What's new in 18.0.2.5
+
+- Added configurable touchscreen blocking zones for the left, top, right, and bottom edges, each from 0% to 45%. Touches that begin in a blocked zone are passed to the current application instead of being captured by GestureSign.
+- Improved touchscreen input configuration and gesture-capture boundary handling while preserving existing defaults.
 
 ### What's new in 18.0.2.4
 
@@ -337,12 +347,17 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.4) からも入手できます。
+最新のインストーラーは [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.2.5) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.0.2.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-x64.msi)
-- [GestureSign-V2-18.0.2.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.4/GestureSign-V2-18.0.2.4-portable-x64.zip)
+- [GestureSign-V2-18.0.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-x64.msi)
+- [GestureSign-V2-18.0.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.2.5/GestureSign-V2-18.0.2.5-portable-x64.zip)
+
+### 18.0.2.5 の更新内容
+
+- 左、上、右、下端を 0%～45% で個別設定できるタッチスクリーンのブロックゾーンを追加しました。ブロックゾーンから始まるタッチは GestureSign で認識せず、現在のアプリに渡します。
+- タッチスクリーン入力設定とジェスチャー捕捉境界の処理を改善しました。既存の初期設定との互換性は維持されています。
 
 ### 18.0.2.4 の更新内容
 

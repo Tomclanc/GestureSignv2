@@ -308,6 +308,30 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        public static int TouchScreenBlockLeftPercent
+        {
+            get { return Math.Clamp(GetValue(nameof(TouchScreenBlockLeftPercent), 0), 0, 45); }
+            set { SetValue(nameof(TouchScreenBlockLeftPercent), Math.Clamp(value, 0, 45)); }
+        }
+
+        public static int TouchScreenBlockTopPercent
+        {
+            get { return Math.Clamp(GetValue(nameof(TouchScreenBlockTopPercent), 0), 0, 45); }
+            set { SetValue(nameof(TouchScreenBlockTopPercent), Math.Clamp(value, 0, 45)); }
+        }
+
+        public static int TouchScreenBlockRightPercent
+        {
+            get { return Math.Clamp(GetValue(nameof(TouchScreenBlockRightPercent), 0), 0, 45); }
+            set { SetValue(nameof(TouchScreenBlockRightPercent), Math.Clamp(value, 0, 45)); }
+        }
+
+        public static int TouchScreenBlockBottomPercent
+        {
+            get { return Math.Clamp(GetValue(nameof(TouchScreenBlockBottomPercent), 0), 0, 45); }
+            set { SetValue(nameof(TouchScreenBlockBottomPercent), Math.Clamp(value, 0, 45)); }
+        }
+
         public static bool IgnoreFullScreen
         {
             get

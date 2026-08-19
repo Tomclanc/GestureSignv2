@@ -47,6 +47,7 @@ namespace GestureSign.Daemon.Input
         private Dictionary<int, List<Point>> _pointsCaptured;
         private List<int> _touchScreenContactOrder;
         private Dictionary<int, Point> _touchScreenUpPoints;
+        private bool _touchScreenBlockedUntilRelease;
         private int _requiredContactCount = 1;
         // Create variable to hold the only allowed instance of this class
         static readonly PointCapture _Instance = new PointCapture();
@@ -460,6 +461,28 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointDown(object sender, InputPointsEventArgs e)
         {
+            if (SourceDevice == Devices.TouchScreen)
+            {
+                if (_touchScreenBlockedUntilRelease)
+                    return;
+
+                if (IsInTouchScreenBlockedArea(e.InputPointList))
+                {
+                    _touchScreenBlockedUntilRelease = true;
+                    if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid)
+                    {
+                        OnCaptureCanceled(new PointsCapturedEventArgs(
+                            _pointsCaptured?.Values.Select(points => new List<Point>(points)).ToList() ?? new List<List<Point>>(),
+                            _pointsCaptured?.Values.Select(points => points.FirstOrDefault()).ToList() ?? new List<Point>()));
+                        State = CaptureState.Ready;
+                        ResetCaptureBuffers();
+                    }
+                    Logging.LogMessage($"TouchScreen capture suppressed by blocked area. Contacts={e.InputPointList?.Count ?? 0}");
+                    Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                    return;
+                }
+            }
+
             if (State == CaptureState.Ready || State == CaptureState.Capturing || State == CaptureState.CapturingInvalid)
             {
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.High;
@@ -496,6 +519,9 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointMove(object sender, InputPointsEventArgs e)
         {
+            if (SourceDevice == Devices.TouchScreen && _touchScreenBlockedUntilRelease)
+                return;
+
             // Only add point if we're capturing
             if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid)
             {
@@ -506,6 +532,17 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointUp(object sender, InputPointsEventArgs e)
         {
+            if (SourceDevice == Devices.TouchScreen && _touchScreenBlockedUntilRelease)
+            {
+                _touchScreenBlockedUntilRelease = false;
+                State = CaptureState.Ready;
+                ResetCaptureBuffers();
+                UpdateBlockTouchInputThreshold();
+                _initialTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+                Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                return;
+            }
+
             if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid && (SourceDevice & Devices.TouchDevice) != 0)
             {
                 var contactCountSatisfied = SourceDevice != Devices.TouchScreen ||
@@ -834,6 +871,33 @@ namespace GestureSign.Daemon.Input
             _touchPadVisualPoints = null;
             _touchPadRawVisualOrigin = PointF.Empty;
             _lastVisualFeedbackPoints = null;
+        }
+
+        private static bool IsInTouchScreenBlockedArea(IReadOnlyCollection<InputPoint> points)
+        {
+            if (points == null || points.Count == 0)
+                return false;
+
+            var leftPercent = AppConfig.TouchScreenBlockLeftPercent;
+            var topPercent = AppConfig.TouchScreenBlockTopPercent;
+            var rightPercent = AppConfig.TouchScreenBlockRightPercent;
+            var bottomPercent = AppConfig.TouchScreenBlockBottomPercent;
+            if (leftPercent == 0 && topPercent == 0 && rightPercent == 0 && bottomPercent == 0)
+                return false;
+
+            foreach (var inputPoint in points)
+            {
+                var point = inputPoint.Point;
+                var bounds = System.Windows.Forms.Screen.FromPoint(point).Bounds;
+                var leftBoundary = bounds.Left + bounds.Width * leftPercent / 100d;
+                var topBoundary = bounds.Top + bounds.Height * topPercent / 100d;
+                var rightBoundary = bounds.Right - bounds.Width * rightPercent / 100d;
+                var bottomBoundary = bounds.Bottom - bounds.Height * bottomPercent / 100d;
+                if (point.X < leftBoundary || point.Y < topBoundary || point.X >= rightBoundary || point.Y >= bottomBoundary)
+                    return true;
+            }
+
+            return false;
         }
 
         private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)

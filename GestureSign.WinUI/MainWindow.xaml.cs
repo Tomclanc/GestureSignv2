@@ -1930,6 +1930,7 @@ public sealed partial class MainWindow : Window
             NewToggleRow(L("Edge 优先使用自带鼠标手势", "Prefer built-in Edge mouse gestures", "Edge 優先使用內建滑鼠手勢", "Edge 内蔵マウスジェスチャを優先", "Edge 기본 마우스 제스처 우선 사용"), options.PreferEdgeMouseGestures, "PreferEdgeMouseGestures"),
             NewComboRow(L("绘制按钮", "Drawing button", "繪製按鈕", "描画ボタン", "그리기 버튼"), [L("右键", "Right button", "右鍵", "右ボタン", "오른쪽 버튼"), L("中键", "Middle button", "中鍵", "中央ボタン", "가운데 버튼"), "X1", "X2"], ["2097152", "4194304", "8388608", "16777216"], "DrawingButton", DrawingButtonIndex(NormalizeDrawingButton(options.DrawingButton, 2097152))),
             NewToggleRow(L("启用触摸屏手势", "Enable touchscreen gestures", "啟用觸控螢幕手勢", "タッチスクリーンジェスチャを有効にする", "터치스크린 제스처 사용"), options.RegisterTouchScreen, "RegisterTouchScreen"),
+            NewTouchScreenBlockedAreaRow(options),
             NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "タッチパッドジェスチャを有効にする", "터치패드 제스처 사용"), options.RegisterTouchPad, "RegisterTouchPad"),
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows のタッチパッドジェスチャを優先", "Windows 터치패드 제스처 우선 사용"), options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures"),
             NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "ペンジェスチャを有効にする", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "4" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
@@ -8223,6 +8224,59 @@ public sealed partial class MainWindow : Window
             panel.Children.Add(box);
         }
         return NewSettingRow(L("触控笔按钮", "Pen buttons", "觸控筆按鈕", "ペンボタン", "펜 버튼"), null, panel);
+    }
+
+    private FrameworkElement NewTouchScreenBlockedAreaRow(LegacyOptions options)
+    {
+        var panel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 10,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        void AddSide(string label, string key, int value)
+        {
+            var item = new StackPanel { Spacing = 4, Width = 82 };
+            item.Children.Add(new TextBlock
+            {
+                Text = label,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Opacity = 0.68
+            });
+            var input = new NumberBox
+            {
+                Value = value,
+                Minimum = 0,
+                Maximum = 45,
+                SmallChange = 1,
+                SpinButtonPlacementMode = NumberBoxSpinButtonPlacementMode.Compact,
+                NumberFormatter = new Windows.Globalization.NumberFormatting.DecimalFormatter
+                {
+                    FractionDigits = 0,
+                    IsGrouped = false
+                }
+            };
+            input.ValueChanged += (_, args) =>
+            {
+                if (double.IsNaN(args.NewValue) || double.IsInfinity(args.NewValue))
+                    return;
+                var percent = Math.Clamp((int)Math.Round(args.NewValue), 0, 45);
+                UpdateOptionAndReload(key, percent.ToString(CultureInfo.InvariantCulture));
+            };
+            item.Children.Add(input);
+            panel.Children.Add(item);
+        }
+
+        AddSide(L("左", "Left", "左", "左", "왼쪽"), "TouchScreenBlockLeftPercent", options.TouchScreenBlockLeftPercent);
+        AddSide(L("上", "Top", "上", "上", "위쪽"), "TouchScreenBlockTopPercent", options.TouchScreenBlockTopPercent);
+        AddSide(L("右", "Right", "右", "右", "오른쪽"), "TouchScreenBlockRightPercent", options.TouchScreenBlockRightPercent);
+        AddSide(L("下", "Bottom", "下", "下", "아래쪽"), "TouchScreenBlockBottomPercent", options.TouchScreenBlockBottomPercent);
+
+        return NewSettingRow(
+            L("触摸屏屏蔽区（%）", "Touchscreen blocked areas (%)", "觸控螢幕封鎖區（%）", "タッチスクリーン除外領域（%）", "터치스크린 차단 영역(%)"),
+            L("按屏幕四边分别设置。手势从屏蔽区开始时整轮不识别，触摸仍交给当前应用；全部设为 0 可关闭。", "Set each screen edge independently. Gestures starting in a blocked area are ignored for the whole touch sequence and remain available to the current app. Set all values to 0 to disable.", "依螢幕四邊分別設定。手勢從封鎖區開始時整輪不辨識，觸控仍交給目前應用程式；全部設為 0 可關閉。", "画面の各辺を個別に設定します。除外領域から始まるジェスチャは一連のタッチ全体で認識せず、現在のアプリに渡します。すべて 0 で無効です。", "화면 네 가장자리를 각각 설정합니다. 차단 영역에서 시작한 제스처는 해당 터치가 끝날 때까지 인식하지 않고 현재 앱으로 전달합니다. 모두 0이면 비활성화됩니다."),
+            panel);
     }
 
     private FrameworkElement NewSliderRow(string title, double value, double minimum, double maximum, double step, string configKey, Func<double, string> toConfigValue, Func<double, string> toDisplayText)
