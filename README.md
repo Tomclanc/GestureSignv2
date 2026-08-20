@@ -69,6 +69,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 当前版本：
 
+- [GestureSign-V2-18.0.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-x64.msi)
 - [GestureSign-V2-18.0.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-portable-x64.zip)
 
 ## 更新内容
@@ -201,6 +202,7 @@ You can also get the latest portable build from [Releases](https://github.com/To
 
 Current version:
 
+- [GestureSign-V2-18.0.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-x64.msi)
 - [GestureSign-V2-18.0.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-portable-x64.zip)
 
 ### What's new in 18.0.5
@@ -337,6 +339,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 現在のバージョン:
 
+- [GestureSign-V2-18.0.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-x64.msi)
 - [GestureSign-V2-18.0.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.5/GestureSign-V2-18.0.5-portable-x64.zip)
 
 ### 18.0.5 の更新内容

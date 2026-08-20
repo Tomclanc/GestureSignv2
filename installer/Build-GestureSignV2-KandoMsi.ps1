@@ -9,7 +9,8 @@ param(
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
-    [switch]$SkipMajorUpgrade
+    [switch]$SkipMajorUpgrade,
+    [switch]$SkipPayloadBuild
 )
 
 $ErrorActionPreference = "Stop"
@@ -98,6 +99,7 @@ $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
 $msbuild = Find-MSBuild
 
+if (-not $SkipPayloadBuild) {
 $backendProject = Join-Path $repoRoot.ProviderPath "GestureSign.Daemon\GestureSign.Daemon.csproj"
 $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
 if (Test-Path -LiteralPath $backendOutputPath) {
@@ -209,6 +211,10 @@ foreach ($payloadRoot in @($publishPath, $publishBackendPath)) {
     }
     Get-ChildItem -LiteralPath $payloadRoot -Filter "mscordaccore_*.dll" -File -ErrorAction SilentlyContinue |
         Remove-Item -Force
+}
+}
+elseif (!(Test-Path -LiteralPath $publishPath)) {
+    throw "Prepared publish directory is missing: $publishPath"
 }
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName
