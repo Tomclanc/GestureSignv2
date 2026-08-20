@@ -8,12 +8,12 @@ on:
         required: true
         type: string
       msi_name:
-        description: Final MSI asset name
-        required: true
+        description: Final MSI asset name (optional)
+        required: false
         type: string
       msi_sha256:
-        description: Expected MSI SHA-256
-        required: true
+        description: Expected MSI SHA-256 (optional)
+        required: false
         type: string
       portable_name:
         description: Final portable ZIP asset name
@@ -43,19 +43,29 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p parts output
-          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$MSI_NAME.part-*" --pattern "$PORTABLE_NAME.part-*" --dir parts
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PORTABLE_NAME.part-*" --dir parts
+          if [[ -n "$MSI_NAME" ]]; then
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$MSI_NAME.part-*" --dir parts
+          fi
 
-          mapfile -t msi_parts < <(find parts -maxdepth 1 -type f -name "$MSI_NAME.part-*" | sort)
           mapfile -t portable_parts < <(find parts -maxdepth 1 -type f -name "$PORTABLE_NAME.part-*" | sort)
-          test "${#msi_parts[@]}" -gt 0
           test "${#portable_parts[@]}" -gt 0
 
-          cat "${msi_parts[@]}" > "output/$MSI_NAME"
           cat "${portable_parts[@]}" > "output/$PORTABLE_NAME"
-          echo "$MSI_SHA256  output/$MSI_NAME" | sha256sum --check --strict
           echo "$PORTABLE_SHA256  output/$PORTABLE_NAME" | sha256sum --check --strict
 
-          gh release upload "$TAG" "output/$MSI_NAME" "output/$PORTABLE_NAME" --repo "$GITHUB_REPOSITORY" --clobber
-          for part in "${msi_parts[@]}" "${portable_parts[@]}"; do
+          upload_assets=("output/$PORTABLE_NAME")
+          all_parts=("${portable_parts[@]}")
+          if [[ -n "$MSI_NAME" ]]; then
+            mapfile -t msi_parts < <(find parts -maxdepth 1 -type f -name "$MSI_NAME.part-*" | sort)
+            test "${#msi_parts[@]}" -gt 0
+            cat "${msi_parts[@]}" > "output/$MSI_NAME"
+            echo "$MSI_SHA256  output/$MSI_NAME" | sha256sum --check --strict
+            upload_assets+=("output/$MSI_NAME")
+            all_parts+=("${msi_parts[@]}")
+          fi
+
+          gh release upload "$TAG" "${upload_assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
+          for part in "${all_parts[@]}"; do
             gh release delete-asset "$TAG" "$(basename "$part")" --repo "$GITHUB_REPOSITORY" --yes
           done
