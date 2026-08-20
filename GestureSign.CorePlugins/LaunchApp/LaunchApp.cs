@@ -4,6 +4,8 @@ using GestureSign.Common.Localization;
 using GestureSign.Common.Plugins;
 using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Diagnostics;
+using System.IO;
 
 namespace GestureSign.CorePlugins.LaunchApp
 {
@@ -74,10 +76,20 @@ namespace GestureSign.CorePlugins.LaunchApp
 
         public bool Gestured(PointInfo actionPoint)
         {
-            if (AppInfo.Key == null) return false;
-            ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
+            if (string.IsNullOrWhiteSpace(AppInfo.Key)) return false;
             try
             {
+                if (File.Exists(AppInfo.Key))
+                {
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = AppInfo.Key,
+                        UseShellExecute = true
+                    });
+                    return true;
+                }
+
+                ApplicationActivationManager appActiveManager = new ApplicationActivationManager();
                 uint pid;
                 appActiveManager.ActivateApplication(AppInfo.Key, null, ActivateOptions.None, out pid);
             }

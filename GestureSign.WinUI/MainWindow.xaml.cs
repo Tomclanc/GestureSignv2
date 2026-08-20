@@ -1596,12 +1596,16 @@ public sealed partial class MainWindow : Window
             PlaceholderText = "命令名称",
             Text = existingCommand?.Name ?? "发送快捷键"
         };
+        var selectedPluginIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass);
         var plugin = new ComboBox
         {
-            Margin = new Thickness(0, 8, 0, 0),
-            SelectedIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass)
+            Margin = new Thickness(0, 8, 0, 0)
         };
         AddPluginItems(plugin);
+        // WinUI can coerce SelectedIndex back to -1 when it is assigned before
+        // the ComboBox has any items. Populate the list first so the editor and
+        // the persisted command always start from the same plugin selection.
+        plugin.SelectedIndex = selectedPluginIndex;
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox
         {
@@ -1626,12 +1630,30 @@ public sealed partial class MainWindow : Window
             IsChecked = existingAction?.IsEnabled ?? true,
             Margin = new Thickness(0, 8, 0, 0)
         };
+        // Keep the user's explicit operation choice independently from the
+        // controls. WinUI may update the ComboBox and the hidden class editor
+        // at different times while a ContentDialog is closing.
+        var selectedPluginClassValue = existingCommand?.PluginClass ?? PluginClassFromIndex(plugin.SelectedIndex);
+
+        string SelectedPluginClass()
+        {
+            return string.IsNullOrWhiteSpace(selectedPluginClassValue)
+                ? pluginClass.Text.Trim()
+                : selectedPluginClassValue;
+        }
 
         void UpdateEditor(bool resetSettings)
         {
             var selectedClass = PluginClassFromIndex(plugin.SelectedIndex);
             if (!string.IsNullOrWhiteSpace(selectedClass))
+            {
+                selectedPluginClassValue = selectedClass;
                 pluginClass.Text = selectedClass;
+            }
+            else
+            {
+                selectedPluginClassValue = "";
+            }
 
             if (resetSettings)
             {
@@ -1676,7 +1698,15 @@ public sealed partial class MainWindow : Window
         if (result != ContentDialogResult.Primary)
             return;
 
-        var pluginClassValue = pluginClass.Text.Trim();
+        // SelectionChanged is not guaranteed to finish propagating before a
+        // ContentDialog's primary result is delivered. Re-read the visible app
+        // picker and materialize its target into the command at commit time.
+        CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
+
+        // Persist the visible ComboBox selection, not the hidden editor field.
+        // This prevents a stale HotKey class/settings pair from being written
+        // after the user changes the operation type.
+        var pluginClassValue = SelectedPluginClass();
         if (string.IsNullOrWhiteSpace(pluginClassValue))
         {
             await ShowInfoDialog("插件类名为空", "请选择一个操作，或填写自定义插件类名。");
@@ -3226,6 +3256,8 @@ public sealed partial class MainWindow : Window
         if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
             return;
 
+        CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
+
         var validDrawnPointPatterns = drawnPointPatterns
             .Where(pattern => pattern.Count >= 2)
             .Cast<IReadOnlyList<(double X, double Y)>>()
@@ -3700,6 +3732,7 @@ public sealed partial class MainWindow : Window
         if (!await ConfirmDialogAsync($"给 {action.Name} 添加命令", panel, "添加"))
             return;
 
+        CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
         _legacyData.AddCommand(action, name.Text, pluginClass.Text, settings.Text);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly();
@@ -3753,6 +3786,7 @@ public sealed partial class MainWindow : Window
         if (!await ConfirmDialogAsync($"编辑命令 {command.Name}", panel, "保存"))
             return;
 
+        CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
         _legacyData.UpdateCommand(command, name.Text, pluginClass.Text, settings.Text, enabled.IsChecked ?? true);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly();
@@ -3891,7 +3925,10 @@ public sealed partial class MainWindow : Window
         var grid = new Grid
         {
             Margin = new Thickness(0, 8, 0, 0),
-            ColumnSpacing = 8
+            ColumnSpacing = 8,
+            // Retain the actual selector so save handlers can commit the
+            // visible selection even if SelectionChanged was delayed.
+            Tag = combo
         };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -3901,19 +3938,27 @@ public sealed partial class MainWindow : Window
         return grid;
     }
 
+    private static bool CommitSelectedAppCommandChoice(
+        FrameworkElement appPicker,
+        ComboBox plugin,
+        TextBox pluginClass,
+        TextBox settings)
+    {
+        if (appPicker.Tag is not ComboBox combo || combo.SelectedItem is not AppCommandChoice choice)
+            return false;
+
+        ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
+        return true;
+    }
+
     private static void ApplyAppCommandChoice(AppCommandChoice choice, ComboBox plugin, TextBox pluginClass, TextBox settings)
     {
-        if (choice.Kind == AppCommandKind.Uwp)
-        {
-            plugin.SelectedIndex = 4;
-            pluginClass.Text = PluginClassFromIndex(4);
-            settings.Text = LaunchAppSettingsJson(choice.Target, choice.Name);
-            return;
-        }
-
-        plugin.SelectedIndex = 2;
-        pluginClass.Text = PluginClassFromIndex(2);
-        settings.Text = RunCommandSettingsJson(choice.Target);
+        // Present one consistent "Launch App" operation for both packaged and
+        // desktop applications. The LaunchApp plugin decides whether Target is
+        // an AppUserModelId or an executable path when it executes.
+        plugin.SelectedIndex = 4;
+        pluginClass.Text = PluginClassFromIndex(4);
+        settings.Text = LaunchAppSettingsJson(choice.Target, choice.Name);
     }
 
     private static bool TryCreateChoiceFromSettings(string pluginClass, string settings, out AppCommandChoice? choice)
@@ -3930,7 +3975,10 @@ public sealed partial class MainWindow : Window
                 var value = root.StringValue("Value", "");
                 if (string.IsNullOrWhiteSpace(key))
                     return false;
-                choice = AppCommandChoice.Uwp(string.IsNullOrWhiteSpace(value) ? key : value, key);
+                var name = string.IsNullOrWhiteSpace(value) ? key : value;
+                choice = File.Exists(key)
+                    ? AppCommandChoice.Desktop(name, key)
+                    : AppCommandChoice.Uwp(name, key);
                 return true;
             }
 
