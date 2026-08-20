@@ -16,12 +16,12 @@ on:
         required: false
         type: string
       portable_name:
-        description: Final portable ZIP asset name
-        required: true
+        description: Final portable ZIP asset name (optional)
+        required: false
         type: string
       portable_sha256:
-        description: Expected portable ZIP SHA-256
-        required: true
+        description: Expected portable ZIP SHA-256 (optional)
+        required: false
         type: string
 
 permissions:
@@ -43,19 +43,16 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p parts output
-          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PORTABLE_NAME.part-*" --dir parts
+          test -n "$MSI_NAME" || test -n "$PORTABLE_NAME"
           if [[ -n "$MSI_NAME" ]]; then
             gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$MSI_NAME.part-*" --dir parts
           fi
+          if [[ -n "$PORTABLE_NAME" ]]; then
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PORTABLE_NAME.part-*" --dir parts
+          fi
 
-          mapfile -t portable_parts < <(find parts -maxdepth 1 -type f -name "$PORTABLE_NAME.part-*" | sort)
-          test "${#portable_parts[@]}" -gt 0
-
-          cat "${portable_parts[@]}" > "output/$PORTABLE_NAME"
-          echo "$PORTABLE_SHA256  output/$PORTABLE_NAME" | sha256sum --check --strict
-
-          upload_assets=("output/$PORTABLE_NAME")
-          all_parts=("${portable_parts[@]}")
+          upload_assets=()
+          all_parts=()
           if [[ -n "$MSI_NAME" ]]; then
             mapfile -t msi_parts < <(find parts -maxdepth 1 -type f -name "$MSI_NAME.part-*" | sort)
             test "${#msi_parts[@]}" -gt 0
@@ -63,6 +60,14 @@ jobs:
             echo "$MSI_SHA256  output/$MSI_NAME" | sha256sum --check --strict
             upload_assets+=("output/$MSI_NAME")
             all_parts+=("${msi_parts[@]}")
+          fi
+          if [[ -n "$PORTABLE_NAME" ]]; then
+            mapfile -t portable_parts < <(find parts -maxdepth 1 -type f -name "$PORTABLE_NAME.part-*" | sort)
+            test "${#portable_parts[@]}" -gt 0
+            cat "${portable_parts[@]}" > "output/$PORTABLE_NAME"
+            echo "$PORTABLE_SHA256  output/$PORTABLE_NAME" | sha256sum --check --strict
+            upload_assets+=("output/$PORTABLE_NAME")
+            all_parts+=("${portable_parts[@]}")
           fi
 
           gh release upload "$TAG" "${upload_assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
