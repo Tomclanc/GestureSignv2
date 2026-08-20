@@ -23,6 +23,14 @@ on:
         description: Expected portable ZIP SHA-256 (optional)
         required: false
         type: string
+      store_name:
+        description: Final Microsoft Store bundle asset name (optional)
+        required: false
+        type: string
+      store_sha256:
+        description: Expected Microsoft Store bundle SHA-256 (optional)
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -37,18 +45,23 @@ jobs:
       MSI_SHA256: ${{ inputs.msi_sha256 }}
       PORTABLE_NAME: ${{ inputs.portable_name }}
       PORTABLE_SHA256: ${{ inputs.portable_sha256 }}
+      STORE_NAME: ${{ inputs.store_name }}
+      STORE_SHA256: ${{ inputs.store_sha256 }}
     steps:
       - name: Download, verify, and publish assets
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p parts output
-          test -n "$MSI_NAME" || test -n "$PORTABLE_NAME"
+          test -n "$MSI_NAME" || test -n "$PORTABLE_NAME" || test -n "$STORE_NAME"
           if [[ -n "$MSI_NAME" ]]; then
             gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$MSI_NAME.part-*" --dir parts
           fi
           if [[ -n "$PORTABLE_NAME" ]]; then
             gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$PORTABLE_NAME.part-*" --dir parts
+          fi
+          if [[ -n "$STORE_NAME" ]]; then
+            gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern "$STORE_NAME.part-*" --dir parts
           fi
 
           upload_assets=()
@@ -68,6 +81,14 @@ jobs:
             echo "$PORTABLE_SHA256  output/$PORTABLE_NAME" | sha256sum --check --strict
             upload_assets+=("output/$PORTABLE_NAME")
             all_parts+=("${portable_parts[@]}")
+          fi
+          if [[ -n "$STORE_NAME" ]]; then
+            mapfile -t store_parts < <(find parts -maxdepth 1 -type f -name "$STORE_NAME.part-*" | sort)
+            test "${#store_parts[@]}" -gt 0
+            cat "${store_parts[@]}" > "output/$STORE_NAME"
+            echo "$STORE_SHA256  output/$STORE_NAME" | sha256sum --check --strict
+            upload_assets+=("output/$STORE_NAME")
+            all_parts+=("${store_parts[@]}")
           fi
 
           gh release upload "$TAG" "${upload_assets[@]}" --repo "$GITHUB_REPOSITORY" --clobber
