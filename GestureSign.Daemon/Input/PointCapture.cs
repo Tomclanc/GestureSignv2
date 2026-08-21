@@ -32,13 +32,28 @@ namespace GestureSign.Daemon.Input
         private const uint EVENT_SYSTEM_FOREGROUND = 3;
         private const uint WINEVENT_SKIPOWNPROCESS = 0x0002; // Don't call back for events on installer's process
         private const uint EVENT_SYSTEM_MINIMIZEEND = 0x0017;
+        private const uint WM_NCHITTEST = 0x0084;
+        private const uint GA_ROOT = 2;
+        private const uint SMTO_BLOCK = 0x0001;
+        private const uint SMTO_ABORTIFHUNG = 0x0002;
+        private const int HTMINBUTTON = 8;
+        private const int HTMAXBUTTON = 9;
+        private const int HTCLOSE = 20;
+        private const int GWL_STYLE = -16;
+        private const int SM_CXSIZE = 30;
+        private const int SM_CYSIZE = 31;
+        private const int WS_CAPTION = 0x00C00000;
+        private const int WS_SYSMENU = 0x00080000;
 
         // Create new Touch hook control to capture global input from Touch, and create an event translator to get formal events
         private readonly PointEventTranslator _pointEventTranslator;
         private readonly InputProvider _inputProvider;
         private readonly PointerInputTargetWindow _pointerInputTargetWindow;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
+        private readonly HashSet<IntPtr> _touchScreenPassthroughWindows = new HashSet<IntPtr>();
+        private readonly object _touchScreenPassthroughWindowLock = new object();
         private readonly System.Threading.Timer _blockTouchDelayTimer;
+        private readonly System.Threading.Timer _touchScreenPassthroughReleaseTimer;
         private SurfaceForm _surfaceForm;
 
         private System.Threading.Timer _initialTimeoutTimer;
@@ -48,6 +63,7 @@ namespace GestureSign.Daemon.Input
         private List<int> _touchScreenContactOrder;
         private Dictionary<int, Point> _touchScreenUpPoints;
         private bool _touchScreenBlockedUntilRelease;
+        private volatile bool _touchScreenPassthroughActive;
         private int _requiredContactCount = 1;
         // Create variable to hold the only allowed instance of this class
         static readonly PointCapture _Instance = new PointCapture();
@@ -83,6 +99,50 @@ namespace GestureSign.Daemon.Input
 
         [DllImport("user32.dll")]
         static extern bool UnhookWinEvent(IntPtr hWinEventHook);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr WindowFromPoint(NativePoint point);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetAncestor(IntPtr hwnd, uint flags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr SendMessageTimeout(
+            IntPtr hwnd,
+            uint message,
+            IntPtr wParam,
+            IntPtr lParam,
+            uint flags,
+            uint timeout,
+            out UIntPtr result);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool GetWindowRect(IntPtr hwnd, out NativeRect rect);
+
+        [DllImport("user32.dll", EntryPoint = "GetWindowLongW", SetLastError = true)]
+        private static extern int GetWindowLong(IntPtr hwnd, int index);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetDpiForWindow(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        private static extern int GetSystemMetricsForDpi(int index, uint dpi);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NativePoint
+        {
+            public int X;
+            public int Y;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct NativeRect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
 
         #endregion
 
@@ -204,6 +264,35 @@ namespace GestureSign.Daemon.Input
             get { return _Instance; }
         }
 
+        public void RegisterTouchScreenPassthroughWindow(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero)
+                return;
+
+            lock (_touchScreenPassthroughWindowLock)
+                _touchScreenPassthroughWindows.Add(handle);
+        }
+
+        public void UnregisterTouchScreenPassthroughWindow(IntPtr handle)
+        {
+            if (handle == IntPtr.Zero)
+                return;
+
+            lock (_touchScreenPassthroughWindowLock)
+                _touchScreenPassthroughWindows.Remove(handle);
+        }
+
+        public void BeginTouchScreenPassthrough()
+        {
+            _touchScreenPassthroughReleaseTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            _touchScreenPassthroughActive = true;
+        }
+
+        public void EndTouchScreenPassthrough(int delayMilliseconds = 500)
+        {
+            _touchScreenPassthroughReleaseTimer.Change(Math.Max(0, delayMilliseconds), Timeout.Infinite);
+        }
+
         #endregion
 
         #region Constructors
@@ -211,6 +300,11 @@ namespace GestureSign.Daemon.Input
         protected PointCapture()
         {
             _surfaceForm = new SurfaceForm();
+            _touchScreenPassthroughReleaseTimer = new System.Threading.Timer(
+                _ => _touchScreenPassthroughActive = false,
+                null,
+                Timeout.Infinite,
+                Timeout.Infinite);
 
             CaptureStarted += (o, e) =>
             {
@@ -376,6 +470,7 @@ namespace GestureSign.Daemon.Input
                 {
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
+                    _touchScreenPassthroughReleaseTimer?.Dispose();
                     _pointEventTranslator?.Dispose();
                     _pointerInputTargetWindow?.Dispose();
                     _inputProvider?.Dispose();
@@ -465,6 +560,40 @@ namespace GestureSign.Daemon.Input
             {
                 if (_touchScreenBlockedUntilRelease)
                     return;
+
+                // While a GestureSign-owned touch UI is open, pass every touch
+                // frame through. WindowFromPoint can briefly report the taskbar
+                // or desktop while an injected contact is being promoted, so a
+                // handle-only exclusion is not sufficient for tray menu taps.
+                if (_touchScreenPassthroughActive)
+                {
+                    _touchScreenBlockedUntilRelease = true;
+                    _pointerInputTargetWindow?.TemporarilyDisable();
+                    Logging.LogMessage("TouchScreen capture bypassed. Reason=ActivePassthroughWindow");
+                    Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                    return;
+                }
+
+                if (IsInTouchScreenPassthroughWindow(e.InputPointList, out var passthroughPoint))
+                {
+                    _touchScreenBlockedUntilRelease = true;
+                    _pointerInputTargetWindow?.TemporarilyDisable();
+                    Logging.LogMessage($"TouchScreen capture bypassed. Reason=RegisteredPassthroughWindow, Point={passthroughPoint.X},{passthroughPoint.Y}");
+                    Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                    return;
+                }
+
+                // Caption buttons must be excluded before TryBeginCapture. Waiting
+                // until the edge trigger runs can already move the global pointer
+                // filter into gesture-capture state and occasionally lose the
+                // original minimize/maximize/close tap during reinjection.
+                if (IsInSystemCaptionButtonArea(e.InputPointList, out var captionPoint))
+                {
+                    _touchScreenBlockedUntilRelease = true;
+                    Logging.LogMessage($"TouchScreen capture bypassed. Reason=SystemCaptionButton, Point={captionPoint.X},{captionPoint.Y}");
+                    Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                    return;
+                }
 
                 if (IsInTouchScreenBlockedArea(e.InputPointList))
                 {
@@ -898,6 +1027,121 @@ namespace GestureSign.Daemon.Input
             }
 
             return false;
+        }
+
+        private static bool IsInSystemCaptionButtonArea(IReadOnlyCollection<InputPoint> points, out Point matchedPoint)
+        {
+            matchedPoint = Point.Empty;
+            if (points == null || points.Count == 0)
+                return false;
+
+            foreach (var inputPoint in points)
+            {
+                var point = inputPoint.Point;
+                if (IsSystemCaptionButton(point) || IsScreenCornerCaptionFallback(point))
+                {
+                    matchedPoint = point;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsInTouchScreenPassthroughWindow(IReadOnlyCollection<InputPoint> points, out Point matchedPoint)
+        {
+            matchedPoint = Point.Empty;
+            if (points == null || points.Count == 0)
+                return false;
+
+            foreach (var inputPoint in points)
+            {
+                var point = inputPoint.Point;
+                var hwnd = WindowFromPoint(new NativePoint { X = point.X, Y = point.Y });
+                if (hwnd == IntPtr.Zero)
+                    continue;
+
+                var root = GetAncestor(hwnd, GA_ROOT);
+                if (root != IntPtr.Zero)
+                    hwnd = root;
+
+                lock (_touchScreenPassthroughWindowLock)
+                {
+                    if (!_touchScreenPassthroughWindows.Contains(hwnd))
+                        continue;
+                }
+
+                matchedPoint = point;
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool IsSystemCaptionButton(Point point)
+        {
+            try
+            {
+                var hwnd = WindowFromPoint(new NativePoint { X = point.X, Y = point.Y });
+                if (hwnd == IntPtr.Zero)
+                    return false;
+
+                var root = GetAncestor(hwnd, GA_ROOT);
+                if (root != IntPtr.Zero)
+                    hwnd = root;
+
+                var packedPoint = new IntPtr(unchecked((int)(((uint)point.Y & 0xffff) << 16 | ((uint)point.X & 0xffff))));
+                if (SendMessageTimeout(
+                        hwnd,
+                        WM_NCHITTEST,
+                        IntPtr.Zero,
+                        packedPoint,
+                        SMTO_BLOCK | SMTO_ABORTIFHUNG,
+                        50,
+                        out var hitTestResult) != IntPtr.Zero)
+                {
+                    var hitTest = unchecked((int)hitTestResult.ToUInt64());
+                    if (hitTest == HTMINBUTTON || hitTest == HTMAXBUTTON || hitTest == HTCLOSE)
+                        return true;
+                }
+
+                // Some custom title bars report HTCLIENT for their system-drawn
+                // buttons. Fall back to the DPI-scaled right-hand caption strip,
+                // but only for a real captioned top-level window.
+                var style = GetWindowLong(hwnd, GWL_STYLE);
+                if ((style & WS_CAPTION) == 0 || (style & WS_SYSMENU) == 0 || !GetWindowRect(hwnd, out var rect))
+                    return false;
+
+                var dpi = GetDpiForWindow(hwnd);
+                if (dpi == 0)
+                    dpi = 96;
+                var buttonWidth = Math.Max(GetSystemMetricsForDpi(SM_CXSIZE, dpi), (int)Math.Ceiling(46d * dpi / 96d));
+                var buttonHeight = Math.Max(GetSystemMetricsForDpi(SM_CYSIZE, dpi), (int)Math.Ceiling(32d * dpi / 96d));
+                return point.X >= rect.Right - buttonWidth * 3 &&
+                       point.X < rect.Right &&
+                       point.Y >= rect.Top &&
+                       point.Y < rect.Top + buttonHeight;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsScreenCornerCaptionFallback(Point point)
+        {
+            try
+            {
+                const int fallbackWidth = 180;
+                const int fallbackHeight = 72;
+                var bounds = System.Windows.Forms.Screen.FromPoint(point).Bounds;
+                return point.Y - bounds.Top <= fallbackHeight &&
+                       point.X - bounds.Left >= bounds.Width - fallbackWidth;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)

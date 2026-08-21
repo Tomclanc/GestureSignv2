@@ -302,6 +302,9 @@ namespace GestureSign.Daemon
 
         private sealed class TouchFriendlyTrayMenu : Form
         {
+            private const int WM_POINTERDOWN = 0x0246;
+            private const int WM_POINTERUP = 0x0247;
+            private const uint PT_TOUCH = 0x00000002;
             private const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
             private const int DWMWA_WINDOW_CORNER_PREFERENCE = 33;
             private const int DWMWA_SYSTEMBACKDROP_TYPE = 38;
@@ -312,6 +315,7 @@ namespace GestureSign.Daemon
             private readonly Action _openSettings;
             private readonly Func<Task> _exitGestureSign;
             private readonly Font _menuFont;
+            private readonly System.Windows.Forms.Timer _showTimer;
             private readonly Rectangle[] _itemBounds = new Rectangle[3];
             private bool _lightTheme = true;
             private Color _normalBackColor;
@@ -323,9 +327,17 @@ namespace GestureSign.Daemon
             private string _disableText = "";
             private string _controlPanelText = "";
             private string _exitText = "";
+            private int _pressedTouchPointerId = -1;
+            private int _pressedTouchItemIndex = -1;
+            private Point _pendingShowLocation;
+            private DateTime _ignoreDeactivateUntilUtc = DateTime.MinValue;
+            private bool _openingReactivationAttempted;
 
             [DllImport("dwmapi.dll")]
             private static extern int DwmSetWindowAttribute(IntPtr hwnd, int attribute, ref int attributeValue, int attributeSize);
+
+            [DllImport("user32.dll")]
+            private static extern bool GetPointerType(uint pointerId, out uint pointerType);
 
             public TouchFriendlyTrayMenu(Action disableGestures, Action openSettings, Func<Task> exitGestureSign)
             {
@@ -333,6 +345,12 @@ namespace GestureSign.Daemon
                 _openSettings = openSettings;
                 _exitGestureSign = exitGestureSign;
                 _menuFont = new Font("Microsoft YaHei UI", 10.5f, FontStyle.Regular, GraphicsUnit.Point);
+                _showTimer = new System.Windows.Forms.Timer { Interval = 120 };
+                _showTimer.Tick += (o, e) =>
+                {
+                    _showTimer.Stop();
+                    ShowPendingMenu();
+                };
 
                 FormBorderStyle = FormBorderStyle.None;
                 ShowInTaskbar = false;
@@ -345,7 +363,7 @@ namespace GestureSign.Daemon
                 Height = 194;
                 BackColor = Color.FromArgb(245, 248, 252);
                 SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
-                Deactivate += (o, e) => Hide();
+                Deactivate += TouchFriendlyTrayMenu_Deactivate;
             }
 
             public void UpdateItems(string disableText, string controlPanelText, string exitText)
@@ -384,17 +402,69 @@ namespace GestureSign.Daemon
 
             public void ShowNearCursor()
             {
+                PointCapture.Instance.BeginTouchScreenPassthrough();
                 var screen = Screen.FromPoint(Cursor.Position).WorkingArea;
                 var x = Math.Min(Cursor.Position.X, screen.Right - Width);
                 var y = Math.Min(Cursor.Position.Y, screen.Bottom - Height);
                 x = Math.Max(screen.Left, x);
                 y = Math.Max(screen.Top, y);
-                Location = new Point(x, y);
+                _pendingShowLocation = new Point(x, y);
 
+                // NotifyIcon raises its click callback before the shell has
+                // completely finished promoting the touch-up to a mouse-up.
+                // Showing synchronously lets that trailing shell activation
+                // immediately deactivate and hide this form. Defer the show
+                // until the opening contact has fully completed.
+                _showTimer.Stop();
+                _showTimer.Start();
+            }
+
+            private void ShowPendingMenu()
+            {
+                Location = _pendingShowLocation;
+                _ignoreDeactivateUntilUtc = DateTime.UtcNow.AddMilliseconds(500);
+                _openingReactivationAttempted = false;
                 if (!Visible)
                     Show();
                 Activate();
                 BringToFront();
+                Logging.LogMessage($"Touch tray menu shown. Location={Left},{Top}");
+            }
+
+            private void TouchFriendlyTrayMenu_Deactivate(object sender, EventArgs e)
+            {
+                if (DateTime.UtcNow < _ignoreDeactivateUntilUtc)
+                {
+                    // A final taskbar activation can still race the delayed
+                    // show on slower devices. Restore focus once instead of
+                    // interpreting the opening finger's release as dismissal.
+                    if (!_openingReactivationAttempted)
+                    {
+                        _openingReactivationAttempted = true;
+                        BeginInvoke(new Action(() =>
+                        {
+                            if (Visible)
+                            {
+                                Activate();
+                                BringToFront();
+                            }
+                        }));
+                    }
+                    Logging.LogMessage("Touch tray menu deactivation ignored during opening grace period.");
+                    return;
+                }
+
+                Logging.LogMessage("Touch tray menu hidden. Reason=Deactivate");
+                Hide();
+            }
+
+            protected override void OnVisibleChanged(EventArgs e)
+            {
+                base.OnVisibleChanged(e);
+                if (Visible)
+                    PointCapture.Instance.BeginTouchScreenPassthrough();
+                else
+                    PointCapture.Instance.EndTouchScreenPassthrough();
             }
 
             protected override CreateParams CreateParams
@@ -458,7 +528,22 @@ namespace GestureSign.Daemon
             protected override void OnHandleCreated(EventArgs e)
             {
                 base.OnHandleCreated(e);
+                PointCapture.Instance.RegisterTouchScreenPassthroughWindow(Handle);
                 ApplyBackdrop();
+            }
+
+            protected override void OnHandleDestroyed(EventArgs e)
+            {
+                PointCapture.Instance.UnregisterTouchScreenPassthroughWindow(Handle);
+                base.OnHandleDestroyed(e);
+            }
+
+            protected override void WndProc(ref Message message)
+            {
+                if ((message.Msg == WM_POINTERDOWN || message.Msg == WM_POINTERUP) && TryHandleTouchPointerMessage(ref message))
+                    return;
+
+                base.WndProc(ref message);
             }
 
             protected override void OnSizeChanged(EventArgs e)
@@ -501,6 +586,57 @@ namespace GestureSign.Daemon
                 if (itemIndex < 0)
                     return;
 
+                await InvokeItemAsync(itemIndex);
+            }
+
+            private bool TryHandleTouchPointerMessage(ref Message message)
+            {
+                var pointerId = unchecked((int)(message.WParam.ToInt64() & 0xffff));
+                if (!GetPointerType((uint)pointerId, out var pointerType) || pointerType != PT_TOUCH)
+                    return false;
+
+                var packedPosition = message.LParam.ToInt64();
+                var screenPoint = new Point(
+                    unchecked((short)(packedPosition & 0xffff)),
+                    unchecked((short)((packedPosition >> 16) & 0xffff)));
+                var itemIndex = HitTest(PointToClient(screenPoint));
+
+                if (message.Msg == WM_POINTERDOWN)
+                {
+                    _pressedTouchPointerId = pointerId;
+                    _pressedTouchItemIndex = itemIndex;
+                    _hoverIndex = itemIndex;
+                    Invalidate();
+                    Logging.LogMessage($"Touch tray pointer down. Pointer={pointerId}, Item={itemIndex}");
+                }
+                else
+                {
+                    var activateIndex = pointerId == _pressedTouchPointerId && itemIndex == _pressedTouchItemIndex
+                        ? itemIndex
+                        : -1;
+                    _pressedTouchPointerId = -1;
+                    _pressedTouchItemIndex = -1;
+                    _hoverIndex = -1;
+                    Invalidate();
+
+                    if (activateIndex >= 0)
+                    {
+                        Logging.LogMessage($"Touch tray pointer up. Pointer={pointerId}, Item={activateIndex}, Action=Invoke");
+                        _ = InvokeItemAsync(activateIndex);
+                    }
+                    else
+                    {
+                        Logging.LogMessage($"Touch tray pointer up. Pointer={pointerId}, Item={itemIndex}, Action=Ignore");
+                    }
+                }
+
+                message.Result = IntPtr.Zero;
+                return true;
+            }
+
+            private async Task InvokeItemAsync(int itemIndex)
+            {
+                Logging.LogMessage($"Touch tray item invoked. Item={itemIndex}");
                 Hide();
                 switch (itemIndex)
                 {
@@ -519,7 +655,10 @@ namespace GestureSign.Daemon
             protected override void Dispose(bool disposing)
             {
                 if (disposing)
+                {
+                    _showTimer.Dispose();
                     _menuFont.Dispose();
+                }
                 base.Dispose(disposing);
             }
 
