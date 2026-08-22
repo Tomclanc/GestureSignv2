@@ -549,8 +549,13 @@ namespace GestureSign.Daemon.Input
             if (appsChanged.Applications != null)
             {
                 var userAppList = appsChanged.Applications.Where(application => application is UserApp).ToList();
-                if (userAppList.Count == 0) return;
-                UpdateBlockTouchInputThreshold(userAppList.Cast<UserApp>().Max(app => app.BlockTouchInputThreshold));
+                // Always update the filter. Previously, switching from a configured app
+                // to an unconfigured/ignored game left the former app's threshold active,
+                // so the global pointer target kept intercepting the game's touch frames.
+                var threshold = userAppList.Count == 0
+                    ? 0
+                    : userAppList.Cast<UserApp>().Max(app => app.BlockTouchInputThreshold);
+                UpdateBlockTouchInputThreshold(threshold);
             }
         }
 
@@ -773,6 +778,16 @@ namespace GestureSign.Daemon.Input
 
             if (threshold != null)
                 _blockTouchInputThreshold = threshold;
+            if (_blockTouchInputThreshold == 0)
+            {
+                // Passing input through is time-sensitive: leaving the old pointer
+                // target registered for the normal debounce interval can still consume
+                // the first tap immediately after switching to a game.
+                _blockTouchDelayTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _pointerInputTargetWindow.BlockTouchInputThreshold = 0;
+                _blockTouchInputThreshold = null;
+                return;
+            }
             if (_blockTouchInputThreshold != null)
                 _blockTouchDelayTimer.Change(100, Timeout.Infinite);
         }

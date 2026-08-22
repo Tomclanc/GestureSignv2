@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.6">
+<a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.7">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,24 +65,24 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.6) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.7) 下载最新便携版。
 
 当前版本：
 
-- [GestureSign-V2-18.0.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-x64.msi)
-- [GestureSign-V2-18.0.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-portable-x64.zip)
+- [GestureSign-V2-18.0.7-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-x64.msi)
+- [GestureSign-V2-18.0.7-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-portable-x64.zip)
 
 ## 更新内容
 
-### 18.0.6
+### 18.0.7
 
-- 修复触摸屏点击窗口最小化、最大化/还原和关闭按钮时偶尔无响应的问题；现在会在手势捕获前按窗口命中测试识别系统标题栏按钮并直接放行。
-- 修复托盘菜单无法用单指触摸完成交互的问题；菜单会等待打开托盘图标的触摸抬起结束后再显示，并在显示期间将触摸输入完整直通。
-- 托盘菜单直接处理原生触摸按下与抬起消息，三个菜单项不再依赖容易被手势捕获干扰的鼠标消息转换。
+- 修复从已配置应用切换到游戏后，旧的触摸拦截阈值未清零、可能继续截获游戏触摸输入的问题；切换到未配置或忽略应用时现在会立即注销底层触摸过滤。
+- 改进全屏游戏识别：按窗口所在显示器而不是整个虚拟桌面判断全屏，支持多显示器和无边框全屏游戏。
+- 触摸命中桌面层或透明渲染层时会回退到前台全屏窗口，并在手势捕获前放行游戏输入；新配置默认启用“排除全屏游戏/应用”。
 
 ### 历史版本
 
-18.0.5 及更早版本完善了边缘交互与“启动应用”，支持直接启动桌面程序和商店应用，修复了旧快捷键残留及托盘兼容性问题；此前还加入了触摸屏屏蔽区、按设备限制动作、智能新建标签页、Kando 快捷操作和架构校验，并完成 WinUI 3 与 .NET 10 迁移及多项触摸识别改进。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.0.6 及更早版本修复了窗口标题栏按钮和托盘菜单的单指触控，完善了边缘交互与“启动应用”，并加入触摸屏屏蔽区、按设备限制动作、智能新建标签页、Kando 快捷操作和架构校验，完成 WinUI 3 与 .NET 10 迁移及多项触摸识别改进。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -197,22 +197,22 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.6).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.7).
 
 Current version:
 
-- [GestureSign-V2-18.0.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-x64.msi)
-- [GestureSign-V2-18.0.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-portable-x64.zip)
+- [GestureSign-V2-18.0.7-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-x64.msi)
+- [GestureSign-V2-18.0.7-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-portable-x64.zip)
 
-### What's new in 18.0.6
+### What's new in 18.0.7
 
-- Fixed intermittent touchscreen taps on window minimize, maximize/restore, and close buttons by identifying caption-button hit tests and bypassing gesture capture before it starts.
-- Fixed tray-menu interaction so a single finger can open the menu, release the tray icon, and then select an item; display is deferred until the opening touch-up has completed and touch remains passed through while the menu is visible.
-- The three tray commands now process native touch down/up messages directly instead of depending on mouse-message promotion that can be interrupted by gesture capture.
+- Fixed a stale touch-interception threshold that could remain active after switching from a configured app to a game; the low-level touch filter is now unregistered immediately for unconfigured or ignored apps.
+- Improved fullscreen-game detection by comparing against the window's monitor instead of the entire virtual desktop, including multi-monitor and borderless-fullscreen setups.
+- Touches that resolve to a desktop or transparent rendering surface now fall back to the foreground fullscreen window and bypass gesture capture; fresh configurations exclude fullscreen games and apps by default.
 
 ### Previous releases
 
-Version 18.0.5 and earlier refined edge interactions and Launch App behavior, added direct desktop and Store app launching, and fixed stale hotkeys and tray compatibility; earlier releases also added touchscreen blocking zones, per-device action limits, Smart New Tab, Kando Quick Actions and architecture checks, completed the WinUI 3 and .NET 10 migration, and delivered broader touch-recognition improvements. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
+Version 18.0.6 and earlier fixed one-finger touch on caption buttons and tray menus, refined edge interactions and Launch App behavior, and added touchscreen blocking zones, per-device action limits, Smart New Tab, Kando Quick Actions and architecture checks while completing the WinUI 3 and .NET 10 migration. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
 
 ## Installation
 
@@ -333,22 +333,22 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.6) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.0.7) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.0.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-x64.msi)
-- [GestureSign-V2-18.0.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.6/GestureSign-V2-18.0.6-portable-x64.zip)
+- [GestureSign-V2-18.0.7-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-x64.msi)
+- [GestureSign-V2-18.0.7-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.0.7/GestureSign-V2-18.0.7-portable-x64.zip)
 
-### 18.0.6 の更新内容
+### 18.0.7 の更新内容
 
-- タッチスクリーンでウィンドウの最小化、最大化／復元、閉じるボタンを押した際に反応しないことがある問題を修正しました。タイトルバーボタンをヒットテストで識別し、ジェスチャーキャプチャ開始前に入力を通過させます。
-- 1 本指でトレイメニューを開いて指を離し、そのまま項目を選択できるようにしました。最初のタッチアップ完了後にメニューを表示し、表示中はタッチ入力を通過させます。
-- 3 つのトレイコマンドは、ジェスチャーキャプチャの影響を受けやすいマウスメッセージ変換に依存せず、ネイティブのタッチダウン／アップを直接処理します。
+- 設定済みアプリからゲームへ切り替えた後も古いタッチ遮断しきい値が残り、ゲーム入力を横取りすることがある問題を修正しました。未設定または除外対象のアプリでは低レベルタッチフィルターを直ちに解除します。
+- 仮想デスクトップ全体ではなくウィンドウが存在するモニターを基準に判定し、マルチモニター環境やボーダーレス全画面ゲームの検出を改善しました。
+- タッチ先がデスクトップ層や透明な描画層として検出された場合は前面の全画面ウィンドウへフォールバックし、ジェスチャーキャプチャを回避します。新しい設定では全画面ゲーム／アプリの除外が既定で有効です。
 
 ### 過去のバージョン
 
-18.0.5 以前のリリースでは、エッジ操作と「アプリを起動」を改善し、デスクトップ／Store アプリの直接起動、古いホットキーの残存、トレイ互換性の問題を修正しました。さらに、タッチスクリーン除外領域、デバイス別制限、Smart New Tab、Kando Quick Actions とアーキテクチャ検証を追加し、WinUI 3 / .NET 10 への移行および各種タッチ認識改善を行いました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.0.6 以前のリリースでは、タイトルバーボタンとトレイメニューの 1 本指タッチを修正し、エッジ操作と「アプリを起動」を改善しました。また、タッチスクリーン除外領域、デバイス別制限、Smart New Tab、Kando Quick Actions、アーキテクチャ検証を追加し、WinUI 3 / .NET 10 への移行と各種タッチ認識改善を行いました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 

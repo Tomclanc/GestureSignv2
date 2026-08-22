@@ -29,9 +29,9 @@
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>18.0.6.0</Version>
-    <AssemblyVersion>18.0.6.0</AssemblyVersion>
-    <FileVersion>18.0.6.0</FileVersion>
+    <Version>18.0.7.0</Version>
+    <AssemblyVersion>18.0.7.0</AssemblyVersion>
+    <FileVersion>18.0.7.0</FileVersion>
     <KandoSourceDir Condition="'$(KandoSourceDir)' == ''">$(MSBuildProjectDirectory)\..\Kando</KandoSourceDir>
     <BackendSourceDir Condition="'$(BackendSourceDir)' == ''">$(MSBuildProjectDirectory)\..\bin\Release</BackendSourceDir>
   </PropertyGroup>

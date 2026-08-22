@@ -9,6 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using FormsScreen = System.Windows.Forms.Screen;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
@@ -127,7 +128,7 @@ namespace GestureSign.Common.Applications
                 {
                     case GlobalApp a:
                         maxLimitNumber = a.LimitNumberOfFingers > maxLimitNumber ? a.LimitNumberOfFingers : maxLimitNumber;
-                        if ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(e.FirstCapturedPoints.FirstOrDefault()))
+                        if ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(CaptureWindow))
                         {
                             Logging.LogMessage($"Gesture capture rejected by application filter. Reason=FullscreenIgnored, Application={a.Name}, Contacts={e.Points.Count}");
                             e.Cancel = true;
@@ -755,6 +756,22 @@ namespace GestureSign.Common.Applications
             if (pointCapture.SourceDevice == Devices.TouchPad)
                 return SystemWindow.ForegroundWindow ?? pointWindow;
 
+            // Some fullscreen games render through a child, transparent, or desktop-like
+            // surface. In that case WindowFromPoint can resolve to Progman/WorkerW and the
+            // fullscreen exclusion never sees the game. Prefer the foreground fullscreen
+            // window for touchscreen input, but only for a shell hit so ordinary desktop
+            // interaction keeps targeting the desktop.
+            if (pointCapture.SourceDevice == Devices.TouchScreen &&
+                IsDesktopShellSurface(pointWindow))
+            {
+                var foregroundWindow = SystemWindow.ForegroundWindow;
+                if (IsFullScreenWindow(foregroundWindow))
+                {
+                    Logging.LogMessage($"Gesture capture target corrected. Reason=TouchScreenFullscreenShellHit, PointHwnd={pointWindow?.HWnd}, ForegroundHwnd={foregroundWindow?.HWnd}");
+                    return foregroundWindow;
+                }
+            }
+
             // Clash Party can expose a click-through/elevated Electron surface to a
             // normal mouse-hook process, making WindowFromPoint report Progman even
             // while Clash Party is the active window. Keep this fallback deliberately
@@ -1118,12 +1135,13 @@ namespace GestureSign.Common.Applications
         }
 #pragma warning restore CS0618  
 
-        private bool IsFullScreenWindow(Point targetPoint)
+        private bool IsFullScreenWindow(SystemWindow window)
         {
-            SystemWindow deskWindow = SystemWindow.DesktopWindow;
+            if (window == null || window.HWnd == IntPtr.Zero)
+                return false;
 
-            SystemWindow sw = SystemWindow.FromPoint(targetPoint.X, targetPoint.Y);
-            if (sw == null) return false;
+            SystemWindow deskWindow = SystemWindow.DesktopWindow;
+            SystemWindow sw = window;
 
             // get the window with the largest area
             RECT rect = sw.Rectangle;
@@ -1140,12 +1158,20 @@ namespace GestureSign.Common.Applications
                 }
             }
 
-            if (sw.HWnd == IntPtr.Zero || sw == deskWindow || sw == SystemWindow.ShellWindow)
+            if (sw.HWnd == IntPtr.Zero || sw == deskWindow || sw == SystemWindow.ShellWindow || IsDesktopShellSurface(sw))
                 return false;
 
-            var desktopRect = deskWindow.Rectangle;
+            // Compare against the monitor occupied by the window rather than the
+            // virtual desktop. The previous virtual-desktop comparison missed normal
+            // borderless fullscreen games whenever more than one monitor was attached.
+            var monitorBounds = FormsScreen.FromHandle(sw.HWnd).Bounds;
+            const int fullscreenTolerance = 1;
+            bool coversMonitor = rect.Left <= monitorBounds.Left + fullscreenTolerance &&
+                                 rect.Top <= monitorBounds.Top + fullscreenTolerance &&
+                                 rect.Right >= monitorBounds.Right - fullscreenTolerance &&
+                                 rect.Bottom >= monitorBounds.Bottom - fullscreenTolerance;
 
-            if (rect.Left == desktopRect.Left && rect.Top == desktopRect.Top && rect.Right == desktopRect.Right && rect.Bottom == desktopRect.Bottom)
+            if (coversMonitor)
             {
                 switch (sw.ClassName)
                 {

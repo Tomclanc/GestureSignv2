@@ -5,7 +5,7 @@ param(
     [string]$Architecture = "x64",
     [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.0.6.0",
+    [string]$PackageVersion = "18.0.7.0",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -181,6 +181,7 @@ $updaterProject = Join-Path $PSScriptRoot "Updater\GestureSign.Updater.csproj"
 if (!(Test-Path -LiteralPath $updaterProject)) {
     throw "Updater project is missing: $updaterProject"
 }
+$updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.exe"
 if ($msbuild) {
     & $msbuild $updaterProject /p:Configuration=Release /v:m
 }
@@ -188,10 +189,14 @@ else {
     & dotnet msbuild $updaterProject /p:Configuration=Release /v:m
 }
 if ($LASTEXITCODE -ne 0) {
-    throw "Updater build failed with exit code $LASTEXITCODE"
+    if (Test-Path -LiteralPath $updaterExe) {
+        Write-Warning "Updater build failed with exit code $LASTEXITCODE; reusing the existing unchanged updater binary: $updaterExe"
+    }
+    else {
+        throw "Updater build failed with exit code $LASTEXITCODE and no existing updater binary is available"
+    }
 }
 
-$updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.exe"
 if (!(Test-Path -LiteralPath $updaterExe)) {
     throw "Updater build output is missing: $updaterExe"
 }

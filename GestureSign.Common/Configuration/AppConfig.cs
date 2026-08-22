@@ -336,7 +336,10 @@ namespace GestureSign.Common.Configuration
         {
             get
             {
-                return GetValue(nameof(IgnoreFullScreen), false);
+                // Touch injection is not accepted consistently by fullscreen games.
+                // Default to passthrough so a fresh installation cannot delay or lose
+                // ordinary game taps while waiting for a multi-finger gesture.
+                return GetValue(nameof(IgnoreFullScreen), true);
             }
             set
             {
