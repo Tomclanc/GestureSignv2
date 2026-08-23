@@ -38,7 +38,6 @@ namespace GestureSign.Daemon.Surface
         private const byte AC_SRC_OVER = 0x00;
         private const byte AC_SRC_ALPHA = 0x01;
         private const int MinimumVisiblePenWidth = 7;
-        private const int MinimumVisibleAlpha = 192;
         private const int GestureHintFadeInMs = 140;
         private const int GestureHintHoldMs = 1050;
         private const int GestureHintFadeOutMs = 220;
@@ -635,7 +634,8 @@ namespace GestureSign.Daemon.Surface
 
         private static Color ApplyVisualFeedbackAlpha(Color color)
         {
-            var alpha = Math.Max(MinimumVisibleAlpha, Math.Min(255, (int)Math.Round(AppConfig.Opacity * 255)));
+            var opacity = Math.Max(0d, Math.Min(1d, AppConfig.Opacity));
+            var alpha = (int)Math.Round(opacity * 255);
             return Color.FromArgb(alpha, color.R, color.G, color.B);
         }
 
