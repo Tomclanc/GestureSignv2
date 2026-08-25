@@ -27,9 +27,17 @@ namespace GestureSign.Daemon.Input
         private readonly List<int> _touchScreenContactOrder = new List<int>();
         private readonly Dictionary<int, RawData> _releasedTouchScreenContacts = new Dictionary<int, RawData>();
         private readonly System.Windows.Forms.Timer _mouseStatePollTimer;
+        private readonly System.Windows.Forms.Timer _mouseMoveDispatchTimer;
         private DateTime _lastMouseHookEventUtc;
+        private DateTime _mouseCaptureStartedUtc;
         private bool _mousePollingFallbackActive;
         private bool _mousePollingObservedButtonDown;
+        private bool _hasPendingMouseMove;
+        private System.Drawing.Point _pendingMouseMovePoint;
+        private MouseActions _activeMouseDrawingButton = MouseActions.None;
+
+        private const int MouseCaptureWatchdogMilliseconds = 15000;
+        private const int LowLevelMouseInjectedFlag = 0x00000001;
 
         internal Devices SourceDevice { get; private set; }
 
@@ -40,6 +48,9 @@ namespace GestureSign.Daemon.Input
             _touchPadReleaseTimer = new System.Threading.Timer(_ => ReleaseTouchPadIfIdle(), null, System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
             _mouseStatePollTimer = new System.Windows.Forms.Timer { Interval = 12 };
             _mouseStatePollTimer.Tick += (_, __) => PollMouseGestureState();
+            _mouseMoveDispatchTimer = new System.Windows.Forms.Timer { Interval = 16 };
+            _mouseMoveDispatchTimer.Tick += (_, __) => DispatchPendingMouseMove();
+            AppConfig.ConfigChanged += AppConfig_ConfigChanged;
             inputProvider.PointsIntercepted += TranslateTouchEvent;
             inputProvider.LowLevelMouseHook.MouseDown += LowLevelMouseHook_MouseDown;
             inputProvider.LowLevelMouseHook.MouseMove += LowLevelMouseHook_MouseMove;
@@ -48,6 +59,8 @@ namespace GestureSign.Daemon.Input
 
         internal void Dispose()
         {
+            AppConfig.ConfigChanged -= AppConfig_ConfigChanged;
+            _mouseMoveDispatchTimer?.Dispose();
             _mouseStatePollTimer?.Dispose();
             _touchPadReleaseTimer?.Dispose();
         }
@@ -89,6 +102,9 @@ namespace GestureSign.Daemon.Input
         private void LowLevelMouseHook_MouseUp(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
+            if (IsInjectedMouseMessage(mouseMessage))
+                return;
+
             var button = (MouseActions)mouseMessage.Button;
             if (ShouldPassThroughGestureSignUi(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
                 return;
@@ -102,43 +118,41 @@ namespace GestureSign.Daemon.Input
             if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && button != AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
-            if (button == AppConfig.DrawingButton)
+            if (button == ActiveDrawingButton)
             {
+                DispatchPendingMouseMove();
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
                 OnPointUp(args);
                 handled = args.Handled;
             }
             _pressedMouseButton.Remove(button);
-            if (button == AppConfig.DrawingButton)
-            {
-                _mouseStatePollTimer.Stop();
-                _mousePollingFallbackActive = false;
-                _mousePollingObservedButtonDown = false;
-            }
+            if (button == ActiveDrawingButton)
+                ResetMouseGestureTracking();
         }
 
         private void LowLevelMouseHook_MouseMove(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
-            if (ShouldPassThroughGestureSignUi(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+            if (IsInjectedMouseMessage(mouseMessage))
                 return;
 
-            if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
+            var drawingButton = ActiveDrawingButton;
+            // WH_MOUSE_LL receives every pointer movement system-wide. Do not do
+            // window lookups or gesture work unless the drawing button actually
+            // started a capture; those synchronous calls can stall high-report-rate
+            // mice and make the desktop appear unresponsive.
+            if (!_pressedMouseButton.Contains(drawingButton) || SourceDevice != Devices.Mouse)
                 return;
 
-            if (IsCaptionButtonRegion(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
-                return;
-
-            if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && !_pressedMouseButton.Contains(AppConfig.DrawingButton))
-                return;
-
-            var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
-            OnPointMove(args);
+            QueueMouseMove(mouseMessage.Point);
         }
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
         {
             _lastMouseHookEventUtc = DateTime.UtcNow;
+            if (IsInjectedMouseMessage(mouseMessage))
+                return;
+
             if (ShouldPassThroughGestureSignUi(mouseMessage.Point))
             {
                 if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
@@ -168,6 +182,13 @@ namespace GestureSign.Daemon.Input
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
                 OnPointDown(args);
                 handled = args.Handled;
+                if (handled)
+                {
+                    _activeMouseDrawingButton = (MouseActions)mouseMessage.Button;
+                    _mouseCaptureStartedUtc = DateTime.UtcNow;
+                    _hasPendingMouseMove = false;
+                    _mouseMoveDispatchTimer.Start();
+                }
             }
             _pressedMouseButton.Add((MouseActions)mouseMessage.Button);
             if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
@@ -181,11 +202,21 @@ namespace GestureSign.Daemon.Input
 
         private void PollMouseGestureState()
         {
-            var drawingButton = AppConfig.DrawingButton;
+            var drawingButton = ActiveDrawingButton;
             if (SourceDevice != Devices.Mouse || !_pressedMouseButton.Contains(drawingButton))
             {
-                _mouseStatePollTimer.Stop();
-                _mousePollingFallbackActive = false;
+                ResetMouseGestureTracking();
+                return;
+            }
+
+            if (_mouseCaptureStartedUtc != default(DateTime) &&
+                (DateTime.UtcNow - _mouseCaptureStartedUtc).TotalMilliseconds >= MouseCaptureWatchdogMilliseconds)
+            {
+                Logging.LogMessage($"Mouse gesture capture reset by watchdog. Button={drawingButton}, DurationMs={MouseCaptureWatchdogMilliseconds}");
+                PointCapture.Instance.CancelMouseCapture("WatchdogTimeout");
+                SourceDevice = Devices.None;
+                _pressedMouseButton.Clear();
+                ResetMouseGestureTracking();
                 return;
             }
 
@@ -204,9 +235,7 @@ namespace GestureSign.Daemon.Input
                     Logging.LogMessage($"Mouse gesture polling fallback started. Button={drawingButton}, Point={point.X},{point.Y}");
                 }
 
-                OnPointMove(new InputPointsEventArgs(
-                    new List<InputPoint>(new[] { new InputPoint(1, point) }),
-                    Devices.Mouse));
+                QueueMouseMove(point);
                 return;
             }
 
@@ -221,14 +250,62 @@ namespace GestureSign.Daemon.Input
             }
 
             _pressedMouseButton.Remove(drawingButton);
-            _mouseStatePollTimer.Stop();
+            DispatchPendingMouseMove();
             var args = new InputPointsEventArgs(
                 new List<InputPoint>(new[] { new InputPoint(1, point) }),
                 Devices.Mouse);
             OnPointUp(args);
             Logging.LogMessage($"Mouse gesture polling fallback released. Button={drawingButton}, Active={_mousePollingFallbackActive}, Point={point.X},{point.Y}");
+            ResetMouseGestureTracking();
+        }
+
+        private MouseActions ActiveDrawingButton =>
+            _activeMouseDrawingButton != MouseActions.None ? _activeMouseDrawingButton : AppConfig.DrawingButton;
+
+        private static bool IsInjectedMouseMessage(LowLevelMouseMessage mouseMessage)
+        {
+            return (mouseMessage.Flags & LowLevelMouseInjectedFlag) != 0;
+        }
+
+        private void QueueMouseMove(System.Drawing.Point point)
+        {
+            _pendingMouseMovePoint = point;
+            _hasPendingMouseMove = true;
+        }
+
+        private void DispatchPendingMouseMove()
+        {
+            if (!_hasPendingMouseMove || SourceDevice != Devices.Mouse)
+                return;
+
+            _hasPendingMouseMove = false;
+            OnPointMove(new InputPointsEventArgs(
+                new List<InputPoint>(new[] { new InputPoint(1, _pendingMouseMovePoint) }),
+                Devices.Mouse));
+        }
+
+        private void ResetMouseGestureTracking()
+        {
+            _mouseStatePollTimer.Stop();
+            _mouseMoveDispatchTimer.Stop();
             _mousePollingFallbackActive = false;
             _mousePollingObservedButtonDown = false;
+            _hasPendingMouseMove = false;
+            _activeMouseDrawingButton = MouseActions.None;
+            _mouseCaptureStartedUtc = default(DateTime);
+        }
+
+        private void AppConfig_ConfigChanged(object sender, EventArgs e)
+        {
+            if (_activeMouseDrawingButton == MouseActions.None ||
+                _activeMouseDrawingButton == AppConfig.DrawingButton)
+                return;
+
+            Logging.LogMessage($"Mouse gesture capture reset after drawing button changed. Previous={_activeMouseDrawingButton}, Current={AppConfig.DrawingButton}");
+            PointCapture.Instance.CancelMouseCapture("DrawingButtonChanged");
+            SourceDevice = Devices.None;
+            _pressedMouseButton.Clear();
+            ResetMouseGestureTracking();
         }
 
         private static bool IsRemoteSession()

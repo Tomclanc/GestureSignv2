@@ -1762,7 +1762,13 @@ public sealed partial class MainWindow : Window
         if (globalApp is null || action is null)
             return;
 
-        if (confirm && !await ConfirmDialogAsync("清空边缘动作", $"确定清空{title}？", "清空"))
+        if (confirm && !await ConfirmDialogAsync(
+                L("清空边缘动作", "Clear edge action", "清空邊緣動作", "エッジアクションをクリア", "가장자리 동작 지우기"),
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    L("确定清空 {0}？", "Clear {0}?", "確定清空 {0}？", "{0}をクリアしますか？", "{0} 항목을 지우시겠습니까?"),
+                    title),
+                L("清空", "Clear", "清空", "クリア", "지우기")))
             return;
 
         _legacyData.DeleteAction(globalApp, action);
@@ -3097,7 +3103,13 @@ public sealed partial class MainWindow : Window
 
     private async Task DeleteApplicationAsync(LegacyApplication app)
     {
-        if (!await ConfirmDialogAsync("删除确认", $"确定删除 {app.Name}？", "删除"))
+        if (!await ConfirmDialogAsync(
+                DeleteConfirmationTitle(),
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    L("确定删除 {0}？", "Delete {0}?", "確定刪除 {0}？", "{0} を削除しますか？", "{0} 항목을 삭제하시겠습니까?"),
+                    app.Name),
+                DeleteButtonText()))
             return;
         _legacyData.DeleteApplication(app);
         ReloadData();
@@ -3681,7 +3693,13 @@ public sealed partial class MainWindow : Window
 
     private async Task DeleteActionAsync(LegacyApplication app, LegacyAction action)
     {
-        if (!await ConfirmDialogAsync("删除确认", $"确定删除动作 {action.Name}？", "删除"))
+        if (!await ConfirmDialogAsync(
+                DeleteConfirmationTitle(),
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    L("确定删除动作 {0}？", "Delete action {0}?", "確定刪除動作 {0}？", "アクション {0} を削除しますか？", "{0} 동작을 삭제하시겠습니까?"),
+                    action.Name),
+                DeleteButtonText()))
             return;
         _legacyData.DeleteAction(app, action);
         ReloadData();
@@ -3794,7 +3812,13 @@ public sealed partial class MainWindow : Window
 
     private async Task DeleteCommandAsync(LegacyAction action, LegacyCommand command)
     {
-        if (!await ConfirmDialogAsync("删除确认", $"确定删除命令 {command.Name}？", "删除"))
+        if (!await ConfirmDialogAsync(
+                DeleteConfirmationTitle(),
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    L("确定删除命令 {0}？", "Delete command {0}?", "確定刪除命令 {0}？", "コマンド {0} を削除しますか？", "{0} 명령을 삭제하시겠습니까?"),
+                    command.Name),
+                DeleteButtonText()))
             return;
         _legacyData.DeleteCommand(action, command);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
@@ -5167,7 +5191,18 @@ public sealed partial class MainWindow : Window
 
     private async Task DeleteGestureAsync(LegacyGesture gesture)
     {
-        if (!await ConfirmDialogAsync("删除确认", $"确定删除手势 {gesture.Name}？引用它的动作会保留，但后台将无法匹配这个手势。", "删除"))
+        if (!await ConfirmDialogAsync(
+                DeleteConfirmationTitle(),
+                string.Format(
+                    CultureInfo.CurrentCulture,
+                    L(
+                        "确定删除手势 {0}？引用它的动作会保留，但后台将无法匹配这个手势。",
+                        "Delete gesture {0}? Actions that reference it will be kept, but the background service will no longer match this gesture.",
+                        "確定刪除手勢 {0}？引用它的動作會保留，但背景服務將無法再比對這個手勢。",
+                        "ジェスチャ {0} を削除しますか？参照しているアクションは残りますが、バックグラウンドサービスはこのジェスチャを認識できなくなります。",
+                        "{0} 제스처를 삭제하시겠습니까? 이 제스처를 참조하는 동작은 유지되지만 백그라운드 서비스에서 더 이상 인식할 수 없습니다."),
+                    gesture.Name),
+                DeleteButtonText()))
             return;
         _legacyData.DeleteGesture(gesture);
         ReloadData();
@@ -6574,11 +6609,17 @@ public sealed partial class MainWindow : Window
             Title = title,
             Content = NewDialogScrollContent(content),
             PrimaryButtonText = primaryText,
-            CloseButtonText = "取消",
+            CloseButtonText = L("取消", "Cancel", "取消", "キャンセル", "취소"),
             DefaultButton = ContentDialogButton.Primary
         };
         return await dialog.ShowAsync() == ContentDialogResult.Primary;
     }
+
+    private string DeleteConfirmationTitle() =>
+        L("删除确认", "Confirm deletion", "刪除確認", "削除の確認", "삭제 확인");
+
+    private string DeleteButtonText() =>
+        L("删除", "Delete", "刪除", "削除", "삭제");
 
     private ScrollViewer NewDialogScrollContent(object content)
     {

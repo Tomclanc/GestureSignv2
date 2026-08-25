@@ -89,6 +89,9 @@ namespace GestureSign.Daemon.Input
         private string _fallbackGestureName;
         private string _fallbackGestureActionName;
         private int _fallbackGesturePointCount;
+        private long _lastLiveGesturePreviewTick;
+
+        private const int LiveGesturePreviewIntervalMilliseconds = 80;
 
         #endregion
 
@@ -310,6 +313,7 @@ namespace GestureSign.Daemon.Input
             {
                 _lastVisualFeedbackPoints = null;
                 _liveGestureHintName = null;
+                _lastLiveGesturePreviewTick = 0;
                 _surfaceForm.StartDrawing(e.FirstCapturedPoints);
             };
             CaptureEnded += (o, e) =>
@@ -330,7 +334,15 @@ namespace GestureSign.Daemon.Input
                 {
                     _surfaceForm.DrawPoints(e.Points);
                     _lastVisualFeedbackPoints = ClonePoints(e.Points);
-                    ShowLiveGestureHintIfMatched(e.Points);
+                    if (AppConfig.ShowGestureActionHint)
+                    {
+                        var now = Environment.TickCount64;
+                        if (now - _lastLiveGesturePreviewTick >= LiveGesturePreviewIntervalMilliseconds)
+                        {
+                            _lastLiveGesturePreviewTick = now;
+                            ShowLiveGestureHintIfMatched(e.Points);
+                        }
+                    }
                 }
             };
             PluginManager.Instance.GestureActionExecuted += PluginManager_GestureActionExecuted;
@@ -557,6 +569,28 @@ namespace GestureSign.Daemon.Input
                     : userAppList.Cast<UserApp>().Max(app => app.BlockTouchInputThreshold);
                 UpdateBlockTouchInputThreshold(threshold);
             }
+        }
+
+        internal void CancelMouseCapture(string reason)
+        {
+            if (SourceDevice != Devices.Mouse)
+                return;
+
+            if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid || State == CaptureState.TriggerFired)
+            {
+                var points = _pointsCaptured?.Values
+                    .Select(stroke => new List<Point>(stroke))
+                    .ToList() ?? new List<List<Point>>();
+                OnCaptureCanceled(new PointsCapturedEventArgs(
+                    points,
+                    points.Select(stroke => stroke.FirstOrDefault()).ToList()));
+            }
+
+            State = CaptureState.Ready;
+            ResetCaptureBuffers();
+            _initialTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+            Logging.LogMessage($"Mouse gesture capture canceled safely. Reason={reason}");
         }
 
         protected void PointEventTranslator_PointDown(object sender, InputPointsEventArgs e)

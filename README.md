@@ -77,6 +77,9 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ### 18.0.8
 
 - 修复轨迹透明度低于 75% 时仍被强制显示为约 75% 的问题；现在 5%～100% 的滑块范围会直接映射到实际绘制透明度，在 OLED 屏幕和深色背景上也能明显区分。
+- 修复启用鼠标手势后，在部分高回报率鼠标或特定电脑上可能造成全局鼠标失去响应的问题；空闲移动不再执行窗口查询，绘制期间会合并高频移动事件，并加入超时复位保护。
+- 删除应用、动作、命令、手势及边缘动作时的确认弹窗现已完整适配简体中文、英文、繁体中文、日语和韩语。
+- 改用按需引用的 Windows App SDK 组件，移除未使用的 AI、机器学习、Widgets、ONNX Runtime 和 DirectML 依赖，显著减小安装后的占用空间。
 
 ### 历史版本
 
@@ -205,6 +208,9 @@ Current version:
 ### What's new in 18.0.8
 
 - Fixed trail opacity values below 75% being forced to roughly 75%; the full 5%–100% slider range now maps directly to rendering opacity and remains visibly distinct on OLED displays and dark backgrounds.
+- Fixed a system-wide mouse responsiveness issue that could occur with mouse gestures enabled on some PCs or high-polling-rate mice. Idle movement no longer performs window lookups, active movement is coalesced, and a capture watchdog safely resets stuck sessions.
+- Localized confirmation dialogs for deleting apps, actions, commands, gestures, and edge actions in Simplified Chinese, English, Traditional Chinese, Japanese, and Korean.
+- Replaced the full Windows App SDK meta-package with only the required components, removing unused AI, ML, Widgets, ONNX Runtime, and DirectML payloads to reduce installed size.
 
 ### Previous releases
 
@@ -339,6 +345,9 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ### 18.0.8 の更新内容
 
 - 75% 未満の軌跡不透明度が約 75% に強制される問題を修正しました。5%～100% のスライダー範囲が描画の不透明度へ直接反映され、OLED ディスプレイや暗い背景でも差が明確になります。
+- 一部の PC や高ポーリングレートのマウスで、マウスジェスチャーを有効にするとシステム全体のマウス操作が反応しにくくなる問題を修正しました。待機中のウィンドウ照会をなくし、描画中の移動イベントをまとめ、固着時の安全なタイムアウト復旧を追加しました。
+- アプリ、アクション、コマンド、ジェスチャー、エッジアクションの削除確認ダイアログを、簡体字中国語、英語、繁体字中国語、日本語、韓国語に対応しました。
+- Windows App SDK の完全なメタパッケージを必要なコンポーネントだけの参照へ変更し、未使用の AI、ML、Widgets、ONNX Runtime、DirectML を除去してインストール容量を削減しました。
 
 ### 過去のバージョン
 
