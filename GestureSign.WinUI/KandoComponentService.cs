@@ -1,5 +1,6 @@
 using GestureSign.Shared;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -23,6 +24,8 @@ internal static class KandoComponentService
 
     public static async Task PreserveBundledInstallationAsync()
     {
+        await Task.Run(MigrateLegacyStoreData);
+
         if (IsDownloaded || File.Exists(KandoComponentPaths.RemovedMarkerPath))
             return;
 
@@ -101,6 +104,203 @@ internal static class KandoComponentService
 
         Directory.CreateDirectory(KandoComponentPaths.ComponentsRoot);
         File.WriteAllText(KandoComponentPaths.RemovedMarkerPath, DateTime.UtcNow.ToString("O"));
+    }
+
+    private static void MigrateLegacyStoreData()
+    {
+        TryMigrate(MigrateLegacyRemovedMarker);
+        TryMigrate(MigrateLegacyDownloadedInstallation);
+        TryMigrate(MigrateLegacyUserData);
+    }
+
+    private static void TryMigrate(Action migration)
+    {
+        try
+        {
+            migration();
+        }
+        catch
+        {
+            // A locked or inaccessible legacy directory must not prevent startup
+            // or the optional Kando component from being restored.
+        }
+    }
+
+    private static void MigrateLegacyRemovedMarker()
+    {
+        if (File.Exists(KandoComponentPaths.RemovedMarkerPath) || IsDownloaded)
+            return;
+
+        foreach (var sourceDirectory in EnumerateLegacyComponentRoots())
+        {
+            var sourceMarker = Path.Combine(sourceDirectory, "Kando.removed");
+            if (!File.Exists(sourceMarker))
+                continue;
+
+            Directory.CreateDirectory(KandoComponentPaths.ComponentsRoot);
+            File.Copy(sourceMarker, KandoComponentPaths.RemovedMarkerPath, false);
+            return;
+        }
+    }
+
+    private static void MigrateLegacyDownloadedInstallation()
+    {
+        if (IsDownloaded || File.Exists(KandoComponentPaths.RemovedMarkerPath))
+            return;
+
+        foreach (var componentRoot in EnumerateLegacyComponentRoots())
+        {
+            var source = Path.Combine(componentRoot, "Kando");
+            if (PathsEqual(source, KandoComponentPaths.InstallDirectory) ||
+                KandoComponentPaths.FindExecutableUnder(source) is null)
+            {
+                continue;
+            }
+
+            CopyDirectoryAtomically(source, KandoComponentPaths.InstallDirectory);
+            return;
+        }
+    }
+
+    private static void MigrateLegacyUserData()
+    {
+        var destination = KandoComponentPaths.UserDataDirectory;
+        foreach (var source in EnumerateLegacyKandoUserDataDirectories())
+        {
+            if (!Directory.Exists(source) || PathsEqual(source, destination))
+                continue;
+
+            MergePersistentUserData(source, destination);
+        }
+    }
+
+    private static IEnumerable<string> EnumerateLegacyComponentRoots()
+    {
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var localDataRoot in EnumerateLegacyLocalDataRoots())
+        {
+            var path = Path.Combine(localDataRoot, "GestureSign V2", "Components");
+            if (seen.Add(NormalizePath(path)))
+                yield return path;
+        }
+    }
+
+    private static IEnumerable<string> EnumerateLegacyKandoUserDataDirectories()
+    {
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var redirectedRoaming = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "kando");
+        if (seen.Add(NormalizePath(redirectedRoaming)))
+            yield return redirectedRoaming;
+
+        foreach (var packageDirectory in EnumerateStorePackageDirectories())
+        {
+            foreach (var relativePath in new[]
+                     {
+                         Path.Combine("LocalCache", "Roaming", "kando"),
+                         Path.Combine("RoamingState", "kando"),
+                         Path.Combine("AppData", "Roaming", "kando"),
+                         Path.Combine("LocalCache", "Local", "kando"),
+                         Path.Combine("LocalState", "kando")
+                     })
+            {
+                var path = Path.Combine(packageDirectory, relativePath);
+                if (seen.Add(NormalizePath(path)))
+                    yield return path;
+            }
+        }
+    }
+
+    private static IEnumerable<string> EnumerateLegacyLocalDataRoots()
+    {
+        yield return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        foreach (var packageDirectory in EnumerateStorePackageDirectories())
+        {
+            yield return Path.Combine(packageDirectory, "LocalCache", "Local");
+            yield return Path.Combine(packageDirectory, "LocalState");
+            yield return Path.Combine(packageDirectory, "AppData", "Local");
+        }
+    }
+
+    private static IEnumerable<string> EnumerateStorePackageDirectories()
+    {
+        var packagesRoot = Path.Combine(KandoComponentPaths.NativeLocalApplicationData, "Packages");
+        if (!Directory.Exists(packagesRoot))
+            yield break;
+
+        IEnumerable<string> packageDirectories;
+        try
+        {
+            packageDirectories = Directory.EnumerateDirectories(
+                packagesRoot,
+                "TomClancy.GestureSignV2_*").ToArray();
+        }
+        catch
+        {
+            yield break;
+        }
+
+        foreach (var packageDirectory in packageDirectories)
+            yield return packageDirectory;
+    }
+
+    private static void MergePersistentUserData(string sourceDirectory, string destinationDirectory)
+    {
+        try
+        {
+            Directory.CreateDirectory(destinationDirectory);
+            foreach (var file in Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
+            {
+                if (Path.GetFileName(file).Equals("ipc-info.json", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                CopyFileIfMissing(file, Path.Combine(destinationDirectory, Path.GetFileName(file)));
+            }
+
+            foreach (var directory in Directory.EnumerateDirectories(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
+            {
+                if (Path.GetFileName(directory).Equals("session", StringComparison.OrdinalIgnoreCase))
+                    continue;
+                CopyDirectoryIfMissing(directory, Path.Combine(destinationDirectory, Path.GetFileName(directory)));
+            }
+        }
+        catch
+        {
+            // A locked cache or an inaccessible stale package directory must not
+            // prevent Kando itself from being restored after a Store update.
+        }
+    }
+
+    private static void CopyDirectoryIfMissing(string sourceDirectory, string destinationDirectory)
+    {
+        Directory.CreateDirectory(destinationDirectory);
+        foreach (var file in Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
+            CopyFileIfMissing(file, Path.Combine(destinationDirectory, Path.GetFileName(file)));
+        foreach (var directory in Directory.EnumerateDirectories(sourceDirectory, "*", SearchOption.TopDirectoryOnly))
+            CopyDirectoryIfMissing(directory, Path.Combine(destinationDirectory, Path.GetFileName(directory)));
+    }
+
+    private static void CopyFileIfMissing(string source, string destination)
+    {
+        if (File.Exists(destination))
+            return;
+        Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+        File.Copy(source, destination, false);
+    }
+
+    private static bool PathsEqual(string left, string right)
+        => NormalizePath(left).Equals(NormalizePath(right), StringComparison.OrdinalIgnoreCase);
+
+    private static string NormalizePath(string path)
+    {
+        try
+        {
+            return Path.GetFullPath(path).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        }
+        catch
+        {
+            return path;
+        }
     }
 
     private static KandoReleaseAsset ResolveSupportedAsset()

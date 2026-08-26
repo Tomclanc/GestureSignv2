@@ -1,21 +1,35 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace GestureSign.Shared
 {
     internal static class KandoComponentPaths
     {
         private const string ProductFolderName = "GestureSign V2";
+        private const uint KfFlagNoPackageRedirection = 0x00010000;
+        private static readonly Guid LocalAppDataFolderId = new Guid("F1B32785-6FBA-4FCF-9D55-7B8E7F157091");
+        private static readonly Guid RoamingAppDataFolderId = new Guid("3EB685DB-65F9-4CF6-A03A-E3EF65729F3D");
+
+        public static string NativeLocalApplicationData => GetNativeKnownFolder(
+            LocalAppDataFolderId,
+            Environment.SpecialFolder.LocalApplicationData);
+
+        public static string NativeRoamingApplicationData => GetNativeKnownFolder(
+            RoamingAppDataFolderId,
+            Environment.SpecialFolder.ApplicationData);
 
         public static string ComponentsRoot => Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+            NativeLocalApplicationData,
             ProductFolderName,
             "Components");
 
         public static string InstallDirectory => Path.Combine(ComponentsRoot, "Kando");
 
         public static string RemovedMarkerPath => Path.Combine(ComponentsRoot, "Kando.removed");
+
+        public static string UserDataDirectory => Path.Combine(NativeRoamingApplicationData, "kando");
 
         public static string? FindExecutable(string configuredPath, string baseDirectory)
         {
@@ -77,5 +91,37 @@ namespace GestureSign.Shared
                 Path.Combine(parentDirectory, "Kando", "Kando-win32-arm64", "kando.exe")
             ];
         }
+
+        private static string GetNativeKnownFolder(Guid folderId, Environment.SpecialFolder fallback)
+        {
+            IntPtr pathPointer = IntPtr.Zero;
+            try
+            {
+                if (SHGetKnownFolderPath(ref folderId, KfFlagNoPackageRedirection, IntPtr.Zero, out pathPointer) >= 0 &&
+                    pathPointer != IntPtr.Zero)
+                {
+                    var path = Marshal.PtrToStringUni(pathPointer);
+                    if (!string.IsNullOrWhiteSpace(path))
+                        return path;
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                if (pathPointer != IntPtr.Zero)
+                    Marshal.FreeCoTaskMem(pathPointer);
+            }
+
+            return Environment.GetFolderPath(fallback);
+        }
+
+        [DllImport("shell32.dll")]
+        private static extern int SHGetKnownFolderPath(
+            ref Guid rfid,
+            uint dwFlags,
+            IntPtr hToken,
+            out IntPtr ppszPath);
     }
 }

@@ -5946,7 +5946,7 @@ public sealed partial class MainWindow : Window
     }
 
     private static string GetKandoMenusPath()
-        => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "kando", "menus.json");
+        => Path.Combine(KandoComponentPaths.UserDataDirectory, "menus.json");
 
     private static DateTime GetKandoMenusWriteTimeUtc()
     {
