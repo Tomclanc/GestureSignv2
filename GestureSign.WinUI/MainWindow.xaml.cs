@@ -402,6 +402,9 @@ public sealed partial class MainWindow : Window
         var resolvedCulture = ResolveUiCultureName(cultureName);
         if (resolvedCulture.StartsWith("en", StringComparison.OrdinalIgnoreCase))
             return UiLanguage.English;
+        if (resolvedCulture.StartsWith("zh-CN", StringComparison.OrdinalIgnoreCase) ||
+            resolvedCulture.StartsWith("zh-Hans", StringComparison.OrdinalIgnoreCase))
+            return UiLanguage.SimplifiedChinese;
         if (resolvedCulture.StartsWith("zh-TW", StringComparison.OrdinalIgnoreCase) ||
             resolvedCulture.StartsWith("zh-Hant", StringComparison.OrdinalIgnoreCase))
             return UiLanguage.TraditionalChineseTaiwan;
