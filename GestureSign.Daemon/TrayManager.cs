@@ -846,11 +846,11 @@ namespace GestureSign.Daemon
                 _trayMenu.BeginInvoke(new Action(() =>
                 {
                     _updateReleaseUrl = e.ReleaseUrl;
-                    bool chinese = (_loadedCultureName ?? String.Empty).StartsWith("zh", StringComparison.OrdinalIgnoreCase);
-                    _trayIcon.BalloonTipTitle = chinese ? "GestureSign V2 有新版本" : "GestureSign V2 update available";
-                    _trayIcon.BalloonTipText = chinese
-                        ? String.Format(CultureInfo.CurrentCulture, "新版本 {0} 已发布，点击打开下载页面。", e.Version)
-                        : String.Format(CultureInfo.CurrentCulture, "Version {0} is available. Click to open the download page.", e.Version);
+                    _trayIcon.BalloonTipTitle = LocalizationProvider.Instance.GetTextValue("Messages.UpdateTitle");
+                    _trayIcon.BalloonTipText = String.Format(
+                        CultureInfo.CurrentCulture,
+                        LocalizationProvider.Instance.GetTextValue("Messages.UpdateText"),
+                        e.Version);
                     _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
                     _trayIcon.ShowBalloonTip(10000);
                 }));

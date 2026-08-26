@@ -4,6 +4,8 @@
     <Error>錯誤</Error>
     <ContactCountError>無法取得觸控點數量！請嘗試重新安裝裝置驅動程式。</ContactCountError>
     <ComponentNotFoundMessage>找不到元件 {0}，請重新下載或安裝 GestureSign。</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 有新版本</UpdateTitle>
+    <UpdateText>新版本 {0} 已發佈，按一下以開啟下載頁面。</UpdateText>
   </Messages>
   <TrayMenu>
     <Disable>關閉手勢辨識</Disable>

@@ -4,6 +4,8 @@
     <Error>Error</Error>
     <ContactCountError>Can not get the number of contacts! Please try to reinstall the device driver!</ContactCountError>
     <ComponentNotFoundMessage>Can not find {0}.Try to redownload or reinstall GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 update available</UpdateTitle>
+    <UpdateText>Version {0} is available. Click to open the download page.</UpdateText>
   </Messages>
   <TrayMenu>
     <Disable>Disable GestureSign</Disable>

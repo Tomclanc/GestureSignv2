@@ -11,7 +11,7 @@
   <Identity
     Name="TomClancy.GestureSignV2"
     Publisher="CN=A82713FB-4ABE-47C7-8184-01CF24575B7F"
-    Version="18.1.0.0" />
+    Version="18.1.1.0" />
 
   <Properties>
     <DisplayName>GestureSign V2</DisplayName>
@@ -29,6 +29,11 @@
     <Resource Language="zh-TW" />
     <Resource Language="ja-JP" />
     <Resource Language="ko-KR" />
+    <Resource Language="fr-FR" />
+    <Resource Language="ru-RU" />
+    <Resource Language="ar-SA" />
+    <Resource Language="es-ES" />
+    <Resource Language="pt-BR" />
   </Resources>
 
   <Applications>

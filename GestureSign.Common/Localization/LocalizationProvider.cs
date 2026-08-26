@@ -126,6 +126,9 @@ namespace GestureSign.Common.Localization
         {
             var folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Languages", languageFolderName);
             if (!Directory.Exists(folderPath)) return null;
+
+            string languageFallback = null;
+            string traditionalChineseFallback = null;
             foreach (string file in Directory.GetFiles(folderPath, "*.xml"))
             {
                 using (XmlTextReader xtr = new XmlTextReader(file) { WhitespaceHandling = WhitespaceHandling.None })
@@ -134,18 +137,49 @@ namespace GestureSign.Common.Localization
                     {
                         if ("language".Equals(xtr.Name, StringComparison.OrdinalIgnoreCase))
                         {
-                            if (_cultureInfo.Name.Equals(xtr.GetAttribute("Culture"), StringComparison.OrdinalIgnoreCase))
+                            string cultureName = xtr.GetAttribute("Culture");
+                            if (_cultureInfo.Name.Equals(cultureName, StringComparison.OrdinalIgnoreCase))
                             {
                                 return file;
+                            }
+
+                            try
+                            {
+                                CultureInfo candidateCulture = CultureInfo.GetCultureInfo(cultureName);
+                                if (_cultureInfo.TwoLetterISOLanguageName.Equals(
+                                    candidateCulture.TwoLetterISOLanguageName,
+                                    StringComparison.OrdinalIgnoreCase))
+                                {
+                                    if ("zh".Equals(candidateCulture.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase) &&
+                                        (candidateCulture.Name.IndexOf("Hant", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                         candidateCulture.Name.Equals("zh-TW", StringComparison.OrdinalIgnoreCase)))
+                                    {
+                                        traditionalChineseFallback = file;
+                                    }
+                                    else if (languageFallback == null)
+                                    {
+                                        languageFallback = file;
+                                    }
+                                }
+                            }
+                            catch (CultureNotFoundException)
+                            {
                             }
                             break;
                         }
                     }
                 }
             }
-            return null;
-        }
 
+            bool wantsTraditionalChinese = "zh".Equals(_cultureInfo.TwoLetterISOLanguageName, StringComparison.OrdinalIgnoreCase) &&
+                                               (_cultureInfo.Name.IndexOf("Hant", StringComparison.OrdinalIgnoreCase) >= 0 ||
+                                                _cultureInfo.Name.EndsWith("-TW", StringComparison.OrdinalIgnoreCase) ||
+                                                _cultureInfo.Name.EndsWith("-HK", StringComparison.OrdinalIgnoreCase) ||
+                                                _cultureInfo.Name.EndsWith("-MO", StringComparison.OrdinalIgnoreCase));
+            return wantsTraditionalChinese && traditionalChineseFallback != null
+                ? traditionalChineseFallback
+                : languageFallback;
+        }
         private void LoadLanguageData(XmlTextReader xmlTextReader)
         {
             List<string> nodes = new List<string>(4);

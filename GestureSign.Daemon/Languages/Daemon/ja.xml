@@ -4,6 +4,8 @@
     <Error>エラー</Error>
     <ContactCountError>タッチポイント数を取得できません。デバイスドライバーを再インストールしてください。</ContactCountError>
     <ComponentNotFoundMessage>{0} が見つかりません。GestureSign を再インストールしてください。</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 の更新があります</UpdateTitle>
+    <UpdateText>バージョン {0} が利用可能です。クリックしてダウンロードページを開きます。</UpdateText>
   </Messages>
   <TrayMenu>
     <Disable>ジェスチャー認識を無効にする</Disable>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="Português" Culture="pt-BR" Version="0.15">
+  <Messages>
+    <Error>Erro</Error>
+    <ContactCountError>Não foi possível obter o número de pontos de contato. Tente reinstalar o driver do dispositivo.</ContactCountError>
+    <ComponentNotFoundMessage>O componente {0} não foi encontrado. Baixe novamente ou reinstale o GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Uma atualização do GestureSign V2 está disponível</UpdateTitle>
+    <UpdateText>A versão {0} está disponível. Clique para abrir a página de download.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Desativar o reconhecimento de gestos</Disable>
+    <Enable>Ativar o reconhecimento de gestos</Enable>
+    <Settings>Configurações</Settings>
+    <Exit>Sair</Exit>
+  </TrayMenu>
+</Language>

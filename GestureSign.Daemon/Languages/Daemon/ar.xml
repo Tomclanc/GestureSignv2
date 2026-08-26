@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="العربية" Culture="ar-SA" Version="0.15">
+  <Messages>
+    <Error>خطأ</Error>
+    <ContactCountError>تعذر الحصول على عدد نقاط اللمس. جرّب إعادة تثبيت برنامج تشغيل الجهاز.</ContactCountError>
+    <ComponentNotFoundMessage>تعذر العثور على المكوّن {0}. أعد تنزيل GestureSign أو تثبيته.</ComponentNotFoundMessage>
+    <UpdateTitle>يتوفر تحديث لـ GestureSign V2</UpdateTitle>
+    <UpdateText>يتوفر الإصدار {0}. انقر لفتح صفحة التنزيل.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>تعطيل التعرّف على الإيماءات</Disable>
+    <Enable>تمكين التعرّف على الإيماءات</Enable>
+    <Settings>الإعدادات</Settings>
+    <Exit>خروج</Exit>
+  </TrayMenu>
+</Language>

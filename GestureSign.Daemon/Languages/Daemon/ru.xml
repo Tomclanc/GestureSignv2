@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Language DisplayName="Русский" Culture="ru-RU" Version="0.15">
+  <Messages>
+    <Error>Ошибка</Error>
+    <ContactCountError>Не удалось получить количество точек касания. Попробуйте переустановить драйвер устройства.</ContactCountError>
+    <ComponentNotFoundMessage>Компонент {0} не найден. Загрузите или переустановите GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Доступно обновление GestureSign V2</UpdateTitle>
+    <UpdateText>Доступна версия {0}. Нажмите, чтобы открыть страницу загрузки.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Отключить распознавание жестов</Disable>
+    <Enable>Включить распознавание жестов</Enable>
+    <Settings>Параметры</Settings>
+    <Exit>Выход</Exit>
+  </TrayMenu>
+</Language>
