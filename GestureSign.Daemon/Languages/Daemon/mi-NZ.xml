@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Māori (Aotearoa)" Culture="mi-NZ" Version="0.16">
+  <Messages>
+    <Error>Hapa</Error>
+    <ContactCountError>Kaore e taea te tiki i te maha o nga whakapā! Tena whakamātautau ki te whakauru anō i te taraiwa pūrere!</ContactCountError>
+    <ComponentNotFoundMessage>Kaore e kitea {0}. Whakamātauria te whakahou ake, te tango anō rānei i te GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>He whakahoutanga a GestureSign V2 e wātea ana</UpdateTitle>
+    <UpdateText>He putanga {0} e wātea ana. Pāwhiritia hei whakatuwhera i te whārangi tango.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Whakakore i te GestureSign</Disable>
+    <Enable>Whakahohe i te GestureSign</Enable>
+    <Settings>Tautuhinga</Settings>
+    <Exit>Putanga</Exit>
+  </TrayMenu>
+</Language>

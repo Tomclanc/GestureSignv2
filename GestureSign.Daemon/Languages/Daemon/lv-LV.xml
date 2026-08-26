@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="latviešu (Latvija)" Culture="lv-LV" Version="0.16">
+  <Messages>
+    <Error>Kļūda</Error>
+    <ContactCountError>Nevar iegūt kontaktu skaitu! Lūdzu, mēģiniet pārinstalēt ierīces draiveri!</ContactCountError>
+    <ComponentNotFoundMessage>Nevar atrast {0}. Mēģiniet pārlejuplādēt vai pārinstalēt GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Pieejama GestureSign V2 atjauninājums</UpdateTitle>
+    <UpdateText>Pieejama versija {0}. Noklikšķiniet, lai atvērtu lejupielādes lapu.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Atspējot GestureSign</Disable>
+    <Enable>Ieslēgt GestureSign</Enable>
+    <Settings>Iestatījumi</Settings>
+    <Exit>Iziet</Exit>
+  </TrayMenu>
+</Language>

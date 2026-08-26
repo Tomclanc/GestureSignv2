@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="azərbaycan (latın, Azərbaycan)" Culture="az-Latn-AZ" Version="0.16">
+  <Messages>
+    <Error>Səhv</Error>
+    <ContactCountError>Əlaqə sayını əldə etmək mümkün olmadı! Zəhmət olmasa, cihaz sürücüsünü yenidən quraşdırmağı sınayın!</ContactCountError>
+    <ComponentNotFoundMessage>{0} tapılmadı. GestureSign-i yenidən yükləməyi və ya quraşdırmağı sınayın.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 yeniləməsi mövcuddur</UpdateTitle>
+    <UpdateText>{0} versiyası mövcuddur. Yükləmə səhifəsini açmaq üçün klikləyin.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign-i deaktiv et</Disable>
+    <Enable>GestureSign-i aktiv et</Enable>
+    <Settings>Parametrlər</Settings>
+    <Exit>Çıxış</Exit>
+  </TrayMenu>
+</Language>

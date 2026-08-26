@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="اردو (پاکستان)" Culture="ur-PK" Version="0.16">
+  <Messages>
+    <Error>خرابی</Error>
+    <ContactCountError>رابطوں کی تعداد حاصل نہیں کی جا سکتی! براہ مہربانی ڈیوائس ڈرائیور دوبارہ انسٹال کرنے کی کوشش کریں!</ContactCountError>
+    <ComponentNotFoundMessage>{0} نہیں ملا۔ GestureSign دوبارہ ڈاؤن لوڈ یا انسٹال کرنے کی کوشش کریں۔</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 کی تازہ کاری دستیاب ہے</UpdateTitle>
+    <UpdateText>ورژن {0} دستیاب ہے۔ ڈاؤن لوڈ صفحہ کھولنے کے لیے کلک کریں۔</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign کو غیر فعال کریں</Disable>
+    <Enable>GestureSign کو فعال کریں</Enable>
+    <Settings>ترتیبات</Settings>
+    <Exit>باہر نکلیں</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="eesti (Eesti)" Culture="et-EE" Version="0.16">
+  <Messages>
+    <Error>Viga</Error>
+    <ContactCountError>Kontakte ei õnnestu lugeda! Palun proovige seadme draiver uuesti paigaldada!</ContactCountError>
+    <ComponentNotFoundMessage>Ei leia {0}. Proovige GestureSign uuesti alla laadida või paigaldada.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 värskendus saadaval</UpdateTitle>
+    <UpdateText>Versioon {0} on saadaval. Klõpsake, et avada allalaadimislehte.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Keela GestureSign</Disable>
+    <Enable>Luba GestureSign</Enable>
+    <Settings>Seaded</Settings>
+    <Exit>Välju</Exit>
+  </TrayMenu>
+</Language>

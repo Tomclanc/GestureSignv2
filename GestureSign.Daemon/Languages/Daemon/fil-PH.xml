@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Filipino (Pilipinas)" Culture="fil-PH" Version="0.16">
+  <Messages>
+    <Error>Error</Error>
+    <ContactCountError>Hindi makuha ang bilang ng mga kontak! Pakisubukang i-reinstall ang device driver!</ContactCountError>
+    <ComponentNotFoundMessage>Hindi mahanap ang {0}. Subukang i-redownload o i-reinstall ang GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Available ang GestureSign V2 update</UpdateTitle>
+    <UpdateText>Available ang Bersyon {0}. I-click para buksan ang download page.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>I-disable ang GestureSign</Disable>
+    <Enable>I-enable ang GestureSign</Enable>
+    <Settings>Mga Setting</Settings>
+    <Exit>Lumabas</Exit>
+  </TrayMenu>
+</Language>

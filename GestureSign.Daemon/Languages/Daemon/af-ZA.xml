@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Afrikaans (Suid-Afrika)" Culture="af-ZA" Version="0.16">
+  <Messages>
+    <Error>Fout</Error>
+    <ContactCountError>Kan nie die aantal kontakte kry nie! Probeer asseblief om die toestelryer weer te installeer!</ContactCountError>
+    <ComponentNotFoundMessage>Kan nie {0} vind nie. Probeer om GestureSign weer af te laai of te herinstalleer.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2-opdatering beskikbaar</UpdateTitle>
+    <UpdateText>Weergawe {0} is beskikbaar. Klik om die aflaaipad te open.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Deaktiveer GestureSign</Disable>
+    <Enable>Aktiveer GestureSign</Enable>
+    <Settings>Instellings</Settings>
+    <Exit>Verlaat</Exit>
+  </TrayMenu>
+</Language>

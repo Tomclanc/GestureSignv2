@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="فارسی (ایران)" Culture="fa-IR" Version="0.16">
+  <Messages>
+    <Error>خطا</Error>
+    <ContactCountError>نمی‌توان تعداد مخاطبین را دریافت کرد! لطفاً سعی کنید درایور دستگاه را دوباره نصب کنید!</ContactCountError>
+    <ComponentNotFoundMessage>نمی‌توان {0} را پیدا کرد. سعی کنید GestureSign را دوباره دانلود یا نصب کنید.</ComponentNotFoundMessage>
+    <UpdateTitle>به‌روزرسانی GestureSign V2 در دسترس است</UpdateTitle>
+    <UpdateText>نسخه {0} در دسترس است. برای باز کردن صفحه دانلود کلیک کنید.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>غیرفعال کردن GestureSign</Disable>
+    <Enable>فعال کردن GestureSign</Enable>
+    <Settings>تنظیمات</Settings>
+    <Exit>خروج</Exit>
+  </TrayMenu>
+</Language>

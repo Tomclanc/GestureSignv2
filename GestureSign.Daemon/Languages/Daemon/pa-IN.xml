@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ਪੰਜਾਬੀ (ਭਾਰਤ)" Culture="pa-IN" Version="0.16">
+  <Messages>
+    <Error>ਗਲਤੀ</Error>
+    <ContactCountError>ਸੰਪਰਕਾਂ ਦੀ ਗਿਣਤੀ ਪ੍ਰਾਪਤ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ! ਕਿਰਪਾ ਕਰਕੇ ਡਿਵਾਈਸ ਡ੍ਰਾਇਵਰ ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ਨਹੀਂ ਲੱਭਿਆ। ਦੁਬਾਰਾ ਡਾਊਨਲੋਡ ਜਾਂ GestureSign ਨੂੰ ਦੁਬਾਰਾ ਇੰਸਟਾਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 ਅਪਡੇਟ ਉਪਲਬਧ ਹੈ</UpdateTitle>
+    <UpdateText>ਵਰਜ਼ਨ {0} ਉਪਲਬਧ ਹੈ। ਡਾਊਨਲੋਡ ਪੇਜ ਖੋਲ੍ਹਣ ਲਈ ਕਲਿੱਕ ਕਰੋ।</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ਅਯੋਗ ਕਰੋ</Disable>
+    <Enable>GestureSign ਯੋਗ ਕਰੋ</Enable>
+    <Settings>ਸੈਟਿੰਗਜ਼</Settings>
+    <Exit>ਬਾਹਰ ਨਿਕਲੋ</Exit>
+  </TrayMenu>
+</Language>

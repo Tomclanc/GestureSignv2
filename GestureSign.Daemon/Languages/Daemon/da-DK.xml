@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="dansk (Danmark)" Culture="da-DK" Version="0.16">
+  <Messages>
+    <Error>Fejl</Error>
+    <ContactCountError>Kan ikke hente antallet af kontakter! Prøv venligst at geninstallere enhedsdriveren!</ContactCountError>
+    <ComponentNotFoundMessage>Kan ikke finde {0}. Prøv at downloade igen eller geninstallere GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 opdatering tilgængelig</UpdateTitle>
+    <UpdateText>Version {0} er tilgængelig. Klik for at åbne download-siden.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Deaktiver GestureSign</Disable>
+    <Enable>Aktiver GestureSign</Enable>
+    <Settings>Indstillinger</Settings>
+    <Exit>Afslut</Exit>
+  </TrayMenu>
+</Language>

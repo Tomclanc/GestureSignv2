@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="o‘zbek (lotin, Oʻzbekiston)" Culture="uz-Latn-UZ" Version="0.16">
+  <Messages>
+    <Error>Xato</Error>
+    <ContactCountError>Kontaktlar sonini olish mumkin emas! Iltimos, qurilma drayverini qayta o‘rnatib ko‘ring!</ContactCountError>
+    <ComponentNotFoundMessage>{0} topilmadi. GestureSign’ni qayta yuklab ko‘ring yoki qayta o‘rnating.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 yangilanishi mavjud</UpdateTitle>
+    <UpdateText>{0} versiyasi mavjud. Yuklab olish sahifasini ochish uchun bosing.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign’ni o‘chirib qo‘yish</Disable>
+    <Enable>GestureSign’ni yoqish</Enable>
+    <Settings>Sozlamalar</Settings>
+    <Exit>Chiqish</Exit>
+  </TrayMenu>
+</Language>

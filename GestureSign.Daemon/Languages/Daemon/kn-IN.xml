@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ಕನ್ನಡ (ಭಾರತ)" Culture="kn-IN" Version="0.16">
+  <Messages>
+    <Error>ದೋಷ</Error>
+    <ContactCountError>ಸಂಪರ್ಕಗಳ ಸಂಖ್ಯೆಯನ್ನು ಪಡೆಯಲಾಗುತ್ತಿಲ್ಲ! ದಯವಿಟ್ಟು ಸಾಧನ ಡ್ರೈವರನ್ನು ಮರುಸ್ಥಾಪಿಸmayı ಪ್ರಯತ್ನಿಸಿ!</ContactCountError>
+    <ComponentNotFoundMessage>{0} കണ്ടെത്തಲಾಗುತ್ತಿಲ್ಲ. GestureSign ಅನ್ನು ಮರುಡೌನ್‌ಲೋಡ್ ಅಥವಾ ಮರುಸ್ಥಾಪಿಸmayı ಪ್ರಯತ್ನಿಸಿ.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 ನ ಇತ್ತೀಚಿನ ನವೀಕರಣ ಲಭ್ಯವಿದೆ</UpdateTitle>
+    <UpdateText>ಆವೃತ್ತಿ {0} ಲಭ್ಯವಿದೆ. ಡೌನ್‌ಲೋಡ್ ಪುಟವನ್ನು ತೆರೆಯಲು ಕ್ಲಿಕ್ ಮಾಡಿ.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ</Disable>
+    <Enable>GestureSign ಸಕ್ರೀಯಗೊಳಿಸಿ</Enable>
+    <Settings>ಸೆಟ್ಟಿಂಗ್‌ಗಳು</Settings>
+    <Exit>ನಿರ್ಗಮಿಸಿ</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Language DisplayName="Gàidhlig (An Rìoghachd Aonaichte)" Culture="gd-GB" Version="0.16">
+  <Messages>
+    <Error>Mearachd</Error>
+    <ContactCountError>Chan urrainn dhomh an àireamh de cheanglaichean a ghluasad!</ContactCountError>
+    <ComponentNotFoundMessage>Chan urrainn ĠtĠfindĠ{0}. ĠTryĠtoĠredoDownloadĠorĠreinstallĠGestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSignĠV2ĠupdatedĠapabble</UpdateTitle>
+    <UpdateText>VersionĠ{0}ĠisĠiuivailable.ĠClickĠtoĠiuivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJivaJ</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Air a chuir dhethĠGestureSign</Disable>
+    <Enable>AigibleĠGestureSign</Enable>
+    <Settings>Sgrìobhainnean</Settings>
+    <Exit>Còmhdach</Exit>
+  </TrayMenu>
+</Language>

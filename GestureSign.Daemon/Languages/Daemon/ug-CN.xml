@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ئۇيغۇرچە (جۇڭگو)" Culture="ug-CN" Version="0.16">
+  <Messages>
+    <Error>خاتا</Error>
+    <ContactCountError>ئالاقە سانىنى ئالالمىدى! ئېتىراپ قىلىڭ، قۇرال قاچىلاشنى قايتا سىناڭ!</ContactCountError>
+    <ComponentNotFoundMessage>{0} نى تاپالمايمىز. GestureSign نى قايتا چۈشۈرۈپ ياكى قاچىلەپ بېقىڭ.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 يېڭىلاش مۇمكىن</UpdateTitle>
+    <UpdateText>{0} نەشرى بار. چۈشۈرۈش بەتنى ئاچماق ئۈچۈن چېكىڭ.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign نى ئۆچۈرۈش</Disable>
+    <Enable>GestureSign نى ۋاقتلىق قوزغاتماق</Enable>
+    <Settings>تەڭشەشلەر</Settings>
+    <Exit>چىقىش</Exit>
+  </TrayMenu>
+</Language>

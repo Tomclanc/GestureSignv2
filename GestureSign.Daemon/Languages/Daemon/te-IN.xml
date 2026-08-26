@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="తెలుగు (భారతదేశం)" Culture="te-IN" Version="0.16">
+  <Messages>
+    <Error>లోపం</Error>
+    <ContactCountError>సంప్రదింపుల సంఖ్యను పొందలేరు! దయచేసి డివైస్ డ్రైవర్‌ను మళ్లీ ఇన్‌స్టాల్ చేయాలని ప్రయత్నించండి!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ను కనుగొనలేకపోయాము. GestureSign ను మళ్లీ డౌన్‌లోడ్ చేయాలి లేదా ఇన్‌స్టాల్ చేయండి.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 అప్‌డేట్ అందుబాటులో ఉంది</UpdateTitle>
+    <UpdateText>వర్షన్ {0} అందుబాటులో ఉంది. డౌన్‌లోడ్ పేజీని తెరవడానికి క్లిక్ చేయండి.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ని అచేతన రుచిలో ఉంచండి</Disable>
+    <Enable>GestureSign ని సಕ್ರియం చేయండి</Enable>
+    <Settings>సెట్టింగులు</Settings>
+    <Exit>బయటకు రండి</Exit>
+  </TrayMenu>
+</Language>

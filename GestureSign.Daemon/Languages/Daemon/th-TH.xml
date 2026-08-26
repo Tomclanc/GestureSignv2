@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ไทย (ไทย)" Culture="th-TH" Version="0.16">
+  <Messages>
+    <Error>ข้อผิดพลาด</Error>
+    <ContactCountError>ไม่สามารถดึงจำนวนผู้ติดต่อได้! โปรดลองติดตั้งไดรเวอร์อุปกรณ์ใหม่!</ContactCountError>
+    <ComponentNotFoundMessage>ไม่พบ {0} ลองดาวน์โหลดใหม่หรือติดตั้ง GestureSign ใหม่</ComponentNotFoundMessage>
+    <UpdateTitle>มีการอัปเดต GestureSign V2</UpdateTitle>
+    <UpdateText>มีเวอร์ชัน {0} พร้อมใช้งาน คลิกเพื่อเปิดหน้าดาวน์โหลด</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>ปิดใช้งาน GestureSign</Disable>
+    <Enable>เปิดใช้งาน GestureSign</Enable>
+    <Settings>การตั้งค่า</Settings>
+    <Exit>ออกจากโปรแกรม</Exit>
+  </TrayMenu>
+</Language>

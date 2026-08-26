@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ગુજરાતી (ભારત)" Culture="gu-IN" Version="0.16">
+  <Messages>
+    <Error>ભૂલ</Error>
+    <ContactCountError>સંપર્કોની સંખ્યા મેળવી શકાઈ નથી! કૃપા કરીને ડિવાઇસ ડ્રાઇવર ફરી ઇન્સ્ટોલ કરવાનો પ્રયાસ કરો!</ContactCountError>
+    <ComponentNotFoundMessage>{0} શોધી શકાઈ નથી. GestureSign ફરી ડાઉનલોડ અથવા ઇન્સ્ટોલ કરીને જુઓ.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 અપડેટ ઉપલબ્ધ છે</UpdateTitle>
+    <UpdateText>સંસ્કરણ {0} ઉપલબ્ધ છે. ડાઉનલોડ પૃષ્ઠ ખોલવા માટે ક્લિક કરો.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign નિષ્ક્રિય કરો</Disable>
+    <Enable>GestureSign સક્રિય કરો</Enable>
+    <Settings>સેટિંગ્સ</Settings>
+    <Exit>બહાર નિકળો</Exit>
+  </TrayMenu>
+</Language>

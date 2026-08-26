@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Malti (Malta)" Culture="mt-MT" Version="0.16">
+  <Messages>
+    <Error>Żball</Error>
+    <ContactCountError>Ma tistax tikseb in-numru ta' kuntatti! Jekk jogħġbok ipprova tinstalla mill-ġdid id-drajver tal-apparat!</ContactCountError>
+    <ComponentNotFoundMessage>Ma nistax insib {0}. Ipprova tniżżel mill-ġdid jew tinstalla mill-ġdid GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Aġġornament GestureSign V2 disponibbli</UpdateTitle>
+    <UpdateText>Il-verżjoni {0} hija disponibbli. Ikklikkja biex tiftaħ il-paġna tan-niżżil.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Ipprojbixxi GestureSign</Disable>
+    <Enable>Ħalli GestureSign attiv</Enable>
+    <Settings>Settings</Settings>
+    <Exit>Iċċedi</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Kiswahili (Kenya)" Culture="sw-KE" Version="0.16">
+  <Messages>
+    <Error>Hitilafu</Error>
+    <ContactCountError>Haiwezi kupata idadi ya mawasiliano! Tafadhali jaribu kusanidua dereva wa kifaa tena!</ContactCountError>
+    <ComponentNotFoundMessage>Haiwezi kupata {0}. Jaribu kupakua tena au kusanidua GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Sasisho la GestureSign V2 linapatikana</UpdateTitle>
+    <UpdateText>Toleo {0} linapatikana. Bonyeza kufungua ukurasa wa kupakua.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Zima GestureSign</Disable>
+    <Enable>Washa GestureSign</Enable>
+    <Settings>Mipangilio</Settings>
+    <Exit>Toka</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ქართული (საქართველო)" Culture="ka-GE" Version="0.16">
+  <Messages>
+    <Error>შეცდომა</Error>
+    <ContactCountError>ვერ მიიღება კონტაქტების რაოდენობა! გთხოვთ, სცადეთ მოწყობილობის დრაივერის ხელახლა ინსტალაცია!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ვერ მოიძებნა. სცადეთ GestureSign-ის ხელახლა ჩამოტვირთვა ან ინსტალაცია.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 განახლება ხელმისაწვდომია</UpdateTitle>
+    <UpdateText>ვერსია {0} ხელმისაწვდომია. ჩამოტვირთვის გვერდის გასახსნელად დააჭირეთ.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>შეაჩერე GestureSign</Disable>
+    <Enable>ჩართე GestureSign</Enable>
+    <Settings>პარამეტრები</Settings>
+    <Exit>გამოსვლა</Exit>
+  </TrayMenu>
+</Language>

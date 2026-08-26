@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="беларуская (Беларусь)" Culture="be-BY" Version="0.16">
+  <Messages>
+    <Error>Памылка</Error>
+    <ContactCountError>Немагчыма атрымаць колькасць кантактаў! Калі ласка, паспрабуйце пераўсталяваць драйвер прылады!</ContactCountError>
+    <ComponentNotFoundMessage>Немагчыма знайсці {0}. Паспрабуйце паўторна спампаваць або пераўсталяваць GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Даступна абнаўленне GestureSign V2</UpdateTitle>
+    <UpdateText>Даступна версія {0}. Націсніце, каб адкрыць старонку загрузкі.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Адключыць GestureSign</Disable>
+    <Enable>Уключыць GestureSign</Enable>
+    <Settings>Налады</Settings>
+    <Exit>Выйсці</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Cymraeg (Y Deyrnas Unedig)" Culture="cy-GB" Version="0.16">
+  <Messages>
+    <Error>Gwall</Error>
+    <ContactCountError>Methu cael nifer y cysylltiadau! Ceisiwch ailosod y gyrrwr dyfais!</ContactCountError>
+    <ComponentNotFoundMessage>Methu dod o hyd i {0}. Ceisiwch lawrlwytho neu ailosod GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Diweddariad GestureSign V2 ar gael</UpdateTitle>
+    <UpdateText>Fersiwn {0} ar gael. Cliciwch i agor y dudalen lawrlwytho.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Analluogi GestureSign</Disable>
+    <Enable>Galluogi GestureSign</Enable>
+    <Settings>Gosodiadau</Settings>
+    <Exit>Gadael</Exit>
+  </TrayMenu>
+</Language>

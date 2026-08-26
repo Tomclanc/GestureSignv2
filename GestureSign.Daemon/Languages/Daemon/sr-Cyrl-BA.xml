@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="српски (ћирилица, Босна и Херцеговина)" Culture="sr-Cyrl-BA" Version="0.16">
+  <Messages>
+    <Error>Грешка</Error>
+    <ContactCountError>Не могу да добијем број контаката! Покушајте поново да инсталирате управљачки програм уређаја!</ContactCountError>
+    <ComponentNotFoundMessage>Не могу да пронађем {0}. Покушајте поново да преузмете или инсталирате GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Доступно је ажурирање GestureSign V2</UpdateTitle>
+    <UpdateText>Верзија {0} је доступна. Кликните да отворите страницу за преузимање.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Онемогући GestureSign</Disable>
+    <Enable>Омогући GestureSign</Enable>
+    <Settings>Подешавања</Settings>
+    <Exit>Излаз</Exit>
+  </TrayMenu>
+</Language>

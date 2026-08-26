@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Indonesia (Indonesia)" Culture="id-ID" Version="0.16">
+  <Messages>
+    <Error>Kesalahan</Error>
+    <ContactCountError>Tidak dapat mendapatkan jumlah kontak! Silakan coba untuk menginstal ulang driver perangkat!</ContactCountError>
+    <ComponentNotFoundMessage>Tidak dapat menemukan {0}. Coba unduh ulang atau instal ulang GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Pembaruan GestureSign V2 tersedia</UpdateTitle>
+    <UpdateText>Versi {0} tersedia. Klik untuk membuka halaman unduhan.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Nonaktifkan GestureSign</Disable>
+    <Enable>Aktifkan GestureSign</Enable>
+    <Settings>Pengaturan</Settings>
+    <Exit>Keluar</Exit>
+  </TrayMenu>
+</Language>

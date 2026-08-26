@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="български (България)" Culture="bg-BG" Version="0.16">
+  <Messages>
+    <Error>Грешка</Error>
+    <ContactCountError>Не може да се получи броят на контактите! Моля, опитайте да преинсталирате драйвера на устройството!</ContactCountError>
+    <ComponentNotFoundMessage>Не може да се намери {0}. Опитайте да изтеглите отново или да преинсталирате GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Достъпна е актуализация на GestureSign V2</UpdateTitle>
+    <UpdateText>Налична е версия {0}. Кликнете, за да отворите страницата за изтегляне.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Деактивиране на GestureSign</Disable>
+    <Enable>Активиране на GestureSign</Enable>
+    <Settings>Настройки</Settings>
+    <Exit>Изход</Exit>
+  </TrayMenu>
+</Language>

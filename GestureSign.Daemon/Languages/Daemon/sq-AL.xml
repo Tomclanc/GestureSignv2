@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="shqip (Shqipëri)" Culture="sq-AL" Version="0.16">
+  <Messages>
+    <Error>Gabim</Error>
+    <ContactCountError>Nuk mund të merret numri i kontakteve! Ju lutemi provoni të riinstaloni drejtuesin e pajisjes!</ContactCountError>
+    <ComponentNotFoundMessage>Nuk mund të gjendet {0}. Provoni të ridhakoni ose të riinstaloni GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Përditësimi GestureSign V2 është i disponueshëm</UpdateTitle>
+    <UpdateText>Versioni {0} është i disponueshëm. Klikoni për të hapur faqen e shkarkimit.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Çaktivizo GestureSign</Disable>
+    <Enable>Aktivizo GestureSign</Enable>
+    <Settings>Cilësimet</Settings>
+    <Exit>Dil</Exit>
+  </TrayMenu>
+</Language>

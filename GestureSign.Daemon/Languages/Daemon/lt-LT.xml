@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="lietuvių (Lietuva)" Culture="lt-LT" Version="0.16">
+  <Messages>
+    <Error>Klaida</Error>
+    <ContactCountError>Nepavyko gauti kontaktų skaičiaus! Pabandykite iš naujo įdiegti įrenginio tvarkyklę!</ContactCountError>
+    <ComponentNotFoundMessage>Nepavyko rasti {0}. Pabandykite iš naujo atsisiųsti arba įdiegti GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 atnaujinimas prieinamas</UpdateTitle>
+    <UpdateText>Versija {0} prieinama. Spustelėkite, kad atidarytumėte atsisiuntimo puslapį.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Išjungti GestureSign</Disable>
+    <Enable>Įjungti GestureSign</Enable>
+    <Settings>Nustatymai</Settings>
+    <Exit>Išeiti</Exit>
+  </TrayMenu>
+</Language>

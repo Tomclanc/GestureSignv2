@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="svenska (Sverige)" Culture="sv-SE" Version="0.16">
+  <Messages>
+    <Error>Fel</Error>
+    <ContactCountError>Kan inte hämta antalet kontakter! Försök att installera om enhetsdrivrutinen!</ContactCountError>
+    <ComponentNotFoundMessage>Kan inte hitta {0}. Försök att ladda ner igen eller installera om GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2-uppdatering tillgänglig</UpdateTitle>
+    <UpdateText>Version {0} är tillgänglig. Klicka för att öppna nedladdningssidan.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Inaktivera GestureSign</Disable>
+    <Enable>Aktivera GestureSign</Enable>
+    <Settings>Inställningar</Settings>
+    <Exit>Avsluta</Exit>
+  </TrayMenu>
+</Language>

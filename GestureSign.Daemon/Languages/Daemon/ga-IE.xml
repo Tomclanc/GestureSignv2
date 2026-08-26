@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Gaeilge (Éire)" Culture="ga-IE" Version="0.16">
+  <Messages>
+    <Error>Earráid</Error>
+    <ContactCountError>Ní féidir líon na dteagmhálacha a fháil! Déan iarracht tiománaí an ghléis a athshuiteáil!</ContactCountError>
+    <ComponentNotFoundMessage>Ní féidir {0} a fháil. Déan iarracht GestureSign a íoslódáil arís nó a athshuiteáil.</ComponentNotFoundMessage>
+    <UpdateTitle>Nuashonrú GestureSign V2 ar fáil</UpdateTitle>
+    <UpdateText>Tá leagan {0} ar fáil. Cliceáil chun an leathanach íoslódála a oscailt.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Múch GestureSign</Disable>
+    <Enable>Cumasaigh GestureSign</Enable>
+    <Settings>Socruithe</Settings>
+    <Exit>Scoir</Exit>
+  </TrayMenu>
+</Language>

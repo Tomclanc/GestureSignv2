@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Melayu (Malaysia)" Culture="ms-MY" Version="0.16">
+  <Messages>
+    <Error>Ralat</Error>
+    <ContactCountError>Tidak dapat mendapatkan bilangan kenalan! Sila cuba untuk memasang semula pemacu peranti!</ContactCountError>
+    <ComponentNotFoundMessage>Tidak dapat mencari {0}. Cuba muat turun semula atau pasang semula GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Kemas kini GestureSign V2 tersedia</UpdateTitle>
+    <UpdateText>Versi {0} tersedia. Klik untuk membuka halaman muat turun.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Nyahdayakan GestureSign</Disable>
+    <Enable>Dayakan GestureSign</Enable>
+    <Settings>Tetapan</Settings>
+    <Exit>Keluar</Exit>
+  </TrayMenu>
+</Language>

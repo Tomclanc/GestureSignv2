@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="čeština (Česko)" Culture="cs-CZ" Version="0.16">
+  <Messages>
+    <Error>Chyba</Error>
+    <ContactCountError>Nelze získat počet kontaktů! Zkuste přeinstalovat ovladač zařízení!</ContactCountError>
+    <ComponentNotFoundMessage>Nelze najít {0}. Zkuste stáhnout nebo přeinstalovat GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Aktualizace GestureSign V2 je k dispozici</UpdateTitle>
+    <UpdateText>Verze {0} je k dispozici. Klikněte pro otevření stránky ke stažení.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Zakázat GestureSign</Disable>
+    <Enable>Povolit GestureSign</Enable>
+    <Settings>Nastavení</Settings>
+    <Exit>Ukončit</Exit>
+  </TrayMenu>
+</Language>

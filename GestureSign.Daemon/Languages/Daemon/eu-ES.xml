@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="euskara (Espainia)" Culture="eu-ES" Version="0.16">
+  <Messages>
+    <Error>Akatsa</Error>
+    <ContactCountError>Ezinezkoa da kontaktuen kopurua lortzea! Mesedez, saiatu gailuaren kontrolatzailea berriro instalatzen!</ContactCountError>
+    <ComponentNotFoundMessage>Ezin da {0} aurkitu. Saiatu GestureSign berriro deskargatzen edo instalatzen.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 eguneratzea eskuragarri dago</UpdateTitle>
+    <UpdateText>{0} bertsioa eskuragarri dago. Egin klik deskarga-pagina irekitzeko.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Desgaitu GestureSign</Disable>
+    <Enable>Gaitu GestureSign</Enable>
+    <Settings>Ezarpenak</Settings>
+    <Exit>Irten</Exit>
+  </TrayMenu>
+</Language>

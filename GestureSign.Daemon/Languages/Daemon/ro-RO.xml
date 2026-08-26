@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="română (România)" Culture="ro-RO" Version="0.16">
+  <Messages>
+    <Error>Eroare</Error>
+    <ContactCountError>Nu se poate obține numărul de contacte! Vă rugăm să încercați să reinstalați driverul dispozitivului!</ContactCountError>
+    <ComponentNotFoundMessage>Nu se poate găsi {0}. Încercați să descărcați din nou sau să reinstalați GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Actualizare GestureSign V2 disponibilă</UpdateTitle>
+    <UpdateText>Versiunea {0} este disponibilă. Faceți clic pentru a deschide pagina de descărcare.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Dezactivează GestureSign</Disable>
+    <Enable>Activează GestureSign</Enable>
+    <Settings>Setări</Settings>
+    <Exit>Ieșire</Exit>
+  </TrayMenu>
+</Language>

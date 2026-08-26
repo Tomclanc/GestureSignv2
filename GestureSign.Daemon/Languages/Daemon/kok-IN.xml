@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="कोंकणी (भारत)" Culture="kok-IN" Version="0.16">
+  <Messages>
+    <Error>त्रुटी</Error>
+    <ContactCountError>संपर्कांचो नंबर मेळूंक शकना! उपकार करून डिव्हाईस ड्रायव्हर परतून स्थापीत करपाचो यत्न करात!</ContactCountError>
+    <ComponentNotFoundMessage>{0}. जेस्चरसाइन परतून डावनलोड करपाचो वा परतून स्थापीत करपाचो यत्न करात.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 अपडेट उपलब्ध</UpdateTitle>
+    <UpdateText>आवृत्ती {0} उपलब्ध आसा. डावनलोड पान उगडपाक क्लिक करात.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>जेस्चरसाइन डिसेबल करात</Disable>
+    <Enable>इजेश्चरसायन सक्षम करचें</Enable>
+    <Settings>सेटिंग्ज</Settings>
+    <Exit>भायर सरप</Exit>
+  </TrayMenu>
+</Language>

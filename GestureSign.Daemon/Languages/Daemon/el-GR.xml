@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Ελληνικά (Ελλάδα)" Culture="el-GR" Version="0.16">
+  <Messages>
+    <Error>Σφάλμα</Error>
+    <ContactCountError>Δεν είναι δυνατή η λήψη του αριθμού επαφών! Παρακαλώ δοκιμάστε να επανεγκαταστήσετε τον οδηγό της συσκευής!</ContactCountError>
+    <ComponentNotFoundMessage>Δεν βρέθηκε το {0}. Δοκιμάστε να το κατεβάσετε ξανά ή να επανεγκαταστήσετε το GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Διαθέσιμη ενημέρωση GestureSign V2</UpdateTitle>
+    <UpdateText>Διαθέσιμη η έκδοση {0}. Κάντε κλικ για να ανοίξετε τη σελίδα λήψης.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Απενεργοποίηση GestureSign</Disable>
+    <Enable>Ενεργοποίηση GestureSign</Enable>
+    <Settings>Ρυθμίσεις</Settings>
+    <Exit>Έξοδος</Exit>
+  </TrayMenu>
+</Language>

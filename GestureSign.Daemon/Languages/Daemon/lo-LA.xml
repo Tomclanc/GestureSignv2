@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ລາວ (ລາວ)" Culture="lo-LA" Version="0.16">
+  <Messages>
+    <Error>ຜິດພາດ</Error>
+    <ContactCountError>ບໍ່ສາມາດໄດ້ຈໍານວນຕິດຕໍ່! ກະລຸນາລອງຕິດຕັ້ງໄດເວີອຸປະກອນໃຫມ່!</ContactCountError>
+    <ComponentNotFoundMessage>ບໍ່ພົບ {0}. ລອງດາວໂຫຼດຫຼືຕິດຕັ້ງ GestureSign ໃຫມ່.</ComponentNotFoundMessage>
+    <UpdateTitle>ການອັບເດດ GestureSign V2 ມີພ້ອມແລ້ວ</UpdateTitle>
+    <UpdateText>ເວີຊັນ {0} ມີພ້ອມໃຫ້ໃຊ້. ກົດເພື່ອເປີດຫນ້າດາວໂຫລດ.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>ປິດ GestureSign</Disable>
+    <Enable>ເປີດໃຊ້ GestureSign</Enable>
+    <Settings>ການຕັ້ງຄ່າ</Settings>
+    <Exit>ອອກ</Exit>
+  </TrayMenu>
+</Language>

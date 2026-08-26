@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="বাংলা (ভারত)" Culture="bn-IN" Version="0.16">
+  <Messages>
+    <Error>ত্রুটি</Error>
+    <ContactCountError>কন্টাক্টের সংখ্যা পাওয়া যায়নি! দয়া করে ডিভাইস ড্রাইভার পুনরায় ইনস্টল করার চেষ্টা করুন!</ContactCountError>
+    <ComponentNotFoundMessage>{0} পাওয়া যায়নি। GestureSign পুনরায় ডাউনলোড বা পুনঃইনস্টল করার চেষ্টা করুন।</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 আপডেট উপলব্ধ</UpdateTitle>
+    <UpdateText>সংস্করণ {0} উপলব্ধ। ডাউনলোড পৃষ্ঠা খোলার জন্য ক্লিক করুন।</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign নিষ্ক্রিয় করুন</Disable>
+    <Enable>GestureSign সক্রিয় করুন</Enable>
+    <Settings>সেটিংস</Settings>
+    <Exit>প্রস্থান</Exit>
+  </TrayMenu>
+</Language>

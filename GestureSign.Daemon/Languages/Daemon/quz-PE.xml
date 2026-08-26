@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Runasimi (Perú)" Culture="quz-PE" Version="0.16">
+  <Messages>
+    <Error>Stock label</Error>
+    <ContactCountError>Can not get the number of contacts! Please try to reinstall the device driver!</ContactCountError>
+    <ComponentNotFoundMessage>{0} nisqataqa manam tariyta atinchu. GestureSign kaqmanta uraykachiyta utaq wakmanta churayta kallpachakuy.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 musuqyachiy kachkan</UpdateTitle>
+    <UpdateText>{0} nisqa rikch'ayqa kachkan. Chayta ñit’iy descarga p’anqata kicharinaykipaq.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign nisqa mana llamk'achiy</Disable>
+    <Enable>GestureSign nisqa ruway atichiy</Enable>
+    <Settings>Ajustes nisqa</Settings>
+    <Exit>Lluqsina</Exit>
+  </TrayMenu>
+</Language>

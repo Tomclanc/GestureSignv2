@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="हिन्दी (भारत)" Culture="hi-IN" Version="0.16">
+  <Messages>
+    <Error>त्रुटि</Error>
+    <ContactCountError>संपर्कों की संख्या प्राप्त नहीं कर सकते! कृपया डिवाइस ड्राइवर पुनः स्थापित करने का प्रयास करें!</ContactCountError>
+    <ComponentNotFoundMessage>{0} नहीं मिला। GestureSign को पुनः डाउनलोड या पुनः स्थापित करने का प्रयास करें।</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 अपडेट उपलब्ध है</UpdateTitle>
+    <UpdateText>संस्करण {0} उपलब्ध है। डाउनलोड पृष्ठ खोलने के लिए क्लिक करें।</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign अक्षम करें</Disable>
+    <Enable>GestureSign सक्षम करें</Enable>
+    <Settings>सेटिंग्स</Settings>
+    <Exit>बाहर निकलें</Exit>
+  </TrayMenu>
+</Language>

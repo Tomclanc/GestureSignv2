@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="עברית (ישראל)" Culture="he-IL" Version="0.16">
+  <Messages>
+    <Error>שגיאה</Error>
+    <ContactCountError>לא ניתן לקבל את מספר אנשי הקשר! אנא נסה להתקין מחדש את מנהל ההתקן של המכשיר!</ContactCountError>
+    <ComponentNotFoundMessage>לא ניתן למצוא את {0}. נסה להוריד מחדש או להתקין מחדש את GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>עדכון GestureSign V2 זמין</UpdateTitle>
+    <UpdateText>גרסה {0} זמינה. לחץ לפתיחת דף ההורדה.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>تعطيل GestureSign</Disable>
+    <Enable>הפעל GestureSign</Enable>
+    <Settings>הגדרות</Settings>
+    <Exit>יציאה</Exit>
+  </TrayMenu>
+</Language>

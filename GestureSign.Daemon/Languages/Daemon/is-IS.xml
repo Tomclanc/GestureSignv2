@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="íslenska (Ísland)" Culture="is-IS" Version="0.16">
+  <Messages>
+    <Error>Villa</Error>
+    <ContactCountError>Ekki er hægt að fá fjölda tengiliða! Vinsamlegast reyndu að endursetja tækið bílstjóra!</ContactCountError>
+    <ComponentNotFoundMessage>Ekki er hægt að finna {0}. Reyndu að sækja eða endursetja GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 uppfærsla í boði</UpdateTitle>
+    <UpdateText>Útgáfa {0} er í boði. Smelltu til að opna niðurhalsíðu.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Slökkva á GestureSign</Disable>
+    <Enable>Kveikja á GestureSign</Enable>
+    <Settings>Stillingar</Settings>
+    <Exit>Hætta</Exit>
+  </TrayMenu>
+</Language>

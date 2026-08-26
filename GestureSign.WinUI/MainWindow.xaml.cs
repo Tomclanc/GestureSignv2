@@ -390,7 +390,7 @@ public sealed partial class MainWindow : Window
             UiLanguage.TraditionalChineseTaiwan => zhTw,
             UiLanguage.Japanese => ja,
             UiLanguage.Korean => ko,
-            UiLanguage.French or UiLanguage.Russian or UiLanguage.Arabic or UiLanguage.Spanish or UiLanguage.Portuguese
+            UiLanguage.ExternalCatalog
                 => UiTranslationCatalog.Translate(ResolveUiCultureName(_uiCultureName), en),
             _ => zhCn
         };
@@ -409,48 +409,20 @@ public sealed partial class MainWindow : Window
             return UiLanguage.Japanese;
         if (resolvedCulture.StartsWith("ko", StringComparison.OrdinalIgnoreCase))
             return UiLanguage.Korean;
-        if (resolvedCulture.StartsWith("fr", StringComparison.OrdinalIgnoreCase))
-            return UiLanguage.French;
-        if (resolvedCulture.StartsWith("ru", StringComparison.OrdinalIgnoreCase))
-            return UiLanguage.Russian;
-        if (resolvedCulture.StartsWith("ar", StringComparison.OrdinalIgnoreCase))
-            return UiLanguage.Arabic;
-        if (resolvedCulture.StartsWith("es", StringComparison.OrdinalIgnoreCase))
-            return UiLanguage.Spanish;
-        if (resolvedCulture.StartsWith("pt", StringComparison.OrdinalIgnoreCase))
-            return UiLanguage.Portuguese;
-        return UiLanguage.SimplifiedChinese;
+        return UiTranslationCatalog.HasCatalog(resolvedCulture)
+            ? UiLanguage.ExternalCatalog
+            : UiLanguage.English;
     }
 
     private static string ResolveUiCultureName(string cultureName)
     {
-        if (cultureName.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
-            return cultureName.StartsWith("zh-TW", StringComparison.OrdinalIgnoreCase) ||
-                   cultureName.StartsWith("zh-Hant", StringComparison.OrdinalIgnoreCase)
-                ? "zh-TW"
-                : "zh-CN";
-        if (cultureName.StartsWith("en", StringComparison.OrdinalIgnoreCase))
-            return "en-US";
-        if (cultureName.StartsWith("ja", StringComparison.OrdinalIgnoreCase))
-            return "ja-JP";
-        if (cultureName.StartsWith("ko", StringComparison.OrdinalIgnoreCase))
-            return "ko-KR";
-        if (cultureName.StartsWith("fr", StringComparison.OrdinalIgnoreCase))
-            return "fr-FR";
-        if (cultureName.StartsWith("ru", StringComparison.OrdinalIgnoreCase))
-            return "ru-RU";
-        if (cultureName.StartsWith("ar", StringComparison.OrdinalIgnoreCase))
-            return "ar-SA";
-        if (cultureName.StartsWith("es", StringComparison.OrdinalIgnoreCase))
-            return "es-ES";
-        if (cultureName.StartsWith("pt", StringComparison.OrdinalIgnoreCase))
-            return "pt-BR";
-        return SystemUiCultureName;
+        return UiTranslationCatalog.ResolveCultureName(
+            string.IsNullOrWhiteSpace(cultureName) ? SystemUiCultureName : cultureName);
     }
 
     private void ApplyUiFlowDirection()
     {
-        Root.FlowDirection = ResolveUiCultureName(_uiCultureName).StartsWith("ar", StringComparison.OrdinalIgnoreCase)
+        Root.FlowDirection = UiTranslationCatalog.IsRightToLeft(ResolveUiCultureName(_uiCultureName))
             ? FlowDirection.RightToLeft
             : FlowDirection.LeftToRight;
     }
@@ -499,11 +471,7 @@ public sealed partial class MainWindow : Window
         TraditionalChineseTaiwan,
         Japanese,
         Korean,
-        French,
-        Russian,
-        Arabic,
-        Spanish,
-        Portuguese
+        ExternalCatalog
     }
 
     private static Style CreateBodyStrongTextBlockStyle()
@@ -2009,9 +1977,19 @@ public sealed partial class MainWindow : Window
             NewPenButtonRow(options.PenGestureButton)
         ]));
 
+        var languageValues = new[] { "" }
+            .Concat(UiTranslationCatalog.SupportedCultureNames)
+            .ToArray();
+        var languageItems = new[]
+            {
+                L("跟随系统", "Follow system", "跟隨系統", "システムに合わせる", "시스템 설정 따르기")
+            }
+            .Concat(UiTranslationCatalog.SupportedCultureNames.Select(UiTranslationCatalog.GetNativeDisplayName))
+            .ToArray();
+
         var systemRows = new List<FrameworkElement>
         {
-            NewComboRow(L("语言", "Language", "語言", "言語", "언어"), [L("跟随系统", "Follow system", "跟隨系統", "システムに合わせる", "시스템 설정 따르기"), "简体中文", "English", "繁體中文（台灣）", "日本語", "한국어", "Français", "Русский", "العربية", "Español", "Português"], ["", "zh-CN", "en-US", "zh-TW", "ja-JP", "ko-KR", "fr-FR", "ru-RU", "ar-SA", "es-ES", "pt-BR"], "CultureName", CultureIndex(_uiCultureName)),
+            NewComboRow(L("语言", "Language", "語言", "言語", "언어"), languageItems, languageValues, "CultureName", CultureIndex(_uiCultureName)),
             NewToggleRow(L("启用初始超时", "Enable initial timeout", "啟用初始逾時", "初期タイムアウトを有効にする", "초기 시간 제한 사용"), options.InitialTimeout > 0, "InitialTimeout", options.InitialTimeout == 0 ? "1000" : options.InitialTimeout.ToString(), "0"),
             NewSliderRow(L("初始超时", "Initial timeout", "初始逾時", "初期タイムアウト", "초기 시간 제한"), options.InitialTimeout / 1000d, 0, 2, 0.1, "InitialTimeout", value => ((int)Math.Round(value * 1000)).ToString(CultureInfo.InvariantCulture), value => $"{value:0.0} {L("秒", "sec", "秒", "秒", "초")}"),
             NewStartupToggleRow(),
@@ -8541,7 +8519,10 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewComboRow(string title, string[] items, string[] values, string configKey, int selectedIndex)
     {
-        var combo = new ComboBox { Width = 220 };
+        var combo = new ComboBox
+        {
+            Width = string.Equals(configKey, "CultureName", StringComparison.OrdinalIgnoreCase) ? 340 : 220
+        };
         foreach (var item in items)
             combo.Items.Add(item);
         combo.SelectedIndex = Math.Clamp(selectedIndex, 0, items.Length - 1);
@@ -9100,27 +9081,16 @@ public sealed partial class MainWindow : Window
 
     private static int CultureIndex(string cultureName)
     {
-        if (cultureName.StartsWith("zh-TW", StringComparison.OrdinalIgnoreCase) ||
-            cultureName.StartsWith("zh-Hant", StringComparison.OrdinalIgnoreCase))
-            return 3;
-        if (cultureName.StartsWith("ja", StringComparison.OrdinalIgnoreCase))
-            return 4;
-        if (cultureName.StartsWith("ko", StringComparison.OrdinalIgnoreCase))
-            return 5;
-        if (cultureName.StartsWith("fr", StringComparison.OrdinalIgnoreCase))
-            return 6;
-        if (cultureName.StartsWith("ru", StringComparison.OrdinalIgnoreCase))
-            return 7;
-        if (cultureName.StartsWith("ar", StringComparison.OrdinalIgnoreCase))
-            return 8;
-        if (cultureName.StartsWith("es", StringComparison.OrdinalIgnoreCase))
-            return 9;
-        if (cultureName.StartsWith("pt", StringComparison.OrdinalIgnoreCase))
-            return 10;
-        if (cultureName.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
-            return 1;
-        if (cultureName.StartsWith("en", StringComparison.OrdinalIgnoreCase))
-            return 2;
+        if (string.IsNullOrWhiteSpace(cultureName))
+            return 0;
+
+        var resolved = UiTranslationCatalog.ResolveCultureName(cultureName);
+        for (var index = 0; index < UiTranslationCatalog.SupportedCultureNames.Count; index++)
+        {
+            if (string.Equals(UiTranslationCatalog.SupportedCultureNames[index], resolved, StringComparison.OrdinalIgnoreCase))
+                return index + 1;
+        }
+
         return 0;
     }
 

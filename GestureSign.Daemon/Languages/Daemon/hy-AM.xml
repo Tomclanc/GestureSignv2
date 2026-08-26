@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="հայերեն (Հայաստան)" Culture="hy-AM" Version="0.16">
+  <Messages>
+    <Error>Սխալ</Error>
+    <ContactCountError>Կարող չէ ստանալ կոնտակտների քանակը: Խնդրում ենք փորձել վերադնել սարքի վարորդական ծրագիրը:</ContactCountError>
+    <ComponentNotFoundMessage>Չի գտնվել {0}: Փորձեք նորից ներբեռնել կամ վերադնել GestureSign-ը:</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 թարմացում հասանելի է</UpdateTitle>
+    <UpdateText>{0} տարբերակը հասանելի է: Սեղմեք բացելու համար ներբեռնման էջը:</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Անցնցեք GestureSign-ը</Disable>
+    <Enable>Միացրեք GestureSign-ը</Enable>
+    <Settings>Կարգավորումներ</Settings>
+    <Exit>Ելք</Exit>
+  </TrayMenu>
+</Language>

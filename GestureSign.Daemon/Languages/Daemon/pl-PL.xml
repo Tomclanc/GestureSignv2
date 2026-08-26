@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="polski (Polska)" Culture="pl-PL" Version="0.16">
+  <Messages>
+    <Error>Błąd</Error>
+    <ContactCountError>Nie można uzyskać liczby kontaktów! Spróbuj ponownie zainstalować sterownik urządzenia!</ContactCountError>
+    <ComponentNotFoundMessage>Nie można znaleźć {0}. Spróbuj ponownie pobrać lub zainstalować GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Dostępna aktualizacja GestureSign V2</UpdateTitle>
+    <UpdateText>Wersja {0} jest dostępna. Kliknij, aby otworzyć stronę pobierania.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Wyłącz GestureSign</Disable>
+    <Enable>Włącz GestureSign</Enable>
+    <Settings>Ustawienia</Settings>
+    <Exit>Zakończ</Exit>
+  </TrayMenu>
+</Language>

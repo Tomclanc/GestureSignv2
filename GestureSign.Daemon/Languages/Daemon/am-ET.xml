@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="አማርኛ (ኢትዮጵያ)" Culture="am-ET" Version="0.16">
+  <Messages>
+    <Error>ስህተት</Error>
+    <ContactCountError>የእውቂያዎችን ቁጥር ማግኘት አልተቻለም! እባክዎ የመሳሪያውን ሾፌር እንደገና ለመጫን ይሞክሩ!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ማግኘት አልተቻለም። GestureSignን እንደገና ለማውረድ ወይም እንደገና ለመጫን ይሞክሩ።</ComponentNotFoundMessage>
+    <UpdateTitle>የምልክት ምልክት V2 ዝማኔ ይገኛል።</UpdateTitle>
+    <UpdateText>ስሪት {0} ይገኛል። የማውረጃ ገጹን ለመክፈት ጠቅ ያድርጉ።</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>የእጅ ምልክት ምልክትን አሰናክል</Disable>
+    <Enable>የ GestureSignን አንቃ</Enable>
+    <Settings>ማሰናጃዎች</Settings>
+    <Exit>ውጣ</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="slovenščina (Slovenija)" Culture="sl-SI" Version="0.16">
+  <Messages>
+    <Error>Napaka</Error>
+    <ContactCountError>Ne morem pridobiti števila stikov! Poskusite znova namestiti gonilnik naprave!</ContactCountError>
+    <ComponentNotFoundMessage>Ni mogoče najti {0}. Poskusite znova prenesti ali namestiti GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Posodobitev GestureSign V2 je na voljo</UpdateTitle>
+    <UpdateText>Različica {0} je na voljo. Kliknite za odpiranje strani za prenos.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Onemogoči GestureSign</Disable>
+    <Enable>Omogoči GestureSign</Enable>
+    <Settings>Nastavitve</Settings>
+    <Exit>Izhod</Exit>
+  </TrayMenu>
+</Language>

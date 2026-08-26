@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="മലയാളം (ഇന്ത്യ)" Culture="ml-IN" Version="0.16">
+  <Messages>
+    <Error>പിശക്</Error>
+    <ContactCountError>കോൺടാക്റ്റുകളുടെ എണ്ണം ലഭ്യമാക്കാൻ സാധിച്ചില്ല! ദയവായി ഡിവൈസ് ഡ്രൈവർ വീണ്ടും ഇൻസ്റ്റാൾ ചെയ്യാൻ ശ്രമിക്കുക!</ContactCountError>
+    <ComponentNotFoundMessage>{0} കണ്ടെത്താൻ സാധിച്ചില്ല. GestureSign വീണ്ടും ഡൗൺലോഡ് ചെയ്യുകയോ ഇൻസ്റ്റാൾ ചെയ്യുകയോ ശ്രമിക്കുക.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 അപ്‌ഡേറ്റ് ലഭ്യമാണ്</UpdateTitle>
+    <UpdateText>പതിപ്പ് {0} ലഭ്യമാണ്. ഡൗൺലോഡ് പേജ് തുറക്കാൻ ക്ലിക്കുചെയ്യുക.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign അപ്രാപ്തമാക്കുക</Disable>
+    <Enable>GestureSign സജീവമാക്കുക</Enable>
+    <Settings>സെറ്റിംഗുകൾ</Settings>
+    <Exit>പുറത്തുകടക്കുക</Exit>
+  </TrayMenu>
+</Language>

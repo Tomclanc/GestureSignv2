@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="македонски (Северна Македонија)" Culture="mk-MK" Version="0.16">
+  <Messages>
+    <Error>Грешка</Error>
+    <ContactCountError>Не може да се добие бројот на контакти! Ве молиме обидете се повторно да го инсталирате драјверот на уредот!</ContactCountError>
+    <ComponentNotFoundMessage>Не може да се најде {0}. Обидете се повторно да го преземете или инсталирате GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Достапно е ажурирање за GestureSign V2</UpdateTitle>
+    <UpdateText>Достапна е верзија {0}. Кликнете за да ја отворите страницата за преземање.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Исклучи GestureSign</Disable>
+    <Enable>Вклучи GestureSign</Enable>
+    <Settings>Поставки</Settings>
+    <Exit>Излез</Exit>
+  </TrayMenu>
+</Language>

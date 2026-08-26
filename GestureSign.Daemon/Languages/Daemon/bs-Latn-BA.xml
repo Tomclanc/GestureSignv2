@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="bosanski (latinica, Bosna i Hercegovina)" Culture="bs-Latn-BA" Version="0.16">
+  <Messages>
+    <Error>Greška</Error>
+    <ContactCountError>Ne mogu dobiti broj kontakata! Molimo pokušajte ponovo instalirati drajver uređaja!</ContactCountError>
+    <ComponentNotFoundMessage>Ne mogu pronaći {0}. Pokušajte ponovo preuzeti ili instalirati GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Dostupno je ažuriranje GestureSign V2</UpdateTitle>
+    <UpdateText>Verzija {0} je dostupna. Kliknite za otvaranje stranice za preuzimanje.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Onemogući GestureSign</Disable>
+    <Enable>Omogući GestureSign</Enable>
+    <Settings>Postavke</Settings>
+    <Exit>Izlaz</Exit>
+  </TrayMenu>
+</Language>

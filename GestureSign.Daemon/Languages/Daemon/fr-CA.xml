@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="français (Canada)" Culture="fr-CA" Version="0.16">
+  <Messages>
+    <Error>Erreur</Error>
+    <ContactCountError>Impossible d'obtenir le nombre de contacts ! Veuillez essayer de réinstaller le pilote de l'appareil !</ContactCountError>
+    <ComponentNotFoundMessage>Impossible de trouver {0}. Essayez de retélécharger ou de réinstaller GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Mise à jour de GestureSign V2 disponible</UpdateTitle>
+    <UpdateText>La version {0} est disponible. Cliquez pour ouvrir la page de téléchargement.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Désactiver GestureSign</Disable>
+    <Enable>Activer GestureSign</Enable>
+    <Settings>Paramètres</Settings>
+    <Exit>Quitter</Exit>
+  </TrayMenu>
+</Language>

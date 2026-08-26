@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="অসমীয়া (ভাৰত)" Culture="as-IN" Version="0.16">
+  <Messages>
+    <Error>ত্ৰুটি</Error>
+    <ContactCountError>সংযোগসমূহৰ সংখ্যা পোৱা নাযায়! অনুগ্ৰহ কৰি ডিভাইচ ড্ৰাইভাৰ পুনৰ ইনষ্টল কৰিবলৈ চেষ্টা কৰক!</ContactCountError>
+    <ComponentNotFoundMessage>{0} পোৱা নাযায়। দয়া কৰি GestureSign পুনৰ ডাউনলোড কৰক বা পুনৰ ইনষ্টল কৰক।</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 আপডেইট উপলভ্য</UpdateTitle>
+    <UpdateText>সংস্কৰণ {0} উপলভ্য। ডাউনলোড পৃষ্ঠাটো খুলিবলৈ ক্লিক কৰক।</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign নিষ্ক্ৰিয় কৰক</Disable>
+    <Enable>GestureSign সক্ৰিয় কৰক</Enable>
+    <Settings>ছেটিংছ</Settings>
+    <Exit>প্ৰস্থান</Exit>
+  </TrayMenu>
+</Language>

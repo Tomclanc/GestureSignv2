@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="татар (Россия)" Culture="tt-RU" Version="0.16">
+  <Messages>
+    <Error>Хата</Error>
+    <ContactCountError>Контактлар санын алу мөмкин түгел! Зинһар, җайланма драйверын яңадан урнаштырырга тырышыгыз!</ContactCountError>
+    <ComponentNotFoundMessage>{0} табылмады. GestureSign ны яңадан йөкләп карагыз яки яңадан урнаштырыгыз.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 яңартуы бар</UpdateTitle>
+    <UpdateText>{0} версиясе бар. Йөкләү битен ачу өчен басыгыз.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ны сүндерү</Disable>
+    <Enable>GestureSign ны кабызу</Enable>
+    <Settings>Көйләүләр</Settings>
+    <Exit>Чыгыш</Exit>
+  </TrayMenu>
+</Language>

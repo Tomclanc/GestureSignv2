@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Nederlands (Nederland)" Culture="nl-NL" Version="0.16">
+  <Messages>
+    <Error>Fout</Error>
+    <ContactCountError>Kan het aantal contacten niet ophalen! Probeer de apparaatdriver opnieuw te installeren!</ContactCountError>
+    <ComponentNotFoundMessage>Kan {0} niet vinden. Probeer GestureSign opnieuw te downloaden of te installeren.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 update beschikbaar</UpdateTitle>
+    <UpdateText>Versie {0} is beschikbaar. Klik om de downloadpagina te openen.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Schakel GestureSign uit</Disable>
+    <Enable>Schakel GestureSign in</Enable>
+    <Settings>Instellingen</Settings>
+    <Exit>Afsluiten</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="українська (Україна)" Culture="uk-UA" Version="0.16">
+  <Messages>
+    <Error>Помилка</Error>
+    <ContactCountError>Не вдається отримати кількість контактів! Будь ласка, спробуйте перевстановити драйвер пристрою!</ContactCountError>
+    <ComponentNotFoundMessage>Не вдалося знайти {0}. Спробуйте повторно завантажити або перевстановити GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Доступне оновлення GestureSign V2</UpdateTitle>
+    <UpdateText>Доступна версія {0}. Клацніть, щоб відкрити сторінку завантаження.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Вимкнути GestureSign</Disable>
+    <Enable>Увімкнути GestureSign</Enable>
+    <Settings>Налаштування</Settings>
+    <Exit>Вихід</Exit>
+  </TrayMenu>
+</Language>

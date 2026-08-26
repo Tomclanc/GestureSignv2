@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ଓଡ଼ିଆ (ଭାରତ)" Culture="or-IN" Version="0.16">
+  <Messages>
+    <Error>ତ୍ରୁଟି</Error>
+    <ContactCountError>ସଂପର୍କ ସଂଖ୍ୟା ପ୍ରାପ୍ତ କରାଯାଇପାରିଲା ନାହିଁ! ଦୟାକରି ଡିଭାଇସ୍ ଡ୍ରାଇଭର୍ ପୁନର୍ଇନଷ୍ଟଲ୍ କରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ମିଳିଲା ନାହିଁ। GestureSign ପୁନର୍ଡାଉନଲୋଡ୍ କିମ୍ବା ପୁନର୍ଇନଷ୍ଟଲ୍ କରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ।</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 ଅଦ୍ୟତନ ଉପଲବ୍ଧ</UpdateTitle>
+    <UpdateText>ସଂସ୍କରଣ {0} ଉପଲବ୍ଧ। ଡାଉନଲୋଡ୍ ପୃଷ୍ଠା ଖୋଲିବା ପାଇଁ କ୍ଲିକ୍ କରନ୍ତୁ।</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ଅକ୍ଷମ କରନ୍ତୁ</Disable>
+    <Enable>GestureSign ସକ୍ରିୟ କରନ୍ତୁ</Enable>
+    <Settings>ସେଟିଙ୍ଗସ</Settings>
+    <Exit>ପ୍ରସ୍ଥାନ</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Hausa (Latin, Nijeriya)" Culture="ha-Latn-NG" Version="0.16">
+  <Messages>
+    <Error>Kuskure</Error>
+    <ContactCountError>Ba za a iya samun yawan lambobin ba! Da fatan za a sake saka direban na'urar!</ContactCountError>
+    <ComponentNotFoundMessage>Ba za a iya samun {0} ba. Gwada sauke ko sake saka GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Ana samun sabuntawa na GestureSign V2</UpdateTitle>
+    <UpdateText>Ana samun sigar {0}. Danna don buɗe shafin saukarwa.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Kashe GestureSign</Disable>
+    <Enable>Kunna GestureSign</Enable>
+    <Settings>Saituna</Settings>
+    <Exit>Ficewa</Exit>
+  </TrayMenu>
+</Language>

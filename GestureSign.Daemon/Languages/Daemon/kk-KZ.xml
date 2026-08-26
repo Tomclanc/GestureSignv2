@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="қазақ тілі (Қазақстан)" Culture="kk-KZ" Version="0.16">
+  <Messages>
+    <Error>Қате</Error>
+    <ContactCountError>Контактілер санын алу мүмкін емес! Құрылғы драйверін қайта орнатып көріңіз!</ContactCountError>
+    <ComponentNotFoundMessage>{0} табылмады. GestureSign-ды қайта жүктеп немесе қайта орнатуды байқап көріңіз.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 жаңартуы қолжетімді</UpdateTitle>
+    <UpdateText>{0} нұсқасы бар. Жүктеу бетіне өту үшін шертіңіз.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign-ды өшіру</Disable>
+    <Enable>GestureSign-ды қосу</Enable>
+    <Settings>Баптаулар</Settings>
+    <Exit>Шығу</Exit>
+  </TrayMenu>
+</Language>

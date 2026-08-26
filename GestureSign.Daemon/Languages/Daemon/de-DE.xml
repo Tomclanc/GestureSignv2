@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Deutsch (Deutschland)" Culture="de-DE" Version="0.16">
+  <Messages>
+    <Error>Fehler</Error>
+    <ContactCountError>Kann die Anzahl der Kontakte nicht ermitteln! Bitte versuchen Sie, den Gerätetreiber neu zu installieren!</ContactCountError>
+    <ComponentNotFoundMessage>{0} kann nicht gefunden werden. Versuchen Sie, GestureSign erneut herunterzuladen oder neu zu installieren.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2-Update verfügbar</UpdateTitle>
+    <UpdateText>Version {0} ist verfügbar. Klicken Sie, um die Download-Seite zu öffnen.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign deaktivieren</Disable>
+    <Enable>GestureSign aktivieren</Enable>
+    <Settings>Einstellungen</Settings>
+    <Exit>Beenden</Exit>
+  </TrayMenu>
+</Language>

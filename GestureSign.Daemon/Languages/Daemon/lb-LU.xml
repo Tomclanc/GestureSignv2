@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Lëtzebuergesch (Lëtzebuerg)" Culture="lb-LU" Version="0.16">
+  <Messages>
+    <Error>Feeler</Error>
+    <ContactCountError>Kënnt d'Zuel vun de Kontakter net kréien! Probéiert w.e.g. de Gerätetreiber nei z'installéieren!</ContactCountError>
+    <ComponentNotFoundMessage>Kënnt {0} net fannen. Probéiert GestureSign nei erofzelueden oder ze reinstalléieren.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 Update verfügbar</UpdateTitle>
+    <UpdateText>Versioun {0} ass verfügbar. Klickt fir d'Säit fir den Download opzemaachen.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign deaktivéieren</Disable>
+    <Enable>GestureSign aktivéieren</Enable>
+    <Settings>Astellungen</Settings>
+    <Exit>Erausginn</Exit>
+  </TrayMenu>
+</Language>

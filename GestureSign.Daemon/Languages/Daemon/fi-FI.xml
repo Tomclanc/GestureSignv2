@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="suomi (Suomi)" Culture="fi-FI" Version="0.16">
+  <Messages>
+    <Error>Virhe</Error>
+    <ContactCountError>Ei voi saada kontaktien määrää! Yritä asentaa laiteajuri uudelleen!</ContactCountError>
+    <ComponentNotFoundMessage>{0} ei löydy. Yritä ladata GestureSign uudelleen tai asentaa se uudelleen.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 -päivitys saatavilla</UpdateTitle>
+    <UpdateText>Versio {0} on saatavilla. Klikkaa avataksesi lataussivun.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Poista GestureSign käytöstä</Disable>
+    <Enable>Ota GestureSign käyttöön</Enable>
+    <Settings>Asetukset</Settings>
+    <Exit>Poistu</Exit>
+  </TrayMenu>
+</Language>

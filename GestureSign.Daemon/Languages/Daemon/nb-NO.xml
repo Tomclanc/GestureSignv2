@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="norsk bokmål (Norge)" Culture="nb-NO" Version="0.16">
+  <Messages>
+    <Error>Feil</Error>
+    <ContactCountError>Kan ikke hente antall kontakter! Vennligst prøv å reinstallere enhetsdriveren!</ContactCountError>
+    <ComponentNotFoundMessage>Kan ikke finne {0}. Prøv å last ned på nytt eller installer GestureSign på nytt.</ComponentNotFoundMessage>
+    <UpdateTitle>Oppdatering for GestureSign V2 tilgjengelig</UpdateTitle>
+    <UpdateText>Versjon {0} er tilgjengelig. Klikk for å åpne nedlastingssiden.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Deaktiver GestureSign</Disable>
+    <Enable>Aktiver GestureSign</Enable>
+    <Settings>Innstillinger</Settings>
+    <Exit>Avslutt</Exit>
+  </TrayMenu>
+</Language>

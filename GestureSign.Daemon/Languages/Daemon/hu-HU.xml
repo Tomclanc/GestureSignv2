@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="magyar (Magyarország)" Culture="hu-HU" Version="0.16">
+  <Messages>
+    <Error>Hiba</Error>
+    <ContactCountError>Nem sikerült lekérni a kapcsolatok számát! Kérjük, próbálja meg újratelepíteni az eszközmeghajtót!</ContactCountError>
+    <ComponentNotFoundMessage>Nem található {0}. Próbálja meg újra letölteni vagy újratelepíteni a GestureSign-t.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 frissítés elérhető</UpdateTitle>
+    <UpdateText>A(z) {0} verzió elérhető. Kattintson a letöltési oldal megnyitásához.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign kikapcsolása</Disable>
+    <Enable>GestureSign bekapcsolása</Enable>
+    <Settings>Beállítások</Settings>
+    <Exit>Kilépés</Exit>
+  </TrayMenu>
+</Language>

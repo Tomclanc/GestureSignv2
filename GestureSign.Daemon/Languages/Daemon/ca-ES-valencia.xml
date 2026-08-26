@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="català (Espanya, valencià)" Culture="ca-ES-valencia" Version="0.16">
+  <Messages>
+    <Error>Error</Error>
+    <ContactCountError>No es pot obtenir el nombre de contactes! Si us plau, torneu a instal·lar el controlador del dispositiu!</ContactCountError>
+    <ComponentNotFoundMessage>No s'ha trobat {0}. Intenta tornar a descarregar o reinstal·lar GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Actualització de GestureSign V2 disponible</UpdateTitle>
+    <UpdateText>La versió {0} està disponible. Feu clic per obrir la pàgina de descàrrega.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Desactivar GestureSign</Disable>
+    <Enable>Activar GestureSign</Enable>
+    <Settings>Configuració</Settings>
+    <Exit>Sortir</Exit>
+  </TrayMenu>
+</Language>

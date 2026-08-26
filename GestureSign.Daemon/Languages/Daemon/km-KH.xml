@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="ខ្មែរ (កម្ពុជា)" Culture="km-KH" Version="0.16">
+  <Messages>
+    <Error>កំហុស</Error>
+    <ContactCountError>មិនអាចទទួលបានចំនួនទំនាក់ទំនង! សូមព្យាយាមដំឡើងកម្មវិធីបើកបរ​ឡើងវិញ!</ContactCountError>
+    <ComponentNotFoundMessage>មិនអាចស្វែងរក {0} បានទេ។ ព្យាយាមទាញយកឡើងវិញ ឬដំឡើង GestureSign វិញ។</ComponentNotFoundMessage>
+    <UpdateTitle>Gesturesign V2 មានការអាប់ដេត</UpdateTitle>
+    <UpdateText>ជំនាន់ {0} មានស្រាប់។ ចុចដើម្បីបើកទំព័រទាញយក។</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>បិទ GestureSign</Disable>
+    <Enable>បើក GestureSign</Enable>
+    <Settings>ការកំណត់</Settings>
+    <Exit>ចាកចេញ</Exit>
+  </TrayMenu>
+</Language>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="Tiếng Việt (Việt Nam)" Culture="vi-VN" Version="0.16">
+  <Messages>
+    <Error>Lỗi</Error>
+    <ContactCountError>Không thể lấy số lượng danh bạ! Vui lòng thử cài lại trình điều khiển thiết bị!</ContactCountError>
+    <ComponentNotFoundMessage>Không tìm thấy {0}. Hãy thử tải lại hoặc cài đặt lại GestureSign.</ComponentNotFoundMessage>
+    <UpdateTitle>Cập nhật GestureSign V2 có sẵn</UpdateTitle>
+    <UpdateText>Phiên bản {0} có sẵn. Nhấp để mở trang tải xuống.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>Vô hiệu hóa GestureSign</Disable>
+    <Enable>Bật GestureSign</Enable>
+    <Settings>Cài đặt</Settings>
+    <Exit>Thoát</Exit>
+  </TrayMenu>
+</Language>

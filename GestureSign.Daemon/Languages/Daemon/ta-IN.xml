@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Language DisplayName="தமிழ் (இந்தியா)" Culture="ta-IN" Version="0.16">
+  <Messages>
+    <Error>பிழை</Error>
+    <ContactCountError>தொடர்புகளின் எண்ணிக்கையைப் பெற முடியவில்லை! சாதன டிரைவரைப் மீண்டும் நிறுவ முயற்சிக்கவும்!</ContactCountError>
+    <ComponentNotFoundMessage>{0} காண முடியவில்லை. GestureSign ஐ மீண்டும் பதிவிறக்க அல்லது மீண்டும் நிறுவ முயற்சிக்கவும்.</ComponentNotFoundMessage>
+    <UpdateTitle>GestureSign V2 புதுப்பிப்பு கிடைக்கிறது</UpdateTitle>
+    <UpdateText>பதிப்பு {0} கிடைக்கிறது. பதிவிறக்கப் பக்கத்தை திறக்க கிளிக் செய்யவும்.</UpdateText>
+  </Messages>
+  <TrayMenu>
+    <Disable>GestureSign ஐ நிறுத்தவும்</Disable>
+    <Enable>GestureSign ஐ இயக்கவும்</Enable>
+    <Settings>அமைப்புகள்</Settings>
+    <Exit>வெளியேறு</Exit>
+  </TrayMenu>
+</Language>
