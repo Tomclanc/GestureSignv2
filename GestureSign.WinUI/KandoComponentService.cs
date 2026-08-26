@@ -246,6 +246,7 @@ internal static class KandoComponentService
 
     private static IEnumerable<string> EnumerateLegacyLocalDataRoots()
     {
+        yield return KandoComponentPaths.NativeLocalApplicationData;
         yield return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         foreach (var packageDirectory in EnumerateStorePackageDirectories())
         {
