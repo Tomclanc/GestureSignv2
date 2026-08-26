@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.1">
+<a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.4">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -48,7 +48,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - 支持优先使用系统触控板设置、Edge 自带手势，并可排除全屏场景。
 - 支持将配置文件切换到 OneDrive `Apps\GestureSign V2` 目录，由 OneDrive 负责跨设备同步。
 - 支持托盘图标、托盘菜单、单实例启动和更方便阅读的手势日志；托盘可一键暂停/恢复手势识别。
-- 支持简体中文、英文、繁体中文（台湾）、日语、韩语、法语、俄语、阿拉伯语、西班牙语和葡萄牙语界面语言。
+- 支持 90 种 Windows 语言和地区变体，并为阿拉伯语、波斯语、希伯来语、乌尔都语和维吾尔语提供从右到左布局。
 - 针对高 DPI、高刷新率屏幕做了界面和输入体验优化。
 
 ## 下载
@@ -65,24 +65,25 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.1) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.4) 下载最新便携版。
 
 当前版本：
 
-- [GestureSign-V2-18.1.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-x64.msi)
-- [GestureSign-V2-18.1.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-portable-x64.zip)
+- [GestureSign-V2-18.1.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-x64.msi)
+- [GestureSign-V2-18.1.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-portable-x64.zip)
 
 ## 更新内容
 
-### 18.1.1
+### 18.1.4
 
-- 新增法语、俄语、阿拉伯语、西班牙语和葡萄牙语界面适配，覆盖主界面、设置、编辑器、确认弹窗、更新提示和托盘菜单。
-- 支持跟随对应的 Windows 系统语言，也可在“选项”页面手动切换。
-- 阿拉伯语界面新增从右到左布局，并保留缺失文本安全回退英文的机制。
+- 将界面、设置、编辑器、确认弹窗、更新提示和托盘菜单扩展到 90 种 Windows 语言和地区变体。
+- 为阿拉伯语、波斯语、希伯来语、乌尔都语和维吾尔语加入从右到左布局，并支持按 Windows 显示语言自动匹配或手动切换。
+- 修复鼠标手势捕获可能持续拦截点击、造成游戏或掌机界面失去响应的问题。
+- 改进 Kando 可选组件迁移：商店和桌面版升级会保留已有组件及用户配置，重新下载时自动选择 x64 或 ARM64。
 
 ### 历史版本
 
-18.1 及更早版本允许永久删除内置 GestureSign V2 排除项，将 Kando 改为可单独下载、卸载且升级保留的可选组件，显著缩小安装包体积，并修复轨迹透明度、鼠标高频输入、游戏触摸拦截、全屏识别、标题栏与托盘触控、边缘交互和“启动应用”等问题。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.1.1 及更早版本增加了首批十种界面语言，允许永久删除内置 GestureSign V2 排除项，将 Kando 改为可单独下载和卸载的可选组件，显著缩小安装包体积，并修复轨迹透明度、鼠标高频输入、游戏触摸拦截、全屏识别、标题栏与托盘触控、边缘交互和“启动应用”等问题。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 ## 安装
 
 推荐使用 winget 安装：
@@ -179,7 +180,7 @@ The original GestureSign has not been actively maintained for a long time. On ne
 - Options to prefer Windows touchpad gestures or built-in browser gestures, with fullscreen exclusions.
 - Optional OneDrive sync stores configuration under `OneDrive\Apps\GestureSign V2` and lets OneDrive handle cross-device synchronization.
 - Tray icon, tray menu, single-instance startup, readable gesture logs, and one-click pause/resume from the tray.
-- Simplified Chinese, English, Traditional Chinese (Taiwan), Japanese, Korean, French, Russian, Arabic, Spanish, and Portuguese UI languages.
+- 90 Windows language and regional variants, with right-to-left layout for Arabic, Persian, Hebrew, Urdu, and Uyghur.
 - Improved UI and input behavior for high-DPI and high-refresh-rate displays.
 
 ## Download
@@ -196,22 +197,23 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.1).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.4).
 
 Current version:
 
-- [GestureSign-V2-18.1.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-x64.msi)
-- [GestureSign-V2-18.1.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-portable-x64.zip)
+- [GestureSign-V2-18.1.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-x64.msi)
+- [GestureSign-V2-18.1.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-portable-x64.zip)
 
-### What's new in 18.1.1
+### What's new in 18.1.4
 
-- Added French, Russian, Arabic, Spanish, and Portuguese across the main UI, settings, editors, confirmation dialogs, update notifications, and tray menu.
-- The app follows the corresponding Windows display language and also supports manual selection on the Options page.
-- Added right-to-left layout for Arabic, with a safe English fallback for any missing translation.
+- Expanded the main UI, settings, editors, dialogs, update notifications, and tray menu to 90 Windows language and regional variants.
+- Added right-to-left layout for Arabic, Persian, Hebrew, Urdu, and Uyghur, with automatic Windows display-language matching and manual selection.
+- Fixed mouse gesture capture potentially continuing to intercept clicks and leaving games or handheld interfaces unresponsive.
+- Improved Kando migration so desktop and Store upgrades preserve existing components and user settings; downloads automatically select x64 or ARM64.
 
 ### Previous releases
 
-Version 18.1 and earlier made the built-in GestureSign V2 exclusion permanently removable, turned Kando into an optional component that can be downloaded or removed separately and preserved across upgrades, significantly reduced package size, and fixed trail opacity, high-frequency mouse input, game touch interception, fullscreen detection, caption and tray touch, edge interactions, and Launch App behavior. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
+Version 18.1.1 and earlier added the first ten UI languages, made the built-in GestureSign V2 exclusion permanently removable, turned Kando into a separately downloadable and removable optional component, significantly reduced package size, and fixed trail opacity, high-frequency mouse input, game touch interception, fullscreen detection, caption and tray touch, edge interactions, and Launch App behavior. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
 ## Installation
 
 Recommended:
@@ -314,7 +316,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - Windows タッチパッドジェスチャーやブラウザー内蔵ジェスチャーを優先するオプションと、全画面除外設定。
 - OneDrive 同期を有効にすると、設定を `OneDrive\Apps\GestureSign V2` に保存し、OneDrive でデバイス間同期できます。
 - トレイアイコン、トレイメニュー、単一インスタンス起動、読みやすいジェスチャーログ、トレイからの一時停止 / 再開。
-- 簡体字中国語、英語、繁体字中国語（台湾）、日本語、韓国語、フランス語、ロシア語、アラビア語、スペイン語、ポルトガル語の UI 言語。
+- 90 種類の Windows 言語／地域バリアント。アラビア語、ペルシア語、ヘブライ語、ウルドゥー語、ウイグル語では右から左のレイアウトに対応します。
 - 高 DPI および高リフレッシュレート環境向けの UI と入力体験の改善。
 
 ## ダウンロード
@@ -331,22 +333,23 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.1) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.4) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.1.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-x64.msi)
-- [GestureSign-V2-18.1.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.1/GestureSign-V2-18.1.1-portable-x64.zip)
+- [GestureSign-V2-18.1.4-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-x64.msi)
+- [GestureSign-V2-18.1.4-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.4/GestureSign-V2-18.1.4-portable-x64.zip)
 
-### 18.1.1 の更新内容
+### 18.1.4 の更新内容
 
-- メイン UI、設定、各エディター、確認ダイアログ、更新通知、トレイメニューにフランス語、ロシア語、アラビア語、スペイン語、ポルトガル語を追加しました。
-- 対応する Windows の表示言語に自動追従し、「オプション」ページから手動で選択することもできます。
-- アラビア語向けの右から左へのレイアウトと、未翻訳テキストを英語へ安全にフォールバックする仕組みを追加しました。
+- メイン UI、設定、各エディター、確認ダイアログ、更新通知、トレイメニューを 90 種類の Windows 言語／地域バリアントへ拡張しました。
+- アラビア語、ペルシア語、ヘブライ語、ウルドゥー語、ウイグル語の右から左レイアウトと、Windows 表示言語の自動判定／手動選択に対応しました。
+- マウスジェスチャーのキャプチャがクリックを遮断し続け、ゲームや携帯型デバイスの画面が反応しなくなる可能性を修正しました。
+- Kando の移行を改善し、デスクトップ版／Store 版の更新時に既存コンポーネントとユーザー設定を保持し、再ダウンロード時は x64／ARM64 を自動選択します。
 
 ### 過去のバージョン
 
-18.1 以前では、組み込みの GestureSign V2 除外項目を完全に削除できるようにし、Kando を個別にダウンロード／削除できアップグレード時に保持されるオプションコンポーネントへ変更して、パッケージ容量を大幅に削減しました。また、軌跡の不透明度、高頻度マウス入力、ゲームでのタッチ遮断、全画面判定、タイトルバーとトレイのタッチ、エッジ操作、「アプリを起動」などを修正しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.1.1 以前では、最初の 10 言語を追加し、組み込みの GestureSign V2 除外項目を完全に削除できるようにし、Kando を個別にダウンロード／削除できるオプションコンポーネントへ変更して、パッケージ容量を大幅に削減しました。また、軌跡の不透明度、高頻度マウス入力、ゲームでのタッチ遮断、全画面判定、タイトルバーとトレイのタッチ、エッジ操作、「アプリを起動」などを修正しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 ## インストール
 
 推奨:
