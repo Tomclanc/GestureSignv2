@@ -5691,10 +5691,15 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            await KandoComponentService.PreserveBundledInstallationAsync();
+            var wasDownloaded = KandoComponentService.IsDownloaded;
+            var preserveLegacyInstallation = HasLegacyKandoUsage(_legacyData.Options) ||
+                                             KandoComponentService.HasPersistentUserData;
+            await KandoComponentService.PreserveBundledInstallationAsync(preserveLegacyInstallation);
             _legacyData = LegacyDataStore.Load();
             if (_legacyData.Options.KandoEnabled && !KandoComponentService.IsInstalled)
                 await KandoComponentService.DownloadAndInstallAsync();
+            if (!wasDownloaded && KandoComponentService.IsDownloaded)
+                ShowSelectedPage();
         }
         catch (Exception ex)
         {
@@ -5704,6 +5709,13 @@ public sealed partial class MainWindow : Window
         await EnsureKandoStartedIfEnabledAsync();
     }
 
+    private static bool HasLegacyKandoUsage(LegacyOptions options)
+        => options.KandoEnabled ||
+           !string.IsNullOrWhiteSpace(options.KandoExecutablePath) ||
+           !string.IsNullOrWhiteSpace(options.KandoHotKey) ||
+           !string.IsNullOrWhiteSpace(options.KandoSettingsHotKey) ||
+           !string.IsNullOrWhiteSpace(options.KandoMenuName) ||
+           !string.IsNullOrWhiteSpace(options.KandoTrigger);
     private async Task EnsureKandoStartedIfEnabledAsync()
     {
         try

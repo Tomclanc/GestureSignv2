@@ -22,22 +22,30 @@ internal static class KandoComponentService
     public static bool IsDownloaded
         => KandoComponentPaths.FindExecutableUnder(KandoComponentPaths.InstallDirectory) is not null;
 
-    public static async Task PreserveBundledInstallationAsync()
+    public static bool HasPersistentUserData
+        => File.Exists(Path.Combine(KandoComponentPaths.UserDataDirectory, "config.json")) ||
+           File.Exists(Path.Combine(KandoComponentPaths.UserDataDirectory, "menus.json"));
+
+    public static async Task PreserveBundledInstallationAsync(bool preserveLegacyInstallation)
     {
         await Task.Run(MigrateLegacyStoreData);
+        preserveLegacyInstallation |= HasPersistentUserData;
 
-        if (IsDownloaded || File.Exists(KandoComponentPaths.RemovedMarkerPath))
+        if (IsDownloaded || File.Exists(KandoComponentPaths.RemovedMarkerPath) || !preserveLegacyInstallation)
             return;
 
         var bundledExecutable = KandoComponentPaths.FindBundledExecutable(AppContext.BaseDirectory);
-        if (bundledExecutable is null)
+        if (bundledExecutable is not null)
+        {
+            var sourceDirectory = Path.GetDirectoryName(bundledExecutable);
+            if (!string.IsNullOrWhiteSpace(sourceDirectory))
+                await Task.Run(() => CopyDirectoryAtomically(sourceDirectory, KandoComponentPaths.InstallDirectory));
             return;
+        }
 
-        var sourceDirectory = Path.GetDirectoryName(bundledExecutable);
-        if (string.IsNullOrWhiteSpace(sourceDirectory))
-            return;
-
-        await Task.Run(() => CopyDirectoryAtomically(sourceDirectory, KandoComponentPaths.InstallDirectory));
+        var migrationArchive = Path.Combine(AppContext.BaseDirectory, "KandoMigrationPayload.zip");
+        if (File.Exists(migrationArchive))
+            await Task.Run(() => InstallFromArchive(migrationArchive));
     }
 
     public static async Task DownloadAndInstallAsync(
@@ -51,25 +59,8 @@ internal static class KandoComponentService
 
         try
         {
-            using (var response = await Client.GetAsync(asset.Url, HttpCompletionOption.ResponseHeadersRead, cancellationToken))
-            {
-                response.EnsureSuccessStatusCode();
-                var totalLength = response.Content.Headers.ContentLength;
-                await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
-                await using var output = new FileStream(archivePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1024 * 128, true);
-                var buffer = new byte[1024 * 128];
-                long received = 0;
-                while (true)
-                {
-                    var count = await input.ReadAsync(buffer, cancellationToken);
-                    if (count == 0)
-                        break;
-                    await output.WriteAsync(buffer.AsMemory(0, count), cancellationToken);
-                    received += count;
-                    if (totalLength is > 0)
-                        progress?.Report(received * 92d / totalLength.Value);
-                }
-            }
+            await DownloadArchiveWithRetryAsync(asset.Url, archivePath, progress, cancellationToken);
+
 
             progress?.Report(94);
             ZipFile.ExtractToDirectory(archivePath, stagingRoot);
@@ -95,6 +86,47 @@ internal static class KandoComponentService
         }
     }
 
+    private static async Task DownloadArchiveWithRetryAsync(
+        Uri url,
+        string archivePath,
+        IProgress<double>? progress,
+        CancellationToken cancellationToken)
+    {
+        const int maximumAttempts = 3;
+        for (var attempt = 1; attempt <= maximumAttempts; attempt++)
+        {
+            TryDeleteFile(archivePath);
+            try
+            {
+                using var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
+                response.EnsureSuccessStatusCode();
+                var totalLength = response.Content.Headers.ContentLength;
+                await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
+                await using var output = new FileStream(archivePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1024 * 128, true);
+                var buffer = new byte[1024 * 128];
+                long received = 0;
+                while (true)
+                {
+                    var count = await input.ReadAsync(buffer, cancellationToken);
+                    if (count == 0)
+                        break;
+                    await output.WriteAsync(buffer.AsMemory(0, count), cancellationToken);
+                    received += count;
+                    if (totalLength is > 0)
+                        progress?.Report(received * 92d / totalLength.Value);
+                }
+
+                if (totalLength is > 0 && received != totalLength.Value)
+                    throw new EndOfStreamException($"Kando download ended early ({received}/{totalLength.Value} bytes).");
+                return;
+            }
+            catch when (attempt < maximumAttempts && !cancellationToken.IsCancellationRequested)
+            {
+                TryDeleteFile(archivePath);
+                await Task.Delay(TimeSpan.FromSeconds(attempt), cancellationToken);
+            }
+        }
+    }
     public static void Uninstall()
     {
         if (Directory.Exists(KandoComponentPaths.InstallDirectory))
@@ -311,6 +343,26 @@ internal static class KandoComponentService
         return new KandoReleaseAsset("v" + SupportedKandoVersion, url);
     }
 
+    private static void InstallFromArchive(string archivePath)
+    {
+        var stagingRoot = Path.Combine(KandoComponentPaths.ComponentsRoot, $".Kando-migrate-{Guid.NewGuid():N}");
+        try
+        {
+            Directory.CreateDirectory(KandoComponentPaths.ComponentsRoot);
+            ZipFile.ExtractToDirectory(archivePath, stagingRoot);
+            var executable = KandoComponentPaths.FindExecutableUnder(stagingRoot)
+                ?? throw new InvalidDataException("Kando migration payload does not contain kando.exe.");
+            var payloadDirectory = Path.GetDirectoryName(executable)
+                ?? throw new InvalidDataException("Unable to resolve the Kando migration directory.");
+            if (!KandoExecutableCompatibility.IsSupportedOnCurrentOperatingSystem(executable, out var reason))
+                throw new BadImageFormatException(reason);
+            InstallExtractedDirectory(payloadDirectory, KandoComponentPaths.InstallDirectory);
+        }
+        finally
+        {
+            TryDeleteDirectory(stagingRoot);
+        }
+    }
     private static void CopyDirectoryAtomically(string sourceDirectory, string destinationDirectory)
     {
         var stagingDirectory = destinationDirectory + ".migrate-" + Guid.NewGuid().ToString("N");

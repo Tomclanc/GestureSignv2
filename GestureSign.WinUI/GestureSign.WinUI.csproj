@@ -33,6 +33,7 @@
     <AssemblyVersion>18.1.1.0</AssemblyVersion>
     <FileVersion>18.1.1.0</FileVersion>
     <BackendSourceDir Condition="'$(BackendSourceDir)' == ''">$(MSBuildProjectDirectory)\..\bin\Release</BackendSourceDir>
+    <IncludeLegacyKandoMigrationPayload Condition="'$(IncludeLegacyKandoMigrationPayload)' == ''">false</IncludeLegacyKandoMigrationPayload>
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
@@ -70,6 +71,9 @@
     <Content Include="$(BackendSourceDir)\**\*.*"
              Exclude="$(BackendSourceDir)\**\*.pdb;$(BackendSourceDir)\createdump.exe;$(BackendSourceDir)\clretwrc.dll;$(BackendSourceDir)\mscordaccore*.dll;$(BackendSourceDir)\mscordbi.dll"
              Link="Backend\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Content Include="$(LegacyKandoArchivePath)"
+             Condition="'$(IncludeLegacyKandoMigrationPayload)' == 'true' and Exists('$(LegacyKandoArchivePath)')"
+             Link="KandoMigrationPayload.zip" />
     <!-- SDK metadata is compile-time input and is invalid as application metadata. -->
     <Content Remove="**\*.winmd" />
     <None Remove="**\*.winmd" />
