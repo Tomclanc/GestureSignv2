@@ -36,7 +36,9 @@ namespace GestureSign.Daemon.Input
         private System.Drawing.Point _pendingMouseMovePoint;
         private MouseActions _activeMouseDrawingButton = MouseActions.None;
 
-        private const int MouseCaptureWatchdogMilliseconds = 15000;
+        // A mouse gesture should never be able to monopolize normal clicks for a
+        // long period when a driver or a protected app drops the button-up hook.
+        private const int MouseCaptureWatchdogMilliseconds = 5000;
         private const int LowLevelMouseInjectedFlag = 0x00000001;
 
         internal Devices SourceDevice { get; private set; }
@@ -112,6 +114,9 @@ namespace GestureSign.Daemon.Input
             if (ShouldPassThroughRemoteDesktopInput(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
                 return;
 
+            if (ShouldPassThroughGamingShellInput(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
+                return;
+
             if (IsCaptionButtonRegion(mouseMessage.Point) && button == AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
@@ -153,6 +158,8 @@ namespace GestureSign.Daemon.Input
             if (IsInjectedMouseMessage(mouseMessage))
                 return;
 
+            RecoverStaleMouseCaptureBeforeNewInput((MouseActions)mouseMessage.Button);
+
             if (ShouldPassThroughGestureSignUi(mouseMessage.Point))
             {
                 if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
@@ -164,6 +171,13 @@ namespace GestureSign.Daemon.Input
             {
                 if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
                     Logging.LogMessage($"Mouse gesture passed through. Reason=RemoteDesktop, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                return;
+            }
+
+            if (ShouldPassThroughGamingShellInput(mouseMessage.Point))
+            {
+                if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
+                    Logging.LogMessage($"Mouse gesture passed through. Reason=GamingShell, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
                 return;
             }
 
@@ -213,10 +227,7 @@ namespace GestureSign.Daemon.Input
                 (DateTime.UtcNow - _mouseCaptureStartedUtc).TotalMilliseconds >= MouseCaptureWatchdogMilliseconds)
             {
                 Logging.LogMessage($"Mouse gesture capture reset by watchdog. Button={drawingButton}, DurationMs={MouseCaptureWatchdogMilliseconds}");
-                PointCapture.Instance.CancelMouseCapture("WatchdogTimeout");
-                SourceDevice = Devices.None;
-                _pressedMouseButton.Clear();
-                ResetMouseGestureTracking();
+                CancelActiveMouseGesture("WatchdogTimeout");
                 return;
             }
 
@@ -261,6 +272,31 @@ namespace GestureSign.Daemon.Input
 
         private MouseActions ActiveDrawingButton =>
             _activeMouseDrawingButton != MouseActions.None ? _activeMouseDrawingButton : AppConfig.DrawingButton;
+
+        internal void CancelActiveMouseGesture(string reason)
+        {
+            if (SourceDevice == Devices.Mouse)
+                PointCapture.Instance.CancelMouseCapture(reason);
+
+            SourceDevice = Devices.None;
+            _pressedMouseButton.Clear();
+            ResetMouseGestureTracking();
+        }
+
+        private void RecoverStaleMouseCaptureBeforeNewInput(MouseActions incomingButton)
+        {
+            if (SourceDevice != Devices.Mouse || _activeMouseDrawingButton == MouseActions.None)
+                return;
+
+            var elapsed = (DateTime.UtcNow - _mouseCaptureStartedUtc).TotalMilliseconds;
+            var activeButtonStillDown = IsMouseButtonDown(_activeMouseDrawingButton);
+            if (activeButtonStillDown &&
+                (_activeMouseDrawingButton != incomingButton || elapsed < MouseCaptureWatchdogMilliseconds))
+                return;
+
+            Logging.LogMessage($"Stale mouse gesture recovered before new input. Active={_activeMouseDrawingButton}, Incoming={incomingButton}, DurationMs={(int)elapsed}, ButtonStillDown={activeButtonStillDown}");
+            CancelActiveMouseGesture("StaleBeforeNewInput");
+        }
 
         private static bool IsInjectedMouseMessage(LowLevelMouseMessage mouseMessage)
         {
@@ -371,6 +407,44 @@ namespace GestureSign.Daemon.Input
                 var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
                 ApplicationManager.GetWindowInfo(targetWindow, out _, out _, out var fileName);
                 return IsRemoteDesktopProcess(fileName);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool ShouldPassThroughGamingShellInput(System.Drawing.Point point)
+        {
+            try
+            {
+                var targetWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+                if (IsGamingShellWindow(targetWindow))
+                    return true;
+
+                // Packaged Xbox/Game Bar surfaces can be hit-tested as a XAML host.
+                // The foreground top-level window is the reliable process owner.
+                return IsGamingShellWindow(SystemWindow.ForegroundWindow);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static bool IsGamingShellWindow(SystemWindow window)
+        {
+            if (window == null || window.HWnd == IntPtr.Zero)
+                return false;
+
+            try
+            {
+                ApplicationManager.GetWindowInfo(window, out _, out _, out var fileName);
+                return string.Equals(fileName, "XboxPcApp.exe", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(fileName, "XboxPcAppFT.exe", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(fileName, "GamingApp.exe", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(fileName, "GameBar.exe", StringComparison.OrdinalIgnoreCase) ||
+                       string.Equals(fileName, "GameBarFTServer.exe", StringComparison.OrdinalIgnoreCase);
             }
             catch
             {

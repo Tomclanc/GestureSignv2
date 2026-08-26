@@ -523,6 +523,19 @@ namespace GestureSign.Daemon.Input
             {
                 if (hwnd.Equals(IntPtr.Zero))
                     return;
+
+                if (SourceDevice == Devices.Mouse && State != CaptureState.Ready)
+                {
+                    _currentContext?.Post(_ =>
+                    {
+                        if (SourceDevice == Devices.Mouse && State != CaptureState.Ready)
+                        {
+                            Logging.LogMessage($"Mouse gesture reset after window transition. Event={eventType}, Window=0x{hwnd.ToInt64():X}");
+                            _pointEventTranslator.CancelActiveMouseGesture("WindowTransition");
+                        }
+                    }, null);
+                }
+
                 var systemWindow = new SystemWindow(hwnd);
                 ApplicationManager.Instance.ObserveForegroundWindow(systemWindow);
                 if (State != CaptureState.Ready || Mode != CaptureMode.Normal)
@@ -541,11 +554,23 @@ namespace GestureSign.Daemon.Input
                 case SessionSwitchReason.RemoteConnect:
                 case SessionSwitchReason.SessionLogon:
                 case SessionSwitchReason.SessionUnlock:
+                    _currentContext?.Post(_ => _pointEventTranslator.CancelActiveMouseGesture("SessionChanged"), null);
                     if (State == CaptureState.Disabled)
                         State = CaptureState.Ready;
                     break;
                 case SessionSwitchReason.SessionLock:
-                    State = CaptureState.Disabled;
+                    if (_currentContext != null)
+                    {
+                        _currentContext.Post(_ =>
+                        {
+                            _pointEventTranslator.CancelActiveMouseGesture("SessionLocked");
+                            State = CaptureState.Disabled;
+                        }, null);
+                    }
+                    else
+                    {
+                        State = CaptureState.Disabled;
+                    }
                     break;
                 default:
                     break;
