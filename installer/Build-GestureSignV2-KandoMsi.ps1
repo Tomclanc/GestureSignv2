@@ -3,9 +3,8 @@ param(
     [string]$OutputMsi = "",
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
-    [string]$KandoSourceDir = "",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.0.8.0",
+    [string]$PackageVersion = "18.1.0.0",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -16,7 +15,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 if ([string]::IsNullOrWhiteSpace($OutputMsi)) {
-    $OutputMsi = Join-Path $PSScriptRoot "GestureSign-V2-Kando-$Architecture.msi"
+    $OutputMsi = Join-Path $PSScriptRoot "GestureSign-V2-$Architecture.msi"
 }
 
 function Get-StableId {
@@ -84,13 +83,6 @@ function Find-MSBuild {
 
 $publishPath = [System.IO.Path]::GetFullPath($PublishDir)
 $repoRoot = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..")
-$repoKandoPath = if ([string]::IsNullOrWhiteSpace($KandoSourceDir)) {
-    Join-Path $repoRoot.ProviderPath "Kando"
-}
-else {
-    [System.IO.Path]::GetFullPath($KandoSourceDir)
-}
-$publishKandoPath = Join-Path $publishPath "Kando"
 $publishBackendPath = Join-Path $publishPath "Backend"
 $wxsPath = Join-Path $PSScriptRoot "GestureSign.generated.kando.wxs"
 $iconPath = Resolve-Path -LiteralPath (Join-Path $PSScriptRoot "..\GestureSign.WinUI\Assets\logo.ico")
@@ -147,18 +139,6 @@ foreach ($requiredWinUiFile in @("GestureSign.WinUI.exe", "GestureSign.WinUI.dll
     if (!(Test-Path -LiteralPath (Join-Path $publishPath $requiredWinUiFile))) {
         throw "WinUI file is missing from publish directory: $requiredWinUiFile"
     }
-}
-
-if (Test-Path -LiteralPath (Join-Path $repoKandoPath "kando.exe")) {
-    if (Test-Path -LiteralPath $publishKandoPath) {
-        Remove-Item -LiteralPath $publishKandoPath -Recurse -Force
-    }
-    New-Item -ItemType Directory -Path $publishKandoPath | Out-Null
-    Copy-Item -Path (Join-Path $repoKandoPath "*") -Destination $publishKandoPath -Recurse -Force
-}
-
-if (!(Test-Path -LiteralPath (Join-Path $publishKandoPath "kando.exe"))) {
-    throw "Kando bundle is missing. Expected kando.exe in publish directory or repository Kando folder."
 }
 
 $uninstallerProject = Join-Path $PSScriptRoot "Uninstaller\GestureSign.Uninstaller.csproj"
@@ -220,6 +200,12 @@ foreach ($payloadRoot in @($publishPath, $publishBackendPath)) {
 }
 elseif (!(Test-Path -LiteralPath $publishPath)) {
     throw "Prepared publish directory is missing: $publishPath"
+}
+
+# Kando is an on-demand component. Never inherit a stale bundled copy from a previous publish.
+$staleKandoPath = Join-Path $publishPath "Kando"
+if (Test-Path -LiteralPath $staleKandoPath) {
+    Remove-Item -LiteralPath $staleKandoPath -Recurse -Force
 }
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName
@@ -344,7 +330,9 @@ $majorUpgradeXml
     <Property Id="ARPPRODUCTICON" Value="GestureSignIcon" />
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
     <CustomAction Id="CleanupAllGestureSignData" Directory="SystemFolder" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$p=`$env:LOCALAPPDATA+'\GestureSign V2',`$env:APPDATA+'\GestureSign V2','HKCU:\Software\GestureSign V2'; Remove-Item -LiteralPath `$p -Recurse -Force -EA 0&quot;" />
+    <CustomAction Id="PreserveExistingKando" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$s='[INSTALLFOLDER]Kando';`$r=`$env:LOCALAPPDATA+'\GestureSign V2\Components';`$d=`$r+'\Kando';`$m=`$r+'\Kando.removed';if((Test-Path -LiteralPath `$s) -and !(Test-Path -LiteralPath `$d) -and !(Test-Path -LiteralPath `$m)){New-Item -ItemType Directory -Path `$r -Force|Out-Null;Copy-Item -LiteralPath `$s -Destination `$d -Recurse -Force}&quot;" />
     <InstallExecuteSequence>
+      <Custom Action="PreserveExistingKando" Before="RemoveExistingProducts" Condition="WIX_UPGRADE_DETECTED" />
       <Custom Action="CleanupAllGestureSignData" After="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND CLEANALL=&quot;1&quot; AND NOT UPGRADINGPRODUCTCODE" />
     </InstallExecuteSequence>
 

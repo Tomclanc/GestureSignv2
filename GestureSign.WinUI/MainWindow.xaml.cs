@@ -211,7 +211,7 @@ public sealed partial class MainWindow : Window
         };
         _ = EnsureDaemonRunningAsync();
         _ = RefreshRecognitionStateAsync();
-        _ = EnsureKandoStartedIfEnabledAsync();
+        _ = PreserveKandoAndStartIfEnabledAsync();
         _daemonWatchdogTimer.Start();
         _recognitionStateTimer.Start();
         _windowModeRefreshTimer.Start();
@@ -2001,12 +2001,110 @@ public sealed partial class MainWindow : Window
     {
         var root = NewSection();
         var options = _legacyData.Options;
+        var installed = KandoComponentService.IsInstalled;
 
+        root.Children.Add(NewKandoComponentCard());
         root.Children.Add(NewKandoPowerToysPreviewCard());
-        root.Children.Add(NewKandoPowerToysToggleRow(options.KandoEnabled));
-        root.Children.Add(NewKandoSettingsHotKeyRow(options.KandoSettingsHotKey));
-        root.Children.Add(NewKandoOpenSettingsRow());
+        if (installed)
+        {
+            root.Children.Add(NewKandoPowerToysToggleRow(options.KandoEnabled));
+            root.Children.Add(NewKandoSettingsHotKeyRow(options.KandoSettingsHotKey));
+            root.Children.Add(NewKandoOpenSettingsRow());
+        }
         return root;
+    }
+
+    private FrameworkElement NewKandoComponentCard()
+    {
+        var installed = KandoComponentService.IsInstalled;
+        var downloaded = KandoComponentService.IsDownloaded;
+        var statusText = installed
+            ? L("已安装", "Installed", "已安裝", "インストール済み", "설치됨")
+            : L("可选下载", "Optional download", "可選下載", "オプションのダウンロード", "선택적 다운로드");
+        var status = new Border
+        {
+            Background = installed
+                ? new SolidColorBrush(Color.FromArgb(36, 16, 124, 16))
+                : new SolidColorBrush(Color.FromArgb(40, 0, 120, 212)),
+            BorderBrush = installed
+                ? new SolidColorBrush(Color.FromArgb(180, 16, 124, 16))
+                : new SolidColorBrush(Color.FromArgb(180, 0, 120, 212)),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(12),
+            Padding = new Thickness(10, 4, 10, 4),
+            VerticalAlignment = VerticalAlignment.Center,
+            Child = new TextBlock
+            {
+                Text = statusText,
+                FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
+            }
+        };
+
+        var action = NewPillButton(
+            installed
+                ? L("单独卸载", "Uninstall", "單獨解除安裝", "アンインストール", "제거")
+                : L("下载 Kando", "Download Kando", "下載 Kando", "Kando をダウンロード", "Kando 다운로드"),
+            !installed);
+        action.Click += async (_, _) =>
+        {
+            if (installed)
+                await RunUiActionAsync(UninstallKandoComponentAsync);
+            else
+                await RunUiActionAsync(() => DownloadKandoComponentAsync(action));
+        };
+
+        var controls = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Spacing = 10,
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        controls.Children.Add(status);
+        controls.Children.Add(action);
+
+        var subtitle = downloaded
+            ? L("Kando 已作为独立组件保存，升级 GestureSign 时会继续保留。", "Kando is stored as a separate component and is retained when GestureSign updates.", "Kando 已儲存為獨立元件，GestureSign 更新時會繼續保留。", "Kando は独立コンポーネントとして保存され、GestureSign の更新後も保持されます。", "Kando는 별도 구성 요소로 저장되며 GestureSign 업데이트 후에도 유지됩니다.")
+            : installed
+                ? L("检测到旧版本随附的 Kando。卸载后可随时重新下载。", "A Kando copy bundled with an earlier version was found. You can reinstall it later.", "偵測到舊版本隨附的 Kando，解除安裝後可隨時重新下載。", "以前のバージョンに同梱された Kando が見つかりました。後から再インストールできます。", "이전 버전에 포함된 Kando를 찾았습니다. 나중에 다시 설치할 수 있습니다.")
+                : L("Kando 默认不随 GestureSign 安装。需要时下载约 180 MB，可随时单独卸载。", "Kando is not bundled by default. Download about 180 MB when needed and uninstall it separately at any time.", "Kando 預設不隨 GestureSign 安裝。需要時下載約 180 MB，並可隨時單獨解除安裝。", "Kando は既定では同梱されません。必要なときに約 180 MB をダウンロードし、個別にアンインストールできます。", "Kando는 기본적으로 포함되지 않습니다. 필요할 때 약 180MB를 다운로드하고 언제든 별도로 제거할 수 있습니다.");
+
+        return NewPowerToysSettingCard("\uE896", L("Kando 可选组件", "Kando optional component", "Kando 可選元件", "Kando オプションコンポーネント", "Kando 선택적 구성 요소"), subtitle, controls);
+    }
+
+    private async Task DownloadKandoComponentAsync(Button button)
+    {
+        button.IsEnabled = false;
+        var originalContent = button.Content;
+        try
+        {
+            var progress = new Progress<double>(value =>
+                button.Content = string.Format(CultureInfo.CurrentCulture, L("下载中 {0:0}%", "Downloading {0:0}%", "下載中 {0:0}%", "ダウンロード中 {0:0}%", "다운로드 중 {0:0}%"), value));
+            await KandoComponentService.DownloadAndInstallAsync(progress);
+            await ShowInfoDialog(
+                L("Kando 已安装", "Kando installed", "Kando 已安裝", "Kando をインストールしました", "Kando 설치됨"),
+                L("现在可以启用快捷操作并设置快捷键。", "You can now enable Quick Actions and configure its shortcuts.", "現在可以啟用快捷操作並設定快速鍵。", "クイック操作を有効にしてショートカットを設定できます。", "이제 빠른 작업을 활성화하고 단축키를 설정할 수 있습니다."));
+            ShowSelectedPage();
+        }
+        finally
+        {
+            button.Content = originalContent;
+            button.IsEnabled = true;
+        }
+    }
+
+    private async Task UninstallKandoComponentAsync()
+    {
+        if (!await ConfirmDialogAsync(
+                L("卸载 Kando", "Uninstall Kando", "解除安裝 Kando", "Kando をアンインストール", "Kando 제거"),
+                L("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall.", "只會刪除 Kando 程式元件，選單與個人設定會保留，之後可重新下載。", "Kando のプログラムのみを削除します。メニューと個人設定は再インストール用に保持されます。", "Kando 프로그램 구성 요소만 제거합니다. 메뉴와 개인 설정은 재설치를 위해 유지됩니다."),
+                L("卸载", "Uninstall", "解除安裝", "アンインストール", "제거")))
+            return;
+
+        StopKandoProcesses(_legacyData.Options);
+        await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+        KandoComponentService.Uninstall();
+        ShowSelectedPage();
     }
 
     private FrameworkElement NewKandoPowerToysPreviewCard()
@@ -5553,6 +5651,23 @@ public sealed partial class MainWindow : Window
         StopKandoProcesses(_legacyData.Options);
     }
 
+    private async Task PreserveKandoAndStartIfEnabledAsync()
+    {
+        try
+        {
+            await KandoComponentService.PreserveBundledInstallationAsync();
+            _legacyData = LegacyDataStore.Load();
+            if (_legacyData.Options.KandoEnabled && !KandoComponentService.IsInstalled)
+                await KandoComponentService.DownloadAndInstallAsync();
+        }
+        catch (Exception ex)
+        {
+            LogException(ex);
+        }
+
+        await EnsureKandoStartedIfEnabledAsync();
+    }
+
     private async Task EnsureKandoStartedIfEnabledAsync()
     {
         try
@@ -5738,24 +5853,7 @@ public sealed partial class MainWindow : Window
     }
 
     private static string? FindKandoExecutablePath(string configuredPath)
-    {
-        if (!string.IsNullOrWhiteSpace(configuredPath) && File.Exists(configuredPath))
-            return configuredPath;
-
-        var baseDirectory = AppContext.BaseDirectory;
-        var candidates = new[]
-        {
-            Path.Combine(baseDirectory, "Kando", "kando.exe"),
-            Path.Combine(baseDirectory, "Kando", "Kando.exe"),
-            Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "kando.exe"),
-            Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "Kando.exe"),
-            Path.Combine(baseDirectory, "kando.exe"),
-            Path.Combine(baseDirectory, "Kando.exe"),
-            Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "kando.exe")),
-            Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "Kando.exe"))
-        };
-        return candidates.FirstOrDefault(File.Exists);
-    }
+        => KandoComponentPaths.FindExecutable(configuredPath, AppContext.BaseDirectory);
 
     private static string QuoteArgument(string value)
         => "\"" + value.Replace("\\", "\\\\", StringComparison.Ordinal).Replace("\"", "\\\"", StringComparison.Ordinal) + "\"";

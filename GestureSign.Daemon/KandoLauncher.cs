@@ -95,40 +95,9 @@ namespace GestureSign.Daemon
 
         private static string FindExecutablePath()
         {
-            var configuredPath = AppConfig.KandoExecutablePath;
-            if (!string.IsNullOrWhiteSpace(configuredPath) && File.Exists(configuredPath))
-                return configuredPath;
-
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var candidates = new[]
-            {
-                Path.Combine(baseDirectory, "Kando", "kando.exe"),
-                Path.Combine(baseDirectory, "Kando", "Kando.exe"),
-                Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "kando.exe"),
-                Path.Combine(baseDirectory, "Kando", "Kando-win32-x64", "Kando.exe"),
-                Path.Combine(baseDirectory, "kando", "kando.exe"),
-                Path.Combine(baseDirectory, "kando", "Kando.exe"),
-                Path.Combine(baseDirectory, "kando", "Kando-win32-x64", "kando.exe"),
-                Path.Combine(baseDirectory, "kando", "Kando-win32-x64", "Kando.exe"),
-                Path.Combine(baseDirectory, "kando.exe"),
-                Path.Combine(baseDirectory, "Kando.exe"),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "Kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "Kando-win32-x64", "kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "Kando", "Kando-win32-x64", "Kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "kando", "kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "kando", "Kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "kando", "Kando-win32-x64", "kando.exe")),
-                Path.GetFullPath(Path.Combine(baseDirectory, "..", "kando", "Kando-win32-x64", "Kando.exe"))
-            };
-
-            foreach (var candidate in candidates)
-            {
-                if (File.Exists(candidate))
-                    return candidate;
-            }
-
-            return null;
+            return KandoComponentPaths.FindExecutable(
+                AppConfig.KandoExecutablePath,
+                AppDomain.CurrentDomain.BaseDirectory);
         }
 
         private static string BuildShowMenuArguments()

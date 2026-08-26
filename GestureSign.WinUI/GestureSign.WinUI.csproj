@@ -29,10 +29,9 @@
     <PublishSingleFile>false</PublishSingleFile>
     <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
     <Nullable>enable</Nullable>
-    <Version>18.0.8.0</Version>
-    <AssemblyVersion>18.0.8.0</AssemblyVersion>
-    <FileVersion>18.0.8.0</FileVersion>
-    <KandoSourceDir Condition="'$(KandoSourceDir)' == ''">$(MSBuildProjectDirectory)\..\Kando</KandoSourceDir>
+    <Version>18.1.0.0</Version>
+    <AssemblyVersion>18.1.0.0</AssemblyVersion>
+    <FileVersion>18.1.0.0</FileVersion>
     <BackendSourceDir Condition="'$(BackendSourceDir)' == ''">$(MSBuildProjectDirectory)\..\bin\Release</BackendSourceDir>
   </PropertyGroup>
   <ItemGroup>
@@ -40,6 +39,7 @@
     <Compile Include="..\Shared\KandoTaskbarIdentity.cs" Link="KandoTaskbarIdentity.cs" />
     <Compile Include="..\Shared\KandoExecutableCompatibility.cs" Link="KandoExecutableCompatibility.cs" />
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
+    <Compile Include="..\Shared\KandoComponentPaths.cs" Link="KandoComponentPaths.cs" />
   </ItemGroup>
   <ItemGroup>
     <!-- Request the Desktop Runtime rather than only the base .NET runtime.
@@ -69,28 +69,14 @@
     <Content Include="$(BackendSourceDir)\**\*.*"
              Exclude="$(BackendSourceDir)\**\*.pdb;$(BackendSourceDir)\createdump.exe;$(BackendSourceDir)\clretwrc.dll;$(BackendSourceDir)\mscordaccore*.dll;$(BackendSourceDir)\mscordbi.dll"
              Link="Backend\%(RecursiveDir)%(Filename)%(Extension)" />
-    <Content Include="$(KandoSourceDir)\**\*.*" Link="Kando\%(RecursiveDir)%(Filename)%(Extension)" Condition="Exists('$(KandoSourceDir)')" />
     <!-- SDK metadata is compile-time input and is invalid as application metadata. -->
     <Content Remove="**\*.winmd" />
     <None Remove="**\*.winmd" />
   </ItemGroup>
-  <ItemGroup Condition="Exists('$(KandoSourceDir)')">
-    <KandoBundle Include="$(KandoSourceDir)\**\*.*" />
-  </ItemGroup>
-  <Target Name="ValidateStoreKandoArchitecture" BeforeTargets="PrepareForBuild" Condition="'$(StorePackage)' == 'true'">
-    <Error Condition="!Exists('$(KandoSourceDir)\kando.exe')" Text="Kando bundle is missing: $(KandoSourceDir)\kando.exe" />
-    <Exec Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\tools\Assert-PeArchitecture.ps1&quot; -Path &quot;$(KandoSourceDir)\kando.exe&quot; -Architecture &quot;$(PlatformTarget)&quot;" />
-  </Target>
-  <Target Name="CopyKandoBundleToOutput" AfterTargets="Build" Condition="'@(KandoBundle)' != ''">
-    <Copy SourceFiles="@(KandoBundle)" DestinationFiles="@(KandoBundle->'$(OutDir)Kando\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
-  </Target>
   <Target Name="CopyWinUiXamlResourcesToPublish" AfterTargets="Publish" Condition="'$(PublishDir)' != ''">
     <ItemGroup>
       <WinUiXamlPublishResource Include="$(OutDir)App.xbf;$(OutDir)MainWindow.xbf;$(OutDir)$(AssemblyName).pri" />
     </ItemGroup>
     <Copy SourceFiles="@(WinUiXamlPublishResource)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('%(WinUiXamlPublishResource.Identity)')" />
-  </Target>
-  <Target Name="CopyKandoBundleToPublish" AfterTargets="Publish" Condition="'@(KandoBundle)' != '' and '$(PublishDir)' != ''">
-    <Copy SourceFiles="@(KandoBundle)" DestinationFiles="@(KandoBundle->'$(PublishDir)Kando\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
   </Target>
 </Project>

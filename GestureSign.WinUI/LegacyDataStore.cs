@@ -296,6 +296,18 @@ internal sealed class LegacyDataStore
 
     public void DeleteApplication(LegacyApplication application)
     {
+        if (IsSettingsWindowIgnore(application.Source))
+        {
+            try
+            {
+                Directory.CreateDirectory(LocalApplicationDataPath());
+                File.WriteAllText(SettingsWindowIgnoreRemovalMarkerPath(), DateTime.UtcNow.ToString("O"));
+            }
+            catch
+            {
+            }
+        }
+
         _actionsRoot.Remove(application.Source);
         SaveActions();
     }
@@ -857,10 +869,7 @@ internal sealed class LegacyDataStore
 
     private static bool EnsureSettingsWindowIgnored(JsonArray root)
     {
-        var hasIgnoredSettingsWindow = root.OfType<JsonObject>().Any(app =>
-            app.StringValue("$type", "").Contains("IgnoredApp", StringComparison.Ordinal)
-            && string.Equals(app.StringValue("MatchString", ""), "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase));
-        if (hasIgnoredSettingsWindow)
+        if (File.Exists(SettingsWindowIgnoreRemovalMarkerPath()) || root.OfType<JsonObject>().Any(IsSettingsWindowIgnore))
             return false;
 
         root.Add(new JsonObject
@@ -874,6 +883,13 @@ internal sealed class LegacyDataStore
         });
         return true;
     }
+
+    private static bool IsSettingsWindowIgnore(JsonObject app)
+        => app.StringValue("$type", "").Contains("IgnoredApp", StringComparison.Ordinal)
+           && string.Equals(app.StringValue("MatchString", ""), "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase);
+
+    private static string SettingsWindowIgnoreRemovalMarkerPath()
+        => Path.Combine(LocalApplicationDataPath(), "SettingsWindowIgnoreRemoved.marker");
 
     private static bool NormalizeGestureNames(JsonArray gesturesRoot, JsonArray actionsRoot, out bool changedActions)
     {

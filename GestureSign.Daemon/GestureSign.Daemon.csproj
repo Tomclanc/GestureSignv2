@@ -17,6 +17,7 @@
   <ItemGroup>
     <Compile Include="..\Shared\KandoTaskbarIdentity.cs" Link="KandoTaskbarIdentity.cs" />
     <Compile Include="..\Shared\KandoExecutableCompatibility.cs" Link="KandoExecutableCompatibility.cs" />
+    <Compile Include="..\Shared\KandoComponentPaths.cs" Link="KandoComponentPaths.cs" />
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
     <ProjectReference Include="..\GestureSign.Common\GestureSign.Common.csproj" />
     <ProjectReference Include="..\GestureSign.CorePlugins\GestureSign.CorePlugins.csproj" />

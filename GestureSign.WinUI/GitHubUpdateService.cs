@@ -76,7 +76,7 @@ internal static class GitHubUpdateService
         }
 
         using var archive = ZipFile.OpenRead(path);
-        foreach (var required in new[] { "GestureSign.WinUI.exe", "Backend/GestureSign.exe", "Kando/kando.exe" })
+        foreach (var required in new[] { "GestureSign.WinUI.exe", "Backend/GestureSign.exe" })
         {
             if (archive.GetEntry(required) is null)
                 throw new InvalidDataException($"The portable update is missing {required}.");

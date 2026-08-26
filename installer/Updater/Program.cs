@@ -221,6 +221,8 @@ namespace GestureSign.Updater
 
         private void InstallMsi()
         {
+            SetStatus("正在保留已安装的 Kando 可选组件…");
+            PreserveBundledKando(_options.TargetDirectory);
             SetStatus("正在覆盖安装新版本…");
             var logPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
             var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{logPath}\"";
@@ -249,6 +251,8 @@ namespace GestureSign.Updater
 
             try
             {
+                SetStatus("正在保留已安装的 Kando 可选组件…");
+                PreserveBundledKando(target);
                 ZipFile.ExtractToDirectory(_options.PackagePath, staging);
                 ValidatePortableDirectory(staging);
                 SetStatus("正在替换程序文件…");
@@ -279,10 +283,55 @@ namespace GestureSign.Updater
 
         private static void ValidatePortableDirectory(string directory)
         {
-            foreach (var relative in new[] { "GestureSign.WinUI.exe", @"Backend\GestureSign.exe", @"Kando\kando.exe" })
+            foreach (var relative in new[] { "GestureSign.WinUI.exe", @"Backend\GestureSign.exe" })
             {
                 if (!File.Exists(Path.Combine(directory, relative)))
                     throw new InvalidDataException("更新包缺少必要文件：" + relative);
+            }
+        }
+
+        private static void PreserveBundledKando(string applicationDirectory)
+        {
+            if (string.IsNullOrWhiteSpace(applicationDirectory))
+                return;
+
+            var source = Path.Combine(applicationDirectory, "Kando");
+            if (!Directory.Exists(source) || !Directory.EnumerateFiles(source, "kando.exe", SearchOption.AllDirectories).Any())
+                return;
+
+            var componentsRoot = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "GestureSign V2",
+                "Components");
+            var destination = Path.Combine(componentsRoot, "Kando");
+            var removedMarker = Path.Combine(componentsRoot, "Kando.removed");
+            if (Directory.Exists(destination) || File.Exists(removedMarker))
+                return;
+
+            var staging = destination + ".migrate-" + Guid.NewGuid().ToString("N");
+            try
+            {
+                CopyDirectory(source, staging);
+                Directory.CreateDirectory(componentsRoot);
+                Directory.Move(staging, destination);
+            }
+            finally
+            {
+                TryDeleteDirectory(staging);
+            }
+        }
+
+        private static void CopyDirectory(string source, string destination)
+        {
+            Directory.CreateDirectory(destination);
+            var sourcePrefixLength = source.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Length + 1;
+            foreach (var directory in Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories))
+                Directory.CreateDirectory(Path.Combine(destination, directory.Substring(sourcePrefixLength)));
+            foreach (var file in Directory.EnumerateFiles(source, "*", SearchOption.AllDirectories))
+            {
+                var target = Path.Combine(destination, file.Substring(sourcePrefixLength));
+                Directory.CreateDirectory(Path.GetDirectoryName(target));
+                File.Copy(file, target, true);
             }
         }
 

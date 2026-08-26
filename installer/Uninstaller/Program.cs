@@ -273,6 +273,7 @@ namespace GestureSign.Uninstaller
                         UninstallPortable(portableDirectory, cleanAll);
                     else
                         RunMsiexec($"/x {product.ProductCode} CLEANALL={(cleanAll ? "1" : "0")} /qn /norestart /L*V \"{NewMsiLogPath("uninstall")}\"");
+                    DeleteKandoComponent();
                 });
 
                 _progress.MarqueeAnimationSpeed = 0;
@@ -368,6 +369,17 @@ namespace GestureSign.Uninstaller
                 }
                 throw;
             }
+        }
+
+        private static void DeleteKandoComponent()
+        {
+            var path = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "GestureSign V2",
+                "Components",
+                "Kando");
+            if (Directory.Exists(path))
+                DeleteDirectoryWithRetry(path);
         }
 
         private static void DeleteSharedUserData()
