@@ -123,7 +123,7 @@ namespace GestureSign.Daemon.Input
             if (ShouldPreferMouseGesturesAtPoint(mouseMessage.Point) && button != AppConfig.DrawingButton && !_pressedMouseButton.Contains(button))
                 return;
 
-            if (button == ActiveDrawingButton)
+            if (_activeMouseDrawingButton != MouseActions.None && button == _activeMouseDrawingButton)
             {
                 DispatchPendingMouseMove();
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
@@ -131,7 +131,7 @@ namespace GestureSign.Daemon.Input
                 handled = args.Handled;
             }
             _pressedMouseButton.Remove(button);
-            if (button == ActiveDrawingButton)
+            if (button == _activeMouseDrawingButton)
                 ResetMouseGestureTracking();
         }
 
@@ -149,7 +149,14 @@ namespace GestureSign.Daemon.Input
             if (!_pressedMouseButton.Contains(drawingButton) || SourceDevice != Devices.Mouse)
                 return;
 
-            QueueMouseMove(mouseMessage.Point);
+            // A mouse has exactly one pointer. Dispatch immediately so the
+            // visual trail and recognizer receive every move in order.
+            OnPointMove(new InputPointsEventArgs(
+                new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }),
+                Devices.Mouse));
+            // The button-down was already intercepted. Move messages are left
+            // untouched, matching WGestures: applications may still observe
+            // cursor motion, but they never receive the original button click.
         }
 
         private void LowLevelMouseHook_MouseDown(LowLevelMouseMessage mouseMessage, ref bool handled)
@@ -193,24 +200,26 @@ namespace GestureSign.Daemon.Input
             if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton && _pressedMouseButton.Count == 0)
             {
                 Logging.LogMessage($"Mouse gesture button down. Button={(MouseActions)mouseMessage.Button}, DrawingButton={AppConfig.DrawingButton}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                var drawingButton = (MouseActions)mouseMessage.Button;
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
                 OnPointDown(args);
+                // Mouse gestures own the complete button cycle immediately.
+                // Keep the capture provisional until movement is observed;
+                // PointCapture will re-inject a normal click on button-up when
+                // no effective movement occurred (the WGestures/GestureSign
+                // reference behavior).
+                PointCapture.Instance.State = CaptureState.CapturingInvalid;
                 handled = args.Handled;
-                if (handled)
-                {
-                    _activeMouseDrawingButton = (MouseActions)mouseMessage.Button;
-                    _mouseCaptureStartedUtc = DateTime.UtcNow;
-                    _hasPendingMouseMove = false;
-                    _mouseMoveDispatchTimer.Start();
-                }
+                _activeMouseDrawingButton = drawingButton;
+                _mouseCaptureStartedUtc = DateTime.UtcNow;
+                _hasPendingMouseMove = false;
+                Logging.LogMessage($"Mouse gesture capture accepted. Button={drawingButton}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
             }
             _pressedMouseButton.Add((MouseActions)mouseMessage.Button);
             if ((MouseActions)mouseMessage.Button == AppConfig.DrawingButton)
             {
                 _mousePollingFallbackActive = false;
                 _mousePollingObservedButtonDown = false;
-                if (!IsRemoteSession())
-                    _mouseStatePollTimer.Start();
             }
         }
 

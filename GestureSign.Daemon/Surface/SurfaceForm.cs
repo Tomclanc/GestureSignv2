@@ -103,6 +103,20 @@ namespace GestureSign.Daemon.Surface
 
         public void StartDrawing(List<Point> startPoints)
         {
+            // PointCapture receives HID frames on a worker thread.  All layered
+            // window/GDI operations must be serialized on the form thread;
+            // otherwise EndDrawing can dispose _bitmap while a queued redraw is
+            // still entering BeginDraw (the crash seen in test18).
+            if (InvokeRequired)
+            {
+                if (!IsDisposed && IsHandleCreated)
+                    BeginInvoke(new Action(() => StartDrawing(startPoints)));
+                return;
+            }
+
+            if (IsDisposed || Disposing)
+                return;
+
             if (_settingsChanged)
             {
                 _settingsChanged = false;
@@ -132,6 +146,16 @@ namespace GestureSign.Daemon.Surface
 
         public void EndDrawing()
         {
+            if (InvokeRequired)
+            {
+                if (!IsDisposed && IsHandleCreated)
+                    BeginInvoke(new Action(EndDrawing));
+                return;
+            }
+
+            if (IsDisposed || Disposing)
+                return;
+
             if (_bitmap == null && _lastStroke == null)
                 return;
             StopGestureHintTimers();
@@ -142,6 +166,19 @@ namespace GestureSign.Daemon.Surface
 
         public void DrawPoints(List<List<Point>> points)
         {
+            if (InvokeRequired)
+            {
+                if (!IsDisposed && IsHandleCreated)
+                    BeginInvoke(new Action(() => DrawPoints(points)));
+                return;
+            }
+
+            if (IsDisposed || Disposing)
+                return;
+
+            if (points == null || points.Count == 0)
+                return;
+
             if (_penWidth > 0 && !(points.Count == 1 && points[0].Count == 1))
             {
 
@@ -152,6 +189,61 @@ namespace GestureSign.Daemon.Surface
                 }
                 DrawSegments(points);
             }
+        }
+
+        // Redraw a complete gesture path. Touchpad feedback is normalized by
+        // PointCapture as the path grows, so incremental segment drawing would
+        // leave earlier segments at their old scale.
+        public void RedrawGesture(List<List<Point>> points)
+        {
+            if (_penWidth <= 0 || points == null || points.Count == 0)
+                return;
+
+            if (InvokeRequired)
+            {
+                BeginInvoke(new Action(() => RedrawGesture(points)));
+                return;
+            }
+
+            if (IsDisposed || Disposing)
+                return;
+
+            EnsureDrawingSurface();
+            // DIB creation can fail (for example while display settings are
+            // changing).  Never dereference a missing surface from the input
+            // callback; simply skip this visual frame and let the next one try.
+            if (_bitmap == null)
+            {
+                Logging.LogMessage("Visual feedback redraw skipped: drawing surface unavailable.");
+                return;
+            }
+            if (!Visible)
+                EnsureSurfaceVisible();
+
+            // Keep the layered window and its native bitmap alive while the
+            // touchpad path is being rescaled. Recreating/showing the window on
+            // every point causes visible flicker on Windows.
+            if (_bitmap != null)
+            {
+                try
+                {
+                    using var graphics = _bitmap.BeginDraw();
+                    if (graphics == null)
+                        return;
+                    graphics.Clear(Color.Transparent);
+                    _bitmap.EndDraw();
+                }
+                catch (Exception ex)
+                {
+                    Logging.LogException(ex);
+                    return;
+                }
+                _graphicsPath.Reset();
+                _dirtyGraphicsPath.Reset();
+            }
+            DrawCompleteGesture(points);
+            _lastStroke = points.Select(p => p?.Count ?? 0).ToArray();
+            UpdateFullSurface(255);
         }
 
         public void ShowGestureActionHint(List<List<Point>> points, string text)
@@ -415,16 +507,21 @@ namespace GestureSign.Daemon.Surface
 
         private void EnsureDrawingSurface()
         {
-            if (_bitmap != null)
+            if (_bitmap != null && _bitmap.HBitmap != IntPtr.Zero)
+                return;
+
+            if (IsDisposed || Disposing || Width <= 0 || Height <= 0)
                 return;
 
             try
             {
+                _bitmap?.Dispose();
                 _bitmap = new DiBitmap(Size);
             }
-            catch (ApplicationException ex)
+            catch (Exception ex)
             {
                 Logging.LogException(ex);
+                _bitmap = null;
             }
         }
 
@@ -518,7 +615,12 @@ namespace GestureSign.Daemon.Surface
 
         private void DrawCompleteGesture(List<List<Point>> points)
         {
+            if (_bitmap == null || points == null)
+                return;
+
             var surfaceGraphics = _bitmap.BeginDraw();
+            if (surfaceGraphics == null)
+                return;
             _graphicsPath.Reset();
             _dirtyGraphicsPath.Reset();
 
@@ -767,6 +869,8 @@ namespace GestureSign.Daemon.Surface
 
         private void UpdateFullSurface(byte opacity = 255)
         {
+            if (_bitmap == null || _bitmap.HBitmap == IntPtr.Zero)
+                return;
             SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), opacity);
         }
 

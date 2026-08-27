@@ -89,6 +89,8 @@ namespace GestureSign.Daemon.Input
         private string _fallbackGestureName;
         private string _fallbackGestureActionName;
         private int _fallbackGesturePointCount;
+        private long _liveGestureLastMatchTick;
+        private int _liveGestureMismatchCount;
         private long _lastLiveGesturePreviewTick;
 
         private const int LiveGesturePreviewIntervalMilliseconds = 80;
@@ -314,17 +316,23 @@ namespace GestureSign.Daemon.Input
                 _lastVisualFeedbackPoints = null;
                 _liveGestureHintName = null;
                 _lastLiveGesturePreviewTick = 0;
+                _liveGestureLastMatchTick = 0;
+                _liveGestureMismatchCount = 0;
                 _surfaceForm.StartDrawing(e.FirstCapturedPoints);
             };
             CaptureEnded += (o, e) =>
             {
                 _liveGestureHintName = null;
+                _liveGestureLastMatchTick = 0;
+                _liveGestureMismatchCount = 0;
                 _lastVisualFeedbackPoints = null;
                 _surfaceForm.EndDrawing();
             };
             CaptureCanceled += (o, e) =>
             {
                 _liveGestureHintName = null;
+                _liveGestureLastMatchTick = 0;
+                _liveGestureMismatchCount = 0;
                 _lastVisualFeedbackPoints = null;
                 _surfaceForm.EndDrawing();
             };
@@ -388,16 +396,19 @@ namespace GestureSign.Daemon.Input
             var gestureName = PreviewActionGestureName(points);
             if (string.IsNullOrWhiteSpace(gestureName))
             {
-                ClearLiveGestureHintIfShown(points);
+                HandleLiveGestureMismatch(points);
                 return;
             }
 
             var action = ApplicationManager.Instance.GetRecognizedDefinedAction(gestureName)?.FirstOrDefault();
             if (action == null || string.IsNullOrWhiteSpace(action.Name))
             {
-                ClearLiveGestureHintIfShown(points);
+                HandleLiveGestureMismatch(points);
                 return;
             }
+
+            _liveGestureLastMatchTick = Environment.TickCount64;
+            _liveGestureMismatchCount = 0;
 
             _fallbackGestureName = gestureName;
             _fallbackGestureActionName = action.Name;
@@ -428,6 +439,23 @@ namespace GestureSign.Daemon.Input
                 return;
 
             _surfaceForm.ClearLiveGestureHint(ClonePoints(points));
+        }
+
+        private void HandleLiveGestureMismatch(List<List<Point>> points)
+        {
+            // Preview matching can fail for a long portion of a gesture even
+            // though the final recognizer will still accept it (for example,
+            // while the second stroke/curve is being drawn). Once an action has
+            // been confirmed, do not clear its hint on an intermediate null;
+            // keep it visible until release, or until another concrete action
+            // replaces it in ShowLiveGestureHintIfMatched.
+            if (string.IsNullOrWhiteSpace(_liveGestureHintName))
+            {
+                ClearLiveGestureHintIfShown(points);
+                return;
+            }
+
+            _liveGestureMismatchCount++;
         }
 
         private static string PreviewActionGestureName(IEnumerable<List<Point>> points)
@@ -523,18 +551,6 @@ namespace GestureSign.Daemon.Input
             {
                 if (hwnd.Equals(IntPtr.Zero))
                     return;
-
-                if (SourceDevice == Devices.Mouse && State != CaptureState.Ready)
-                {
-                    _currentContext?.Post(_ =>
-                    {
-                        if (SourceDevice == Devices.Mouse && State != CaptureState.Ready)
-                        {
-                            Logging.LogMessage($"Mouse gesture reset after window transition. Event={eventType}, Window=0x{hwnd.ToInt64():X}");
-                            _pointEventTranslator.CancelActiveMouseGesture("WindowTransition");
-                        }
-                    }, null);
-                }
 
                 var systemWindow = new SystemWindow(hwnd);
                 ApplicationManager.Instance.ObserveForegroundWindow(systemWindow);
@@ -706,7 +722,13 @@ namespace GestureSign.Daemon.Input
                 {
                     Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
                 }
-                else e.Handled = _pointsCaptured.Count >= _requiredContactCount && Mode != CaptureMode.UserDisabled;
+                // Mouse has exactly one pointer. Application gesture finger
+                // limits belong to touch devices and must never allow the
+                // original mouse button-down through; both reference projects
+                // intercept the configured mouse button immediately.
+                else e.Handled = SourceDevice == Devices.Mouse
+                    ? Mode != CaptureMode.UserDisabled
+                    : _pointsCaptured.Count >= _requiredContactCount && Mode != CaptureMode.UserDisabled;
             }
         }
 
@@ -775,12 +797,14 @@ namespace GestureSign.Daemon.Input
             {
                 if (Mode != CaptureMode.UserDisabled)
                 {
+                    Logging.LogMessage($"Mouse gesture stationary click intercepted; re-injecting native click. Button={AppConfig.DrawingButton}");
                     State = CaptureState.Disabled;
 
                     var observeExceptionsTask = new Action<Task>(t =>
                     {
                         State = CaptureState.Ready;
-                        Console.WriteLine($"{t.Exception.InnerException.GetType().Name}: {t.Exception.InnerException.Message}");
+                        var error = t.Exception?.GetBaseException();
+                        Logging.LogMessage($"Mouse gesture normal click reinjection failed. Error={error?.GetType().Name}: {error?.Message}");
                     });
 
                     var clickAsync = Task.Factory.StartNew(delegate
@@ -804,6 +828,7 @@ namespace GestureSign.Daemon.Input
                                 simulator.Mouse.XButtonClick(2);
                                 break;
                         }
+                        Logging.LogMessage($"Mouse gesture normal click re-injected successfully. Button={AppConfig.DrawingButton}");
                         State = CaptureState.Ready;
                     }).ContinueWith(observeExceptionsTask, TaskContinuationOptions.OnlyOnFaulted);
 
