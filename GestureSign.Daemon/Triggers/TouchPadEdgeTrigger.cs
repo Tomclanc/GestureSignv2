@@ -106,6 +106,19 @@ namespace GestureSign.Daemon.Triggers
             if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != _sourceDevice)
                 return;
 
+            // A touchpad contact can be released while the raw-input idle
+            // timer is finishing another capture (notably after a two-finger
+            // tap on the tray icon). In that race the event may contain no
+            // strokes. Edge recognition must treat it as a non-match instead
+            // of indexing e.Points[0] and terminating the daemon.
+            if (e?.Points == null || e.Points.Count == 0 || e.Points[0] == null || e.Points[0].Count == 0)
+            {
+                if (_pendingEdgeTrigger != null)
+                    Logging.LogMessage($"{_logPrefix} edge trigger canceled. Reason=EmptyPoints");
+                _pendingEdgeTrigger = null;
+                return;
+            }
+
             if (_pendingEdgeTrigger != null)
             {
                 var pendingGestureName = e.Points == null || e.Points.Count != 1 || e.Points[0].Count == 0
