@@ -636,6 +636,18 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointDown(object sender, InputPointsEventArgs e)
         {
+            // The custom tray menu is also used for precision-touchpad taps.
+            // Once it is visible, let touchpad input hit the menu directly;
+            // otherwise the global touchpad recognizer starts a provisional
+            // one-finger capture over the menu and the shell deactivates it
+            // before the tap can reach the item.
+            if (SourceDevice == Devices.TouchPad && IsInTouchScreenPassthroughWindow(e.InputPointList, out var touchPadMenuPoint))
+            {
+                Logging.LogMessage($"TouchPad capture bypassed. Reason=RegisteredPassthroughWindow, Point={touchPadMenuPoint.X},{touchPadMenuPoint.Y}");
+                Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+                return;
+            }
+
             if (SourceDevice == Devices.TouchScreen)
             {
                 if (_touchScreenBlockedUntilRelease)

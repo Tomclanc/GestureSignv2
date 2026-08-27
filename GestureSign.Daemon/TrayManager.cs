@@ -433,6 +433,25 @@ namespace GestureSign.Daemon
 
             private void TouchFriendlyTrayMenu_Deactivate(object sender, EventArgs e)
             {
+                // Precision-touchpad taps can briefly move activation to the
+                // shell/notify-icon window while the click is being promoted
+                // to mouse input. If the pointer is still over this menu, keep
+                // it alive so the subsequent mouse-up can activate the item.
+                var cursor = Cursor.Position;
+                if (ClientRectangle.Contains(PointToClient(cursor)))
+                {
+                    Logging.LogMessage("Touch tray menu deactivation ignored. Reason=PointerOverMenu");
+                    BeginInvoke(new Action(() =>
+                    {
+                        if (Visible)
+                        {
+                            Activate();
+                            BringToFront();
+                        }
+                    }));
+                    return;
+                }
+
                 if (DateTime.UtcNow < _ignoreDeactivateUntilUtc)
                 {
                     // A final taskbar activation can still race the delayed
@@ -564,6 +583,19 @@ namespace GestureSign.Daemon
 
                 _hoverIndex = hoverIndex;
                 Invalidate();
+            }
+
+            protected override void OnMouseDown(MouseEventArgs e)
+            {
+                // Explicitly reactivate on touchpad-promoted mouse clicks.
+                // This avoids a transient shell activation leaving the custom
+                // menu inactive even though the pointer is inside an item.
+                if (ClientRectangle.Contains(e.Location))
+                {
+                    Activate();
+                    BringToFront();
+                }
+                base.OnMouseDown(e);
             }
 
             protected override void OnMouseLeave(EventArgs e)
