@@ -453,6 +453,21 @@ namespace GestureSign.Common.Gestures
                 {
                     return false;
                 }
+
+                // A looped gesture such as P must reverse direction on at least one
+                // axis. A fast two-finger scroll that moves right and then down can
+                // have similar extents, but it does not contain that retrace. Preserve
+                // meaningful template retraces so an L-shaped scroll is not accepted
+                // merely because an intermediate part looked like the trained shape.
+                var capturedHorizontalRetrace = GetAxisRetrace(captured[index], horizontal: true);
+                var capturedVerticalRetrace = GetAxisRetrace(captured[index], horizontal: false);
+                var templateHorizontalRetrace = GetAxisRetrace(template[index], horizontal: true);
+                var templateVerticalRetrace = GetAxisRetrace(template[index], horizontal: false);
+                if (HasMissingRetrace(capturedHorizontalRetrace, templateHorizontalRetrace) ||
+                    HasMissingRetrace(capturedVerticalRetrace, templateVerticalRetrace))
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -467,6 +482,42 @@ namespace GestureSign.Common.Gestures
             var height = points.Max(point => point.Y) - points.Min(point => point.Y);
             var majorExtent = Math.Max(width, height);
             return majorExtent <= 0 ? 0 : (double)Math.Min(width, height) / majorExtent;
+        }
+
+        private static bool HasMissingRetrace(double capturedRetrace, double templateRetrace)
+        {
+            return templateRetrace >= 0.22 && capturedRetrace < Math.Max(0.08, templateRetrace * 0.4);
+        }
+
+        private static double GetAxisRetrace(Point[] points, bool horizontal)
+        {
+            if (points == null || points.Length < 3)
+                return 0;
+
+            var extent = horizontal
+                ? points.Max(point => point.X) - points.Min(point => point.X)
+                : points.Max(point => point.Y) - points.Min(point => point.Y);
+            if (extent <= 0)
+                return 0;
+
+            var jitterThreshold = Math.Max(2d, extent * 0.015d);
+            double positiveTravel = 0;
+            double negativeTravel = 0;
+            for (var index = 1; index < points.Length; index++)
+            {
+                var delta = horizontal
+                    ? points[index].X - points[index - 1].X
+                    : points[index].Y - points[index - 1].Y;
+                if (Math.Abs(delta) < jitterThreshold)
+                    continue;
+                if (delta > 0)
+                    positiveTravel += delta;
+                else
+                    negativeTravel -= delta;
+            }
+
+            var largerTravel = Math.Max(positiveTravel, negativeTravel);
+            return largerTravel <= 0 ? 0 : Math.Min(positiveTravel, negativeTravel) / largerTravel;
         }
 
         public string GetMostSimilarGestureName(IGesture gesture)

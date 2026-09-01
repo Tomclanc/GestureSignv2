@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.8">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.9">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,21 +65,21 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.8) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.9) 下载最新便携版。
 
 当前版本：
 
-- [GestureSign-V2-18.1.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-x64.msi)
-- [GestureSign-V2-18.1.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-portable-x64.zip)
+- [GestureSign-V2-18.1.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-x64.msi)
+- [GestureSign-V2-18.1.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-portable-x64.zip)
 
 ## 更新内容
 
-### 18.1.8
+### 18.1.9
 
-- 修复 18.1.4 中选择简体中文或跟随简体中文系统语言时，界面错误回退为英语的问题。
-- 修复鼠标手势按键拦截、普通点击回放和右键菜单冲突。
-- 保持触控板与触控屏的商店版识别和交互逻辑不变。
-- 修复手势轨迹显示刷新时的线程竞争崩溃。
+- 触控板和触摸屏的四条边缘均可绑定增大音量、减小音量以及纵向或横向滚动。
+- 音量边缘动作可在“连续调节（滑条式）”和“每次滑动触发一次”之间切换；静音始终只触发一次。
+- 边缘滚动按照边缘方向自动选择纵向或横向滚轮，并随滑动距离连续触发。
+- 加强多指轨迹回折与绕行判断，降低高强度网页滚动时与自定义手势相似造成的误触发。
 
 ### 历史版本
 
@@ -197,19 +197,19 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.8).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.9).
 
 Current version:
 
-- [GestureSign-V2-18.1.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-x64.msi)
-- [GestureSign-V2-18.1.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-portable-x64.zip)
+- [GestureSign-V2-18.1.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-x64.msi)
+- [GestureSign-V2-18.1.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-portable-x64.zip)
 
-### What's new in 18.1.8
+### What's new in 18.1.9
 
-- Fixed the UI incorrectly falling back to English when Simplified Chinese was selected or inherited from the Windows display language in 18.1.4.
-- Fixed mouse gesture button interception, normal click replay, and right-click menu conflicts.
-- Kept the store-version touchpad and touchscreen recognition/interaction logic unchanged.
-- Fixed a thread race that could crash gesture trail rendering.
+- All four touchpad and touchscreen edges can be mapped to volume up, volume down, and vertical or horizontal scrolling.
+- Edge volume actions can switch between slider-like continuous adjustment and one action per swipe; mute always fires only once.
+- Edge scrolling automatically selects the vertical or horizontal wheel axis and repeats with swipe distance.
+- Improved multi-finger retrace and loop checks to reduce false triggers during intensive web-page scrolling.
 
 ### Previous releases
 
@@ -333,16 +333,19 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.8) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.1.9) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.1.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-x64.msi)
-- [GestureSign-V2-18.1.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.8/GestureSign-V2-18.1.8-portable-x64.zip)
+- [GestureSign-V2-18.1.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-x64.msi)
+- [GestureSign-V2-18.1.9-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.1.9/GestureSign-V2-18.1.9-portable-x64.zip)
 
-### 18.1.8 の更新内容
+### 18.1.9 の更新内容
 
-- 18.1.4 で簡体字中国語を選択した場合、または Windows の表示言語から継承した場合に、UI が誤って英語へフォールバックする問題を修正しました。
+- タッチパッドとタッチスクリーンの 4 辺すべてに、音量アップ、音量ダウン、縦／横スクロールを割り当てられるようになりました。
+- 端の音量操作で、スライダー式の連続調整と 1 スワイプ 1 回を切り替えられます。ミュートは常に 1 回だけ実行されます。
+- 端スクロールは辺の向きから縦／横軸を自動選択し、移動距離に応じて連続実行します。
+- 複数指軌跡の折り返し・ループ判定を強化し、高速な Web ページスクロール中の誤検出を減らしました。
 
 ### 過去のバージョン
 

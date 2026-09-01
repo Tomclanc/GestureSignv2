@@ -1631,6 +1631,31 @@ public sealed partial class MainWindow : Window
         };
         var hotkey = NewHotKeyRecorderWithClear(settings, settings.Text);
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
+        var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings, enableEdgeContinuousVolume: true);
+        var continuousVolumeHint = new TextBlock
+        {
+            Text = L(
+                "四条边缘均支持音量调节：左右边缘上下滑动，上下边缘左右滑动。可选择连续滑条式或每次滑动只触发一次；连续模式建议设置 2%–5%。",
+                "All four edges support volume control: slide vertically on the left or right edge, or horizontally on the top or bottom edge. Choose slider-like continuous control or one action per swipe; 2%–5% is recommended for continuous mode.",
+                "四條邊緣均支援音量調節：左右邊緣上下滑動，上下邊緣左右滑動。可選擇連續滑桿式或每次滑動只觸發一次；連續模式建議設定 2%–5%。",
+                "4 辺すべてで音量を調整できます。左右端では上下、上下端では左右にスライドします。連続スライダー式または 1 スワイプ 1 回を選択でき、連続時は 2%～5% を推奨します。",
+                "네 가장자리 모두에서 볼륨을 조절할 수 있습니다. 왼쪽/오른쪽 가장자리에서는 세로로, 위/아래 가장자리에서는 가로로 밉니다. 연속 슬라이더 방식 또는 스와이프당 한 번을 선택할 수 있으며 연속 모드는 2%~5%를 권장합니다."),
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap,
+            Visibility = Visibility.Collapsed
+        };
+        var continuousScrollHint = new TextBlock
+        {
+            Text = L(
+                "滚动映射会按边缘方向自动选择轴：左右边缘上下滑动控制纵向滚动条，上下边缘左右滑动控制横向滚动条。滚动量为 1 格并随移动距离连续触发。",
+                "Scroll mapping selects the axis from the edge: vertical sliding on the left or right edge controls vertical scrolling; horizontal sliding on the top or bottom edge controls horizontal scrolling. It repeats in one-notch steps as you move.",
+                "捲動映射會依邊緣方向自動選擇軸：左右邊緣上下滑動控制縱向捲軸，上下邊緣左右滑動控制橫向捲軸。每次捲動 1 格並隨移動距離連續觸發。",
+                "スクロール軸は端の方向から自動選択されます。左右端の上下スライドは縦スクロール、上下端の左右スライドは横スクロールを操作し、移動距離に応じて 1 ノッチずつ連続実行します。",
+                "스크롤 축은 가장자리 방향에 따라 자동 선택됩니다. 왼쪽/오른쪽 가장자리의 세로 밀기는 세로 스크롤을, 위/아래 가장자리의 가로 밀기는 가로 스크롤을 1칸씩 연속 실행합니다."),
+            Opacity = 0.72,
+            TextWrapping = TextWrapping.Wrap,
+            Visibility = Visibility.Collapsed
+        };
         var enabled = new CheckBox
         {
             Content = "启用这个边缘",
@@ -1664,12 +1689,26 @@ public sealed partial class MainWindow : Window
 
             if (resetSettings)
             {
-                settings.Text = PluginSettingsTemplate(pluginClass.Text);
+                var edgeScrollSettings = pluginClass.Text.Contains("MouseActions", StringComparison.OrdinalIgnoreCase)
+                    ? EdgeScrollSettingsJson(gestureName)
+                    : null;
+                settings.Text = edgeScrollSettings
+                    ?? (pluginClass.Text.Contains("Volume", StringComparison.OrdinalIgnoreCase)
+                        ? VolumeSettingsJson(0, 4, continuousEdge: true)
+                        : PluginSettingsTemplate(pluginClass.Text));
                 UpdateDefaultCommandName(name, pluginClass.Text);
             }
 
             UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
             UpdatePluginDescription(pluginDescription, pluginClass.Text);
+            UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
+            continuousVolumeHint.Visibility = pluginClass.Text.Contains("Volume", StringComparison.OrdinalIgnoreCase)
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+            continuousScrollHint.Visibility = pluginClass.Text.Contains("MouseActions", StringComparison.OrdinalIgnoreCase) &&
+                                              EdgeScrollSettingsJson(gestureName) is not null
+                ? Visibility.Visible
+                : Visibility.Collapsed;
         }
 
         plugin.SelectionChanged += (_, _) => UpdateEditor(true);
@@ -1681,6 +1720,9 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
         panel.Children.Add(appPicker);
+        panel.Children.Add(typedSettings);
+        panel.Children.Add(continuousVolumeHint);
+        panel.Children.Add(continuousScrollHint);
         panel.Children.Add(settings);
         panel.Children.Add(enabled);
         UpdateEditor(false);
@@ -4149,6 +4191,10 @@ public sealed partial class MainWindow : Window
 
         public required TextBox VolumePercent { get; init; }
 
+        public required ToggleSwitch VolumeContinuous { get; init; }
+
+        public bool EnableEdgeContinuousVolume { get; init; }
+
         public required StackPanel BrightnessPanel { get; init; }
 
         public required ComboBox BrightnessMethod { get; init; }
@@ -4197,7 +4243,7 @@ public sealed partial class MainWindow : Window
         public override string ToString() => Label;
     }
 
-    private FrameworkElement NewTypedCommandSettingsEditor(TextBox pluginClass, TextBox settings)
+    private FrameworkElement NewTypedCommandSettingsEditor(TextBox pluginClass, TextBox settings, bool enableEdgeContinuousVolume = false)
     {
         var root = new StackPanel
         {
@@ -4212,7 +4258,15 @@ public sealed partial class MainWindow : Window
             PlaceholderText = "百分比",
             Text = "10"
         };
-        var volumePanel = NewCommandSettingsPanel(volumeMethod, volumePercent);
+        var volumeContinuous = new ToggleSwitch
+        {
+            Header = L("边缘滑动触发方式", "Edge swipe behavior", "邊緣滑動觸發方式", "端スワイプの動作", "가장자리 스와이프 동작"),
+            OnContent = L("连续调节（滑条式）", "Continuous (slider-like)", "連續調節（滑桿式）", "連続調整（スライダー式）", "연속 조절(슬라이더 방식)"),
+            OffContent = L("每次滑动触发一次", "Once per swipe", "每次滑動觸發一次", "1 スワイプにつき 1 回", "스와이프당 한 번"),
+            IsOn = enableEdgeContinuousVolume,
+            Visibility = enableEdgeContinuousVolume ? Visibility.Visible : Visibility.Collapsed
+        };
+        var volumePanel = NewCommandSettingsPanel(volumeMethod, volumePercent, volumeContinuous);
 
         var brightnessMethod = NewInlineComboBox(["增大亮度", "减小亮度"], 0);
         var brightnessPercent = new TextBox
@@ -4414,6 +4468,8 @@ public sealed partial class MainWindow : Window
             VolumePanel = volumePanel,
             VolumeMethod = volumeMethod,
             VolumePercent = volumePercent,
+            VolumeContinuous = volumeContinuous,
+            EnableEdgeContinuousVolume = enableEdgeContinuousVolume,
             BrightnessPanel = brightnessPanel,
             BrightnessMethod = brightnessMethod,
             BrightnessPercent = brightnessPercent,
@@ -4443,6 +4499,7 @@ public sealed partial class MainWindow : Window
             SyncTypedCommandSettings(root, pluginClass.Text, settings);
         };
         volumePercent.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        volumeContinuous.Toggled += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         brightnessMethod.SelectionChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         brightnessPercent.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         openFilePath.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
@@ -4453,7 +4510,11 @@ public sealed partial class MainWindow : Window
         runCommandAdministrator.Unchecked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         runCommandShowWindow.Checked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         runCommandShowWindow.Unchecked += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
-        mouseEvent.SelectionChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        mouseEvent.SelectionChanged += (_, _) =>
+        {
+            UpdateMouseMoveVisibility(editor);
+            SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        };
         mouseWaitMilliseconds.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         mouseMove.Toggled += (_, _) =>
         {
@@ -4521,6 +4582,7 @@ public sealed partial class MainWindow : Window
             {
                 editor.VolumeMethod.SelectedIndex = Math.Clamp(JsonIntValue(settings, "Method", 0), 0, 2);
                 editor.VolumePercent.Text = JsonIntValue(settings, "Percent", 10).ToString(CultureInfo.InvariantCulture);
+                editor.VolumeContinuous.IsOn = editor.EnableEdgeContinuousVolume && JsonBoolValue(settings, "ContinuousEdge", true);
                 UpdateVolumePercentVisibility(editor);
             }
             else if (typed == CommandSettingsKind.RunCommand)
@@ -4581,7 +4643,7 @@ public sealed partial class MainWindow : Window
         settings.Text = TypedCommandSettingsKind(pluginClass) switch
         {
             CommandSettingsKind.RunCommand => RunCommandSettingsJson(editor.RunCommandText.Text, editor.RunCommandShell.SelectedIndex == 1 ? "PowerShell" : "CMD", editor.RunCommandAdministrator.IsChecked == true, editor.RunCommandShowWindow.IsChecked == true),
-            CommandSettingsKind.Volume => VolumeSettingsJson(editor.VolumeMethod.SelectedIndex, ParsePercent(editor.VolumePercent.Text)),
+            CommandSettingsKind.Volume => VolumeSettingsJson(editor.VolumeMethod.SelectedIndex, ParsePercent(editor.VolumePercent.Text), editor.EnableEdgeContinuousVolume && editor.VolumeContinuous.IsOn),
             CommandSettingsKind.Brightness => BrightnessSettingsJson(editor.BrightnessMethod.SelectedIndex, ParsePercent(editor.BrightnessPercent.Text)),
             CommandSettingsKind.OpenFile => OpenFileSettingsJson(editor.OpenFilePath.Text, editor.OpenFileVariables.Text),
             CommandSettingsKind.MouseAction => MouseActionSettingsJson(editor),
@@ -4590,10 +4652,18 @@ public sealed partial class MainWindow : Window
     }
 
     private static void UpdateVolumePercentVisibility(TypedCommandSettingsEditor editor)
-        => editor.VolumePercent.Visibility = editor.VolumeMethod.SelectedIndex == 2 ? Visibility.Collapsed : Visibility.Visible;
+    {
+        var adjustsVolume = editor.VolumeMethod.SelectedIndex != 2;
+        editor.VolumePercent.Visibility = adjustsVolume ? Visibility.Visible : Visibility.Collapsed;
+        editor.VolumeContinuous.IsEnabled = editor.EnableEdgeContinuousVolume && adjustsVolume;
+    }
 
     private static void UpdateMouseMoveVisibility(TypedCommandSettingsEditor editor)
-        => editor.MouseMovePanel.Visibility = editor.MouseMove.IsOn ? Visibility.Visible : Visibility.Collapsed;
+    {
+        var isScroll = editor.MouseEvent.SelectedItem is MouseEventChoice choice && IsMouseScrollAction(choice.Action);
+        editor.MouseMove.Visibility = isScroll ? Visibility.Collapsed : Visibility.Visible;
+        editor.MouseMovePanel.Visibility = !isScroll && editor.MouseMove.IsOn ? Visibility.Visible : Visibility.Collapsed;
+    }
 
     private static void UpdateMouseCoordinateVisibility(TypedCommandSettingsEditor editor)
     {
@@ -4639,11 +4709,14 @@ public sealed partial class MainWindow : Window
             ["RunAsAdministrator"] = runAsAdministrator
         }.ToJsonString();
 
-    private static string VolumeSettingsJson(int method, int percent)
+    private static string VolumeSettingsJson(int method, int percent, bool continuousEdge = false)
         => new JsonObject
         {
             ["Method"] = Math.Clamp(method, 0, 2),
-            ["Percent"] = Math.Clamp(percent, 1, 100)
+            // Windows media keys change volume in 2% units. A 1% setting would
+            // result in zero key presses in the legacy volume plugin.
+            ["Percent"] = Math.Clamp(percent, 2, 100),
+            ["ContinuousEdge"] = continuousEdge
         }.ToJsonString();
 
     private static string BrightnessSettingsJson(int method, int percent)
@@ -4666,8 +4739,50 @@ public sealed partial class MainWindow : Window
             new(L("左键单击", "Left click", "左鍵按一下", "左クリック", "왼쪽 클릭"), 257),
             new(L("右键单击", "Right click", "右鍵按一下", "右クリック", "오른쪽 클릭"), 258),
             new(L("左键双击", "Left double-click", "左鍵按兩下", "左ダブルクリック", "왼쪽 두 번 클릭"), 513),
-            new(L("中键点击", "Middle click", "中鍵按一下", "中クリック", "가운데 클릭"), 260)
+            new(L("中键点击", "Middle click", "中鍵按一下", "中クリック", "가운데 클릭"), 260),
+            new(L("纵向向上滚动", "Vertical scroll up", "縱向向上捲動", "上へ縦スクロール", "세로 위로 스크롤"), 4096, 1),
+            new(L("纵向向下滚动", "Vertical scroll down", "縱向向下捲動", "下へ縦スクロール", "세로 아래로 스크롤"), 4096, -1),
+            new(L("横向向左滚动", "Horizontal scroll left", "橫向向左捲動", "左へ横スクロール", "가로 왼쪽으로 스크롤"), 8192, -1),
+            new(L("横向向右滚动", "Horizontal scroll right", "橫向向右捲動", "右へ横スクロール", "가로 오른쪽으로 스크롤"), 8192, 1)
         ];
+
+    private static string? EdgeScrollSettingsJson(string gestureName)
+    {
+        if (string.IsNullOrWhiteSpace(gestureName))
+            return null;
+
+        var lastDot = gestureName.LastIndexOf('.');
+        if (lastDot <= 0 || lastDot == gestureName.Length - 1)
+            return null;
+
+        var edgeAndDevice = gestureName[..lastDot];
+        var direction = gestureName[(lastDot + 1)..];
+        var isVerticalEdge = edgeAndDevice.EndsWith(".Left", StringComparison.OrdinalIgnoreCase) ||
+                             edgeAndDevice.EndsWith(".Right", StringComparison.OrdinalIgnoreCase);
+        var isHorizontalEdge = edgeAndDevice.EndsWith(".Top", StringComparison.OrdinalIgnoreCase) ||
+                               edgeAndDevice.EndsWith(".Bottom", StringComparison.OrdinalIgnoreCase);
+
+        if (isVerticalEdge && direction.Equals("Up", StringComparison.OrdinalIgnoreCase))
+            return MouseActionSettingsJson(4096, 1);
+        if (isVerticalEdge && direction.Equals("Down", StringComparison.OrdinalIgnoreCase))
+            return MouseActionSettingsJson(4096, -1);
+        if (isHorizontalEdge && direction.Equals("Left", StringComparison.OrdinalIgnoreCase))
+            return MouseActionSettingsJson(8192, -1);
+        if (isHorizontalEdge && direction.Equals("Right", StringComparison.OrdinalIgnoreCase))
+            return MouseActionSettingsJson(8192, 1);
+        return null;
+    }
+
+    private static string MouseActionSettingsJson(int mouseAction, int scrollAmount)
+        => new JsonObject
+        {
+            ["MouseAction"] = mouseAction,
+            ["ActionLocation"] = 2,
+            ["MovePoint"] = new JsonObject { ["X"] = 0, ["Y"] = 0 },
+            ["ScrollAmount"] = scrollAmount,
+            ["WaitMilliseconds"] = 0,
+            ["MoveDurationMilliseconds"] = 0
+        }.ToJsonString();
 
     private static string MouseActionSettingsJson(TypedCommandSettingsEditor editor)
     {
@@ -8934,7 +9049,7 @@ public sealed partial class MainWindow : Window
         plugin.Items.Add(L("打开文件", "Open File", "開啟檔案", "ファイルを開く", "파일 열기"));
         plugin.Items.Add(L("启动应用", "Launch App", "啟動應用程式", "アプリ起動", "앱 실행"));
         plugin.Items.Add(L("延迟等待", "Delay", "延遲等待", "遅延", "지연"));
-        plugin.Items.Add(L("鼠标动作", "Mouse Action", "滑鼠動作", "マウス操作", "마우스 동작"));
+        plugin.Items.Add(L("鼠标动作 / 滚动", "Mouse Action / Scroll", "滑鼠動作 / 捲動", "マウス操作 / スクロール", "마우스 동작 / 스크롤"));
         plugin.Items.Add(L("调整亮度", "Adjust Brightness", "調整亮度", "明るさ調整", "밝기 조정"));
         plugin.Items.Add(L("激活窗口", "Activate Window", "啟用視窗", "ウィンドウをアクティブ化", "창 활성화"));
         plugin.Items.Add(L("触摸键盘", "Touch Keyboard", "觸控鍵盤", "タッチキーボード", "터치 키보드"));

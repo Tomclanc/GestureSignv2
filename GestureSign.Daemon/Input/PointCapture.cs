@@ -484,8 +484,7 @@ namespace GestureSign.Daemon.Input
             // modest tolerance boost; the axis-balance guard still rejects straight
             // two-finger scrolling strokes.
             return GestureManager.Instance.PreviewGestureName(pointArray, smartCloseGestureNames, 74)
-                   ?? GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames)
-                   ?? GestureManager.Instance.PreviewGestureName(pointArray);
+                   ?? GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames);
         }
 
         private static int CountGesturePoints(IEnumerable<List<Point>> points)
@@ -1267,6 +1266,20 @@ namespace GestureSign.Daemon.Input
                 }
 
                 return actionGestureName;
+            }
+
+            // Multi-finger touchpad scrolling is the highest-risk source of false
+            // positives. Require the final, shape-guarded action preview instead of
+            // accepting a recognizer result or a live intermediate fallback by itself.
+            if (SourceDevice == Devices.TouchPad && points != null && points.Count > 1)
+            {
+                if (!string.IsNullOrWhiteSpace(recognizedGestureName) &&
+                    ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)?.Any() == true)
+                {
+                    Logging.LogMessage($"Touchpad multi-finger gesture rejected by final shape guard. Gesture={recognizedGestureName}, Contacts={points.Count}");
+                }
+
+                return null;
             }
 
             if (string.IsNullOrWhiteSpace(_fallbackGestureName))

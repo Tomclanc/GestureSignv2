@@ -16,8 +16,8 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <LangVersion>latest</LangVersion>
-    <Version>18.1.8.0</Version>
-    <AssemblyVersion>18.1.8.0</AssemblyVersion>
-    <FileVersion>18.1.8.0</FileVersion>
+    <Version>18.1.9.0</Version>
+    <AssemblyVersion>18.1.9.0</AssemblyVersion>
+    <FileVersion>18.1.9.0</FileVersion>
   </PropertyGroup>
 </Project>

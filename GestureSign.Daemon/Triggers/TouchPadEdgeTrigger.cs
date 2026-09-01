@@ -3,6 +3,7 @@ using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using GestureSign.Daemon.Input;
 using GestureSign.PointPatterns;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -29,6 +30,7 @@ namespace GestureSign.Daemon.Triggers
         private const int EdgePercent = 8;
         private const int MaxTapTravel = 35;
         private const int MinSwipeTravel = 90;
+        private const int ContinuousActionStep = 36;
         private const int CaptionButtonWidth = 180;
         private const int CaptionButtonHeight = 72;
         private readonly Devices _sourceDevice;
@@ -40,6 +42,8 @@ namespace GestureSign.Daemon.Triggers
         private readonly double _swipeDominanceRatio;
         private readonly bool _allowCornerEdges;
         private PendingEdgeTrigger _pendingEdgeTrigger;
+        private Point? _continuousActionAnchor;
+        private bool _continuousActionFired;
 
         public TouchPadEdgeTrigger()
             : this(Devices.TouchPad, "TouchPadEdge", "TouchPad", EdgePercent, MaxTapTravel, MinSwipeTravel, 1.5, false)
@@ -62,12 +66,15 @@ namespace GestureSign.Daemon.Triggers
             _swipeDominanceRatio = swipeDominanceRatio;
             _allowCornerEdges = allowCornerEdges;
             PointCapture.Instance.CaptureStarted += PointCapture_CaptureStarted;
+            PointCapture.Instance.PointCaptured += PointCapture_PointCaptured;
             PointCapture.Instance.BeforePointsCaptured += PointCapture_BeforePointsCaptured;
         }
 
         private void PointCapture_CaptureStarted(object sender, PointsCapturedEventArgs e)
         {
             _pendingEdgeTrigger = null;
+            _continuousActionAnchor = null;
+            _continuousActionFired = false;
 
             var pointCapture = PointCapture.Instance;
             if (pointCapture.Mode == CaptureMode.Training || pointCapture.SourceDevice != _sourceDevice)
@@ -100,6 +107,100 @@ namespace GestureSign.Daemon.Triggers
             Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
         }
 
+        private void PointCapture_PointCaptured(object sender, PointsCapturedEventArgs e)
+        {
+            if (_pendingEdgeTrigger == null ||
+                PointCapture.Instance.Mode == CaptureMode.Training ||
+                PointCapture.Instance.SourceDevice != _sourceDevice ||
+                e?.Points == null || e.Points.Count != 1 ||
+                e.Points[0] == null || e.Points[0].Count == 0)
+            {
+                return;
+            }
+
+            var edge = _pendingEdgeTrigger.Edge;
+            var stroke = e.Points[0];
+            var start = stroke.First();
+            var current = stroke.Last();
+            var totalDx = current.X - start.X;
+            var totalDy = current.Y - start.Y;
+            var isVerticalEdge = edge == Edge.Left || edge == Edge.Right;
+            if (isVerticalEdge ? !IsVerticalSwipe(totalDx, totalDy) : !IsHorizontalSwipe(totalDx, totalDy))
+                return;
+
+            if (_continuousActionAnchor == null)
+                _continuousActionAnchor = start;
+
+            var delta = isVerticalEdge
+                ? current.Y - _continuousActionAnchor.Value.Y
+                : current.X - _continuousActionAnchor.Value.X;
+            var direction = isVerticalEdge
+                ? (delta < 0 ? "Up" : "Down")
+                : (delta < 0 ? "Left" : "Right");
+            var gestureName = $"{_gesturePrefix}.{edge}.{direction}";
+            var actions = ApplicationManager.Instance.GetRecognizedDefinedAction(gestureName)?
+                .Where(action => IsContinuousEdgeAction(action, isVerticalEdge))
+                .ToList();
+            if (actions == null || actions.Count == 0)
+                return;
+
+            var fireCount = Math.Min(4, Math.Abs(delta) / ContinuousActionStep);
+            if (fireCount <= 0)
+                return;
+
+            var step = Math.Sign(delta) * ContinuousActionStep;
+            for (var index = 0; index < fireCount; index++)
+            {
+                OnTriggerFired(new TriggerFiredEventArgs(actions, _pendingEdgeTrigger.FiredPoint, ClonePoints(e.Points)));
+                _continuousActionAnchor = isVerticalEdge
+                    ? new Point(_continuousActionAnchor.Value.X, _continuousActionAnchor.Value.Y + step)
+                    : new Point(_continuousActionAnchor.Value.X + step, _continuousActionAnchor.Value.Y);
+            }
+
+            _continuousActionFired = true;
+            Logging.LogMessage($"{_logPrefix} edge action fired continuously. Edge={gestureName}, Steps={fireCount}");
+        }
+
+        private static bool IsContinuousEdgeAction(IAction action, bool isVerticalEdge)
+        {
+            if (action?.Commands == null)
+                return false;
+
+            var command = action.Commands.FirstOrDefault(item => item != null && item.IsEnabled);
+            if (command == null || string.IsNullOrWhiteSpace(command.PluginClass))
+                return false;
+
+            if (command.PluginClass.IndexOf("Volume", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                try
+                {
+                    var settings = JObject.Parse(command.CommandSettings ?? "{}");
+                    var method = settings.Value<int?>("Method") ?? 0;
+                    // Builds that introduced continuous edge volume predate
+                    // this setting, so a missing value remains continuous.
+                    return method != 2 && (settings.Value<bool?>("ContinuousEdge") ?? true);
+                }
+                catch
+                {
+                    return true;
+                }
+            }
+
+            if (command.PluginClass.IndexOf("MouseActions", StringComparison.OrdinalIgnoreCase) < 0)
+                return false;
+
+            try
+            {
+                var settings = JObject.Parse(command.CommandSettings ?? "{}");
+                var mouseAction = settings.Value<int?>("MouseAction") ?? 0;
+                return isVerticalEdge ? mouseAction == 4096 : mouseAction == 8192;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private void PointCapture_BeforePointsCaptured(object sender, PointsCapturedEventArgs e)
         {
             var pointCapture = PointCapture.Instance;
@@ -121,6 +222,16 @@ namespace GestureSign.Daemon.Triggers
 
             if (_pendingEdgeTrigger != null)
             {
+                if (_continuousActionFired)
+                {
+                    Logging.LogMessage($"{_logPrefix} edge trigger completed after continuous action. Edge={_pendingEdgeTrigger.Edge}");
+                    e.Cancel = true;
+                    _pendingEdgeTrigger = null;
+                    _continuousActionAnchor = null;
+                    _continuousActionFired = false;
+                    return;
+                }
+
                 var pendingGestureName = e.Points == null || e.Points.Count != 1 || e.Points[0].Count == 0
                     ? null
                     : GetEdgeGestureName(_pendingEdgeTrigger.Edge, e.Points[0]);
