@@ -475,10 +475,25 @@ namespace GestureSign.Common.Applications
             {
                 return new List<IAction>();
             }
-            var recognizedActions = _recognizedApplication.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions).Where(a => IsActionExecutable(a) && predicate(a)).ToList();
-            // If there is was no action found on given application, try to get an action for global application
-            if (recognizedActions.Count == 0)
-                recognizedActions = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && predicate(a)).ToList();
+            var recognizedApplications = _recognizedApplication.ToList();
+            var recognizedActions = recognizedApplications
+                .Where(app => !(app is IgnoredApp) && !(app is GlobalApp) && app.Actions != null)
+                .SelectMany(app => app.Actions)
+                .Where(a => IsActionExecutable(a) && MatchesGestureHotkey(a) && predicate(a))
+                .ToList();
+
+            var globalActions = GetGlobalApplication()?.Actions;
+            if (globalActions != null)
+            {
+                // Match final action lookup semantics: an application-specific action
+                // overrides global only for the same gesture. Other global gestures
+                // must remain available to real-time preview.
+                recognizedActions.AddRange(globalActions.Where(a =>
+                    IsActionExecutable(a) &&
+                    MatchesGestureHotkey(a) &&
+                    predicate(a) &&
+                    !HasDefinedGestureAction(recognizedApplications, a.GestureName)));
+            }
 
             return recognizedActions;
         }

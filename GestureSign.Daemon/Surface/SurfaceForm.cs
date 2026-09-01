@@ -32,6 +32,9 @@ namespace GestureSign.Daemon.Surface
         private bool _gestureHintFadingOut;
 
         private bool _settingsChanged;
+        private int _captureGeneration;
+        private int _activeCaptureGeneration;
+        private int _displayedCaptureGeneration;
 
         private const Int32 ULW_ALPHA = 0x00000002;
 
@@ -101,7 +104,15 @@ namespace GestureSign.Daemon.Surface
 
         }
 
-        public void StartDrawing(List<Point> startPoints)
+        public int StartDrawing(List<Point> startPoints)
+        {
+            var captureGeneration = System.Threading.Interlocked.Increment(ref _captureGeneration);
+            System.Threading.Volatile.Write(ref _activeCaptureGeneration, captureGeneration);
+            StartDrawingOnUiThread(startPoints, captureGeneration);
+            return captureGeneration;
+        }
+
+        private void StartDrawingOnUiThread(List<Point> startPoints, int captureGeneration)
         {
             // PointCapture receives HID frames on a worker thread.  All layered
             // window/GDI operations must be serialized on the form thread;
@@ -110,12 +121,14 @@ namespace GestureSign.Daemon.Surface
             if (InvokeRequired)
             {
                 if (!IsDisposed && IsHandleCreated)
-                    BeginInvoke(new Action(() => StartDrawing(startPoints)));
+                    BeginInvoke(new Action(() => StartDrawingOnUiThread(startPoints, captureGeneration)));
                 return;
             }
 
-            if (IsDisposed || Disposing)
+            if (IsDisposed || Disposing || !IsCaptureActive(captureGeneration))
                 return;
+
+            _displayedCaptureGeneration = captureGeneration;
 
             if (_settingsChanged)
             {
@@ -144,18 +157,42 @@ namespace GestureSign.Daemon.Surface
             Logging.LogMessage($"Visual feedback started. Width={_drawingPen.Width:0.##}, Alpha={_drawingPen.Color.A}, Contacts={startPoints?.Count ?? 0}");
         }
 
-        public void EndDrawing()
+        public void EndDrawing(int captureGeneration)
+        {
+            // Invalidate the current capture before any queued UI work can run.
+            // Gesture execution only continues after the surface has been hidden.
+            if (captureGeneration != 0)
+            {
+                System.Threading.Interlocked.CompareExchange(
+                    ref _activeCaptureGeneration,
+                    0,
+                    captureGeneration);
+            }
+            EndDrawingOnUiThread(captureGeneration);
+        }
+
+        private void EndDrawingOnUiThread(int endedCaptureGeneration)
         {
             if (InvokeRequired)
             {
                 if (!IsDisposed && IsHandleCreated)
-                    BeginInvoke(new Action(EndDrawing));
+                    Invoke(new Action(() => EndDrawingOnUiThread(endedCaptureGeneration)));
                 return;
             }
 
             if (IsDisposed || Disposing)
                 return;
 
+            // Preserve only a newer capture that has already taken ownership of
+            // the visible layer. A stale older layer must always be cleared even
+            // when its generation differs from the capture that just ended.
+            var activeCaptureGeneration = System.Threading.Volatile.Read(ref _activeCaptureGeneration);
+            if (activeCaptureGeneration != 0 &&
+                activeCaptureGeneration != endedCaptureGeneration &&
+                _displayedCaptureGeneration == activeCaptureGeneration)
+                return;
+
+            _displayedCaptureGeneration = 0;
             if (_bitmap == null && _lastStroke == null)
                 return;
             StopGestureHintTimers();
@@ -164,16 +201,24 @@ namespace GestureSign.Daemon.Surface
             ClearSurfaces();
         }
 
-        public void DrawPoints(List<List<Point>> points)
+        public void DrawPoints(List<List<Point>> points, int captureGeneration)
+        {
+            if (captureGeneration == 0)
+                return;
+
+            DrawPointsOnUiThread(points, captureGeneration);
+        }
+
+        private void DrawPointsOnUiThread(List<List<Point>> points, int captureGeneration)
         {
             if (InvokeRequired)
             {
                 if (!IsDisposed && IsHandleCreated)
-                    BeginInvoke(new Action(() => DrawPoints(points)));
+                    BeginInvoke(new Action(() => DrawPointsOnUiThread(points, captureGeneration)));
                 return;
             }
 
-            if (IsDisposed || Disposing)
+            if (IsDisposed || Disposing || !IsCaptureActive(captureGeneration))
                 return;
 
             if (points == null || points.Count == 0)
@@ -196,16 +241,25 @@ namespace GestureSign.Daemon.Surface
         // leave earlier segments at their old scale.
         public void RedrawGesture(List<List<Point>> points)
         {
+            var captureGeneration = System.Threading.Volatile.Read(ref _activeCaptureGeneration);
+            if (captureGeneration == 0)
+                return;
+
+            RedrawGesture(points, captureGeneration);
+        }
+
+        private void RedrawGesture(List<List<Point>> points, int captureGeneration)
+        {
             if (_penWidth <= 0 || points == null || points.Count == 0)
                 return;
 
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(() => RedrawGesture(points)));
+                BeginInvoke(new Action(() => RedrawGesture(points, captureGeneration)));
                 return;
             }
 
-            if (IsDisposed || Disposing)
+            if (IsDisposed || Disposing || !IsCaptureActive(captureGeneration))
                 return;
 
             EnsureDrawingSurface();
@@ -280,16 +334,27 @@ namespace GestureSign.Daemon.Surface
             StartGestureHintFade(false);
         }
 
-        public void ShowLiveGestureHint(List<List<Point>> points, string text)
+        public void ShowLiveGestureHint(List<List<Point>> points, string text, int captureGeneration)
+        {
+            if (captureGeneration == 0)
+                return;
+
+            ShowLiveGestureHintOnUiThread(points, text, captureGeneration);
+        }
+
+        private void ShowLiveGestureHintOnUiThread(List<List<Point>> points, string text, int captureGeneration)
         {
             if (!AppConfig.ShowGestureActionHint || string.IsNullOrWhiteSpace(text))
                 return;
 
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(() => ShowLiveGestureHint(points, text)));
+                BeginInvoke(new Action(() => ShowLiveGestureHintOnUiThread(points, text, captureGeneration)));
                 return;
             }
+
+            if (IsDisposed || Disposing || !IsCaptureActive(captureGeneration))
+                return;
 
             if (_settingsChanged)
             {
@@ -308,17 +373,33 @@ namespace GestureSign.Daemon.Surface
             if (_penWidth > 0 && points != null && points.Any(p => p.Count > 1))
                 DrawCompleteGesture(points);
 
+            // ClearSurfaces resets the incremental drawing cursor. Restore it to
+            // the complete path drawn above so the next DrawPoints frame appends
+            // new segments without clearing the live action hint.
+            _lastStroke = points?.Select(p => p?.Count ?? 0).ToArray();
+
             DrawActionHint(text.Trim());
             UpdateFullSurface(255);
         }
 
-        public void ClearLiveGestureHint(List<List<Point>> points)
+        public void ClearLiveGestureHint(List<List<Point>> points, int captureGeneration)
+        {
+            if (captureGeneration == 0)
+                return;
+
+            ClearLiveGestureHintOnUiThread(points, captureGeneration);
+        }
+
+        private void ClearLiveGestureHintOnUiThread(List<List<Point>> points, int captureGeneration)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new Action(() => ClearLiveGestureHint(points)));
+                BeginInvoke(new Action(() => ClearLiveGestureHintOnUiThread(points, captureGeneration)));
                 return;
             }
+
+            if (IsDisposed || Disposing || !IsCaptureActive(captureGeneration))
+                return;
 
             StopGestureHintTimers();
             ClearSurfaces();
@@ -341,6 +422,12 @@ namespace GestureSign.Daemon.Surface
         #endregion
 
         #region Private Methods
+
+        private bool IsCaptureActive(int captureGeneration)
+        {
+            return captureGeneration != 0 &&
+                   System.Threading.Volatile.Read(ref _activeCaptureGeneration) == captureGeneration;
+        }
 
         private void StopGestureHintTimers()
         {

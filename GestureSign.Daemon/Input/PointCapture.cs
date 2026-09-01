@@ -89,9 +89,8 @@ namespace GestureSign.Daemon.Input
         private string _fallbackGestureName;
         private string _fallbackGestureActionName;
         private int _fallbackGesturePointCount;
-        private long _liveGestureLastMatchTick;
-        private int _liveGestureMismatchCount;
         private long _lastLiveGesturePreviewTick;
+        private int _visualCaptureGeneration;
 
         private const int LiveGesturePreviewIntervalMilliseconds = 80;
 
@@ -311,41 +310,35 @@ namespace GestureSign.Daemon.Input
                 Timeout.Infinite,
                 Timeout.Infinite);
 
-            CaptureStarted += (o, e) =>
-            {
-                _lastVisualFeedbackPoints = null;
-                _liveGestureHintName = null;
-                _lastLiveGesturePreviewTick = 0;
-                _liveGestureLastMatchTick = 0;
-                _liveGestureMismatchCount = 0;
-                _surfaceForm.StartDrawing(e.FirstCapturedPoints);
-            };
             CaptureEnded += (o, e) =>
             {
                 _liveGestureHintName = null;
-                _liveGestureLastMatchTick = 0;
-                _liveGestureMismatchCount = 0;
                 _lastVisualFeedbackPoints = null;
-                _surfaceForm.EndDrawing();
+                var visualCaptureGeneration = Interlocked.Exchange(ref _visualCaptureGeneration, 0);
+                _surfaceForm.EndDrawing(visualCaptureGeneration);
             };
             CaptureCanceled += (o, e) =>
             {
                 _liveGestureHintName = null;
-                _liveGestureLastMatchTick = 0;
-                _liveGestureMismatchCount = 0;
                 _lastVisualFeedbackPoints = null;
-                _surfaceForm.EndDrawing();
+                var visualCaptureGeneration = Interlocked.Exchange(ref _visualCaptureGeneration, 0);
+                _surfaceForm.EndDrawing(visualCaptureGeneration);
             };
             PointCaptured += (o, e) =>
             {
                 if (State == CaptureState.Capturing || SourceDevice == Devices.TouchPad && State == CaptureState.CapturingInvalid)
                 {
-                    _surfaceForm.DrawPoints(e.Points);
+                    _surfaceForm.DrawPoints(e.Points, Volatile.Read(ref _visualCaptureGeneration));
                     _lastVisualFeedbackPoints = ClonePoints(e.Points);
                     if (AppConfig.ShowGestureActionHint)
                     {
                         var now = Environment.TickCount64;
-                        if (now - _lastLiveGesturePreviewTick >= LiveGesturePreviewIntervalMilliseconds)
+                        // Finding the first match is throttled to keep gesture input
+                        // responsive. Once a name is visible, validate the complete
+                        // path on every frame so extending the gesture away from the
+                        // match clears the name immediately.
+                        if (!string.IsNullOrWhiteSpace(_liveGestureHintName) ||
+                            now - _lastLiveGesturePreviewTick >= LiveGesturePreviewIntervalMilliseconds)
                         {
                             _lastLiveGesturePreviewTick = now;
                             ShowLiveGestureHintIfMatched(e.Points);
@@ -407,9 +400,6 @@ namespace GestureSign.Daemon.Input
                 return;
             }
 
-            _liveGestureLastMatchTick = Environment.TickCount64;
-            _liveGestureMismatchCount = 0;
-
             _fallbackGestureName = gestureName;
             _fallbackGestureActionName = action.Name;
             _fallbackGesturePointCount = CountGesturePoints(points);
@@ -418,7 +408,10 @@ namespace GestureSign.Daemon.Input
                 return;
 
             _liveGestureHintName = action.Name;
-            _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name);
+            _surfaceForm.ShowLiveGestureHint(
+                ClonePoints(points),
+                action.Name,
+                Volatile.Read(ref _visualCaptureGeneration));
         }
 
         private void ClearLiveGestureHintIfShown(List<List<Point>> points)
@@ -438,24 +431,17 @@ namespace GestureSign.Daemon.Input
             if (!hadVisibleHint)
                 return;
 
-            _surfaceForm.ClearLiveGestureHint(ClonePoints(points));
+            _surfaceForm.ClearLiveGestureHint(
+                ClonePoints(points),
+                Volatile.Read(ref _visualCaptureGeneration));
         }
 
         private void HandleLiveGestureMismatch(List<List<Point>> points)
         {
-            // Preview matching can fail for a long portion of a gesture even
-            // though the final recognizer will still accept it (for example,
-            // while the second stroke/curve is being drawn). Once an action has
-            // been confirmed, do not clear its hint on an intermediate null;
-            // keep it visible until release, or until another concrete action
-            // replaces it in ShowLiveGestureHintIfMatched.
-            if (string.IsNullOrWhiteSpace(_liveGestureHintName))
-            {
-                ClearLiveGestureHintIfShown(points);
-                return;
-            }
-
-            _liveGestureMismatchCount++;
+            // The live label describes only the current complete path. A match
+            // from an earlier, shorter path must not remain visible or become a
+            // final fallback after the user has extended the gesture away from it.
+            ClearLiveGestureHintIfShown(points);
         }
 
         private static string PreviewActionGestureName(IEnumerable<List<Point>> points)
@@ -1017,6 +1003,15 @@ namespace GestureSign.Daemon.Input
                         _pointsCaptured.Add(rawData.ContactIdentifier, new List<Point>(30));
                 }
             }
+
+            // Start visual feedback only after every CaptureStarted subscriber has
+            // accepted the capture. Rejected one-finger touchpad frames must not
+            // allocate a visual generation or replace the active hint lifecycle.
+            _lastVisualFeedbackPoints = null;
+            _lastLiveGesturePreviewTick = 0;
+            var visualCaptureGeneration = _surfaceForm.StartDrawing(captureStartedArgs.FirstCapturedPoints);
+            Volatile.Write(ref _visualCaptureGeneration, visualCaptureGeneration);
+
             AddPoint(firstPoint);
             return true;
         }
