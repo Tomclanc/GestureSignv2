@@ -467,11 +467,7 @@ namespace GestureSign.Daemon.Input
             var actions = ApplicationManager.Instance
                 .GetRecognizedDefinedAction(action => !string.IsNullOrWhiteSpace(action.GestureName));
             var smartCloseGestureNames = actions
-                .Where(action => action.Commands != null && action.Commands.Any(command =>
-                    command != null &&
-                    command.IsEnabled &&
-                    !string.IsNullOrWhiteSpace(command.PluginClass) &&
-                    command.PluginClass.IndexOf("SmartClose", StringComparison.OrdinalIgnoreCase) >= 0))
+                .Where(IsSmartCloseAction)
                 .Select(action => action.GestureName)
                 .Distinct(StringComparer.OrdinalIgnoreCase)
                 .ToArray();
@@ -485,6 +481,25 @@ namespace GestureSign.Daemon.Input
             // two-finger scrolling strokes.
             return GestureManager.Instance.PreviewGestureName(pointArray, smartCloseGestureNames, 74)
                    ?? GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames);
+        }
+
+        private static bool IsSmartCloseAction(IAction action)
+        {
+            return action?.Commands != null && action.Commands.Any(command =>
+                command != null &&
+                command.IsEnabled &&
+                !string.IsNullOrWhiteSpace(command.PluginClass) &&
+                command.PluginClass.IndexOf("SmartClose", StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        private static bool IsSmartCloseGestureName(string gestureName)
+        {
+            if (string.IsNullOrWhiteSpace(gestureName))
+                return false;
+
+            return ApplicationManager.Instance
+                .GetRecognizedDefinedAction(gestureName)?
+                .Any(IsSmartCloseAction) == true;
         }
 
         private static int CountGesturePoints(IEnumerable<List<Point>> points)
@@ -1268,18 +1283,20 @@ namespace GestureSign.Daemon.Input
                 return actionGestureName;
             }
 
-            // Multi-finger touchpad scrolling is the highest-risk source of false
-            // positives. Require the final, shape-guarded action preview instead of
-            // accepting a recognizer result or a live intermediate fallback by itself.
-            if (SourceDevice == Devices.TouchPad && points != null && points.Count > 1)
+            // Only Smart Close needs the extra touchpad scroll guard. The previous
+            // blanket multi-finger guard returned null for every two/three-finger
+            // gesture whenever live preview matching was inconclusive.
+            if (SourceDevice == Devices.TouchPad &&
+                points != null &&
+                points.Count > 1 &&
+                IsSmartCloseGestureName(recognizedGestureName))
             {
-                if (!string.IsNullOrWhiteSpace(recognizedGestureName) &&
-                    ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)?.Any() == true)
+                var pointArray = points.Select(stroke => stroke?.ToArray() ?? Array.Empty<Point>()).ToArray();
+                if (!GestureManager.Instance.PreservesRequiredDirectionalRetrace(recognizedGestureName, pointArray))
                 {
-                    Logging.LogMessage($"Touchpad multi-finger gesture rejected by final shape guard. Gesture={recognizedGestureName}, Contacts={points.Count}");
+                    Logging.LogMessage($"Touchpad Smart Close rejected by final retrace guard. Gesture={recognizedGestureName}, Contacts={points.Count}");
+                    return null;
                 }
-
-                return null;
             }
 
             if (string.IsNullOrWhiteSpace(_fallbackGestureName))

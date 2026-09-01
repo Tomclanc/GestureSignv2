@@ -434,6 +434,42 @@ namespace GestureSign.Common.Gestures
                 : null;
         }
 
+        public bool PreservesRequiredDirectionalRetrace(string gestureName, Point[][] captured)
+        {
+            if (string.IsNullOrWhiteSpace(gestureName) || captured == null)
+                return true;
+
+            var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
+            var matchedGesture = sourceGesture?
+                .LastOrDefault(gesture => string.Equals(gesture.Name, gestureName, StringComparison.OrdinalIgnoreCase));
+            if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= _gestureLevel)
+                return true;
+
+            var template = matchedGesture.PointPatterns[_gestureLevel].Points;
+            if (template == null || captured.Length != template.Length)
+                return true;
+
+            for (var index = 0; index < captured.Length; index++)
+            {
+                var capturedHorizontalRetrace = GetAxisRetrace(captured[index], horizontal: true);
+                var capturedVerticalRetrace = GetAxisRetrace(captured[index], horizontal: false);
+                var templateHorizontalRetrace = GetAxisRetrace(template[index], horizontal: true);
+                var templateVerticalRetrace = GetAxisRetrace(template[index], horizontal: false);
+
+                // This is deliberately more tolerant than the live preview shape
+                // check. The final recognizer has already matched the gesture; here
+                // we only reject a scroll-like path that completely lost a reversal
+                // required by the trained template.
+                if (HasLostRequiredRetrace(capturedHorizontalRetrace, templateHorizontalRetrace) ||
+                    HasLostRequiredRetrace(capturedVerticalRetrace, templateVerticalRetrace))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private static bool HasComparableShapeExtents(Point[][] captured, Point[][] template)
         {
             if (captured == null || template == null || captured.Length != template.Length)
@@ -487,6 +523,11 @@ namespace GestureSign.Common.Gestures
         private static bool HasMissingRetrace(double capturedRetrace, double templateRetrace)
         {
             return templateRetrace >= 0.22 && capturedRetrace < Math.Max(0.08, templateRetrace * 0.4);
+        }
+
+        private static bool HasLostRequiredRetrace(double capturedRetrace, double templateRetrace)
+        {
+            return templateRetrace >= 0.22 && capturedRetrace < Math.Max(0.025, templateRetrace * 0.12);
         }
 
         private static double GetAxisRetrace(Point[] points, bool horizontal)
