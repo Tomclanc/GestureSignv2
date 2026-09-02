@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.1">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.2">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,16 +65,16 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.1) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.2) 下载最新便携版。
 
 当前版本：
 
-- [GestureSign-V2-18.2.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-x64.msi)
-- [GestureSign-V2-18.2.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-portable-x64.zip)
+- [GestureSign-V2-18.2.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-x64.msi)
+- [GestureSign-V2-18.2.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-portable-x64.zip)
 
 ## 更新内容
 
-### 18.2.1
+### 18.2.2
 
 - 修复 Edge 等应用组存在专属动作时，实时提示不会按手势回退全局动作的问题。
 - 实时动作提示现在只反映当前完整轨迹：命中时显示，继续绘制后失配则立即清除。
@@ -197,14 +197,14 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.1).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.2).
 
 Current version:
 
-- [GestureSign-V2-18.2.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-x64.msi)
-- [GestureSign-V2-18.2.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-portable-x64.zip)
+- [GestureSign-V2-18.2.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-x64.msi)
+- [GestureSign-V2-18.2.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-portable-x64.zip)
 
-### What's new in 18.2.1
+### What's new in 18.2.2
 
 - Fixed live previews failing to fall back to global actions per gesture when an app group, such as Edge, also has app-specific actions.
 - Live action hints now reflect only the current complete path: they appear on a match and clear immediately when further drawing invalidates it.
@@ -333,14 +333,14 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.1) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.2) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.2.1-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-x64.msi)
-- [GestureSign-V2-18.2.1-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.1/GestureSign-V2-18.2.1-portable-x64.zip)
+- [GestureSign-V2-18.2.2-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-x64.msi)
+- [GestureSign-V2-18.2.2-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.2/GestureSign-V2-18.2.2-portable-x64.zip)
 
-### 18.2.1 の更新内容
+### 18.2.2 の更新内容
 
 - Edge などのアプリグループに専用アクションがある場合でも、ライブプレビューがジェスチャー単位でグローバルアクションへフォールバックするよう修正しました。
 - ライブアクション表示は現在の完全な軌跡だけを反映し、軌跡を延長して一致しなくなった時点で即座に消去します。
