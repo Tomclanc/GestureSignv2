@@ -1,0 +1,50 @@
+name: GestureSign regression CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  regression:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore solution
+        run: dotnet restore GestureSign.sln -p:RestoreLockedMode=false
+      - name: Build complete solution (including legacy updater)
+        shell: pwsh
+        run: |
+          dotnet build GestureSign.sln -c Release --no-restore -p:Platform=x64 *> solution-build.log
+          if ($LASTEXITCODE -ne 0) { Get-Content solution-build.log; exit $LASTEXITCODE }
+      - name: Build x64 daemon and WinUI
+        run: |
+          dotnet build GestureSign.Daemon/GestureSign.Daemon.csproj -c Release --no-restore -p:PlatformTarget=x64 *> daemon-x64-build.log
+          if ($LASTEXITCODE -ne 0) { Get-Content daemon-x64-build.log; exit $LASTEXITCODE }
+          dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release --no-restore -p:Platform=x64 -p:PlatformTarget=x64 *> winui-x64-build.log
+          if ($LASTEXITCODE -ne 0) { Get-Content winui-x64-build.log; exit $LASTEXITCODE }
+      - name: Run regression tests
+        run: dotnet run --project tests/GestureSign.RegressionTests/GestureSign.RegressionTests.csproj -c Release
+      - name: Compile ARM64 daemon and WinUI
+        run: |
+          dotnet restore GestureSign.Daemon/GestureSign.Daemon.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false
+          dotnet restore GestureSign.WinUI/GestureSign.WinUI.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false
+          dotnet build GestureSign.Daemon/GestureSign.Daemon.csproj -c Release --no-restore -p:PlatformTarget=ARM64 -p:RuntimeIdentifier=win-arm64 -warnaserror *> daemon-arm64-build.log
+          if ($LASTEXITCODE -ne 0) { Get-Content daemon-arm64-build.log; exit $LASTEXITCODE }
+          dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release --no-restore -p:Platform=ARM64 -p:PlatformTarget=ARM64 -p:RuntimeIdentifier=win-arm64 -warnaserror *> winui-arm64-build.log
+          if ($LASTEXITCODE -ne 0) { Get-Content winui-arm64-build.log; exit $LASTEXITCODE }
+      - name: Enforce warning baseline
+        shell: pwsh
+        # ARM64 reference-assembly diagnostics (CS8012) depend on the SDK's
+        # cross-target restore graph; the supported warning gate is the clean
+        # x64 solution build above.
+        run: ./tools/Test-WarningBaseline.ps1 -LogPath solution-build.log
+      - name: Build portable payload
+        shell: pwsh
+        run: |
+          pwsh -NoProfile -File ./installer/Build-GestureSignV2-KandoMsi.ps1 -PublishDir ./publish/portable -PayloadOnly
+      - name: Validate portable payload
+        shell: pwsh
+        run: ./tools/Test-PortablePackage.ps1 -PackagePath ./publish/portable -MinimumFileCount 200

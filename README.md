@@ -409,6 +409,33 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 - 現在のパッケージ: x64 MSI、x64 ポータブル ZIP、x64 / ARM64 を含む Store アップロード パッケージ。x86 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
+## ポータブルパッケージの検証
+
+リリース前に、ポータブル展開先の必須ファイルと不要な診断ファイルを検証できます。PowerShell で次を実行してください。
+
+```powershell
+.\tools\Test-PortablePackage.ps1 -PackagePath .\publish\portable -MinimumFileCount 200
+```
+
+この検証では WinUI とバックエンドのエントリポイント、主要 DLL の存在を確認し、PDB / ダンプ / 診断ログ、および同梱された Kando 実行ファイル・ライブラリを拒否します。
+MSI を生成せず、検証済みのポータブル Payload だけを作成する場合は、次を使用できます。
+
+```powershell
+.\installer\Build-GestureSignV2-KandoMsi.ps1 -PayloadOnly -PublishDir .\publish\portable
+```
+
+## ビルド警告の回帰防止
+
+CI はビルドログ中の警告をファイル・行・警告コード単位で正規化し、`tools/warning-baseline.json` と比較します。既存の警告は直ちにビルドを止めませんが、新しい警告地点が追加されると CI が失敗します。ローカルでは次のように実行できます。
+
+```powershell
+dotnet build GestureSign.Daemon/GestureSign.Daemon.csproj -c Release *> daemon-build.log
+dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release *> winui-build.log
+.\tools\Test-WarningBaseline.ps1 -LogPath daemon-build.log,winui-build.log
+```
+
+現在のローカル基線は 0 個の警告位置です。新しい警告地点が追加された場合は CI が失敗します。`-UpdateBaseline` は警告を意図的に修正した後にのみ使用してください。
+
 ## フィードバック
 
 ジェスチャー、記録、保存、UI 表示に関する問題を報告する場合は、次の情報を含めてください。

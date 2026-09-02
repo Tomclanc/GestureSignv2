@@ -43,7 +43,7 @@ namespace GestureSign.Common.Configuration
                     if (typeName)
                     {
                         serializer.TypeNameHandling = TypeNameHandling.Objects;
-                        serializer.TypeNameAssemblyFormat = System.Runtime.Serialization.Formatters.FormatterAssemblyStyle.Simple;
+                        serializer.TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple;
                     }
                     serializer.Serialize(sWrite, serializableObject);
                 }

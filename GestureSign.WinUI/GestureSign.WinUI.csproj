@@ -43,6 +43,7 @@
     <Compile Include="..\Shared\KandoComponentPaths.cs" Link="KandoComponentPaths.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GestureSign.Foundation\GestureSign.Foundation.csproj" />
     <!-- Request the Desktop Runtime rather than only the base .NET runtime.
          The background process uses WinForms, so installing this one runtime
          satisfies both the WinUI front end and GestureSign.exe. -->

@@ -8,6 +8,7 @@ using GestureSign.Common.Log;
 using GestureSign.Common.Plugins;
 using GestureSign.Daemon.Filtration;
 using GestureSign.Daemon.Surface;
+using GestureSign.Foundation.Input;
 using GestureSign.PointPatterns;
 using ManagedWinapi.Hooks;
 using ManagedWinapi.Windows;
@@ -85,12 +86,8 @@ namespace GestureSign.Daemon.Input
         private Dictionary<int, Point> _touchPadRawStartPoints;
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
         private List<List<Point>> _lastVisualFeedbackPoints;
-        private string _liveGestureHintName;
-        private string _fallbackGestureName;
-        private string _fallbackGestureActionName;
-        private int _fallbackGesturePointCount;
+        private CaptureSession _captureSession = new CaptureSession();
         private long _lastLiveGesturePreviewTick;
-        private int _visualCaptureGeneration;
 
         private const int LiveGesturePreviewIntervalMilliseconds = 80;
 
@@ -312,23 +309,19 @@ namespace GestureSign.Daemon.Input
 
             CaptureEnded += (o, e) =>
             {
-                _liveGestureHintName = null;
                 _lastVisualFeedbackPoints = null;
-                var visualCaptureGeneration = Interlocked.Exchange(ref _visualCaptureGeneration, 0);
-                _surfaceForm.EndDrawing(visualCaptureGeneration);
+                _surfaceForm.EndDrawing(_captureSession.BeginRecognition());
             };
             CaptureCanceled += (o, e) =>
             {
-                _liveGestureHintName = null;
                 _lastVisualFeedbackPoints = null;
-                var visualCaptureGeneration = Interlocked.Exchange(ref _visualCaptureGeneration, 0);
-                _surfaceForm.EndDrawing(visualCaptureGeneration);
+                _surfaceForm.EndDrawing(_captureSession.Cancel());
             };
             PointCaptured += (o, e) =>
             {
                 if (State == CaptureState.Capturing || SourceDevice == Devices.TouchPad && State == CaptureState.CapturingInvalid)
                 {
-                    _surfaceForm.DrawPoints(e.Points, Volatile.Read(ref _visualCaptureGeneration));
+                    _surfaceForm.DrawPoints(e.Points, _captureSession.VisualGeneration);
                     _lastVisualFeedbackPoints = ClonePoints(e.Points);
                     if (AppConfig.ShowGestureActionHint)
                     {
@@ -337,7 +330,7 @@ namespace GestureSign.Daemon.Input
                         // responsive. Once a name is visible, validate the complete
                         // path on every frame so extending the gesture away from the
                         // match clears the name immediately.
-                        if (!string.IsNullOrWhiteSpace(_liveGestureHintName) ||
+                        if (!string.IsNullOrWhiteSpace(_captureSession.VisibleActionName) ||
                             now - _lastLiveGesturePreviewTick >= LiveGesturePreviewIntervalMilliseconds)
                         {
                             _lastLiveGesturePreviewTick = now;
@@ -400,40 +393,21 @@ namespace GestureSign.Daemon.Input
                 return;
             }
 
-            _fallbackGestureName = gestureName;
-            _fallbackGestureActionName = action.Name;
-            _fallbackGesturePointCount = CountGesturePoints(points);
-
-            if (!AppConfig.ShowGestureActionHint || string.Equals(action.Name, _liveGestureHintName, StringComparison.Ordinal))
-                return;
-
-            _liveGestureHintName = action.Name;
-            _surfaceForm.ShowLiveGestureHint(
-                ClonePoints(points),
-                action.Name,
-                Volatile.Read(ref _visualCaptureGeneration));
+            var transition = _captureSession.UpdatePreview(gestureName, action.Name, CountGesturePoints(points));
+            if (AppConfig.ShowGestureActionHint && transition == LivePreviewTransition.Show)
+                _surfaceForm.ShowLiveGestureHint(ClonePoints(points), action.Name, _captureSession.VisualGeneration);
         }
 
         private void ClearLiveGestureHintIfShown(List<List<Point>> points)
         {
-            if (!string.IsNullOrWhiteSpace(_fallbackGestureName))
+            if (!string.IsNullOrWhiteSpace(_captureSession.FallbackGestureName))
             {
-                Logging.LogMessage($"Live gesture action invalidated. Gesture={_fallbackGestureName}, Action={_fallbackGestureActionName}");
+                Logging.LogMessage($"Live gesture action invalidated. Gesture={_captureSession.FallbackGestureName}, Action={_captureSession.FallbackActionName}");
             }
-
-            _fallbackGestureName = null;
-            _fallbackGestureActionName = null;
-            _fallbackGesturePointCount = 0;
-
-            var hadVisibleHint = !string.IsNullOrWhiteSpace(_liveGestureHintName);
-
-            _liveGestureHintName = null;
-            if (!hadVisibleHint)
-                return;
-
-            _surfaceForm.ClearLiveGestureHint(
-                ClonePoints(points),
-                Volatile.Read(ref _visualCaptureGeneration));
+            var hadVisibleHint = !string.IsNullOrWhiteSpace(_captureSession.VisibleActionName);
+            var transition = _captureSession.InvalidatePreview();
+            if (hadVisibleHint && transition == LivePreviewTransition.Clear)
+                _surfaceForm.ClearLiveGestureHint(ClonePoints(points), _captureSession.VisualGeneration);
         }
 
         private void HandleLiveGestureMismatch(List<List<Point>> points)
@@ -945,6 +919,7 @@ namespace GestureSign.Daemon.Input
 
         private bool TryBeginCapture(List<InputPoint> firstPoint)
         {
+            _captureSession = new CaptureSession();
             Logging.LogMessage($"Gesture capture started. Device={SourceDevice}, Mode={Mode}, Contacts={firstPoint.Count}, DrawingButton={AppConfig.DrawingButton}");
 
             // Create capture args so we can notify subscribers that capture has started and allow them to cancel if they want.
@@ -973,6 +948,7 @@ namespace GestureSign.Daemon.Input
 
             State = captureStartedArgs.ForceCapture ? CaptureState.Capturing : CaptureState.CapturingInvalid;
             _requiredContactCount = Math.Max(1, captureStartedArgs.RequiredContactCount);
+            _captureSession.Accept(_requiredContactCount);
 
             _touchScreenContactOrder = SourceDevice == Devices.TouchScreen
                 ? firstPoint.Select(point => point.ContactIdentifier).Distinct().ToList()
@@ -983,10 +959,6 @@ namespace GestureSign.Daemon.Input
 
             // Clear old gesture from point list so we can start adding the new captures points to the list 
             _pointsCaptured = new Dictionary<int, List<Point>>(firstPoint.Count);
-            _liveGestureHintName = null;
-            _fallbackGestureName = null;
-            _fallbackGestureActionName = null;
-            _fallbackGesturePointCount = 0;
             if (AppConfig.IsOrderByLocation)
             {
                 foreach (var rawData in firstPoint.OrderBy(p => p.Point.X))
@@ -1010,7 +982,7 @@ namespace GestureSign.Daemon.Input
             _lastVisualFeedbackPoints = null;
             _lastLiveGesturePreviewTick = 0;
             var visualCaptureGeneration = _surfaceForm.StartDrawing(captureStartedArgs.FirstCapturedPoints);
-            Volatile.Write(ref _visualCaptureGeneration, visualCaptureGeneration);
+            _captureSession.AttachVisualGeneration(visualCaptureGeneration);
 
             AddPoint(firstPoint);
             return true;
@@ -1063,6 +1035,7 @@ namespace GestureSign.Daemon.Input
             if (pointsInformation.Cancel)
             {
                 Logging.LogMessage("Gesture capture canceled after preprocessing.");
+                _captureSession.Cancel();
                 ResetCaptureBuffers();
                 return;
             }
@@ -1092,6 +1065,7 @@ namespace GestureSign.Daemon.Input
                             : _pointsCaptured[identifier].LastOrDefault()).ToList()
                     : null;
                 Logging.LogMessage($"Gesture recognized. Name={recognizedGestureName}, Contacts={string.Join(",", _pointsCaptured.Keys)}");
+                _captureSession.BeginExecution();
                 OnGestureRecognized(new RecognitionEventArgs(
                     recognizedGestureName,
                     pointsInformation.Points,
@@ -1107,6 +1081,7 @@ namespace GestureSign.Daemon.Input
 
             OnAfterPointsCaptured(pointsInformation);
 
+            _captureSession.Complete();
             ResetCaptureBuffers();
         }
 
@@ -1294,7 +1269,7 @@ namespace GestureSign.Daemon.Input
                 }
             }
 
-            if (string.IsNullOrWhiteSpace(_fallbackGestureName))
+            if (string.IsNullOrWhiteSpace(_captureSession.FallbackGestureName))
                 return recognizedGestureName;
 
             if (!string.IsNullOrWhiteSpace(recognizedGestureName) &&
@@ -1305,14 +1280,14 @@ namespace GestureSign.Daemon.Input
 
             var totalPointCount = CountGesturePoints(points);
             var maxTrailingPointCount = Math.Max(12, totalPointCount / 3);
-            if (totalPointCount - _fallbackGesturePointCount > maxTrailingPointCount)
+            if (totalPointCount - _captureSession.FallbackPointCount > maxTrailingPointCount)
                 return recognizedGestureName;
 
-            if (ApplicationManager.Instance.GetRecognizedDefinedAction(_fallbackGestureName)?.Any() != true)
+            if (ApplicationManager.Instance.GetRecognizedDefinedAction(_captureSession.FallbackGestureName)?.Any() != true)
                 return recognizedGestureName;
 
-            Logging.LogMessage($"Gesture fallback applied. Original={recognizedGestureName ?? "(null)"}, Fallback={_fallbackGestureName}, Action={_fallbackGestureActionName}, TrailingPoints={totalPointCount - _fallbackGesturePointCount}");
-            return _fallbackGestureName;
+            Logging.LogMessage($"Gesture fallback applied. Original={recognizedGestureName ?? "(null)"}, Fallback={_captureSession.FallbackGestureName}, Action={_captureSession.FallbackActionName}, TrailingPoints={totalPointCount - _captureSession.FallbackPointCount}");
+            return _captureSession.FallbackGestureName;
         }
 
         //private void CancelCapture(int num)

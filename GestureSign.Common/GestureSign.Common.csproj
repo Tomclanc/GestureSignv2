@@ -6,7 +6,7 @@
     <AssemblyName>GestureSign.Common</AssemblyName>
     <RootNamespace>GestureSign.Common</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
   <ItemGroup>

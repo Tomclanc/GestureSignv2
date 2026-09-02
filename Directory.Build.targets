@@ -1,7 +1,0 @@
-<Project>
-  <!-- Default to x64 while allowing explicit Windows on ARM64 builds. -->
-  <PropertyGroup>
-    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-</Project>

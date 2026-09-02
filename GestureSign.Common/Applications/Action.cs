@@ -87,9 +87,9 @@ namespace GestureSign.Common.Applications
             Action action = (Action)MemberwiseClone();
             action.CollectionChanged = null;
 
-            action.Name = Name == null ? null : string.Copy(Name);
-            action.GestureName = GestureName == null ? null : string.Copy(GestureName);
-            action.Condition = Condition == null ? null : string.Copy(Condition);
+            action.Name = Name == null ? null : new string(Name.ToCharArray());
+            action.GestureName = GestureName == null ? null : new string(GestureName.ToCharArray());
+            action.Condition = Condition == null ? null : new string(Condition.ToCharArray());
             action.IsEnabled = IsEnabled;
             action._commands = new List<ICommand>(_commands);
             action.Hotkey = Hotkey == null ? null : new Hotkey() { KeyCode = Hotkey.KeyCode, ModifierKeys = Hotkey.ModifierKeys };

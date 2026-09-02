@@ -1,0 +1,16 @@
+<Project>
+  <!-- Keep the entire project-reference graph on one processor architecture.
+       RuntimeIdentifier is available during restore, while explicit
+       PlatformTarget still wins for local and CI builds. -->
+  <PropertyGroup>
+    <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'win-arm64'">ARM64</PlatformTarget>
+    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NoWarn Condition="'$(RuntimeIdentifier)' == 'win-arm64'">$(NoWarn);CA1416;CS8012;WFO1000</NoWarn>
+    <!-- All production projects are Windows-only; CA1416 is emitted for
+         framework references while cross-compiling ARM64 and does not
+         represent a runtime portability issue. Keep the ARM64 gate warning
+         free while retaining the x64 warning baseline. -->
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+  </PropertyGroup>
+</Project>

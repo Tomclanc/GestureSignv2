@@ -9,7 +9,8 @@ param(
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
     [switch]$SkipMajorUpgrade,
-    [switch]$SkipPayloadBuild
+    [switch]$SkipPayloadBuild,
+    [switch]$PayloadOnly
 )
 
 $ErrorActionPreference = "Stop"
@@ -202,10 +203,24 @@ elseif (!(Test-Path -LiteralPath $publishPath)) {
     throw "Prepared publish directory is missing: $publishPath"
 }
 
+# Apply the same portable payload policy used by CI before generating the MSI.
+# This catches stale PDB/diagnostic files and accidentally bundled Kando
+# binaries even when the payload was prepared by a previous build.
+$portableValidator = Join-Path $repoRoot.ProviderPath "tools\Test-PortablePackage.ps1"
+if (!(Test-Path -LiteralPath $portableValidator -PathType Leaf)) {
+    throw "Portable package validator is missing: $portableValidator"
+}
+& $portableValidator -PackagePath $publishPath
+
 # Kando is an on-demand component. Never inherit a stale bundled copy from a previous publish.
 $staleKandoPath = Join-Path $publishPath "Kando"
 if (Test-Path -LiteralPath $staleKandoPath) {
     Remove-Item -LiteralPath $staleKandoPath -Recurse -Force
+}
+
+if ($PayloadOnly) {
+    Write-Host "Portable payload built and validated: $publishPath"
+    return
 }
 
 $files = Get-ChildItem -LiteralPath $publishPath -Recurse -File | Sort-Object FullName

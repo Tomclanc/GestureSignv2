@@ -6,7 +6,7 @@
     <AssemblyName>GestureSign.ExtraPlugins.TextCopyer</AssemblyName>
     <RootNamespace>GestureSign.ExtraPlugins.TextCopyer</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\GestureSign.Common\GestureSign.Common.csproj" />

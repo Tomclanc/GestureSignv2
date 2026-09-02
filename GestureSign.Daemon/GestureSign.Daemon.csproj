@@ -2,15 +2,18 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <UseWindowsForms>true</UseWindowsForms>
     <UseSystemDrawing>true</UseSystemDrawing>
     <AssemblyName>GestureSign</AssemblyName>
     <RootNamespace>GestureSign.Daemon</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PlatformTarget>x64</PlatformTarget>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
     <ApplicationIcon>Resources\normal.ico</ApplicationIcon>
     <ApplicationManifest>Properties\app.common.manifest</ApplicationManifest>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
@@ -20,6 +23,7 @@
     <Compile Include="..\Shared\KandoComponentPaths.cs" Link="KandoComponentPaths.cs" />
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />
     <ProjectReference Include="..\GestureSign.Common\GestureSign.Common.csproj" />
+    <ProjectReference Include="..\GestureSign.Foundation\GestureSign.Foundation.csproj" />
     <ProjectReference Include="..\GestureSign.CorePlugins\GestureSign.CorePlugins.csproj" />
     <ProjectReference Include="..\GestureSign.ExtraPlugins\ClipboardMatch\ClipboardMatch.csproj" />
     <ProjectReference Include="..\GestureSign.ExtraPlugins\TextCopyer\TextCopyer.csproj" />
