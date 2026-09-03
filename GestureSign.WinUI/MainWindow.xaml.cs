@@ -217,7 +217,12 @@ public sealed partial class MainWindow : Window
         };
         _ = EnsureDaemonRunningAsync();
         _ = RefreshRecognitionStateAsync();
-        _ = PreserveKandoAndStartIfEnabledAsync();
+        // Kando background startup is owned by the daemon. Starting it here as
+        // well races with the daemon during Store launches; the losing Electron
+        // instance is forwarded to the existing process and can open Kando's
+        // settings window in the foreground. Keep migration/installation in
+        // the WinUI process, but let the daemon be the single startup owner.
+        _ = PreserveKandoInstallationAsync();
         _daemonWatchdogTimer.Start();
         _recognitionStateTimer.Start();
         _windowModeRefreshTimer.Start();
@@ -3729,7 +3734,7 @@ public sealed partial class MainWindow : Window
         StopKandoProcesses(_legacyData.Options);
     }
 
-    private async Task PreserveKandoAndStartIfEnabledAsync()
+    private async Task PreserveKandoInstallationAsync()
     {
         try
         {
@@ -3748,7 +3753,6 @@ public sealed partial class MainWindow : Window
             LogException(ex);
         }
 
-        await EnsureKandoStartedIfEnabledAsync();
     }
 
     private static bool HasLegacyKandoUsage(LegacyOptions options)
@@ -3758,22 +3762,6 @@ public sealed partial class MainWindow : Window
            !string.IsNullOrWhiteSpace(options.KandoSettingsHotKey) ||
            !string.IsNullOrWhiteSpace(options.KandoMenuName) ||
            !string.IsNullOrWhiteSpace(options.KandoTrigger);
-    private async Task EnsureKandoStartedIfEnabledAsync()
-    {
-        try
-        {
-            _legacyData = LegacyDataStore.Load();
-            if (!_legacyData.Options.KandoEnabled || IsKandoRunning(_legacyData.Options))
-                return;
-
-            StartKando(_legacyData.Options, string.Empty);
-        }
-        catch (Exception ex)
-        {
-            LogException(ex);
-        }
-    }
-
     private async Task OpenKandoSettingsAsync()
     {
         await FlushPendingOptionUpdatesAsync();
