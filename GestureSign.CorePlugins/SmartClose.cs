@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading;
 using WindowsInput;
@@ -60,15 +61,28 @@ namespace GestureSign.CorePlugins
         };
 
         private const string OverflowShellWindowClass = "TopLevelWindowForOverflowXamlIsland";
+        private const string ApplicationFrameHostProcess = "ApplicationFrameHost";
+        private const string ApplicationFrameWindowClass = "ApplicationFrameWindow";
+        private const uint WmClose = 0x0010;
+        private const uint WmSysCommand = 0x0112;
+        private const uint ScClose = 0xF060;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SendMessageW")]
+        private static extern IntPtr SendWindowMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
+
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "PostMessageW")]
+        [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+        private static extern bool PostWindowMessage(IntPtr hwnd, uint message, IntPtr wParam, IntPtr lParam);
 
         public string Name => LocalizationProvider.Instance.GetTextValue("CorePlugins.SmartClose.Name");
         public string Category => "Windows";
         public string Description => LocalizationProvider.Instance.GetTextValue("CorePlugins.SmartClose.Description");
         public bool IsAction => true;
         public object GUI => null;
-        // Touchpad capture already locks the foreground target. Reactivating a stale
-        // point-derived window here can redirect the shortcut to a shell surface.
-        public bool ActivateWindowDefault => false;
+        // Smart Close sends a keyboard shortcut, so it must run against the
+        // window captured at gesture start. PluginManager activates the target
+        // and waits until it is the real foreground window before injecting it.
+        public bool ActivateWindowDefault => true;
         public object Icon => IconSource.Window;
         public IHostControl HostControl { get; set; }
 
@@ -81,8 +95,16 @@ namespace GestureSign.CorePlugins
             if (actionPoint?.Window == null)
                 return false;
 
-            // Keep the same target-window path used by the known-good 16.4.21 build.
-            var targetWindow = actionPoint.Window;
+            // The activation phase now performs a real left click at the
+            // current pointer position. Use the window that is actually in
+            // the foreground after that click; the HWND captured at gesture
+            // start may be a shell surface or an obsolete UWP child.
+            var targetWindow = SystemWindow.ForegroundWindow ?? actionPoint.Window;
+            if (targetWindow == null)
+                return false;
+
+            if (actionPoint.Window != null && targetWindow.HWnd != actionPoint.Window.HWnd)
+                Logging.LogMessage($"Smart close target refreshed after activation click. CapturedHwnd={actionPoint.Window.HWnd}, ForegroundHwnd={targetWindow.HWnd}");
             var className = targetWindow.ClassName ?? string.Empty;
             if (IgnoredWindowClasses.Contains(className) ||
                 string.Equals(className, OverflowShellWindowClass, StringComparison.OrdinalIgnoreCase))
@@ -110,6 +132,17 @@ namespace GestureSign.CorePlugins
                 : string.Empty;
             var shortcut = SelectShortcut(processName, className, windowTitle);
             Logging.LogMessage($"Smart close selected. Process={processName ?? "(unknown)"}, WindowClass={className}, WindowTitle={windowTitle}, Shortcut={shortcut}");
+
+            // Microsoft Store and other packaged WinUI apps are hosted by
+            // ApplicationFrameHost. A global Alt+F4 injected from the daemon
+            // can be swallowed by the shell while the gesture process is not
+            // the foreground input queue. FastGestures closes this wrapper by
+            // sending the native close message to the captured frame instead.
+            if (IsApplicationFrameWindow(processName, className))
+            {
+                CloseApplicationFrame(targetWindow);
+                return true;
+            }
 
             if (shortcut == CloseShortcut.AltF4 && AltF4Applications.Contains(processName) && IsCurrentProcessElevated())
             {
@@ -149,6 +182,71 @@ namespace GestureSign.CorePlugins
                     break;
             }
 
+        }
+
+        private static bool IsApplicationFrameWindow(string processName, string className)
+        {
+            return string.Equals(processName, ApplicationFrameHostProcess, StringComparison.OrdinalIgnoreCase) ||
+                   string.Equals(className, ApplicationFrameWindowClass, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private static void CloseApplicationFrame(SystemWindow targetWindow)
+        {
+            try
+            {
+                // UWP frame hosts can ignore WM_CLOSE on the outer frame while
+                // handling the system-command close on the XAML child. Send
+                // both messages to the frame and its CoreWindow descendants,
+                // then post WM_CLOSE as the asynchronous fallback.
+                var frameWindow = targetWindow.TopLevelWindow ?? targetWindow;
+                var windows = new List<SystemWindow> { frameWindow };
+                if (targetWindow.HWnd != frameWindow.HWnd)
+                    windows.Add(targetWindow);
+                try
+                {
+                    windows.AddRange(frameWindow.AllDescendantWindows
+                        .Where(window => string.Equals(window.ClassName, "Windows.UI.Core.CoreWindow", StringComparison.OrdinalIgnoreCase)));
+                }
+                catch
+                {
+                    // A disappearing packaged window is harmless; the outer
+                    // frame is still attempted below.
+                }
+
+                foreach (var window in windows.Distinct())
+                {
+                    SendWindowMessage(window.HWnd, WmSysCommand, new IntPtr(unchecked((int)ScClose)), IntPtr.Zero);
+                    SendWindowMessage(window.HWnd, WmClose, IntPtr.Zero, IntPtr.Zero);
+                    PostWindowMessage(window.HWnd, WmClose, IntPtr.Zero, IntPtr.Zero);
+                }
+
+                Logging.LogMessage($"Smart close sent native close sequence to packaged app frame. TargetHwnd={targetWindow.HWnd}, FrameHwnd={frameWindow.HWnd}, Windows={windows.Count}");
+
+                // Some Store apps handle the frame messages asynchronously (or
+                // ignore them altogether) but do honor Alt+F4 once their frame
+                // owns the foreground input queue. Give the native close a
+                // brief chance, then use the same foreground-verified keyboard
+                // fallback without stealing input from another window.
+                Thread.Sleep(80);
+                var foreground = SystemWindow.ForegroundWindow;
+                if (foreground != null && foreground.HWnd == frameWindow.HWnd)
+                {
+                    SendShortcut(CloseShortcut.AltF4);
+                    Logging.LogMessage($"Smart close sent Alt+F4 fallback to packaged app frame. TargetHwnd={targetWindow.HWnd}, FrameHwnd={frameWindow.HWnd}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+                try
+                {
+                    targetWindow.PostClose();
+                    Logging.LogMessage($"Smart close posted to packaged app frame after native close failure. TargetHwnd={targetWindow.HWnd}");
+                }
+                catch
+                {
+                }
+            }
         }
 
         public bool Deserialize(string serializedData)

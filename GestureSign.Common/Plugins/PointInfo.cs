@@ -51,11 +51,12 @@ namespace GestureSign.Common.Plugins
         {
             get
             {
-                // change target window if foreground window changed
-                if (_targetWindow == null || _targetWindow.HWnd != SystemWindow.ForegroundWindow.HWnd)
-                {
-                    _targetWindow = SystemWindow.FromPointEx(_pointLocation[0].X, _pointLocation[0].Y, true, false);
-                }
+                // Keep the window captured at gesture start. The foreground can
+                // legitimately change while a gesture is being drawn (notably
+                // protected/UWP windows such as Defender); re-resolving from the
+                // point after that change can return Progman/the shell and send
+                // the action to the wrong target. PluginManager is responsible
+                // for explicitly activating this captured target when requested.
                 return _targetWindow;
             }
         }

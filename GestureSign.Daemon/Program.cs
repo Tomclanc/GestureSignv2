@@ -33,6 +33,13 @@ namespace GestureSign.Daemon
             {
                 if (createdNew)
                 {
+                    // Must be set before creating NotifyIcon/ContextMenuStrip.
+                    // Without this call the daemon process remains DPI-unaware
+                    // (GetDpiForWindow returned 96 at a 200% desktop scale),
+                    // causing Windows to bitmap-scale the tray menu and blur
+                    // its text. This matches the native DPI behavior used by
+                    // CC Switch's Win32/Tauri menu.
+                    Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
                     Application.EnableVisualStyles();
                     //Application.SetCompatibleTextRenderingDefault(false);
                     try

@@ -175,7 +175,13 @@ namespace GestureSign.Common.Applications
             var pointCapture = (IPointCapture)sender;
             if (pointCapture.SourceDevice == Devices.TouchPad)
             {
-                CaptureWindow = ResolveCaptureWindow(pointCapture, e.FirstCapturedPoints.FirstOrDefault());
+                // The capture target is selected when the gesture starts. A
+                // protected/UWP window (for example Microsoft Defender) may
+                // temporarily lose foreground while the gesture is drawn; do
+                // not replace a valid captured target with the shell window on
+                // every subsequent point notification.
+                if (CaptureWindow == null || IsDesktopShellSurface(CaptureWindow))
+                    CaptureWindow = ResolveCaptureWindow(pointCapture, e.FirstCapturedPoints.FirstOrDefault());
                 _recognizedApplication = GetApplicationFromWindow(CaptureWindow);
                 return;
             }
@@ -769,7 +775,29 @@ namespace GestureSign.Common.Applications
             // Touchpad gestures target the active application; the cursor can be
             // parked over an unrelated taskbar or tray surface.
             if (pointCapture.SourceDevice == Devices.TouchPad)
+            {
+                // Preserve only a top-level window recovered from a desktop-shell
+                // hit-test. For ordinary points keep the active-window semantics
+                // so a parked cursor over the taskbar/tray does not retarget a
+                // gesture. Previously the correction was always replaced by
+                // ForegroundWindow, which could be Progman while an app window was
+                // visible at the gesture point.
+                var rawPointWindow = SystemWindow.FromPointEx(capturePoint.X, capturePoint.Y, true, true);
+                // A correction is identified by a non-shell result that differs
+                // from the raw hit-test handle. Do not require the raw handle to
+                // still be a shell surface: Defender and other protected/UWP
+                // windows can lose focus during the gesture and return a
+                // transient child/overlay on the second hit-test.
+                if (pointWindow != null &&
+                    !IsDesktopShellSurface(pointWindow) &&
+                    (rawPointWindow == null || pointWindow.HWnd != rawPointWindow.HWnd))
+                {
+                    Logging.LogMessage($"TouchPad capture target preserved. RawHwnd={rawPointWindow?.HWnd}, TargetHwnd={pointWindow.HWnd}");
+                    return pointWindow;
+                }
+
                 return SystemWindow.ForegroundWindow ?? pointWindow;
+            }
 
             // Some fullscreen games render through a child, transparent, or desktop-like
             // surface. In that case WindowFromPoint can resolve to Progman/WorkerW and the

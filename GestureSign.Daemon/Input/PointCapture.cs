@@ -82,8 +82,12 @@ namespace GestureSign.Daemon.Input
 
         private int? _blockTouchInputThreshold;
         private Point _touchPadStartPoint;
+        // Precision-touchpad coordinates are absolute positions on the pad,
+        // while the gesture surface is anchored to the screen cursor. Keep the
+        // initial contact centroid as the visual origin so a two-finger gesture
+        // preserves the spacing between fingers instead of collapsing both
+        // strokes onto the same cursor pixel.
         private PointF _touchPadRawVisualOrigin;
-        private Dictionary<int, Point> _touchPadRawStartPoints;
         private Dictionary<int, List<Point>> _touchPadVisualPoints;
         private List<List<Point>> _lastVisualFeedbackPoints;
         private CaptureSession _captureSession = new CaptureSession();
@@ -928,7 +932,6 @@ namespace GestureSign.Daemon.Input
             {
                 _touchPadStartPoint = System.Windows.Forms.Cursor.Position;
                 _touchPadRawVisualOrigin = GetTouchPadVisualOrigin(firstPoint);
-                _touchPadRawStartPoints = firstPoint.ToDictionary(p => p.ContactIdentifier, p => p.Point);
                 _touchPadVisualPoints = firstPoint.ToDictionary(p => p.ContactIdentifier, _ => new List<Point>(30));
                 captureStartedArgs = new PointsCapturedEventArgs(firstPoint.Select(p => new List<Point>() { p.Point }).ToList(), new List<Point>() { _touchPadStartPoint });
             }
@@ -1091,9 +1094,8 @@ namespace GestureSign.Daemon.Input
             _touchScreenContactOrder = null;
             _touchScreenUpPoints = null;
             _requiredContactCount = 1;
-            _touchPadRawStartPoints = null;
-            _touchPadVisualPoints = null;
             _touchPadRawVisualOrigin = PointF.Empty;
+            _touchPadVisualPoints = null;
             _lastVisualFeedbackPoints = null;
         }
 
@@ -1336,17 +1338,18 @@ namespace GestureSign.Daemon.Input
 
         private PointsCapturedEventArgs CreateTouchPadVisualPoints(List<InputPoint> rawPoints)
         {
-            if (_touchPadRawStartPoints == null || _touchPadVisualPoints == null)
+            if (_touchPadVisualPoints == null)
                 return new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), rawPoints.Select(p => p.Point).ToList());
 
             foreach (var raw in rawPoints)
             {
-                if (!_touchPadRawStartPoints.TryGetValue(raw.ContactIdentifier, out var rawStart))
-                    _touchPadRawStartPoints[raw.ContactIdentifier] = rawStart = raw.Point;
-
                 if (!_touchPadVisualPoints.TryGetValue(raw.ContactIdentifier, out var visualStroke))
                     _touchPadVisualPoints[raw.ContactIdentifier] = visualStroke = new List<Point>(30);
 
+                // Match the FastGestures/GestureSign touchpad presentation:
+                // anchor the initial contact centroid to the cursor while
+                // retaining each finger's offset from that centroid. This
+                // produces separate, parallel starting points for two fingers.
                 var visualPoint = ToTouchPadVisualPoint(raw.Point);
 
                 if (visualStroke.Count == 0 || PointPatternMath.GetDistance(visualStroke.Last(), visualPoint) >= 2)
@@ -1370,10 +1373,9 @@ namespace GestureSign.Daemon.Input
 
         private Point ToTouchPadVisualPoint(Point rawPoint)
         {
-            const float visualScale = 1.0f;
             return new Point(
-                _touchPadStartPoint.X + (int)Math.Round((rawPoint.X - _touchPadRawVisualOrigin.X) * visualScale),
-                _touchPadStartPoint.Y + (int)Math.Round((rawPoint.Y - _touchPadRawVisualOrigin.Y) * visualScale));
+                _touchPadStartPoint.X + (int)Math.Round(rawPoint.X - _touchPadRawVisualOrigin.X),
+                _touchPadStartPoint.Y + (int)Math.Round(rawPoint.Y - _touchPadRawVisualOrigin.Y));
         }
 
         private void AddTrainingPointByNearestStroke(List<InputPoint> points)

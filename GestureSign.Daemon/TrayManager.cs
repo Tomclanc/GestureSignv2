@@ -73,7 +73,13 @@ namespace GestureSign.Daemon
             _trayMenu.Name = "TrayMenu";
             _trayMenu.ShowCheckMargin = false;
             _trayMenu.ShowImageMargin = false;
-            _trayMenu.Padding = new Padding(8);
+            _trayMenu.Padding = Padding.Empty;
+            // Let the shell/WinForms native menu renderer handle DPI, font
+            // rasterization and popup corners, like CC Switch's Tauri menu.
+            // Custom GDI painting is intentionally used only by the optional
+            // touch-friendly left-click surface.
+            _trayMenu.AutoSize = true;
+            _trayMenu.Font = SystemFonts.MenuFont;
             _trayMenu.Opened += (o, e) => ApplyRoundedRegion();
             _trayMenu.SizeChanged += (o, e) => ApplyRoundedRegion();
 
@@ -177,16 +183,25 @@ namespace GestureSign.Daemon
 
         private static GraphicsPath CreateRoundedRectanglePath(Rectangle bounds, int radius)
         {
-            int diameter = radius * 2;
-            Rectangle arc = new Rectangle(bounds.Location, new Size(diameter, diameter));
+            // Keep the path used for painting and the Region used for clipping
+            // on the same pixel grid.  Mixing inclusive and exclusive bounds
+            // causes the lower-right corner to be clipped on high-DPI screens.
+            var rect = new Rectangle(
+                bounds.X + 1,
+                bounds.Y + 1,
+                Math.Max(1, bounds.Width - 2),
+                Math.Max(1, bounds.Height - 2));
+            var clampedRadius = Math.Max(1, Math.Min(radius, Math.Min(rect.Width, rect.Height) / 2));
+            int diameter = clampedRadius * 2;
+            Rectangle arc = new Rectangle(rect.Location, new Size(diameter, diameter));
             GraphicsPath path = new GraphicsPath();
 
             path.AddArc(arc, 180, 90);
-            arc.X = bounds.Right - diameter - 1;
+            arc.X = rect.Right - diameter;
             path.AddArc(arc, 270, 90);
-            arc.Y = bounds.Bottom - diameter - 1;
+            arc.Y = rect.Bottom - diameter;
             path.AddArc(arc, 0, 90);
-            arc.X = bounds.Left;
+            arc.X = rect.Left;
             path.AddArc(arc, 90, 90);
             path.CloseFigure();
 
@@ -206,7 +221,10 @@ namespace GestureSign.Daemon
 
             _trayMenu.BackColor = backColor;
             _trayMenu.ForeColor = foreColor;
-            _trayMenu.Renderer = new ThemedToolStripRenderer(backColor, foreColor, selectedColor, borderColor);
+            // Use the platform renderer for the native right-click menu. It
+            // supplies the same DPI-aware text and popup metrics as the
+            // Win32/Tauri menu used by CC Switch.
+            _trayMenu.Renderer = new ToolStripSystemRenderer();
 
             foreach (ToolStripItem item in _trayMenu.Items)
             {
@@ -310,7 +328,7 @@ namespace GestureSign.Daemon
             private const int DWMWA_SYSTEMBACKDROP_TYPE = 38;
             private const int DWMSBT_MAINWINDOW = 2;
             private const int DWMWCP_ROUND = 2;
-            private const int CornerRadius = 14;
+            private const int CornerRadius = 10;
             private readonly Action _disableGestures;
             private readonly Action _openSettings;
             private readonly Func<Task> _exitGestureSign;
@@ -344,7 +362,7 @@ namespace GestureSign.Daemon
                 _disableGestures = disableGestures;
                 _openSettings = openSettings;
                 _exitGestureSign = exitGestureSign;
-                _menuFont = new Font("Microsoft YaHei UI", 10.5f, FontStyle.Regular, GraphicsUnit.Point);
+                _menuFont = new Font("Microsoft YaHei UI", 10f, FontStyle.Regular, GraphicsUnit.Point);
                 _showTimer = new System.Windows.Forms.Timer { Interval = 120 };
                 _showTimer.Tick += (o, e) =>
                 {
@@ -356,11 +374,14 @@ namespace GestureSign.Daemon
                 ShowInTaskbar = false;
                 StartPosition = FormStartPosition.Manual;
                 TopMost = true;
-                AutoScaleMode = AutoScaleMode.Dpi;
+                // The daemon is PerMonitorV2 aware. Do not let WinForms scale
+                // this already pixel-sized popup a second time (the old Dpi
+                // autoscaling made it oversized and softened the text).
+                AutoScaleMode = AutoScaleMode.None;
                 DoubleBuffered = true;
-                Padding = new Padding(14);
-                Width = 320;
-                Height = 194;
+                Padding = new Padding(8);
+                Width = 228;
+                Height = 164;
                 BackColor = Color.FromArgb(245, 248, 252);
                 SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
                 Deactivate += TouchFriendlyTrayMenu_Deactivate;
@@ -377,12 +398,15 @@ namespace GestureSign.Daemon
             public void ApplyTheme(Color backColor, Color foreColor, Color selectedColor, Color borderColor)
             {
                 _lightTheme = IsLightTheme();
+                // Keep the surface slightly translucent so the Windows 11
+                // Mica backdrop can show through the menu rather than being
+                // covered by an opaque GDI fill.
                 _normalBackColor = _lightTheme
-                    ? Color.FromArgb(112, 247, 250, 255)
-                    : Color.FromArgb(150, 31, 35, 43);
+                    ? Color.FromArgb(205, 247, 250, 255)
+                    : Color.FromArgb(218, 31, 35, 43);
                 _selectedBackColor = _lightTheme
-                    ? Color.FromArgb(184, 255, 255, 255)
-                    : Color.FromArgb(176, 58, 64, 76);
+                    ? Color.FromArgb(228, 255, 255, 255)
+                    : Color.FromArgb(228, 58, 64, 76);
                 _borderColor = _lightTheme
                     ? Color.FromArgb(140, 126, 142, 170)
                     : Color.FromArgb(150, 91, 101, 120);
@@ -392,9 +416,13 @@ namespace GestureSign.Daemon
                 _foreColor = _lightTheme
                     ? Color.FromArgb(24, 24, 24)
                     : Color.FromArgb(246, 246, 246);
+                // A top-level WinForms popup cannot use BackColor.Transparent
+                // (it throws ArgumentException during startup). Let DWM own
+                // the Mica composition and keep a real fallback color for the
+                // WinForms surface itself.
                 BackColor = _lightTheme
-                    ? Color.FromArgb(245, 248, 252)
-                    : Color.FromArgb(32, 35, 42);
+                    ? Color.FromArgb(247, 250, 255)
+                    : Color.FromArgb(31, 35, 43);
 
                 ApplyBackdrop();
                 Invalidate();
@@ -499,7 +527,7 @@ namespace GestureSign.Daemon
 
             protected override void OnPaintBackground(PaintEventArgs e)
             {
-                base.OnPaintBackground(e);
+                e.Graphics.Clear(BackColor);
             }
 
             protected override void OnPaint(PaintEventArgs e)
@@ -508,7 +536,7 @@ namespace GestureSign.Daemon
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
                 e.Graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 
-                var bounds = new Rectangle(0, 0, Width - 1, Height - 1);
+                var bounds = new Rectangle(0, 0, Width, Height);
                 using (GraphicsPath path = CreateRoundedRectanglePath(bounds, CornerRadius))
                 using (Brush fill = new SolidBrush(_normalBackColor))
                 using (Pen pen = new Pen(_borderColor))
@@ -568,10 +596,23 @@ namespace GestureSign.Daemon
             protected override void OnSizeChanged(EventArgs e)
             {
                 base.OnSizeChanged(e);
-                Region oldRegion = Region;
-                Region = new Region(CreateRoundedRectanglePath(new Rectangle(Point.Empty, Size), CornerRadius));
-                if (oldRegion != null)
+                // Windows 11 already clips borderless windows to the DWM
+                // rounded frame. Applying a GDI Region as well creates the
+                // jagged, uneven edge visible on high-DPI displays. Keep a
+                // Region only as a fallback for older Windows versions.
+                if (Environment.OSVersion.Version.Build < 22000)
+                {
+                    Region oldRegion = Region;
+                    Region = new Region(CreateRoundedRectanglePath(new Rectangle(Point.Empty, Size), CornerRadius));
+                    if (oldRegion != null)
+                        oldRegion.Dispose();
+                }
+                else if (Region != null)
+                {
+                    Region oldRegion = Region;
+                    Region = null;
                     oldRegion.Dispose();
+                }
             }
 
             protected override void OnMouseMove(MouseEventArgs e)
@@ -696,10 +737,10 @@ namespace GestureSign.Daemon
 
             private void UpdateItemBounds()
             {
-                const int itemHeight = 54;
-                var x = Padding.Left + 8;
+                const int itemHeight = 44;
+                var x = Padding.Left + 4;
                 var width = Width - Padding.Left - Padding.Right - 16;
-                var y = Padding.Top + 2;
+                var y = Padding.Top + 1;
 
                 for (var index = 0; index < _itemBounds.Length; index++)
                 {
@@ -722,14 +763,19 @@ namespace GestureSign.Daemon
 
             private void DrawMenuText(Graphics graphics, string text, Rectangle bounds)
             {
-                var textBounds = new Rectangle(bounds.Left + 18, bounds.Top, bounds.Width - 36, bounds.Height);
+                var textBounds = new Rectangle(bounds.Left + 14, bounds.Top, bounds.Width - 28, bounds.Height);
                 TextRenderer.DrawText(
                     graphics,
-                    text,
+                    text ?? string.Empty,
                     _menuFont,
                     textBounds,
                     _foreColor,
-                    TextFormatFlags.Left | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis | TextFormatFlags.SingleLine | TextFormatFlags.NoPrefix);
+                    TextFormatFlags.Left |
+                    TextFormatFlags.VerticalCenter |
+                    TextFormatFlags.NoPadding |
+                    TextFormatFlags.NoPrefix |
+                    TextFormatFlags.SingleLine |
+                    TextFormatFlags.EndEllipsis);
             }
 
             private void ApplyBackdrop()
@@ -745,6 +791,9 @@ namespace GestureSign.Daemon
                     int cornerPreference = DWMWCP_ROUND;
                     DwmSetWindowAttribute(Handle, DWMWA_WINDOW_CORNER_PREFERENCE, ref cornerPreference, sizeof(int));
 
+                    // Windows 11 Mica material. The menu's translucent fills
+                    // above let the material remain visible while preserving
+                    // readable text and hover feedback.
                     int backdrop = DWMSBT_MAINWINDOW;
                     DwmSetWindowAttribute(Handle, DWMWA_SYSTEMBACKDROP_TYPE, ref backdrop, sizeof(int));
                 }
@@ -775,7 +824,21 @@ namespace GestureSign.Daemon
         private void TrayIcon_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
+                // Use the same touch-friendly popup for mouse and touchpad
+                // right-clicks. The native menu is crisp but its hit targets
+                // are too small for a precision-touchpad tap.
                 ShowTouchTrayMenu();
+        }
+
+        private void ShowNativeTrayMenu()
+        {
+            if (_trayMenu == null || _trayMenu.IsDisposed)
+                return;
+
+            // Refresh the text immediately before showing. This also covers a
+            // language change made while the daemon was already running.
+            ReloadLocalizationIfNeeded();
+            _trayMenu.Show(Cursor.Position);
         }
 
         private void ShowTouchTrayMenu()
@@ -913,13 +976,14 @@ namespace GestureSign.Daemon
             string cultureName = String.IsNullOrEmpty(AppConfig.CultureName)
                 ? System.Globalization.CultureInfo.CurrentUICulture.Name
                 : AppConfig.CultureName;
-            if (String.Equals(_loadedCultureName, cultureName, StringComparison.OrdinalIgnoreCase))
-                return;
-
+            bool cultureChanged = !String.Equals(_loadedCultureName, cultureName, StringComparison.OrdinalIgnoreCase);
             _loadedCultureName = cultureName;
-            LocalizationProvider.Instance.ReloadCulture();
-            if (!LocalizationProvider.Instance.LoadFromFile("Daemon"))
-                LocalizationProvider.Instance.LoadFromResource(Properties.Resources.en);
+            if (cultureChanged)
+            {
+                LocalizationProvider.Instance.ReloadCulture();
+                if (!LocalizationProvider.Instance.LoadFromFile("Daemon"))
+                    LocalizationProvider.Instance.LoadFromResource(Properties.Resources.en);
+            }
 
             bool recognitionDisabled = PointCapture.Instance.Mode == CaptureMode.UserDisabled;
             _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue(

@@ -25,6 +25,7 @@ using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace ManagedWinapi.Windows
 {
@@ -310,7 +311,44 @@ namespace ManagedWinapi.Windows
             }
             set
             {
-                SetForegroundWindow(value.HWnd);
+                ActivateWindow(value?.HWnd ?? IntPtr.Zero);
+            }
+        }
+
+        /// <summary>Activates a foreign window with a short input-queue attach and retry.</summary>
+        public static bool ActivateWindow(SystemWindow window)
+            => ActivateWindow(window?.HWnd ?? IntPtr.Zero);
+
+        private static bool ActivateWindow(IntPtr hWnd)
+        {
+            if (hWnd == IntPtr.Zero || !IsWindow(hWnd))
+                return false;
+
+            var before = GetForegroundWindow();
+            if (before == hWnd)
+                return true;
+
+            uint currentThread = GetCurrentThreadId();
+            uint foregroundThread = GetWindowThreadProcessId(before, IntPtr.Zero);
+            bool attached = foregroundThread != 0 && foregroundThread != currentThread &&
+                            AttachThreadInput(currentThread, foregroundThread, true);
+            try
+            {
+                for (int attempt = 0; attempt < 3; attempt++)
+                {
+                    BringWindowToTop(hWnd);
+                    SetForegroundWindow(hWnd);
+                    if (GetForegroundWindow() == hWnd)
+                        return true;
+                    System.Threading.Thread.Sleep(15);
+                }
+
+                return GetForegroundWindow() == hWnd;
+            }
+            finally
+            {
+                if (attached)
+                    AttachThreadInput(currentThread, foregroundThread, false);
             }
         }
 
@@ -696,6 +734,24 @@ namespace ManagedWinapi.Windows
                 SystemWindow result = Parent;
                 if (!this.IsDescendantOf(result)) result = null;
                 return result;
+            }
+        }
+
+        /// <summary>
+        /// Returns the actual top-level window that owns this HWND. UWP/WinUI
+        /// applications frequently report a Windows.UI.Core.CoreWindow child
+        /// from hit-testing; that child cannot reliably receive foreground
+        /// activation, while its GA_ROOT ancestor (ApplicationFrameWindow) can.
+        /// </summary>
+        public SystemWindow TopLevelWindow
+        {
+            get
+            {
+                if (_hwnd == IntPtr.Zero)
+                    return null;
+
+                var root = GetAncestor(_hwnd, GetAncestorRoot);
+                return root == IntPtr.Zero ? this : new SystemWindow(root);
             }
         }
 
@@ -1343,6 +1399,21 @@ namespace ManagedWinapi.Windows
         private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         [DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool IsWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr processId);
+
+        [DllImport("kernel32.dll")]
+        private static extern uint GetCurrentThreadId();
+
+        [DllImport("user32.dll")]
+        private static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool attach);
+
+        [DllImport("user32.dll")]
         private static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
@@ -1402,6 +1473,11 @@ namespace ManagedWinapi.Windows
 
         [DllImport("user32.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
         private static extern IntPtr GetParent(IntPtr hWnd);
+
+        private const uint GetAncestorRoot = 2;
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetAncestor(IntPtr hWnd, uint flags);
 
         [DllImport("user32.dll")]
         static extern bool IsChild(IntPtr hWndParent, IntPtr hWnd);

@@ -11,6 +11,7 @@ using GestureSign.Common.Applications;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using ManagedWinapi.Windows;
+using WindowsInput;
 
 namespace GestureSign.Common.Plugins
 {
@@ -145,10 +146,16 @@ namespace GestureSign.Common.Plugins
                         continue;
                     }
 
-                    if (executableAction.ActivateWindow == null && pluginInfo.Plugin.ActivateWindowDefault ||
-                    executableAction.ActivateWindow.GetValueOrDefault())
-                        if (target.HWnd.ToInt64() != SystemWindow.ForegroundWindow?.HWnd.ToInt64())
-                            SystemWindow.ForegroundWindow = target;
+                    var requiresActivation = executableAction.ActivateWindow == null && pluginInfo.Plugin.ActivateWindowDefault ||
+                                             executableAction.ActivateWindow.GetValueOrDefault();
+                    if (requiresActivation)
+                    {
+                        // Use the simplest activation mechanism: a real left
+                        // click at the current pointer location. This works
+                        // for protected/UWP windows without relying on
+                        // foreground-lock heuristics or window whitelists.
+                        ActivateByMouseClick(target);
+                    }
 
                     // Load action settings into plugin
                     pluginInfo.Plugin.Deserialize(currentCommand.CommandSettings);
@@ -177,6 +184,54 @@ namespace GestureSign.Common.Plugins
             {
                 _lastActionTask = _lastActionTask.ContinueWith(action);
                 _lastActionTask.ContinueWith(observeExceptions, TaskContinuationOptions.OnlyOnFaulted);
+            }
+        }
+
+        private static bool ActivateTargetWindow(SystemWindow target)
+        {
+            if (target == null || target.HWnd == IntPtr.Zero)
+                return false;
+
+            // Hit-testing packaged apps can return their CoreWindow child. It
+            // is not a valid foreground activation target; always activate
+            // the GA_ROOT frame while leaving the original target available to
+            // the plugin for app-specific classification.
+            var activationTarget = target.TopLevelWindow ?? target;
+
+            var activated = SystemWindow.ActivateWindow(activationTarget);
+            var deadline = DateTime.UtcNow.AddMilliseconds(300);
+            while (DateTime.UtcNow < deadline)
+            {
+                var foreground = SystemWindow.ForegroundWindow;
+                if (foreground != null && foreground.HWnd == activationTarget.HWnd)
+                {
+                    Logging.LogMessage($"Gesture target activated. TargetHwnd={target.HWnd}, ActivationHwnd={activationTarget.HWnd}, ForegroundHwnd={foreground.HWnd}, Activated={activated}");
+                    return true;
+                }
+
+                Thread.Sleep(10);
+            }
+
+            var finalForeground = SystemWindow.ForegroundWindow;
+            var success = finalForeground != null && finalForeground.HWnd == activationTarget.HWnd;
+            Logging.LogMessage($"Gesture target activation {(success ? "completed" : "failed")}. TargetHwnd={target.HWnd}, ActivationHwnd={activationTarget.HWnd}, ForegroundHwnd={finalForeground?.HWnd}, Activated={activated}");
+            return success;
+        }
+
+        private static void ActivateByMouseClick(SystemWindow target)
+        {
+            try
+            {
+                new InputSimulator().Mouse.LeftButtonClick();
+                Logging.LogMessage($"Gesture target activation click sent. TargetHwnd={target?.HWnd}");
+                // Give the target input queue a brief opportunity to process
+                // the click before the plugin injects its keyboard/message
+                // action. Do not verify the foreground HWND or skip the action.
+                Thread.Sleep(60);
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
             }
         }
 
