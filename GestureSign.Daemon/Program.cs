@@ -76,7 +76,6 @@ namespace GestureSign.Daemon
 
                         ThreadPool.QueueUserWorkItem(_ =>
                         {
-                            Thread.Sleep(600);
                             KandoLauncher.StartIfEnabled();
                         });
 

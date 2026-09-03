@@ -4,6 +4,11 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using GestureSign.Shared;
 
 namespace GestureSign.Daemon
@@ -45,7 +50,90 @@ namespace GestureSign.Daemon
                 return false;
             }
 
+            var menuName = AppConfig.KandoMenuName;
+            if (!string.IsNullOrWhiteSpace(menuName) && IsRunning(executablePath))
+            {
+                // Kando is an Electron application. Starting kando.exe for every
+                // hotkey invocation forces a full Electron process startup before
+                // the single-instance hand-off can reach the existing process.
+                // Its local WebSocket IPC is already available once the process is
+                // running, so use it to show the menu without the extra startup.
+                _ = TryShowMenuViaIpcAsync(menuName, executablePath);
+                return true;
+            }
+
             var arguments = BuildShowMenuArguments();
+            return StartKando(executablePath, arguments);
+        }
+
+        private static async Task TryShowMenuViaIpcAsync(string menuName, string executablePath)
+        {
+            try
+            {
+                var infoPath = Path.Combine(KandoComponentPaths.UserDataDirectory, "ipc-info.json");
+                var menusPath = Path.Combine(KandoComponentPaths.UserDataDirectory, "menus.json");
+                if (!File.Exists(infoPath) || !File.Exists(menusPath))
+                {
+                    StartKandoFallback(executablePath, menuName);
+                    return;
+                }
+
+                using var infoDocument = JsonDocument.Parse(await File.ReadAllTextAsync(infoPath).ConfigureAwait(false));
+                if (!infoDocument.RootElement.TryGetProperty("port", out var portElement) ||
+                    !portElement.TryGetInt32(out var port) || port <= 0 || port > 65535)
+                {
+                    StartKandoFallback(executablePath, menuName);
+                    return;
+                }
+
+                using var menusDocument = JsonDocument.Parse(await File.ReadAllTextAsync(menusPath).ConfigureAwait(false));
+                if (!menusDocument.RootElement.TryGetProperty("menus", out var menus) || menus.ValueKind != JsonValueKind.Array)
+                {
+                    StartKandoFallback(executablePath, menuName);
+                    return;
+                }
+
+                JsonElement? selectedMenu = null;
+                foreach (var menu in menus.EnumerateArray())
+                {
+                    if (!menu.TryGetProperty("root", out var root) ||
+                        !root.TryGetProperty("name", out var name) ||
+                        !string.Equals(name.GetString(), menuName, StringComparison.Ordinal))
+                        continue;
+
+                    selectedMenu = menu;
+                    break;
+                }
+
+                if (!selectedMenu.HasValue)
+                {
+                    StartKandoFallback(executablePath, menuName);
+                    return;
+                }
+
+                using var socket = new ClientWebSocket();
+                using var timeout = new CancellationTokenSource(TimeSpan.FromMilliseconds(250));
+                await socket.ConnectAsync(new Uri($"ws://127.0.0.1:{port}"), timeout.Token).ConfigureAwait(false);
+                var payload = JsonSerializer.Serialize(new
+                {
+                    type = "show-menu",
+                    menu = selectedMenu.Value
+                });
+                var bytes = Encoding.UTF8.GetBytes(payload);
+                await socket.SendAsync(new ArraySegment<byte>(bytes), WebSocketMessageType.Text, true, timeout.Token).ConfigureAwait(false);
+                socket.Abort();
+                Logging.LogMessage($"Kando menu shown through IPC. Menu={menuName}");
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Kando IPC menu request failed; falling back to process hand-off. {ex.Message}");
+                StartKandoFallback(executablePath, menuName);
+            }
+        }
+
+        private static bool StartKandoFallback(string executablePath, string menuName)
+        {
+            var arguments = "--menu " + QuoteArgument(menuName);
             return StartKando(executablePath, arguments);
         }
 
@@ -79,8 +167,20 @@ namespace GestureSign.Daemon
                             continue;
                     }
 
-                    process.Kill();
-                    process.WaitForExit(3000);
+                    // Kando can take several seconds to tear down its tray/
+                    // renderer processes. Waiting synchronously here blocks
+                    // the daemon's exit path and makes clicking Exit feel
+                    // sluggish. Terminate it and let the OS reap the process
+                    // asynchronously while GestureSign continues shutting
+                    // down immediately.
+                    try
+                    {
+                        process.Kill(entireProcessTree: true);
+                    }
+                    catch (MissingMethodException)
+                    {
+                        process.Kill();
+                    }
                 }
                 catch (Exception ex)
                 {

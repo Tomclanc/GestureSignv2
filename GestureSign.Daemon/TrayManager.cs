@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using GestureSign.Common;
 using GestureSign.Common.Configuration;
@@ -45,6 +46,7 @@ namespace GestureSign.Daemon
         private string _loadedCultureName;
         private static DateTime _lastSettingsStartUtc = DateTime.MinValue;
         private static readonly object _settingsStartLock = new object();
+        private static int _exitStarted;
 
         #endregion
 
@@ -1051,8 +1053,40 @@ namespace GestureSign.Daemon
 
         internal static async Task ExitGestureSignAsync()
         {
+            if (Interlocked.Exchange(ref _exitStarted, 1) != 0)
+                return;
+
             Logging.LogMessage("ExitGestureSignAsync started.");
-            KandoLauncher.Stop();
+
+            // Release the low-level mouse/keyboard hooks before any potentially
+            // blocking cleanup (Kando shutdown, IPC delay, or process waits).
+            // Keeping a WH_MOUSE_LL hook alive while the tray process is winding
+            // down makes pointer movement pass through a busy message loop and
+            // causes a noticeable cursor hitch during exit.
+            try
+            {
+                PointCapture.Instance.Dispose();
+                Logging.LogMessage("Input hooks released before exit cleanup.");
+            }
+            catch (Exception exception)
+            {
+                Logging.LogException(exception);
+            }
+
+            // Process enumeration and module inspection can briefly block when
+            // Kando has renderer children. Run that cleanup off the UI thread
+            // so the tray window can exit with no perceptible delay.
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    KandoLauncher.Stop();
+                }
+                catch (Exception exception)
+                {
+                    Logging.LogException(exception);
+                }
+            });
 
             try
             {
@@ -1063,7 +1097,7 @@ namespace GestureSign.Daemon
                 Logging.LogException(exception);
             }
 
-            await Task.Delay(500);
+            await Task.Delay(25);
             CloseOtherGestureSignProcesses();
             Application.DoEvents();
             Logging.LogMessage("ExitGestureSignAsync calling Application.Exit.");
@@ -1083,13 +1117,22 @@ namespace GestureSign.Daemon
                         if (process.Id == currentProcessId || !IsGestureSignProcess(process))
                             continue;
 
-                        if (process.CloseMainWindow())
-                            process.WaitForExit(1500);
-
-                        if (!process.HasExited)
+                        // Do not wait synchronously for another instance: its
+                        // window can take seconds to tear down, which used to
+                        // make this tray process feel slower than ordinary
+                        // apps such as WeChat. Request a graceful close and
+                        // fall back to an asynchronous tree kill only when the
+                        // window cannot be closed.
+                        if (!process.CloseMainWindow() && !process.HasExited)
                         {
-                            process.Kill();
-                            process.WaitForExit(3000);
+                            try
+                            {
+                                process.Kill(entireProcessTree: true);
+                            }
+                            catch (MissingMethodException)
+                            {
+                                process.Kill();
+                            }
                         }
                     }
                     catch (Exception exception)

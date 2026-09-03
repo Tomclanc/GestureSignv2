@@ -3762,7 +3762,6 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            await Task.Delay(600);
             _legacyData = LegacyDataStore.Load();
             if (!_legacyData.Options.KandoEnabled || IsKandoRunning(_legacyData.Options))
                 return;
