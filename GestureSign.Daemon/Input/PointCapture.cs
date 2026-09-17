@@ -66,6 +66,7 @@ namespace GestureSign.Daemon.Input
         private bool _touchScreenBlockedUntilRelease;
         private volatile bool _touchScreenPassthroughActive;
         private int _requiredContactCount = 1;
+        private bool _pointerMotionSuppressionActive;
         // Create variable to hold the only allowed instance of this class
         static readonly PointCapture _Instance = new PointCapture();
 
@@ -175,7 +176,12 @@ namespace GestureSign.Daemon.Input
         public CaptureState State
         {
             get { return _state; }
-            set { _state = value; }
+            set
+            {
+                if (value == CaptureState.Disabled)
+                    ReleasePointerMotionSuppression("CaptureDisabled");
+                _state = value;
+            }
         }
 
         public CaptureMode Mode
@@ -184,6 +190,8 @@ namespace GestureSign.Daemon.Input
             set
             {
                 if (value == _mode) return;
+                if (value != CaptureMode.Normal)
+                    ReleasePointerMotionSuppression("ModeChanged");
                 _mode = value;
                 OnModeChanged(new ModeChangedEventArgs(value));
             }
@@ -486,6 +494,7 @@ namespace GestureSign.Daemon.Input
             {
                 if (disposing)
                 {
+                    ReleasePointerMotionSuppression("Disposed");
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
                     _touchScreenPassthroughReleaseTimer?.Dispose();
@@ -737,6 +746,8 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointUp(object sender, InputPointsEventArgs e)
         {
+            if (SourceDevice == Devices.TouchPad)
+                ReleasePointerMotionSuppression("PointUp");
             if (SourceDevice == Devices.TouchScreen && _touchScreenBlockedUntilRelease)
             {
                 _touchScreenBlockedUntilRelease = false;
@@ -912,10 +923,12 @@ namespace GestureSign.Daemon.Input
                                 break;
                         }
                     }
+                    ReleasePointerMotionSuppression("InitialTimeout");
                     State = CaptureState.Ready;
                 }
                 catch
                 {
+                    ReleasePointerMotionSuppression("InitialTimeoutError");
                     State = CaptureState.Ready;
                 }
             }, null);
@@ -923,6 +936,7 @@ namespace GestureSign.Daemon.Input
 
         private bool TryBeginCapture(List<InputPoint> firstPoint)
         {
+            ReleasePointerMotionSuppression("NewCapture");
             _captureSession = new CaptureSession();
             Logging.LogMessage($"Gesture capture started. Device={SourceDevice}, Mode={Mode}, Contacts={firstPoint.Count}, DrawingButton={AppConfig.DrawingButton}");
 
@@ -950,6 +964,8 @@ namespace GestureSign.Daemon.Input
             }
 
             State = captureStartedArgs.ForceCapture ? CaptureState.Capturing : CaptureState.CapturingInvalid;
+            if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal && captureStartedArgs.SuppressPointerMotion)
+                _pointerMotionSuppressionActive = _inputProvider.BeginPointerMotionSuppression(_touchPadStartPoint);
             _requiredContactCount = Math.Max(1, captureStartedArgs.RequiredContactCount);
             _captureSession.Accept(_requiredContactCount);
 
@@ -1019,6 +1035,7 @@ namespace GestureSign.Daemon.Input
 
         private void EndCapture()
         {
+            ReleasePointerMotionSuppression("PointUp");
 
             // Create points capture event args, to be used to send off to event subscribers or to simulate original Point event
             PointsCapturedEventArgs pointsInformation = SourceDevice == Devices.TouchPad ?
@@ -1090,6 +1107,7 @@ namespace GestureSign.Daemon.Input
 
         private void ResetCaptureBuffers()
         {
+            ReleasePointerMotionSuppression("CaptureReset");
             _pointsCaptured?.Clear();
             _touchScreenContactOrder = null;
             _touchScreenUpPoints = null;
@@ -1097,6 +1115,14 @@ namespace GestureSign.Daemon.Input
             _touchPadRawVisualOrigin = PointF.Empty;
             _touchPadVisualPoints = null;
             _lastVisualFeedbackPoints = null;
+        }
+
+        private void ReleasePointerMotionSuppression(string reason)
+        {
+            if (!_pointerMotionSuppressionActive)
+                return;
+            _pointerMotionSuppressionActive = false;
+            _inputProvider.EndPointerMotionSuppression(reason);
         }
 
         private static bool IsInTouchScreenBlockedArea(IReadOnlyCollection<InputPoint> points)

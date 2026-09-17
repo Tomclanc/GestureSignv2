@@ -772,33 +772,19 @@ namespace GestureSign.Common.Applications
         {
             var pointWindow = GetWindowFromPoint(capturePoint);
 
-            // Touchpad gestures target the active application; the cursor can be
-            // parked over an unrelated taskbar or tray surface.
+            // Touchpad gestures target the window under the cursor at gesture
+            // start. Selecting the foreground here defeats activate-before-action
+            // whenever the pointer is over an inactive browser window.
             if (pointCapture.SourceDevice == Devices.TouchPad)
             {
-                // Preserve only a top-level window recovered from a desktop-shell
-                // hit-test. For ordinary points keep the active-window semantics
-                // so a parked cursor over the taskbar/tray does not retarget a
-                // gesture. Previously the correction was always replaced by
-                // ForegroundWindow, which could be Progman while an app window was
-                // visible at the gesture point.
-                var rawPointWindow = SystemWindow.FromPointEx(capturePoint.X, capturePoint.Y, true, true);
-                // A correction is identified by a non-shell result that differs
-                // from the raw hit-test handle. Do not require the raw handle to
-                // still be a shell surface: Defender and other protected/UWP
-                // windows can lose focus during the gesture and return a
-                // transient child/overlay on the second hit-test.
-                if (pointWindow != null &&
-                    !IsDesktopShellSurface(pointWindow) &&
-                    (rawPointWindow == null || pointWindow.HWnd != rawPointWindow.HWnd))
-                {
-                    Logging.LogMessage($"TouchPad capture target preserved. RawHwnd={rawPointWindow?.HWnd}, TargetHwnd={pointWindow.HWnd}");
-                    return pointWindow;
-                }
-
-                return SystemWindow.ForegroundWindow ?? pointWindow;
+                var foreground = SystemWindow.ForegroundWindow;
+                var pointerTarget = pointWindow?.TopLevelWindow ?? pointWindow;
+                var target = pointerTarget != null && !IsShellHitTestSurface(pointerTarget)
+                    ? pointerTarget
+                    : foreground;
+                Logging.LogMessage($"TouchPad capture target selected. Point={capturePoint.X},{capturePoint.Y}, PointerHwnd={pointerTarget?.HWnd}, PointerClass={pointerTarget?.ClassName}, ForegroundHwnd={foreground?.HWnd}, TargetHwnd={target?.HWnd}, TargetClass={target?.ClassName}, Source={(target == pointerTarget ? "Pointer" : "ForegroundFallback")}");
+                return target;
             }
-
             // Some fullscreen games render through a child, transparent, or desktop-like
             // surface. In that case WindowFromPoint can resolve to Progman/WorkerW and the
             // fullscreen exclusion never sees the game. Prefer the foreground fullscreen

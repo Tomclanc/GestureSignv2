@@ -11,7 +11,6 @@ using GestureSign.Common.Applications;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using ManagedWinapi.Windows;
-using WindowsInput;
 
 namespace GestureSign.Common.Plugins
 {
@@ -148,13 +147,12 @@ namespace GestureSign.Common.Plugins
 
                     var requiresActivation = executableAction.ActivateWindow == null && pluginInfo.Plugin.ActivateWindowDefault ||
                                              executableAction.ActivateWindow.GetValueOrDefault();
-                    if (requiresActivation)
+                    if (requiresActivation && !ActivateTargetWindow(target))
                     {
-                        // Use the simplest activation mechanism: a real left
-                        // click at the current pointer location. This works
-                        // for protected/UWP windows without relying on
-                        // foreground-lock heuristics or window whitelists.
-                        ActivateByMouseClick(target);
+                        // Never inject into an unrelated foreground window or
+                        // click page content as an activation fallback.
+                        Logging.LogMessage($"Gesture command skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Reason=TargetActivationFailed");
+                        continue;
                     }
 
                     // Load action settings into plugin
@@ -199,8 +197,8 @@ namespace GestureSign.Common.Plugins
             var activationTarget = target.TopLevelWindow ?? target;
 
             var activated = SystemWindow.ActivateWindow(activationTarget);
-            var deadline = DateTime.UtcNow.AddMilliseconds(300);
-            while (DateTime.UtcNow < deadline)
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            while (timer.ElapsedMilliseconds < 300)
             {
                 var foreground = SystemWindow.ForegroundWindow;
                 if (foreground != null && foreground.HWnd == activationTarget.HWnd)
@@ -216,23 +214,6 @@ namespace GestureSign.Common.Plugins
             var success = finalForeground != null && finalForeground.HWnd == activationTarget.HWnd;
             Logging.LogMessage($"Gesture target activation {(success ? "completed" : "failed")}. TargetHwnd={target.HWnd}, ActivationHwnd={activationTarget.HWnd}, ForegroundHwnd={finalForeground?.HWnd}, Activated={activated}");
             return success;
-        }
-
-        private static void ActivateByMouseClick(SystemWindow target)
-        {
-            try
-            {
-                new InputSimulator().Mouse.LeftButtonClick();
-                Logging.LogMessage($"Gesture target activation click sent. TargetHwnd={target?.HWnd}");
-                // Give the target input queue a brief opportunity to process
-                // the click before the plugin injects its keyboard/message
-                // action. Do not verify the foreground HWND or skip the action.
-                Thread.Sleep(60);
-            }
-            catch (Exception ex)
-            {
-                Logging.LogException(ex);
-            }
         }
 
         private static List<T> OrderByContactOrder<T>(List<T> values, List<int> contactIdentifiers, List<int> contactOrder)

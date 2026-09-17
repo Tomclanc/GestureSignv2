@@ -95,16 +95,12 @@ namespace GestureSign.CorePlugins
             if (actionPoint?.Window == null)
                 return false;
 
-            // The activation phase now performs a real left click at the
-            // current pointer position. Use the window that is actually in
-            // the foreground after that click; the HWND captured at gesture
-            // start may be a shell surface or an obsolete UWP child.
-            var targetWindow = SystemWindow.ForegroundWindow ?? actionPoint.Window;
+            // Use the captured window's frame, including for UWP children.
+            // The foreground may have changed since activation completed.
+            var targetWindow = actionPoint.Window.TopLevelWindow ?? actionPoint.Window;
             if (targetWindow == null)
                 return false;
 
-            if (actionPoint.Window != null && targetWindow.HWnd != actionPoint.Window.HWnd)
-                Logging.LogMessage($"Smart close target refreshed after activation click. CapturedHwnd={actionPoint.Window.HWnd}, ForegroundHwnd={targetWindow.HWnd}");
             var className = targetWindow.ClassName ?? string.Empty;
             if (IgnoredWindowClasses.Contains(className) ||
                 string.Equals(className, OverflowShellWindowClass, StringComparison.OrdinalIgnoreCase))

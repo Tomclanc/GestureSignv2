@@ -7,6 +7,8 @@ using ManagedWinapi.Hooks;
 using Microsoft.Win32;
 using System;
 using System.Linq;
+using System.Drawing;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GestureSign.Daemon.Input
@@ -18,6 +20,9 @@ namespace GestureSign.Daemon.Input
         private CustomNamedPipeServer _deviceStateServer;
         private int _stateUpdating;
         private MouseActions _hookDrawingButton;
+        private volatile bool _suppressPointerMotion;
+        private int _suppressedPointerMoveCount;
+        internal bool SuppressPointerMotion => _suppressPointerMotion;
 
         public LowLevelMouseHook LowLevelMouseHook;
         private LowLevelKeyboardHook _keyboardHook;
@@ -38,8 +43,7 @@ namespace GestureSign.Daemon.Input
             if (AppConfig.DrawingButton != MouseActions.None)
                 Task.Delay(1000).ContinueWith((t) =>
                 {
-                    LowLevelMouseHook.StartHook();
-                    Logging.LogMessage($"Mouse hook started. Reason=InitialDelay, DrawingButton={AppConfig.DrawingButton}");
+                    UpdateMouseHookState("InitialDelay");
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
 
@@ -72,28 +76,79 @@ namespace GestureSign.Daemon.Input
                 handled = true;
         }
 
-        private void AppConfig_ConfigChanged(object sender, System.EventArgs e)
+        private void AppConfig_ConfigChanged(object sender, EventArgs e)
         {
-            var drawingButton = AppConfig.DrawingButton;
-            if (drawingButton == _hookDrawingButton)
+            MouseActions drawingButton = AppConfig.DrawingButton;
+            if (drawingButton != _hookDrawingButton)
             {
-                UpdateDeviceState();
-                return;
+                _hookDrawingButton = drawingButton;
+                UpdateMouseHookState("DrawingButtonChanged");
             }
+            UpdateDeviceState();
+        }
 
-            _hookDrawingButton = drawingButton;
-            if (drawingButton != MouseActions.None)
+        internal bool BeginPointerMotionSuppression(Point anchor)
+        {
+            if (_suppressPointerMotion)
+            {
+                return LowLevelMouseHook.Hooked;
+            }
+            Interlocked.Exchange(ref _suppressedPointerMoveCount, 0);
+            _suppressPointerMotion = true;
+            try
+            {
+                UpdateMouseHookState("TouchPadEdgeGestureStarted");
+                if (!LowLevelMouseHook.Hooked)
+                    throw new InvalidOperationException("Mouse hook was not installed.");
+            }
+            catch (Exception ex)
+            {
+                _suppressPointerMotion = false;
+                Logging.LogMessage("TouchPad edge pointer lock unavailable. Error=" + ex.GetType().Name + ": " + ex.Message);
+                return false;
+            }
+            Logging.LogMessage($"TouchPad edge pointer lock enabled. Anchor={anchor.X},{anchor.Y}");
+            return LowLevelMouseHook.Hooked;
+        }
+
+        internal void RecordSuppressedPointerMove()
+        {
+            Interlocked.Increment(ref _suppressedPointerMoveCount);
+        }
+
+        internal void EndPointerMotionSuppression(string reason)
+        {
+            if (_suppressPointerMotion)
+            {
+                _suppressPointerMotion = false;
+                int value = Interlocked.Exchange(ref _suppressedPointerMoveCount, 0);
+                try
+                {
+                    UpdateMouseHookState("TouchPadEdgeGestureEnded");
+                }
+                catch (Exception ex)
+                {
+                    Logging.LogMessage($"TouchPad edge pointer lock cleanup failed. Reason={reason}, Error={ex.GetType().Name}: {ex.Message}");
+                }
+                Logging.LogMessage($"TouchPad edge pointer lock disabled. Reason={reason}, SuppressedMoves={value}");
+            }
+        }
+
+        private void UpdateMouseHookState(string reason)
+        {
+            if (disposedValue)
+                return;
+            bool flag = _hookDrawingButton != MouseActions.None || _suppressPointerMotion;
+            if (flag && !LowLevelMouseHook.Hooked)
             {
                 LowLevelMouseHook.StartHook();
-                Logging.LogMessage($"Mouse hook started. Reason=DrawingButtonChanged, DrawingButton={drawingButton}");
+                Logging.LogMessage($"Mouse hook started. Reason={reason}, DrawingButton={_hookDrawingButton}, PointerLock={_suppressPointerMotion}");
             }
-            else
+            else if (!flag && LowLevelMouseHook.Hooked)
             {
                 LowLevelMouseHook.Unhook();
-                Logging.LogMessage("Mouse hook stopped. Reason=DrawingButtonChanged, DrawingButton=None");
+                Logging.LogMessage("Mouse hook stopped. Reason=" + reason + ", DrawingButton=None, PointerLock=False");
             }
-
-            UpdateDeviceState();
         }
 
         private void MessageWindow_PointsIntercepted(object sender, RawPointsDataMessageEventArgs e)
@@ -161,6 +216,7 @@ namespace GestureSign.Daemon.Input
                     _keyboardHook.KeyIntercepted -= KeyboardHook_KeyIntercepted;
                     _keyboardHook.Unhook();
                 }
+                _suppressPointerMotion = false;
                 LowLevelMouseHook?.Unhook();
                 _deviceStateServer.Dispose();
                 disposedValue = true;

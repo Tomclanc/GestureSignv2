@@ -324,10 +324,23 @@ namespace ManagedWinapi.Windows
             if (hWnd == IntPtr.Zero || !IsWindow(hWnd))
                 return false;
 
+            // A packaged app may be captured through its CoreWindow child.
+            // Foreground activation belongs to the containing top-level frame.
+            hWnd = GetAncestor(hWnd, GetAncestorRoot);
+            if (hWnd == IntPtr.Zero)
+                return false;
+
             var before = GetForegroundWindow();
             if (before == hWnd)
                 return true;
 
+            // Prefer normal activation: it lets the application restore its
+            // own focused control without resetting shared keyboard state.
+            SetForegroundWindow(hWnd);
+            if (GetForegroundWindow() == hWnd)
+                return true;
+
+            before = GetForegroundWindow();
             uint currentThread = GetCurrentThreadId();
             uint foregroundThread = GetWindowThreadProcessId(before, IntPtr.Zero);
             bool attached = foregroundThread != 0 && foregroundThread != currentThread &&

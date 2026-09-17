@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GestureSign.Common.Applications;
@@ -140,6 +140,13 @@ namespace GestureSign.Daemon.Input
             _lastMouseHookEventUtc = DateTime.UtcNow;
             if (IsInjectedMouseMessage(mouseMessage))
                 return;
+
+            if (_inputProvider.SuppressPointerMotion)
+            {
+                _inputProvider.RecordSuppressedPointerMove();
+                handled = true;
+                return;
+            }
 
             var drawingButton = ActiveDrawingButton;
             // WH_MOUSE_LL receives every pointer movement system-wide. Do not do

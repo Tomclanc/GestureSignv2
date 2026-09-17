@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +35,8 @@ namespace GestureSign.Common.Input
         public List<Point> FirstCapturedPoints { get; set; }
         public bool Cancel { get; set; }
         public bool ForceCapture { get; set; }
+        // Only an accepted touchpad edge gesture requests pointer suppression.
+        public bool SuppressPointerMotion { get; set; }
         public int RequiredContactCount { get; set; } = 1;
         public int BlockTouchInputThreshold { get; set; }
 

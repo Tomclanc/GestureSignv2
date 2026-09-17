@@ -102,6 +102,7 @@ namespace GestureSign.Daemon.Triggers
             _pendingEdgeTrigger = new PendingEdgeTrigger(edge.Value, e.FirstCapturedPoints.FirstOrDefault());
             e.Cancel = false;
             e.ForceCapture = true;
+            e.SuppressPointerMotion = _sourceDevice == Devices.TouchPad;
             e.RequiredContactCount = 1;
             e.BlockTouchInputThreshold = 0;
             Logging.LogMessage($"{_logPrefix} edge capture accepted. Edge={edge}, Point={FormatPoint(e.Points[0].First())}");
