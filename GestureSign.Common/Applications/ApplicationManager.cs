@@ -351,18 +351,42 @@ namespace GestureSign.Common.Applications
 
         public SystemWindow GetWindowFromPoint(Point point)
         {
-            var pointWindow = SystemWindow.FromPointEx(point.X, point.Y, true, true);
-            if (!IsDesktopShellSurface(pointWindow))
-                return pointWindow;
+            // Trust native hit testing. A window rectangle can cover the desktop
+            // even when the window is cloaked, click-through, or behind the shell.
+            // Enumerating such rectangles here incorrectly selects IslandWindow
+            // and causes ordinary desktop gestures to be rejected as fullscreen.
+            return SystemWindow.FromPointEx(point.X, point.Y, true, true);
+        }
 
-            var topLevelWindow = FindVisibleTopLevelWindowAtPoint(point);
-            if (topLevelWindow != null)
+        public SystemWindow GetTouchPadTarget(Point point)
+        {
+            var hit = GetWindowFromPoint(point);
+            return SelectTouchPadTarget(hit?.TopLevelWindow ?? hit, SystemWindow.ForegroundWindow);
+        }
+
+        // Built-in two-finger triggers use the same exclusions and action lookup
+        // as drawing, without overriding a rejected capture through ForceCapture.
+        public List<IAction> PrepareTouchPadTipTap(SystemWindow target, string gestureName, int contactCount = 2)
+        {
+            if (target == null || target.HWnd == IntPtr.Zero) return new List<IAction>();
+            var apps = GetApplicationFromWindow(target);
+            var global = GetGlobalApplication() as GlobalApp;
+            if (apps.Any(a => a is IgnoredApp && a.IsEnabled) ||
+                ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(target)) ||
+                apps.OfType<UserApp>().Any(a => a.LimitNumberOfFingers > contactCount) ||
+                (global != null && global.LimitNumberOfFingers > contactCount))
             {
-                Logging.LogMessage($"Window hit-test corrected. Reason=VisibleTopLevelOverDesktop, PointHwnd={pointWindow?.HWnd}, TargetHwnd={topLevelWindow.HWnd}");
-                return topLevelWindow;
+                Logging.LogMessage($"TipTap rejected by application filter. TargetHwnd={target.HWnd}");
+                return new List<IAction>();
             }
-
-            return pointWindow;
+            var actions = GetDefinedAction(gestureName, apps, true)
+                .Where(a => (a.IgnoredDevices & Devices.TouchPad) == 0).ToList();
+            if (actions.Count != 0)
+            {
+                CaptureWindow = target;
+                _recognizedApplication = apps;
+            }
+            return actions;
         }
 
         public void ObserveForegroundWindow(SystemWindow window)
@@ -381,47 +405,6 @@ namespace GestureSign.Common.Applications
             }
 
             _lastObservedForegroundWindow = window;
-        }
-
-        private static SystemWindow FindVisibleTopLevelWindowAtPoint(Point point)
-        {
-            var currentProcessId = Process.GetCurrentProcess().Id;
-            foreach (var window in SystemWindow.AllToplevelWindows)
-            {
-                try
-                {
-                    if (window == null ||
-                        window.HWnd == IntPtr.Zero ||
-                        !window.Visible ||
-                        window.ProcessId == currentProcessId ||
-                        IsShellHitTestSurface(window) ||
-                        !GetPhysicalWindowRectangle(window).Contains(point))
-                    {
-                        continue;
-                    }
-
-                    return window;
-                }
-                catch
-                {
-                    // A protected or disappearing top-level window should not abort
-                    // hit testing for the remaining windows.
-                }
-            }
-
-            return null;
-        }
-
-        private static Rectangle GetPhysicalWindowRectangle(SystemWindow window)
-        {
-            const int dwmwaExtendedFrameBounds = 9;
-            if (DwmGetWindowAttribute(window.HWnd, dwmwaExtendedFrameBounds, out DwmRect rect, Marshal.SizeOf(typeof(DwmRect))) == 0 &&
-                rect.Right > rect.Left && rect.Bottom > rect.Top)
-            {
-                return Rectangle.FromLTRB(rect.Left, rect.Top, rect.Right, rect.Bottom);
-            }
-
-            return window.Rectangle.ToRectangle();
         }
 
         private static bool IsShellHitTestSurface(SystemWindow window)
@@ -779,9 +762,7 @@ namespace GestureSign.Common.Applications
             {
                 var foreground = SystemWindow.ForegroundWindow;
                 var pointerTarget = pointWindow?.TopLevelWindow ?? pointWindow;
-                var target = pointerTarget != null && !IsShellHitTestSurface(pointerTarget)
-                    ? pointerTarget
-                    : foreground;
+                var target = SelectTouchPadTarget(pointerTarget, foreground);
                 Logging.LogMessage($"TouchPad capture target selected. Point={capturePoint.X},{capturePoint.Y}, PointerHwnd={pointerTarget?.HWnd}, PointerClass={pointerTarget?.ClassName}, ForegroundHwnd={foreground?.HWnd}, TargetHwnd={target?.HWnd}, TargetClass={target?.ClassName}, Source={(target == pointerTarget ? "Pointer" : "ForegroundFallback")}");
                 return target;
             }
@@ -832,6 +813,15 @@ namespace GestureSign.Common.Applications
             }
 
             return pointWindow;
+        }
+
+        private static SystemWindow SelectTouchPadTarget(SystemWindow pointerTarget, SystemWindow foreground)
+        {
+            // Desktop is a real target, even while another app is foreground.
+            // Keep the foreground fallback only for taskbars or a missing hit.
+            return pointerTarget != null &&
+                (IsDesktopShellSurface(pointerTarget) || !IsShellHitTestSurface(pointerTarget))
+                ? pointerTarget : foreground;
         }
 
         private static bool IsDesktopShellSurface(SystemWindow window)
@@ -1235,18 +1225,6 @@ namespace GestureSign.Common.Applications
 
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
-
-        [DllImport("dwmapi.dll")]
-        private static extern int DwmGetWindowAttribute(IntPtr hwnd, int attribute, out DwmRect value, int valueSize);
-
-        [StructLayout(LayoutKind.Sequential)]
-        private struct DwmRect
-        {
-            public int Left;
-            public int Top;
-            public int Right;
-            public int Bottom;
-        }
 
         #endregion
     }

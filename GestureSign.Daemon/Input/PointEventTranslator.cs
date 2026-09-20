@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace GestureSign.Daemon.Input
 {
-    public class PointEventTranslator
+    public partial class PointEventTranslator
     {
         private const int CaptionButtonWidth = 180;
         private const int CaptionButtonHeight = 72;
@@ -61,6 +61,7 @@ namespace GestureSign.Daemon.Input
 
         internal void Dispose()
         {
+            ResetTipTap();
             AppConfig.ConfigChanged -= AppConfig_ConfigChanged;
             _mouseMoveDispatchTimer?.Dispose();
             _mouseStatePollTimer?.Dispose();
@@ -349,6 +350,7 @@ namespace GestureSign.Daemon.Input
 
         private void AppConfig_ConfigChanged(object sender, EventArgs e)
         {
+            ResetTipTap();
             if (_activeMouseDrawingButton == MouseActions.None ||
                 _activeMouseDrawingButton == AppConfig.DrawingButton)
                 return;
@@ -539,6 +541,8 @@ namespace GestureSign.Daemon.Input
 
         private void TranslateTouchEvent(object sender, RawPointsDataMessageEventArgs e)
         {
+            if (e.SourceDevice == Devices.TouchPad && TranslateTipTap(e)) return;
+            if (e.SourceDevice != Devices.TouchPad) ResetTipTap();
             if (e.SourceDevice == Devices.TouchScreen)
             {
                 TranslateTouchScreenEvent(e);
@@ -812,7 +816,9 @@ namespace GestureSign.Daemon.Input
             if (rawData == null || rawData.Count == 0 || SourceDevice != Devices.TouchPad)
                 return;
 
-            OnPointUp(new InputPointsEventArgs(rawData, Devices.TouchPad));
+            var tipTapOwned = ResetTipTap();
+            if (!tipTapOwned) OnPointUp(new InputPointsEventArgs(rawData, Devices.TouchPad));
+            else SourceDevice = Devices.None;
             _inputProvider.ResetSourceDevice(Devices.TouchPad);
             _lastPointsCount = 0;
             _lastTouchPadRawData = null;

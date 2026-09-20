@@ -11,9 +11,40 @@ internal static class Program
 {
     private const BindingFlags Members = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
 
+    private static void TestBrightnessAndWin()
+    {
+        var policy = typeof(PointEventTranslator).Assembly.GetType("GestureSign.Daemon.Triggers.TouchPadEdgeTrigger")
+            .GetMethod("IsContinuousEdgeAction", BindingFlags.Static | BindingFlags.NonPublic);
+        bool Continuous(string plugin, string json) => (bool)policy.Invoke(null, new object[]
+        {
+            new GestureSign.Common.Applications.Action { Commands = new[] {
+                new GestureSign.Common.Applications.Command { IsEnabled = true, PluginClass = plugin, CommandSettings = json } } }, true
+        });
+        const string brightness = "GestureSign.CorePlugins.ScreenBrightness.ScreenBrightnessPlugin";
+        Assert(!Continuous(brightness, "{\"Method\":0,\"Percent\":10}"), "legacy brightness remains once per swipe");
+        Assert(Continuous(brightness, "{\"Method\":0,\"ContinuousEdge\":true}"), "brightness up continuous enabled");
+        Assert(Continuous(brightness, "{\"Method\":1,\"ContinuousEdge\":true}"), "brightness down continuous enabled");
+        Assert(!Continuous(brightness, "{\"Method\":0,\"ContinuousEdge\":false}"), "brightness continuous can be disabled");
+        Assert(!Continuous(brightness, "{\"Method\":2,\"ContinuousEdge\":true}"), "invalid brightness method rejected");
+        Assert(Continuous("GestureSign.CorePlugins.Volume.VolumePlugin", "{\"Method\":0}"), "legacy continuous volume preserved");
+        var level = typeof(GestureSign.CorePlugins.HotKey.HotKeyPlugin).Assembly.GetType(brightness)
+            .GetMethod("SelectBrightnessLevel", BindingFlags.Static | BindingFlags.NonPublic);
+        byte Select(int current, int method, int percent) => (byte)level.Invoke(null, new object[] {current, new byte[] {100, 20, 0, 40, 60, 80}, method, percent});
+        Assert(Select(40, 0, 2) == 60, "small increase advances on coarse brightness levels");
+        Assert(Select(40, 1, 2) == 20, "small decrease advances on coarse brightness levels");
+        Assert(Select(100, 0, 5) == 100 && Select(0, 1, 5) == 0, "brightness saturates at supported limits");
+        var hotkey = new GestureSign.CorePlugins.HotKey.HotKeyPlugin();
+        Assert(hotkey.Deserialize("{\"Windows\":false,\"Control\":false,\"Alt\":false,\"Shift\":false,\"KeyCode\":[91],\"SendByKeybdEvent\":false}"), "standalone Win command deserializes");
+        var keys = (GestureSign.CorePlugins.HotKey.HotKeySettings)typeof(GestureSign.CorePlugins.HotKey.HotKeyPlugin)
+            .GetField("_Settings", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(hotkey);
+        Assert(!keys.Windows && !keys.Control && !keys.Alt && !keys.Shift && keys.KeyCode.Count == 1 && keys.KeyCode[0] == System.Windows.Forms.Keys.LWin,
+            "standalone Win uses one normal keypress with no held modifiers");
+    }
+
     [STAThread]
     private static void Main()
     {
+        TestBrightnessAndWin();
         // Isolate the real hook lifecycle and callback without registering HID
         // devices, changing user settings or starting another gesture daemon.
         var type = typeof(PointEventTranslator).Assembly.GetType("GestureSign.Daemon.Input.InputProvider");

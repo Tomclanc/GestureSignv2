@@ -171,6 +171,19 @@ namespace GestureSign.Daemon.Triggers
             if (command == null || string.IsNullOrWhiteSpace(command.PluginClass))
                 return false;
 
+            if (command.PluginClass.IndexOf("ScreenBrightness", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                try
+                {
+                    var settings = JObject.Parse(command.CommandSettings ?? "{}");
+                    var method = settings.Value<int?>("Method") ?? 0;
+                    // Older brightness bindings were once-per-swipe. Preserve that
+                    // behavior unless the user explicitly enables continuous mode.
+                    return (method == 0 || method == 1) && (settings.Value<bool?>("ContinuousEdge") ?? false);
+                }
+                catch { return false; }
+            }
+
             if (command.PluginClass.IndexOf("Volume", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 try

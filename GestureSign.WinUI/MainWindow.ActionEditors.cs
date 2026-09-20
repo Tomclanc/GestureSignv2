@@ -529,7 +529,7 @@ public sealed partial class MainWindow
         combo.Items.Add("触控屏右边缘上滑");
         combo.Items.Add("触控屏右边缘下滑");
         combo.Items.Clear();
-        for (var index = 0; index <= 24; index++)
+        for (var index = 0; index <= 36; index++)
             combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
 
@@ -556,7 +556,7 @@ public sealed partial class MainWindow
              string.Equals(text, BuiltInGestureDisplayName(tag), StringComparison.OrdinalIgnoreCase)))
             return tag;
 
-        for (var index = 1; index <= 24; index++)
+        for (var index = 1; index <= 36; index++)
         {
             var gestureName = BuiltInGestureNameFromIndex(index);
             if (string.Equals(text, BuiltInGestureDisplayName(gestureName), StringComparison.OrdinalIgnoreCase))
@@ -606,6 +606,18 @@ public sealed partial class MainWindow
             22 => L("触摸屏左边缘下滑", "Touchscreen left edge swipe down", "觸控螢幕左邊緣下滑", "タッチスクリーン左端を下へスワイプ", "터치스크린 왼쪽 가장자리 아래로 스와이프"),
             23 => L("触摸屏右边缘上滑", "Touchscreen right edge swipe up", "觸控螢幕右邊緣上滑", "タッチスクリーン右端を上へスワイプ", "터치스크린 오른쪽 가장자리 위로 스와이프"),
             24 => L("触摸屏右边缘下滑", "Touchscreen right edge swipe down", "觸控螢幕右邊緣下滑", "タッチスクリーン右端を下へスワイプ", "터치스크린 오른쪽 가장자리 아래로 스와이프"),
+            25 => L("按住 1 指 · 左侧 TipTap", "Hold 1 · left TipTap", "按住 1 指 · 左侧 TipTap", "1 本保持 · left TipTap", "1개 유지 · left TipTap"),
+            26 => L("按住 1 指 · 右侧 TipTap", "Hold 1 · right TipTap", "按住 1 指 · 右侧 TipTap", "1 本保持 · right TipTap", "1개 유지 · right TipTap"),
+            27 => L("按住 1 指 · 上方 TipTap", "Hold 1 · up TipTap", "按住 1 指 · 上方 TipTap", "1 本保持 · up TipTap", "1개 유지 · up TipTap"),
+            28 => L("按住 1 指 · 下方 TipTap", "Hold 1 · down TipTap", "按住 1 指 · 下方 TipTap", "1 本保持 · down TipTap", "1개 유지 · down TipTap"),
+            29 => L("按住 2 指 · 左侧 TipTap", "Hold 2 · left TipTap", "按住 2 指 · 左侧 TipTap", "2 本保持 · left TipTap", "2개 유지 · left TipTap"),
+            30 => L("按住 2 指 · 右侧 TipTap", "Hold 2 · right TipTap", "按住 2 指 · 右侧 TipTap", "2 本保持 · right TipTap", "2개 유지 · right TipTap"),
+            31 => L("按住 2 指 · 上方 TipTap", "Hold 2 · up TipTap", "按住 2 指 · 上方 TipTap", "2 本保持 · up TipTap", "2개 유지 · up TipTap"),
+            32 => L("按住 2 指 · 下方 TipTap", "Hold 2 · down TipTap", "按住 2 指 · 下方 TipTap", "2 本保持 · down TipTap", "2개 유지 · down TipTap"),
+            33 => L("按住 3 指 · 左侧 TipTap", "Hold 3 · left TipTap", "按住 3 指 · 左侧 TipTap", "3 本保持 · left TipTap", "3개 유지 · left TipTap"),
+            34 => L("按住 3 指 · 右侧 TipTap", "Hold 3 · right TipTap", "按住 3 指 · 右侧 TipTap", "3 本保持 · right TipTap", "3개 유지 · right TipTap"),
+            35 => L("按住 3 指 · 上方 TipTap", "Hold 3 · up TipTap", "按住 3 指 · 上方 TipTap", "3 本保持 · up TipTap", "3개 유지 · up TipTap"),
+            36 => L("按住 3 指 · 下方 TipTap", "Hold 3 · down TipTap", "按住 3 指 · 下方 TipTap", "3 本保持 · down TipTap", "3개 유지 · down TipTap"),
             _ => fallback
         };
 
@@ -636,6 +648,18 @@ public sealed partial class MainWindow
             TouchScreenEdgeLeftDownGesture => 22,
             TouchScreenEdgeRightUpGesture => 23,
             TouchScreenEdgeRightDownGesture => 24,
+            "TouchPadTipTap.Left" => 25,
+            "TouchPadTipTap.Right" => 26,
+            "TouchPadTipTap.Up" => 27,
+            "TouchPadTipTap.Down" => 28,
+            "TouchPadTipTap.Hold2.Left" => 29,
+            "TouchPadTipTap.Hold2.Right" => 30,
+            "TouchPadTipTap.Hold2.Up" => 31,
+            "TouchPadTipTap.Hold2.Down" => 32,
+            "TouchPadTipTap.Hold3.Left" => 33,
+            "TouchPadTipTap.Hold3.Right" => 34,
+            "TouchPadTipTap.Hold3.Up" => 35,
+            "TouchPadTipTap.Hold3.Down" => 36,
             _ => 0
         };
 
@@ -666,6 +690,18 @@ public sealed partial class MainWindow
             22 => TouchScreenEdgeLeftDownGesture,
             23 => TouchScreenEdgeRightUpGesture,
             24 => TouchScreenEdgeRightDownGesture,
+            25 => "TouchPadTipTap.Left",
+            26 => "TouchPadTipTap.Right",
+            27 => "TouchPadTipTap.Up",
+            28 => "TouchPadTipTap.Down",
+            29 => "TouchPadTipTap.Hold2.Left",
+            30 => "TouchPadTipTap.Hold2.Right",
+            31 => "TouchPadTipTap.Hold2.Up",
+            32 => "TouchPadTipTap.Hold2.Down",
+            33 => "TouchPadTipTap.Hold3.Left",
+            34 => "TouchPadTipTap.Hold3.Right",
+            35 => "TouchPadTipTap.Hold3.Up",
+            36 => "TouchPadTipTap.Hold3.Down",
             _ => string.Empty
         };
 

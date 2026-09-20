@@ -27,6 +27,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { Get-Content winui-x64-build.log; exit $LASTEXITCODE }
       - name: Run regression tests
         run: dotnet run --project tests/GestureSign.RegressionTests/GestureSign.RegressionTests.csproj -c Release
+      - name: Run TipTap state machine tests
+        run: dotnet run --project tests/GestureSign.TipTapTests/GestureSign.TipTapTests.csproj -c Release
       - name: Compile ARM64 daemon and WinUI
         run: |
           dotnet restore GestureSign.Daemon/GestureSign.Daemon.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false

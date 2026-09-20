@@ -179,7 +179,10 @@ namespace GestureSign.Daemon.Input
             set
             {
                 if (value == CaptureState.Disabled)
+                {
+                    _pointEventTranslator?.ResetTipTap();
                     ReleasePointerMotionSuppression("CaptureDisabled");
+                }
                 _state = value;
             }
         }
@@ -191,7 +194,10 @@ namespace GestureSign.Daemon.Input
             {
                 if (value == _mode) return;
                 if (value != CaptureMode.Normal)
+                {
+                    _pointEventTranslator?.ResetTipTap();
                     ReleasePointerMotionSuppression("ModeChanged");
+                }
                 _mode = value;
                 OnModeChanged(new ModeChangedEventArgs(value));
             }
@@ -597,6 +603,17 @@ namespace GestureSign.Daemon.Input
                     : userAppList.Cast<UserApp>().Max(app => app.BlockTouchInputThreshold);
                 UpdateBlockTouchInputThreshold(threshold);
             }
+        }
+
+        internal void CancelTouchPadForTipTap()
+        {
+            if (SourceDevice != Devices.TouchPad) return;
+            OnCaptureCanceled(new PointsCapturedEventArgs(
+                new List<List<Point>>(), new List<Point>()));
+            State = CaptureState.Ready;
+            ResetCaptureBuffers();
+            _initialTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
         }
 
         internal void CancelMouseCapture(string reason)

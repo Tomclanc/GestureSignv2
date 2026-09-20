@@ -1,4 +1,4 @@
-﻿///<summary>
+///<summary>
 ///
 ///Tiny tool for quickly adjusting screen brightness of laptops and tablets
 ///Tested on win7 (x86)
@@ -156,41 +156,36 @@ namespace GestureSign.CorePlugins.ScreenBrightness
             return strOutput;
         }
 
-        private bool AdjustBrightness(BrightnessSettings Settings)
-        {
-            if (Settings == null)
-                return false;
-            try
-            {
-                int currentBrightness = GetBrightness();
-                byte[] level = GetBrightnessLevels();
-                byte maxLevel = level.Max();
-                byte minLevel = level.Min();
-                int levelChange = Settings.Percent * maxLevel / 100;
-                int targetValue;
-                byte targetLevel = 0;
+        private static readonly object BrightnessLock = new object();
 
-                switch ((Method)_Settings.Method)
-                {
-                    case Method.BrightnessUp:
-                        targetValue = currentBrightness + levelChange > maxLevel ? maxLevel : currentBrightness + levelChange;
-                        targetLevel = Array.Find(level, l => l >= targetValue);
-                        SetBrightness(targetLevel);
-                        break;
-                    case Method.BrightnessDown:
-                        targetValue = currentBrightness - levelChange < minLevel ? minLevel : currentBrightness - levelChange;
-                        targetLevel = Array.Find(level, l => l >= targetValue);
-                        SetBrightness(targetLevel);
-                        break;
-                }
-                _currentBrightness = targetLevel;
-                return true;
-            }
-            catch
+        private bool AdjustBrightness(BrightnessSettings settings)
+        {
+            if (settings == null) return false;
+            // Edge steps may arrive on different action tasks. Serialize the
+            // read/modify/write cycle so simultaneous steps do not lose updates.
+            lock (BrightnessLock)
             {
-                //MessageBox.Show("Could not change volume settings.", "Volume Change Invalid", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                try
+                {
+                    var target = SelectBrightnessLevel(GetBrightness(), GetBrightnessLevels(), settings.Method, settings.Percent);
+                    SetBrightness(target);
+                    _currentBrightness = target;
+                    return true;
+                }
+                catch { return false; }
             }
+        }
+
+        internal static byte SelectBrightnessLevel(int current, byte[] levels, int method, int percent)
+        {
+            if (levels == null || levels.Length == 0 || (method != 0 && method != 1))
+                throw new ArgumentException("Invalid brightness settings or levels.");
+            var ordered = levels.Distinct().OrderBy(value => value).ToArray();
+            var step = Math.Max(1, Math.Clamp(percent, 1, 100) * ordered.Last() / 100);
+            var target = Math.Clamp(current + (method == 0 ? step : -step), ordered.First(), ordered.Last());
+            // Round in the requested direction, including on displays whose
+            // available levels are coarser than the configured percentage.
+            return method == 0 ? ordered.First(value => value >= target) : ordered.Last(value => value <= target);
         }
 
         private static int GetBrightness()

@@ -24,6 +24,28 @@ internal static class Program
             Assert(!Activate(new SystemWindow(staleHandle)), "destroyed target rejected");
         }
 
+        using (var background = new Form())
+        {
+            var appWindow = new SystemWindow(background.Handle);
+            var desktop = SystemWindow.ShellWindow;
+            Assert(desktop != null && desktop.HWnd != IntPtr.Zero, "desktop shell exists");
+            var select = typeof(ApplicationManager).GetMethod("SelectTouchPadTarget",
+                BindingFlags.Static | BindingFlags.NonPublic);
+            var selectedDesktop = (SystemWindow)select.Invoke(null, new object[] { desktop, appWindow });
+            Assert(selectedDesktop.HWnd == desktop.HWnd,
+                "desktop hit stays desktop while another application is foreground");
+            var fullscreen = typeof(ApplicationManager).GetMethod("IsFullScreenWindow",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert(!(bool)fullscreen.Invoke(ApplicationManager.Instance, new object[] { selectedDesktop }),
+                "desktop is not rejected by fullscreen exclusion");
+            Assert(((SystemWindow)select.Invoke(null, new object[] { appWindow, desktop })).HWnd == appWindow.HWnd,
+                "application under cursor remains target when desktop is foreground");
+            Assert(((SystemWindow)select.Invoke(null, new object[] { null, appWindow })).HWnd == appWindow.HWnd,
+                "missing pointer target falls back to foreground");
+        }
+
+        TestTipTapActions();
+
         if (Array.IndexOf(args, "--interactive") < 0)
         {
             Console.WriteLine("Use --interactive on a Windows desktop to test focus and click preservation.");
@@ -75,6 +97,49 @@ internal static class Program
             Cursor.Position = previousCursor;
             SystemWindow.ActivateWindow(previousForeground);
         }
+    }
+
+    private static void TestTipTapActions()
+    {
+        var manager = ApplicationManager.Instance;
+        manager.LoadingTask.GetAwaiter().GetResult();
+        var field = typeof(ApplicationManager).GetField("_applications", BindingFlags.Instance | BindingFlags.NonPublic);
+        var original = field.GetValue(manager);
+        try
+        {
+            var action = new GestureSign.Common.Applications.Action
+            {
+                GestureName = "TouchPadTipTap.Left", Name = "TipTap test",
+                Commands = new[] { new Command { IsEnabled = true, PluginClass = "test" } }
+            };
+            var global = new GlobalApp { Actions = new[] { action }, LimitNumberOfFingers = 2 };
+            var apps = new System.Collections.Generic.List<IApplication> { global };
+            field.SetValue(manager, apps);
+            var desktop = SystemWindow.ShellWindow;
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName).Count == 1,
+                "configured TipTap resolves on desktop");
+            Assert(manager.CaptureWindow.HWnd == desktop.HWnd, "TipTap keeps captured target");
+            Assert(manager.PrepareTouchPadTipTap(desktop, "TouchPadTipTap.Right").Count == 0,
+                "unassigned TipTap has no action");
+            action.IsEnabled = false;
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName).Count == 0, "disabled TipTap stays inactive");
+            action.IsEnabled = true;
+            action.IgnoredDevices = Devices.TouchPad;
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName).Count == 0, "TipTap respects excluded device");
+            action.IgnoredDevices = Devices.None;
+            global.LimitNumberOfFingers = 3;
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName).Count == 0, "TipTap respects minimum finger count");
+            action.GestureName = "TouchPadTipTap.Hold3.Down";
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName, 4).Count == 1,
+                "four-contact TipTap satisfies three-finger minimum");
+            global.LimitNumberOfFingers = 5;
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName, 4).Count == 0,
+                "four-contact TipTap respects higher minimum");
+            global.LimitNumberOfFingers = 2;
+            apps.Add(new IgnoredApp("desktop exclusion", MatchUsing.WindowClass, desktop.ClassName, false, true));
+            Assert(manager.PrepareTouchPadTipTap(desktop, action.GestureName).Count == 0, "TipTap respects ignored application");
+        }
+        finally { field.SetValue(manager, original); }
     }
 
     private static bool Activate(SystemWindow window) => (bool)typeof(PluginManager)

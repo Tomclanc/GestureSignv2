@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.5">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.6">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,14 +65,23 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.5) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.6) 下载最新便携版。
 
 当前版本：
 
-- [GestureSign-V2-18.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-x64.msi)
-- [GestureSign-V2-18.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-portable-x64.zip)
+- [GestureSign-V2-18.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-x64.msi)
+- [GestureSign-V2-18.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-portable-x64.zip)
 
 ## 更新内容
+
+### 18.2.6
+
+- 新增 TipTap：按住 1、2 或 3 指，再用另一指在左、右、上、下轻点，共 12 种独立动作；支持连续轻点。
+- TipTap 方向以按住的手指组为参照。斜向、组内轻点和滑动不触发；旧左/右绑定继续有效。
+- TipTap / 边缘快捷键可直接选择单独发送 Win 键。
+- 边缘亮度支持连续调节或每次滑动一次；保留旧配置行为，并修正小步长亮度档位选择。
+- 修复桌面被其他窗口矩形误判而触发全屏忽略的问题。
+- 增加左上角返回按钮，按页面历史返回。
 
 ### 18.2.5
 
@@ -217,12 +226,12 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.5).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.6).
 
 Current version:
 
-- [GestureSign-V2-18.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-x64.msi)
-- [GestureSign-V2-18.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-portable-x64.zip)
+- [GestureSign-V2-18.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-x64.msi)
+- [GestureSign-V2-18.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-portable-x64.zip)
 
 ### What's new in 18.2.2
 
@@ -353,12 +362,12 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.5) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.6) からも入手できます。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.2.5-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-x64.msi)
-- [GestureSign-V2-18.2.5-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.5/GestureSign-V2-18.2.5-portable-x64.zip)
+- [GestureSign-V2-18.2.6-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-x64.msi)
+- [GestureSign-V2-18.2.6-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.6/GestureSign-V2-18.2.6-portable-x64.zip)
 
 ### 18.2.2 の更新内容
 

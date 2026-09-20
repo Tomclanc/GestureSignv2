@@ -25,9 +25,59 @@ public sealed partial class MainWindow
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows のタッチパッドシステムジェスチャを優先", "Windows 터치패드 시스템 제스처 우선 사용"), _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
         ]));
 
+        root.Children.Add(NewTipTapCard());
         root.Children.Add(NewTouchPadMapCard());
         root.Children.Add(NewTouchScreenMapCard());
         return root;
+    }
+
+    private int _tipTapHeldCount = 1;
+
+    private FrameworkElement NewTipTapCard()
+    {
+        var panel = NewCardPanel(12);
+        panel.Children.Add(new TextBlock { Text = "TipTap", Style = BodyStrongTextBlockStyle });
+        panel.Children.Add(new TextBlock
+        {
+            Text = L("先同时放稳 1、2 或 3 根手指，再用另一根在按住手指的左、右、上或下方轻点后抬起。方向以按住的手指组为参照；保持它们不抬，可连续轻点。斜向或落在手指组内部的轻点不触发。",
+                "Rest 1, 2 or 3 fingers together, then tap with one additional finger to the left, right, above or below the held group. Keep the group down to repeat. Diagonal taps and taps inside the group do not trigger.",
+                "先同時放穩 1、2 或 3 根手指，再用另一根在其左、右、上或下方輕點。保持按住的手指可連續輕點，斜向及組內輕點不觸發。",
+                "1～3 本の指を同時に置き、別の指でその左・右・上・下をタップします。保持したまま繰り返せます。斜めや指の間は対象外です。",
+                "1~3개 손가락을 함께 놓은 뒤 다른 한 손가락으로 왼쪽/오른쪽/위/아래를 탭하세요. 유지한 채 반복할 수 있습니다. 대각선이나 손가락 사이의 탭은 제외됩니다."),
+            TextWrapping = TextWrapping.Wrap
+        });
+        var fingers = NewInlineComboBox([
+            L("按住 1 指 + 1 指轻点", "Hold 1 + tap 1", "按住 1 指 + 1 指輕點", "1 本保持 + 1 本タップ", "1개 유지 + 1개 탭"),
+            L("按住 2 指 + 1 指轻点", "Hold 2 + tap 1", "按住 2 指 + 1 指輕點", "2 本保持 + 1 本タップ", "2개 유지 + 1개 탭"),
+            L("按住 3 指 + 1 指轻点", "Hold 3 + tap 1", "按住 3 指 + 1 指輕點", "3 本保持 + 1 本タップ", "3개 유지 + 1개 탭")], _tipTapHeldCount - 1);
+        fingers.Header = L("选择要配置的手指组合", "Choose a combination to configure", "選擇要設定的手指組合", "設定する組合せ", "설정할 조합");
+        panel.Children.Add(fingers);
+        var buttons = new Grid { ColumnSpacing = 8, RowSpacing = 8 };
+        for (var i = 0; i < 2; i++)
+        {
+            buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            buttons.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        }
+        void RefreshTipTapButtons()
+        {
+            buttons.Children.Clear();
+            var directions = new[] { "Left", "Right", "Up", "Down" };
+            for (var i = 0; i < directions.Length; i++)
+            {
+                var name = _tipTapHeldCount == 1 ? $"TouchPadTipTap.{directions[i]}" : $"TouchPadTipTap.Hold{_tipTapHeldCount}.{directions[i]}";
+                var button = NewTouchPadGestureButton(new TouchPadEdgeAction(BuiltInGestureDisplayName(name), name));
+                Grid.SetColumn(button, i % 2); Grid.SetRow(button, i / 2);
+                buttons.Children.Add(button);
+            }
+        }
+        fingers.SelectionChanged += (_, _) =>
+        {
+            _tipTapHeldCount = Math.Clamp(fingers.SelectedIndex + 1, 1, 3);
+            RefreshTipTapButtons();
+        };
+        RefreshTipTapButtons();
+        panel.Children.Add(buttons);
+        return NewCard(panel, new Thickness(14));
     }
 
     private FrameworkElement NewTouchPadMapCard()
@@ -414,6 +464,15 @@ public sealed partial class MainWindow
             TextWrapping = TextWrapping.Wrap,
             Visibility = Visibility.Collapsed
         };
+        var continuousBrightnessHint = new TextBlock
+        {
+            Text = L("四条边缘均支持亮度调节。开启后随滑动距离连续调节；关闭后每次滑动只触发一次。连续模式建议变化量 2%–5%，需显示器支持系统亮度控制。",
+                "All four edges support brightness adjustment. Enable for continuous adjustment with distance; disable for once per swipe. Use 2%–5% steps. Requires a display supporting system brightness control.",
+                "四條邊緣均支援亮度調節，可選連續或每次滑動一次。建議 2%–5%，需螢幕支援系統亮度控制。",
+                "4 辺で明るさを連続調整、またはスワイプごとに 1 回調整できます。2%～5% 推奨。対応ディスプレイが必要です。",
+                "네 가장자리에서 밝기를 연속 또는 스와이프당 한 번 조절합니다. 2%~5% 권장. 시스템 밝기 제어 지원 화면이 필요합니다."),
+            Opacity = 0.72, TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed
+        };
         var continuousScrollHint = new TextBlock
         {
             Text = L(
@@ -428,7 +487,7 @@ public sealed partial class MainWindow
         };
         var enabled = new CheckBox
         {
-            Content = "启用这个边缘",
+            Content = gestureName.StartsWith("TouchPadTipTap.", StringComparison.Ordinal) ? "启用这个 TipTap" : "启用这个边缘",
             IsChecked = existingAction?.IsEnabled ?? true,
             Margin = new Thickness(0, 8, 0, 0)
         };
@@ -472,6 +531,7 @@ public sealed partial class MainWindow
             UpdateCommandEditorVisibility(pluginClass.Text, pluginClass, hotkey, settings, appPicker);
             UpdatePluginDescription(pluginDescription, pluginClass.Text);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
+            continuousBrightnessHint.Visibility = pluginClass.Text.Contains("ScreenBrightness", StringComparison.OrdinalIgnoreCase) ? Visibility.Visible : Visibility.Collapsed;
             continuousVolumeHint.Visibility = pluginClass.Text.Contains("Volume", StringComparison.OrdinalIgnoreCase)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
@@ -492,6 +552,7 @@ public sealed partial class MainWindow
         panel.Children.Add(appPicker);
         panel.Children.Add(typedSettings);
         panel.Children.Add(continuousVolumeHint);
+        panel.Children.Add(continuousBrightnessHint);
         panel.Children.Add(continuousScrollHint);
         panel.Children.Add(settings);
         panel.Children.Add(enabled);

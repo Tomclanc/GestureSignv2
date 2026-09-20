@@ -888,9 +888,22 @@ public sealed partial class MainWindow : Window
         titleBar.ButtonPressedBackgroundColor = pressedBackground;
     }
 
+    private readonly Stack<string> _navigationHistory = new();
+    private string? _currentNavigationPage;
+
+    private void Navigation_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+    {
+        if (_navigationHistory.Count == 0) return;
+        var previous = _navigationHistory.Pop();
+        ShowPage(previous, recordHistory: false);
+        Navigation.SelectedItem = Navigation.MenuItems.OfType<NavigationViewItem>()
+            .FirstOrDefault(item => string.Equals(item.Tag as string, previous, StringComparison.Ordinal));
+    }
+
     private void Navigation_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
-        if (args.SelectedItem is NavigationViewItem item && item.Tag is string tag)
+        if (args.SelectedItem is NavigationViewItem item && item.Tag is string tag &&
+            !string.Equals(tag, _currentNavigationPage, StringComparison.Ordinal))
             ShowPage(tag);
     }
 
@@ -900,8 +913,16 @@ public sealed partial class MainWindow : Window
             ShowPage(tag);
     }
 
-    private void ShowPage(string tag)
+    private void ShowPage(string tag, bool recordHistory = true)
     {
+        if (!string.Equals(tag, _currentNavigationPage, StringComparison.Ordinal))
+        {
+            if (recordHistory && _currentNavigationPage != null)
+                _navigationHistory.Push(_currentNavigationPage);
+            _currentNavigationPage = tag;
+        }
+        Navigation.IsBackEnabled = _navigationHistory.Count != 0;
+
         if (!string.Equals(tag, "quickActions", StringComparison.Ordinal))
         {
             _kandoMenuRefreshTimer.Stop();
@@ -1973,6 +1994,25 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(recorder);
         Grid.SetColumn(clear, 1);
         panel.Children.Add(clear);
+        if (usesArrayKeyCode)
+        {
+            var winOnly = NewPillButton(L("单独发送 Win 键", "Send Win key only", "單獨傳送 Win 鍵", "Win キーのみ送信", "Win 키만 보내기"), false);
+            winOnly.Click += (_, _) =>
+            {
+                if (ReferenceEquals(_activeHotKeyRecorder, recorder)) StopHotKeyRecording();
+                settings.Text = new JsonObject
+                {
+                    ["Windows"] = false, ["Control"] = false, ["Alt"] = false, ["Shift"] = false,
+                    ["KeyCode"] = new JsonArray(91), ["SendByKeybdEvent"] = false
+                }.ToJsonString();
+                recorder.Text = "Win";
+                onRecorded?.Invoke(settings.Text);
+            };
+            var stack = new StackPanel { Spacing = 8 };
+            stack.Children.Add(panel);
+            stack.Children.Add(winOnly);
+            return stack;
+        }
         return panel;
     }
 
@@ -2152,6 +2192,8 @@ public sealed partial class MainWindow : Window
 
         public required TextBox BrightnessPercent { get; init; }
 
+        public required ToggleSwitch BrightnessContinuous { get; init; }
+
         public required StackPanel OpenFilePanel { get; init; }
 
         public required TextBox OpenFilePath { get; init; }
@@ -2226,7 +2268,15 @@ public sealed partial class MainWindow : Window
             PlaceholderText = "百分比",
             Text = "10"
         };
-        var brightnessPanel = NewCommandSettingsPanel(brightnessMethod, brightnessPercent);
+        var brightnessContinuous = new ToggleSwitch
+        {
+            Header = volumeContinuous.Header,
+            OnContent = volumeContinuous.OnContent,
+            OffContent = volumeContinuous.OffContent,
+            IsOn = false,
+            Visibility = enableEdgeContinuousVolume ? Visibility.Visible : Visibility.Collapsed
+        };
+        var brightnessPanel = NewCommandSettingsPanel(brightnessMethod, brightnessPercent, brightnessContinuous);
 
         var openFilePath = new TextBox
         {
@@ -2424,6 +2474,7 @@ public sealed partial class MainWindow : Window
             BrightnessPanel = brightnessPanel,
             BrightnessMethod = brightnessMethod,
             BrightnessPercent = brightnessPercent,
+            BrightnessContinuous = brightnessContinuous,
             OpenFilePanel = openFilePanel,
             OpenFilePath = openFilePath,
             OpenFileVariables = openFileVariables,
@@ -2452,6 +2503,7 @@ public sealed partial class MainWindow : Window
         volumePercent.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         volumeContinuous.Toggled += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         brightnessMethod.SelectionChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
+        brightnessContinuous.Toggled += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         brightnessPercent.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         openFilePath.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
         openFileVariables.TextChanged += (_, _) => SyncTypedCommandSettings(root, pluginClass.Text, settings);
@@ -2545,6 +2597,7 @@ public sealed partial class MainWindow : Window
             }
             else if (typed == CommandSettingsKind.Brightness)
             {
+                editor.BrightnessContinuous.IsOn = JsonBoolValue(settings, "ContinuousEdge", false);
                 editor.BrightnessMethod.SelectedIndex = Math.Clamp(JsonIntValue(settings, "Method", 0), 0, 1);
                 editor.BrightnessPercent.Text = JsonIntValue(settings, "Percent", 10).ToString(CultureInfo.InvariantCulture);
             }
@@ -2595,7 +2648,7 @@ public sealed partial class MainWindow : Window
         {
             CommandSettingsKind.RunCommand => RunCommandSettingsJson(editor.RunCommandText.Text, editor.RunCommandShell.SelectedIndex == 1 ? "PowerShell" : "CMD", editor.RunCommandAdministrator.IsChecked == true, editor.RunCommandShowWindow.IsChecked == true),
             CommandSettingsKind.Volume => VolumeSettingsJson(editor.VolumeMethod.SelectedIndex, ParsePercent(editor.VolumePercent.Text), editor.EnableEdgeContinuousVolume && editor.VolumeContinuous.IsOn),
-            CommandSettingsKind.Brightness => BrightnessSettingsJson(editor.BrightnessMethod.SelectedIndex, ParsePercent(editor.BrightnessPercent.Text)),
+            CommandSettingsKind.Brightness => BrightnessSettingsJson(editor.BrightnessMethod.SelectedIndex, ParsePercent(editor.BrightnessPercent.Text), editor.BrightnessContinuous.IsOn),
             CommandSettingsKind.OpenFile => OpenFileSettingsJson(editor.OpenFilePath.Text, editor.OpenFileVariables.Text),
             CommandSettingsKind.MouseAction => MouseActionSettingsJson(editor),
             _ => settings.Text
@@ -2670,11 +2723,12 @@ public sealed partial class MainWindow : Window
             ["ContinuousEdge"] = continuousEdge
         }.ToJsonString();
 
-    private static string BrightnessSettingsJson(int method, int percent)
+    private static string BrightnessSettingsJson(int method, int percent, bool continuousEdge = false)
         => new JsonObject
         {
             ["Method"] = Math.Clamp(method, 0, 1),
-            ["Percent"] = Math.Clamp(percent, 1, 100)
+            ["Percent"] = Math.Clamp(percent, 1, 100),
+            ["ContinuousEdge"] = continuousEdge
         }.ToJsonString();
 
     private static string OpenFileSettingsJson(string path, string variables)
