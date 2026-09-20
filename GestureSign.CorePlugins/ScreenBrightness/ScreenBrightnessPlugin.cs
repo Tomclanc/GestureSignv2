@@ -98,7 +98,7 @@ namespace GestureSign.CorePlugins.ScreenBrightness
         }
         public bool Gestured(PointInfo ActionPoint)
         {
-            return AdjustBrightness(_Settings);
+            return AdjustBrightness(_Settings, ActionPoint);
         }
 
         public bool Deserialize(string SerializedData)
@@ -158,7 +158,7 @@ namespace GestureSign.CorePlugins.ScreenBrightness
 
         private static readonly object BrightnessLock = new object();
 
-        private bool AdjustBrightness(BrightnessSettings settings)
+        private bool AdjustBrightness(BrightnessSettings settings, PointInfo actionPoint)
         {
             if (settings == null) return false;
             // Edge steps may arrive on different action tasks. Serialize the
@@ -170,6 +170,17 @@ namespace GestureSign.CorePlugins.ScreenBrightness
                     var target = SelectBrightnessLevel(GetBrightness(), GetBrightnessLevels(), settings.Method, settings.Percent);
                     SetBrightness(target);
                     _currentBrightness = target;
+                    // Keep UI updates ordered with the serialized brightness steps.
+                    // Display failure must not turn a successful adjustment into a failure.
+                    try
+                    {
+                        actionPoint?.Invoke(() =>
+                        {
+                            if (!NativeBrightnessFlyout.TryShow())
+                                BrightnessOverlay.ShowBrightness(target);
+                        });
+                    }
+                    catch { }
                     return true;
                 }
                 catch { return false; }
@@ -330,10 +341,13 @@ namespace GestureSign.CorePlugins.ScreenBrightness
                     var mo = (ManagementObject)o;
                     inParams["Brightness"] = brightness; // set brightness to brightness %
                     inParams["Timeout"] = 1;
-                    mo.InvokeMethod("WmiSetBrightness", inParams, null);
-                    break;
+                    using var result = mo.InvokeMethod("WmiSetBrightness", inParams, null);
+                    if (result != null && Convert.ToUInt32(result["ReturnValue"]) != 0)
+                        throw new InvalidOperationException("Display rejected brightness change.");
+                    return;
                 }
             }
+            throw new InvalidOperationException("No brightness-capable display found.");
         }
 
         private static Guid GetActiveSchemeGuid()

@@ -42,8 +42,9 @@ internal static class Program
     }
 
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
+        if (Array.IndexOf(args, "--brightness-overlay") >= 0) { TestBrightnessOverlay(); return; }
         TestBrightnessAndWin();
         // Isolate the real hook lifecycle and callback without registering HID
         // devices, changing user settings or starting another gesture daemon.
@@ -84,6 +85,42 @@ internal static class Program
                 !(bool)Call(provider, "get_SuppressPointerMotion"), "failed begin leaves pointer unlocked");
         }
         finally { hook.Unhook(); }
+    }
+
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    private static void TestBrightnessOverlay()
+    {
+        System.Windows.Forms.Application.SetHighDpiMode(System.Windows.Forms.HighDpiMode.PerMonitorV2);
+        var type = typeof(GestureSign.CorePlugins.HotKey.HotKeyPlugin).Assembly
+            .GetType("GestureSign.CorePlugins.ScreenBrightness.BrightnessOverlay");
+        var show = type.GetMethod("ShowBrightness", BindingFlags.Static | BindingFlags.NonPublic);
+        var current = type.GetField("_current", BindingFlags.Static | BindingFlags.NonPublic);
+        void Pump(int ms)
+        {
+            var clock = System.Diagnostics.Stopwatch.StartNew();
+            while (clock.ElapsedMilliseconds < ms) { System.Windows.Forms.Application.DoEvents(); System.Threading.Thread.Sleep(10); }
+        }
+        var foreground = GetForegroundWindow();
+        try
+        {
+            show.Invoke(null, new object[] { 25 });
+            Pump(100);
+            var overlay = (System.Windows.Forms.Form)current.GetValue(null);
+            Assert(overlay.Visible && GetForegroundWindow() == foreground, "brightness overlay does not activate");
+            Assert(System.Windows.Forms.Screen.FromPoint(System.Windows.Forms.Cursor.Position).WorkingArea.Contains(overlay.Bounds), "overlay stays inside monitor work area");
+            Pump(1000);
+            show.Invoke(null, new object[] { 75 });
+            Assert(ReferenceEquals(current.GetValue(null), overlay) && overlay.AccessibleDescription == "75%", "continuous brightness updates reuse the overlay");
+            Pump(900);
+            Assert(overlay.Visible, "updates extend overlay timeout");
+            Pump(1100);
+            Assert(overlay.IsDisposed && current.GetValue(null) == null, "idle overlay closes and releases its timer");
+            show.Invoke(null, new object[] { 120 });
+            Assert(((System.Windows.Forms.Form)current.GetValue(null)).AccessibleDescription == "100%", "overlay can reopen with clamped percentage");
+        }
+        finally { (current.GetValue(null) as System.Windows.Forms.Form)?.Dispose(); }
     }
 
     private static bool Move(PointEventTranslator translator, int flags)
