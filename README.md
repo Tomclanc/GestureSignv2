@@ -238,7 +238,43 @@ Current version:
 - [GestureSign-V2-18.2.7-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.7/GestureSign-V2-18.2.7-x64.msi)
 - [GestureSign-V2-18.2.7-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.7/GestureSign-V2-18.2.7-portable-x64.zip)
 
-### What's new in 18.2.2
+### What's new
+
+#### 18.2.7
+
+- Brightness adjustments now show the native Windows 11 brightness flyout, including continuous edge adjustments.
+- When the native flyout is unavailable, an application brightness indicator provides feedback without interrupting brightness adjustment.
+
+#### 18.2.6
+
+- Added TipTap: hold one, two, or three fingers and tap with another finger to the left, right, above, or below, giving 12 independent action bindings. Repeated taps are supported.
+- TipTap directions are relative to the held finger group. Diagonal taps, taps inside the group, and sliding do not trigger actions. Existing left/right bindings remain valid.
+- TipTap and edge shortcut editors can now select the Win key on its own.
+- Edge brightness adjustment supports continuous changes or one change per swipe, preserves existing configuration behavior, and handles small steps on displays with coarse brightness levels.
+- Fixed desktop gestures being rejected by fullscreen filtering when another window's bounds incorrectly covered the desktop target.
+- Added a back button in the upper-left corner to return through page history.
+
+#### 18.2.5
+
+- “Activate the window before sending actions” now uses window activation without clicking, avoiding unintended clicks on web links or buttons and changes to text selection.
+- Foreground targets execute immediately. Background targets use normal activation first, with a brief foreground input-thread attachment if a retry is needed. Store/UWP child windows use their top-level window as the activation target.
+- Touchpad gestures select the application under the pointer when the gesture starts instead of replacing it with the foreground window. System surfaces such as the taskbar retain a foreground-window fallback.
+- Accepted touchpad edge interactions temporarily lock pointer movement, including when mouse gestures are disabled. Release, cancellation, timeout, reset, and exit clear the lock. Ordinary touchpad movement and touchscreen input do not request this lock.
+- If activation fails, the action is skipped and logged as `TargetActivationFailed`, preventing shortcuts from reaching another window. Smart Close uses the captured window's top-level handle.
+- Pointer-lock regression checks: `dotnet run --project tests/GestureSign.EdgeCursorTests -c Release`. These cover motion suppression, injected action input, lock release, and hook cleanup.
+- Interactive activation checks: `dotnet run --project tests/GestureSign.WindowActivationTests -c Release -- --interactive`. These temporarily show two test windows and move the pointer, then restore the previous foreground window and pointer position.
+- Browser and Store/UWP acceptance checks still require manual testing over links, buttons, and selected text, and after focus changes, to verify that no extra clicks occur and actions reach the intended window.
+
+#### 18.2.4
+
+- Fixed the Microsoft Store edition unexpectedly bringing Kando to the foreground at startup.
+
+#### 18.2.3
+
+- At this release, “Activate the window before sending actions” clicked at the pointer position before executing the action to support unfocused Store/UWP windows. Version 18.2.5 replaced this with activation without clicking.
+- Smart Close used the foreground window after the click to avoid stale child-window handles.
+
+#### 18.2.2
 
 - Fixed live previews failing to fall back to global actions per gesture when an app group, such as Edge, also has app-specific actions.
 - Live action hints now reflect only the current complete path: they appear on a match and clear immediately when further drawing invalidates it.
