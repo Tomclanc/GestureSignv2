@@ -333,7 +333,7 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 - Ignore: Exclude apps, windows, or matching rules from gesture recognition.
 - Gestures: View, import, export, retrain, and organize the gesture library.
 - Quick Actions: Select Kando menus, sync hotkeys, open Kando settings, or test the radial menu.
-- Edge Interaction: Configure touchpad and touchscreen edge taps and edge swipes.
+- Edge Interaction: Configure taps and swipes along all four edges of the touchpad and touchscreen, plus touchpad TipTap actions: hold one, two, or three fingers and tap with another finger to the left, right, above, or below the held finger group. Each of the 12 combinations can have its own action, and repeated taps are supported.
 - Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior.
 - About: View the version, project links, logs, and maintenance information.
 
@@ -469,7 +469,7 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 - Ignore: ジェスチャー認識から除外するアプリ、ウィンドウ、マッチングルールを設定します。
 - Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
 - Quick Actions: Kando メニューの選択、ホットキー同期、Kando 設定の起動、ラジアルメニューのテストを行います。
-- Edge Interaction: タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定します。
+- Edge Interaction: タッチパッドとタッチスクリーンの四辺でのタップ／スワイプに加え、タッチパッドの TipTap アクションを設定します。1 本、2 本、または 3 本の指を置いたまま、別の指でその指のグループの左・右・上・下を軽くタップすると、合計 12 通りの操作にそれぞれアクションを割り当てられます。連続タップにも対応しています。
 - Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整します。
 - About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
 
