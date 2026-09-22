@@ -29,6 +29,20 @@ jobs:
         run: dotnet run --project tests/GestureSign.RegressionTests/GestureSign.RegressionTests.csproj -c Release
       - name: Run TipTap state machine tests
         run: dotnet run --project tests/GestureSign.TipTapTests/GestureSign.TipTapTests.csproj -c Release
+      - name: Test optional local intent learning and daemon bridge
+        run: |
+          dotnet run --project tests/GestureSign.IntentTests/GestureSign.IntentTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.IntentBridgeTests/GestureSign.IntentBridgeTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.IntentPackageTests/GestureSign.IntentPackageTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.IntentHostTests/GestureSign.IntentHostTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet build GestureSign.IntentDlc/GestureSign.IntentDlc.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet GestureSign.IntentDlc/bin/Release/net10.0-windows10.0.26100.0/win-x64/GestureSign.IntentDlc.dll --self-test intent-runtime-test.json
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Compile ARM64 daemon and WinUI
         run: |
           dotnet restore GestureSign.Daemon/GestureSign.Daemon.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false

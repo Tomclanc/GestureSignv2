@@ -51,6 +51,7 @@ namespace GestureSign.Daemon.Input
         private readonly InputProvider _inputProvider;
         private readonly PointerInputTargetWindow _pointerInputTargetWindow;
         private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
+        private readonly TouchPadIntentBridge _intentDlc = new TouchPadIntentBridge();
         private readonly HashSet<IntPtr> _touchScreenPassthroughWindows = new HashSet<IntPtr>();
         private readonly object _touchScreenPassthroughWindowLock = new object();
         private readonly System.Threading.Timer _blockTouchDelayTimer;
@@ -501,6 +502,7 @@ namespace GestureSign.Daemon.Input
                 if (disposing)
                 {
                     ReleasePointerMotionSuppression("Disposed");
+                    _intentDlc.Dispose();
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
                     _touchScreenPassthroughReleaseTimer?.Dispose();
@@ -608,6 +610,7 @@ namespace GestureSign.Daemon.Input
         internal void CancelTouchPadForTipTap()
         {
             if (SourceDevice != Devices.TouchPad) return;
+            _intentDlc.Cancel();
             OnCaptureCanceled(new PointsCapturedEventArgs(
                 new List<List<Point>>(), new List<Point>()));
             State = CaptureState.Ready;
@@ -640,6 +643,10 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointDown(object sender, InputPointsEventArgs e)
         {
+            if (e.PointSource == Devices.TouchPad && Mode == CaptureMode.Normal)
+                _intentDlc.Begin(e.InputPointList);
+            else
+                _intentDlc.Cancel();
             // The custom tray menu is also used for precision-touchpad taps.
             // Once it is visible, let touchpad input hit the menu directly;
             // otherwise the global touchpad recognizer starts a provisional
@@ -750,6 +757,8 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointMove(object sender, InputPointsEventArgs e)
         {
+            if (e.PointSource == Devices.TouchPad && Mode == CaptureMode.Normal)
+                _intentDlc.Add(e.InputPointList);
             if (SourceDevice == Devices.TouchScreen && _touchScreenBlockedUntilRelease)
                 return;
 
@@ -763,6 +772,10 @@ namespace GestureSign.Daemon.Input
 
         protected void PointEventTranslator_PointUp(object sender, InputPointsEventArgs e)
         {
+            if (e.PointSource == Devices.TouchPad && Mode == CaptureMode.Normal)
+                _intentDlc.End();
+            else
+                _intentDlc.Cancel();
             if (SourceDevice == Devices.TouchPad)
                 ReleasePointerMotionSuppression("PointUp");
             if (SourceDevice == Devices.TouchScreen && _touchScreenBlockedUntilRelease)
@@ -865,6 +878,7 @@ namespace GestureSign.Daemon.Input
                 Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             }
 
+            _intentDlc.Publish();
             UpdateBlockTouchInputThreshold();
             if (_initialTimeoutTimer != null)
                 _initialTimeoutTimer.Change(Timeout.Infinite, Timeout.Infinite);
@@ -1092,6 +1106,12 @@ namespace GestureSign.Daemon.Input
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
             var recognizedGestureName = ResolveActionGestureName(GestureManager.Instance.GestureName, pointsInformation.Points);
+            if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal &&
+                _intentDlc.ShouldSuppress(recognizedGestureName, IsSmartCloseGestureName(recognizedGestureName), pointsInformation.Points.Count))
+            {
+                Logging.LogMessage($"Intent DLC suppressed traced action. Gesture={recognizedGestureName ?? "(none)"}");
+                recognizedGestureName = null;
+            }
             if (recognizedGestureName != null)
             {
                 List<Point> capturedPoints = SourceDevice == Devices.TouchPad ? new List<Point>() { _touchPadStartPoint } : pointsInformation.FirstCapturedPoints;

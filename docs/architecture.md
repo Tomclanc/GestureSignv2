@@ -1,5 +1,7 @@
 # GestureSign V2 稳定化架构
 
+可选意图学习 DLC：界面集成在主程序选项页，未安装时按 Kando 的方式提供可选下载。Daemon 的 `TouchPadIntentBridge` 负责有界时序采样、异步保存和有截止时间的本机管道请求；WinUI 通过控制管道管理采样、训练、纠错和组件生命周期。训练、ONNX 导出和 Windows ML 推理在无窗口的 `GestureSign.IntentDlc` 进程中，主程序不引用 ML 运行库。组件按随程序发布的 SHA-256 校验，取消或验证失败不替换旧组件，卸载保留样本与模型。默认关闭，实验性保护只作用于最终识别后的双指 Smart Close。操作与验证边界见 [intent-dlc.md](intent-dlc.md)。
+
 输入捕获的生命周期由 `GestureSign.Foundation.Input.CaptureSession` 统一管理：
 
 `Pending → Capturing/Previewing → Recognizing → Executing → Completed/Canceled`

@@ -1,0 +1,18 @@
+[
+    {
+        "Version":  "0.3.0",
+        "Architecture":  "x64",
+        "Sha256":  "316BD8C20CEEB522E8DFB08A2B34FF090469F89533BF7A10A06F8D98B0B36672",
+        "FileName":  "GestureSign-IntentDlc-0.3.0-win-x64.zip",
+        "Bytes":  60102166,
+        "Url":  "https://github.com/Tomclanc/GestureSignv2/releases/download/intent-dlc-v0.3.0/GestureSign-IntentDlc-0.3.0-win-x64.zip"
+    },
+    {
+        "Version":  "0.3.0",
+        "Architecture":  "arm64",
+        "Sha256":  "F5DDFF78C454DE169F396530B1F18AC381BF6EAB411E067880912D5D56724767",
+        "FileName":  "GestureSign-IntentDlc-0.3.0-win-arm64.zip",
+        "Bytes":  58207885,
+        "Url":  "https://github.com/Tomclanc/GestureSignv2/releases/download/intent-dlc-v0.3.0/GestureSign-IntentDlc-0.3.0-win-arm64.zip"
+    }
+]

@@ -12,6 +12,7 @@ public sealed partial class MainWindow
     {
         var root = NewSection();
         var options = _legacyData.Options;
+        root.Children.Add(NewIntentLearningSettings());
         root.Children.Add(NewSettingsGroup(L("视觉反馈", "Visual Feedback", "視覺回饋", "視覚フィードバック", "시각 피드백"),
         [
             NewToggleRow(L("显示手势轨迹", "Show gesture trail", "顯示手勢軌跡", "ジェスチャ軌跡を表示", "제스처 궤적 표시"), options.VisualFeedbackWidth > 0, "VisualFeedbackWidth", options.VisualFeedbackWidth == 0 ? "9" : options.VisualFeedbackWidth.ToString(), "0"),
