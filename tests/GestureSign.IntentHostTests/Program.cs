@@ -5,6 +5,7 @@ using GestureSign.Foundation.Intent;
 using GestureSign.IntentDlc;
 
 AppDomain.CurrentDomain.UnhandledException += (_, error) => File.WriteAllText("intent-host-failure.log", error.ExceptionObject.ToString());
+HardwareInference.DiagnosticTrace = Console.WriteLine;
 var root = Path.Combine(Path.GetTempPath(), "GestureSign-HostTest-" + Guid.NewGuid().ToString("N"));
 var pipeName = "GestureSign-HostTest-" + Guid.NewGuid().ToString("N");
 bool idle = false; var now = DateTimeOffset.UtcNow;

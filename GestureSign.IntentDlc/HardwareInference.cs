@@ -8,6 +8,7 @@ namespace GestureSign.IntentDlc;
 
 internal sealed class HardwareInference : IDisposable
 {
+    internal static Action<string>? DiagnosticTrace { get; set; }
     private readonly object _sync = new();
     private InferenceSession? _session;
     private IntentModel? _model;
@@ -19,6 +20,7 @@ internal sealed class HardwareInference : IDisposable
 
     public async Task LoadAsync(IntentModel model, bool installProviders, string? testVendor = null)
     {
+        DiagnosticTrace?.Invoke("Inference: validating model");
         model.Validate();
         if (installProviders)
         {
@@ -30,7 +32,9 @@ internal sealed class HardwareInference : IDisposable
             // Register only already-installed EPs. Startup/ordinary inference never downloads.
             try
             {
+                DiagnosticTrace?.Invoke("Inference: creating ORT environment");
                 var env = OrtEnv.Instance();
+                DiagnosticTrace?.Invoke("Inference: enumerating installed provider catalog");
                 foreach (var provider in ExecutionProviderCatalog.GetDefault().FindAllProviders())
                 {
                     if (string.IsNullOrEmpty(provider.LibraryPath)) continue;
@@ -46,6 +50,7 @@ internal sealed class HardwareInference : IDisposable
                 _session?.Dispose(); _session = null; _model = model;
                 _fallbacks.Clear();
                 var bytes = IntentOnnx.Export(model);
+                DiagnosticTrace?.Invoke("Inference: enumerating hardware devices");
                 try
                 {
                     var env = OrtEnv.Instance();
@@ -73,6 +78,7 @@ internal sealed class HardwareInference : IDisposable
                     using var options = Options(accelerated: false); return new InferenceSession(bytes, options);
                 }));
                 Advance();
+                DiagnosticTrace?.Invoke("Inference: selected " + _backend);
             }
         });
     }
@@ -84,6 +90,7 @@ internal sealed class HardwareInference : IDisposable
         {
             try
             {
+                DiagnosticTrace?.Invoke("Inference: initializing " + backend.Name);
                 var session = backend.Create();
                 if (Accept(session, _model!)) { _session = session; _backend = backend.Name; return; }
             }
