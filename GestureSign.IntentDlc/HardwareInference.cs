@@ -17,6 +17,9 @@ internal sealed class HardwareInference : IDisposable
     private readonly Queue<(string Name, Func<InferenceSession> Create)> _fallbacks = new();
     public string Status { get { lock (_sync) return _backend + Environment.NewLine + string.Join(Environment.NewLine, _diagnostics); } }
     public bool Eligible { get { lock (_sync) return _model?.EligibleForProtection == true; } }
+    internal static bool IsSupportedGpu(uint vendorId, string? vendor) =>
+        vendorId is 0x10de or 0x1002 or 0x8086 or 0x5143 or 0x17cb ||
+        new[] { "NVIDIA", "Advanced Micro Devices", "AMD", "Intel", "Qualcomm" }.Any(name => vendor?.Contains(name, StringComparison.OrdinalIgnoreCase) == true);
 
     public async Task LoadAsync(IntentModel model, bool installProviders, string? testVendor = null)
     {
@@ -58,6 +61,10 @@ internal sealed class HardwareInference : IDisposable
                     foreach (var kind in new[] { OrtHardwareDeviceType.NPU, OrtHardwareDeviceType.GPU })
                         foreach (var device in devices.Where(d => d.HardwareDevice.Type == kind && (testVendor == null || d.HardwareDevice.Vendor.Contains(testVendor, StringComparison.OrdinalIgnoreCase))))
                         {
+                            // Software/anonymous adapters can be enumerated as GPU on headless systems.
+                            // Do not initialize native DirectML on an unverified adapter or assume index 0 is hardware.
+                            if (kind == OrtHardwareDeviceType.GPU && !IsSupportedGpu(device.HardwareDevice.VendorId, device.HardwareDevice.Vendor))
+                            { _diagnostics.Add($"跳过未确认的 GPU：vendor=0x{device.HardwareDevice.VendorId:X} {device.HardwareDevice.Vendor}"); continue; }
                             _fallbacks.Enqueue(($"{kind} · {device.EpName} · {device.HardwareDevice.Vendor}", () =>
                             {
                                 using var options = Options(accelerated: true);
@@ -67,12 +74,7 @@ internal sealed class HardwareInference : IDisposable
                         }
                 }
                 catch (Exception ex) { _diagnostics.Add("硬件设备枚举失败：" + ex.Message); }
-                // DirectML is in-box and may not appear among dynamically registered devices.
-                if (testVendor == null) _fallbacks.Enqueue(("GPU · DirectML (adapter 0)", () =>
-                {
-                    using var options = Options(accelerated: true); options.AppendExecutionProvider_DML(0);
-                    return new InferenceSession(bytes, options);
-                }));
+                // No identifiable accelerator: go straight to CPU, never probe an arbitrary adapter 0.
                 _fallbacks.Enqueue(("CPU · ONNX Runtime", () =>
                 {
                     using var options = Options(accelerated: false); return new InferenceSession(bytes, options);

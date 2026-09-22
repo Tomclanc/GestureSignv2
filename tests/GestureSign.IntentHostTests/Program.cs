@@ -12,7 +12,8 @@ bool idle = false; var now = DateTimeOffset.UtcNow;
 using var host = new IntentHost(root, pipeName, () => idle, () => now);
 var running = host.RunAsync(Process.GetCurrentProcess());
 int checks = 0;
-void Check(bool value, string message) { if (!value) throw new Exception(message); checks++; Console.WriteLine($"PASS host check {checks}: {message}"); }
+void Check(bool value, string message) { if (!value) throw new Exception(message); checks++; Console.WriteLine($"PASS host check {checks}"); }
+Check(new uint[] { 0x10de, 0x1002, 0x8086, 0x5143, 0x17cb }.All(id => HardwareInference.IsSupportedGpu(id, "")) && !HardwareInference.IsSupportedGpu(0x1414, "") && !HardwareInference.IsSupportedGpu(0, ""), "Anonymous/software GPU accepted or known vendor rejected.");
 async Task<IntentHostResponse> Send(IntentHostRequest request)
 {
     using var timeout = new CancellationTokenSource(5000);
