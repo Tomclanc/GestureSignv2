@@ -407,16 +407,24 @@ public sealed partial class MainWindow
         Action? onBuiltInGestureSelected = null)
     {
         ComboBox? recordedPicker = null;
+        ComboBox? tipTapPicker = null;
         var builtInPicker = NewBuiltInGesturePicker(gesture, () =>
         {
             if (recordedPicker is not null && recordedPicker.SelectedIndex > 0)
                 recordedPicker.SelectedIndex = 0;
+            if (tipTapPicker is not null)
+            {
+                var index = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+                tipTapPicker.SelectedIndex = index >= 25 ? index - 24 : 0;
+            }
             onBuiltInGestureSelected?.Invoke();
         });
         recordedPicker = NewRecordedGesturePicker(gesture, selectedGesture =>
         {
             if (builtInPicker.SelectedIndex > 0)
                 builtInPicker.SelectedIndex = 0;
+            if (tipTapPicker is not null)
+                tipTapPicker.SelectedIndex = 0;
             onRecordedGestureSelected?.Invoke(selectedGesture);
         });
 
@@ -424,7 +432,42 @@ public sealed partial class MainWindow
         recordedPicker.Margin = new Thickness(0);
         builtInPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         recordedPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
-        return NewGestureControlRow(builtInPicker, recordedPicker);
+        tipTapPicker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
+        tipTapPicker.Items.Add(L("选择 TipTap 触发方式", "Choose a TipTap trigger", "選擇 TipTap 觸發方式", "TipTap トリガーを選択", "TipTap 트리거 선택"));
+        for (var index = 25; index <= 36; index++)
+            tipTapPicker.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
+        var selectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+        tipTapPicker.SelectedIndex = selectedIndex >= 25 ? selectedIndex - 24 : 0;
+        tipTapPicker.SelectionChanged += (_, _) =>
+        {
+            if (tipTapPicker.SelectedIndex <= 0) return;
+            // Reuse the built-in selection path for stored gesture IDs and
+            // clearing recorded patterns, including when editing an existing action.
+            builtInPicker.SelectedIndex = tipTapPicker.SelectedIndex + 24;
+        };
+        var panel = new StackPanel { Spacing = 8 };
+        panel.Children.Add(NewGestureControlRow(builtInPicker, recordedPicker));
+        panel.Children.Add(tipTapPicker);
+        var tipTapPreview = new Border { HorizontalAlignment = HorizontalAlignment.Center };
+        void RefreshTipTapPreview()
+        {
+            tipTapPreview.Child = NewTipTapGesturePreview(ResolveGestureName(gesture, gesture.Text), 240, 122);
+            tipTapPreview.Visibility = tipTapPreview.Child is null ? Visibility.Collapsed : Visibility.Visible;
+        }
+        gesture.TextChanged += (_, _) => RefreshTipTapPreview();
+        RefreshTipTapPreview();
+        panel.Children.Add(tipTapPreview);
+        panel.Children.Add(new TextBlock
+        {
+            Text = L("TipTap：在触控板上按住 1～3 指，用另一指在手指组左、右、上或下方轻点，无需录制图案。",
+                "TipTap: hold 1–3 fingers on the touchpad and tap with another finger to the left, right, above or below the held group. No drawing is needed.",
+                "TipTap：在觸控板上按住 1～3 指，用另一指在手指組左、右、上或下方輕點，無需錄製圖案。",
+                "TipTap：タッチパッドに 1～3 本の指を置いたまま、別の指でそのグループの左・右・上・下をタップします。図形の記録は不要です。",
+                "TipTap: 터치패드에 손가락 1~3개를 댄 채 다른 손가락으로 그룹의 왼쪽, 오른쪽, 위 또는 아래를 탭하세요. 패턴을 그릴 필요가 없습니다."),
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.7
+        });
+        return panel;
     }
 
     private ActionDeviceSelector NewActionDeviceSelector(int ignoredDevices)

@@ -5076,7 +5076,8 @@ public sealed partial class MainWindow : Window
     private FrameworkElement NewGesturePreview(string gestureName, double width, double height)
     {
         var gesture = _legacyData.Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
-        var edgePreview = NewEdgeGesturePreview(gestureName, width, height);
+        var edgePreview = NewTipTapGesturePreview(gestureName, width, height)
+            ?? NewEdgeGesturePreview(gestureName, width, height);
         UIElement child = edgePreview is not null
             ? edgePreview
             : gesture is not null && gesture.PointPatterns.Count > 0
@@ -5100,6 +5101,57 @@ public sealed partial class MainWindow : Window
             Height = height,
             Child = child
         };
+    }
+
+    private FrameworkElement? NewTipTapGesturePreview(string gestureName, double width, double height)
+    {
+        var index = BuiltInGestureIndex(gestureName);
+        if (index < 25 || index > 36) return null;
+        var heldCount = (index - 25) / 4 + 1;
+        var direction = (index - 25) % 4; // Left, right, up, down.
+        var horizontal = direction < 2;
+        var sign = direction == 0 || direction == 2 ? -1 : 1;
+        var canvas = new Canvas { Width = 150, Height = 76 };
+        var accent = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212));
+        var muted = new SolidColorBrush(IsDark ? Color.FromArgb(180, 255, 255, 255) : Color.FromArgb(255, 118, 128, 140));
+        var body = new Microsoft.UI.Xaml.Shapes.Rectangle
+        {
+            Width = 104, Height = 60, RadiusX = 9, RadiusY = 9,
+            Stroke = muted, StrokeThickness = 1.5, Fill = SubtleBrush()
+        };
+        Canvas.SetLeft(body, 23);
+        Canvas.SetTop(body, 8);
+        canvas.Children.Add(body);
+        void Dot(double x, double y, double diameter, bool filled)
+        {
+            var dot = new Microsoft.UI.Xaml.Shapes.Ellipse
+            {
+                Width = diameter, Height = diameter,
+                Stroke = accent, StrokeThickness = 1.6,
+                Fill = filled ? accent : null
+            };
+            Canvas.SetLeft(dot, x - diameter / 2);
+            Canvas.SetTop(dot, y - diameter / 2);
+            canvas.Children.Add(dot);
+        }
+        for (var finger = 0; finger < heldCount; finger++)
+        {
+            var offset = (finger - (heldCount - 1) / 2d) * 12;
+            Dot(horizontal ? 75 - sign * 12 : 75 + offset,
+                horizontal ? 38 + offset : 38 - sign * 9, 8, true);
+        }
+        var tapX = horizontal ? 75 + sign * 34 : 75;
+        var tapY = horizontal ? 38 : 38 + sign * 20;
+        Dot(tapX, tapY, 17, false);
+        Dot(tapX, tapY, 10, false);
+        Dot(tapX, tapY, 3, true);
+        var preview = new Viewbox { Width = width, Height = height, Child = canvas, Stretch = Stretch.Uniform };
+        var label = BuiltInGestureDisplayName(gestureName) + " · " +
+            L("实心点：按住；圆环：另一指轻点", "Solid dots: hold; rings: tap with another finger",
+                "實心點：按住；圓環：另一指輕點", "塗りつぶし：保持、リング：別の指でタップ", "채운 점: 유지, 원: 다른 손가락으로 탭");
+        ToolTipService.SetToolTip(preview, label);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(preview, label);
+        return preview;
     }
 
     private FrameworkElement? NewEdgeGesturePreview(string gestureName, double width, double height)
