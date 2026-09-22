@@ -79,50 +79,10 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - 新建和编辑动作增加独立的 TipTap 触发方式选择框，支持 12 种指数量与方向组合。
 - 动作卡片与编辑窗口新增 TipTap 示意图：实心点表示按住的手指，圆环表示另一指的轻点位置。
 
-### 18.2.7
-
-- 调整亮度时显示 Windows 11 原生亮度条，支持连续边缘调节。
-- 系统亮度浮层不可用时提供应用亮度提示，不影响亮度调整。
-
-### 18.2.6
-
-- 新增 TipTap：按住 1、2 或 3 指，再用另一指在左、右、上、下轻点，共 12 种独立动作；支持连续轻点。
-- TipTap 方向以按住的手指组为参照。斜向、组内轻点和滑动不触发；旧左/右绑定继续有效。
-- TipTap / 边缘快捷键可直接选择单独发送 Win 键。
-- 边缘亮度支持连续调节或每次滑动一次；保留旧配置行为，并修正小步长亮度档位选择。
-- 修复桌面被其他窗口矩形误判而触发全屏忽略的问题。
-- 增加左上角返回按钮，按页面历史返回。
-
-### 18.2.5
-
-- “先激活窗口再发送动作”改用系统窗口激活，不再点击鼠标当前位置，避免误触网页链接、按钮或改变文本选区。
-- 已在前台的窗口直接执行；后台窗口优先正常激活，必要时短暂连接前台输入线程重试。Store/UWP 子窗口使用顶层窗口作为激活目标。
-- 触控板在手势开始时选择鼠标下方的应用窗口，不再用当前前台窗口覆盖这个目标；鼠标停在任务栏等系统表面时保留前台窗口回退。
-- 合并边缘光标固定测试版：接受触控板边缘交互后临时拦截光标移动，松手、取消、超时、重置和退出时解除；关闭鼠标手势时也可临时启用所需钩子。普通触控板移动和触摸屏不请求此锁定。
-- 光标钩子回归测试：`dotnet run --project tests/GestureSign.EdgeCursorTests -c Release`，覆盖移动拦截、动作注入放行、锁定释放及钩子清理。
-- 激活失败时跳过动作并记录 `TargetActivationFailed`，避免快捷键发送到其他窗口；智能关闭使用捕获窗口的顶层句柄。
-- 桌面测试：`dotnet run --project tests/GestureSign.WindowActivationTests -c Release -- --interactive`。此测试临时显示两个测试窗口并移动鼠标，结束后恢复原来的前台窗口和鼠标位置。省略 `--interactive` 仅检查无效目标。
-- 实际浏览器和 Store/UWP 应用仍需手工验收：在链接/按钮上方及选中文本时触发手势，确认无额外点击；切换焦点后验证快捷键、智能关闭与多窗口目标选择。
-
-### 18.2.4
-
-- 修复 Microsoft Store 版启动时 Kando 窗口被意外带到前台的问题。
-
-### 18.2.3
-
-- 改进“先激活窗口再发送动作”：直接点击当前鼠标位置后执行动作，兼容失去焦点的 Store/UWP 窗口。
-- 智能关闭使用点击后的前台窗口，避免使用过期的子窗口句柄。
-
-### 18.2.2
-
-- 修复 Edge 等应用组存在专属动作时，实时提示不会按手势回退全局动作的问题。
-- 实时动作提示现在只反映当前完整轨迹：命中时显示，继续绘制后失配则立即清除。
-- 松手或取消时同步清除提示层后再执行最终动作，避免提示闪烁、残留或被后续单指帧错误接管。
-- 被应用过滤器拒绝的单指触控板帧不再创建视觉提示生命周期。
-
 ### 历史版本
 
-18.2 加入触控板和触摸屏四边缘音量、滚动映射、连续音量调节及多指防误触改进。18.1.4 及更早版本将界面和托盘菜单扩展到 90 种 Windows 语言及地区变体，加入 RTL 布局、Kando 升级迁移与架构自动选择，并修复鼠标点击拦截、轨迹透明度、游戏触摸拦截、全屏识别、标题栏与托盘触控、边缘交互和“启动应用”等问题。完整记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+此前版本加入了 Windows 11 原生亮度条、多指四方向 TipTap、单独发送 Win 键、边缘音量与亮度连续调节、四边滚动映射、触控板边缘光标固定和页面返回按钮；改进了无点击窗口激活、鼠标下方目标选择、智能关闭、桌面与全屏过滤及实时动作提示，并完善了 WinUI 3 界面、90 种语言与地区变体、RTL 布局、Kando 可选组件与升级迁移，以及输入、轨迹、触控和应用启动方面的修复。各版本详情请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+
 ## 安装
 
 推荐使用 winget 安装：
@@ -250,50 +210,10 @@ Current version:
 - Added a dedicated TipTap selector when creating or editing actions, with 12 finger-count and direction combinations.
 - Added TipTap previews to action cards and editors: solid dots represent held fingers and rings mark the tap position.
 
-#### 18.2.7
-
-- Brightness adjustments now show the native Windows 11 brightness flyout, including continuous edge adjustments.
-- When the native flyout is unavailable, an application brightness indicator provides feedback without interrupting brightness adjustment.
-
-#### 18.2.6
-
-- Added TipTap: hold one, two, or three fingers and tap with another finger to the left, right, above, or below, giving 12 independent action bindings. Repeated taps are supported.
-- TipTap directions are relative to the held finger group. Diagonal taps, taps inside the group, and sliding do not trigger actions. Existing left/right bindings remain valid.
-- TipTap and edge shortcut editors can now select the Win key on its own.
-- Edge brightness adjustment supports continuous changes or one change per swipe, preserves existing configuration behavior, and handles small steps on displays with coarse brightness levels.
-- Fixed desktop gestures being rejected by fullscreen filtering when another window's bounds incorrectly covered the desktop target.
-- Added a back button in the upper-left corner to return through page history.
-
-#### 18.2.5
-
-- “Activate the window before sending actions” now uses window activation without clicking, avoiding unintended clicks on web links or buttons and changes to text selection.
-- Foreground targets execute immediately. Background targets use normal activation first, with a brief foreground input-thread attachment if a retry is needed. Store/UWP child windows use their top-level window as the activation target.
-- Touchpad gestures select the application under the pointer when the gesture starts instead of replacing it with the foreground window. System surfaces such as the taskbar retain a foreground-window fallback.
-- Accepted touchpad edge interactions temporarily lock pointer movement, including when mouse gestures are disabled. Release, cancellation, timeout, reset, and exit clear the lock. Ordinary touchpad movement and touchscreen input do not request this lock.
-- If activation fails, the action is skipped and logged as `TargetActivationFailed`, preventing shortcuts from reaching another window. Smart Close uses the captured window's top-level handle.
-- Pointer-lock regression checks: `dotnet run --project tests/GestureSign.EdgeCursorTests -c Release`. These cover motion suppression, injected action input, lock release, and hook cleanup.
-- Interactive activation checks: `dotnet run --project tests/GestureSign.WindowActivationTests -c Release -- --interactive`. These temporarily show two test windows and move the pointer, then restore the previous foreground window and pointer position.
-- Browser and Store/UWP acceptance checks still require manual testing over links, buttons, and selected text, and after focus changes, to verify that no extra clicks occur and actions reach the intended window.
-
-#### 18.2.4
-
-- Fixed the Microsoft Store edition unexpectedly bringing Kando to the foreground at startup.
-
-#### 18.2.3
-
-- At this release, “Activate the window before sending actions” clicked at the pointer position before executing the action to support unfocused Store/UWP windows. Version 18.2.5 replaced this with activation without clicking.
-- Smart Close used the foreground window after the click to avoid stale child-window handles.
-
-#### 18.2.2
-
-- Fixed live previews failing to fall back to global actions per gesture when an app group, such as Edge, also has app-specific actions.
-- Live action hints now reflect only the current complete path: they appear on a match and clear immediately when further drawing invalidates it.
-- Releasing or canceling synchronously clears the hint layer before final recognition and action execution, preventing flicker and stale labels.
-- Rejected one-finger touchpad frames no longer create or take ownership of a visual hint lifecycle.
-
 ### Previous releases
 
-Version 18.2 added four-edge volume and scrolling mappings, continuous volume adjustment, and improved multi-finger false-trigger protection. Version 18.1.4 and earlier expanded the UI and tray menu to 90 Windows language and regional variants, added RTL layout, Kando upgrade migration and architecture selection, and fixed mouse click interception, trail opacity, game touch interception, fullscreen detection, caption and tray touch, edge interactions, and Launch App behavior. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the complete history.
+Earlier releases added the native Windows 11 brightness flyout, multi-finger TipTap in four directions, standalone Win key selection, continuous edge volume and brightness adjustment, scrolling mappings on all four edges, touchpad edge pointer locking, and back navigation. They also improved activation without clicking, selection of the window under the pointer, Smart Close, desktop and fullscreen filtering, and live action hints, alongside the WinUI 3 interface, 90 language and regional variants, RTL layout, optional Kando integration and upgrade migration, and fixes for input, gesture trails, touch interactions, and application launching. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for version-by-version details.
+
 ## Installation
 
 Recommended:
@@ -425,16 +345,10 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - アクションの新規作成・編集画面に、指の本数と方向を組み合わせた 12 通りの TipTap 専用選択欄を追加しました。
 - アクションカードと編集画面に TipTap プレビューを追加しました。塗りつぶした点は保持する指、リングは別の指でタップする位置を表します。
 
-### 18.2.2 の更新内容
-
-- Edge などのアプリグループに専用アクションがある場合でも、ライブプレビューがジェスチャー単位でグローバルアクションへフォールバックするよう修正しました。
-- ライブアクション表示は現在の完全な軌跡だけを反映し、軌跡を延長して一致しなくなった時点で即座に消去します。
-- 指を離した時またはキャンセル時に、最終認識とアクション実行より先に表示レイヤーを同期的に消去し、点滅や残留を防止します。
-- フィルターで拒否された 1 本指のタッチパッドフレームが表示ライフサイクルを作成・占有しないようにしました。
-
 ### 過去のバージョン
 
-18.2 ではタッチパッド／タッチスクリーンの 4 辺への音量・スクロール割り当て、連続音量調整、複数指の誤検出防止改善を追加しました。18.1.4 以前では、UI とトレイメニューを 90 種類の Windows 言語／地域バリアントへ拡張し、RTL レイアウト、Kando のアップグレード移行とアーキテクチャ自動選択を追加しました。また、マウスクリックの遮断、軌跡の不透明度、ゲームでのタッチ遮断、全画面判定、タイトルバーとトレイのタッチ、エッジ操作、「アプリを起動」などを修正しました。完全な履歴は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+これまでのバージョンでは、Windows 11 標準の明るさ表示、複数指・四方向の TipTap、Win キー単独送信、エッジ操作による音量・明るさの連続調整、四辺へのスクロール割り当て、タッチパッドのエッジ操作中のカーソル固定、戻るボタンを追加しました。また、クリックを伴わないウィンドウのアクティブ化、カーソル下の対象選択、Smart Close、デスクトップと全画面の判定、リアルタイムのアクションヒントを改善し、WinUI 3 UI、90 種類の言語・地域対応、RTL レイアウト、Kando のオプション連携とアップグレード移行を整備するとともに、入力、ジェスチャー軌跡、タッチ操作、アプリ起動の問題を修正しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+
 ## インストール
 
 推奨:
