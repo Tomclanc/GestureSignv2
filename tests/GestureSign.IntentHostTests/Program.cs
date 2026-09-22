@@ -4,13 +4,14 @@ using System.Text.Json;
 using GestureSign.Foundation.Intent;
 using GestureSign.IntentDlc;
 
+AppDomain.CurrentDomain.UnhandledException += (_, error) => File.WriteAllText("intent-host-failure.log", error.ExceptionObject.ToString());
 var root = Path.Combine(Path.GetTempPath(), "GestureSign-HostTest-" + Guid.NewGuid().ToString("N"));
 var pipeName = "GestureSign-HostTest-" + Guid.NewGuid().ToString("N");
 bool idle = false; var now = DateTimeOffset.UtcNow;
 using var host = new IntentHost(root, pipeName, () => idle, () => now);
 var running = host.RunAsync(Process.GetCurrentProcess());
 int checks = 0;
-void Check(bool value, string message) { if (!value) throw new Exception(message); checks++; }
+void Check(bool value, string message) { if (!value) throw new Exception(message); checks++; Console.WriteLine($"PASS host check {checks}: {message}"); }
 async Task<IntentHostResponse> Send(IntentHostRequest request)
 {
     using var timeout = new CancellationTokenSource(5000);

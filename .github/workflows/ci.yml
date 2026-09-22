@@ -38,7 +38,11 @@ jobs:
           dotnet run --project tests/GestureSign.IntentPackageTests/GestureSign.IntentPackageTests.csproj -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet run --project tests/GestureSign.IntentHostTests/GestureSign.IntentHostTests.csproj -c Release
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          if ($LASTEXITCODE -ne 0) {
+            $hostTestExit = $LASTEXITCODE
+            if (Test-Path intent-host-failure.log) { Get-Content intent-host-failure.log }
+            exit $hostTestExit
+          }
           dotnet build GestureSign.IntentDlc/GestureSign.IntentDlc.csproj -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet GestureSign.IntentDlc/bin/Release/net10.0-windows10.0.26100.0/win-x64/GestureSign.IntentDlc.dll --self-test intent-runtime-test.json
