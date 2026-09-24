@@ -1,8 +1,18 @@
-[{
-  "Sha256": "4A694272B7BCC72C9D503516BE42B0BD2777A86FA1CDB87B02099FE4ED539A12",
-  "FileName": "GestureSign-IntentDlc-18.2.9-win-x64-repack.zip",
-  "Bytes": 61873522,
-  "Url": "https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-IntentDlc-18.2.9-win-x64-repack.zip",
-  "Architecture": "x64",
-  "Version": "18.2.9"
-} ]
+[
+  {
+    "Sha256": "4A694272B7BCC72C9D503516BE42B0BD2777A86FA1CDB87B02099FE4ED539A12",
+    "FileName": "GestureSign-IntentDlc-18.2.9-win-x64-repack.zip",
+    "Bytes": 61873522,
+    "Url": "https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-IntentDlc-18.2.9-win-x64-repack.zip",
+    "Architecture": "x64",
+    "Version": "18.2.9"
+  },
+  {
+    "Version": "18.2.9",
+    "Bytes": 59817402,
+    "Sha256": "912682E32B1669A8EC634CD122409092672041F5040FC6E121086F2500E3B087",
+    "Architecture": "arm64",
+    "Url": "https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-IntentDlc-18.2.9-win-arm64-repack.zip",
+    "FileName": "GestureSign-IntentDlc-18.2.9-win-arm64-repack.zip"
+  }
+]
