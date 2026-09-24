@@ -5,11 +5,11 @@
 <h1 align="center">GestureSign V2</h1>
 
 <p align="center">
-  为 Windows 11 重新打磨的触控板 / 鼠标手势工具。
+  面向 Windows 11 的触控板、触摸屏和鼠标手势工具，支持 TipTap、边缘交互与本地 AI 意图判断。
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.8">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.9">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -42,6 +42,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - 新增“快捷操作”页面，可按需下载 Kando 可选组件，并用独立快捷键唤起径向菜单。
 - 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
 - 边缘手势可作为普通动作加入任意程序分组，当前应用动作优先，未命中时自动回退全局动作。
+- 本地意图学习与实验性 AI 否决，支持手动纠正误判；可用推理后端及回退情况在设置中显示。
 - 支持按程序、窗口类名、可执行文件、标题和分组管理动作。
 - 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；新增动作时可直接配置要执行的命令，音量、亮度、打开文件、运行命令等常用命令提供专用编辑控件。
 - 支持忽略列表，可按 exe、窗口类名、标题等规则排除指定程序。
@@ -65,23 +66,33 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.8) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.9) 下载最新便携版。
+
+GitHub 当前版本为 **18.2.9**；Microsoft Store 和 WinGet 的上架进度可能不同，获取此版本请使用下方 GitHub 附件。
 
 当前版本：
 
-- [GestureSign-V2-18.2.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-x64.msi)
-- [GestureSign-V2-18.2.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-portable-x64.zip)
+- [GestureSign-V2-18.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64.msi)
+- [GestureSign-V2-18.2.9-x64-portable.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64-portable.zip)
+
+18.2.9 运行需要 .NET 10 Desktop Runtime 和 Windows App SDK Runtime。NPU 另需兼容硬件、驱动与 Windows ML 官方执行提供程序。
 
 ## 更新内容
 
-### 18.2.8
+### 18.2.9
 
-- 新建和编辑动作增加独立的 TipTap 触发方式选择框，支持 12 种指数量与方向组合。
-- 动作卡片与编辑窗口新增 TipTap 示意图：实心点表示按住的手指，圆环表示另一指的轻点位置。
+- 整合开发者预览 0.4 的本地意图学习与实验性 AI 否决，用于减少触控板双指智能关闭误触；后台学习与 AI 否决可分别开启。
+- 支持样本批量标注、人工纠正、列表 / 网格 / 磁贴查看，以及可关闭、合并计数的 AI 否决通知。
+- 接入 AMD NPU：NPU 执行线性计算，CPU 完成归一化、Sigmoid 和精度复核；界面显示实际后端，初始化或数值验证失败时回退 GPU / CPU。
+- 修复 AMD 组件已安装但尚未就绪时无法检测 NPU、WindowsApps 路径导致编译失败及工作目录写入受限的问题。
+- MSI 与便携版已内置本地 AI 推理组件，另提供离线组件 ZIP；不包含个人训练模型或样本。AMD 官方运行时按目标电脑环境准备，可点击“准备 NPU / GPU 组件”。
+- 根据本版发布验证，Ryzen AI Z2 Extreme 通过 1,559 组输入测试，最终分数相对 CPU ONNX 最大误差约 0.000000894。当前最终使用 CPU 复核后的分数，不代表纯 NPU 推理或性能提升，其他 NPU 型号尚未完成本版实机验证。
+
+AI 否决仍属实验功能，可能误拦截。训练在 CPU 上进行，样本和模型保存在本机；社区样本可通过 [提交入口](https://github.com/Tomclanc/GestureSignv2/issues/5) 自愿分享。
 
 ### 历史版本
 
-此前版本加入了 Windows 11 原生亮度条、多指四方向 TipTap、单独发送 Win 键、边缘音量与亮度连续调节、四边滚动映射、触控板边缘光标固定和页面返回按钮；改进了无点击窗口激活、鼠标下方目标选择、智能关闭、桌面与全屏过滤及实时动作提示，并完善了 WinUI 3 界面、90 种语言与地区变体、RTL 布局、Kando 可选组件与升级迁移，以及输入、轨迹、触控和应用启动方面的修复。各版本详情请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+此前版本加入了动作编辑中的 12 种 TipTap 选择与示意图、 Windows 11 原生亮度条、多指四方向 TipTap、单独发送 Win 键、边缘音量与亮度连续调节、四边滚动映射、触控板边缘光标固定和页面返回按钮；改进了无点击窗口激活、鼠标下方目标选择、智能关闭、桌面与全屏过滤及实时动作提示，并完善了 WinUI 3 界面、90 种语言与地区变体、RTL 布局、Kando 可选组件与升级迁移，以及输入、轨迹、触控和应用启动方面的修复。各版本详情请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -127,13 +138,13 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - “手势”：查看、导入、导出、重训和整理手势库。
 - “快捷操作”：选择 Kando 菜单、同步唤起快捷键、打开 Kando 设置或测试弹出菜单。
 - “边缘交互”：设置触控板和触摸屏四边点击与边缘滑动动作，以及触控板 TipTap 动作：按住 1、2 或 3 个手指，再用另一指在按住的手指组左、右、上、下轻点，可分别绑定共 12 种动作，支持连续轻点。
-- “选项”：调整轨迹颜色、宽度、透明度、输入设备、全屏排除和启动项。
+- “选项”：调整轨迹颜色、宽度、透明度、输入设备、全屏排除和启动项，并管理本地意图学习、AI 否决、样本纠正及推理组件。
 - “关于”：查看版本、项目链接、日志和维护信息。
 
 ## 兼容性
 
 - 推荐系统：Windows 11 x64；Microsoft Store 包同时提供 x64 与 ARM64 架构。
-- 当前安装包：MSI x64、便携版 x64；商店上传包包含 x64 / ARM64；不再提供 x86 包。
+- 当前安装包：MSI x64、便携版 x64；此前商店上传包包含 x64 / ARM64；18.2.9 本次 GitHub 发布为 x64；不再提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -173,6 +184,7 @@ The original GestureSign has not been actively maintained for a long time. On ne
 - New Quick Actions page with an optional on-demand Kando component and dedicated hotkey triggers.
 - New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
 - Edge gestures can also be added to regular app groups; app-specific actions take priority and fall back to global actions when no executable app action is found.
+- Local intent learning and experimental AI veto with manual corrections and visible inference backend/fallback status.
 - Per-app actions with matching by executable, window class, title, and groups.
 - Common commands such as hotkeys, browser actions, window actions, media controls, system operations, file launching, volume, brightness, and command execution. New actions can include their initial command directly from the add-action dialog.
 - Ignore list support for excluding specific apps, windows, or matching rules.
@@ -196,23 +208,33 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.8).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.9).
+
+The current GitHub release is **18.2.9**. Microsoft Store and WinGet availability may differ; use the GitHub assets below for this version.
 
 Current version:
 
-- [GestureSign-V2-18.2.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-x64.msi)
-- [GestureSign-V2-18.2.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-portable-x64.zip)
+- [GestureSign-V2-18.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64.msi)
+- [GestureSign-V2-18.2.9-x64-portable.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64-portable.zip)
+
+18.2.9 requires .NET 10 Desktop Runtime and Windows App SDK Runtime. NPU use additionally requires compatible hardware, drivers and an official Windows ML execution provider.
 
 ### What's new
 
-#### 18.2.8
+#### 18.2.9
 
-- Added a dedicated TipTap selector when creating or editing actions, with 12 finger-count and direction combinations.
-- Added TipTap previews to action cards and editors: solid dots represent held fingers and rings mark the tap position.
+- Integrates local intent learning and experimental AI veto from Developer Preview 0.4 to reduce accidental two-finger Smart Close actions. Background learning and AI veto have independent controls.
+- Adds bulk sample labeling, manual corrections, list/grid/tile views, and optional grouped AI-veto notifications.
+- Adds AMD NPU integration: the NPU performs linear computation; the CPU handles normalization, Sigmoid and numerical verification. The UI shows the actual backend and falls back to GPU / CPU if initialization or validation fails.
+- Fixes NPU detection when installed AMD components are not ready, compilation failures caused by WindowsApps paths, and restricted working-directory writes.
+- MSI and portable packages now include local AI inference components; a separate offline component ZIP is also available. Personal models and samples are not bundled. Prepare the official AMD runtime for the target PC using “Prepare NPU / GPU components”.
+- Release validation on Ryzen AI Z2 Extreme covered 1,559 inputs, with a maximum final-score difference of approximately 0.000000894 versus CPU ONNX. The final score is CPU-verified: this is hybrid NPU + CPU execution, not a claim of pure NPU inference or improved performance. Other NPU models have not completed hardware validation for this release.
+
+AI veto remains experimental and may block intended gestures. Training uses the CPU; samples and models stay local. Community sample sharing is voluntary through the [submission issue](https://github.com/Tomclanc/GestureSignv2/issues/5).
 
 ### Previous releases
 
-Earlier releases added the native Windows 11 brightness flyout, multi-finger TipTap in four directions, standalone Win key selection, continuous edge volume and brightness adjustment, scrolling mappings on all four edges, touchpad edge pointer locking, and back navigation. They also improved activation without clicking, selection of the window under the pointer, Smart Close, desktop and fullscreen filtering, and live action hints, alongside the WinUI 3 interface, 90 language and regional variants, RTL layout, optional Kando integration and upgrade migration, and fixes for input, gesture trails, touch interactions, and application launching. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for version-by-version details.
+Earlier releases added a 12-combination TipTap selector and visual previews in action editors, the native Windows 11 brightness flyout, multi-finger TipTap in four directions, standalone Win key selection, continuous edge volume and brightness adjustment, scrolling mappings on all four edges, touchpad edge pointer locking, and back navigation. They also improved activation without clicking, selection of the window under the pointer, Smart Close, desktop and fullscreen filtering, and live action hints, alongside the WinUI 3 interface, 90 language and regional variants, RTL layout, optional Kando integration and upgrade migration, and fixes for input, gesture trails, touch interactions, and application launching. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for version-by-version details.
 
 ## Installation
 
@@ -264,13 +286,13 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 - Gestures: View, import, export, retrain, and organize the gesture library.
 - Quick Actions: Select Kando menus, sync hotkeys, open Kando settings, or test the radial menu.
 - Edge Interaction: Configure taps and swipes along all four edges of the touchpad and touchscreen, plus touchpad TipTap actions: hold one, two, or three fingers and tap with another finger to the left, right, above, or below the held finger group. Each of the 12 combinations can have its own action, and repeated taps are supported.
-- Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior.
+- Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior; manage local intent learning, AI veto, sample corrections, and inference components.
 - About: View the version, project links, logs, and maintenance information.
 
 ## Compatibility
 
 - Recommended OS: Windows 11 x64. The Microsoft Store package also includes x64 and ARM64 variants.
-- Current packages: x64 MSI and x64 portable ZIP; the Store upload package contains x64 / ARM64 variants. No x86 package is produced.
+- Current packages: x64 MSI and x64 portable ZIP; previous Store packages include x64 / ARM64 variants; this GitHub release of 18.2.9 is x64. No x86 package is produced.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -310,6 +332,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - Kando のオプションコンポーネントを必要なときにダウンロードできる Quick Actions ページと、専用ホットキーによる呼び出し。
 - タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
 - エッジジェスチャーは通常のアプリグループにも追加でき、アプリ別アクションを優先し、見つからない場合はグローバルアクションへフォールバックします。
+- ローカル意図学習と実験的な AI 拒否、誤判定の手動修正、推論バックエンドとフォールバック状態の表示。
 - 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
 - ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。新規アクション作成時に初期コマンドも同じダイアログで設定できます。
 - 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
@@ -333,21 +356,31 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.8) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.2.9) からも入手できます。
+
+GitHub の現在のリリースは **18.2.9** です。Microsoft Store と WinGet では公開時期が異なる場合があるため、このバージョンは以下の GitHub 添付ファイルから入手してください。
 
 現在のバージョン:
 
-- [GestureSign-V2-18.2.8-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-x64.msi)
-- [GestureSign-V2-18.2.8-portable-x64.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.8/GestureSign-V2-18.2.8-portable-x64.zip)
+- [GestureSign-V2-18.2.9-x64.msi](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64.msi)
+- [GestureSign-V2-18.2.9-x64-portable.zip](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/GestureSign-V2-18.2.9-x64-portable.zip)
 
-### 18.2.8 の更新内容
+18.2.9 には .NET 10 Desktop Runtime と Windows App SDK Runtime が必要です。NPU の利用には対応ハードウェア、ドライバー、Windows ML 公式実行プロバイダーも必要です。
 
-- アクションの新規作成・編集画面に、指の本数と方向を組み合わせた 12 通りの TipTap 専用選択欄を追加しました。
-- アクションカードと編集画面に TipTap プレビューを追加しました。塗りつぶした点は保持する指、リングは別の指でタップする位置を表します。
+### 18.2.9 の更新内容
+
+- 開発者プレビュー 0.4 のローカル意図学習と実験的な AI 拒否機能を統合し、タッチパッドの 2 本指スマートクローズの誤作動を抑制します。バックグラウンド学習と AI 拒否は個別に有効化できます。
+- サンプルの一括ラベル付け、手動修正、リスト／グリッド／タイル表示、無効化できる集約型の AI 拒否通知に対応しました。
+- AMD NPU に対応しました。NPU が線形計算を行い、CPU が正規化、Sigmoid、数値検証を担当します。実際のバックエンドを表示し、初期化や数値検証に失敗した場合は GPU / CPU に切り替えます。
+- インストール済みの AMD コンポーネントが未準備の場合の NPU 検出、WindowsApps パスによるコンパイル失敗、作業ディレクトリへの書き込み制限に関する問題を修正しました。
+- MSI とポータブル版にローカル AI 推論コンポーネントを同梱し、別途オフライン用 ZIP も提供します。個人の学習モデルやサンプルは含みません。AMD 公式ランタイムは対象 PC で「NPU / GPU コンポーネントを準備」から準備できます。
+- 本リリースの Ryzen AI Z2 Extreme 検証では 1,559 組の入力をテストし、最終スコアの CPU ONNX との差は最大約 0.000000894 でした。最終的には CPU で再検証したスコアを使用します。純粋な NPU 推論や性能向上を意味するものではなく、他の NPU 機種は本リリースでの実機検証を完了していません。
+
+AI 拒否は実験的な機能で、意図したジェスチャーを誤ってブロックする場合があります。学習は CPU で行い、サンプルとモデルはローカルに保存します。サンプルは任意で [コミュニティ投稿窓口](https://github.com/Tomclanc/GestureSignv2/issues/5) に共有できます。
 
 ### 過去のバージョン
 
-これまでのバージョンでは、Windows 11 標準の明るさ表示、複数指・四方向の TipTap、Win キー単独送信、エッジ操作による音量・明るさの連続調整、四辺へのスクロール割り当て、タッチパッドのエッジ操作中のカーソル固定、戻るボタンを追加しました。また、クリックを伴わないウィンドウのアクティブ化、カーソル下の対象選択、Smart Close、デスクトップと全画面の判定、リアルタイムのアクションヒントを改善し、WinUI 3 UI、90 種類の言語・地域対応、RTL レイアウト、Kando のオプション連携とアップグレード移行を整備するとともに、入力、ジェスチャー軌跡、タッチ操作、アプリ起動の問題を修正しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+これまでのバージョンでは、アクション編集画面の 12 通りの TipTap 選択とプレビュー、Windows 11 標準の明るさ表示、複数指・四方向の TipTap、Win キー単独送信、エッジ操作による音量・明るさの連続調整、四辺へのスクロール割り当て、タッチパッドのエッジ操作中のカーソル固定、戻るボタンを追加しました。また、クリックを伴わないウィンドウのアクティブ化、カーソル下の対象選択、Smart Close、デスクトップと全画面の判定、リアルタイムのアクションヒントを改善し、WinUI 3 UI、90 種類の言語・地域対応、RTL レイアウト、Kando のオプション連携とアップグレード移行を整備するとともに、入力、ジェスチャー軌跡、タッチ操作、アプリ起動の問題を修正しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
@@ -399,13 +432,13 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 - Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
 - Quick Actions: Kando メニューの選択、ホットキー同期、Kando 設定の起動、ラジアルメニューのテストを行います。
 - Edge Interaction: タッチパッドとタッチスクリーンの四辺でのタップ／スワイプに加え、タッチパッドの TipTap アクションを設定します。1 本、2 本、または 3 本の指を置いたまま、別の指でその指のグループの左・右・上・下を軽くタップすると、合計 12 通りの操作にそれぞれアクションを割り当てられます。連続タップにも対応しています。
-- Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整します。
+- Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整し、ローカル意図学習、AI 拒否、サンプル修正、推論コンポーネントを管理します。
 - About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
 
 ## 互換性
 
 - 推奨 OS: Windows 11 x64。Microsoft Store パッケージには x64 と ARM64 の両方を含めています。
-- 現在のパッケージ: x64 MSI、x64 ポータブル ZIP、x64 / ARM64 を含む Store アップロード パッケージ。x86 パッケージは生成しません。
+- 現在のパッケージ: x64 MSI、x64 ポータブル ZIP、従来の Store パッケージは x64 / ARM64 対応（18.2.9 の今回の GitHub リリースは x64）。x86 パッケージは生成しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## ポータブルパッケージの検証
