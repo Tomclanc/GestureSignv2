@@ -163,12 +163,8 @@ if (!(Test-Path -LiteralPath $updaterProject)) {
     throw "Updater project is missing: $updaterProject"
 }
 $updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.exe"
-if ($msbuild) {
-    & $msbuild $updaterProject /p:Configuration=Release /v:m
-}
-else {
-    & dotnet msbuild $updaterProject /p:Configuration=Release /v:m
-}
+# Use the same .NET SDK restore/build path as regression CI for this legacy project.
+& dotnet build $updaterProject -c Release /p:Platform=x64 /v:minimal
 if ($LASTEXITCODE -ne 0) {
     if (Test-Path -LiteralPath $updaterExe) {
         Write-Warning "Updater build failed with exit code $LASTEXITCODE; reusing the existing unchanged updater binary: $updaterExe"
