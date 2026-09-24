@@ -1,4 +1,4 @@
-using GestureSign.Foundation.Intent;
+﻿using GestureSign.Foundation.Intent;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -21,6 +21,42 @@ internal sealed class TouchPadIntentBridge : IDisposable
     private bool _recordingCapture;
     private readonly Stopwatch _clock = Stopwatch.StartNew();
     private double _started, _lastEnd = -5000, _gap;
+    private readonly IntentWheelContext _wheelContext = new();
+    private bool _recentWheel;
+    private string _application = "";
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
+    private static string ApplicationName()
+    {
+        try
+        {
+            if (!GetCursorPos(out var point)) return "";
+            GetWindowThreadProcessId(GetAncestor(WindowFromPoint(point), 2), out var id);
+            using var process = Process.GetProcessById((int)id);
+            return process.ProcessName;
+        }
+        catch { return ""; }
+    }
+    public void RecordWheel(int delta, bool injected)
+    {
+        var config = Volatile.Read(ref _control);
+        if (injected || !config.Active || config.Recording) return;
+        _wheelContext.Record(_windowContext(), _clock.Elapsed.TotalMilliseconds, delta);
+    }
+    private readonly IntentScrollContext _scrollContext = new();
+    private readonly Func<long> _windowContext;
+    private long _captureWindow;
+    private string _contextSession;
+    private bool _scrollContinuation;
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern bool GetCursorPos(out System.Drawing.Point point);
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern IntPtr WindowFromPoint(System.Drawing.Point point);
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern IntPtr GetAncestor(IntPtr window, uint flags);
+    private static long WindowContext()
+    {
+        if (!GetCursorPos(out var point)) return 0;
+        var target = GetAncestor(WindowFromPoint(point), 2);
+        return target == IntPtr.Zero ? 0 : HashCode.Combine(target, GetForegroundWindow());
+    }
     private double _lastBackgroundSample = -10000;
     private DateTimeOffset _nextStart;
     private readonly CancellationTokenSource _stop = new();
@@ -30,8 +66,9 @@ internal sealed class TouchPadIntentBridge : IDisposable
     private readonly string _dataRoot;
     private readonly string _pipeName;
 
-    public TouchPadIntentBridge(string dataRoot = null, string pipeName = null)
+    public TouchPadIntentBridge(string dataRoot = null, string pipeName = null, Func<long> windowContext = null)
     {
+        _windowContext = windowContext ?? WindowContext;
         _dataRoot = dataRoot ?? IntentFiles.Root;
         _pipeName = pipeName ?? IntentFiles.PipeName;
         _poller = Task.Run(async () =>
@@ -86,7 +123,7 @@ internal sealed class TouchPadIntentBridge : IDisposable
     {
         var preferences = Path.Combine(_dataRoot, "preferences.json");
         if (!File.Exists(preferences) || IntentFiles.Read<IntentPreferences>(preferences)?.BackgroundLearning != true) return;
-        var component = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2", "Components", "IntentDlc");
+        var component = IntentComponentLocation.Resolve(AppContext.BaseDirectory);
         var manifest = Path.Combine(component, "component.json");
         if (!File.Exists(manifest) || IntentFiles.Read<IntentComponentManifest>(manifest)?.Version != IntentComponentPackage.ComponentVersion) return;
         // A live host holds this lock. Launch only when the previous process has exited.
@@ -105,9 +142,13 @@ internal sealed class TouchPadIntentBridge : IDisposable
         if (!config.Active) { DropTrace(); return; }
         if (_trace == null)
         {
+            if (_contextSession != config.Session) { _scrollContext.Reset(); _wheelContext.Reset(); _contextSession = config.Session; }
+            _captureWindow = _windowContext(); _scrollContinuation = false;
             _captureControl = config;
             _recordingCapture = config.Recording;
             _started = _clock.Elapsed.TotalMilliseconds;
+            _recentWheel = _wheelContext.WasScrolling(_captureWindow, _started);
+            _application = _dataRoot == IntentFiles.Root ? ApplicationName() : "test";
             _gap = Math.Clamp(_started - _lastEnd, 0, 5000);
             _trace = new IntentTrace();
             _sample = null;
@@ -137,26 +178,57 @@ internal sealed class TouchPadIntentBridge : IDisposable
             Label = _captureControl.Mode == IntentMode.RecordScroll ? IntentLabel.Scroll :
                     _captureControl.Mode == IntentMode.RecordGesture ? IntentLabel.Gesture : IntentLabel.Unknown
         };
-        try { IntentFeatures.Extract(_sample); } catch { _sample = null; }
+        try
+        {
+            IntentFeatures.Extract(_sample);
+            _sample.ContextReason = $"目标应用：{_application}；" + (_recentWheel ? "手势开始前检测到连续滚动输入（不代表页面已实际移动）。" : "未检测到近期连续滚动输入，结合双指轨迹判断。");
+            if (_captureWindow != _windowContext()) _scrollContext.Reset();
+            else _scrollContinuation = _scrollContext.Add(_sample, _captureWindow, _started, _lastEnd, _recentWheel);
+        }
+        catch { _sample = null; _scrollContext.Reset(); }
     }
 
-    public bool ShouldSuppress(string candidate, bool smartClose, int contacts)
+    public string LastAiVetoReason { get; private set; }
+    private bool Veto(string reason)
     {
+        LastAiVetoReason = reason;
+        if (_sample != null) { _sample.Blocked = true; _sample.AiVeto = true; _sample.ContextReason += " AI 否决：" + reason; }
+        return true;
+    }
+    public bool ShouldSuppress(string candidate, bool smartClose, int contacts, string templateEvidence = null, bool missingTemplateTurn = false)
+    {
+        LastAiVetoReason = null;
         var current = Volatile.Read(ref _control);
+        bool vetoEnabled = current.Mode is IntentMode.ProtectSmartClose or IntentMode.ExperimentalVeto;
         if (_sample != null) _sample.Candidate = candidate;
         // Explicit, short recording sessions never execute traced actions.
         // Latch through release: the recording timer expiring mid-L must not close a window.
         if (_recordingCapture || current.Active && current.Recording) { if (_sample != null) _sample.Blocked = true; return true; }
         if (!current.Active) return false;
-        if (current.Mode != IntentMode.ProtectSmartClose || !smartClose || contacts != 2) return false;
-        if (_sample == null || _captureControl?.Session != current.Session) return true;
+        if (_sample != null && templateEvidence != null) _sample.ContextReason += " " + templateEvidence;
+        if (smartClose && contacts == 2 && missingTemplateTurn)
+        {
+            bool blocked = vetoEnabled && (_scrollContinuation || _recentWheel) && _captureWindow == _windowContext();
+            if (_sample != null) { _sample.ContextReason += " 双指均缺少模板要求的持续转向。"; _sample.Blocked = blocked; }
+            Common.Log.Logging.LogMessage($"Intent template check: MissingSustainedTurn, {templateEvidence}, Mode={current.Mode}, Blocked={blocked}");
+            if (blocked) return Veto("连续滚动中，双指均缺少模板要求的持续转向");
+        }
+        if (smartClose && contacts == 2 && _scrollContinuation && _captureWindow == _windowContext())
+        {
+            bool block = vetoEnabled;
+            if (_sample != null) _sample.ContextReason += " 疑似连续滚动中的智能关闭误触。";
+            Common.Log.Logging.LogMessage($"Intent context: Reason=RapidScrollContinuation, Application={_application}, WheelEvidence={_recentWheel}, Candidate={candidate}, Mode={current.Mode}, Blocked={block}");
+            if (block) return Veto("疑似连续快速滚动中的智能关闭误触");
+        }
+        if (!vetoEnabled || !smartClose || contacts != 2) return false;
+        if (_sample == null || _captureControl?.Session != current.Session) return Veto("轨迹不完整，未执行智能关闭");
         try
         {
             _sample.Prediction = PredictAsync(IntentFeatures.Extract(_sample), 45, _stop.Token).GetAwaiter().GetResult();
             _sample.Blocked = !_sample.Prediction.Allows;
         }
         catch { _sample.Blocked = true; }
-        return _sample.Blocked;
+        return _sample.Blocked ? Veto(_sample.Prediction?.Error != null ? "推理暂不可用，未执行智能关闭" : $"模型认为可能是滚动（评分 {_sample.Prediction?.GestureScore:F3}）") : false;
     }
 
     public void Publish()
@@ -172,7 +244,7 @@ internal sealed class TouchPadIntentBridge : IDisposable
         _captureControl = null;
         _recordingCapture = false;
     }
-    private void DropTrace() { _trace = null; _sample = null; }
+    private void DropTrace() { _trace = null; _sample = null; _scrollContinuation = false; _scrollContext.Reset(); }
     public void Cancel() { DropTrace(); _captureControl = null; _recordingCapture = false; }
 
     private async Task<IntentPrediction> PredictAsync(float[] features, int timeoutMs, CancellationToken stop)
@@ -182,11 +254,12 @@ internal sealed class TouchPadIntentBridge : IDisposable
         try
         {
             using var pipe = new NamedPipeClientStream(".", _pipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
-            await pipe.ConnectAsync(timeout.Token);
+            // The input thread waits synchronously; never resume on its synchronization context.
+            await pipe.ConnectAsync(timeout.Token).ConfigureAwait(false);
             using var writer = new StreamWriter(pipe, leaveOpen: true) { AutoFlush = true };
             using var reader = new StreamReader(pipe, leaveOpen: true);
-            await writer.WriteLineAsync(JsonSerializer.Serialize(new IntentRequest(features)).AsMemory(), timeout.Token);
-            var line = await reader.ReadLineAsync(timeout.Token);
+            await writer.WriteLineAsync(JsonSerializer.Serialize(new IntentRequest(features)).AsMemory(), timeout.Token).ConfigureAwait(false);
+            var line = await reader.ReadLineAsync(timeout.Token).ConfigureAwait(false);
             if (line == null || line.Length > 8192) throw new IOException("Invalid DLC response.");
             return JsonSerializer.Deserialize<IntentPrediction>(line) ?? throw new IOException("Empty DLC response.");
         }

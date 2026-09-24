@@ -379,6 +379,25 @@ namespace GestureSign.Common.Gestures
             return recognizedResult.Count == 0 ? null : recognizedResult.OrderByDescending(r => r.Value).First().Key;
         }
 
+        public string GetTemplateEvidence(string name, Point[][] points, out bool missingTurn)
+        {
+            missingTurn = false;
+            var source = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
+            var templates = source?.Where(g => g.PointPatterns != null && g.PointPatterns.Length > _gestureLevel && g.PointPatterns[_gestureLevel].Points?.Length == points.Length).ToArray();
+            if (templates == null) return "模板信息不可用";
+            var analyzer = new PointPatternAnalyzer();
+            var scores = templates.Select(g => new {
+                Gesture = g,
+                Score = points.Select((p,i) => analyzer.GetPointPatternMatchResult(new PointsPatternSet(g.Name,g.PointPatterns[_gestureLevel].Points[i]),new PointsPatternSet("capture",p)).Probability).Average()
+            }).OrderByDescending(x => x.Score).ToArray();
+            var candidate = scores.FirstOrDefault(x => string.Equals(x.Gesture.Name,name,StringComparison.OrdinalIgnoreCase));
+            if (candidate == null) return "候选模板不可用";
+            var other = scores.FirstOrDefault(x => !string.Equals(x.Gesture.Name,name,StringComparison.OrdinalIgnoreCase));
+            var template = candidate.Gesture.PointPatterns[_gestureLevel].Points;
+            missingTurn = TemplateTurnEvidence.MissingTurn(points, template);
+            return $"模板匹配分数 {candidate.Score:F1}；其他候选 {other?.Gesture.Name ?? "无"} {other?.Score:F1}；模板转向 {string.Join("/",template.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°，本次 {string.Join("/",points.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°";
+        }
+
         public string GetMostSimilarGestureName(PointPattern[] pointPattern)
         {
             string matchName = null;

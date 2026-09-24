@@ -1,4 +1,4 @@
-using GestureSign.Common;
+﻿using GestureSign.Common;
 using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Gestures;
@@ -361,6 +361,7 @@ namespace GestureSign.Daemon.Input
             PluginManager.Instance.GestureActionExecuted += PluginManager_GestureActionExecuted;
 
             _inputProvider = new InputProvider();
+            MouseHook.MouseWheel += IntentContext_MouseWheel;
             _pointEventTranslator = new PointEventTranslator(_inputProvider);
             _pointEventTranslator.PointDown += (PointEventTranslator_PointDown);
             _pointEventTranslator.PointUp += (PointEventTranslator_PointUp);
@@ -502,6 +503,7 @@ namespace GestureSign.Daemon.Input
                 if (disposing)
                 {
                     ReleasePointerMotionSuppression("Disposed");
+                    if (_inputProvider != null) MouseHook.MouseWheel -= IntentContext_MouseWheel;
                     _intentDlc.Dispose();
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
@@ -639,6 +641,12 @@ namespace GestureSign.Daemon.Input
             _initialTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
             Logging.LogMessage($"Mouse gesture capture canceled safely. Reason={reason}");
+        }
+
+        private void IntentContext_MouseWheel(LowLevelMouseMessage message, ref bool handled)
+        {
+            // Observe existing wheel events; never consume them or query application content.
+            _intentDlc.RecordWheel(message.MouseData, (message.Flags & 3) != 0);
         }
 
         protected void PointEventTranslator_PointDown(object sender, InputPointsEventArgs e)
@@ -1106,9 +1114,14 @@ namespace GestureSign.Daemon.Input
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
             var recognizedGestureName = ResolveActionGestureName(GestureManager.Instance.GestureName, pointsInformation.Points);
+            string templateEvidence = null;
+            bool missingTemplateTurn = false;
+            if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal && IsSmartCloseGestureName(recognizedGestureName))
+                templateEvidence = GestureManager.Instance.GetTemplateEvidence(recognizedGestureName, pointsInformation.Points.Select(p => p.ToArray()).ToArray(), out missingTemplateTurn);
             if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal &&
-                _intentDlc.ShouldSuppress(recognizedGestureName, IsSmartCloseGestureName(recognizedGestureName), pointsInformation.Points.Count))
+                _intentDlc.ShouldSuppress(recognizedGestureName, IsSmartCloseGestureName(recognizedGestureName), pointsInformation.Points.Count, templateEvidence, missingTemplateTurn))
             {
+                if (_intentDlc.LastAiVetoReason != null) TrayManager.Instance.ShowAiVeto(_intentDlc.LastAiVetoReason);
                 Logging.LogMessage($"Intent DLC suppressed traced action. Gesture={recognizedGestureName ?? "(none)"}");
                 recognizedGestureName = null;
             }

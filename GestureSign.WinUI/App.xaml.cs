@@ -1,4 +1,4 @@
-using Microsoft.UI.Xaml;
+﻿using Microsoft.UI.Xaml;
 using Microsoft.UI.Dispatching;
 using Microsoft.Windows.AppLifecycle;
 using System;
@@ -54,7 +54,12 @@ public partial class App : Application
         }
 
         var dispatcherQueue = DispatcherQueue.GetForCurrentThread();
-        mainInstance.Activated += (_, _) => dispatcherQueue.TryEnqueue(ActivateCurrentWindow);
+        mainInstance.Activated += (_, activation) => dispatcherQueue.TryEnqueue(() =>
+        {
+            ActivateCurrentWindow();
+            if (activation.Data is Windows.ApplicationModel.Activation.ILaunchActivatedEventArgs launch)
+                HandleIntentNavigation(launch.Arguments);
+        });
 
         if (ActivateExistingWindow(closeDuplicates: true))
         {
@@ -86,6 +91,13 @@ public partial class App : Application
             _legacySingleInstanceMutex?.Dispose();
         };
         _window.Activate();
+        HandleIntentNavigation(args.Arguments);
+    }
+
+    private void HandleIntentNavigation(string arguments)
+    {
+        if (arguments?.Contains("--intent-review", StringComparison.Ordinal) == true && _window is MainWindow main)
+            main.OpenIntentReview();
     }
 
     private void ActivateCurrentWindow()

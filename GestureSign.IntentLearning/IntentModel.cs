@@ -1,4 +1,4 @@
-using GestureSign.Foundation.Intent;
+﻿using GestureSign.Foundation.Intent;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -39,8 +39,9 @@ public sealed class IntentModel
     }
 
     // Stable session split. No trace from a held-out recording session can leak into fitting.
-    public static IntentModel Train(IEnumerable<IntentSample> source)
+    public static IntentModel Train(IEnumerable<IntentSample> source, Action<int, string>? progress = null)
     {
+        progress?.Invoke(5, "准备训练样本");
         var samples = source.Where(s => s.Label is IntentLabel.Scroll or IntentLabel.Gesture)
             .GroupBy(s => s.Id).Select(g => g.Last()).ToArray();
         if (samples.Any(s => string.IsNullOrWhiteSpace(s.Session))) throw new InvalidDataException("Samples must belong to recording sessions.");
@@ -61,6 +62,7 @@ public sealed class IntentModel
         var validation = samples.Where(s => heldOut.Contains(s.Session)).ToArray();
         if (train.Count(s => s.Label == IntentLabel.Scroll) < 20 || train.Count(s => s.Label == IntentLabel.Gesture) < 20)
             throw new InvalidOperationException("留出完整会话后，训练样本不足。请增加独立采样次数，避免全部样本集中在一次录制。");
+        progress?.Invoke(10, "提取轨迹特征");
         var x = train.Select(IntentFeatures.Extract).ToArray();
         var model = new IntentModel
         {
@@ -90,7 +92,9 @@ public sealed class IntentModel
             }
             for (int j = 0; j < gradient.Length; j++) model.Weights[j] -= (float)(0.08 * (gradient[j] / train.Length + 0.005 * model.Weights[j]));
             model.Bias -= (float)(0.08 * biasGradient / train.Length);
+            if ((epoch + 1) % 10 == 0) progress?.Invoke(15 + (epoch + 1) * 70 / 1000, $"训练迭代 {epoch + 1}/1000");
         }
+        progress?.Invoke(86, "验证独立采样结果");
         foreach (var sample in validation)
         {
             bool allow = model.Score(IntentFeatures.Extract(sample)) >= 0.85;

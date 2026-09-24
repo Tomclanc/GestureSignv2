@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -17,6 +17,7 @@ using GestureSign.Common.Localization;
 using GestureSign.Common.Log;
 using GestureSign.Common.UI;
 using GestureSign.Daemon.Input;
+using GestureSign.Foundation.Intent;
 using Microsoft.Win32;
 
 namespace GestureSign.Daemon
@@ -59,6 +60,10 @@ namespace GestureSign.Daemon
         {
             _trayIcon = new NotifyIcon();
             _trayMenu = new ContextMenuStrip();
+            // This menu may never be shown. Create its handle on the UI thread now,
+            // so background notification callbacks can always marshal to the message loop.
+            _ = _trayMenu.Handle;
+            _trayMenu.BeginInvoke(new Action(() => Logging.LogMessage("Tray notification dispatcher ready.")));
             _disableGesturesMenuItem = new ToolStripMenuItem();
             _settingsMenuItem = new ToolStripMenuItem();
             _exitGestureSignMenuItem = new ToolStripMenuItem();
@@ -68,7 +73,7 @@ namespace GestureSign.Daemon
             _trayIcon.DoubleClick += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.Click += (o, e) => { TrayIcon_Click(o, (MouseEventArgs)e); };
             _trayIcon.MouseUp += TrayIcon_MouseUp;
-            _trayIcon.BalloonTipClicked += (o, e) => OpenPendingUpdateRelease();
+            _trayIcon.BalloonTipClicked += (o, e) => { if (_aiNotificationVisible) StartSettings("--intent-review"); else OpenPendingUpdateRelease(); };
             SetTrayIcon(TrayIconState.Normal);
 
             _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _settingsMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
@@ -933,6 +938,59 @@ namespace GestureSign.Daemon
             _updateChecker.Configure();
         }
 
+        private DateTime _lastAiToast = DateTime.MinValue;
+        private DateTime _firstPendingAiVeto;
+        private int _pendingAiVetoCount;
+        private bool _aiNotificationVisible;
+        private System.Windows.Forms.Timer _aiToastTimer;
+        public void ShowAiVeto(string reason)
+        {
+            if (_trayMenu == null || _trayMenu.IsDisposed) return;
+            try
+            {
+                _trayMenu.BeginInvoke(new Action(() =>
+                {
+                    if (!IntentNotificationSettings.ReadEnabled())
+                    {
+                        _pendingAiVetoCount = 0;
+                        _aiToastTimer?.Stop();
+                        return;
+                    }
+                    if (_pendingAiVetoCount++ == 0) _firstPendingAiVeto = DateTime.UtcNow;
+                    if (_aiToastTimer == null)
+                    {
+                        _aiToastTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+                        _aiToastTimer.Tick += (_, _) => FlushAiVetoNotification();
+                    }
+                    _aiToastTimer.Start();
+                    FlushAiVetoNotification();
+                }));
+            }
+            catch (Exception ex) { Logging.LogException(ex); }
+        }
+
+        private void FlushAiVetoNotification()
+        {
+            if (!IntentNotificationSettings.ReadEnabled()) _pendingAiVetoCount = 0;
+            if (_pendingAiVetoCount == 0) { _aiToastTimer?.Stop(); return; }
+            var now = DateTime.UtcNow;
+            if ((now - _lastAiToast).TotalSeconds < 30) return;
+            int count = _pendingAiVetoCount;
+            int seconds = Math.Max(1, (int)Math.Ceiling((now - _firstPendingAiVeto).TotalSeconds));
+            _pendingAiVetoCount = 0;
+            _aiToastTimer?.Stop();
+            _lastAiToast = now;
+            _aiNotificationVisible = true;
+            _updateReleaseUrl = null;
+            _trayIcon.BalloonTipTitle = "GestureSign V2";
+            _trayIcon.BalloonTipText = count == 1
+                ? "AI 已阻止 1 次智能关闭。点击通知查看或纠正判断。"
+                : $"最近 {seconds} 秒，AI 共阻止 {count} 次智能关闭。点击通知查看或纠正判断。";
+            _trayIcon.BalloonTipIcon = ToolTipIcon.Info;
+            _trayIcon.ShowBalloonTip(4000);
+            Logging.LogMessage($"AI veto notification submitted to Windows. Count={count}");
+        }
+
         private void UpdateChecker_UpdateAvailable(object sender, UpdateAvailableEventArgs e)
         {
             if (_trayMenu == null || _trayMenu.IsDisposed)
@@ -942,6 +1000,7 @@ namespace GestureSign.Daemon
             {
                 _trayMenu.BeginInvoke(new Action(() =>
                 {
+                    _aiNotificationVisible = false;
                     _updateReleaseUrl = e.ReleaseUrl;
                     _trayIcon.BalloonTipTitle = LocalizationProvider.Instance.GetTextValue("Messages.UpdateTitle");
                     _trayIcon.BalloonTipText = String.Format(
@@ -1000,7 +1059,9 @@ namespace GestureSign.Daemon
                     _exitGestureSignMenuItem.Text);
         }
 
-        public static void StartSettings()
+        public static void StartSettings() => StartSettings("");
+
+        private static void StartSettings(string arguments)
         {
             lock (_settingsStartLock)
             {
@@ -1018,6 +1079,7 @@ namespace GestureSign.Daemon
                     try
                     {
                         settings.StartInfo.FileName = path;
+                        settings.StartInfo.Arguments = arguments;
                         settings.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
                         settings.Start();
                     }
@@ -1190,6 +1252,7 @@ namespace GestureSign.Daemon
             if (_currentTrayIcon != null) _currentTrayIcon.Dispose();
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed) _touchTrayMenu.Dispose();
             _recognitionStateServer?.Dispose();
+            _aiToastTimer?.Dispose();
             _updateChecker.Dispose();
             SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         }

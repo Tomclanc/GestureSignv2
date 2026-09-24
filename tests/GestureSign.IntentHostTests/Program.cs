@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text.Json;
 using GestureSign.Foundation.Intent;
@@ -25,6 +25,7 @@ async Task<IntentHostResponse> Send(IntentHostRequest request)
 }
 Check((await Send(new("status"))).Control.Mode == IntentMode.Off, "Host must start disabled.");
 Check((await Send(new("mode", IntentMode.ProtectSmartClose))).Error != null, "Untrained model authorized protection.");
+for (int i = 0; i < 600 && (await Send(new("status"))).Busy; i++) await Task.Delay(100);
 var recorded = await Send(new("mode", IntentMode.RecordScroll));
 Check(recorded.Control.StartsUtc > DateTimeOffset.UtcNow && recorded.Control.Recording, "Recording countdown missing.");
 await Send(new("mode", IntentMode.Observe));
@@ -60,6 +61,21 @@ idle = true; now = now.AddMinutes(2); host.TryAutomaticTraining();
 for (int i = 0; i < 200 && (await Send(new("status"))).Busy; i++) await Task.Delay(50);
 var trained = await Send(new("status"));
 Check(File.Exists(Path.Combine(root, "model.json")) && trained.Control.Mode == IntentMode.BackgroundLearn, "Idle training failed to save and resume passive collection: " + trained.Message);
+await Send(new("mode", IntentMode.ExperimentalVeto));
+var combined = await Send(new("status"));
+Check(combined.BackgroundLearning && combined.Control.Mode == IntentMode.ExperimentalVeto, "Veto disabled background learning.");
+await Send(new("background-off"));
+var vetoOnly = await Send(new("status"));
+Check(!vetoOnly.BackgroundLearning && vetoOnly.Control.Mode == IntentMode.ExperimentalVeto, "Disabling learning disabled veto.");
+await Send(new("background-on"));
+Check((await Send(new("status"))).Control.Mode == IntentMode.ExperimentalVeto, "Enabling learning disabled veto.");
+await Send(new("train"));
+for (int i = 0; i < 600 && (await Send(new("status"))).Busy; i++) await Task.Delay(100);
+var afterCombinedTraining = await Send(new("status"));
+Check(!afterCombinedTraining.Busy && afterCombinedTraining.BackgroundLearning && afterCombinedTraining.Control.Mode == IntentMode.ExperimentalVeto, "Training failed to restore both switches.");
+await Send(new("veto-off"));
+var learningOnly = await Send(new("status"));
+Check(learningOnly.BackgroundLearning && learningOnly.Control.Mode == IntentMode.BackgroundLearn, "Disabling veto disabled learning.");
 var modelTime = File.GetLastWriteTimeUtc(Path.Combine(root, "model.json"));
 now = now.AddMinutes(6); host.TryAutomaticTraining();
 Check(!(await Send(new("status"))).Busy && File.GetLastWriteTimeUtc(Path.Combine(root, "model.json")) == modelTime, "Unchanged labels triggered repeated training.");

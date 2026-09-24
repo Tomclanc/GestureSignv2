@@ -1,4 +1,4 @@
-using GestureSign.Foundation.Intent;
+﻿using GestureSign.Foundation.Intent;
 using GestureSign.IntentLearning;
 
 int checks = 0;
@@ -32,7 +32,12 @@ Check(!new IntentControl { Mode = IntentMode.Observe, StartsUtc = DateTimeOffset
 Check(!new IntentPrediction(float.NaN, "test").Allows && !new IntentPrediction(1, "test", "timeout").Allows, "Invalid inference must not allow close.");
 var dataset = new List<IntentSample>();
 for (int session = 0; session < 5; session++) for (int i = 0; i < 12; i++) { dataset.Add(Sample(true, "gesture" + session, i)); dataset.Add(Sample(false, "scroll" + session, i)); }
-var model = IntentModel.Train(dataset);
+var updates = new List<int>();
+var model = IntentModel.Train(dataset, (percent, stage) => { Check(!string.IsNullOrWhiteSpace(stage), "Missing progress stage."); updates.Add(percent); });
+Check(updates.Count > 90 && updates.SequenceEqual(updates.Order()), "Training progress must report actual iterations monotonically.");
+Check(updates.Last() < 100, "Fitting alone must not report saved completion.");
+var withoutProgress = IntentModel.Train(dataset);
+Check(model.Weights.SequenceEqual(withoutProgress.Weights) && model.Bias == withoutProgress.Bias, "Progress changed training results.");
 Check(!model.TrainingSessions.Intersect(model.ValidationSessions).Any(), "Validation session leaked into training.");
 Check(model.ValidationScrolls >= 10 && model.ValidationGestures >= 10 && model.EligibleForProtection, "Separable synthetic validation failed.");
 Check(model.Score(IntentFeatures.Extract(Sample(true, "new", 8))) >= .85 && model.Score(IntentFeatures.Extract(Sample(false, "new", 8))) < .15, "Unseen synthetic trace prediction failed.");

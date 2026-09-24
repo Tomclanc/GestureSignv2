@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
 using System.IO.Pipes;
 using System.Text.Json;
@@ -30,6 +30,14 @@ async Task Respond(float score)
     Check(request.Features.Length == IntentFeatures.Count, "Wrong inference feature count.");
     await writer.WriteLineAsync(JsonSerializer.Serialize(new IntentPrediction(score, "test")));
 }
+IntentSample Stroke(bool fullL = false) => new() { Frames = Enumerable.Range(0, 10).Select(i => new IntentFrame(i * 20, [new IntentPoint(1, fullL && i > 4 ? (i - 4) * 20 : 0, Math.Min(i, fullL ? 4 : 9) * 20), new IntentPoint(2, 60 + (fullL && i > 4 ? (i - 4) * 20 : 0), Math.Min(i, fullL ? 4 : 9) * 20)])).ToArray() };
+var context = new IntentScrollContext();
+void Burst() { context.Reset(); for (int i = 0; i < 3; i++) Check(!context.Add(Stroke(), 1, i * 300, i * 300 + 180), "Scroll context triggered too early."); }
+Burst(); Check(context.Add(Stroke(), 1, 900, 1080), "Rapid continuation was missed.");
+Burst(); Check(!context.Add(Stroke(true), 1, 900, 1080), "Deliberate L was treated as a scroll continuation.");
+Burst(); Check(!context.Add(Stroke(), 2, 900, 1080), "Context leaked to another window.");
+Burst(); Check(!context.Add(Stroke(), 1, 1500, 1680), "Context survived a pause.");
+context.Reset(); Check(!context.Add(Stroke(), 1, 1800, 1980), "Reset retained scroll history.");
 using (var bridge = new TouchPadIntentBridge(root, pipeName))
 {
     Check(!bridge.ShouldSuppress("L", true, 2), "Disabled bridge changed behavior.");
@@ -49,7 +57,16 @@ using (var bridge = new TouchPadIntentBridge(root, pipeName))
     response = Respond(.1f); Check(bridge.ShouldSuppress("L", true, 2), "Scroll inference allowed close."); await response;
     var watch = Stopwatch.StartNew(); Check(bridge.ShouldSuppress("L", true, 2), "Missing DLC did not fail closed while protection enabled.");
     Check(watch.ElapsedMilliseconds < 400, "Inference timeout did not bound input delay.");
+    var uiThread = new Thread(() => { SynchronizationContext.SetSynchronizationContext(new NonPumpingContext()); bridge.ShouldSuppress("L", true, 2); }) { IsBackground = true };
+    uiThread.Start();
+    Check(uiThread.Join(1000), "Inference timeout deadlocked the input/UI synchronization context.");
     bridge.Cancel(); Check(bridge.ShouldSuppress("L", true, 2), "Invalid trace allowed protected close.");
+    await Control(IntentMode.ExperimentalVeto); await Trace(bridge);
+    Check(!bridge.ShouldSuppress("Other", false, 2) && !bridge.ShouldSuppress("L", true, 3), "Experimental veto escaped Smart Close scope.");
+    response = Respond(.96f); Check(!bridge.ShouldSuppress("L", true, 2), "Experimental veto rejected allowed score."); await response;
+    response = Respond(.1f); Check(bridge.ShouldSuppress("L", true, 2) && bridge.LastAiVetoReason != null, "Experimental veto did not report rejection."); await response;
+    bridge.Publish(); await Task.Delay(200);
+    Check(Directory.GetFiles(Path.Combine(root,"samples"),"*.json").Select(IntentFiles.Read<IntentSample>).Any(s => s.AiVeto && s.Blocked && s.Label == IntentLabel.Unknown), "Veto was not persisted as unlabeled evidence.");
     await Control(IntentMode.Observe); Check(!bridge.ShouldSuppress("L", true, 2), "Observe mode intercepted an action.");
     await Control(IntentMode.Off); Check(!bridge.ShouldSuppress("L", true, 2), "Off mode still intercepted.");
     await Control(IntentMode.BackgroundLearn); await Trace(bridge);
@@ -61,3 +78,5 @@ using (var bridge = new TouchPadIntentBridge(root, pipeName))
 Console.WriteLine($"PASS: {checks} daemon bridge / named pipe / recording / timeout checks. Test data: {root}");
 
 namespace GestureSign.Common.Log { internal static class Logging { public static void LogMessage(string text) => Console.WriteLine(text); } }
+
+internal sealed class NonPumpingContext : SynchronizationContext { public override void Post(SendOrPostCallback callback, object state) { } }

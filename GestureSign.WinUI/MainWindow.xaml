@@ -1,9 +1,9 @@
-<Window
+﻿<Window
     x:Class="GestureSign.WinUI.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.UI.Xaml.Controls"
-    Title="GestureSign V2 — Developer Preview 0.3">
+    Title="GestureSign V2 — Developer Preview 0.4">
 
     <Grid x:Name="Root">
         <VisualStateManager.VisualStateGroups>
@@ -62,7 +62,7 @@
                    Height="28"
                    VerticalAlignment="Center" />
             <TextBlock Grid.Column="1"
-                       Text="GestureSign V2 · 开发者预览 0.3"
+                       Text="GestureSign V2 · 开发者预览 0.4"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        Margin="12,0,0,0" />

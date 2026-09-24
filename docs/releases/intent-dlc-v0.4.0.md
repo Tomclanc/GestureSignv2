@@ -27,5 +27,3 @@
 
 ## English
 Developer Preview 0.4 adds independent background-learning and AI-veto switches, grouped optional veto notifications, bulk sample correction and hardware diagnostics. It fixes an input-thread inference deadlock. The x64 portable app does not bundle AI: download/import the matching 0.4.0 DLC separately. ARM64 DLC is build-tested only. AMD Ryzen AI Z2 Extreme is detected, but this model currently falls back to GPU because strict NPU execution rejects CPU-assigned nodes. Intel NPU may require preparing providers again after restart. This experimental release is not a replacement for stable 18.2.8.
-
-构建组件：installer/Build-IntentDlc.ps1。发布 catalog 必须使用 ZIP 实际长度与 SHA256，主程序需在更新 catalog 后构建。

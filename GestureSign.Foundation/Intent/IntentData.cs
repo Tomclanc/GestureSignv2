@@ -1,10 +1,10 @@
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
 namespace GestureSign.Foundation.Intent;
 
-public enum IntentMode { Off, RecordScroll, RecordGesture, Observe, ProtectSmartClose, BackgroundLearn }
+public enum IntentMode { Off, RecordScroll, RecordGesture, Observe, ProtectSmartClose, BackgroundLearn, ExperimentalVeto }
 public sealed class IntentPreferences
 {
     public bool BackgroundLearning { get; set; }
@@ -33,7 +33,9 @@ public sealed class IntentSample
     public double PreviousGapMs { get; set; } = 5000;
     public string? Candidate { get; set; }
     public IntentPrediction? Prediction { get; set; }
+    public string? ContextReason { get; set; }
     public bool Blocked { get; set; }
+    public bool AiVeto { get; set; }
 }
 public sealed record IntentRequest(float[] Features);
 public sealed record IntentPrediction(float GestureScore, string Backend, string? Error = null)

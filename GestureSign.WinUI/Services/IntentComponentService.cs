@@ -1,4 +1,4 @@
-using GestureSign.Foundation.Intent;
+﻿using GestureSign.Foundation.Intent;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -21,7 +21,7 @@ internal sealed class IntentComponentService
     public IntentComponentService(HttpClient? client = null, IntentComponentAsset? asset = null) { _client = client ?? Client; _asset = asset; }
     private readonly SemaphoreSlim _requests = new(1, 1);
     private Process? _host;
-    public static string InstallDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "GestureSign V2", "Components", "IntentDlc");
+    public static string InstallDirectory => IntentComponentLocation.Resolve(AppContext.BaseDirectory);
     public static string Executable => Path.Combine(InstallDirectory, "Runtime", "GestureSign.IntentDlc.exe");
     public bool Installed
     {
@@ -37,6 +37,7 @@ internal sealed class IntentComponentService
 
     public async Task DownloadAsync(IProgress<double> progress, CancellationToken cancellationToken)
     {
+        IntentComponentLocation.CheckWritable(InstallDirectory);
         var asset = Asset;
         if (!Uri.TryCreate(asset.Url, UriKind.Absolute, out var uri) || uri.Scheme != "https" || uri.Host != "github.com" || !uri.AbsolutePath.StartsWith("/Tomclanc/GestureSignv2/releases/download/", StringComparison.Ordinal)) throw new InvalidDataException("组件下载地址无效。");
         var temp = Path.Combine(Path.GetTempPath(), "IntentDlc-" + Guid.NewGuid().ToString("N") + ".zip");
@@ -63,6 +64,7 @@ internal sealed class IntentComponentService
     }
     public async Task InstallAsync(string archivePath, CancellationToken cancellationToken)
     {
+        IntentComponentLocation.CheckWritable(InstallDirectory);
         var asset = Asset; await StopAsync();
         await Task.Run(() => IntentComponentPackage.Install(archivePath, asset, InstallDirectory, cancellationToken), cancellationToken);
     }

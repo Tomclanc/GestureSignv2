@@ -1,4 +1,4 @@
-using GestureSign.Foundation.Intent;
+﻿using GestureSign.Foundation.Intent;
 using GestureSign.IntentLearning;
 using Microsoft.ML.OnnxRuntime;
 using Microsoft.ML.OnnxRuntime.Tensors;
@@ -20,6 +20,38 @@ internal sealed class HardwareInference : IDisposable
     internal static bool IsSupportedGpu(uint vendorId, string? vendor) =>
         vendorId is 0x10de or 0x1002 or 0x8086 or 0x5143 or 0x17cb ||
         new[] { "NVIDIA", "Advanced Micro Devices", "AMD", "Intel", "Qualcomm" }.Any(name => vendor?.Contains(name, StringComparison.OrdinalIgnoreCase) == true);
+
+    private volatile string _hardwarePreview = "正在检测本机推理设备…";
+    public string HardwarePreview => _hardwarePreview;
+    public Task DetectAsync() => Task.Run(() =>
+    {
+        try
+        {
+            var env = OrtEnv.Instance();
+            foreach (var provider in ExecutionProviderCatalog.GetDefault().FindAllProviders())
+            {
+                if (string.IsNullOrEmpty(provider.LibraryPath)) continue;
+                try { env.RegisterExecutionProviderLibrary(provider.Name, provider.LibraryPath); } catch { }
+            }
+            UpdateHardwarePreview();
+        }
+        catch (Exception ex) { _hardwarePreview = "本机检测失败，无法确认加速设备：" + ex.Message; }
+    });
+    private void UpdateHardwarePreview()
+    {
+        try
+        {
+            var devices = OrtEnv.Instance().GetEpDevices();
+            var npus = devices.Where(d => d.HardwareDevice.Type == OrtHardwareDeviceType.NPU).ToArray();
+            var gpus = devices.Where(d => d.HardwareDevice.Type == OrtHardwareDeviceType.GPU && IsSupportedGpu(d.HardwareDevice.VendorId, d.HardwareDevice.Vendor)).ToArray();
+            var order = npus.Length > 0 ? (gpus.Length > 0 ? "NPU → GPU → CPU" : "NPU → CPU") : gpus.Length > 0 ? "GPU → CPU" : "CPU";
+            _hardwarePreview = "本机预计优先顺序：" + order + "\n" +
+                (npus.Length > 0 ? "已检测到 NPU 推理设备：" + string.Join("；", npus.Select(d => d.HardwareDevice.Vendor + " · " + d.EpName).Distinct())
+                : "当前推理运行时未发现可用 NPU；不代表本机没有 NPU，可点击“准备 NPU / GPU 组件”后重新检测。") +
+                "\n设备被检测到不等于模型已验证可用；实际使用以下方后端结果为准，初始化或验证失败时依次回退。";
+        }
+        catch (Exception ex) { _hardwarePreview = "本机检测失败：" + ex.Message; }
+    }
 
     public async Task LoadAsync(IntentModel model, bool installProviders, string? testVendor = null)
     {
@@ -46,6 +78,7 @@ internal sealed class HardwareInference : IDisposable
             }
             catch (Exception ex) { lock (_sync) _diagnostics.Add("无法枚举硬件组件：" + ex.Message); }
         }
+        UpdateHardwarePreview();
         await Task.Run(() =>
         {
             lock (_sync)
