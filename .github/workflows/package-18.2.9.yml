@@ -1,0 +1,65 @@
+name: Package 18.2.9
+on:
+  push:
+    branches: [release/18.2.9]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore build tools and projects
+        shell: pwsh
+        run: |
+          dotnet tool restore
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet restore GestureSign.sln
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Publish intent component and pin download catalog
+        shell: pwsh
+        run: |
+          ./installer/Build-IntentDlc.ps1 -OutputDirectory ./publish/IntentDlc
+          $entry = Get-Content ./publish/GestureSign-IntentDlc-18.2.9-win-x64.zip.catalog.json -Raw | ConvertFrom-Json
+          ConvertTo-Json -InputObject @($entry) -Depth 5 | Set-Content ./GestureSign.WinUI/Assets/intent-dlc.catalog.json
+          $test = Start-Process ./publish/IntentDlc/Runtime/GestureSign.IntentDlc.exe -ArgumentList @("--self-test", "$env:RUNNER_TEMP/intent-runtime-test.json") -Wait -PassThru -WindowStyle Hidden
+          if ($test.ExitCode -ne 0) { Get-Content "$env:RUNNER_TEMP/intent-runtime-test.json"; throw 'Runtime test failed' }
+      - name: Build main portable payload
+        shell: pwsh
+        run: ./installer/Build-GestureSignV2-KandoMsi.ps1 -PublishDir ./publish/portable -PackageVersion 18.2.9 -PayloadOnly
+      - name: Bundle intent component and build MSI
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory ./publish/portable/Components -Force | Out-Null
+          Copy-Item ./publish/IntentDlc ./publish/portable/Components/IntentDlc -Recurse
+          Get-ChildItem ./publish/portable -Recurse -File -Filter *.pdb | Remove-Item -Force
+          ./tools/Test-PortablePackage.ps1 -PackagePath ./publish/portable -MinimumFileCount 200
+          ./installer/Build-GestureSignV2-KandoMsi.ps1 -PublishDir ./publish/portable -PackageVersion 18.2.9 -SkipPayloadBuild -OutputMsi ./publish/GestureSign-V2-18.2.9-x64.msi
+      - name: Archive and validate release payload
+        shell: pwsh
+        run: |
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [IO.Compression.ZipFile]::CreateFromDirectory("$PWD/publish/portable", "$PWD/publish/GestureSign-V2-18.2.9-x64-portable.zip")
+          $installer = New-Object -ComObject WindowsInstaller.Installer
+          $db = $installer.OpenDatabase("$PWD/publish/GestureSign-V2-18.2.9-x64.msi", 0)
+          $view = $db.OpenView("SELECT Value FROM Property WHERE Property='ProductVersion'")
+          $view.Execute()
+          $version = $view.Fetch().StringData(1)
+          if ($version -ne '18.2.9') { throw "Unexpected MSI version: $version" }
+          $files = Get-ChildItem ./publish -File | Where-Object { $_.Extension -in '.msi','.zip' }
+          $files | ForEach-Object { (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower() + '  ' + $_.Name } | Set-Content ./publish/SHA256SUMS.txt
+          Copy-Item "$env:RUNNER_TEMP/intent-runtime-test.json" ./publish/intent-runtime-test.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GestureSign-18.2.9-x64
+          path: |
+            publish/*.msi
+            publish/*.zip
+            publish/*.catalog.json
+            publish/SHA256SUMS.txt
+            publish/intent-runtime-test.json
+          compression-level: 0

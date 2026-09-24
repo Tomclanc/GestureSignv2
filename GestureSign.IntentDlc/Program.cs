@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text.Json;
 using System.Runtime.InteropServices;
@@ -11,7 +11,7 @@ internal static class Program
 {
     private static async Task<int> Main(string[] args)
     {
-        if (args.Contains("--self-test"))
+        Directory.CreateDirectory(IntentFiles.Root); Environment.CurrentDirectory = IntentFiles.Root; if (args.Contains("--self-test"))
         {
             try { await RuntimeSelfTest.RunAsync(args); return 0; }
             catch (Exception ex) { try { File.WriteAllText(args.Last(), ex.ToString()); } catch { } return 1; }

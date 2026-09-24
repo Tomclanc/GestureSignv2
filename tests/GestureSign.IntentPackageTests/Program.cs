@@ -1,4 +1,4 @@
-﻿using GestureSign.Foundation.Intent;
+using GestureSign.Foundation.Intent;
 using GestureSign.WinUI.Services;
 using System.IO.Compression;
 using System.Net;
@@ -13,13 +13,13 @@ IntentComponentAsset Create(string name, string? unsafeName = null, string arch 
     var path = Path.Combine(root, name + ".zip");
     using (var zip = ZipFile.Open(path, ZipArchiveMode.Create))
     {
-        using (var writer = new StreamWriter(zip.CreateEntry("component.json").Open())) writer.Write(JsonSerializer.Serialize(new IntentComponentManifest(protocol, "0.4.0", arch)));
+        using (var writer = new StreamWriter(zip.CreateEntry("component.json").Open())) writer.Write(JsonSerializer.Serialize(new IntentComponentManifest(protocol, "18.2.9", arch)));
         var exe = new byte[128]; exe[0] = 0x4d; exe[1] = 0x5a; exe[0x3c] = 64; exe[64] = 0x50; exe[65] = 0x45; exe[68] = 0x64; exe[69] = 0x86;
         using (var output = zip.CreateEntry("Runtime/GestureSign.IntentDlc.exe").Open()) output.Write(exe);
         if (unsafeName != null) { using var writer = new StreamWriter(zip.CreateEntry(unsafeName).Open()); writer.Write("bad"); }
     }
     using var input = File.OpenRead(path);
-    return new("x64", "0.4.0", name + ".zip", input.Length, Convert.ToHexString(SHA256.HashData(input)), "https://github.com/Tomclanc/GestureSignv2/releases/download/intent-dlc-v0.4.0/test.zip");
+    return new("x64", "18.2.9", name + ".zip", input.Length, Convert.ToHexString(SHA256.HashData(input)), "https://github.com/Tomclanc/GestureSignv2/releases/download/v18.2.9/test.zip");
 }
 var valid = Create("valid"); var target = Path.Combine(root, "component");
 IntentComponentPackage.Install(Path.Combine(root, valid.FileName), valid, target);

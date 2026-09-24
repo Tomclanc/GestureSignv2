@@ -1,4 +1,4 @@
-﻿using System.IO.Compression;
+using System.IO.Compression;
 using System.Security.Cryptography;
 
 namespace GestureSign.Foundation.Intent;
@@ -8,7 +8,7 @@ public sealed record IntentComponentManifest(int Protocol, string Version, strin
 
 public static class IntentComponentPackage
 {
-    public const string ComponentVersion = "0.4.0";
+    public const string ComponentVersion = "18.2.9";
     public const int Protocol = 2;
 
     // Archive digests come from the application-shipped catalog, not from the downloaded archive.
