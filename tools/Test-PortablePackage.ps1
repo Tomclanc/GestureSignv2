@@ -35,14 +35,17 @@ foreach ($requiredFile in $requiredFiles) {
 # Kando is an optional external integration and must not be bundled in the
 # portable package. Documentation/assets may mention it, but executable
 # payloads and libraries must not be present.
+# System.Diagnostics assemblies are required framework libraries in the self-contained intent component.
 $forbidden = @($files | Where-Object {
+    $_.FullName.Substring($resolvedPackagePath.Length + 1) -match '(?i)(^|[\\/])Components[\\/]IntentDlc([\\/]|$)' -or
+    $_.Name -match '(?i)^(GestureSign\.(IntentDlc|IntentLearning)|Microsoft\.(ML\.OnnxRuntime|Windows\.AI\.MachineLearning)|onnxruntime|DirectML).*\.(exe|dll|zip)$' -or
     $_.Extension -in '.pdb', '.dmp', '.diag' -or
     $_.Name -match '(?i)^kando.*\.(exe|dll|zip)$' -or
-    $_.Name -match '(?i)(diagnostic|diagnostics|trace|crashdump)'
+    ($_.Name -match '(?i)(diagnostic|diagnostics|trace|crashdump)' -and $_.Name -notmatch '^System\.Diagnostics\.[A-Za-z]+\.dll$')
 })
 if ($forbidden.Count -gt 0) {
     $names = ($forbidden | ForEach-Object { $_.FullName.Substring($resolvedPackagePath.Length + 1) }) -join ', '
-    throw "Portable package contains forbidden diagnostic or bundled Kando files: $names"
+    throw "Portable package contains forbidden diagnostic or bundled Kando/AI component files: $names"
 }
 
 [pscustomobject]@{

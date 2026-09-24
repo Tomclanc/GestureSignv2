@@ -85,7 +85,7 @@ GitHub 当前版本为 **18.2.9**；Microsoft Store 和 WinGet 的上架进度�
 - 支持样本批量标注、人工纠正、列表 / 网格 / 磁贴查看，以及可关闭、合并计数的 AI 否决通知。
 - 接入 AMD NPU：NPU 执行线性计算，CPU 完成归一化、Sigmoid 和精度复核；界面显示实际后端，初始化或数值验证失败时回退 GPU / CPU。
 - 修复 AMD 组件已安装但尚未就绪时无法检测 NPU、WindowsApps 路径导致编译失败及工作目录写入受限的问题。
-- MSI 与便携版已内置本地 AI 推理组件，另提供离线组件 ZIP；不包含个人训练模型或样本。AMD 官方运行时按目标电脑环境准备，可点击“准备 NPU / GPU 组件”。
+- 18.2.9 重打包版的 MSI 与便携版不再内置 AI 引擎；使用时在选项中下载或导入配套离线组件 ZIP；不包含个人训练模型或样本。AMD 官方运行时按目标电脑环境准备，可点击“准备 NPU / GPU 组件”。
 - 根据本版发布验证，Ryzen AI Z2 Extreme 通过 1,559 组输入测试，最终分数相对 CPU ONNX 最大误差约 0.000000894。当前最终使用 CPU 复核后的分数，不代表纯 NPU 推理或性能提升，其他 NPU 型号尚未完成本版实机验证。
 
 AI 否决仍属实验功能，可能误拦截。训练在 CPU 上进行，样本和模型保存在本机；社区样本可通过 [提交入口](https://github.com/Tomclanc/GestureSignv2/issues/5) 自愿分享。
@@ -227,7 +227,7 @@ Current version:
 - Adds bulk sample labeling, manual corrections, list/grid/tile views, and optional grouped AI-veto notifications.
 - Adds AMD NPU integration: the NPU performs linear computation; the CPU handles normalization, Sigmoid and numerical verification. The UI shows the actual backend and falls back to GPU / CPU if initialization or validation fails.
 - Fixes NPU detection when installed AMD components are not ready, compilation failures caused by WindowsApps paths, and restricted working-directory writes.
-- MSI and portable packages now include local AI inference components; a separate offline component ZIP is also available. Personal models and samples are not bundled. Prepare the official AMD runtime for the target PC using “Prepare NPU / GPU components”.
+- The repackaged 18.2.9 MSI and portable packages exclude the AI engine. Download it on demand from Options or import the matching offline component ZIP. Personal models and samples are not bundled. Prepare the official AMD runtime for the target PC using “Prepare NPU / GPU components”.
 - Release validation on Ryzen AI Z2 Extreme covered 1,559 inputs, with a maximum final-score difference of approximately 0.000000894 versus CPU ONNX. The final score is CPU-verified: this is hybrid NPU + CPU execution, not a claim of pure NPU inference or improved performance. Other NPU models have not completed hardware validation for this release.
 
 AI veto remains experimental and may block intended gestures. Training uses the CPU; samples and models stay local. Community sample sharing is voluntary through the [submission issue](https://github.com/Tomclanc/GestureSignv2/issues/5).
@@ -373,7 +373,7 @@ GitHub の現在のリリースは **18.2.9** です。Microsoft Store と WinGe
 - サンプルの一括ラベル付け、手動修正、リスト／グリッド／タイル表示、無効化できる集約型の AI 拒否通知に対応しました。
 - AMD NPU に対応しました。NPU が線形計算を行い、CPU が正規化、Sigmoid、数値検証を担当します。実際のバックエンドを表示し、初期化や数値検証に失敗した場合は GPU / CPU に切り替えます。
 - インストール済みの AMD コンポーネントが未準備の場合の NPU 検出、WindowsApps パスによるコンパイル失敗、作業ディレクトリへの書き込み制限に関する問題を修正しました。
-- MSI とポータブル版にローカル AI 推論コンポーネントを同梱し、別途オフライン用 ZIP も提供します。個人の学習モデルやサンプルは含みません。AMD 公式ランタイムは対象 PC で「NPU / GPU コンポーネントを準備」から準備できます。
+- 18.2.9 再パッケージ版の MSI とポータブル版には AI エンジンを同梱しません。必要な場合は設定からダウンロードするか、対応するオフライン ZIP をインポートしてください。個人の学習モデルやサンプルは含みません。AMD 公式ランタイムは対象 PC で「NPU / GPU コンポーネントを準備」から準備できます。
 - 本リリースの Ryzen AI Z2 Extreme 検証では 1,559 組の入力をテストし、最終スコアの CPU ONNX との差は最大約 0.000000894 でした。最終的には CPU で再検証したスコアを使用します。純粋な NPU 推論や性能向上を意味するものではなく、他の NPU 機種は本リリースでの実機検証を完了していません。
 
 AI 拒否は実験的な機能で、意図したジェスチャーを誤ってブロックする場合があります。学習は CPU で行い、サンプルとモデルはローカルに保存します。サンプルは任意で [コミュニティ投稿窓口](https://github.com/Tomclanc/GestureSignv2/issues/5) に共有できます。
