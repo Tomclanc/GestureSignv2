@@ -46,3 +46,8 @@ Issue: https://github.com/Tomclanc/GestureSignv2/issues/6
 备份、恢复和打开配置文件夹按钮已使用固定命令，不需要切换为简体中文。
 如果仍然无托盘或手势无效，请运行 Collect-SupportInfo.ps1，将生成的日志 ZIP 回复到 issue。
 x64 已通过后台实际启动检查；ARM64 已检查构建和所有应用依赖架构，Surface 实机效果尚待确认。
+Follow-up build issue6.2:
+- Pen: legacy button-only settings now imply tip/contact drawing; eraser and inverted-pen reports are both accepted.
+- Hold one finger still and draw with another: lifting the moving finger completes the gesture. Remaining fingers must be lifted before starting another gesture.
+- Ordinary gestures with multiple moving fingers still finish when the last finger lifts.
+- For the Surface pen test, enable pen gestures, select Right button + Tip, hold the barrel button and draw on the screen.

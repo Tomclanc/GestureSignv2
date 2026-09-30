@@ -20,6 +20,7 @@ namespace GestureSign.Daemon.Input
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
         private List<RawData> _lastTouchPadRawData;
+        private readonly TouchScreenReleaseTracker _touchScreenRelease = new TouchScreenReleaseTracker();
         private readonly Dictionary<int, RawData> _activeTouchScreenContacts = new Dictionary<int, RawData>();
         // Keep the order in which touchscreen contacts first appeared. The
         // active-contact dictionary is keyed by HID id, which is not a finger
@@ -611,7 +612,7 @@ OnPointDown(args);
             }
             else if (e.SourceDevice == Devices.Pen)
             {
-                bool release = (e.RawData[0].State & (DeviceStates.Invert | DeviceStates.RightClickButton)) == 0 || (e.RawData[0].State & DeviceStates.InRange) == 0;
+                bool release = !PenGesturePolicy.IsActive(AppConfig.PenGestureButton, e.RawData[0].State);
                 bool tip = (e.RawData[0].State & (DeviceStates.Eraser | DeviceStates.Tip)) != 0;
 
                 if (release)
@@ -621,7 +622,7 @@ OnPointDown(args);
                     return;
                 }
 
-                var penSetting = AppConfig.PenGestureButton;
+                var penSetting = PenGesturePolicy.Normalize(AppConfig.PenGestureButton);
                 bool drawByTip = (penSetting & DeviceStates.Tip) != 0;
                 bool drawByHover = (penSetting & DeviceStates.InRange) != 0;
 
@@ -693,10 +694,12 @@ OnPointDown(args);
             if (rawData == null || rawData.Count == 0)
                 return;
 
+            var wasDraining = _touchScreenRelease.Draining;
             var previousCount = _activeTouchScreenContacts.Count;
             var releasedContacts = new List<RawData>();
             foreach (var point in rawData)
             {
+                _touchScreenRelease.Observe(point.ContactIdentifier, point.RawPoints, point.State != DeviceStates.None);
                 if (point.State == DeviceStates.None)
                 {
                     // A number of HID drivers omit or reuse coordinates in the
@@ -720,6 +723,17 @@ OnPointDown(args);
 
             var activeContacts = OrderTouchScreenContacts(_activeTouchScreenContacts.Values);
 
+            if (wasDraining)
+            {
+                if (_touchScreenRelease.AllReleased)
+                {
+                    _touchScreenRelease.Reset();
+                    _activeTouchScreenContacts.Clear();
+                    _releasedTouchScreenContacts.Clear();
+                    _touchScreenContactOrder.Clear();
+                }
+                return;
+            }
             if (SourceDevice == Devices.None && activeContacts.Count > 0)
             {
                 _lastPointsCount = activeContacts.Count;
@@ -731,16 +745,19 @@ OnPointDown(args);
             {
                 _lastPointsCount = activeContacts.Count;
 
-                if (activeContacts.Count > 0)
+                if (!_touchScreenRelease.ShouldComplete(releasedContacts.Select(point => point.ContactIdentifier)))
                 {
                     OnPointMove(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
                     Logging.LogMessage($"TouchScreen release deferred until all contacts are up. ActiveContacts={activeContacts.Count}, ReleasedContacts={_releasedTouchScreenContacts.Count}");
                 }
                 else
                 {
+                    Logging.LogMessage($"TouchScreen gesture completed. RemainingAnchors={activeContacts.Count}, ReleasedContacts={_releasedTouchScreenContacts.Count}");
                     OnPointUp(new InputPointsEventArgs(
-                        OrderTouchScreenContacts(_releasedTouchScreenContacts.Values),
+                        OrderTouchScreenContacts(_releasedTouchScreenContacts.Values.Concat(activeContacts).Select(point => new RawData(DeviceStates.None, point.ContactIdentifier, point.RawPoints))),
                         Devices.TouchScreen));
+                    _touchScreenRelease.Complete();
+                    if (_touchScreenRelease.Draining) return;
                     _activeTouchScreenContacts.Clear();
                     _releasedTouchScreenContacts.Clear();
                     _touchScreenContactOrder.Clear();

@@ -31,7 +31,7 @@ public sealed partial class MainWindow
             NewTouchScreenBlockedAreaRow(options),
             NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "タッチパッドジェスチャを有効にする", "터치패드 제스처 사용"), options.RegisterTouchPad, "RegisterTouchPad"),
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows のタッチパッドジェスチャを優先", "Windows 터치패드 제스처 우선 사용"), options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures"),
-            NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "ペンジェスチャを有効にする", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "4" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
+            NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "ペンジェスチャを有効にする", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "5" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
             NewPenButtonRow(options.PenGestureButton)
         ]));
         var languageValues = new[] { "" }.Concat(UiTranslationCatalog.SupportedCultureNames).ToArray();

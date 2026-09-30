@@ -6528,8 +6528,8 @@ public sealed partial class MainWindow : Window
     {
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, VerticalAlignment = VerticalAlignment.Center };
         var right = new CheckBox { Content = L("右键", "Right button", "右鍵", "右ボタン", "오른쪽 버튼"), IsChecked = (penGestureButton & 4) != 0 };
-        var eraser = new CheckBox { Content = L("橡皮擦", "Eraser", "橡皮擦", "消しゴム", "지우개"), IsChecked = (penGestureButton & 16) != 0 };
-        var tip = new CheckBox { Content = L("笔尖", "Tip", "筆尖", "ペン先", "펜촉"), IsChecked = (penGestureButton & 1) != 0 };
+        var eraser = new CheckBox { Content = L("橡皮擦", "Eraser", "橡皮擦", "消しゴム", "지우개"), IsChecked = (penGestureButton & (16 | 8)) != 0 };
+        var tip = new CheckBox { Content = L("笔尖", "Tip", "筆尖", "ペン先", "펜촉"), IsChecked = (penGestureButton & 1) != 0 || penGestureButton != 0 && (penGestureButton & 3) == 0 };
         var hover = new CheckBox { Content = L("悬停", "Hover", "懸停", "ホバー", "호버"), IsChecked = (penGestureButton & 2) != 0 };
         CheckBox[] boxes = [right, eraser, tip, hover];
         foreach (var box in boxes)
