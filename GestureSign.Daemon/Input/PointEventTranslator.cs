@@ -694,12 +694,13 @@ OnPointDown(args);
             if (rawData == null || rawData.Count == 0)
                 return;
 
-            var wasDraining = _touchScreenRelease.Draining;
+            var wasWaitingForContact = _touchScreenRelease.WaitingForContact;
+            var newContact = false;
             var previousCount = _activeTouchScreenContacts.Count;
             var releasedContacts = new List<RawData>();
             foreach (var point in rawData)
             {
-                _touchScreenRelease.Observe(point.ContactIdentifier, point.RawPoints, point.State != DeviceStates.None);
+                newContact |= _touchScreenRelease.Observe(point.ContactIdentifier, point.RawPoints, point.State != DeviceStates.None);
                 if (point.State == DeviceStates.None)
                 {
                     // A number of HID drivers omit or reuse coordinates in the
@@ -723,7 +724,7 @@ OnPointDown(args);
 
             var activeContacts = OrderTouchScreenContacts(_activeTouchScreenContacts.Values);
 
-            if (wasDraining)
+            if (wasWaitingForContact)
             {
                 if (_touchScreenRelease.AllReleased)
                 {
@@ -731,6 +732,16 @@ OnPointDown(args);
                     _activeTouchScreenContacts.Clear();
                     _releasedTouchScreenContacts.Clear();
                     _touchScreenContactOrder.Clear();
+                }
+                else if (_touchScreenRelease.TryRearm(newContact))
+                {
+                    // Start fresh strokes with live anchors and the newly landed finger.
+                    _releasedTouchScreenContacts.Clear();
+                    _touchScreenContactOrder.Clear();
+                    _touchScreenContactOrder.AddRange(activeContacts.Select(point => point.ContactIdentifier));
+                    _lastPointsCount = activeContacts.Count;
+                    Logging.LogMessage($"TouchScreen anchor gesture rearmed. Contacts={activeContacts.Count}");
+                    OnPointDown(new InputPointsEventArgs(activeContacts, Devices.TouchScreen));
                 }
                 return;
             }
@@ -757,7 +768,7 @@ OnPointDown(args);
                         OrderTouchScreenContacts(_releasedTouchScreenContacts.Values.Concat(activeContacts).Select(point => new RawData(DeviceStates.None, point.ContactIdentifier, point.RawPoints))),
                         Devices.TouchScreen));
                     _touchScreenRelease.Complete();
-                    if (_touchScreenRelease.Draining) return;
+                    if (_touchScreenRelease.WaitingForContact) return;
                     _activeTouchScreenContacts.Clear();
                     _releasedTouchScreenContacts.Clear();
                     _touchScreenContactOrder.Clear();
