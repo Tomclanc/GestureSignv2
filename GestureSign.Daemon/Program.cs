@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Windows.Forms;
 using GestureSign.Common;
@@ -28,6 +28,7 @@ namespace GestureSign.Daemon
             if (TryRunUiAccessShortcutHelper(args))
                 return;
 
+            DaemonApplicationContext.ConfigureSelfTest(args);
             bool createdNew;
             using (new Mutex(true, Constants.Daemon, out createdNew))
             {
@@ -56,46 +57,28 @@ namespace GestureSign.Daemon
                             LocalizationProvider.Instance.LoadFromResource(Properties.Resources.en);
                         }
 
-                        PointCapture.Instance.Load();
-                        SynchronizationContext uiContext = SynchronizationContext.Current;
-
-                        GestureManager.Instance.Load(PointCapture.Instance);
-                        ApplicationManager.Instance.Load(PointCapture.Instance);
-                        TriggerManager.Instance.Load();
-                        // Create host control class and pass to plugins
-                        HostControl hostControl = new HostControl()
-                        {
-                            _ApplicationManager = ApplicationManager.Instance,
-                            _GestureManager = GestureManager.Instance,
-                            _PointCapture = PointCapture.Instance,
-                            _PluginManager = PluginManager.Instance,
-                            _TrayManager = TrayManager.Instance
-                        };
-                        PluginManager.Instance.Load(hostControl, uiContext);
-                        TrayManager.Instance.Load();
-
-                        ThreadPool.QueueUserWorkItem(_ =>
-                        {
-                            KandoLauncher.StartIfEnabled();
-                        });
-
-                        NamedPipe.Instance.RunNamedPipeServer(Constants.Daemon, new MessageProcessor(uiContext));
-
+                        // Native windows, hooks and tray objects must be created after
+                        // the STA message loop starts. ARM64 JIT must not choose the
+                        // order through eager beforefieldinit singleton construction.
                         Application.ApplicationExit += Application_ApplicationExit;
-
-                        Application.Run();
+                        using (var context = new DaemonApplicationContext())
+                            Application.Run(context);
                     }
                     catch (Exception e)
                     {
-                        Logging.LogException(e);
-                        MessageBox.Show(e.ToString(), LocalizationProvider.Instance.GetTextValue("Messages.Error"),
-                            MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        DaemonApplicationContext.ReportFailure(e);
+                        if (!DaemonApplicationContext.IsSelfTest)
+                            MessageBox.Show(e.ToString(), LocalizationProvider.Instance.GetTextValue("Messages.Error"),
+                                MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         Application.Exit();
                     }
                 }
                 else
                 {
-                    NamedPipe.SendMessageAsync(IpcCommands.StartSettings, Constants.Daemon, wait: false).Wait();
+                    if (DaemonApplicationContext.IsSelfTest)
+                        DaemonApplicationContext.ReportFailure(new InvalidOperationException("Another GestureSign daemon is already running."));
+                    else
+                        NamedPipe.SendMessageAsync(IpcCommands.StartSettings, Constants.Daemon, wait: false).Wait();
                 }
             }
         }
@@ -162,7 +145,7 @@ namespace GestureSign.Daemon
         {
             Logging.LogMessage("GestureSign daemon exiting. Reason=ApplicationExit");
             NamedPipe.Instance.Dispose();
-            PointCapture.Instance.Dispose();
+            DaemonApplicationContext.DisposeInput();
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

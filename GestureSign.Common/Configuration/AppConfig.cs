@@ -543,6 +543,16 @@ namespace GestureSign.Common.Configuration
 
         private static void ConfigureApplicationDataPaths()
         {
+            // Startup self-tests use their own temporary data, never the user's
+            // configuration or OneDrive files. Set only by --startup-self-test.
+            var startupTestData = Environment.GetEnvironmentVariable("GESTURESIGN_STARTUP_TEST_DATA");
+            if (!string.IsNullOrWhiteSpace(startupTestData))
+            {
+                ApplicationDataPath = LocalApplicationDataPath = Path.GetFullPath(startupTestData);
+                ConfigPath = Path.Combine(ApplicationDataPath, Constants.ConfigFileName);
+                BackupPath = Path.Combine(LocalApplicationDataPath, "Backup");
+                return;
+            }
             var appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             var defaultApplicationDataPath = Path.Combine(appDataPath, ApplicationDataFolderName);
             LocalApplicationDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ApplicationDataFolderName);

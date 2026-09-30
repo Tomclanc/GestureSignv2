@@ -4568,7 +4568,16 @@ public sealed partial class MainWindow : Window
             "Gesture recognized",
             "Gesture not recognized",
             "Gesture action",
-            "Gesture command"
+            "Gesture command",
+            "Daemon startup",
+            "Daemon message loop",
+            "GestureSign daemon started",
+            "Input registration",
+            "Raw input registration",
+            "Raw input registered",
+            "Keyboard hook started",
+            "Mouse hook started",
+            "Tray notification dispatcher"
         };
 
         var lines = text.Replace("\r\n", "\n").Split('\n');
@@ -6652,11 +6661,13 @@ public sealed partial class MainWindow : Window
         return NewSettingRow(title, null, combo);
     }
 
-    private FrameworkElement NewButtonRow(string title, string[] buttons)
+    private FrameworkElement NewButtonRow(string title, string[] buttons, string[]? commands = null)
     {
+        if (commands != null && commands.Length != buttons.Length)
+            throw new ArgumentException("Each button must have one command.", nameof(commands));
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, VerticalAlignment = VerticalAlignment.Center };
-        foreach (var button in buttons)
-            panel.Children.Add(NewPillButton(button));
+        for (var i = 0; i < buttons.Length; i++)
+            panel.Children.Add(NewPillButton(buttons[i], true, commands?[i] ?? buttons[i]));
         return NewSettingRow(title, null, panel);
     }
 

@@ -3,7 +3,7 @@
        RuntimeIdentifier is available during restore, while explicit
        PlatformTarget still wins for local and CI builds. -->
   <PropertyGroup>
-    <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'win-arm64'">ARM64</PlatformTarget>
+    <PlatformTarget Condition="'$(RuntimeIdentifier)' == 'win-arm64' or '$(Platform)' == 'ARM64'">ARM64</PlatformTarget>
     <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <NoWarn Condition="'$(RuntimeIdentifier)' == 'win-arm64'">$(NoWarn);CA1416;CS8012;WFO1000</NoWarn>

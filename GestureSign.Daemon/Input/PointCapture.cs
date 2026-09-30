@@ -70,7 +70,7 @@ namespace GestureSign.Daemon.Input
         private int _requiredContactCount = 1;
         private bool _pointerMotionSuppressionActive;
         // Create variable to hold the only allowed instance of this class
-        static readonly PointCapture _Instance = new PointCapture();
+        private static readonly Lazy<PointCapture> _Instance = new Lazy<PointCapture>(() => new PointCapture());
 
         private CaptureMode _mode = CaptureMode.Normal;
         private volatile CaptureState _state;
@@ -282,7 +282,7 @@ namespace GestureSign.Daemon.Input
 
         public static PointCapture Instance
         {
-            get { return _Instance; }
+            get { return _Instance.Value; }
         }
 
         public void RegisterTouchScreenPassthroughWindow(IntPtr handle)
