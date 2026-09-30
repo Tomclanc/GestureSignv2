@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: 2816fa85ec6f5b11a74fe3dd11264847f8503fa7
+          ref: 1eb409cfff4fd9d7a20024075d21fb67288753b0
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
@@ -36,18 +36,18 @@ jobs:
         shell: pwsh
         run: |
           $sample = (Get-ChildItem sample/extracted -Recurse -Filter GestureSign-Sample-V2.ges | Select-Object -First 1).FullName
-          ./installer/Build-Issue6Portable.ps1 -Architecture '${{ matrix.architecture }}' -Version 18.3.2-issue6.2 -OutputDirectory ./package -SampleArchive $sample
+          ./installer/Build-Issue6Portable.ps1 -Architecture '${{ matrix.architecture }}' -Version 18.3.2-issue6.3 -OutputDirectory ./package -SampleArchive $sample
           $zip = (Get-ChildItem package -File -Filter '*-portable.zip').FullName
           $archive = [IO.Compression.ZipFile]::Open($zip, [IO.Compression.ZipArchiveMode]::Update)
           try {
             $entry = $archive.CreateEntry('Source-commit.txt')
             $writer = [IO.StreamWriter]::new($entry.Open())
-            try { $writer.WriteLine('Version: 18.3.2-issue6.2'); $writer.WriteLine('Commit: 2816fa85ec6f5b11a74fe3dd11264847f8503fa7'); $writer.WriteLine('Architecture: ${{ matrix.architecture }}') } finally { $writer.Dispose() }
+            try { $writer.WriteLine('Version: 18.3.2-issue6.3'); $writer.WriteLine('Commit: 1eb409cfff4fd9d7a20024075d21fb67288753b0'); $writer.WriteLine('Architecture: ${{ matrix.architecture }}') } finally { $writer.Dispose() }
           } finally { $archive.Dispose() }
           $sum = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($zip)
           $sum | Set-Content "$zip.sha256"
           Write-Output $sum
-          gh release upload v18.3.2-issue6.2 $zip --repo $env:GITHUB_REPOSITORY
+          gh release upload v18.3.2-issue6.3 $zip --repo $env:GITHUB_REPOSITORY
           if ($LASTEXITCODE -ne 0) { throw 'Release upload failed.' }
       - uses: actions/upload-artifact@v4
         if: always()
@@ -67,5 +67,5 @@ jobs:
           path: hashes
       - name: Publish the checksums for the final uploaded packages
         run: |
-          cat hashes/*.sha256 | sort > GestureSign-V2-18.3.2-issue6.2-SHA256SUMS.txt
-          gh release upload v18.3.2-issue6.2 GestureSign-V2-18.3.2-issue6.2-SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --clobber
+          cat hashes/*.sha256 | sort > GestureSign-V2-18.3.2-issue6.3-SHA256SUMS.txt
+          gh release upload v18.3.2-issue6.3 GestureSign-V2-18.3.2-issue6.3-SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --clobber
