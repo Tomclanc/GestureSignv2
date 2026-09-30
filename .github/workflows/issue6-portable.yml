@@ -1,0 +1,66 @@
+name: Issue 6 self-contained portable packages
+on:
+  push:
+    branches: [fix/issue6-arm64-portable]
+    paths: [.github/workflows/issue6-portable.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [arm64, x64]
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: dee43fd2778f3635b71d3290c01d6a5e5c846b3f
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Download the already-published converted sample
+        shell: pwsh
+        run: |
+          gh release download v18.3.2 --repo $env:GITHUB_REPOSITORY --pattern GestureSign-Sample-V2-Surface-ARM64.zip --dir sample
+          if ($LASTEXITCODE -ne 0) { throw 'Sample download failed.' }
+          Expand-Archive sample/GestureSign-Sample-V2-Surface-ARM64.zip sample/extracted
+      - name: Build, validate and upload the portable package
+        shell: pwsh
+        run: |
+          $sample = (Get-ChildItem sample/extracted -Recurse -Filter GestureSign-Sample-V2.ges | Select-Object -First 1).FullName
+          ./installer/Build-Issue6Portable.ps1 -Architecture '${{ matrix.architecture }}' -Version 18.3.2-issue6.1 -OutputDirectory ./package -SampleArchive $sample
+          $zip = (Get-ChildItem package -File -Filter '*-portable.zip').FullName
+          $archive = [IO.Compression.ZipFile]::Open($zip, [IO.Compression.ZipArchiveMode]::Update)
+          try {
+            $entry = $archive.CreateEntry('Source-commit.txt')
+            $writer = [IO.StreamWriter]::new($entry.Open())
+            try { $writer.WriteLine('Version: 18.3.2-issue6.1'); $writer.WriteLine('Commit: dee43fd2778f3635b71d3290c01d6a5e5c846b3f'); $writer.WriteLine('Architecture: ${{ matrix.architecture }}') } finally { $writer.Dispose() }
+          } finally { $archive.Dispose() }
+          $sum = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($zip)
+          $sum | Set-Content "$zip.sha256"
+          Write-Output $sum
+          gh release upload v18.3.2-issue6.1 $zip --repo $env:GITHUB_REPOSITORY
+          if ($LASTEXITCODE -ne 0) { throw 'Release upload failed.' }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: issue6-${{ matrix.architecture }}
+          path: package/*.sha256
+  checksums:
+    needs: package
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: issue6-*
+          merge-multiple: true
+          path: hashes
+      - name: Publish the checksums for the final uploaded packages
+        run: |
+          cat hashes/*.sha256 | sort > GestureSign-V2-18.3.2-issue6.1-SHA256SUMS.txt
+          gh release upload v18.3.2-issue6.1 GestureSign-V2-18.3.2-issue6.1-SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --clobber
