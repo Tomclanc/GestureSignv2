@@ -4568,7 +4568,16 @@ public sealed partial class MainWindow : Window
             "Gesture recognized",
             "Gesture not recognized",
             "Gesture action",
-            "Gesture command"
+            "Gesture command",
+            "Daemon startup",
+            "Daemon message loop",
+            "GestureSign daemon started",
+            "Input registration",
+            "Raw input registration",
+            "Raw input registered",
+            "Keyboard hook started",
+            "Mouse hook started",
+            "Tray notification dispatcher"
         };
 
         var lines = text.Replace("\r\n", "\n").Split('\n');
@@ -6519,8 +6528,8 @@ public sealed partial class MainWindow : Window
     {
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, VerticalAlignment = VerticalAlignment.Center };
         var right = new CheckBox { Content = L("右键", "Right button", "右鍵", "右ボタン", "오른쪽 버튼"), IsChecked = (penGestureButton & 4) != 0 };
-        var eraser = new CheckBox { Content = L("橡皮擦", "Eraser", "橡皮擦", "消しゴム", "지우개"), IsChecked = (penGestureButton & 16) != 0 };
-        var tip = new CheckBox { Content = L("笔尖", "Tip", "筆尖", "ペン先", "펜촉"), IsChecked = (penGestureButton & 1) != 0 };
+        var eraser = new CheckBox { Content = L("橡皮擦", "Eraser", "橡皮擦", "消しゴム", "지우개"), IsChecked = (penGestureButton & (16 | 8)) != 0 };
+        var tip = new CheckBox { Content = L("笔尖", "Tip", "筆尖", "ペン先", "펜촉"), IsChecked = (penGestureButton & 1) != 0 || penGestureButton != 0 && (penGestureButton & 3) == 0 };
         var hover = new CheckBox { Content = L("悬停", "Hover", "懸停", "ホバー", "호버"), IsChecked = (penGestureButton & 2) != 0 };
         CheckBox[] boxes = [right, eraser, tip, hover];
         foreach (var box in boxes)
@@ -6652,11 +6661,13 @@ public sealed partial class MainWindow : Window
         return NewSettingRow(title, null, combo);
     }
 
-    private FrameworkElement NewButtonRow(string title, string[] buttons)
+    private FrameworkElement NewButtonRow(string title, string[] buttons, string[]? commands = null)
     {
+        if (commands != null && commands.Length != buttons.Length)
+            throw new ArgumentException("Each button must have one command.", nameof(commands));
         var panel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, VerticalAlignment = VerticalAlignment.Center };
-        foreach (var button in buttons)
-            panel.Children.Add(NewPillButton(button));
+        for (var i = 0; i < buttons.Length; i++)
+            panel.Children.Add(NewPillButton(buttons[i], true, commands?[i] ?? buttons[i]));
         return NewSettingRow(title, null, panel);
     }
 
@@ -7213,11 +7224,7 @@ public sealed partial class MainWindow : Window
         if (_isExitingApplication)
             return;
 
-        if (await NotifyDaemonAsync(DaemonCommand.LoadConfiguration))
-        {
-            await NotifyDaemonAsync(DaemonCommand.LoadApplications);
-            await NotifyDaemonAsync(DaemonCommand.LoadGestures);
-        }
+        await NotifyDaemonAsync(DaemonCommand.Ping);
     }
 
     private static async Task<bool> SendDaemonCommandAsync(DaemonCommand command)
@@ -8158,7 +8165,8 @@ public sealed partial class MainWindow : Window
         LoadConfiguration = 5,
         EnableRecognition = 9,
         DisableRecognition = 10,
-        Exit = 11
+        Exit = 11,
+        Ping = 13
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);

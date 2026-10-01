@@ -31,7 +31,7 @@ public sealed partial class MainWindow
             NewTouchScreenBlockedAreaRow(options),
             NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "タッチパッドジェスチャを有効にする", "터치패드 제스처 사용"), options.RegisterTouchPad, "RegisterTouchPad"),
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows のタッチパッドジェスチャを優先", "Windows 터치패드 제스처 우선 사용"), options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures"),
-            NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "ペンジェスチャを有効にする", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "4" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
+            NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "ペンジェスチャを有効にする", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "5" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
             NewPenButtonRow(options.PenGestureButton)
         ]));
         var languageValues = new[] { "" }.Concat(UiTranslationCatalog.SupportedCultureNames).ToArray();
@@ -48,8 +48,8 @@ public sealed partial class MainWindow
             NewToggleRow(L("显示托盘图标", "Show tray icon", "顯示系統匣圖示", "トレイアイコンを表示", "트레이 아이콘 표시"), options.ShowTrayIcon, "ShowTrayIcon"),
             NewOneDriveSyncRow(), NewOpenSettingsHotKeyRow(options.OpenSettingsHotKey),
             NewToggleRow(L("错误日志提示", "Error log notifications", "錯誤記錄提示", "エラーログ通知", "오류 로그 알림"), options.SendErrorReport, "SendErrorReport"),
-            NewButtonRow(L("配置文件", "Configuration files", "設定檔", "設定ファイル", "구성 파일"), [L("备份", "Backup", "備份", "バックアップ", "백업"), L("恢复", "Restore", "還原", "復元", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "設定フォルダーを開く", "구성 폴더 열기")]),
-            NewButtonRow(L("退出", "Exit", "結束", "終了", "종료"), [L("退出", "Exit", "結束", "終了", "종료")])
+            NewButtonRow(L("配置文件", "Configuration files", "設定檔", "設定ファイル", "구성 파일"), [L("备份", "Backup", "備份", "バックアップ", "백업"), L("恢复", "Restore", "還原", "復元", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "設定フォルダーを開く", "구성 폴더 열기")], ["config.backup", "config.restore", "config.open-folder"]),
+            NewButtonRow(L("退出", "Exit", "結束", "終了", "종료"), [L("退出", "Exit", "結束", "終了", "종료")], ["Exit"])
         };
         if (!IsPackagedInstallation()) systemRows.Insert(systemRows.Count - 2, NewUpdateSettingsRow(options));
         root.Children.Add(NewSettingsGroup(L("系统", "System", "系統", "システム", "시스템"), systemRows.ToArray()));

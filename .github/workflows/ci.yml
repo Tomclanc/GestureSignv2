@@ -71,10 +71,13 @@ jobs:
         run: |
           dotnet restore GestureSign.Daemon/GestureSign.Daemon.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false
           dotnet restore GestureSign.WinUI/GestureSign.WinUI.csproj -p:RuntimeIdentifier=win-arm64 -p:RestoreLockedMode=false
-          dotnet build GestureSign.Daemon/GestureSign.Daemon.csproj -c Release --no-restore -p:PlatformTarget=ARM64 -p:RuntimeIdentifier=win-arm64 -warnaserror *> daemon-arm64-build.log
+          dotnet build GestureSign.Daemon/GestureSign.Daemon.csproj -c Release --no-restore -p:Platform=ARM64 -p:PlatformTarget=ARM64 -p:RuntimeIdentifier=win-arm64 -warnaserror *> daemon-arm64-build.log
           if ($LASTEXITCODE -ne 0) { Get-Content daemon-arm64-build.log; exit $LASTEXITCODE }
           dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release --no-restore -p:Platform=ARM64 -p:PlatformTarget=ARM64 -p:RuntimeIdentifier=win-arm64 -warnaserror *> winui-arm64-build.log
           if ($LASTEXITCODE -ne 0) { Get-Content winui-arm64-build.log; exit $LASTEXITCODE }
+      - name: Verify ARM64 backend dependency architecture
+        shell: pwsh
+        run: ./tools/Test-BackendArchitecture.ps1 -PackagePath ./GestureSign.Daemon/bin/ARM64/Release/net10.0-windows10.0.19041.0/win-arm64 -Architecture ARM64
       - name: Enforce warning baseline
         shell: pwsh
         # ARM64 reference-assembly diagnostics (CS8012) depend on the SDK's
@@ -85,6 +88,14 @@ jobs:
         shell: pwsh
         run: |
           pwsh -NoProfile -File ./installer/Build-GestureSignV2-KandoMsi.ps1 -PublishDir ./publish/portable -PayloadOnly
+      - name: Test configuration archive roundtrip and daemon startup
+        shell: pwsh
+        run: |
+          dotnet run --project tests/GestureSign.InputPolicyTests/GestureSign.InputPolicyTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.ConfigArchiveTests/GestureSign.ConfigArchiveTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./tools/Test-DaemonStartup.ps1 -Executable ./publish/portable/Backend/GestureSign.exe
       - name: Validate portable payload
         shell: pwsh
         run: ./tools/Test-PortablePackage.ps1 -PackagePath ./publish/portable -MinimumFileCount 200

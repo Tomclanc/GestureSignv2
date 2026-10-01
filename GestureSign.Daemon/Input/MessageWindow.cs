@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -110,17 +110,25 @@ namespace GestureSign.Daemon.Input
         {
             _ignoreTouchInputWhenUsingPen = AppConfig.IgnoreTouchInputWhenUsingPen;
             var penSetting = AppConfig.PenGestureButton;
-            _penGestureButton = penSetting & (DeviceStates.Invert | DeviceStates.RightClickButton);
+            _penGestureButton = PenGesturePolicy.Normalize(penSetting);
 
             _validDevices.Clear();
 
             var registerTouchPad = AppConfig.RegisterTouchPad;
             Logging.LogMessage($"Input registration update. TouchScreen={AppConfig.RegisterTouchScreen}, TouchPad={registerTouchPad}, PreferWindowsTouchPadGestures={AppConfig.PreferWindowsTouchPadGestures}, PenButton={penSetting}");
             UpdateRegisterState(AppConfig.RegisterTouchScreen, NativeMethods.TouchScreenUsage);
-            UpdateRegisterState(_ignoreTouchInputWhenUsingPen || _penGestureButton != 0 && (penSetting & (DeviceStates.InRange | DeviceStates.Tip)) != 0, NativeMethods.PenUsage);
+            UpdateRegisterState(_ignoreTouchInputWhenUsingPen || _penGestureButton != 0, NativeMethods.PenUsage);
             UpdateRegisterState(registerTouchPad, NativeMethods.TouchPadUsage);
         }
 
+        internal void ResetInputState()
+        {
+            _sourceDevice = Devices.None;
+            _requiringContactCount = 0;
+            _outputTouchs = new List<RawData>(1);
+            _penLastActivity = null;
+            _validDevices.Clear();
+        }
         public void RequestSourceDeviceReset(Devices sourceDevice)
         {
             NativeMethods.PostMessage(
@@ -336,12 +344,14 @@ namespace GestureSign.Daemon.Input
 
                         if (_sourceDevice == Devices.None || _sourceDevice == Devices.TouchScreen)
                         {
-                            if ((state & _penGestureButton) != 0)
+                            if (PenGesturePolicy.IsActive(_penGestureButton, state))
                             {
                                 _currentScr = Screen.FromPoint(Cursor.Position);
                                 if (_currentScr == null)
                                     return;
                                 _sourceDevice = Devices.Pen;
+                                _requiringContactCount = 0; // Discard any unfinished touch HID frame.
+                                Logging.LogMessage($"Pen capture activated. Setting={_penGestureButton}, State={state}");
                                 PenDevice.GetCurrentScreenOrientation();
                             }
                             else
@@ -349,7 +359,7 @@ namespace GestureSign.Daemon.Input
                         }
                         else if (_sourceDevice == Devices.Pen)
                         {
-                            if ((state & _penGestureButton) == 0 || (state & DeviceStates.InRange) == 0)
+                            if (!PenGesturePolicy.IsActive(_penGestureButton, state))
                             {
                                 state = DeviceStates.None;
                             }

@@ -14,14 +14,17 @@ public sealed partial class MainWindow
             switch (command)
             {
                 case "打开配置文件夹":
+                case "config.open-folder":
                     Directory.CreateDirectory(_legacyData.RoamingPath);
                     Process.Start(new ProcessStartInfo("explorer.exe", _legacyData.RoamingPath) { UseShellExecute = true });
                     break;
                 case "备份":
+                case "config.backup":
                     var backupPath = _legacyData.CreateBackup();
                     await ShowInfoDialog("备份完成", backupPath);
                     break;
                 case "恢复":
+                case "config.restore":
                     await RestoreArchiveAsync();
                     break;
                 case "退出":
