@@ -20,11 +20,15 @@ namespace GestureSign.Daemon
 
         public bool ProcessMessages(IpcCommands command, object data)
         {
+            if (command == IpcCommands.Ping) return true;
             Logging.LogMessage($"Daemon IPC command received. Command={command}");
             _synchronizationContext.Post(state =>
             {
                 switch (command)
                 {
+                    case IpcCommands.RecoverInput:
+                        PointCapture.Instance.RecoverInput("IPC");
+                        break;
                     case IpcCommands.StartTeaching:
                         PointCapture.Instance.Mode = CaptureMode.Training;
                         break;

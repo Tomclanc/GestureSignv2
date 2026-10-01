@@ -1,4 +1,4 @@
-﻿namespace GestureSign.Common.InterProcessCommunication
+namespace GestureSign.Common.InterProcessCommunication
 {
     public enum IpcCommands
     {
@@ -14,6 +14,8 @@
         EnableRecognition,
         DisableRecognition,
         Exit,
-        SynRecognitionState
+        SynRecognitionState,
+        Ping,
+        RecoverInput
     }
 }

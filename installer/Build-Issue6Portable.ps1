@@ -19,6 +19,7 @@ if ($LASTEXITCODE -ne 0) { throw 'WinUI publish failed.' }
 Get-ChildItem -LiteralPath $payload -Recurse -File -Filter '*.pdb' | ForEach-Object { Remove-Item -LiteralPath $_.FullName }
 Copy-Item -LiteralPath "$repo\docs\releases\issue6-portable-readme.txt" -Destination "$payload\README.txt"
 Copy-Item -LiteralPath "$repo\tools\Collect-SupportInfo.ps1" -Destination $payload
+Copy-Item -LiteralPath "$repo\tools\Recover-Input.ps1" -Destination $payload
 if ($SampleArchive) {
     New-Item -ItemType Directory -Path "$payload\Sample-config" | Out-Null
     Copy-Item -LiteralPath $SampleArchive -Destination "$payload\Sample-config\GestureSign-Sample-V2.ges"

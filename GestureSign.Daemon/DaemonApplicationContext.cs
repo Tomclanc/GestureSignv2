@@ -77,11 +77,24 @@ namespace GestureSign.Daemon
                         _selfTestTimer.Stop();
                         try
                         {
-                            bool ipc = await NamedPipe.SendMessageAsync(IpcCommands.EnableRecognition, Constants.Daemon);
+                            bool ipc = await NamedPipe.SendMessageAsync(IpcCommands.Ping, Constants.Daemon);
+                            var previousMode = _capture.Mode;
+                            _capture.Mode = GestureSign.Common.Input.CaptureMode.UserDisabled;
+                            bool penPreemption = _capture.TestPenPreemption();
+                            bool recoveryCommand = await NamedPipe.SendMessageAsync(IpcCommands.RecoverInput, Constants.Daemon);
+                            await System.Threading.Tasks.Task.Delay(150);
+                            bool recovery = recoveryCommand && _capture.InputStateCleared &&
+                                _capture.Mode == GestureSign.Common.Input.CaptureMode.UserDisabled;
+                            var recoveryCount = _capture.InputRecoveryCount;
+                            await System.Threading.Tasks.Task.Run(() => _capture.RequestSystemRecoveryForTest());
+                            await System.Threading.Tasks.Task.Delay(900);
+                            bool systemRecovery = _capture.InputRecoveryCount > recoveryCount &&
+                                _capture.InputStateCleared && _capture.Mode == GestureSign.Common.Input.CaptureMode.UserDisabled;
+                            _capture.Mode = previousMode;
                             bool mouse = _capture.MouseHook.Hooked;
                             bool tray = TrayManager.Instance.TrayIconVisible;
-                            bool pass = ipc && mouse && tray;
-                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\n");
+                            bool pass = ipc && mouse && tray && recovery && penPreemption && systemRecovery;
+                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\nPenPreemption={penPreemption}\nInputRecovery={recovery}\nSystemEventRecovery={systemRecovery}\n");
                             Environment.ExitCode = pass ? 0 : 1;
                         }
                         catch (Exception ex) { ReportFailure(ex); }

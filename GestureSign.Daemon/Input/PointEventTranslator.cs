@@ -17,6 +17,7 @@ namespace GestureSign.Daemon.Input
         private const int CaptionButtonHeight = 72;
         private readonly InputProvider _inputProvider;
         private int _lastPointsCount;
+        private DateTime _lastTouchInputUtc;
         private HashSet<MouseActions> _pressedMouseButton;
         private System.Threading.Timer _touchPadReleaseTimer;
         private List<RawData> _lastTouchPadRawData;
@@ -60,6 +61,37 @@ namespace GestureSign.Daemon.Input
             inputProvider.LowLevelMouseHook.MouseUp += LowLevelMouseHook_MouseUp;
         }
 
+        internal void ResetInputState(string reason)
+        {
+            Logging.LogMessage($"Input translation reset. Reason={reason}, Source={SourceDevice}, ActiveTouchContacts={_activeTouchScreenContacts.Count}, ReleasedTouchContacts={_releasedTouchScreenContacts.Count}");
+            ResetTipTap();
+            _touchPadReleaseTimer.Change(System.Threading.Timeout.Infinite, System.Threading.Timeout.Infinite);
+            _lastTouchPadRawData = null;
+            _lastPointsCount = 0;
+            _activeTouchScreenContacts.Clear();
+            _releasedTouchScreenContacts.Clear();
+            _touchScreenContactOrder.Clear();
+            _touchScreenRelease.Reset();
+            _pressedMouseButton.Clear();
+            ResetMouseGestureTracking();
+            SourceDevice = Devices.None;
+        }
+        internal bool TestPenPreemption()
+        {
+            // Exercise the real raw-event adapter without completing a gesture
+            // or dispatching an action. The startup test runs in isolated data.
+            var point = new System.Drawing.Point(400, 400);
+            TranslateTouchEvent(this, new RawPointsDataMessageEventArgs(
+                new List<RawData> { new RawData(DeviceStates.Tip, 901, point) }, Devices.TouchScreen));
+            TranslateTouchEvent(this, new RawPointsDataMessageEventArgs(
+                new List<RawData> { new RawData(DeviceStates.Tip | DeviceStates.InRange | DeviceStates.Eraser, 0, point) }, Devices.Pen));
+            return _activeTouchScreenContacts.Count == 0 && _releasedTouchScreenContacts.Count == 0 &&
+                !_touchScreenRelease.WaitingForContact;
+        }
+
+        internal bool InputStateCleared => SourceDevice == Devices.None && _lastPointsCount == 0 &&
+            _activeTouchScreenContacts.Count == 0 && _releasedTouchScreenContacts.Count == 0 &&
+            !_touchScreenRelease.WaitingForContact && _pressedMouseButton.Count == 0;
         internal void Dispose()
         {
             ResetTipTap();
@@ -176,6 +208,13 @@ namespace GestureSign.Daemon.Input
             if (IsInjectedMouseMessage(mouseMessage))
                 return;
 
+            if (IsDrawingButton((MouseActions)mouseMessage.Button) &&
+                (SourceDevice == Devices.TouchScreen || SourceDevice == Devices.Pen || _touchScreenRelease.WaitingForContact) &&
+                (DateTime.UtcNow - _lastTouchInputUtc).TotalSeconds > 2)
+            {
+                PointCapture.Instance.CancelInputCapture("StaleTouchBeforeMouse");
+                _inputProvider.ResetRawInputState();
+            }
             RecoverStaleMouseCaptureBeforeNewInput((MouseActions)mouseMessage.Button);
 
             if (ShouldPassThroughGestureSignUi(mouseMessage.Point))
@@ -546,6 +585,7 @@ OnPointDown(args);
 
         private void TranslateTouchEvent(object sender, RawPointsDataMessageEventArgs e)
         {
+            _lastTouchInputUtc = DateTime.UtcNow;
             if (e.SourceDevice == Devices.TouchPad && TranslateTipTap(e)) return;
             if (e.SourceDevice != Devices.TouchPad) ResetTipTap();
             if (e.SourceDevice == Devices.TouchScreen)
@@ -612,6 +652,8 @@ OnPointDown(args);
             }
             else if (e.SourceDevice == Devices.Pen)
             {
+                if (_activeTouchScreenContacts.Count > 0 || _releasedTouchScreenContacts.Count > 0)
+                    PointCapture.Instance.CancelInputCapture("PenPreemptedTouch");
                 bool release = !PenGesturePolicy.IsActive(AppConfig.PenGestureButton, e.RawData[0].State);
                 bool tip = (e.RawData[0].State & (DeviceStates.Eraser | DeviceStates.Tip)) != 0;
 

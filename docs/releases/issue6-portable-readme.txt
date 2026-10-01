@@ -53,3 +53,7 @@ Follow-up build issue6.2:
 - For the Surface pen test, enable pen gestures, select Right button + Tip, hold the barrel button and draw on the screen.
 
 Follow-up build issue6.3: keep the anchor finger down and repeat moving-finger gestures. Each new finger contact starts a fresh gesture; anchor movement or release alone never repeats the previous action.
+
+Follow-up build issue6.4: clears interrupted touch sessions when pen input takes over; recovers stale touch ownership before a mouse gesture; refreshes native input on resume/unlock using the owning UI thread. The settings watchdog now sends a lightweight ping instead of repeatedly reloading all configuration.
+
+If recognition stops again, collect the logs before recovery. Recover-Input.ps1 requests an input reset without restarting the daemon or enabling user-disabled recognition. Check GestureSign.log for the recovery result.

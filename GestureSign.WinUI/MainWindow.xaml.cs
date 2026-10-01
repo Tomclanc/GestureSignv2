@@ -7224,11 +7224,7 @@ public sealed partial class MainWindow : Window
         if (_isExitingApplication)
             return;
 
-        if (await NotifyDaemonAsync(DaemonCommand.LoadConfiguration))
-        {
-            await NotifyDaemonAsync(DaemonCommand.LoadApplications);
-            await NotifyDaemonAsync(DaemonCommand.LoadGestures);
-        }
+        await NotifyDaemonAsync(DaemonCommand.Ping);
     }
 
     private static async Task<bool> SendDaemonCommandAsync(DaemonCommand command)
@@ -8169,7 +8165,8 @@ public sealed partial class MainWindow : Window
         LoadConfiguration = 5,
         EnableRecognition = 9,
         DisableRecognition = 10,
-        Exit = 11
+        Exit = 11,
+        Ping = 13
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);

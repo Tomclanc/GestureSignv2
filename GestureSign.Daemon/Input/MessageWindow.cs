@@ -121,6 +121,14 @@ namespace GestureSign.Daemon.Input
             UpdateRegisterState(registerTouchPad, NativeMethods.TouchPadUsage);
         }
 
+        internal void ResetInputState()
+        {
+            _sourceDevice = Devices.None;
+            _requiringContactCount = 0;
+            _outputTouchs = new List<RawData>(1);
+            _penLastActivity = null;
+            _validDevices.Clear();
+        }
         public void RequestSourceDeviceReset(Devices sourceDevice)
         {
             NativeMethods.PostMessage(
@@ -342,6 +350,7 @@ namespace GestureSign.Daemon.Input
                                 if (_currentScr == null)
                                     return;
                                 _sourceDevice = Devices.Pen;
+                                _requiringContactCount = 0; // Discard any unfinished touch HID frame.
                                 Logging.LogMessage($"Pen capture activated. Setting={_penGestureButton}, State={state}");
                                 PenDevice.GetCurrentScreenOrientation();
                             }

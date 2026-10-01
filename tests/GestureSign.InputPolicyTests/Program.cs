@@ -70,4 +70,11 @@ t.Observe(3,new Point(160,100),true);t.Observe(8,new Point(300,100),true);t.Obse
 Check(!t.ShouldComplete(new[]{8}),"Moving anchor restores normal last-lift behavior");
 t.Observe(3,new Point(),false);Check(t.ShouldComplete(new[]{3}),"Moving contacts finish on final lift");
 t.Complete();Check(!t.WaitingForContact,"No anchors left after normal completion");
+// Lost-up/interrupted sessions must not retain anchor or released-contact history.
+t=Session();t.Observe(2,new Point(300,100),true);t.Observe(2,new Point(),false);
+t.Complete();Check(t.WaitingForContact,"Interrupted anchored session exists");
+t.Reset();Check(t.AllReleased && !t.WaitingForContact,"Recovery clears interrupted session");
+t.Observe(11,new Point(100,100),true);t.Observe(12,new Point(200,100),true);
+t.Observe(12,new Point(300,100),true);t.Observe(12,new Point(),false);
+Check(t.ShouldComplete(new[]{12}),"Fresh gesture after recovery ignores old contact history");
 Console.WriteLine($"PASS: {checks} pen and touchscreen policy checks.");
