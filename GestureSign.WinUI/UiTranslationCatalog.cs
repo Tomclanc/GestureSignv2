@@ -44,6 +44,14 @@ internal static class UiTranslationCatalog
             : english;
     }
 
+    // Two-language strings have no Japanese/Korean translation. Use the
+    // selected external catalog when available, otherwise fall back to English.
+    public static string TranslateFallback(string cultureName, string chinese, string english)
+    {
+        var resolved = ResolveCultureName(cultureName);
+        return resolved is "zh-CN" or "zh-TW" ? chinese : Translate(resolved, english);
+    }
+
     public static bool HasCatalog(string cultureName)
     {
         var resolved = ResolveCultureName(cultureName);

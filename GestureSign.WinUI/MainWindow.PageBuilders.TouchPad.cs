@@ -420,8 +420,8 @@ public sealed partial class MainWindow
         var existingCommand = existingAction?.Commands.FirstOrDefault();
         var name = new TextBox
         {
-            PlaceholderText = "命令名称",
-            Text = existingCommand?.Name ?? "发送快捷键"
+            PlaceholderText = T("命令名称", "Command name"),
+            Text = existingCommand?.Name ?? T("发送快捷键", "Send Hotkey")
         };
         var selectedPluginIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass);
         var plugin = new ComboBox
@@ -436,14 +436,14 @@ public sealed partial class MainWindow
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox
         {
-            PlaceholderText = "自定义插件类名",
+            PlaceholderText = T("自定义插件类名", "Custom plugin class name"),
             Text = existingCommand?.PluginClass ?? PluginClassFromIndex(plugin.SelectedIndex),
             Margin = new Thickness(0, 8, 0, 0)
         };
         var settings = new TextBox
         {
             Text = existingCommand?.Settings ?? "",
-            PlaceholderText = "命令设置 JSON，可留空",
+            PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"),
             Margin = new Thickness(0, 8, 0, 0),
             TextWrapping = TextWrapping.Wrap,
             AcceptsReturn = true,
@@ -487,7 +487,7 @@ public sealed partial class MainWindow
         };
         var enabled = new CheckBox
         {
-            Content = gestureName.StartsWith("TouchPadTipTap.", StringComparison.Ordinal) ? "启用这个 TipTap" : "启用这个边缘",
+            Content = gestureName.StartsWith("TouchPadTipTap.", StringComparison.Ordinal) ? T("启用这个 TipTap", "Enable this TipTap") : T("启用这个边缘", "Enable this edge"),
             IsChecked = existingAction?.IsEnabled ?? true,
             Margin = new Thickness(0, 8, 0, 0)
         };
@@ -561,11 +561,11 @@ public sealed partial class MainWindow
         var dialog = new ContentDialog
         {
             XamlRoot = Root.XamlRoot,
-            Title = $"编辑{title}",
+            Title = F("编辑{0}", "Edit {0}", title),
             Content = NewDialogScrollContent(panel),
-            PrimaryButtonText = "保存",
-            SecondaryButtonText = existingAction is null ? "" : "清空",
-            CloseButtonText = "取消",
+            PrimaryButtonText = T("保存", "Save"),
+            SecondaryButtonText = existingAction is null ? "" : T("清空", "Clear"),
+            CloseButtonText = T("取消", "Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
         var result = await dialog.ShowAsync();
@@ -589,7 +589,7 @@ public sealed partial class MainWindow
         var pluginClassValue = SelectedPluginClass();
         if (string.IsNullOrWhiteSpace(pluginClassValue))
         {
-            await ShowInfoDialog("插件类名为空", "请选择一个操作，或填写自定义插件类名。");
+            await ShowInfoDialog(T("插件类名为空", "Missing plugin class name"), T("请选择一个操作，或填写自定义插件类名。", "Choose an operation or enter a custom plugin class name."));
             return;
         }
 
@@ -605,7 +605,7 @@ public sealed partial class MainWindow
 
         if (action is null)
         {
-            await ShowInfoDialog("保存失败", "没有找到可写入的全局动作。");
+            await ShowInfoDialog(T("保存失败", "Save failed"), T("没有找到可写入的全局动作。", "No writable global action was found."));
             return;
         }
 

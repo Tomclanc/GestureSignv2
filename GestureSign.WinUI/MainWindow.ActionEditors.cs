@@ -13,25 +13,25 @@ public sealed partial class MainWindow
 {
     private async Task AddApplicationAsync(bool ignored)
     {
-        var name = new TextBox { PlaceholderText = ignored ? "忽略项名称" : "程序名称", Text = ignored ? "新忽略项" : "新程序" };
-        var matchText = new TextBox { PlaceholderText = "窗口标题、类名或 exe", Margin = new Thickness(0, 8, 0, 0) };
-        var group = new TextBox { PlaceholderText = "分组，可留空", Margin = new Thickness(0, 8, 0, 0) };
+        var name = new TextBox { PlaceholderText = ignored ? T("忽略项名称", "Ignored application name") : T("程序名称", "App Name"), Text = ignored ? T("新忽略项", "New ignored application") : T("新程序", "New application") };
+        var matchText = new TextBox { PlaceholderText = T("窗口标题、类名或 exe", "Window title, class name or executable"), Margin = new Thickness(0, 8, 0, 0) };
+        var group = new TextBox { PlaceholderText = T("分组，可留空", "Group (optional)"), Margin = new Thickness(0, 8, 0, 0) };
         var matchUsing = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 1 };
-        matchUsing.Items.Add("窗口标题");
-        matchUsing.Items.Add("可执行文件");
-        matchUsing.Items.Add("窗口类");
-        var regex = new CheckBox { Content = "使用正则匹配", Margin = new Thickness(0, 8, 0, 0) };
+        matchUsing.Items.Add(T("窗口标题", "Window Title"));
+        matchUsing.Items.Add(T("可执行文件", "Executable"));
+        matchUsing.Items.Add(T("窗口类", "Window Class"));
+        var regex = new CheckBox { Content = T("使用正则匹配", "Use regular expressions"), Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(12);
-        panel.Children.Add(NewDialogField("程序名称", "用于在动作页列表中显示，建议填写容易识别的名称。", name));
-        panel.Children.Add(NewDialogField("匹配文本", "后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", matchText));
-        panel.Children.Add(NewDialogField("从运行中程序选择", "自动填入程序名称和可执行文件名，适合普通桌面程序。", NewRunningProcessPicker(name, matchText, matchUsing)));
-        panel.Children.Add(NewDialogField("拾取窗口", "点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", NewWindowPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField(T("程序名称", "App Name"), T("用于在动作页列表中显示，建议填写容易识别的名称。", "Displayed in the actions list. Choose a recognizable name."), name));
+        panel.Children.Add(NewDialogField(T("匹配文本", "Match Text"), T("后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", "The service matches windows using this text. Executable example: msedge.exe. Separate multiple programs with |."), matchText));
+        panel.Children.Add(NewDialogField(T("从运行中程序选择", "Choose a running application"), T("自动填入程序名称和可执行文件名，适合普通桌面程序。", "Fills in the application name and executable file name for desktop applications."), NewRunningProcessPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField(T("拾取窗口", "Pick a window"), T("点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", "Click this button, then click the target window to capture its executable, title or class name."), NewWindowPicker(name, matchText, matchUsing)));
         if (!ignored)
-            panel.Children.Add(NewDialogField("分组", "可留空。相同分组会在动作页中归在一起，方便管理。", group));
-        panel.Children.Add(NewDialogField("匹配方式", "可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", matchUsing));
-        panel.Children.Add(NewDialogField("正则匹配", "开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", regex));
+            panel.Children.Add(NewDialogField(T("分组", "Group"), T("可留空。相同分组会在动作页中归在一起，方便管理。", "Optional. Applications in the same group appear together on the actions page."), group));
+        panel.Children.Add(NewDialogField(T("匹配方式", "Match by"), T("可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", "Executable matching is most reliable. Use titles for windows with fixed titles, or classes for system windows and special applications."), matchUsing));
+        panel.Children.Add(NewDialogField(T("正则匹配", "Regular expression matching"), T("开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", "Treats the match text as a regular expression. For example, chrome|firefox matches multiple browsers."), regex));
 
-        if (!await ConfirmDialogAsync(ignored ? "添加忽略项" : "添加程序", panel, "添加"))
+        if (!await ConfirmDialogAsync(ignored ? T("添加忽略项", "Add Ignored Item") : T("添加程序", "Add App"), panel, T("添加", "Add")))
             return;
 
         var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 0, _ => 2 };
@@ -44,34 +44,34 @@ public sealed partial class MainWindow
 
     private async Task EditApplicationAsync(LegacyApplication app)
     {
-        var name = new TextBox { PlaceholderText = "名称", Text = app.Name };
-        var matchText = new TextBox { PlaceholderText = "窗口标题、类名或 exe", Text = app.MatchString, Margin = new Thickness(0, 8, 0, 0) };
-        var group = new TextBox { PlaceholderText = "分组，可留空", Text = app.Group, Margin = new Thickness(0, 8, 0, 0) };
+        var name = new TextBox { PlaceholderText = T("名称", "Name"), Text = app.Name };
+        var matchText = new TextBox { PlaceholderText = T("窗口标题、类名或 exe", "Window title, class name or executable"), Text = app.MatchString, Margin = new Thickness(0, 8, 0, 0) };
+        var group = new TextBox { PlaceholderText = T("分组，可留空", "Group (optional)"), Text = app.Group, Margin = new Thickness(0, 8, 0, 0) };
         var matchUsing = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = app.MatchUsing switch { 1 => 0, 0 => 2, 3 => 2, _ => 1 } };
-        matchUsing.Items.Add("窗口标题");
-        matchUsing.Items.Add("可执行文件");
-        matchUsing.Items.Add("窗口类");
-        var regex = new CheckBox { Content = "使用正则匹配", IsChecked = app.IsRegEx, Margin = new Thickness(0, 8, 0, 0) };
-        var enabled = new CheckBox { Content = "启用", IsChecked = app.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
-        var limitFingers = new TextBox { PlaceholderText = "限制手指数，0 表示不限", Text = app.LimitNumberOfFingers.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
-        var blockThreshold = new TextBox { PlaceholderText = "触摸阻断阈值", Text = app.BlockTouchInputThreshold.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
+        matchUsing.Items.Add(T("窗口标题", "Window Title"));
+        matchUsing.Items.Add(T("可执行文件", "Executable"));
+        matchUsing.Items.Add(T("窗口类", "Window Class"));
+        var regex = new CheckBox { Content = T("使用正则匹配", "Use regular expressions"), IsChecked = app.IsRegEx, Margin = new Thickness(0, 8, 0, 0) };
+        var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = app.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
+        var limitFingers = new TextBox { PlaceholderText = T("限制手指数，0 表示不限", "Maximum fingers (0 means unlimited)"), Text = app.LimitNumberOfFingers.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
+        var blockThreshold = new TextBox { PlaceholderText = T("触摸阻断阈值", "Touch blocking threshold"), Text = app.BlockTouchInputThreshold.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 8, 0, 0) };
 
         var panel = NewCardPanel(12);
-        panel.Children.Add(NewDialogField("程序名称", "用于在动作页列表中显示，建议填写容易识别的名称。", name));
-        panel.Children.Add(NewDialogField("匹配文本", "后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", matchText));
-        panel.Children.Add(NewDialogField("从运行中程序选择", "自动填入程序名称和可执行文件名，适合普通桌面程序。", NewRunningProcessPicker(name, matchText, matchUsing)));
-        panel.Children.Add(NewDialogField("拾取窗口", "点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", NewWindowPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField(T("程序名称", "App Name"), T("用于在动作页列表中显示，建议填写容易识别的名称。", "Displayed in the actions list. Choose a recognizable name."), name));
+        panel.Children.Add(NewDialogField(T("匹配文本", "Match Text"), T("后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", "The service matches windows using this text. Executable example: msedge.exe. Separate multiple programs with |."), matchText));
+        panel.Children.Add(NewDialogField(T("从运行中程序选择", "Choose a running application"), T("自动填入程序名称和可执行文件名，适合普通桌面程序。", "Fills in the application name and executable file name for desktop applications."), NewRunningProcessPicker(name, matchText, matchUsing)));
+        panel.Children.Add(NewDialogField(T("拾取窗口", "Pick a window"), T("点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", "Click this button, then click the target window to capture its executable, title or class name."), NewWindowPicker(name, matchText, matchUsing)));
         if (app.Type != "忽略")
         {
-            panel.Children.Add(NewDialogField("分组", "可留空。相同分组会在动作页中归在一起，方便管理。", group));
-            panel.Children.Add(NewDialogField("限制手指数", "该程序允许识别的最大触点数。填 0 表示不限制；填 2 表示只响应 1 指和 2 指手势，忽略更多触点。", limitFingers));
-            panel.Children.Add(NewDialogField("触摸阻断阈值", "触摸屏/触控板专用。开始手势后达到这个触点数时阻止原始触摸输入，避免页面同时滚动或点击；鼠标手势通常不受影响。", blockThreshold));
+            panel.Children.Add(NewDialogField(T("分组", "Group"), T("可留空。相同分组会在动作页中归在一起，方便管理。", "Optional. Applications in the same group appear together on the actions page."), group));
+            panel.Children.Add(NewDialogField(T("限制手指数", "Maximum fingers"), T("该程序允许识别的最大触点数。填 0 表示不限制；填 2 表示只响应 1 指和 2 指手势，忽略更多触点。", "Maximum contacts recognized for this application. Use 0 for unlimited, or 2 to recognize only one- and two-finger gestures."), limitFingers));
+            panel.Children.Add(NewDialogField(T("触摸阻断阈值", "Touch blocking threshold"), T("触摸屏/触控板专用。开始手势后达到这个触点数时阻止原始触摸输入，避免页面同时滚动或点击；鼠标手势通常不受影响。", "For touchscreens and touchpads. Blocks native touch input once this contact count is reached during a gesture, preventing simultaneous scrolling or clicks. Mouse gestures are usually unaffected."), blockThreshold));
         }
-        panel.Children.Add(NewDialogField("匹配方式", "可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", matchUsing));
-        panel.Children.Add(NewDialogField("正则匹配", "开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", regex));
-        panel.Children.Add(NewDialogField("启用状态", "关闭后该程序分组不会参与手势匹配，已有动作会保留。", enabled));
+        panel.Children.Add(NewDialogField(T("匹配方式", "Match by"), T("可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", "Executable matching is most reliable. Use titles for windows with fixed titles, or classes for system windows and special applications."), matchUsing));
+        panel.Children.Add(NewDialogField(T("正则匹配", "Regular expression matching"), T("开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", "Treats the match text as a regular expression. For example, chrome|firefox matches multiple browsers."), regex));
+        panel.Children.Add(NewDialogField(T("启用状态", "Enabled"), T("关闭后该程序分组不会参与手势匹配，已有动作会保留。", "Disable gesture matching for this application group while keeping its actions."), enabled));
 
-        if (!await ConfirmDialogAsync($"编辑 {app.Name}", panel, "保存"))
+        if (!await ConfirmDialogAsync(F("编辑 {0}", "Edit {0}", app.Name), panel, T("保存", "Save")))
             return;
 
         var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 0, _ => 2 };
@@ -142,29 +142,29 @@ public sealed partial class MainWindow
     {
         if (app is null)
         {
-            await ShowInfoDialog("没有可用程序", "请先添加一个程序。");
+            await ShowInfoDialog(T("没有可用程序", "No applications available"), T("请先添加一个程序。", "Add an application first."));
             return;
         }
 
-        var name = new TextBox { PlaceholderText = "动作名称", Text = "新动作" };
-        var gesture = new TextBox { PlaceholderText = "手势名称，例如 3Right", Margin = new Thickness(0, 8, 0, 0) };
+        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = T("新动作", "New Action") };
+        var gesture = new TextBox { PlaceholderText = T("手势名称，例如 3Right", "Gesture name, for example 3Right"), Margin = new Thickness(0, 8, 0, 0) };
         var deviceSelector = NewActionDeviceSelector(0);
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
         var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
-        var trainingStatus = new TextBlock { Text = "可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
-        var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
+        var trainingStatus = new TextBlock { Text = T("可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", "Draw a single- or multi-finger pattern, or record real strokes using the touchpad."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+        var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
         trainByTouchpad.Click += async (_, _) =>
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
             SetGestureText(gesture, gestureName);
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
-        var commandName = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键", Margin = new Thickness(0, 8, 0, 0) };
+        var commandName = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = T("发送快捷键", "Send Hotkey"), Margin = new Thickness(0, 8, 0, 0) };
         var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(commandPlugin);
         var commandPluginDescription = NewPluginDescriptionTextBlock();
-        var commandPluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
-        var commandSettings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var commandPluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var commandSettings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var commandHotkey = NewHotKeyRecorder(commandSettings, "");
         var commandAppPicker = NewCommandAppPicker(commandPlugin, commandPluginClass, commandSettings);
         var commandTypedSettings = NewTypedCommandSettingsEditor(commandPluginClass, commandSettings);
@@ -225,12 +225,12 @@ public sealed partial class MainWindow
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
-        panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
+        panel.Children.Add(new TextBlock { Text = T("手势图案", "Gesture pattern"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         panel.Children.Add(deviceSelector.Content);
-        panel.Children.Add(new TextBlock { Text = "要执行的命令", Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
+        panel.Children.Add(new TextBlock { Text = T("要执行的命令", "Command to execute"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         panel.Children.Add(commandName);
         panel.Children.Add(commandPlugin);
         panel.Children.Add(commandPluginDescription);
@@ -243,7 +243,7 @@ public sealed partial class MainWindow
         UpdateCommandEditor();
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
-        if (!await ConfirmDialogAsync($"给 {app.Name} 添加动作", panel, "添加"))
+        if (!await ConfirmDialogAsync(F("给 {0} 添加动作", "Add an action to {0}", app.Name), panel, T("添加", "Add")))
             return;
 
         CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
@@ -263,7 +263,7 @@ public sealed partial class MainWindow
         var finalGestureName = ResolveGestureName(gesture, "");
         if (string.IsNullOrWhiteSpace(finalGestureName))
         {
-            await ShowInfoDialog("缺少手势", "请先选择、输入或绘制一个手势。");
+            await ShowInfoDialog(T("缺少手势", "No gesture selected"), T("请先选择、输入或绘制一个手势。", "Select, enter or draw a gesture first."));
             return;
         }
         SetGestureText(gesture, finalGestureName);
@@ -271,14 +271,14 @@ public sealed partial class MainWindow
         var ignoredDevices = GetIgnoredActionDevices(deviceSelector);
         if (ignoredDevices == ActionDeviceAll)
         {
-            await ShowInfoDialog("请选择触发设备", "至少选择一种可以触发这个动作的输入设备。");
+            await ShowInfoDialog(T("请选择触发设备", "Select an input device"), T("至少选择一种可以触发这个动作的输入设备。", "Select at least one input device to trigger this action."));
             return;
         }
 
         var targetApp = FindMatchingApplication(app);
         if (targetApp is null)
         {
-            await ShowInfoDialog("程序分组已变化", "刚才录制手势后配置已刷新，请重新打开该分组再添加动作。");
+            await ShowInfoDialog(T("程序分组已变化", "Application group changed"), T("刚才录制手势后配置已刷新，请重新打开该分组再添加动作。", "The configuration refreshed after recording. Reopen this group before adding the action."));
             ReloadData();
             return;
         }
@@ -309,23 +309,23 @@ public sealed partial class MainWindow
     {
         var originalApp = FindApplicationForAction(action);
         var originalActionIndex = originalApp?.Actions.ToList().FindIndex(candidate => ReferenceEquals(candidate.Source, action.Source)) ?? -1;
-        var name = new TextBox { PlaceholderText = "动作名称", Text = DisplayName(action.Name) };
-        var gesture = new TextBox { PlaceholderText = "手势名称", Margin = new Thickness(0, 8, 0, 0) };
+        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = DisplayName(action.Name) };
+        var gesture = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Margin = new Thickness(0, 8, 0, 0) };
         SetGestureText(gesture, action.GestureName);
-        var condition = new TextBox { PlaceholderText = "触发条件，可留空", Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
-        var enabled = new CheckBox { Content = "启用", IsChecked = action.IsEnabled };
-        var activateWindow = new CheckBox { Content = "执行前激活目标窗口", IsChecked = action.ActivateWindow };
+        var condition = new TextBox { PlaceholderText = T("触发条件，可留空", "Trigger condition (optional)"), Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = action.IsEnabled };
+        var activateWindow = new CheckBox { Content = T("执行前激活目标窗口", "Activate the target window before execution"), IsChecked = action.ActivateWindow };
         var mouseHotkey = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = MouseActionIndex(action.MouseHotkey) };
-        foreach (var item in new[] { "无鼠标快捷键", "滚轮前", "滚轮后", "左键", "右键", "中键", "X1 键", "X2 键" })
+        foreach (var item in new[] { T("无鼠标快捷键", "No mouse shortcut"), T("滚轮前", "Wheel up"), T("滚轮后", "Wheel down"), T("左键", "Left"), T("右键", "Right"), T("中键", "Middle"), T("X1 键", "X1 button"), T("X2 键", "X2 button") })
             mouseHotkey.Items.Add(item);
         var deviceSelector = NewActionDeviceSelector(action.IgnoredDevices);
         var hotkeyJson = new TextBox { Text = action.HotkeyJson };
         var hotkeyRecorder = NewHotKeyRecorderWithClear(hotkeyJson, action.HotkeyJson, usesArrayKeyCode: false);
-        var continuousGestureJson = new TextBox { PlaceholderText = "连续手势 JSON，可留空", Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
+        var continuousGestureJson = new TextBox { PlaceholderText = T("连续手势 JSON，可留空", "Continuous gesture JSON (optional)"), Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
         var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
-        var trainingStatus = new TextBlock { Text = "触控板或触控录制会使用后台识别服务捕捉真实多指轨迹。", Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
-        var trainByTouchpad = NewPillButton("用触控板或触控录制", false);
+        var trainingStatus = new TextBlock { Text = T("触控板或触控录制会使用后台识别服务捕捉真实多指轨迹。", "Touchpad and touchscreen recording use the background recognition service to capture real multi-finger strokes."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
+        var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
         trainByTouchpad.Click += async (_, _) =>
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
@@ -347,7 +347,7 @@ public sealed partial class MainWindow
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
-        panel.Children.Add(new TextBlock { Text = "手势图案", Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
+        panel.Children.Add(new TextBlock { Text = T("手势图案", "Gesture pattern"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
@@ -358,7 +358,7 @@ public sealed partial class MainWindow
         // panel.Children.Add(continuousGestureJson);
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
-        if (!await ConfirmDialogAsync($"编辑动作 {DisplayName(action.Name)}", panel, "保存"))
+        if (!await ConfirmDialogAsync(F("编辑动作 {0}", "Edit action {0}", DisplayName(action.Name)), panel, T("保存", "Save")))
             return;
 
         var validDrawnPointPatterns = drawnPointPatterns
@@ -379,7 +379,7 @@ public sealed partial class MainWindow
                     : null;
                 if (currentAction is null)
                 {
-                    await ShowInfoDialog("动作已变化", "保存手势图案后动作列表已刷新，但没有找到正在编辑的动作。请重新打开这个动作再保存。");
+                    await ShowInfoDialog(T("动作已变化", "Action changed"), T("保存手势图案后动作列表已刷新，但没有找到正在编辑的动作。请重新打开这个动作再保存。", "The action list refreshed after saving the pattern, but this action could not be found. Reopen it before saving."));
                     ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
                     return;
                 }
@@ -391,7 +391,7 @@ public sealed partial class MainWindow
         var ignoredDevices = GetIgnoredActionDevices(deviceSelector);
         if (ignoredDevices == ActionDeviceAll)
         {
-            await ShowInfoDialog("请选择触发设备", "至少选择一种可以触发这个动作的输入设备。");
+            await ShowInfoDialog(T("请选择触发设备", "Select an input device"), T("至少选择一种可以触发这个动作的输入设备。", "Select at least one input device to trigger this action."));
             return;
         }
 
@@ -546,32 +546,6 @@ public sealed partial class MainWindow
     private ComboBox NewBuiltInGesturePicker(TextBox gesture, Action? onGestureSelected = null)
     {
         var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
-        combo.Items.Add("选择内置触发方式");
-        combo.Items.Add("触控板上边缘点击");
-        combo.Items.Add("触控板下边缘点击");
-        combo.Items.Add("触控板左边缘点击");
-        combo.Items.Add("触控板右边缘点击");
-        combo.Items.Add("触控板上边缘左滑");
-        combo.Items.Add("触控板上边缘右滑");
-        combo.Items.Add("触控板下边缘左滑");
-        combo.Items.Add("触控板下边缘右滑");
-        combo.Items.Add("触控板左边缘上滑");
-        combo.Items.Add("触控板左边缘下滑");
-        combo.Items.Add("触控板右边缘上滑");
-        combo.Items.Add("触控板右边缘下滑");
-        combo.Items.Add("触控屏上边缘点击");
-        combo.Items.Add("触控屏下边缘点击");
-        combo.Items.Add("触控屏左边缘点击");
-        combo.Items.Add("触控屏右边缘点击");
-        combo.Items.Add("触控屏上边缘左滑");
-        combo.Items.Add("触控屏上边缘右滑");
-        combo.Items.Add("触控屏下边缘左滑");
-        combo.Items.Add("触控屏下边缘右滑");
-        combo.Items.Add("触控屏左边缘上滑");
-        combo.Items.Add("触控屏左边缘下滑");
-        combo.Items.Add("触控屏右边缘上滑");
-        combo.Items.Add("触控屏右边缘下滑");
-        combo.Items.Clear();
         for (var index = 0; index <= 36; index++)
             combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
@@ -764,12 +738,12 @@ public sealed partial class MainWindow
 
     private async Task AddCommandAsync(LegacyAction action)
     {
-        var name = new TextBox { PlaceholderText = "命令名称", Text = "发送快捷键" };
+        var name = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = T("发送快捷键", "Send Hotkey") };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(plugin);
         var pluginDescription = NewPluginDescriptionTextBlock();
-        var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
-        var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var pluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var settings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, "");
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
@@ -804,7 +778,7 @@ public sealed partial class MainWindow
         panel.Children.Add(typedSettings);
         panel.Children.Add(settings);
         UpdateEditor();
-        if (!await ConfirmDialogAsync($"给 {action.Name} 添加命令", panel, "添加"))
+        if (!await ConfirmDialogAsync(F("给 {0} 添加命令", "Add a command to {0}", action.Name), panel, T("添加", "Add")))
             return;
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
@@ -824,12 +798,12 @@ public sealed partial class MainWindow
 
     private async Task EditCommandAsync(LegacyCommand command)
     {
-        var name = new TextBox { PlaceholderText = "命令名称", Text = command.Name };
+        var name = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = command.Name };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
         var pluginDescription = NewPluginDescriptionTextBlock();
-        var pluginClass = new TextBox { PlaceholderText = "自定义插件类名", Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
-        var settings = new TextBox { PlaceholderText = "命令设置 JSON，可留空", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var pluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
+        var settings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, command.Settings);
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
@@ -843,7 +817,7 @@ public sealed partial class MainWindow
             UpdatePluginDescription(pluginDescription, pluginClass.Text);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
         };
-        var enabled = new CheckBox { Content = "启用", IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
+        var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
         panel.MinWidth = 520;
         panel.Children.Add(name);
@@ -858,7 +832,7 @@ public sealed partial class MainWindow
         UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings, appPicker);
         UpdatePluginDescription(pluginDescription, command.PluginClass);
         UpdateTypedCommandSettingsEditor(typedSettings, command.PluginClass, settings.Text);
-        if (!await ConfirmDialogAsync($"编辑命令 {command.Name}", panel, "保存"))
+        if (!await ConfirmDialogAsync(F("编辑命令 {0}", "Edit command {0}", command.Name), panel, T("保存", "Save")))
             return;
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);

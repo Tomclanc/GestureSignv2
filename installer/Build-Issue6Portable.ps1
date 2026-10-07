@@ -3,7 +3,8 @@ param(
     [ValidateSet('x64','arm64')][string]$Architecture = 'arm64',
     [string]$Version = '18.3.2-issue6.1',
     [Parameter(Mandatory=$true)][string]$OutputDirectory,
-    [string]$SampleArchive
+    [string]$SampleArchive,
+    [string]$ReadmePath = "$PSScriptRoot\..\docs\releases\issue6-portable-readme.txt"
 )
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot
@@ -17,7 +18,7 @@ if ($LASTEXITCODE -ne 0) { throw 'Daemon publish failed.' }
 & dotnet publish "$repo\GestureSign.WinUI\GestureSign.WinUI.csproj" -c Release -r "win-$Architecture" --self-contained true -o $payload /p:Platform=$platform /p:PlatformTarget=$platform /p:SelfContained=true /p:WindowsAppSDKSelfContained=true /p:WindowsPackageType=None /p:StorePackage=false /p:PublishReadyToRun=false /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) { throw 'WinUI publish failed.' }
 Get-ChildItem -LiteralPath $payload -Recurse -File -Filter '*.pdb' | ForEach-Object { Remove-Item -LiteralPath $_.FullName }
-Copy-Item -LiteralPath "$repo\docs\releases\issue6-portable-readme.txt" -Destination "$payload\README.txt"
+Copy-Item -LiteralPath $ReadmePath -Destination "$payload\README.txt"
 Copy-Item -LiteralPath "$repo\tools\Collect-SupportInfo.ps1" -Destination $payload
 Copy-Item -LiteralPath "$repo\tools\Recover-Input.ps1" -Destination $payload
 if ($SampleArchive) {

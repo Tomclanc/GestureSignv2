@@ -1,0 +1,68 @@
+name: Issue 9 localization portable test builds
+on:
+  push:
+    branches: [fix/issue9-localization]
+    paths: [.github/workflows/issue9-portable.yml]
+permissions:
+  contents: write
+jobs:
+  package:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        architecture: [arm64, x64]
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Test localization and input policies
+        shell: pwsh
+        run: |
+          dotnet run --project tests/GestureSign.UiLocalizationTests -c Release -- .
+          if ($LASTEXITCODE -ne 0) { throw 'UI localization tests failed.' }
+          dotnet run --project tests/GestureSign.LocalizationTests -c Release -- .
+          if ($LASTEXITCODE -ne 0) { throw 'Shared localization tests failed.' }
+          dotnet run --project tests/GestureSign.InputPolicyTests -c Release
+          if ($LASTEXITCODE -ne 0) { throw 'Input policy tests failed.' }
+      - name: Build, validate and upload portable test build
+        shell: pwsh
+        run: |
+          ./installer/Build-Issue6Portable.ps1 -Architecture '${{ matrix.architecture }}' -Version 18.3.2-issue9.1 -OutputDirectory ./package -ReadmePath ./docs/releases/issue9-portable-readme.txt
+          $zip = (Get-ChildItem package -File -Filter '*-portable.zip').FullName
+          $archive = [IO.Compression.ZipFile]::Open($zip, [IO.Compression.ZipArchiveMode]::Update)
+          try {
+            $entry = $archive.CreateEntry('Source-commit.txt')
+            $writer = [IO.StreamWriter]::new($entry.Open())
+            try {
+              $writer.WriteLine('Version: 18.3.2-issue9.1')
+              $writer.WriteLine('Commit: ${{ github.sha }}')
+              $writer.WriteLine('Architecture: ${{ matrix.architecture }}')
+            } finally { $writer.Dispose() }
+          } finally { $archive.Dispose() }
+          $sum = (Get-FileHash $zip -Algorithm SHA256).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($zip)
+          $sum | Set-Content "$zip.sha256"
+          Write-Output $sum
+          gh release upload v18.3.2-issue9.1 $zip --repo $env:GITHUB_REPOSITORY
+          if ($LASTEXITCODE -ne 0) { throw 'Release upload failed.' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: issue9-${{ matrix.architecture }}
+          path: package/*.sha256
+  checksums:
+    needs: package
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: issue9-*
+          merge-multiple: true
+          path: hashes
+      - name: Publish checksums
+        run: |
+          cat hashes/*.sha256 | sort > GestureSign-V2-18.3.2-issue9.1-SHA256SUMS.txt
+          gh release upload v18.3.2-issue9.1 GestureSign-V2-18.3.2-issue9.1-SHA256SUMS.txt --repo "$GITHUB_REPOSITORY"
