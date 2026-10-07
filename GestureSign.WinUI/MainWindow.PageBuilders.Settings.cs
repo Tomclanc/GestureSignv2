@@ -14,7 +14,7 @@ public sealed partial class MainWindow
     {
         var root = NewSection();
         var options = _legacyData.Options;
-        var installed = KandoComponentService.IsInstalled;
+        var installed = FindKandoExecutablePath(options.KandoExecutablePath) is not null;
         root.Children.Add(NewKandoComponentCard());
         root.Children.Add(NewKandoPowerToysPreviewCard());
         if (installed)

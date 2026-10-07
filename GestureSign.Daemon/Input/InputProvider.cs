@@ -19,6 +19,7 @@ namespace GestureSign.Daemon.Input
         private MessageWindow _messageWindow;
         private CustomNamedPipeServer _deviceStateServer;
         private int _stateUpdating;
+        private readonly SynchronizationContext _ownerContext;
         private MouseActions _hookDrawingButton;
         private volatile bool _suppressPointerMotion;
         private int _suppressedPointerMoveCount;
@@ -46,6 +47,7 @@ namespace GestureSign.Daemon.Input
 
         public InputProvider()
         {
+            _ownerContext = SynchronizationContext.Current ?? throw new InvalidOperationException("Input requires an owning UI context.");
             _messageWindow = new MessageWindow();
             _messageWindow.PointsIntercepted += MessageWindow_PointsIntercepted;
 
@@ -209,7 +211,7 @@ namespace GestureSign.Daemon.Input
         {
             if (e.Mode == PowerModes.Resume)
             {
-                UpdateDeviceState();
+                RequestRecovery("PowerResume");
             }
         }
 
@@ -219,27 +221,51 @@ namespace GestureSign.Daemon.Input
             // This is so we never lose the lock on the touchpad hardware.
             switch (e.Reason)
             {
+                case SessionSwitchReason.RemoteConnect:
                 case SessionSwitchReason.SessionLogon:
                 case SessionSwitchReason.SessionUnlock:
-                    UpdateDeviceState();
+                    RequestRecovery("SessionRestored");
                     break;
                 default:
                     break;
             }
         }
 
-        private void UpdateDeviceState()
+        internal void ResetRawInputState() => _messageWindow.ResetInputState();
+
+        internal void RefreshNativeInput(string reason)
         {
-            if (0 == System.Threading.Interlocked.Exchange(ref _stateUpdating, 1))
-            {
-                Task.Delay(600).ContinueWith((t) =>
-                {
-                    System.Threading.Interlocked.Exchange(ref _stateUpdating, 0);
-                    _messageWindow.UpdateRegistration();
-                }, TaskScheduler.FromCurrentSynchronizationContext());
-            }
+            if (disposedValue) return;
+            _messageWindow.ResetInputState();
+            _messageWindow.UpdateRegistration();
+            LowLevelMouseHook.Unhook();
+            UpdateMouseHookState(reason);
+            _keyboardHook.Unhook();
+            _keyboardHook.StartHook();
         }
 
+        internal async void RequestRecovery(string reason)
+        {
+            await Task.Delay(600).ConfigureAwait(false);
+            _ownerContext.Post(_ =>
+            {
+                if (disposedValue) return;
+                try { PointCapture.Instance.RecoverInput(reason); }
+                catch (Exception ex) { Logging.LogMessage("Input recovery failed. Reason=" + reason); Logging.LogException(ex); }
+            }, null);
+        }
+
+        private async void UpdateDeviceState()
+        {
+            if (Interlocked.Exchange(ref _stateUpdating, 1) != 0) return;
+            await Task.Delay(600).ConfigureAwait(false);
+            _ownerContext.Post(_ =>
+            {
+                try { if (!disposedValue) _messageWindow.UpdateRegistration(); }
+                catch (Exception ex) { Logging.LogException(ex); }
+                finally { Interlocked.Exchange(ref _stateUpdating, 0); }
+            }, null);
+        }
         #region IDisposable Support
 
         protected virtual void Dispose(bool disposing)

@@ -6,6 +6,8 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,8 +15,24 @@ namespace GestureSign.WinUI;
 
 internal static class KandoComponentService
 {
-    private const string SupportedKandoVersion = "2.3.1";
     private static readonly HttpClient Client = CreateClient();
+    private static readonly SemaphoreSlim InstallationLock = new(1, 1);
+
+    public static bool IsManagedExecutable(string? executable)
+        => executable is not null && PathsEqual(executable,
+            KandoComponentPaths.FindExecutableUnder(KandoComponentPaths.InstallDirectory) ?? "");
+
+    public static async Task<KandoRelease> GetLatestReleaseAsync(CancellationToken cancellationToken = default)
+    {
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        timeout.CancelAfter(TimeSpan.FromSeconds(30));
+        using var response = await Client.GetAsync("https://api.github.com/repos/kando-menu/kando/releases/latest", timeout.Token);
+        if (response.StatusCode is System.Net.HttpStatusCode.Forbidden or System.Net.HttpStatusCode.TooManyRequests)
+            throw new HttpRequestException("GitHub has temporarily limited release checks. Please try again later. The installed Kando version has not been changed.", null, response.StatusCode);
+        response.EnsureSuccessStatusCode();
+        var json = await response.Content.ReadAsStringAsync(timeout.Token);
+        return KandoRelease.Parse(json, RuntimeInformation.OSArchitecture);
+    }
 
     public static bool IsInstalled
         => KandoComponentPaths.FindExecutable(string.Empty, AppContext.BaseDirectory) is not null;
@@ -50,20 +68,40 @@ internal static class KandoComponentService
 
     public static async Task DownloadAndInstallAsync(
         IProgress<double>? progress = null,
-        CancellationToken cancellationToken = default)
+        CancellationToken cancellationToken = default,
+        Func<Task>? beforeReplace = null,
+        Func<Task>? validate = null,
+        Func<Task>? stop = null,
+        Func<Task>? restore = null)
     {
-        var asset = ResolveSupportedAsset();
+        await InstallationLock.WaitAsync(cancellationToken);
+        try
+        {
+            await DownloadAndInstallCoreAsync(progress, cancellationToken, beforeReplace, validate, stop, restore);
+        }
+        finally { InstallationLock.Release(); }
+    }
+
+    private static async Task DownloadAndInstallCoreAsync(IProgress<double>? progress, CancellationToken cancellationToken,
+        Func<Task>? beforeReplace, Func<Task>? validate, Func<Task>? stop, Func<Task>? restore)
+    {
+        var asset = await GetLatestReleaseAsync(cancellationToken);
         Directory.CreateDirectory(KandoComponentPaths.ComponentsRoot);
         var archivePath = Path.Combine(KandoComponentPaths.ComponentsRoot, $"Kando-{Guid.NewGuid():N}.zip");
         var stagingRoot = Path.Combine(KandoComponentPaths.ComponentsRoot, $".Kando-{Guid.NewGuid():N}");
 
         try
         {
-            await DownloadArchiveWithRetryAsync(asset.Url, archivePath, progress, cancellationToken);
-
-
+            await DownloadArchiveWithRetryAsync(asset.DownloadUri, archivePath, progress, cancellationToken);
+            if (asset.Sha256 is not null)
+            {
+                await using var archive = File.OpenRead(archivePath);
+                var digest = Convert.ToHexString(await SHA256.HashDataAsync(archive, cancellationToken));
+                if (!digest.Equals(asset.Sha256, StringComparison.OrdinalIgnoreCase))
+                    throw new InvalidDataException("Kando download checksum verification failed. Please retry.");
+            }
             progress?.Report(94);
-            ZipFile.ExtractToDirectory(archivePath, stagingRoot);
+            await Task.Run(() => ZipFile.ExtractToDirectory(archivePath, stagingRoot), cancellationToken);
             var executable = KandoComponentPaths.FindExecutableUnder(stagingRoot)
                 ?? throw new InvalidDataException("下载的 Kando 压缩包中没有找到 kando.exe。");
             var payloadDirectory = Path.GetDirectoryName(executable)
@@ -72,11 +110,24 @@ internal static class KandoComponentService
             if (!KandoExecutableCompatibility.IsSupportedOnCurrentOperatingSystem(executable, out var reason))
                 throw new BadImageFormatException(reason);
 
+            if (KandoRelease.ParseVersion(KandoRelease.ReadInstalledVersion(executable)) != asset.Version)
+                throw new InvalidDataException("The downloaded Kando application version does not match the release.");
+            cancellationToken.ThrowIfCancellationRequested();
+            File.WriteAllText(Path.Combine(payloadDirectory, ".gesturesign-component-version"), asset.TagName);
+            var userData = PreservePortableSettings(payloadDirectory, false);
+
             progress?.Report(97);
-            InstallExtractedDirectory(payloadDirectory, KandoComponentPaths.InstallDirectory);
-            File.WriteAllText(Path.Combine(KandoComponentPaths.InstallDirectory, ".gesturesign-component-version"), asset.TagName);
-            if (File.Exists(KandoComponentPaths.RemovedMarkerPath))
-                File.Delete(KandoComponentPaths.RemovedMarkerPath);
+            await KandoInstallation.ReplaceAsync(payloadDirectory, KandoComponentPaths.InstallDirectory, userData,
+                async () =>
+                {
+                    if (beforeReplace is not null) await beforeReplace();
+                    PreservePortableSettings(payloadDirectory, true);
+                }, async () =>
+                {
+                    if (validate is not null) await validate();
+                    if (File.Exists(KandoComponentPaths.RemovedMarkerPath))
+                        File.Delete(KandoComponentPaths.RemovedMarkerPath);
+                }, stop, restore);
             progress?.Report(100);
         }
         finally
@@ -336,12 +387,35 @@ internal static class KandoComponentService
         }
     }
 
-    private static KandoReleaseAsset ResolveSupportedAsset()
+    private static string PreservePortableSettings(string payload, bool copy)
     {
-        var architecture = RuntimeInformation.OSArchitecture == Architecture.Arm64 ? "arm64" : "x64";
-        var name = $"Kando-win32-{architecture}-{SupportedKandoVersion}.zip";
-        var url = new Uri($"https://github.com/kando-menu/kando/releases/download/v{SupportedKandoVersion}/{name}");
-        return new KandoReleaseAsset("v" + SupportedKandoVersion, url);
+        var install = KandoComponentPaths.InstallDirectory;
+        var mode = Path.Combine(install, "portableMode.json");
+        if (!File.Exists(mode)) return KandoComponentPaths.UserDataDirectory;
+        using var document = JsonDocument.Parse(File.ReadAllText(mode));
+        var configured = document.RootElement.TryGetProperty("configDirectory", out var property)
+            ? property.GetString() ?? "." : ".";
+        var data = Path.GetFullPath(Path.Combine(install, configured));
+        if (copy) File.Copy(mode, Path.Combine(payload, "portableMode.json"), true);
+        var relative = Path.GetRelativePath(install, data);
+        if (relative == ".")
+        {
+            // Configuration at the program root must not overwrite new binaries.
+            foreach (var name in new[] { "config.json", "menus.json" })
+                if (copy && File.Exists(Path.Combine(install, name))) File.Copy(Path.Combine(install, name), Path.Combine(payload, name), true);
+            return KandoComponentPaths.UserDataDirectory;
+        }
+        if (!Path.IsPathRooted(relative) && relative != ".." && !relative.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal))
+        {
+            if (copy && Directory.Exists(data)) KandoInstallation.CopyDirectory(data, Path.Combine(payload, relative));
+            // The old program backup contains this portable settings directory.
+            return KandoComponentPaths.UserDataDirectory;
+        }
+        var componentRelative = Path.GetRelativePath(data, KandoComponentPaths.ComponentsRoot);
+        if (componentRelative == "." || (!Path.IsPathRooted(componentRelative) && componentRelative != ".." &&
+            !componentRelative.StartsWith(".." + Path.DirectorySeparatorChar, StringComparison.Ordinal)))
+            throw new InvalidDataException("Kando portable settings must not contain the component installation directory.");
+        return data;
     }
 
     private static void InstallFromArchive(string archivePath)
@@ -442,5 +516,4 @@ internal static class KandoComponentService
         return client;
     }
 
-    private sealed record KandoReleaseAsset(string TagName, Uri Url);
 }

@@ -28,7 +28,7 @@ namespace GestureSign.Daemon
 
         #region Private Variables
 
-        static readonly TrayManager _Instance = new TrayManager();
+        private static readonly Lazy<TrayManager> _Instance = new Lazy<TrayManager>(() => new TrayManager());
 
         #endregion
 
@@ -899,7 +899,7 @@ namespace GestureSign.Daemon
 
         public static TrayManager Instance
         {
-            get { return _Instance; }
+            get { return _Instance.Value; }
         }
 
         public bool TrayIconVisible

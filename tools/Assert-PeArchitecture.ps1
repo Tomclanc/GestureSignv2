@@ -34,7 +34,7 @@ finally {
 
 $expectedMachine = if ($Architecture -eq "x64") { 0x8664 } else { 0xAA64 }
 if ($actualMachine -ne $expectedMachine) {
-    throw ("Kando architecture mismatch. Package={0}, Expected=0x{1:X4}, Actual=0x{2:X4}, File={3}" -f $Architecture, $expectedMachine, $actualMachine, $resolvedPath)
+    throw ("PE architecture mismatch. Package={0}, Expected=0x{1:X4}, Actual=0x{2:X4}, File={3}" -f $Architecture, $expectedMachine, $actualMachine, $resolvedPath)
 }
 
-Write-Host ("Validated Kando architecture: {0} (0x{1:X4})" -f $Architecture, $actualMachine)
+Write-Host ("Validated PE architecture: {0} (0x{1:X4})" -f $Architecture, $actualMachine)

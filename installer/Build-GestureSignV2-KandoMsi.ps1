@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.3.2",
+    [string]$PackageVersion = "18.3.3",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -92,13 +92,17 @@ $installRootDirectory = "LocalAppDataFolder"
 $shortcutRegistryRoot = "HKCU"
 $msbuild = Find-MSBuild
 
+$platformTarget = if ($Architecture -eq "arm64") { "ARM64" } else { "x64" }
+
 if (-not $SkipPayloadBuild) {
+# Platform also selects separate bin/obj directories for every referenced
+# library. PlatformTarget alone can reuse x64 outputs while publishing ARM64.
 $backendProject = Join-Path $repoRoot.ProviderPath "GestureSign.Daemon\GestureSign.Daemon.csproj"
 $backendOutputPath = Join-Path $repoRoot.ProviderPath "bin\Release"
 if (Test-Path -LiteralPath $backendOutputPath) {
     Remove-Item -LiteralPath $backendOutputPath -Recurse -Force
 }
-& dotnet publish $backendProject -c Release -r "win-$Architecture" --self-contained false -o $backendOutputPath /p:PlatformTarget=$Architecture /m:1 /nr:false /v:minimal
+& dotnet publish $backendProject -c Release -r "win-$Architecture" --self-contained false -o $backendOutputPath /p:Platform=$platformTarget /p:PlatformTarget=$platformTarget /m:1 /nr:false /v:minimal
 if ($LASTEXITCODE -ne 0) {
     throw ".NET 10 $Architecture backend publish failed with exit code $LASTEXITCODE"
 }
@@ -114,7 +118,6 @@ New-Item -ItemType Directory -Path $publishPath | Out-Null
 
 $winUiProject = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\GestureSign.WinUI.csproj"
 $winUiOutputPath = Join-Path $repoRoot.ProviderPath "GestureSign.WinUI\bin\$Architecture\Release\net10.0-windows10.0.26100.0\win-$Architecture\publish"
-$platformTarget = if ($Architecture -eq "arm64") { "ARM64" } else { "x64" }
 if (Test-Path -LiteralPath $winUiOutputPath) {
     Remove-Item -LiteralPath $winUiOutputPath -Recurse -Force
 }
@@ -207,6 +210,7 @@ if (!(Test-Path -LiteralPath $portableValidator -PathType Leaf)) {
     throw "Portable package validator is missing: $portableValidator"
 }
 & $portableValidator -PackagePath $publishPath
+& (Join-Path $repoRoot.ProviderPath "tools\Test-BackendArchitecture.ps1") -PackagePath $publishPath -Architecture $platformTarget
 
 # Kando is an on-demand component. Never inherit a stale bundled copy from a previous publish.
 $staleKandoPath = Join-Path $publishPath "Kando"

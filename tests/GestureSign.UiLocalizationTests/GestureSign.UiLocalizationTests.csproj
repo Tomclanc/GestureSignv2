@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../GestureSign.WinUI/UiTranslationCatalog.cs" Link="UiTranslationCatalog.cs" />
+    <Compile Include="../../GestureSign.WinUI/GestureTemplateDirection.cs" Link="GestureTemplateDirection.cs" />
+    <Content Include="../../GestureSign.WinUI/Languages/UI/*.json" Link="Languages/UI/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>$(MSBuildSDKsPath)/../Roslyn/bincore/Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>$(MSBuildSDKsPath)/../Roslyn/bincore/Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

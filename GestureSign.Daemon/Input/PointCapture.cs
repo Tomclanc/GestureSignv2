@@ -70,7 +70,7 @@ namespace GestureSign.Daemon.Input
         private int _requiredContactCount = 1;
         private bool _pointerMotionSuppressionActive;
         // Create variable to hold the only allowed instance of this class
-        static readonly PointCapture _Instance = new PointCapture();
+        private static readonly Lazy<PointCapture> _Instance = new Lazy<PointCapture>(() => new PointCapture());
 
         private CaptureMode _mode = CaptureMode.Normal;
         private volatile CaptureState _state;
@@ -282,7 +282,7 @@ namespace GestureSign.Daemon.Input
 
         public static PointCapture Instance
         {
-            get { return _Instance; }
+            get { return _Instance.Value; }
         }
 
         public void RegisterTouchScreenPassthroughWindow(IntPtr handle)
@@ -568,16 +568,14 @@ namespace GestureSign.Daemon.Input
                 case SessionSwitchReason.RemoteConnect:
                 case SessionSwitchReason.SessionLogon:
                 case SessionSwitchReason.SessionUnlock:
-                    _currentContext?.Post(_ => _pointEventTranslator.CancelActiveMouseGesture("SessionChanged"), null);
-                    if (State == CaptureState.Disabled)
-                        State = CaptureState.Ready;
+                    // InputProvider schedules complete recovery on the owning UI context.
                     break;
                 case SessionSwitchReason.SessionLock:
                     if (_currentContext != null)
                     {
                         _currentContext.Post(_ =>
                         {
-                            _pointEventTranslator.CancelActiveMouseGesture("SessionLocked");
+                            CancelInputCapture("SessionLocked");
                             State = CaptureState.Disabled;
                         }, null);
                     }
@@ -622,6 +620,36 @@ namespace GestureSign.Daemon.Input
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
         }
 
+        internal void CancelInputCapture(string reason)
+        {
+            _captureSession?.Cancel();
+            _intentDlc.Cancel();
+            if (State == CaptureState.Capturing || State == CaptureState.CapturingInvalid || State == CaptureState.TriggerFired)
+                OnCaptureCanceled(new PointsCapturedEventArgs(
+                    _pointsCaptured?.Values.Select(stroke => new List<Point>(stroke)).ToList() ?? new List<List<Point>>(),
+                    _pointsCaptured?.Values.Select(stroke => stroke.FirstOrDefault()).ToList() ?? new List<Point>()));
+            ReleasePointerMotionSuppression(reason);
+            _initialTimeoutTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+            _touchScreenBlockedUntilRelease = false;
+            _pointEventTranslator.ResetInputState(reason);
+            ResetCaptureBuffers();
+            if (State != CaptureState.Disabled) State = CaptureState.Ready;
+            Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
+        }
+
+        internal int InputRecoveryCount { get; private set; }
+        internal void RequestSystemRecoveryForTest() => _inputProvider.RequestRecovery("SelfTestSystemEvent");
+        internal bool TestPenPreemption() => _pointEventTranslator.TestPenPreemption();
+        internal bool InputStateCleared => _pointEventTranslator.InputStateCleared;
+
+        internal void RecoverInput(string reason)
+        {
+            CancelInputCapture(reason);
+            State = CaptureState.Ready;
+            _inputProvider.RefreshNativeInput(reason);
+            InputRecoveryCount++;
+            Logging.LogMessage($"Input recovery completed. Reason={reason}, Mode={Mode}, State={State}");
+        }
         internal void CancelMouseCapture(string reason)
         {
             if (SourceDevice != Devices.Mouse)

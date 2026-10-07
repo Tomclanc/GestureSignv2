@@ -44,6 +44,7 @@ namespace GestureSign.Daemon
         public static bool ShowMenu()
         {
             var executablePath = FindExecutablePath();
+            if (!string.IsNullOrWhiteSpace(executablePath) && KandoComponentPaths.IsUpdating(executablePath)) return false;
             if (string.IsNullOrWhiteSpace(executablePath))
             {
                 Logging.LogMessage("Kando launcher skipped: Kando.exe was not found.");
@@ -68,6 +69,7 @@ namespace GestureSign.Daemon
 
         private static async Task TryShowMenuViaIpcAsync(string menuName, string executablePath)
         {
+            if (KandoComponentPaths.IsUpdating(executablePath)) return;
             try
             {
                 var infoPath = Path.Combine(KandoComponentPaths.UserDataDirectory, "ipc-info.json");
@@ -211,6 +213,7 @@ namespace GestureSign.Daemon
 
         private static bool StartKando(string executablePath, string arguments)
         {
+            if (KandoComponentPaths.IsUpdating(executablePath)) return false;
             try
             {
                 if (!KandoExecutableCompatibility.IsSupportedOnCurrentOperatingSystem(executablePath, out var incompatibilityReason))

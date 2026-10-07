@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using GestureSign.Shared;
 using GestureSign.WinUI;
 
@@ -70,5 +71,25 @@ internal sealed class KandoCoordinator
             finally { process.Dispose(); }
         }
         return false;
+    }
+
+    public async Task StopAndWaitAsync(LegacyOptions options)
+    {
+        var executable = FindExecutable(options.KandoExecutablePath);
+        if (executable is null) return;
+        var expected = Path.GetFullPath(executable);
+        await Task.Run(() =>
+        {
+            foreach (var process in Process.GetProcessesByName("kando").GroupBy(p => p.Id).Select(g => g.First()))
+            {
+                using (process)
+                {
+                    if (process.HasExited) continue;
+                    if (!string.Equals(Path.GetFullPath(process.MainModule?.FileName ?? ""), expected, StringComparison.OrdinalIgnoreCase)) continue;
+                    process.Kill(entireProcessTree: true);
+                    if (!process.WaitForExit(5000)) throw new IOException("Kando is still running. Please close it and try again.");
+                }
+            }
+        });
     }
 }

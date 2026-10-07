@@ -27,9 +27,10 @@ namespace GestureSign.Common.Gestures
                 try
                 {
                     int count = GestureSign.Foundation.Intent.IntentGestureCorrections.Contacts(c.Frames);
-                    if (!source.Any(g => g.Name == c.Gesture && g.PointPatterns?.Length == 1 && g.PointPatterns[0].Points.Length == count)) continue;
+                    var original = source.FirstOrDefault(g => g.Name == c.Gesture && g.PointPatterns?.Length == 1 && g.PointPatterns[0].Points.Length == count);
+                    if (original == null) continue;
                     var points = c.Frames[0].Points.Select(p => p.Contact).Select(id => c.Frames.Select(f => f.Points.First(p => p.Contact == id)).Select(p => new Point((int)Math.Round(p.X), (int)Math.Round(p.Y))).ToArray()).ToArray();
-                    extra.Add(new Gesture(c.Gesture, new[] { new PointPattern(points) }));
+                    extra.Add(new Gesture(c.Gesture, new[] { new PointPattern(points) { OrderByStartPosition = original.PointPatterns[0].OrderByStartPosition } }));
                 }
                 catch (Exception ex) { Log.Logging.LogException(ex); }
             }
@@ -317,30 +318,24 @@ namespace GestureSign.Common.Gestures
                                     }
                                 case nameof(Gesture.PointPatterns):
                                     {
-                                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                                        reader.Read();
+                                        var patterns = Newtonsoft.Json.Linq.JArray.Load(reader);
+                                        foreach (var pattern in patterns)
                                         {
-                                            if (reader.TokenType == JsonToken.StartArray)
+                                            var strokeList = new List<Point[]>();
+                                            foreach (var line in (Newtonsoft.Json.Linq.JArray)pattern[nameof(PointPattern.Points)])
                                             {
-                                                var strokeList = new List<Point[]>();
-                                                while (reader.Read() && reader.TokenType != JsonToken.EndArray)
+                                                var stroke = new List<Point>();
+                                                foreach (var value in (Newtonsoft.Json.Linq.JArray)line)
                                                 {
-                                                    if (reader.TokenType == JsonToken.StartArray)
-                                                    {
-                                                        var stroke = new List<Point>();
-                                                        while (reader.Read() && reader.TokenType != JsonToken.EndArray)
-                                                        {
-                                                            if (reader.TokenType == JsonToken.String)
-                                                            {
-                                                                var num = ((string)reader.Value).Split(',');
-                                                                stroke.Add(new Point(Convert.ToInt32(num[0]), Convert.ToInt32(num[1])));
-                                                            }
-                                                        }
-                                                        strokeList.Add(stroke.ToArray());
-                                                    }
+                                                    var num = ((string)value).Split(',');
+                                                    stroke.Add(new Point(Convert.ToInt32(num[0]), Convert.ToInt32(num[1])));
                                                 }
-                                                PointPattern pointPattern = new PointPattern(strokeList.ToArray());
-                                                pointPatternList.Add(pointPattern);
+                                                strokeList.Add(stroke.ToArray());
                                             }
+                                            pointPatternList.Add(new PointPattern(strokeList.ToArray()) {
+                                                OrderByStartPosition = (bool?)pattern[nameof(PointPattern.OrderByStartPosition)] ?? false
+                                            });
                                         }
                                         gesture.PointPatterns = pointPatternList.ToArray();
                                         break;
@@ -372,6 +367,9 @@ namespace GestureSign.Common.Gestures
         }
 
         private string GetGestureSetNameMatch(Point[][] points, List<IGesture> sourceGestures, int sourceGestureLevel, out List<IGesture> matching, int probabilityThreshold)//PointF[]
+            => GetGestureSetNameMatch(points, sourceGestures, sourceGestureLevel, out matching, probabilityThreshold, AppConfig.IsOrderByLocation);
+
+        private string GetGestureSetNameMatch(Point[][] points, List<IGesture> sourceGestures, int sourceGestureLevel, out List<IGesture> matching, int probabilityThreshold, bool orderByLocation)
         {
             if (points.Length == 0 || sourceGestures == null || sourceGestures.Count == 0)
             { matching = null; return null; }
@@ -382,16 +380,22 @@ namespace GestureSign.Common.Gestures
                         g.PointPatterns != null && g.PointPatterns.Length > sourceGestureLevel &&
                         g.PointPatterns[sourceGestureLevel].Points != null &&
                         g.PointPatterns[sourceGestureLevel].Points.Length == points.Length).ToList();
-            List<PointPatternMatchResult>[] comparisonResults = new List<PointPatternMatchResult>[points.Length];
-            for (int i = 0; i < points.Length; i++)
+            // Reuse resampled capture angles across candidates as the old matcher did.
+            var captureSets = points.Select(p => new PointsPatternSet("capture", p)).ToArray();
+            var orderedCapture = GestureSign.Shared.GestureStrokeOrder.ByStart(captureSets,
+                p => p.Points.Length == 0 ? double.PositiveInfinity : p.Points[0].X,
+                p => p.Points.Length == 0 ? double.PositiveInfinity : p.Points[0].Y);
+            var probabilities = new double[gestures.Count][];
+            for (int n = 0; n < gestures.Count; n++)
             {
-                gestureAnalyzer.PointPatternSet = gestures.Select(gesture => new PointsPatternSet(gesture.Name, gesture.PointPatterns[sourceGestureLevel].Points[i]));
-                comparisonResults[i] = new List<PointPatternMatchResult>(gestures.Count);
-                comparisonResults[i].AddRange(gestureAnalyzer.GetPointPatternMatchResults(points[i]));
+                var pattern = gestures[n].PointPatterns[sourceGestureLevel];
+                var template = pattern.GetComparisonPoints(orderByLocation);
+                var capture = orderByLocation || pattern.OrderByStartPosition ? orderedCapture : captureSets;
+                probabilities[n] = capture.Select((stroke, i) => gestureAnalyzer.GetPointPatternMatchResult(
+                    new PointsPatternSet(gestures[n].Name, template[i]), stroke).Probability).ToArray();
             }
 
-            var numbers = Enumerable.Range(0, gestures.Count);
-            numbers = comparisonResults.Aggregate(numbers, (current, matchResultsList) => current.Where(i => matchResultsList[i].Probability > probabilityThreshold).ToList());
+            var numbers = Enumerable.Range(0, gestures.Count).Where(n => probabilities[n].All(p => p > probabilityThreshold));
 
             List<IGesture> matchingResult = new List<IGesture>();
             List<KeyValuePair<string, double>> recognizedResult = new List<KeyValuePair<string, double>>();
@@ -405,7 +409,7 @@ namespace GestureSign.Common.Gestures
                 }
                 else
                 {
-                    double probability = comparisonResults.Sum(matchResultsList => matchResultsList[number].Probability);
+                    double probability = probabilities[number].Sum();
 
                     recognizedResult.Add(new KeyValuePair<string, double>(gesture.Name, probability));
                 }
@@ -425,8 +429,7 @@ namespace GestureSign.Common.Gestures
                 var analyzer = new PointPatternAnalyzer();
                 var scores = templates.Select(g => new {
                     g.Name,
-                    Scores = points.Select((p, i) => analyzer.GetPointPatternMatchResult(
-                        new PointsPatternSet(g.Name, g.PointPatterns[level].Points[i]), new PointsPatternSet("capture", p)).Probability).ToArray()
+                    Scores = GetComparisonScores(analyzer, g, level, points)
                 }).OrderByDescending(x => x.Scores.Min()).Take(5);
                 Log.Logging.LogMessage($"Mouse match diagnostics. Level={level}, Library={_Gestures?.Count ?? 0}, Eligible={templates.Length}, Threshold=>{ProbabilityThreshold}, Top={string.Join("; ", scores.Select(x => x.Name + "=" + string.Join("/", x.Scores.Select(n => n.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)))))}");
                 for (int i = 0; i < points.Length; i++)
@@ -451,12 +454,14 @@ namespace GestureSign.Common.Gestures
             var analyzer = new PointPatternAnalyzer();
             var scores = templates.Select(g => new {
                 Gesture = g,
-                Score = points.Select((p,i) => analyzer.GetPointPatternMatchResult(new PointsPatternSet(g.Name,g.PointPatterns[_gestureLevel].Points[i]),new PointsPatternSet("capture",p)).Probability).Average()
+                Score = GetComparisonScores(analyzer, g, _gestureLevel, points).Average()
             }).OrderByDescending(x => x.Score).ToArray();
             var candidate = scores.FirstOrDefault(x => string.Equals(x.Gesture.Name,name,StringComparison.OrdinalIgnoreCase));
             if (candidate == null) return "候选模板不可用";
             var other = scores.FirstOrDefault(x => !string.Equals(x.Gesture.Name,name,StringComparison.OrdinalIgnoreCase));
-            var template = candidate.Gesture.PointPatterns[_gestureLevel].Points;
+            var pattern = candidate.Gesture.PointPatterns[_gestureLevel];
+            var template = pattern.GetComparisonPoints(AppConfig.IsOrderByLocation);
+            points = PointPattern.ForComparison(points, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition);
             missingTurn = TemplateTurnEvidence.MissingTurn(points, template);
             return $"模板匹配分数 {candidate.Score:F1}；其他候选 {other?.Gesture.Name ?? "无"} {other?.Score:F1}；模板转向 {string.Join("/",template.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°，本次 {string.Join("/",points.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°";
         }
@@ -473,6 +478,15 @@ namespace GestureSign.Common.Gestures
                     return null;
             }
             return matchName;
+        }
+
+        private static double[] GetComparisonScores(PointPatternAnalyzer analyzer, IGesture gesture, int level, Point[][] points)
+        {
+            var pattern = gesture.PointPatterns[level];
+            var template = pattern.GetComparisonPoints(AppConfig.IsOrderByLocation);
+            var capture = PointPattern.ForComparison(points, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition);
+            return capture.Select((p, i) => analyzer.GetPointPatternMatchResult(
+                new PointsPatternSet(gesture.Name, template[i]), new PointsPatternSet("capture", p)).Probability).ToArray();
         }
 
         public string PreviewGestureName(Point[][] points)
@@ -511,7 +525,8 @@ namespace GestureSign.Common.Gestures
             if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= _gestureLevel)
                 return null;
 
-            return HasComparableShapeExtents(points, matchedGesture.PointPatterns[_gestureLevel].Points)
+            var pattern = matchedGesture.PointPatterns[_gestureLevel];
+            return HasComparableShapeExtents(PointPattern.ForComparison(points, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition), pattern.GetComparisonPoints(AppConfig.IsOrderByLocation))
                 ? gestureName
                 : null;
         }
@@ -527,9 +542,12 @@ namespace GestureSign.Common.Gestures
             if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= _gestureLevel)
                 return true;
 
-            var template = matchedGesture.PointPatterns[_gestureLevel].Points;
+            var pattern = matchedGesture.PointPatterns[_gestureLevel];
+            var template = pattern.GetComparisonPoints(AppConfig.IsOrderByLocation);
             if (template == null || captured.Length != template.Length)
                 return true;
+
+            captured = PointPattern.ForComparison(captured, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition);
 
             for (var index = 0; index < captured.Length; index++)
             {

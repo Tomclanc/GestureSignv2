@@ -29,7 +29,7 @@ internal static class UiTranslationCatalog
     };
 
     private static readonly HashSet<string> InlineCultureNames = new(
-        new[] { "zh-CN", "zh-TW", "en-US", "en-GB", "ja-JP", "ko-KR" },
+        new[] { "zh-CN", "zh-TW", "en-US", "en-GB", "ko-KR" },
         StringComparer.OrdinalIgnoreCase);
 
     public static string Translate(string cultureName, string english)
@@ -42,6 +42,14 @@ internal static class UiTranslationCatalog
         return catalog.TryGetValue(english, out var translated) && !string.IsNullOrWhiteSpace(translated)
             ? translated
             : english;
+    }
+
+    // Two-language strings have no Japanese/Korean translation. Use the
+    // selected external catalog when available, otherwise fall back to English.
+    public static string TranslateFallback(string cultureName, string chinese, string english)
+    {
+        var resolved = ResolveCultureName(cultureName);
+        return resolved is "zh-CN" or "zh-TW" ? chinese : Translate(resolved, english);
     }
 
     public static bool HasCatalog(string cultureName)

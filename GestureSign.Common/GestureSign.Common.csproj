@@ -10,6 +10,7 @@
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\Shared\GestureStrokeOrder.cs" Link="GestureStrokeOrder.cs" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
   <ItemGroup>
