@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Page Include="MainWindow.xaml" />
+    <Compile Include="..\Shared\GestureStrokeOrder.cs" Link="GestureStrokeOrder.cs" />
     <Compile Include="..\Shared\KandoTaskbarIdentity.cs" Link="KandoTaskbarIdentity.cs" />
     <Compile Include="..\Shared\KandoExecutableCompatibility.cs" Link="KandoExecutableCompatibility.cs" />
     <Compile Include="..\Shared\ProductVersion.cs" Link="ProductVersion.cs" />

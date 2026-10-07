@@ -476,7 +476,7 @@ internal sealed class LegacyDataStore
     {
         var gestureName = GetUniqueGestureName(name);
         var points = new JsonArray();
-        foreach (var pattern in pointPatterns)
+        foreach (var pattern in OrderGestureStrokes(pointPatterns))
         {
             var line = new JsonArray();
             foreach (var point in pattern)
@@ -487,7 +487,7 @@ internal sealed class LegacyDataStore
         _gesturesRoot.Add(new JsonObject
         {
             ["Name"] = gestureName,
-            ["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points })
+            ["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points, ["OrderByStartPosition"] = true })
         });
         SaveGestures();
         return gestureName;
@@ -523,7 +523,7 @@ internal sealed class LegacyDataStore
     public void UpdateGesturePointPatterns(LegacyGesture gesture, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
     {
         var points = new JsonArray();
-        foreach (var pattern in pointPatterns)
+        foreach (var pattern in OrderGestureStrokes(pointPatterns))
         {
             var line = new JsonArray();
             foreach (var point in pattern)
@@ -531,9 +531,14 @@ internal sealed class LegacyDataStore
             points.Add(line);
         }
 
-        gesture.Source["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points });
+        gesture.Source["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points, ["OrderByStartPosition"] = true });
         SaveGestures();
     }
+
+    private static IReadOnlyList<(double X, double Y)>[] OrderGestureStrokes(IReadOnlyList<IReadOnlyList<(double X, double Y)>> strokes)
+        => GestureSign.Shared.GestureStrokeOrder.ByStart(strokes,
+            p => p.Count == 0 ? double.PositiveInfinity : Math.Round(p[0].X),
+            p => p.Count == 0 ? double.PositiveInfinity : Math.Round(p[0].Y));
 
     public void RenameGesture(LegacyGesture gesture, string name)
     {
