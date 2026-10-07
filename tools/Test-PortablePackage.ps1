@@ -4,7 +4,9 @@ param(
     [ValidateNotNullOrEmpty()]
     [string] $PackagePath,
 
-    [int] $MinimumFileCount = 1
+    [int] $MinimumFileCount = 1,
+
+    [switch] $SharedRuntimeOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -46,6 +48,21 @@ $forbidden = @($files | Where-Object {
 if ($forbidden.Count -gt 0) {
     $names = ($forbidden | ForEach-Object { $_.FullName.Substring($resolvedPackagePath.Length + 1) }) -join ', '
     throw "Portable package contains forbidden diagnostic or bundled Kando/AI component files: $names"
+}
+
+if ($SharedRuntimeOnly) {
+    $bundledRuntimes = @($files | Where-Object {
+        $_.Name -match '(?i)^(coreclr|hostfxr|hostpolicy|clrjit|System\.Private\.CoreLib|Microsoft\.UI\.Xaml|Microsoft\.WindowsAppRuntime)\.dll$'
+    })
+    if ($bundledRuntimes.Count -gt 0) {
+        throw "Shared-runtime package contains bundled runtime files: $($bundledRuntimes.Name -join ', ')"
+    }
+    foreach ($configuration in @('GestureSign.WinUI.runtimeconfig.json','Backend\GestureSign.runtimeconfig.json')) {
+        $runtimeOptions = (Get-Content -LiteralPath (Join-Path $resolvedPackagePath $configuration) -Raw | ConvertFrom-Json).runtimeOptions
+        if (!$runtimeOptions.framework -and !$runtimeOptions.frameworks) {
+            throw "Shared-runtime package lacks framework dependencies: $configuration"
+        }
+    }
 }
 
 [pscustomobject]@{

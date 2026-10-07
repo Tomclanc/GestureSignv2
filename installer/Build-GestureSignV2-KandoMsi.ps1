@@ -209,7 +209,7 @@ $portableValidator = Join-Path $repoRoot.ProviderPath "tools\Test-PortablePackag
 if (!(Test-Path -LiteralPath $portableValidator -PathType Leaf)) {
     throw "Portable package validator is missing: $portableValidator"
 }
-& $portableValidator -PackagePath $publishPath
+& $portableValidator -PackagePath $publishPath -SharedRuntimeOnly
 & (Join-Path $repoRoot.ProviderPath "tools\Test-BackendArchitecture.ps1") -PackagePath $publishPath -Architecture $platformTarget
 
 # Kando is an on-demand component. Never inherit a stale bundled copy from a previous publish.
