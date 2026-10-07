@@ -249,10 +249,10 @@ public sealed partial class MainWindow
         CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
 
         var validDrawnPointPatterns = drawnPointPatterns
-            .Where(pattern => pattern.Count >= 2)
+            .Where(pattern => pattern.Count > 0)
             .Cast<IReadOnlyList<(double X, double Y)>>()
             .ToList();
-        if (validDrawnPointPatterns.Count > 0)
+        if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
             gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, null, validDrawnPointPatterns);
@@ -300,7 +300,7 @@ public sealed partial class MainWindow
                 _legacyData.AddCommand(createdAction, commandName.Text, commandPluginClassValue, commandSettingsValue);
         }
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
-        if (validDrawnPointPatterns.Count > 0)
+        if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
             _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
@@ -362,10 +362,10 @@ public sealed partial class MainWindow
             return;
 
         var validDrawnPointPatterns = drawnPointPatterns
-            .Where(pattern => pattern.Count >= 2)
+            .Where(pattern => pattern.Count > 0)
             .Cast<IReadOnlyList<(double X, double Y)>>()
             .ToList();
-        if (validDrawnPointPatterns.Count > 0)
+        if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
             gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, action, validDrawnPointPatterns);

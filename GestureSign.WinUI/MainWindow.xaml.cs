@@ -3521,122 +3521,58 @@ public sealed partial class MainWindow : Window
     private async Task DrawGestureAsync(LegacyGesture? gesture)
     {
         var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = gesture?.Name ?? "NewGesture" };
-        var fingerCount = new ComboBox { Margin = new Thickness(0, 8, 0, 8), SelectedIndex = Math.Clamp((gesture?.FingerCount ?? 3) - 1, 0, 4) };
-        foreach (var item in new[] { T("1 指", "1 finger"), T("2 指", "2 fingers"), T("3 指", "3 fingers"), T("4 指", "4 fingers"), T("5 指", "5 fingers") })
-            fingerCount.Items.Add(item);
-
-        var sample = new System.Collections.Generic.List<(double X, double Y)>();
-        var canvas = new Canvas
-        {
-            Width = 620,
-            Height = 300,
-            Background = SubtleBrush()
-        };
-        var hint = new TextBlock
-        {
-            Text = T("在这里按住并绘制手势轨迹", "Press and hold here to draw a gesture"),
-            Opacity = 0.62,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        canvas.Children.Add(hint);
-
-        Polyline? line = null;
-        uint? activePointerId = null;
-        canvas.RightTapped += (_, args) => args.Handled = true;
-        canvas.PointerCanceled += (_, _) =>
-        {
-            line = null;
-            activePointerId = null;
-        };
-        canvas.PointerCaptureLost += (_, _) =>
-        {
-            line = null;
-            activePointerId = null;
-        };
-        canvas.PointerPressed += (_, args) =>
-        {
-            var point = args.GetCurrentPoint(canvas);
-
-            sample.Clear();
-            canvas.Children.Clear();
-            line = new Polyline { Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212)), StrokeThickness = 4 };
-            canvas.Children.Add(line);
-            canvas.CapturePointer(args.Pointer);
-            activePointerId = point.PointerId;
-            var position = point.Position;
-            sample.Add((position.X, position.Y));
-            line.Points.Add(position);
-            args.Handled = true;
-        };
-        canvas.PointerMoved += (_, args) =>
-        {
-            if (line is null)
-                return;
-            var point = args.GetCurrentPoint(canvas);
-            if (activePointerId is not null && point.PointerId != activePointerId.Value)
-                return;
-            var position = point.Position;
-            var last = sample.LastOrDefault();
-            if (sample.Count > 0 && Math.Abs(last.X - position.X) + Math.Abs(last.Y - position.Y) < 4)
-                return;
-            sample.Add((position.X, position.Y));
-            line.Points.Add(position);
-            args.Handled = true;
-        };
-        canvas.PointerReleased += (_, args) =>
-        {
-            canvas.ReleasePointerCapture(args.Pointer);
-            line = null;
-            activePointerId = null;
-            args.Handled = true;
-        };
-
-        var clear = NewPillButton(T("清除轨迹", "Clear strokes"), false);
-        clear.Click += (_, _) =>
-        {
-            sample.Clear();
-            canvas.Children.Clear();
-            canvas.Children.Add(hint);
-        };
-
+        var sample = new List<List<(double X, double Y)>>();
+        var drawing = NewInlineGestureDrawingPanel(sample, out _, out var clear, width: 620, height: 300);
         var panel = NewCardPanel(8);
         panel.Children.Add(name);
-        panel.Children.Add(fingerCount);
-        panel.Children.Add(new Border
+        panel.Children.Add(new TextBlock
         {
-            BorderBrush = BorderBrush(),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(10),
-            Child = canvas
+            Text = T("每根手指分别记录轨迹，手指数由实际绘制决定。两根手指可以向不同方向移动。", "Each finger records its own stroke. Finger count comes from the drawing; fingers can move in different directions."),
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.68
         });
+        panel.Children.Add(drawing);
         panel.Children.Add(clear);
-        if (!await ConfirmDialogAsync(gesture is null ? T("绘制手势", "Draw Gesture") : F("重训 {0}", "Retrain {0}", gesture.Name), panel, T("保存", "Save")))
-            return;
-
-        if (sample.Count < 2)
+        var recognitionDisabled = await TryReadRecognitionDisabledAsync();
+        var restoreRecognition = recognitionDisabled == false && await NotifyDaemonAsync(DaemonCommand.DisableRecognition);
+        bool saved;
+        try
+        {
+            saved = await ConfirmDialogAsync(gesture is null ? T("绘制手势", "Draw Gesture") : F("重训 {0}", "Retrain {0}", gesture.Name), panel, T("保存", "Save"));
+        }
+        finally
+        {
+            // Drawing must not execute the user's two-finger right-click action.
+            // Restore only when this dialog actually paused an enabled daemon.
+            if (restoreRecognition) await NotifyDaemonAsync(DaemonCommand.EnableRecognition);
+        }
+        if (!saved) return;
+        var pointPatterns = sample.Where(stroke => stroke.Count > 0)
+            .Cast<IReadOnlyList<(double X, double Y)>>().ToArray();
+        if (!pointPatterns.Any(stroke => stroke.Count >= 2))
         {
             await ShowInfoDialog(T("轨迹太短", "Strokes are too short"), T("请至少绘制一段明显轨迹。", "Draw at least one clear stroke."));
             return;
         }
-
         if (gesture is null)
-            _legacyData.AddGestureFromPoints(name.Text, fingerCount.SelectedIndex + 1, sample);
+            _legacyData.AddGestureFromPointPatterns(name.Text, pointPatterns);
         else
         {
             if (!string.Equals(name.Text, gesture.Name, StringComparison.OrdinalIgnoreCase))
                 _legacyData.RenameGesture(gesture, name.Text);
-            _legacyData.UpdateGesturePoints(gesture, fingerCount.SelectedIndex + 1, sample);
+            _legacyData.UpdateGesturePointPatterns(gesture, pointPatterns);
         }
         ReloadData();
     }
 
-    private FrameworkElement NewInlineGestureDrawingPanel(List<List<(double X, double Y)>> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture, out Button clearButton)
+    private FrameworkElement NewInlineGestureDrawingPanel(List<List<(double X, double Y)>> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture, out Button clearButton, double width = 460, double height = 180)
     {
+        var session = new GestureDrawingSession(sample);
         var canvas = new Canvas
         {
-            Width = 460,
-            Height = 180,
+            ManipulationMode = ManipulationModes.None,
+            Width = width,
+            Height = height,
             Background = IsDark
                 ? new SolidColorBrush(Color.FromArgb(42, 255, 255, 255))
                 : new SolidColorBrush(Color.FromArgb(255, 248, 250, 252))
@@ -3661,7 +3597,7 @@ public sealed partial class MainWindow : Window
 
         showRecordedGesture = strokes =>
         {
-            sample.Clear();
+            session.Clear();
             foreach (var stroke in strokes)
                 sample.Add(stroke.ToList());
             canvas.Children.Clear();
@@ -3669,73 +3605,77 @@ public sealed partial class MainWindow : Window
         };
 
         var activeLines = new Dictionary<uint, Polyline>();
-        var activeStrokes = new Dictionary<uint, List<(double X, double Y)>>();
         canvas.RightTapped += (_, args) => args.Handled = true;
-        canvas.PointerCanceled += (_, _) =>
+        canvas.PointerCanceled += (_, args) =>
         {
+            session.Clear();
             activeLines.Clear();
-            activeStrokes.Clear();
+            canvas.ReleasePointerCaptures();
+            ShowHint();
+            args.Handled = true;
         };
-        canvas.PointerCaptureLost += (_, _) =>
+        canvas.PointerCaptureLost += (_, args) =>
         {
-            // WinUI may move pointer capture while a second touch contact is added.
-            // Keep the in-progress strokes so simultaneous touch drawing is not saved as one stroke.
+            // Adding another touch can transfer capture while the first is
+            // still down. Keep that stroke; releasing one pointer ends only it.
+            var point = args.GetCurrentPoint(canvas);
+            if (!point.IsInContact)
+            {
+                session.End(point.PointerId);
+                activeLines.Remove(point.PointerId);
+            }
         };
         canvas.PointerPressed += (_, args) =>
         {
             var point = args.GetCurrentPoint(canvas);
-
-            if (activeLines.Count == 0)
+            if (activeLines.ContainsKey(point.PointerId)) return;
+            if (session.ActiveCount == 0)
             {
-                sample.Clear();
+                activeLines.Clear();
                 canvas.Children.Clear();
             }
-
+            session.Begin(point.PointerId, point.Position.X, point.Position.Y);
+            var colors = new[] { Color.FromArgb(255, 0, 120, 212), Color.FromArgb(255, 230, 100, 35), Color.FromArgb(255, 30, 160, 100) };
             var line = new Polyline
             {
-                Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212)),
+                Stroke = new SolidColorBrush(colors[(sample.Count - 1) % colors.Length]),
                 StrokeThickness = 4,
                 StrokeStartLineCap = PenLineCap.Round,
                 StrokeEndLineCap = PenLineCap.Round,
                 StrokeLineJoin = PenLineJoin.Round
             };
-            canvas.Children.Add(line);
-            var position = point.Position;
-            var stroke = new List<(double X, double Y)> { (position.X, position.Y) };
-            sample.Add(stroke);
+            line.Points.Add(point.Position);
             activeLines[point.PointerId] = line;
-            activeStrokes[point.PointerId] = stroke;
-            line.Points.Add(position);
+            canvas.Children.Add(line);
+            canvas.CancelDirectManipulations();
+            canvas.CapturePointer(args.Pointer);
             args.Handled = true;
         };
         canvas.PointerMoved += (_, args) =>
         {
             var point = args.GetCurrentPoint(canvas);
-            if (!activeLines.TryGetValue(point.PointerId, out var line) ||
-                !activeStrokes.TryGetValue(point.PointerId, out var stroke))
-                return;
-            var position = point.Position;
-            var last = stroke.LastOrDefault();
-            if (stroke.Count > 0 && Math.Abs(last.X - position.X) + Math.Abs(last.Y - position.Y) < 4)
-                return;
-            stroke.Add((position.X, position.Y));
-            line.Points.Add(position);
+            if (activeLines.TryGetValue(point.PointerId, out var line) &&
+                session.Move(point.PointerId, point.Position.X, point.Position.Y))
+                line.Points.Add(point.Position);
             args.Handled = true;
         };
         canvas.PointerReleased += (_, args) =>
         {
             var point = args.GetCurrentPoint(canvas);
+            if (activeLines.TryGetValue(point.PointerId, out var line) &&
+                session.Move(point.PointerId, point.Position.X, point.Position.Y, finalPoint: true))
+                line.Points.Add(point.Position);
+            session.End(point.PointerId);
             activeLines.Remove(point.PointerId);
-            activeStrokes.Remove(point.PointerId);
+            canvas.ReleasePointerCapture(args.Pointer);
             args.Handled = true;
         };
-
         clearButton = NewPillButton(T("清除图案", "Clear pattern"), false);
         clearButton.Click += (_, _) =>
         {
-            sample.Clear();
+            session.Clear();
             activeLines.Clear();
-            activeStrokes.Clear();
+            canvas.ReleasePointerCaptures();
             ShowHint();
         };
 

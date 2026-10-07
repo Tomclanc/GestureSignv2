@@ -61,6 +61,11 @@ jobs:
         run: |
           dotnet run --project tests/GestureSign.UiLocalizationTests -c Release -- .
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test independent touch drawing and first-finger right-click mapping
+        shell: pwsh
+        run: |
+          dotnet run --project tests/GestureSign.MultiTouchDrawingTests -c Release -- .
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build and validate slim AI packages
         shell: pwsh
         run: |
