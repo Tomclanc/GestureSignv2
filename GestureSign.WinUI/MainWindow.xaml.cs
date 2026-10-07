@@ -996,8 +996,11 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewKandoComponentCard()
     {
-        var installed = KandoComponentService.IsInstalled;
-        var downloaded = KandoComponentService.IsDownloaded;
+        var executable = FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath);
+        var installed = executable is not null;
+        var downloaded = KandoComponentService.IsManagedExecutable(executable);
+        var external = installed && !downloaded;
+        var currentVersion = KandoRelease.ReadInstalledVersion(executable);
         var statusText = installed
             ? L("已安装", "Installed", "已安裝", "설치됨")
             : L("可选下载", "Optional download", "可選下載", "선택적 다운로드");
@@ -1015,18 +1018,24 @@ public sealed partial class MainWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Child = new TextBlock
             {
-                Text = statusText,
+                Text = installed ? statusText + " · " + (currentVersion ?? T("版本未知", "Unknown version")) : statusText,
                 FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
             }
         };
 
         var action = NewPillButton(
-            installed
+            external ? T("更新指引", "Update instructions") : installed
                 ? L("单独卸载", "Uninstall", "單獨解除安裝", "제거")
                 : L("下载 Kando", "Download Kando", "下載 Kando", "Kando 다운로드"),
             !installed);
         action.Click += async (_, _) =>
         {
+            if (_kandoComponentBusy) return;
+            if (external)
+            {
+                await RunUiActionAsync(() => CheckKandoUpdateAsync(action));
+                return;
+            }
             if (installed)
                 await RunUiActionAsync(UninstallKandoComponentAsync);
             else
@@ -1041,9 +1050,20 @@ public sealed partial class MainWindow : Window
             VerticalAlignment = VerticalAlignment.Center
         };
         controls.Children.Add(status);
+        if (installed)
+        {
+            var checkUpdate = NewPillButton(T("检查更新", "Check for updates"), false);
+            checkUpdate.Click += async (_, _) =>
+            {
+                if (!_kandoComponentBusy) await RunUiActionAsync(() => CheckKandoUpdateAsync(checkUpdate));
+            };
+            controls.Children.Add(checkUpdate);
+        }
         controls.Children.Add(action);
 
-        var subtitle = downloaded
+        var subtitle = external
+            ? T("正在使用外部 Kando。请通过原安装方式更新，GestureSign 不会替换它的文件。", "An external Kando installation is in use. Update it through its original installation method; GestureSign will not replace its files.")
+            : downloaded
             ? L("Kando 已作为独立组件保存，升级 GestureSign 时会继续保留。", "Kando is stored as a separate component and is retained when GestureSign updates.", "Kando 已儲存為獨立元件，GestureSign 更新時會繼續保留。", "Kando는 별도 구성 요소로 저장되며 GestureSign 업데이트 후에도 유지됩니다.")
             : installed
                 ? L("检测到旧版本随附的 Kando。卸载后可随时重新下载。", "A Kando copy bundled with an earlier version was found. You can reinstall it later.", "偵測到舊版本隨附的 Kando，解除安裝後可隨時重新下載。", "이전 버전에 포함된 Kando를 찾았습니다. 나중에 다시 설치할 수 있습니다.")
@@ -1054,6 +1074,8 @@ public sealed partial class MainWindow : Window
 
     private async Task DownloadKandoComponentAsync(Button button)
     {
+        if (_kandoComponentBusy) return;
+        _kandoComponentBusy = true;
         button.IsEnabled = false;
         var originalContent = button.Content;
         try
@@ -1068,6 +1090,7 @@ public sealed partial class MainWindow : Window
         }
         finally
         {
+            _kandoComponentBusy = false;
             button.Content = originalContent;
             button.IsEnabled = true;
         }
@@ -1075,16 +1098,22 @@ public sealed partial class MainWindow : Window
 
     private async Task UninstallKandoComponentAsync()
     {
-        if (!await ConfirmDialogAsync(
-                L("卸载 Kando", "Uninstall Kando", "解除安裝 Kando", "Kando 제거"),
-                L("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall.", "只會刪除 Kando 程式元件，選單與個人設定會保留，之後可重新下載。", "Kando 프로그램 구성 요소만 제거합니다. 메뉴와 개인 설정은 재설치를 위해 유지됩니다."),
-                L("卸载", "Uninstall", "解除安裝", "제거")))
-            return;
+        if (_kandoComponentBusy) return;
+        _kandoComponentBusy = true;
+        try
+        {
+            if (!await ConfirmDialogAsync(
+                    L("卸载 Kando", "Uninstall Kando", "解除安裝 Kando", "Kando 제거"),
+                    L("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall.", "只會刪除 Kando 程式元件，選單與個人設定會保留，之後可重新下載。", "Kando 프로그램 구성 요소만 제거합니다. 메뉴와 개인 설정은 재설치를 위해 유지됩니다."),
+                    L("卸载", "Uninstall", "解除安裝", "제거")))
+                return;
 
-        StopKandoProcesses(_legacyData.Options);
-        await UpdateOptionAndWaitAsync("KandoEnabled", "False");
-        KandoComponentService.Uninstall();
-        ShowSelectedPage();
+            StopKandoProcesses(_legacyData.Options);
+            await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+            KandoComponentService.Uninstall();
+            ShowSelectedPage();
+        }
+        finally { _kandoComponentBusy = false; }
     }
 
     private FrameworkElement NewKandoPowerToysPreviewCard()
@@ -3702,6 +3731,7 @@ public sealed partial class MainWindow : Window
 
     private async Task TestKandoMenuAsync()
     {
+        if (_kandoComponentBusy) return;
         await FlushPendingOptionUpdatesAsync();
         _legacyData = LegacyDataStore.Load();
 
@@ -3716,6 +3746,7 @@ public sealed partial class MainWindow : Window
 
     private async Task EnableKandoQuickActionsAsync()
     {
+        if (_kandoComponentBusy) { ShowSelectedPage(); return; }
         await UpdateOptionAndWaitAsync("KandoEnabled", "True");
         _legacyData = LegacyDataStore.Load();
 
@@ -3730,6 +3761,7 @@ public sealed partial class MainWindow : Window
 
     private async Task DisableKandoQuickActionsAsync()
     {
+        if (_kandoComponentBusy) { ShowSelectedPage(); return; }
         await UpdateOptionAndWaitAsync("KandoEnabled", "False");
         _legacyData = LegacyDataStore.Load();
         StopKandoProcesses(_legacyData.Options);
@@ -3744,7 +3776,7 @@ public sealed partial class MainWindow : Window
                                              KandoComponentService.HasPersistentUserData;
             await KandoComponentService.PreserveBundledInstallationAsync(preserveLegacyInstallation);
             _legacyData = LegacyDataStore.Load();
-            if (_legacyData.Options.KandoEnabled && !KandoComponentService.IsInstalled)
+            if (_legacyData.Options.KandoEnabled && FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath) is null)
                 await KandoComponentService.DownloadAndInstallAsync();
             if (!wasDownloaded && KandoComponentService.IsDownloaded)
                 ShowSelectedPage();
@@ -3765,6 +3797,7 @@ public sealed partial class MainWindow : Window
            !string.IsNullOrWhiteSpace(options.KandoTrigger);
     private async Task OpenKandoSettingsAsync()
     {
+        if (_kandoComponentBusy) return;
         await FlushPendingOptionUpdatesAsync();
         _legacyData = LegacyDataStore.Load();
 

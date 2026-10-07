@@ -66,6 +66,11 @@ jobs:
         run: |
           dotnet run --project tests/GestureSign.MultiTouchDrawingTests -c Release -- .
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test Kando stable release selection and update rollback
+        shell: pwsh
+        run: |
+          dotnet run --project tests/GestureSign.KandoUpdateTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Build and validate slim AI packages
         shell: pwsh
         run: |

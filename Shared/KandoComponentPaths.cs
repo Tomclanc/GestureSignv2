@@ -33,6 +33,34 @@ namespace GestureSign.Shared
 
         public static string RemovedMarkerPath => Path.Combine(ComponentsRoot, "Kando.removed");
 
+        public static string UpdateLeasePath => Path.Combine(ComponentsRoot, "Kando.updating");
+
+        public static FileStream AcquireUpdateLease(string path)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+            return new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None,
+                1, FileOptions.DeleteOnClose);
+        }
+
+        public static bool IsUpdateLeaseActive(string path)
+        {
+            try
+            {
+                if (!File.Exists(path)) return false;
+                using (new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None)) { }
+                return false;
+            }
+            catch (FileNotFoundException) { return false; }
+            catch (DirectoryNotFoundException) { return false; }
+            catch (IOException) { return true; }
+            catch (UnauthorizedAccessException) { return true; }
+        }
+
+        public static bool IsUpdating(string executable)
+            => Path.GetFullPath(executable).StartsWith(
+                Path.GetFullPath(InstallDirectory).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar,
+                StringComparison.OrdinalIgnoreCase) && IsUpdateLeaseActive(UpdateLeasePath);
+
         public static string UserDataDirectory => Path.Combine(NativeRoamingApplicationData, "kando");
 
         private static string ComponentDataRoot
