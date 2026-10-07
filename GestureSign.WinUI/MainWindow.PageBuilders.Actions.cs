@@ -307,9 +307,9 @@ public sealed partial class MainWindow
             .OrderBy(group => group.Key)
             .ToList();
 
-        var twoFinger = NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), groupedGestures.Where(group => group.Key <= 2).SelectMany(group => group).Take(12).ToArray());
-        var threeFinger = NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), groupedGestures.Where(group => group.Key == 3).SelectMany(group => group).Take(12).ToArray());
-        var custom = NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), groupedGestures.Where(group => group.Key >= 4).SelectMany(group => group).Take(16).ToArray());
+        var twoFinger = NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), groupedGestures.Where(group => group.Key <= 2).SelectMany(group => group).ToArray());
+        var threeFinger = NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), groupedGestures.Where(group => group.Key == 3).SelectMany(group => group).ToArray());
+        var custom = NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), groupedGestures.Where(group => group.Key >= 4).SelectMany(group => group).ToArray());
 
         Grid.SetColumn(threeFinger, 1);
         Grid.SetColumn(custom, 0);
