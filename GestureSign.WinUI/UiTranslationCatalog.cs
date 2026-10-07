@@ -29,7 +29,7 @@ internal static class UiTranslationCatalog
     };
 
     private static readonly HashSet<string> InlineCultureNames = new(
-        new[] { "zh-CN", "zh-TW", "en-US", "en-GB", "ja-JP", "ko-KR" },
+        new[] { "zh-CN", "zh-TW", "en-US", "en-GB", "ko-KR" },
         StringComparer.OrdinalIgnoreCase);
 
     public static string Translate(string cultureName, string english)

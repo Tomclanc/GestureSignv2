@@ -21,12 +21,19 @@ foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
     Check(result == (culture.StartsWith("zh-") ? "这个新字符串没有译文" : "A new untranslated UI string"), $"Missing translation fallback: {culture}");
 }
 Check(UiTranslationCatalog.TranslateFallback("invalid-culture", "动作", "Action") == "Action", "Unknown culture fallback");
-foreach (var culture in new[] { "ru-RU", "de-DE", "fr-FR" })
+foreach (var culture in new[] { "ru-RU", "de-DE", "fr-FR", "ja-JP" })
 {
     var path = Path.Combine(AppContext.BaseDirectory, "Languages", "UI", culture + ".json");
     var catalog = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path))!;
     Check(UiTranslationCatalog.TranslateFallback(culture, "保存", "Save") == catalog["Save"], $"Existing translation retained: {culture}");
 }
+Check(UiTranslationCatalog.HasCatalog("ja-JP"), "Japanese uses the external UI catalog");
+Check(UiTranslationCatalog.TranslateFallback("ja-JP", "程序名称", "App Name") == "アプリ名", "Two-language editor captions use contributed Japanese translations");
+var japanesePath = Path.Combine(AppContext.BaseDirectory, "Languages", "UI", "ja-JP.json");
+using var japaneseDocument = JsonDocument.Parse(File.ReadAllText(japanesePath));
+var japaneseEntries = japaneseDocument.RootElement.EnumerateObject().ToArray();
+Check(japaneseEntries.Select(e => e.Name).Distinct(StringComparer.Ordinal).Count() == japaneseEntries.Length, "No duplicate Japanese keys");
+var japaneseCatalog = japaneseEntries.ToDictionary(e => e.Name, e => e.Value.GetString()!, StringComparer.Ordinal);
 var stableDirections = new[] { "向右", "向左", "向上", "向下", "左上", "右上", "左下", "右下" };
 for (int index = 0; index < stableDirections.Length; index++)
     Check(GestureTemplateDirection.FromIndex(index) == stableDirections[index], $"Stable gesture template direction {index}");
@@ -47,6 +54,11 @@ foreach (var file in Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"),
         var key = en.Token.ValueText;
         Check(!chinese.IsMatch(key.Replace("风夏", "")), $"Chinese in English baseline: {file}: {key}");
         Check(Slots(zh.Token.ValueText) == Slots(key), $"Mismatched format slots: {key}");
+        if (name == "L")
+        {
+            Check(values.Count == 4, "Japanese strings are not embedded in L() calls");
+            Check(japaneseCatalog.ContainsKey(key), $"Existing Japanese translation preserved: {key}");
+        }
         if (name == "F")
         {
             // A user's Chinese name must stay untouched within a translated sentence.
@@ -72,6 +84,11 @@ foreach (var file in Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"),
         if (literal.Ancestors().Any(n => n is AnonymousFunctionExpressionSyntax or ConstantPatternSyntax)) continue;
         Check(false, $"Hard-coded UI caption: {Path.GetFileName(file)}:{literal.GetLocation().GetLineSpan().StartLinePosition.Line + 1}: {literal.Token.ValueText}");
     }
+}
+foreach (var entry in japaneseCatalog)
+{
+    Check(!string.IsNullOrWhiteSpace(entry.Value), $"Empty Japanese translation: {entry.Key}");
+    Check(Slots(entry.Key) == Slots(entry.Value), $"Japanese placeholders preserved: {entry.Key}");
 }
 var window = File.ReadAllText(Path.Combine(repo, "GestureSign.WinUI", "MainWindow.xaml.cs"));
 Check(window.Contains("GestureTemplateDirection.FromIndex(direction.SelectedIndex)"), "Gesture creation uses stable direction, not translated SelectedItem");

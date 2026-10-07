@@ -85,7 +85,7 @@ public sealed partial class MainWindow
                 DeleteConfirmationTitle(),
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    L("确定删除 {0}？", "Delete {0}?", "確定刪除 {0}？", "{0} を削除しますか？", "{0} 항목을 삭제하시겠습니까?"),
+                    L("确定删除 {0}？", "Delete {0}?", "確定刪除 {0}？", "{0} 항목을 삭제하시겠습니까?"),
                     app.Name),
                 DeleteButtonText()))
             return;
@@ -101,8 +101,8 @@ public sealed partial class MainWindow
         if (toggleButton != null)
         {
             toggleButton.Content = newEnabled
-                ? L("停用", "Disable", "停用", "無効化", "사용 안 함")
-                : L("启用", "Enable", "啟用", "有効化", "사용");
+                ? L("停用", "Disable", "停用", "사용 안 함")
+                : L("启用", "Enable", "啟用", "사용");
             toggleButton.UpdateLayout();
         }
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
@@ -124,8 +124,8 @@ public sealed partial class MainWindow
             var newEnabled = !isEnabled;
             _legacyData.SetEnabled(currentApp.Source, newEnabled);
             toggleButton.Content = newEnabled
-                ? L("停用", "Disable", "停用", "無効化", "사용 안 함")
-                : L("启用", "Enable", "啟用", "有効化", "사용");
+                ? L("停用", "Disable", "停用", "사용 안 함")
+                : L("启用", "Enable", "啟用", "사용");
             toggleButton.UpdateLayout();
             _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         }
@@ -433,7 +433,7 @@ public sealed partial class MainWindow
         builtInPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         recordedPicker.HorizontalAlignment = HorizontalAlignment.Stretch;
         tipTapPicker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
-        tipTapPicker.Items.Add(L("选择 TipTap 触发方式", "Choose a TipTap trigger", "選擇 TipTap 觸發方式", "TipTap トリガーを選択", "TipTap 트리거 선택"));
+        tipTapPicker.Items.Add(L("选择 TipTap 触发方式", "Choose a TipTap trigger", "選擇 TipTap 觸發方式", "TipTap 트리거 선택"));
         for (var index = 25; index <= 36; index++)
             tipTapPicker.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         var selectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
@@ -462,7 +462,6 @@ public sealed partial class MainWindow
             Text = L("TipTap：在触控板上按住 1～3 指，用另一指在手指组左、右、上或下方轻点，无需录制图案。",
                 "TipTap: hold 1–3 fingers on the touchpad and tap with another finger to the left, right, above or below the held group. No drawing is needed.",
                 "TipTap：在觸控板上按住 1～3 指，用另一指在手指組左、右、上或下方輕點，無需錄製圖案。",
-                "TipTap：タッチパッドに 1～3 本の指を置いたまま、別の指でそのグループの左・右・上・下をタップします。図形の記録は不要です。",
                 "TipTap: 터치패드에 손가락 1~3개를 댄 채 다른 손가락으로 그룹의 왼쪽, 오른쪽, 위 또는 아래를 탭하세요. 패턴을 그릴 필요가 없습니다."),
             TextWrapping = TextWrapping.Wrap,
             Opacity = 0.7
@@ -474,22 +473,22 @@ public sealed partial class MainWindow
     {
         var touchScreen = new CheckBox
         {
-            Content = L("触摸屏", "Touchscreen", "觸控螢幕", "タッチスクリーン", "터치스크린"),
+            Content = L("触摸屏", "Touchscreen", "觸控螢幕", "터치스크린"),
             IsChecked = (ignoredDevices & ActionDeviceTouchScreen) == 0
         };
         var touchPad = new CheckBox
         {
-            Content = L("触控板", "Touchpad", "觸控板", "タッチパッド", "터치패드"),
+            Content = L("触控板", "Touchpad", "觸控板", "터치패드"),
             IsChecked = (ignoredDevices & ActionDeviceTouchPad) == 0
         };
         var mouse = new CheckBox
         {
-            Content = L("鼠标", "Mouse", "滑鼠", "マウス", "마우스"),
+            Content = L("鼠标", "Mouse", "滑鼠", "마우스"),
             IsChecked = (ignoredDevices & ActionDeviceMouse) == 0
         };
         var pen = new CheckBox
         {
-            Content = L("触控笔", "Pen", "觸控筆", "ペン", "펜"),
+            Content = L("触控笔", "Pen", "觸控筆", "펜"),
             IsChecked = (ignoredDevices & ActionDevicePen) == 0
         };
 
@@ -497,8 +496,8 @@ public sealed partial class MainWindow
         choices.Children.Add(NewTwoColumnRow(touchScreen, touchPad, 360));
         choices.Children.Add(NewTwoColumnRow(mouse, pen, 360));
         var content = NewDialogField(
-            L("触发设备", "Trigger devices", "觸發裝置", "トリガーデバイス", "트리거 장치"),
-            L("选择可以执行这个动作的输入设备。", "Select the input devices that can run this action.", "選擇可以執行這個動作的輸入裝置。", "このアクションを実行できる入力デバイスを選択します。", "이 동작을 실행할 입력 장치를 선택합니다."),
+            L("触发设备", "Trigger devices", "觸發裝置", "트리거 장치"),
+            L("选择可以执行这个动作的输入设备。", "Select the input devices that can run this action.", "選擇可以執行這個動作的輸入裝置。", "이 동작을 실행할 입력 장치를 선택합니다."),
             choices);
         content.Margin = new Thickness(0, 8, 0, 0);
         return new ActionDeviceSelector(content, touchScreen, touchPad, mouse, pen);
@@ -520,10 +519,10 @@ public sealed partial class MainWindow
             .ThenBy(item => DisplayName(item.Name), StringComparer.CurrentCultureIgnoreCase)
             .ToArray();
         var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
-        combo.Items.Add(L("选择已录制手势", "Choose recorded gesture", "選擇已錄製手勢", "記録済みジェスチャを選択", "녹화된 제스처 선택"));
+        combo.Items.Add(L("选择已录制手势", "Choose recorded gesture", "選擇已錄製手勢", "녹화된 제스처 선택"));
         foreach (var item in gestures)
         {
-            combo.Items.Add($"{DisplayName(item.Name)} · {CountText(item.FingerCount, L("指", "finger(s)", "指", "本指", "손가락"))}");
+            combo.Items.Add($"{DisplayName(item.Name)} · {CountText(item.FingerCount, L("指", "finger(s)", "指", "손가락"))}");
         }
 
         var currentGestureName = ResolveGestureName(gesture, gesture.Text);
@@ -598,43 +597,43 @@ public sealed partial class MainWindow
     private string BuiltInGestureDisplayNameFromIndex(int index, string fallback = "")
         => index switch
         {
-            0 => L("选择内置触发方式", "Choose built-in trigger", "選擇內建觸發方式", "組み込みトリガーを選択", "기본 제공 트리거 선택"),
-            1 => L("触控板上边缘点击", "Touchpad top edge tap", "觸控板上邊緣點擊", "タッチパッド上端タップ", "터치패드 위쪽 가장자리 탭"),
-            2 => L("触控板下边缘点击", "Touchpad bottom edge tap", "觸控板下邊緣點擊", "タッチパッド下端タップ", "터치패드 아래쪽 가장자리 탭"),
-            3 => L("触控板左边缘点击", "Touchpad left edge tap", "觸控板左邊緣點擊", "タッチパッド左端タップ", "터치패드 왼쪽 가장자리 탭"),
-            4 => L("触控板右边缘点击", "Touchpad right edge tap", "觸控板右邊緣點擊", "タッチパッド右端タップ", "터치패드 오른쪽 가장자리 탭"),
-            5 => L("触控板上边缘左滑", "Touchpad top edge swipe left", "觸控板上邊緣左滑", "タッチパッド上端を左へスワイプ", "터치패드 위쪽 가장자리 왼쪽 스와이프"),
-            6 => L("触控板上边缘右滑", "Touchpad top edge swipe right", "觸控板上邊緣右滑", "タッチパッド上端を右へスワイプ", "터치패드 위쪽 가장자리 오른쪽 스와이프"),
-            7 => L("触控板下边缘左滑", "Touchpad bottom edge swipe left", "觸控板下邊緣左滑", "タッチパッド下端を左へスワイプ", "터치패드 아래쪽 가장자리 왼쪽 스와이프"),
-            8 => L("触控板下边缘右滑", "Touchpad bottom edge swipe right", "觸控板下邊緣右滑", "タッチパッド下端を右へスワイプ", "터치패드 아래쪽 가장자리 오른쪽 스와이프"),
-            9 => L("触控板左边缘上滑", "Touchpad left edge swipe up", "觸控板左邊緣上滑", "タッチパッド左端を上へスワイプ", "터치패드 왼쪽 가장자리 위로 스와이프"),
-            10 => L("触控板左边缘下滑", "Touchpad left edge swipe down", "觸控板左邊緣下滑", "タッチパッド左端を下へスワイプ", "터치패드 왼쪽 가장자리 아래로 스와이프"),
-            11 => L("触控板右边缘上滑", "Touchpad right edge swipe up", "觸控板右邊緣上滑", "タッチパッド右端を上へスワイプ", "터치패드 오른쪽 가장자리 위로 스와이프"),
-            12 => L("触控板右边缘下滑", "Touchpad right edge swipe down", "觸控板右邊緣下滑", "タッチパッド右端を下へスワイプ", "터치패드 오른쪽 가장자리 아래로 스와이프"),
-            13 => L("触摸屏上边缘点击", "Touchscreen top edge tap", "觸控螢幕上邊緣點擊", "タッチスクリーン上端タップ", "터치스크린 위쪽 가장자리 탭"),
-            14 => L("触摸屏下边缘点击", "Touchscreen bottom edge tap", "觸控螢幕下邊緣點擊", "タッチスクリーン下端タップ", "터치스크린 아래쪽 가장자리 탭"),
-            15 => L("触摸屏左边缘点击", "Touchscreen left edge tap", "觸控螢幕左邊緣點擊", "タッチスクリーン左端タップ", "터치스크린 왼쪽 가장자리 탭"),
-            16 => L("触摸屏右边缘点击", "Touchscreen right edge tap", "觸控螢幕右邊緣點擊", "タッチスクリーン右端タップ", "터치스크린 오른쪽 가장자리 탭"),
-            17 => L("触摸屏上边缘左滑", "Touchscreen top edge swipe left", "觸控螢幕上邊緣左滑", "タッチスクリーン上端を左へスワイプ", "터치스크린 위쪽 가장자리 왼쪽 스와이프"),
-            18 => L("触摸屏上边缘右滑", "Touchscreen top edge swipe right", "觸控螢幕上邊緣右滑", "タッチスクリーン上端を右へスワイプ", "터치스크린 위쪽 가장자리 오른쪽 스와이프"),
-            19 => L("触摸屏下边缘左滑", "Touchscreen bottom edge swipe left", "觸控螢幕下邊緣左滑", "タッチスクリーン下端を左へスワイプ", "터치스크린 아래쪽 가장자리 왼쪽 스와이프"),
-            20 => L("触摸屏下边缘右滑", "Touchscreen bottom edge swipe right", "觸控螢幕下邊緣右滑", "タッチスクリーン下端を右へスワイプ", "터치스크린 아래쪽 가장자리 오른쪽 스와이프"),
-            21 => L("触摸屏左边缘上滑", "Touchscreen left edge swipe up", "觸控螢幕左邊緣上滑", "タッチスクリーン左端を上へスワイプ", "터치스크린 왼쪽 가장자리 위로 스와이프"),
-            22 => L("触摸屏左边缘下滑", "Touchscreen left edge swipe down", "觸控螢幕左邊緣下滑", "タッチスクリーン左端を下へスワイプ", "터치스크린 왼쪽 가장자리 아래로 스와이프"),
-            23 => L("触摸屏右边缘上滑", "Touchscreen right edge swipe up", "觸控螢幕右邊緣上滑", "タッチスクリーン右端を上へスワイプ", "터치스크린 오른쪽 가장자리 위로 스와이프"),
-            24 => L("触摸屏右边缘下滑", "Touchscreen right edge swipe down", "觸控螢幕右邊緣下滑", "タッチスクリーン右端を下へスワイプ", "터치스크린 오른쪽 가장자리 아래로 스와이프"),
-            25 => L("按住 1 指 · 左侧 TipTap", "Hold 1 · left TipTap", "按住 1 指 · 左侧 TipTap", "1 本保持 · left TipTap", "1개 유지 · left TipTap"),
-            26 => L("按住 1 指 · 右侧 TipTap", "Hold 1 · right TipTap", "按住 1 指 · 右侧 TipTap", "1 本保持 · right TipTap", "1개 유지 · right TipTap"),
-            27 => L("按住 1 指 · 上方 TipTap", "Hold 1 · up TipTap", "按住 1 指 · 上方 TipTap", "1 本保持 · up TipTap", "1개 유지 · up TipTap"),
-            28 => L("按住 1 指 · 下方 TipTap", "Hold 1 · down TipTap", "按住 1 指 · 下方 TipTap", "1 本保持 · down TipTap", "1개 유지 · down TipTap"),
-            29 => L("按住 2 指 · 左侧 TipTap", "Hold 2 · left TipTap", "按住 2 指 · 左侧 TipTap", "2 本保持 · left TipTap", "2개 유지 · left TipTap"),
-            30 => L("按住 2 指 · 右侧 TipTap", "Hold 2 · right TipTap", "按住 2 指 · 右侧 TipTap", "2 本保持 · right TipTap", "2개 유지 · right TipTap"),
-            31 => L("按住 2 指 · 上方 TipTap", "Hold 2 · up TipTap", "按住 2 指 · 上方 TipTap", "2 本保持 · up TipTap", "2개 유지 · up TipTap"),
-            32 => L("按住 2 指 · 下方 TipTap", "Hold 2 · down TipTap", "按住 2 指 · 下方 TipTap", "2 本保持 · down TipTap", "2개 유지 · down TipTap"),
-            33 => L("按住 3 指 · 左侧 TipTap", "Hold 3 · left TipTap", "按住 3 指 · 左侧 TipTap", "3 本保持 · left TipTap", "3개 유지 · left TipTap"),
-            34 => L("按住 3 指 · 右侧 TipTap", "Hold 3 · right TipTap", "按住 3 指 · 右侧 TipTap", "3 本保持 · right TipTap", "3개 유지 · right TipTap"),
-            35 => L("按住 3 指 · 上方 TipTap", "Hold 3 · up TipTap", "按住 3 指 · 上方 TipTap", "3 本保持 · up TipTap", "3개 유지 · up TipTap"),
-            36 => L("按住 3 指 · 下方 TipTap", "Hold 3 · down TipTap", "按住 3 指 · 下方 TipTap", "3 本保持 · down TipTap", "3개 유지 · down TipTap"),
+            0 => L("选择内置触发方式", "Choose built-in trigger", "選擇內建觸發方式", "기본 제공 트리거 선택"),
+            1 => L("触控板上边缘点击", "Touchpad top edge tap", "觸控板上邊緣點擊", "터치패드 위쪽 가장자리 탭"),
+            2 => L("触控板下边缘点击", "Touchpad bottom edge tap", "觸控板下邊緣點擊", "터치패드 아래쪽 가장자리 탭"),
+            3 => L("触控板左边缘点击", "Touchpad left edge tap", "觸控板左邊緣點擊", "터치패드 왼쪽 가장자리 탭"),
+            4 => L("触控板右边缘点击", "Touchpad right edge tap", "觸控板右邊緣點擊", "터치패드 오른쪽 가장자리 탭"),
+            5 => L("触控板上边缘左滑", "Touchpad top edge swipe left", "觸控板上邊緣左滑", "터치패드 위쪽 가장자리 왼쪽 스와이프"),
+            6 => L("触控板上边缘右滑", "Touchpad top edge swipe right", "觸控板上邊緣右滑", "터치패드 위쪽 가장자리 오른쪽 스와이프"),
+            7 => L("触控板下边缘左滑", "Touchpad bottom edge swipe left", "觸控板下邊緣左滑", "터치패드 아래쪽 가장자리 왼쪽 스와이프"),
+            8 => L("触控板下边缘右滑", "Touchpad bottom edge swipe right", "觸控板下邊緣右滑", "터치패드 아래쪽 가장자리 오른쪽 스와이프"),
+            9 => L("触控板左边缘上滑", "Touchpad left edge swipe up", "觸控板左邊緣上滑", "터치패드 왼쪽 가장자리 위로 스와이프"),
+            10 => L("触控板左边缘下滑", "Touchpad left edge swipe down", "觸控板左邊緣下滑", "터치패드 왼쪽 가장자리 아래로 스와이프"),
+            11 => L("触控板右边缘上滑", "Touchpad right edge swipe up", "觸控板右邊緣上滑", "터치패드 오른쪽 가장자리 위로 스와이프"),
+            12 => L("触控板右边缘下滑", "Touchpad right edge swipe down", "觸控板右邊緣下滑", "터치패드 오른쪽 가장자리 아래로 스와이프"),
+            13 => L("触摸屏上边缘点击", "Touchscreen top edge tap", "觸控螢幕上邊緣點擊", "터치스크린 위쪽 가장자리 탭"),
+            14 => L("触摸屏下边缘点击", "Touchscreen bottom edge tap", "觸控螢幕下邊緣點擊", "터치스크린 아래쪽 가장자리 탭"),
+            15 => L("触摸屏左边缘点击", "Touchscreen left edge tap", "觸控螢幕左邊緣點擊", "터치스크린 왼쪽 가장자리 탭"),
+            16 => L("触摸屏右边缘点击", "Touchscreen right edge tap", "觸控螢幕右邊緣點擊", "터치스크린 오른쪽 가장자리 탭"),
+            17 => L("触摸屏上边缘左滑", "Touchscreen top edge swipe left", "觸控螢幕上邊緣左滑", "터치스크린 위쪽 가장자리 왼쪽 스와이프"),
+            18 => L("触摸屏上边缘右滑", "Touchscreen top edge swipe right", "觸控螢幕上邊緣右滑", "터치스크린 위쪽 가장자리 오른쪽 스와이프"),
+            19 => L("触摸屏下边缘左滑", "Touchscreen bottom edge swipe left", "觸控螢幕下邊緣左滑", "터치스크린 아래쪽 가장자리 왼쪽 스와이프"),
+            20 => L("触摸屏下边缘右滑", "Touchscreen bottom edge swipe right", "觸控螢幕下邊緣右滑", "터치스크린 아래쪽 가장자리 오른쪽 스와이프"),
+            21 => L("触摸屏左边缘上滑", "Touchscreen left edge swipe up", "觸控螢幕左邊緣上滑", "터치스크린 왼쪽 가장자리 위로 스와이프"),
+            22 => L("触摸屏左边缘下滑", "Touchscreen left edge swipe down", "觸控螢幕左邊緣下滑", "터치스크린 왼쪽 가장자리 아래로 스와이프"),
+            23 => L("触摸屏右边缘上滑", "Touchscreen right edge swipe up", "觸控螢幕右邊緣上滑", "터치스크린 오른쪽 가장자리 위로 스와이프"),
+            24 => L("触摸屏右边缘下滑", "Touchscreen right edge swipe down", "觸控螢幕右邊緣下滑", "터치스크린 오른쪽 가장자리 아래로 스와이프"),
+            25 => L("按住 1 指 · 左侧 TipTap", "Hold 1 · left TipTap", "按住 1 指 · 左侧 TipTap", "1개 유지 · left TipTap"),
+            26 => L("按住 1 指 · 右侧 TipTap", "Hold 1 · right TipTap", "按住 1 指 · 右侧 TipTap", "1개 유지 · right TipTap"),
+            27 => L("按住 1 指 · 上方 TipTap", "Hold 1 · up TipTap", "按住 1 指 · 上方 TipTap", "1개 유지 · up TipTap"),
+            28 => L("按住 1 指 · 下方 TipTap", "Hold 1 · down TipTap", "按住 1 指 · 下方 TipTap", "1개 유지 · down TipTap"),
+            29 => L("按住 2 指 · 左侧 TipTap", "Hold 2 · left TipTap", "按住 2 指 · 左侧 TipTap", "2개 유지 · left TipTap"),
+            30 => L("按住 2 指 · 右侧 TipTap", "Hold 2 · right TipTap", "按住 2 指 · 右侧 TipTap", "2개 유지 · right TipTap"),
+            31 => L("按住 2 指 · 上方 TipTap", "Hold 2 · up TipTap", "按住 2 指 · 上方 TipTap", "2개 유지 · up TipTap"),
+            32 => L("按住 2 指 · 下方 TipTap", "Hold 2 · down TipTap", "按住 2 指 · 下方 TipTap", "2개 유지 · down TipTap"),
+            33 => L("按住 3 指 · 左侧 TipTap", "Hold 3 · left TipTap", "按住 3 指 · 左侧 TipTap", "3개 유지 · left TipTap"),
+            34 => L("按住 3 指 · 右侧 TipTap", "Hold 3 · right TipTap", "按住 3 指 · 右侧 TipTap", "3개 유지 · right TipTap"),
+            35 => L("按住 3 指 · 上方 TipTap", "Hold 3 · up TipTap", "按住 3 指 · 上方 TipTap", "3개 유지 · up TipTap"),
+            36 => L("按住 3 指 · 下方 TipTap", "Hold 3 · down TipTap", "按住 3 指 · 下方 TipTap", "3개 유지 · down TipTap"),
             _ => fallback
         };
 
@@ -728,7 +727,7 @@ public sealed partial class MainWindow
                 DeleteConfirmationTitle(),
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    L("确定删除动作 {0}？", "Delete action {0}?", "確定刪除動作 {0}？", "アクション {0} を削除しますか？", "{0} 동작을 삭제하시겠습니까?"),
+                    L("确定删除动作 {0}？", "Delete action {0}?", "確定刪除動作 {0}？", "{0} 동작을 삭제하시겠습니까?"),
                     action.Name),
                 DeleteButtonText()))
             return;
@@ -847,7 +846,7 @@ public sealed partial class MainWindow
                 DeleteConfirmationTitle(),
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    L("确定删除命令 {0}？", "Delete command {0}?", "確定刪除命令 {0}？", "コマンド {0} を削除しますか？", "{0} 명령을 삭제하시겠습니까?"),
+                    L("确定删除命令 {0}？", "Delete command {0}?", "確定刪除命令 {0}？", "{0} 명령을 삭제하시겠습니까?"),
                     command.Name),
                 DeleteButtonText()))
             return;
@@ -860,7 +859,7 @@ public sealed partial class MainWindow
     {
         var recorder = new TextBox
         {
-            PlaceholderText = L("单击这里，然后直接按下快捷键", "Click here, then press the shortcut", "按一下這裡，然後直接按下快速鍵", "ここをクリックしてショートカットを押してください", "여기를 클릭한 뒤 단축키를 누르세요"),
+            PlaceholderText = L("单击这里，然后直接按下快捷键", "Click here, then press the shortcut", "按一下這裡，然後直接按下快速鍵", "여기를 클릭한 뒤 단축키를 누르세요"),
             Text = HotKeyDisplayText(existingSettings),
             Margin = new Thickness(0, 8, 0, 0),
             IsReadOnly = true

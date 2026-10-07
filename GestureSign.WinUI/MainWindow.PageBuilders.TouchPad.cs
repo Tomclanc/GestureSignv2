@@ -19,10 +19,10 @@ public sealed partial class MainWindow
     private UIElement BuildTouchPadPageCore()
     {
         var root = NewSection();
-        root.Children.Add(NewSettingsGroup(L("边缘识别", "Edge Recognition", "邊緣辨識", "エッジ認識", "가장자리 인식"),
+        root.Children.Add(NewSettingsGroup(L("边缘识别", "Edge Recognition", "邊緣辨識", "가장자리 인식"),
         [
-            NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "タッチパッドジェスチャを有効にする", "터치패드 제스처 사용"), _legacyData.Options.RegisterTouchPad, "RegisterTouchPad"),
-            NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows のタッチパッドシステムジェスチャを優先", "Windows 터치패드 시스템 제스처 우선 사용"), _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
+            NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "터치패드 제스처 사용"), _legacyData.Options.RegisterTouchPad, "RegisterTouchPad"),
+            NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows 터치패드 시스템 제스처 우선 사용"), _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
         ]));
 
         root.Children.Add(NewTipTapCard());
@@ -42,15 +42,14 @@ public sealed partial class MainWindow
             Text = L("先同时放稳 1、2 或 3 根手指，再用另一根在按住手指的左、右、上或下方轻点后抬起。方向以按住的手指组为参照；保持它们不抬，可连续轻点。斜向或落在手指组内部的轻点不触发。",
                 "Rest 1, 2 or 3 fingers together, then tap with one additional finger to the left, right, above or below the held group. Keep the group down to repeat. Diagonal taps and taps inside the group do not trigger.",
                 "先同時放穩 1、2 或 3 根手指，再用另一根在其左、右、上或下方輕點。保持按住的手指可連續輕點，斜向及組內輕點不觸發。",
-                "1～3 本の指を同時に置き、別の指でその左・右・上・下をタップします。保持したまま繰り返せます。斜めや指の間は対象外です。",
                 "1~3개 손가락을 함께 놓은 뒤 다른 한 손가락으로 왼쪽/오른쪽/위/아래를 탭하세요. 유지한 채 반복할 수 있습니다. 대각선이나 손가락 사이의 탭은 제외됩니다."),
             TextWrapping = TextWrapping.Wrap
         });
         var fingers = NewInlineComboBox([
-            L("按住 1 指 + 1 指轻点", "Hold 1 + tap 1", "按住 1 指 + 1 指輕點", "1 本保持 + 1 本タップ", "1개 유지 + 1개 탭"),
-            L("按住 2 指 + 1 指轻点", "Hold 2 + tap 1", "按住 2 指 + 1 指輕點", "2 本保持 + 1 本タップ", "2개 유지 + 1개 탭"),
-            L("按住 3 指 + 1 指轻点", "Hold 3 + tap 1", "按住 3 指 + 1 指輕點", "3 本保持 + 1 本タップ", "3개 유지 + 1개 탭")], _tipTapHeldCount - 1);
-        fingers.Header = L("选择要配置的手指组合", "Choose a combination to configure", "選擇要設定的手指組合", "設定する組合せ", "설정할 조합");
+            L("按住 1 指 + 1 指轻点", "Hold 1 + tap 1", "按住 1 指 + 1 指輕點", "1개 유지 + 1개 탭"),
+            L("按住 2 指 + 1 指轻点", "Hold 2 + tap 1", "按住 2 指 + 1 指輕點", "2개 유지 + 1개 탭"),
+            L("按住 3 指 + 1 指轻点", "Hold 3 + tap 1", "按住 3 指 + 1 指輕點", "3개 유지 + 1개 탭")], _tipTapHeldCount - 1);
+        fingers.Header = L("选择要配置的手指组合", "Choose a combination to configure", "選擇要設定的手指組合", "설정할 조합");
         panel.Children.Add(fingers);
         var buttons = new Grid { ColumnSpacing = 8, RowSpacing = 8 };
         for (var i = 0; i < 2; i++)
@@ -85,7 +84,7 @@ public sealed partial class MainWindow
         var panel = NewCardPanel(14);
         panel.Children.Add(new TextBlock
         {
-            Text = L("触控板边缘", "Touchpad Edges", "觸控板邊緣", "タッチパッドのエッジ", "터치패드 가장자리"),
+            Text = L("触控板边缘", "Touchpad Edges", "觸控板邊緣", "터치패드 가장자리"),
             Style = BodyStrongTextBlockStyle
         });
 
@@ -160,7 +159,7 @@ public sealed partial class MainWindow
         var panel = NewCardPanel(14);
         panel.Children.Add(new TextBlock
         {
-            Text = L("触摸屏边缘", "Touchscreen Edges", "觸控螢幕邊緣", "タッチスクリーンのエッジ", "터치스크린 가장자리"),
+            Text = L("触摸屏边缘", "Touchscreen Edges", "觸控螢幕邊緣", "터치스크린 가장자리"),
             Style = BodyStrongTextBlockStyle
         });
 
@@ -358,7 +357,7 @@ public sealed partial class MainWindow
         });
         panel.Children.Add(new TextBlock
         {
-            Text = L("触控板", "Touchpad", "觸控板", "タッチパッド", "터치패드"),
+            Text = L("触控板", "Touchpad", "觸控板", "터치패드"),
             TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Style = ResourceStyle("SubtitleTextBlockStyle")
@@ -387,7 +386,7 @@ public sealed partial class MainWindow
         });
         panel.Children.Add(new TextBlock
         {
-            Text = L("触摸屏", "Touchscreen", "觸控螢幕", "タッチスクリーン", "터치스크린"),
+            Text = L("触摸屏", "Touchscreen", "觸控螢幕", "터치스크린"),
             TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
             Style = ResourceStyle("SubtitleTextBlockStyle")
@@ -458,7 +457,6 @@ public sealed partial class MainWindow
                 "四条边缘均支持音量调节：左右边缘上下滑动，上下边缘左右滑动。可选择连续滑条式或每次滑动只触发一次；连续模式建议设置 2%–5%。",
                 "All four edges support volume control: slide vertically on the left or right edge, or horizontally on the top or bottom edge. Choose slider-like continuous control or one action per swipe; 2%–5% is recommended for continuous mode.",
                 "四條邊緣均支援音量調節：左右邊緣上下滑動，上下邊緣左右滑動。可選擇連續滑桿式或每次滑動只觸發一次；連續模式建議設定 2%–5%。",
-                "4 辺すべてで音量を調整できます。左右端では上下、上下端では左右にスライドします。連続スライダー式または 1 スワイプ 1 回を選択でき、連続時は 2%～5% を推奨します。",
                 "네 가장자리 모두에서 볼륨을 조절할 수 있습니다. 왼쪽/오른쪽 가장자리에서는 세로로, 위/아래 가장자리에서는 가로로 밉니다. 연속 슬라이더 방식 또는 스와이프당 한 번을 선택할 수 있으며 연속 모드는 2%~5%를 권장합니다."),
             Opacity = 0.72,
             TextWrapping = TextWrapping.Wrap,
@@ -469,7 +467,6 @@ public sealed partial class MainWindow
             Text = L("四条边缘均支持亮度调节。开启后随滑动距离连续调节；关闭后每次滑动只触发一次。连续模式建议变化量 2%–5%，需显示器支持系统亮度控制。",
                 "All four edges support brightness adjustment. Enable for continuous adjustment with distance; disable for once per swipe. Use 2%–5% steps. Requires a display supporting system brightness control.",
                 "四條邊緣均支援亮度調節，可選連續或每次滑動一次。建議 2%–5%，需螢幕支援系統亮度控制。",
-                "4 辺で明るさを連続調整、またはスワイプごとに 1 回調整できます。2%～5% 推奨。対応ディスプレイが必要です。",
                 "네 가장자리에서 밝기를 연속 또는 스와이프당 한 번 조절합니다. 2%~5% 권장. 시스템 밝기 제어 지원 화면이 필요합니다."),
             Opacity = 0.72, TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed
         };
@@ -479,7 +476,6 @@ public sealed partial class MainWindow
                 "滚动映射会按边缘方向自动选择轴：左右边缘上下滑动控制纵向滚动条，上下边缘左右滑动控制横向滚动条。滚动量为 1 格并随移动距离连续触发。",
                 "Scroll mapping selects the axis from the edge: vertical sliding on the left or right edge controls vertical scrolling; horizontal sliding on the top or bottom edge controls horizontal scrolling. It repeats in one-notch steps as you move.",
                 "捲動映射會依邊緣方向自動選擇軸：左右邊緣上下滑動控制縱向捲軸，上下邊緣左右滑動控制橫向捲軸。每次捲動 1 格並隨移動距離連續觸發。",
-                "スクロール軸は端の方向から自動選択されます。左右端の上下スライドは縦スクロール、上下端の左右スライドは横スクロールを操作し、移動距離に応じて 1 ノッチずつ連続実行します。",
                 "스크롤 축은 가장자리 방향에 따라 자동 선택됩니다. 왼쪽/오른쪽 가장자리의 세로 밀기는 세로 스크롤을, 위/아래 가장자리의 가로 밀기는 가로 스크롤을 1칸씩 연속 실행합니다."),
             Opacity = 0.72,
             TextWrapping = TextWrapping.Wrap,
@@ -643,12 +639,12 @@ public sealed partial class MainWindow
             return;
 
         if (confirm && !await ConfirmDialogAsync(
-                L("清空边缘动作", "Clear edge action", "清空邊緣動作", "エッジアクションをクリア", "가장자리 동작 지우기"),
+                L("清空边缘动作", "Clear edge action", "清空邊緣動作", "가장자리 동작 지우기"),
                 string.Format(
                     CultureInfo.CurrentCulture,
-                    L("确定清空 {0}？", "Clear {0}?", "確定清空 {0}？", "{0}をクリアしますか？", "{0} 항목을 지우시겠습니까?"),
+                    L("确定清空 {0}？", "Clear {0}?", "確定清空 {0}？", "{0} 항목을 지우시겠습니까?"),
                     title),
-                L("清空", "Clear", "清空", "クリア", "지우기")))
+                L("清空", "Clear", "清空", "지우기")))
             return;
 
         _legacyData.DeleteAction(globalApp, action);
@@ -677,21 +673,21 @@ public sealed partial class MainWindow
     private string TouchPadCommandSummary(LegacyAction? action, LegacyCommand? command)
     {
         if (action is null)
-            return L("未设置", "Not set", "未設定", "未設定", "설정 안 됨");
+            return L("未设置", "Not set", "未設定", "설정 안 됨");
 
         if (command is null)
             return action.IsEnabled
-                ? L("未设置命令", "No command", "未設定命令", "コマンド未設定", "명령 없음")
-                : L("已停用", "Disabled", "已停用", "無効", "사용 안 함");
+                ? L("未设置命令", "No command", "未設定命令", "명령 없음")
+                : L("已停用", "Disabled", "已停用", "사용 안 함");
 
         var hotKey = HotKeyDisplayText(command.Settings);
         if (!string.IsNullOrWhiteSpace(hotKey))
-            return action.IsEnabled ? hotKey : $"{hotKey} · {L("已停用", "Disabled", "已停用", "無効", "사용 안 함")}";
+            return action.IsEnabled ? hotKey : $"{hotKey} · {L("已停用", "Disabled", "已停用", "사용 안 함")}";
 
         if (!action.IsEnabled)
-            return $"{PluginName(command.PluginClass)} · {L("已停用", "Disabled", "已停用", "無効", "사용 안 함")}";
+            return $"{PluginName(command.PluginClass)} · {L("已停用", "Disabled", "已停用", "사용 안 함")}";
 
-        return $"{PluginName(command.PluginClass)} · {(command.IsEnabled ? L("启用", "Enabled", "啟用", "有効", "사용") : L("停用", "Disabled", "停用", "無効", "사용 안 함"))}";
+        return $"{PluginName(command.PluginClass)} · {(command.IsEnabled ? L("启用", "Enabled", "啟用", "사용") : L("停用", "Disabled", "停用", "사용 안 함"))}";
     }
 
     private SolidColorBrush TouchPadSurfaceBrush()
@@ -737,58 +733,58 @@ public sealed partial class MainWindow
     private IReadOnlyList<TouchPadEdgeZone> TouchPadEdges()
         =>
         [
-            new(L("上边缘", "Top Edge", "上邊緣", "上エッジ", "위쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
+            new(L("上边缘", "Top Edge", "上邊緣", "위쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchPadEdgeTopGesture),
-                new(L("左滑", "Swipe Left", "左滑", "左へスワイプ", "왼쪽으로 스와이프"), TouchPadEdgeTopLeftGesture),
-                new(L("右滑", "Swipe Right", "右滑", "右へスワイプ", "오른쪽으로 스와이프"), TouchPadEdgeTopRightGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchPadEdgeTopGesture),
+                new(L("左滑", "Swipe Left", "左滑", "왼쪽으로 스와이프"), TouchPadEdgeTopLeftGesture),
+                new(L("右滑", "Swipe Right", "右滑", "오른쪽으로 스와이프"), TouchPadEdgeTopRightGesture)
             ]),
-            new(L("下边缘", "Bottom Edge", "下邊緣", "下エッジ", "아래쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
+            new(L("下边缘", "Bottom Edge", "下邊緣", "아래쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchPadEdgeBottomGesture),
-                new(L("左滑", "Swipe Left", "左滑", "左へスワイプ", "왼쪽으로 스와이프"), TouchPadEdgeBottomLeftGesture),
-                new(L("右滑", "Swipe Right", "右滑", "右へスワイプ", "오른쪽으로 스와이프"), TouchPadEdgeBottomRightGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchPadEdgeBottomGesture),
+                new(L("左滑", "Swipe Left", "左滑", "왼쪽으로 스와이프"), TouchPadEdgeBottomLeftGesture),
+                new(L("右滑", "Swipe Right", "右滑", "오른쪽으로 스와이프"), TouchPadEdgeBottomRightGesture)
             ]),
-            new(L("左边缘", "Left Edge", "左邊緣", "左エッジ", "왼쪽 가장자리"), TouchPadEdgeMarker.None,
+            new(L("左边缘", "Left Edge", "左邊緣", "왼쪽 가장자리"), TouchPadEdgeMarker.None,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchPadEdgeLeftGesture),
-                new(L("上滑", "Swipe Up", "上滑", "上へスワイプ", "위로 스와이프"), TouchPadEdgeLeftUpGesture),
-                new(L("下滑", "Swipe Down", "下滑", "下へスワイプ", "아래로 스와이프"), TouchPadEdgeLeftDownGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchPadEdgeLeftGesture),
+                new(L("上滑", "Swipe Up", "上滑", "위로 스와이프"), TouchPadEdgeLeftUpGesture),
+                new(L("下滑", "Swipe Down", "下滑", "아래로 스와이프"), TouchPadEdgeLeftDownGesture)
             ]),
-            new(L("右边缘", "Right Edge", "右邊緣", "右エッジ", "오른쪽 가장자리"), TouchPadEdgeMarker.None,
+            new(L("右边缘", "Right Edge", "右邊緣", "오른쪽 가장자리"), TouchPadEdgeMarker.None,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchPadEdgeRightGesture),
-                new(L("上滑", "Swipe Up", "上滑", "上へスワイプ", "위로 스와이프"), TouchPadEdgeRightUpGesture),
-                new(L("下滑", "Swipe Down", "下滑", "下へスワイプ", "아래로 스와이프"), TouchPadEdgeRightDownGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchPadEdgeRightGesture),
+                new(L("上滑", "Swipe Up", "上滑", "위로 스와이프"), TouchPadEdgeRightUpGesture),
+                new(L("下滑", "Swipe Down", "下滑", "아래로 스와이프"), TouchPadEdgeRightDownGesture)
             ])
         ];
 
     private IReadOnlyList<TouchPadEdgeZone> TouchScreenEdges()
         =>
         [
-            new(L("上边缘", "Top Edge", "上邊緣", "上エッジ", "위쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
+            new(L("上边缘", "Top Edge", "上邊緣", "위쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchScreenEdgeTopGesture),
-                new(L("左滑", "Swipe Left", "左滑", "左へスワイプ", "왼쪽으로 스와이프"), TouchScreenEdgeTopLeftGesture),
-                new(L("右滑", "Swipe Right", "右滑", "右へスワイプ", "오른쪽으로 스와이프"), TouchScreenEdgeTopRightGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchScreenEdgeTopGesture),
+                new(L("左滑", "Swipe Left", "左滑", "왼쪽으로 스와이프"), TouchScreenEdgeTopLeftGesture),
+                new(L("右滑", "Swipe Right", "右滑", "오른쪽으로 스와이프"), TouchScreenEdgeTopRightGesture)
             ]),
-            new(L("下边缘", "Bottom Edge", "下邊緣", "下エッジ", "아래쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
+            new(L("下边缘", "Bottom Edge", "下邊緣", "아래쪽 가장자리"), TouchPadEdgeMarker.Horizontal,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchScreenEdgeBottomGesture),
-                new(L("左滑", "Swipe Left", "左滑", "左へスワイプ", "왼쪽으로 스와이프"), TouchScreenEdgeBottomLeftGesture),
-                new(L("右滑", "Swipe Right", "右滑", "右へスワイプ", "오른쪽으로 스와이프"), TouchScreenEdgeBottomRightGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchScreenEdgeBottomGesture),
+                new(L("左滑", "Swipe Left", "左滑", "왼쪽으로 스와이프"), TouchScreenEdgeBottomLeftGesture),
+                new(L("右滑", "Swipe Right", "右滑", "오른쪽으로 스와이프"), TouchScreenEdgeBottomRightGesture)
             ]),
-            new(L("左边缘", "Left Edge", "左邊緣", "左エッジ", "왼쪽 가장자리"), TouchPadEdgeMarker.None,
+            new(L("左边缘", "Left Edge", "左邊緣", "왼쪽 가장자리"), TouchPadEdgeMarker.None,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchScreenEdgeLeftGesture),
-                new(L("上滑", "Swipe Up", "上滑", "上へスワイプ", "위로 스와이프"), TouchScreenEdgeLeftUpGesture),
-                new(L("下滑", "Swipe Down", "下滑", "下へスワイプ", "아래로 스와이프"), TouchScreenEdgeLeftDownGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchScreenEdgeLeftGesture),
+                new(L("上滑", "Swipe Up", "上滑", "위로 스와이프"), TouchScreenEdgeLeftUpGesture),
+                new(L("下滑", "Swipe Down", "下滑", "아래로 스와이프"), TouchScreenEdgeLeftDownGesture)
             ]),
-            new(L("右边缘", "Right Edge", "右邊緣", "右エッジ", "오른쪽 가장자리"), TouchPadEdgeMarker.None,
+            new(L("右边缘", "Right Edge", "右邊緣", "오른쪽 가장자리"), TouchPadEdgeMarker.None,
             [
-                new(L("点击", "Tap", "點擊", "タップ", "탭"), TouchScreenEdgeRightGesture),
-                new(L("上滑", "Swipe Up", "上滑", "上へスワイプ", "위로 스와이프"), TouchScreenEdgeRightUpGesture),
-                new(L("下滑", "Swipe Down", "下滑", "下へスワイプ", "아래로 스와이프"), TouchScreenEdgeRightDownGesture)
+                new(L("点击", "Tap", "點擊", "탭"), TouchScreenEdgeRightGesture),
+                new(L("上滑", "Swipe Up", "上滑", "위로 스와이프"), TouchScreenEdgeRightUpGesture),
+                new(L("下滑", "Swipe Down", "下滑", "아래로 스와이프"), TouchScreenEdgeRightDownGesture)
             ])
         ];
 
