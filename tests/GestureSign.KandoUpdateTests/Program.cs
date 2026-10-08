@@ -42,6 +42,55 @@ Reject(() => KandoRelease.Parse(Release(), Architecture.X86), "Unsupported OS ar
 Reject(() => KandoRelease.Parse(Release(host: "example.com"), Architecture.X64), "Untrusted download rejected");
 Reject(() => KandoRelease.Parse(Release(digest: "sha256:wrong"), Architecture.X64), "Malformed digest rejected");
 
+string WebAssets(string tag = "v3.0.0") => string.Join("", new[] { "x64", "arm64" }.Select(a =>
+    $"<a href='/kando-menu/kando/releases/download/{tag}/Kando-win32-{a}-{tag.TrimStart('v')}.zip'>Download</a>" +
+    $"<clipboard-copy value='sha256:{new string('a',64)}' aria-label='Copy to clipboard digest for Kando-win32-{a}-{tag.TrimStart('v')}.zip'></clipboard-copy>"));
+foreach (var arch in new[] { Architecture.X64, Architecture.Arm64 })
+{
+    var parsed = KandoReleaseClient.ParseAssets("v3.0.0", WebAssets(), arch);
+    Check(parsed.Sha256 == new string('a',64), "Website asset preserves matching checksum");
+    Check(parsed.DownloadUri.AbsolutePath.Contains(arch == Architecture.X64 ? "win32-x64" : "win32-arm64"), "Website selects exact architecture");
+}
+Reject(() => KandoReleaseClient.ParseAssets("v3.0.0", WebAssets("v2.3.1"), Architecture.X64), "Website never substitutes an older asset");
+Reject(() => KandoReleaseClient.ParseAssets("v3.0.0", WebAssets().Replace("/kando-menu", "https://evil.example/kando-menu"), Architecture.X64), "Website rejects untrusted asset hosts");
+Reject(() => KandoReleaseClient.ParseAssets("v3.0.0-beta.1", WebAssets("v3.0.0-beta.1"), Architecture.X64), "Website rejects beta versions");
+Reject(() => KandoReleaseClient.ParseAssets("v3.0.0", WebAssets().Replace("sha256:", "wrong:"), Architecture.X64), "Website checksum validation cannot be bypassed");
+var atom = "<feed xmlns='http://www.w3.org/2005/Atom'><entry><link href='https://github.com/kando-menu/kando/releases/tag/v4.0.0-beta.1'/><content>Beta notes</content></entry><entry><link href='https://github.com/kando-menu/kando/releases/tag/v3.0.0'/><content type='html'>&lt;p&gt;Stable notes&lt;/p&gt;</content></entry></feed>";
+Check(KandoReleaseClient.ParseNotes(atom, new Uri("https://github.com/kando-menu/kando/releases/tag/v3.0.0")) == "Stable notes", "Notes match stable tag rather than newest beta feed entry");
+foreach (var status in new[] { System.Net.HttpStatusCode.Forbidden, System.Net.HttpStatusCode.TooManyRequests, System.Net.HttpStatusCode.BadGateway })
+{
+    int apiCalls = 0, webCalls = 0;
+    var time = DateTimeOffset.UtcNow;
+    var handler = new ReleaseHandler(request => {
+        if (request.RequestUri!.Host == "api.github.com") { apiCalls++; return new System.Net.Http.HttpResponseMessage(status); }
+        webCalls++;
+        var result = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK) { RequestMessage = request };
+        if (request.RequestUri.AbsolutePath.EndsWith("/latest"))
+        { result.RequestMessage = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get,"https://github.com/kando-menu/kando/releases/tag/v3.0.0"); result.Content = new System.Net.Http.StringContent("latest page"); }
+        else result.Content = new System.Net.Http.StringContent(request.RequestUri.AbsolutePath.EndsWith(".atom") ? atom : WebAssets());
+        return result;
+    });
+    using var http = new System.Net.Http.HttpClient(handler);
+    var lookup = new KandoReleaseClient(http, Architecture.Arm64, () => time);
+    var found = await lookup.GetLatestAsync();
+    Check(found.TagName == "v3.0.0" && found.Notes == "Stable notes", "API limit/unavailability uses latest stable website and notes");
+    await lookup.GetLatestAsync();
+    Check(apiCalls == 1 && webCalls == 3, "Check-then-update reuses short cache instead of repeating requests");
+    time += TimeSpan.FromMinutes(6);
+    await lookup.GetLatestAsync();
+    Check(apiCalls == 2, "Expired cache refreshes latest stable metadata");
+}
+using (var http = new System.Net.Http.HttpClient(new ReleaseHandler(r => new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden))))
+{
+    try { await new KandoReleaseClient(http, Architecture.X64).GetLatestAsync(); throw new Exception("Expected unavailable lookup"); }
+    catch (KandoReleaseLookupException error) { Check(error.RateLimited, "Both sources unavailable reports structured rate-limit error for localization"); }
+}
+using (var http = new System.Net.Http.HttpClient(new ReleaseHandler(r => throw new Exception("Canceled caller made a request"))))
+{
+    using var canceled = new CancellationTokenSource(); canceled.Cancel();
+    try { await new KandoReleaseClient(http, Architecture.X64).GetLatestAsync(canceled.Token); throw new Exception("Expected caller cancellation"); }
+    catch (OperationCanceledException) { checks++; }
+}
 var root = Path.Combine(Path.GetTempPath(), "GestureSign-KandoTests-" + Guid.NewGuid().ToString("N"));
 Directory.CreateDirectory(root);
 try
@@ -173,7 +222,10 @@ try
     }
     if (args.Contains("--live-release"))
     {
-        var live = await KandoComponentService.GetLatestReleaseAsync();
+        using var forcedClient = new System.Net.Http.HttpClient(new ForceApiLimitHandler(new System.Net.Http.HttpClientHandler())) { Timeout = TimeSpan.FromSeconds(45) };
+        forcedClient.DefaultRequestHeaders.UserAgent.ParseAdd("GestureSign-Kando-Release-Test");
+        var live = await new KandoReleaseClient(forcedClient, Architecture.X64).GetLatestAsync();
+        Check(live.Sha256 is not null && !string.IsNullOrWhiteSpace(live.Notes), "Live rate-limit fallback preserves official digest and release notes");
         Check(live.DownloadUri.Host == "github.com", "Live latest stable GitHub release resolved");
         Console.WriteLine($"Live stable release: {live.TagName}, {live.DownloadUri}");
     }
@@ -187,3 +239,16 @@ try
 }
 finally { Directory.Delete(root, true); }
 Console.WriteLine($"Kando update checks passed: {checks}");
+
+sealed class ReleaseHandler(Func<System.Net.Http.HttpRequestMessage, System.Net.Http.HttpResponseMessage> respond) : System.Net.Http.HttpMessageHandler
+{
+    protected override Task<System.Net.Http.HttpResponseMessage> SendAsync(System.Net.Http.HttpRequestMessage request, CancellationToken token)
+    { token.ThrowIfCancellationRequested(); return Task.FromResult(respond(request)); }
+}
+sealed class ForceApiLimitHandler(System.Net.Http.HttpMessageHandler inner) : System.Net.Http.DelegatingHandler(inner)
+{
+    protected override Task<System.Net.Http.HttpResponseMessage> SendAsync(System.Net.Http.HttpRequestMessage request, CancellationToken token)
+        => request.RequestUri!.Host == "api.github.com"
+            ? Task.FromResult(new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.Forbidden))
+            : base.SendAsync(request, token);
+}

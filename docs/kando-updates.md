@@ -4,7 +4,12 @@ In GestureSign, open **Quick Actions → Kando optional component → Check for 
 The dialog shows the installed version, the latest stable version and the release
 notes. Select **Update now** to download and install the latest stable release.
 
-Downloads use the official `kando-menu/kando` GitHub `releases/latest` API, excluding
+Downloads first use the official `kando-menu/kando` GitHub `releases/latest` API. If
+that API is rate limited, unavailable or times out, the updater follows the official
+GitHub `/releases/latest` web redirect and reads the matching release assets and
+release notes. Successful checks are cached for five minutes to avoid repeated
+requests from checking and then installing. Both paths select the latest stable
+release, excluding
 drafts and prereleases. Windows OS architecture selects the x64 or ARM64 ZIP. A
 missing architecture asset is an error; there is no silent fallback to another
 architecture or an older version. GitHub/network failures leave the installation
@@ -40,6 +45,10 @@ dotnet run --project tests/GestureSign.KandoUpdateTests -c Release
 dotnet run --project tests/GestureSign.KandoUpdateTests -c Release -- --live-release
 ```
 
-The offline suite covers stable release/architecture selection, app metadata,
+The offline suite covers API rate-limit/network fallback, cache expiry, exact
+release/architecture/asset matching, failure reporting, app metadata,
 exclusive update leases, replacement failure, startup failure after configuration
 migration, restored portable settings and retained backups after recovery failure.
+
+The optional network check simulates an API 403 response and verifies that the
+official web fallback returns the current stable release, its ZIP digest and notes.
