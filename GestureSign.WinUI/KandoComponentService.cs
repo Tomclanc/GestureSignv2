@@ -16,12 +16,13 @@ namespace GestureSign.WinUI;
 internal static class KandoComponentService
 {
     private static readonly HttpClient Client = CreateClient();
-    private static readonly KandoReleaseClient ReleaseClient = new(Client, RuntimeInformation.OSArchitecture);
     private static readonly SemaphoreSlim InstallationLock = new(1, 1);
 
     public static bool IsManagedExecutable(string? executable)
         => executable is not null && PathsEqual(executable,
             KandoComponentPaths.FindExecutableUnder(KandoComponentPaths.InstallDirectory) ?? "");
+
+    private static readonly KandoReleaseClient ReleaseClient = new(Client, RuntimeInformation.OSArchitecture);
 
     public static async Task<KandoRelease> GetLatestReleaseAsync(CancellationToken cancellationToken = default)
     {
@@ -69,20 +70,20 @@ internal static class KandoComponentService
         Func<Task>? beforeReplace = null,
         Func<Task>? validate = null,
         Func<Task>? stop = null,
-        Func<Task>? restore = null)
+        Func<Task>? restore = null, KandoRelease? release = null)
     {
         await InstallationLock.WaitAsync(cancellationToken);
         try
         {
-            await DownloadAndInstallCoreAsync(progress, cancellationToken, beforeReplace, validate, stop, restore);
+            await DownloadAndInstallCoreAsync(progress, cancellationToken, beforeReplace, validate, stop, restore, release);
         }
         finally { InstallationLock.Release(); }
     }
 
     private static async Task DownloadAndInstallCoreAsync(IProgress<double>? progress, CancellationToken cancellationToken,
-        Func<Task>? beforeReplace, Func<Task>? validate, Func<Task>? stop, Func<Task>? restore)
+        Func<Task>? beforeReplace, Func<Task>? validate, Func<Task>? stop, Func<Task>? restore, KandoRelease? release)
     {
-        var asset = await GetLatestReleaseAsync(cancellationToken);
+        var asset = release ?? await GetLatestReleaseAsync(cancellationToken);
         Directory.CreateDirectory(KandoComponentPaths.ComponentsRoot);
         var archivePath = Path.Combine(KandoComponentPaths.ComponentsRoot, $"Kando-{Guid.NewGuid():N}.zip");
         var stagingRoot = Path.Combine(KandoComponentPaths.ComponentsRoot, $".Kando-{Guid.NewGuid():N}");
@@ -134,47 +135,9 @@ internal static class KandoComponentService
         }
     }
 
-    private static async Task DownloadArchiveWithRetryAsync(
-        Uri url,
-        string archivePath,
-        IProgress<double>? progress,
-        CancellationToken cancellationToken)
-    {
-        const int maximumAttempts = 3;
-        for (var attempt = 1; attempt <= maximumAttempts; attempt++)
-        {
-            TryDeleteFile(archivePath);
-            try
-            {
-                using var response = await Client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, cancellationToken);
-                response.EnsureSuccessStatusCode();
-                var totalLength = response.Content.Headers.ContentLength;
-                await using var input = await response.Content.ReadAsStreamAsync(cancellationToken);
-                await using var output = new FileStream(archivePath, FileMode.CreateNew, FileAccess.Write, FileShare.None, 1024 * 128, true);
-                var buffer = new byte[1024 * 128];
-                long received = 0;
-                while (true)
-                {
-                    var count = await input.ReadAsync(buffer, cancellationToken);
-                    if (count == 0)
-                        break;
-                    await output.WriteAsync(buffer.AsMemory(0, count), cancellationToken);
-                    received += count;
-                    if (totalLength is > 0)
-                        progress?.Report(received * 92d / totalLength.Value);
-                }
+    private static Task DownloadArchiveWithRetryAsync(Uri url, string archivePath, IProgress<double>? progress, CancellationToken cancellationToken)
+        => KandoDownloadClient.DownloadAsync(Client, url, archivePath, progress, cancellationToken);
 
-                if (totalLength is > 0 && received != totalLength.Value)
-                    throw new EndOfStreamException($"Kando download ended early ({received}/{totalLength.Value} bytes).");
-                return;
-            }
-            catch when (attempt < maximumAttempts && !cancellationToken.IsCancellationRequested)
-            {
-                TryDeleteFile(archivePath);
-                await Task.Delay(TimeSpan.FromSeconds(attempt), cancellationToken);
-            }
-        }
-    }
     public static void Uninstall()
     {
         if (Directory.Exists(KandoComponentPaths.InstallDirectory))

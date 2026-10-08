@@ -240,6 +240,8 @@ try
 finally { Directory.Delete(root, true); }
 Console.WriteLine($"Kando update checks passed: {checks}");
 
+await DownloadClientChecks.Run(Check);
+
 sealed class ReleaseHandler(Func<System.Net.Http.HttpRequestMessage, System.Net.Http.HttpResponseMessage> respond) : System.Net.Http.HttpMessageHandler
 {
     protected override Task<System.Net.Http.HttpResponseMessage> SendAsync(System.Net.Http.HttpRequestMessage request, CancellationToken token)

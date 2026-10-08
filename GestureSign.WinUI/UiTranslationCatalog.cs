@@ -52,6 +52,14 @@ internal static class UiTranslationCatalog
         return resolved is "zh-CN" or "zh-TW" ? chinese : Translate(resolved, english);
     }
 
+    // Component dialogs also have catalogs for normally inline languages.
+    public static string TranslateComponent(string cultureName, string english)
+    {
+        var catalog = Load(ResolveCultureName(cultureName));
+        return catalog.TryGetValue(english, out var translated) && !string.IsNullOrWhiteSpace(translated)
+            ? translated : english;
+    }
+
     public static bool HasCatalog(string cultureName)
     {
         var resolved = ResolveCultureName(cultureName);

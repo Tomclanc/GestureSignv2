@@ -1,4 +1,4 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using GestureSign.WinUI;
@@ -38,7 +38,7 @@ var stableDirections = new[] { "向右", "向左", "向上", "向下", "左上",
 for (int index = 0; index < stableDirections.Length; index++)
     Check(GestureTemplateDirection.FromIndex(index) == stableDirections[index], $"Stable gesture template direction {index}");
 Check(GestureTemplateDirection.FromIndex(-1) == "向右", "Unselected direction default");
-var localizationCalls = new HashSet<string> { "L", "T", "F", "IntentText", "IntentFormat" };
+var localizationCalls = new HashSet<string> { "L", "T", "F", "IntentText", "IntentFormat", "KandoText", "KandoFormat" };
 var uiProperties = new HashSet<string> { "Text", "PlaceholderText", "Content", "Header", "Title", "PrimaryButtonText", "SecondaryButtonText", "CloseButtonText", "OnContent", "OffContent" };
 var chinese = new Regex("[\\u4e00-\\u9fff]");
 string Slots(string value) => string.Join(",", Regex.Matches(value, @"(?<!\{)\{(\d+)(?:,[^}:]+)?(?::[^}]+)?\}(?!\})").Select(m => m.Groups[1].Value).Order());
@@ -95,3 +95,22 @@ Check(window.Contains("GestureTemplateDirection.FromIndex(direction.SelectedInde
 var routing = File.ReadAllText(Path.Combine(repo, "GestureSign.WinUI", "MainWindow.CommandRouting.cs"));
 Check(routing.Contains("case \"新建手势\":") && routing.Contains("case \"添加程序\":"), "Command IDs remain stable");
 Console.WriteLine($"PASS: {checks} UI localization checks");
+
+// Verify this dialog in every supported culture, including normally inline ones.
+var kandoKeys = new[] { "MainWindow.KandoUpdates.cs", "MainWindow.xaml.cs" }
+    .SelectMany(file => CSharpSyntaxTree.ParseText(File.ReadAllText(Path.Combine(repo, "GestureSign.WinUI", file))).GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>())
+    .Where(c => c.Expression.ToString() is "KandoText" or "KandoFormat")
+    .Where(c => c.ArgumentList.Arguments.Count >= 2 && c.ArgumentList.Arguments[1].Expression is LiteralExpressionSyntax)
+    .Select(c => ((LiteralExpressionSyntax)c.ArgumentList.Arguments[1].Expression).Token.ValueText).Distinct().ToArray();
+foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
+{
+    var catalog = JsonSerializer.Deserialize<Dictionary<string,string>>(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Languages", "UI", culture + ".json")))!;
+    foreach (var key in kandoKeys)
+    {
+        Check(catalog.TryGetValue(key, out var translated) && !string.IsNullOrWhiteSpace(translated), $"Missing Kando dialog text: {culture}: {key}");
+        Check(Slots(key) == Slots(translated!), $"Kando dialog placeholder mismatch: {culture}: {key}");
+        Check(UiTranslationCatalog.TranslateComponent(culture, key) == translated, $"Kando component runtime lookup: {culture}: {key}");
+        _ = string.Format(CultureInfo.InvariantCulture, translated!, 50, "v3.0.0");
+    }
+}
+Console.WriteLine($"PASS: {checks} total UI checks, {UiTranslationCatalog.SupportedCultureNames.Count} Kando dialog locales");

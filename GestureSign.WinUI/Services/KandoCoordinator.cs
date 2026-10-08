@@ -47,9 +47,9 @@ internal sealed class KandoCoordinator
         {
             try
             {
-                if (expectedPath is not null && !string.Equals(Path.GetFullPath(process.MainModule?.FileName ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
+                if (expectedPath is null || !string.Equals(Path.GetFullPath(KandoProcessPath.Read(process) ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
                     continue;
-                process.Kill(entireProcessTree: true);
+                process.Kill(entireProcessTree: false);
             }
             catch { }
             finally { process.Dispose(); }
@@ -64,7 +64,7 @@ internal sealed class KandoCoordinator
         {
             try
             {
-                if (expectedPath is null || string.Equals(Path.GetFullPath(process.MainModule?.FileName ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
+                if (expectedPath is not null && string.Equals(Path.GetFullPath(KandoProcessPath.Read(process) ?? ""), expectedPath, StringComparison.OrdinalIgnoreCase))
                     return true;
             }
             catch { }
@@ -73,7 +73,7 @@ internal sealed class KandoCoordinator
         return false;
     }
 
-    public async Task StopAndWaitAsync(LegacyOptions options)
+    public async Task StopAndWaitAsync(LegacyOptions options, Action<string>? log = null)
     {
         var executable = FindExecutable(options.KandoExecutablePath);
         if (executable is null) return;
@@ -85,8 +85,9 @@ internal sealed class KandoCoordinator
                 using (process)
                 {
                     if (process.HasExited) continue;
-                    if (!string.Equals(Path.GetFullPath(process.MainModule?.FileName ?? ""), expected, StringComparison.OrdinalIgnoreCase)) continue;
-                    process.Kill(entireProcessTree: true);
+                    if (!string.Equals(Path.GetFullPath(KandoProcessPath.Read(process, log) ?? ""), expected, StringComparison.OrdinalIgnoreCase)) continue;
+                    log?.Invoke($"Stopping managed Kando PID={process.Id}, path={expected}");
+                    process.Kill(entireProcessTree: false);
                     if (!process.WaitForExit(5000)) throw new IOException("Kando is still running. Please close it and try again.");
                 }
             }

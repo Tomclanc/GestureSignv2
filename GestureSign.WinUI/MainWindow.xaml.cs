@@ -1002,8 +1002,8 @@ public sealed partial class MainWindow : Window
         var external = installed && !downloaded;
         var currentVersion = KandoRelease.ReadInstalledVersion(executable);
         var statusText = installed
-            ? L("已安装", "Installed", "已安裝", "설치됨")
-            : L("可选下载", "Optional download", "可選下載", "선택적 다운로드");
+            ? KandoText("已安装", "Installed")
+            : KandoText("可选下载", "Optional download");
         var status = new Border
         {
             Background = installed
@@ -1018,28 +1018,28 @@ public sealed partial class MainWindow : Window
             VerticalAlignment = VerticalAlignment.Center,
             Child = new TextBlock
             {
-                Text = installed ? statusText + " · " + (currentVersion ?? T("版本未知", "Unknown version")) : statusText,
+                Text = installed ? statusText + " · " + (currentVersion ?? KandoText("版本未知", "Unknown version")) : statusText,
                 FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
             }
         };
 
         var action = NewPillButton(
-            external ? T("更新指引", "Update instructions") : installed
-                ? L("单独卸载", "Uninstall", "單獨解除安裝", "제거")
-                : L("下载 Kando", "Download Kando", "下載 Kando", "Kando 다운로드"),
+            external ? KandoText("查看发布说明和下载", "View release notes and downloads") : installed
+                ? KandoText("单独卸载", "Uninstall")
+                : KandoText("下载 Kando", "Download Kando"),
             !installed);
         action.Click += async (_, _) =>
         {
             if (_kandoComponentBusy) return;
             if (external)
             {
-                await RunUiActionAsync(() => CheckKandoUpdateAsync(action));
+                await RunKandoActionAsync(() => CheckKandoUpdateAsync(action));
                 return;
             }
             if (installed)
-                await RunUiActionAsync(UninstallKandoComponentAsync);
+                await RunKandoActionAsync(UninstallKandoComponentAsync);
             else
-                await RunUiActionAsync(() => DownloadKandoComponentAsync(action));
+                await RunKandoActionAsync(() => DownloadKandoComponentAsync(action));
         };
 
         var controls = new StackPanel
@@ -1052,24 +1052,24 @@ public sealed partial class MainWindow : Window
         controls.Children.Add(status);
         if (installed)
         {
-            var checkUpdate = NewPillButton(T("检查更新", "Check for updates"), false);
+            var checkUpdate = NewPillButton(KandoText("检查更新", "Check for updates"), false);
             checkUpdate.Click += async (_, _) =>
             {
-                if (!_kandoComponentBusy) await RunUiActionAsync(() => CheckKandoUpdateAsync(checkUpdate));
+                if (!_kandoComponentBusy) await RunKandoActionAsync(() => CheckKandoUpdateAsync(checkUpdate));
             };
             controls.Children.Add(checkUpdate);
         }
         controls.Children.Add(action);
 
         var subtitle = external
-            ? T("正在使用外部 Kando。请通过原安装方式更新，GestureSign 不会替换它的文件。", "An external Kando installation is in use. Update it through its original installation method; GestureSign will not replace its files.")
+            ? KandoText("这是外部 Kando，请使用原安装方式更新。通过下方链接下载时，请按原安装位置和配置方式升级。GestureSign 不会覆盖此安装。", "This is an external Kando installation. Update through its original installation method. If downloading below, use its existing installation location and configuration. GestureSign will not overwrite this installation.")
             : downloaded
-            ? L("Kando 已作为独立组件保存，升级 GestureSign 时会继续保留。", "Kando is stored as a separate component and is retained when GestureSign updates.", "Kando 已儲存為獨立元件，GestureSign 更新時會繼續保留。", "Kando는 별도 구성 요소로 저장되며 GestureSign 업데이트 후에도 유지됩니다.")
+            ? KandoText("Kando 已作为独立组件保存，升级 GestureSign 时会继续保留。", "Kando is stored as a separate component and is retained when GestureSign updates.")
             : installed
-                ? L("检测到旧版本随附的 Kando。卸载后可随时重新下载。", "A Kando copy bundled with an earlier version was found. You can reinstall it later.", "偵測到舊版本隨附的 Kando，解除安裝後可隨時重新下載。", "이전 버전에 포함된 Kando를 찾았습니다. 나중에 다시 설치할 수 있습니다.")
-                : L("Kando 默认不随 GestureSign 安装。需要时下载约 180 MB，可随时单独卸载。", "Kando is not bundled by default. Download about 180 MB when needed and uninstall it separately at any time.", "Kando 預設不隨 GestureSign 安裝。需要時下載約 180 MB，並可隨時單獨解除安裝。", "Kando는 기본적으로 포함되지 않습니다. 필요할 때 약 180MB를 다운로드하고 언제든 별도로 제거할 수 있습니다.");
+                ? KandoText("检测到旧版本随附的 Kando。卸载后可随时重新下载。", "A Kando copy bundled with an earlier version was found. You can reinstall it later.")
+                : KandoText("Kando 默认不随 GestureSign 安装。需要时下载约 180 MB，可随时单独卸载。", "Kando is not bundled by default. Download about 180 MB when needed and uninstall it separately at any time.");
 
-        return NewPowerToysSettingCard("\uE896", L("Kando 可选组件", "Kando optional component", "Kando 可選元件", "Kando 선택적 구성 요소"), subtitle, controls);
+        return NewPowerToysSettingCard("\uE896", KandoText("Kando 可选组件", "Kando optional component"), subtitle, controls);
     }
 
     private async Task DownloadKandoComponentAsync(Button button)
@@ -1081,11 +1081,11 @@ public sealed partial class MainWindow : Window
         try
         {
             var progress = new Progress<double>(value =>
-                button.Content = string.Format(CultureInfo.CurrentCulture, L("下载中 {0:0}%", "Downloading {0:0}%", "下載中 {0:0}%", "다운로드 중 {0:0}%"), value));
+                button.Content = string.Format(CultureInfo.CurrentCulture, KandoText("下载中 {0:0}%", "Downloading {0:0}%"), value));
             await KandoComponentService.DownloadAndInstallAsync(progress);
             await ShowInfoDialog(
-                L("Kando 已安装", "Kando installed", "Kando 已安裝", "Kando 설치됨"),
-                L("现在可以启用快捷操作并设置快捷键。", "You can now enable Quick Actions and configure its shortcuts.", "現在可以啟用快捷操作並設定快速鍵。", "이제 빠른 작업을 활성화하고 단축키를 설정할 수 있습니다."));
+                KandoText("Kando 已安装", "Kando installed"),
+                KandoText("现在可以启用快捷操作并设置快捷键。", "You can now enable Quick Actions and configure its shortcuts."));
             ShowSelectedPage();
         }
         finally
@@ -1103,9 +1103,9 @@ public sealed partial class MainWindow : Window
         try
         {
             if (!await ConfirmDialogAsync(
-                    L("卸载 Kando", "Uninstall Kando", "解除安裝 Kando", "Kando 제거"),
-                    L("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall.", "只會刪除 Kando 程式元件，選單與個人設定會保留，之後可重新下載。", "Kando 프로그램 구성 요소만 제거합니다. 메뉴와 개인 설정은 재설치를 위해 유지됩니다."),
-                    L("卸载", "Uninstall", "解除安裝", "제거")))
+                    KandoText("卸载 Kando", "Uninstall Kando"),
+                    KandoText("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall."),
+                    KandoText("卸载", "Uninstall")))
                 return;
 
             StopKandoProcesses(_legacyData.Options);
@@ -1986,13 +1986,6 @@ public sealed partial class MainWindow : Window
         try
         {
             await action();
-        }
-        catch (KandoReleaseLookupException ex)
-        {
-            LogException(ex);
-            await ShowInfoDialog(T("更新检查失败", "Update check failed"), ex.RateLimited
-                ? T("GitHub 暂时限制了更新查询，官方网页查询也未成功。请稍后重试。已安装的 Kando 版本未改变。", "GitHub temporarily limited release checks, and the official website could not be reached. Please try again later. The installed Kando version has not changed.")
-                : T("暂时无法查询 Kando 最新正式版，请检查网络连接后重试。已安装的 Kando 版本未改变。", "Could not check the latest stable Kando release. Check your network connection and retry. The installed Kando version has not changed."));
         }
         catch (Exception ex)
         {
