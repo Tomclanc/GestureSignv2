@@ -1987,6 +1987,13 @@ public sealed partial class MainWindow : Window
         {
             await action();
         }
+        catch (KandoReleaseLookupException ex)
+        {
+            LogException(ex);
+            await ShowInfoDialog(T("更新检查失败", "Update check failed"), ex.RateLimited
+                ? T("GitHub 暂时限制了更新查询，官方网页查询也未成功。请稍后重试。已安装的 Kando 版本未改变。", "GitHub temporarily limited release checks, and the official website could not be reached. Please try again later. The installed Kando version has not changed.")
+                : T("暂时无法查询 Kando 最新正式版，请检查网络连接后重试。已安装的 Kando 版本未改变。", "Could not check the latest stable Kando release. Check your network connection and retry. The installed Kando version has not changed."));
+        }
         catch (Exception ex)
         {
             LogException(ex);

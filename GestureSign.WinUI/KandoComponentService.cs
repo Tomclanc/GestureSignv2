@@ -16,6 +16,7 @@ namespace GestureSign.WinUI;
 internal static class KandoComponentService
 {
     private static readonly HttpClient Client = CreateClient();
+    private static readonly KandoReleaseClient ReleaseClient = new(Client, RuntimeInformation.OSArchitecture);
     private static readonly SemaphoreSlim InstallationLock = new(1, 1);
 
     public static bool IsManagedExecutable(string? executable)
@@ -25,15 +26,11 @@ internal static class KandoComponentService
     public static async Task<KandoRelease> GetLatestReleaseAsync(CancellationToken cancellationToken = default)
     {
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        timeout.CancelAfter(TimeSpan.FromSeconds(30));
-        using var response = await Client.GetAsync("https://api.github.com/repos/kando-menu/kando/releases/latest", timeout.Token);
-        if (response.StatusCode is System.Net.HttpStatusCode.Forbidden or System.Net.HttpStatusCode.TooManyRequests)
-            throw new HttpRequestException("GitHub has temporarily limited release checks. Please try again later. The installed Kando version has not been changed.", null, response.StatusCode);
-        response.EnsureSuccessStatusCode();
-        var json = await response.Content.ReadAsStringAsync(timeout.Token);
-        return KandoRelease.Parse(json, RuntimeInformation.OSArchitecture);
+        timeout.CancelAfter(TimeSpan.FromSeconds(45));
+        try { return await ReleaseClient.GetLatestAsync(timeout.Token); }
+        catch (OperationCanceledException error) when (!cancellationToken.IsCancellationRequested)
+        { throw new KandoReleaseLookupException(false, error); }
     }
-
     public static bool IsInstalled
         => KandoComponentPaths.FindExecutable(string.Empty, AppContext.BaseDirectory) is not null;
 

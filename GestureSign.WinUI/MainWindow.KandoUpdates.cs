@@ -105,7 +105,7 @@ public sealed partial class MainWindow
                 stop: StopAsync,
                 restore: RestartAsync);
         }
-        catch (Exception error) when (error is not AggregateException)
+        catch (Exception error) when (error is not AggregateException and not KandoReleaseLookupException)
         {
             throw new InvalidOperationException(T("Kando 更新失败，旧版程序和设置已保留或恢复。", "The Kando update failed. The previous application and settings were kept or restored.") + "\n\n" + error.Message, error);
         }
