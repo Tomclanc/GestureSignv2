@@ -81,6 +81,7 @@ namespace GestureSign.Daemon
                             var previousMode = _capture.Mode;
                             _capture.Mode = GestureSign.Common.Input.CaptureMode.UserDisabled;
                             bool penPreemption = _capture.TestPenPreemption();
+                            bool missingTouchRelease = _capture.TestMissingTouchRelease();
                             bool recoveryCommand = await NamedPipe.SendMessageAsync(IpcCommands.RecoverInput, Constants.Daemon);
                             await System.Threading.Tasks.Task.Delay(150);
                             bool recovery = recoveryCommand && _capture.InputStateCleared &&
@@ -93,8 +94,8 @@ namespace GestureSign.Daemon
                             _capture.Mode = previousMode;
                             bool mouse = _capture.MouseHook.Hooked;
                             bool tray = TrayManager.Instance.TrayIconVisible;
-                            bool pass = ipc && mouse && tray && recovery && penPreemption && systemRecovery;
-                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\nPenPreemption={penPreemption}\nInputRecovery={recovery}\nSystemEventRecovery={systemRecovery}\n");
+                            bool pass = ipc && mouse && tray && recovery && penPreemption && systemRecovery && missingTouchRelease;
+                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\nPenPreemption={penPreemption}\nMissingTouchRelease={missingTouchRelease}\nInputRecovery={recovery}\nSystemEventRecovery={systemRecovery}\n");
                             Environment.ExitCode = pass ? 0 : 1;
                         }
                         catch (Exception ex) { ReportFailure(ex); }

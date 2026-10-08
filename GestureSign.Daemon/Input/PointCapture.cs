@@ -640,6 +640,7 @@ namespace GestureSign.Daemon.Input
         internal int InputRecoveryCount { get; private set; }
         internal void RequestSystemRecoveryForTest() => _inputProvider.RequestRecovery("SelfTestSystemEvent");
         internal bool TestPenPreemption() => _pointEventTranslator.TestPenPreemption();
+        internal bool TestMissingTouchRelease() => _pointEventTranslator.TestMissingTouchRelease();
         internal bool InputStateCleared => _pointEventTranslator.InputStateCleared;
 
         internal void RecoverInput(string reason)

@@ -7,10 +7,11 @@ namespace GestureSign.Common.Input
     {
         #region Constructors
 
-        public RawPointsDataMessageEventArgs(List<RawData> rawData, Devices device)
+        public RawPointsDataMessageEventArgs(List<RawData> rawData, Devices device, bool completeContactFrame = false)
         {
             this.RawData = rawData;
             SourceDevice = device;
+            CompleteContactFrame = completeContactFrame;
         }
 
 
@@ -20,6 +21,8 @@ namespace GestureSign.Common.Input
 
         public List<RawData> RawData { get; set; }
         public Devices SourceDevice { get; set; }
+        // Set only after all parallel/hybrid HID reports for a frame are assembled.
+        public bool CompleteContactFrame { get; }
 
         #endregion
     }
