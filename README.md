@@ -33,7 +33,37 @@
 
 按应用管理手势与命令，查看轨迹缩略图，并导入、导出或备份配置。
 
-![GestureSign V2 动作管理：应用分组、手势预览与命令配置](docs/assets/screenshot-main-2026-07-02.png)
+![GestureSign V2 动作管理：应用分组、手势预览与命令配置](docs/assets/screenshots/actions.png)
+
+### 手势库 / Gesture library / ジェスチャーライブラリ
+
+按手指数量查看轨迹预览，支持重训、改名和导入导出手势。
+
+![手势库与多指轨迹预览](docs/assets/screenshots/gestures.png)
+
+### TipTap 与边缘交互 / TipTap and edges / TipTap とエッジ操作
+
+按住手指，再用另一指轻点不同方向；可为各组合以及触控板、触摸屏四边分别配置动作。
+
+![TipTap 手指组合与四方向动作设置](docs/assets/screenshots/tiptap.png)
+
+### 输入设备 / Input devices / 入力デバイス
+
+分别管理鼠标、触摸屏等输入方式，选择鼠标手势启动键，并设置触摸屏边缘屏蔽区。
+
+![输入设备、鼠标启动键与触摸屏屏蔽区设置](docs/assets/screenshots/input-settings.png)
+
+### 无障碍设置 / Accessibility / アクセシビリティ
+
+提供大控件、手势轨迹编号和触控板边缘宽度设置，适应不同操作需求。
+
+![无障碍显示与操作设置](docs/assets/screenshots/accessibility.png)
+
+### 快捷操作 / Quick Actions / クイックアクション
+
+在应用内管理 Kando 可选组件、检查更新，并设置独立唤起快捷键。
+
+![Kando 可选组件与快捷操作页面](docs/assets/screenshots/quick-actions.png)
 
 ### Kando 径向菜单演示
 
@@ -41,7 +71,7 @@
 
 ![Kando 径向菜单交互演示（可选组件）](GestureSign.WinUI/Assets/kando-preview.gif)
 
-动作管理截图为早期界面，Kando 动图为组件功能演示；具体布局和可用功能以安装版本为准。
+以上截图来自 18.3.4 商店版；Kando 动图为组件功能演示。具体布局和可用功能以安装版本为准。
 
 ## 项目简介
 
@@ -201,7 +231,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ### Screenshots and demo
 
-The [gallery above](#软件展示) shows per-app action management, gesture previews and command settings, followed by a demo of the optional Kando radial menu. Kando is downloaded separately. The action screenshot is from an earlier build; layout and available features depend on the installed version.
+The [gallery above](#软件展示) shows action management, the gesture library, TipTap, input devices, accessibility settings and Quick Actions, followed by a demo of the optional Kando radial menu. Screenshots are from the 18.3.4 Store build. Kando is downloaded separately; layout and available features depend on the installed version.
 
 GestureSign V2 is a Windows 11 focused rebuild of the classic open-source project [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign).
 
@@ -363,7 +393,7 @@ If GestureSign V2 is useful to you, you can support its continued development vi
 
 ### 画面とデモ
 
-[上のギャラリー](#软件展示)では、アプリ別のアクション管理、ジェスチャープレビュー、コマンド設定と、オプションの Kando 円形メニューのデモを紹介しています。Kando は別途ダウンロードするコンポーネントです。アクション画面は以前のバージョンのため、実際の配置や利用できる機能はインストールしたバージョンによって異なります。
+[上のギャラリー](#软件展示)では、アクション管理、ジェスチャーライブラリ、TipTap、入力デバイス、アクセシビリティ設定、クイックアクションと、Kando 円形メニューのデモを紹介しています。画面は 18.3.4 のストア版です。Kando は別途ダウンロードするコンポーネントで、実際の配置や利用できる機能はインストールしたバージョンによって異なります。
 
 GestureSign V2 は、クラシックなオープンソースプロジェクト [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) を Windows 11 向けに再構築したバージョンです。
 
