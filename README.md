@@ -91,7 +91,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - 新增“快捷操作”页面，可按需下载 Kando 可选组件，并用独立快捷键唤起径向菜单。
 - 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
 - 边缘手势可作为普通动作加入任意程序分组，当前应用动作优先，未命中时自动回退全局动作。
-- 本地意图学习与实验性 AI 否决，支持手动纠正误判；可用推理后端及回退情况在设置中显示。
+- 本地意图学习与 AI 否决，支持手动纠正误判；可用推理后端及回退情况在设置中显示。
 - 支持按程序、窗口类名、可执行文件、标题和分组管理动作。
 - 支持快捷键、浏览器、窗口、媒体、系统操作等常用命令；新增动作时可直接配置要执行的命令，音量、亮度、打开文件、运行命令等常用命令提供专用编辑控件。
 - 支持忽略列表，可按 exe、窗口类名、标题等规则排除指定程序。
@@ -250,7 +250,7 @@ I'm available for paid custom software development. To discuss a project, contac
 - New Quick Actions page with an optional on-demand Kando component and dedicated hotkey triggers.
 - New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
 - Edge gestures can also be added to regular app groups; app-specific actions take priority and fall back to global actions when no executable app action is found.
-- Local intent learning and experimental AI veto with manual corrections and visible inference backend/fallback status.
+- Local intent learning and AI veto with manual corrections and visible inference backend/fallback status.
 - Per-app actions with matching by executable, window class, title, and groups.
 - Common commands such as hotkeys, browser actions, window actions, media controls, system operations, file launching, volume, brightness, and command execution. New actions can include their initial command directly from the add-action dialog.
 - Ignore list support for excluding specific apps, windows, or matching rules.
@@ -413,7 +413,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - Kando のオプションコンポーネントを必要なときにダウンロードできる Quick Actions ページと、専用ホットキーによる呼び出し。
 - タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
 - エッジジェスチャーは通常のアプリグループにも追加でき、アプリ別アクションを優先し、見つからない場合はグローバルアクションへフォールバックします。
-- ローカル意図学習と実験的な AI 拒否、誤判定の手動修正、推論バックエンドとフォールバック状態の表示。
+- ローカル意図学習と AI 拒否、誤判定の手動修正、推論バックエンドとフォールバック状態の表示。
 - 実行ファイル、ウィンドウクラス、タイトル、グループによるアプリ別アクション管理。
 - ホットキー、ブラウザー操作、ウィンドウ操作、メディア制御、システム操作などの一般的なコマンド。新規アクション作成時に初期コマンドも同じダイアログで設定できます。
 - 特定のアプリ、ウィンドウ、マッチングルールを除外できる無視リスト。
