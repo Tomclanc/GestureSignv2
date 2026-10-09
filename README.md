@@ -24,10 +24,24 @@
 </p>
 
 <p align="center">
-  简体中文 | <a href="#english">English</a> | <a href="#日本語">日本語</a>
+  简体中文 | <a href="#english">English</a> | <a href="#日本語">日本語</a> | <a href="#软件展示">软件展示 / Screenshots</a>
 </p>
 
-![GestureSign V2 主界面](docs/assets/screenshot-main-2026-07-02.png)
+## 软件展示
+
+### 动作管理
+
+按应用管理手势与命令，查看轨迹缩略图，并导入、导出或备份配置。
+
+![GestureSign V2 动作管理：应用分组、手势预览与命令配置](docs/assets/screenshot-main-2026-07-02.png)
+
+### Kando 径向菜单演示
+
+通过“快捷操作”按需下载 Kando，用独立快捷键唤起径向菜单。下图展示 Kando 菜单交互，主程序包不捆绑该组件。
+
+![Kando 径向菜单交互演示（可选组件）](GestureSign.WinUI/Assets/kando-preview.gif)
+
+动作管理截图为早期界面，Kando 动图为组件功能演示；具体布局和可用功能以安装版本为准。
 
 ## 项目简介
 
@@ -215,6 +229,10 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ---
 
 ## English
+
+### Screenshots and demo
+
+The [gallery above](#软件展示) shows per-app action management, gesture previews and command settings, followed by a demo of the optional Kando radial menu. Kando is downloaded separately. The action screenshot is from an earlier build; layout and available features depend on the installed version.
 
 GestureSign V2 is a Windows 11 focused rebuild of the classic open-source project [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign).
 
@@ -404,6 +422,10 @@ If GestureSign V2 is useful to you, you can support its continued development vi
 ---
 
 ## 日本語
+
+### 画面とデモ
+
+[上のギャラリー](#软件展示)では、アプリ別のアクション管理、ジェスチャープレビュー、コマンド設定と、オプションの Kando 円形メニューのデモを紹介しています。Kando は別途ダウンロードするコンポーネントです。アクション画面は以前のバージョンのため、実際の配置や利用できる機能はインストールしたバージョンによって異なります。
 
 GestureSign V2 は、クラシックなオープンソースプロジェクト [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) を Windows 11 向けに再構築したバージョンです。
 
