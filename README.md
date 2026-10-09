@@ -86,6 +86,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 ## 主要特性
 
 - WinUI 3 重构界面，适配 Windows 11 圆角、Mica 风格、深色 / 亮色模式动态切换。
+- 适配 Windows 上的 Xbox 大屏模式，自动调整窗口边框和标题栏显示，方便在掌机与大屏游戏环境中使用。
 - 支持触控板手势、触摸屏手势、鼠标手势、手势轨迹显示和手势缩略图预览。
 - 新增“快捷操作”页面，可按需下载 Kando 可选组件，并用独立快捷键唤起径向菜单。
 - 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
@@ -244,6 +245,7 @@ I'm available for paid custom software development. To discuss a project, contac
 ## Features
 
 - Rebuilt WinUI 3 interface with Windows 11 rounded corners, Mica styling, and light / dark theme support.
+- Adapts to Xbox full-screen experience on Windows by automatically adjusting window borders and title-bar visibility for handheld and big-screen gaming environments.
 - Touchpad, touchscreen, and mouse gestures with gesture trails and thumbnail previews.
 - New Quick Actions page with an optional on-demand Kando component and dedicated hotkey triggers.
 - New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
@@ -406,6 +408,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 ## 主な機能
 
 - Windows 11 の角丸、Mica スタイル、ライト / ダークテーマに対応した WinUI 3 インターフェイス。
+- Windows の Xbox 全画面エクスペリエンスに対応し、ウィンドウ枠とタイトルバーの表示を自動調整。携帯型ゲーミング PC や大画面のゲーム環境で利用できます。
 - タッチパッド、タッチスクリーン、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
 - Kando のオプションコンポーネントを必要なときにダウンロードできる Quick Actions ページと、専用ホットキーによる呼び出し。
 - タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
