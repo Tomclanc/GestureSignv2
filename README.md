@@ -108,40 +108,9 @@ WinGet 18.3.4 的更新见 [提交记录](https://github.com/microsoft/winget-pk
 - 修复 Kando 更新时的进程路径识别、下载中断重试与权限错误；保留菜单及个人设置。
 - 补齐 Kando 组件按钮、更新弹窗、进度和失败提示的 90 种语言适配。
 
-### 18.3.3
-
-- 修复多指独立绘制与保存，双指可以分别绘制不同方向，不受先按下左指还是右指影响；默认按位置识别时兼容旧模板。
-- 保留双指点按适配：鼠标先移动到首个按下手指的位置，再发送右键。
-- 修复手势库显示数量限制，新增和已有手势完整显示。
-- 完善界面翻译并整合社区日语翻译资源。
-- Kando 可选 DLC 下载自动选择 GitHub 最新正式版及匹配的 x64 / ARM64 架构，新增检查更新、更新说明、进度与一键更新；保留设置，失败时恢复旧版。
-- 提供 x64 / ARM64 的精简 MSI 和便携包，运行环境与可选组件独立安装。
-
-### 18.3.2
-
-- AI 组件默认提供轻量 CPU 版，保留本地学习、训练、评分和 AI 否决；x64 下载约 0.78 MiB，解压约 3.15 MiB。
-- 可选 NPU / GPU / CPU 硬件加速版，x64 下载约 24.49 MiB；NPU 厂商提供程序和缓存另计。两版复用对应架构的系统 .NET 10 Runtime。
-- 保持已有 18.3.1 AI 组件的自动恢复兼容性，新增 AMD 旧缓存清理和组件后端校验。
-- 切换 CPU / 硬件加速版前先卸载组件，样本和模型保留。AI 组件仍独立下载，不包含个人数据。
-
-### 18.3.1
-
-- 新增大控件、轨迹编号与触控板边缘宽度设置；AI 设置可整体折叠。
-- 鼠标左、中、右键可分别启用为手势启动键，改进手势识别诊断。
-- 可选 AI 组件复核所有触控板自由绘制动作，改进纠错、状态加载和合并通知；通知附带提示音。
-- 新增界面文案覆盖 90 种语言与地区，修正 656 处译文；部分语种仍需母语复核。
-- 移除自带亮度浮条；AI 组件继续独立下载。
-
-### 18.3
-
-- 触控板上、下、左、右四个边缘统一屏蔽已接管点击中的原生左键，避免右键动作同时触发左键；正确处理晚于触点结束的按键抬起。
-- 保留普通点击、原本已按住的拖拽和软件注入的按键。低级鼠标事件无法可靠区分设备，边缘接管期间同时操作外接鼠标左键也可能被屏蔽。
-- 修复 AI 否决在后台进程重启后丢失开启状态的问题；后台学习与 AI 否决独立保存。移除标题栏开发者预览标识。
-- AI 组件仍可选下载，主程序不包含个人模型或训练数据。正式包默认不启用诊断日志。
-
 ### 历史版本
 
-此前 18.2.9 加入可选本地 AI 学习、AI 否决、NPU 推理与样本纠正；更早版本加入了动作编辑中的 12 种 TipTap 选择与示意图、 Windows 11 原生亮度条、多指四方向 TipTap、单独发送 Win 键、边缘音量与亮度连续调节、四边滚动映射、触控板边缘光标固定和页面返回按钮；改进了无点击窗口激活、鼠标下方目标选择、智能关闭、桌面与全屏过滤及实时动作提示，并完善了 WinUI 3 界面、90 种语言与地区变体、RTL 布局、Kando 可选组件与升级迁移，以及输入、轨迹、触控和应用启动方面的修复。各版本详情请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+此前版本已加入多指独立绘制、TipTap、四边点击与连续调节、鼠标手势启动键、本地 AI 学习与纠错、可选 NPU / GPU 加速、Kando 按需下载与更新、OneDrive 配置同步及无障碍设置；持续完善 WinUI 3 界面、90 种语言与 RTL 布局，并修复边缘误触、按键状态、手势识别、配置迁移和组件安装问题。详细记录请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -295,40 +264,9 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 - Fix Kando process path detection, interrupted download retries and update permission errors while retaining menus and settings.
 - Complete Kando component controls, update dialogs, progress and error text in all 90 supported languages.
 
-### What's new in 18.3.3
-
-- Capture and save independent multitouch strokes, including opposite directions; recognition no longer depends on which finger touches down first. Existing templates remain compatible with the default spatial ordering.
-- Preserve two-finger right-click positioning at the first finger's initial contact.
-- Display every saved gesture instead of limiting the library cards.
-- Improve UI localization and integrate community Japanese translations.
-- Download the latest stable Kando for x64 / ARM64; add update checks, release notes, progress and managed updates with settings preservation and rollback.
-- Provide slim x64 / ARM64 MSI and portable packages with separate runtimes and optional components.
-
-### What's new in 18.3.2
-
-- Default to a lightweight CPU AI component with local training, scoring and AI veto: about 0.78 MiB to download and 3.15 MiB unpacked on x64.
-- Offer an optional NPU / GPU / CPU component: about 24.49 MiB to download on x64, excluding additional vendor providers and caches. Both variants use the matching shared .NET 10 Runtime.
-- Preserve automatic resume for installed 18.3.1 AI components; add bounded AMD cache cleanup and package backend validation.
-- Uninstall the component before switching variants. Personal samples and models are preserved, and AI remains a separate optional download.
-
-### What's new in 18.3.1
-
-- Accessibility controls, trace numbering and adjustable touchpad edge width.
-- Independent left/middle/right mouse gesture start buttons.
-- Optional AI review for all touchpad drawing actions, improved correction, loading and grouped notifications.
-- 90-locale coverage for recent UI text with 656 corrections; native review remains pending for some locales.
-- Removed the custom brightness overlay; AI components remain separate downloads.
-
-### What's new in 18.3
-
-- Apply native left-click suppression consistently to configured taps on all four touchpad edges, including button-up events arriving after contact release.
-- Preserve normal clicks, pre-existing drags and injected actions. A simultaneous external-mouse left click may also be suppressed while an edge capture owns input.
-- Persist AI veto across background-host restarts independently of background learning; remove the developer-preview title suffix.
-- Keep AI components optional and personal training data out of packages. Diagnostic logging is disabled by default.
-
 ### Previous releases
 
-18.2.9 introduced optional local AI learning, veto, NPU inference and sample correction. Earlier releases added a 12-combination TipTap selector and visual previews in action editors, the native Windows 11 brightness flyout, multi-finger TipTap in four directions, standalone Win key selection, continuous edge volume and brightness adjustment, scrolling mappings on all four edges, touchpad edge pointer locking, and back navigation. They also improved activation without clicking, selection of the window under the pointer, Smart Close, desktop and fullscreen filtering, and live action hints, alongside the WinUI 3 interface, 90 language and regional variants, RTL layout, optional Kando integration and upgrade migration, and fixes for input, gesture trails, touch interactions, and application launching. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for version-by-version details.
+Earlier releases added independent multitouch strokes, TipTap, edge taps and continuous controls, mouse gesture start buttons, local AI learning and corrections, optional NPU / GPU acceleration, on-demand Kando downloads and updates, OneDrive configuration sync and accessibility settings. They also improved the WinUI 3 interface, 90 language and regional variants, RTL layout, edge input handling, key state, gesture recognition, configuration migration and component installation. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for detailed release notes.
 
 ## Installation
 
@@ -488,32 +426,9 @@ WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pull
 - Kando 更新時のプロセス検出、ダウンロード再試行とアクセス権の問題を修正。メニューと設定は保持します。
 - Kando のボタン、更新ダイアログ、進捗表示とエラー表示を全 90 言語に対応。
 
-### 18.3.3 の更新内容
-
-- 複数指の軌跡を個別に描画・保存でき、2 本の指で異なる方向を描けます。先に触れた指の順序に依存せず認識し、既定の位置順設定では既存のテンプレートも利用できます。
-- 2 本指の右クリックでは、最初に触れた指の位置へカーソルを移動してから右クリックします。
-- ジェスチャー一覧の表示数制限を修正し、保存済みの全ジェスチャーを表示します。
-- UI 翻訳を改善し、コミュニティの日本語翻訳を統合しました。
-- Kando の最新安定版を x64 / ARM64 に合わせてダウンロード。更新確認、リリースノート、進捗表示、設定の保持と失敗時の復元に対応しました。
-- x64 / ARM64 の軽量 MSI とポータブル版を提供。ランタイムと任意コンポーネントは別途インストールします。
-
-### 18.3.2 の更新内容
-
-- 軽量 CPU 版 AI を既定にし、ローカル学習、スコアリング、AI 拒否を維持。x64 のダウンロードは約 0.78 MiB、展開後は約 3.15 MiB です。
-- NPU / GPU / CPU 版も選択可能で、x64 のダウンロードは約 24.49 MiB。ベンダーの追加プロバイダーとキャッシュは別途必要です。両版とも対応アーキテクチャの共有 .NET 10 Runtime を使用します。
-- 既存の 18.3.1 AI の自動再開互換性を維持し、AMD の古いキャッシュの整理とパッケージ検証を追加しました。
-- 版の切り替え前に AI コンポーネントをアンインストールしてください。サンプルとモデルは保持されます。
-
-### 18.3 の更新内容
-
-- タッチパッドの上下左右の端に設定したタップで、意図しない左クリックを抑制。指を離した後に届くボタン解放にも対応しました。
-- 通常のクリック、開始済みのドラッグ、ソフトウェアによる入力は維持します。端の操作と同時に外付けマウスを左クリックした場合も抑制されることがあります。
-- AI 拒否の有効状態をバックグラウンド学習とは独立して保存し、プロセス再起動後に復元。タイトルの開発者プレビュー表示を削除しました。
-- AI は引き続き任意ダウンロードです。個人の学習データは同梱せず、診断ログは既定で無効です。
-
 ### 過去のバージョン
 
-これまでのバージョンでは、アクション編集画面の 12 通りの TipTap 選択とプレビュー、Windows 11 標準の明るさ表示、複数指・四方向の TipTap、Win キー単独送信、エッジ操作による音量・明るさの連続調整、四辺へのスクロール割り当て、タッチパッドのエッジ操作中のカーソル固定、戻るボタンを追加しました。また、クリックを伴わないウィンドウのアクティブ化、カーソル下の対象選択、Smart Close、デスクトップと全画面の判定、リアルタイムのアクションヒントを改善し、WinUI 3 UI、90 種類の言語・地域対応、RTL レイアウト、Kando のオプション連携とアップグレード移行を整備するとともに、入力、ジェスチャー軌跡、タッチ操作、アプリ起動の問題を修正しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+過去のバージョンでは、複数指の独立した軌跡、TipTap、四辺のタップと連続操作、マウスジェスチャーの開始ボタン、ローカル AI 学習と誤判定の修正、任意の NPU / GPU アクセラレーション、Kando の追加ダウンロードと更新、OneDrive 設定同期、アクセシビリティ設定を追加しました。また、WinUI 3 の UI、90 種類の言語・地域対応と RTL レイアウトを改善し、エッジ操作の誤入力、キー状態、ジェスチャー認識、設定の移行、コンポーネントのインストールに関する問題を修正しました。詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
