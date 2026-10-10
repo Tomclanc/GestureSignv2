@@ -328,7 +328,7 @@ internal sealed class LegacyDataStore
         SaveActions();
     }
 
-    public void AddAction(LegacyApplication application, string name, string gestureName, int ignoredDevices = 0)
+    public void AddAction(LegacyApplication application, string name, string gestureName, int ignoredDevices = 0, int mouseGestureButton = 0, int mouseHotkey = 0)
     {
         var actions = GetOrCreateArray(application.Source, "Actions");
         actions.Add(new JsonObject
@@ -338,12 +338,14 @@ internal sealed class LegacyDataStore
             ["Condition"] = "",
             ["IsEnabled"] = true,
             ["IgnoredDevices"] = ignoredDevices,
+            ["MouseGestureButton"] = mouseGestureButton,
+            ["MouseHotkey"] = mouseHotkey,
             ["Commands"] = new JsonArray()
         });
         SaveActions();
     }
 
-    public void UpdateAction(LegacyAction action, string name, string gestureName, string condition, bool isEnabled, bool activateWindow, int mouseHotkey, int ignoredDevices, string hotkeyJson, string continuousGestureJson)
+    public void UpdateAction(LegacyAction action, string name, string gestureName, string condition, bool isEnabled, bool activateWindow, int mouseHotkey, int ignoredDevices, string hotkeyJson, string continuousGestureJson, int mouseGestureButton = 0)
     {
         action.Source["Name"] = name;
         action.Source["GestureName"] = gestureName;
@@ -351,6 +353,7 @@ internal sealed class LegacyDataStore
         action.Source["IsEnabled"] = isEnabled;
         action.Source["ActivateWindow"] = activateWindow;
         action.Source["MouseHotkey"] = mouseHotkey;
+        action.Source["MouseGestureButton"] = mouseGestureButton;
         action.Source["IgnoredDevices"] = ignoredDevices;
         action.Source["Hotkey"] = ParseJsonObjectOrNull(hotkeyJson);
         action.Source["ContinuousGesture"] = ParseJsonObjectOrNull(continuousGestureJson);
@@ -366,35 +369,17 @@ internal sealed class LegacyDataStore
         }
     }
 
-    public void AddCommand(LegacyAction action, string name, string pluginClass, string settings)
+    public void AddCommand(LegacyAction action, string name, string pluginClass, string settings, bool isEnabled = true)
     {
         var commands = GetOrCreateArray(action.Source, "Commands");
-        commands.Clear();
         commands.Add(new JsonObject
         {
             ["CommandSettings"] = settings,
             ["Name"] = name,
             ["PluginClass"] = pluginClass,
             ["PluginFilename"] = "GestureSign.CorePlugins.dll",
-            ["IsEnabled"] = true
+            ["IsEnabled"] = isEnabled
         });
-        SaveActions();
-    }
-
-    public void NormalizeSingleCommandPerAction(bool preferLast = false)
-    {
-        foreach (var action in _actionsRoot.OfType<JsonObject>()
-                     .SelectMany(app => app["Actions"] as JsonArray ?? [])
-                     .OfType<JsonObject>())
-        {
-            if (action["Commands"] is not JsonArray commands || commands.Count <= 1)
-                continue;
-
-            var selected = (preferLast ? commands.LastOrDefault() : commands.FirstOrDefault())?.DeepClone();
-            commands.Clear();
-            if (selected is not null)
-                commands.Add(selected);
-        }
         SaveActions();
     }
 
@@ -415,6 +400,19 @@ internal sealed class LegacyDataStore
             commands.Remove(command.Source);
             SaveActions();
         }
+    }
+
+    public void MoveCommand(LegacyAction action, LegacyCommand command, int offset)
+    {
+        if (action.Source["Commands"] is not JsonArray commands)
+            return;
+        var index = commands.IndexOf(command.Source);
+        var destination = index + offset;
+        if (index < 0 || destination < 0 || destination >= commands.Count)
+            return;
+        commands.RemoveAt(index);
+        commands.Insert(destination, command.Source);
+        SaveActions();
     }
 
     public void SetEnabled(JsonObject source, bool enabled)
@@ -758,6 +756,7 @@ internal sealed class LegacyDataStore
             IsEnabled = action.BoolValue("IsEnabled", true),
             ActivateWindow = action.BoolValue("ActivateWindow", true),
             MouseHotkey = action.IntValue("MouseHotkey", 0),
+            MouseGestureButton = action.IntValue("MouseGestureButton", 0),
             IgnoredDevices = action.IntValue("IgnoredDevices", 0),
             HotkeyJson = action["Hotkey"]?.ToJsonString(JsonOptions()) ?? "",
             ContinuousGestureJson = action["ContinuousGesture"]?.ToJsonString(JsonOptions()) ?? "",
@@ -1216,6 +1215,7 @@ internal sealed record LegacyAction
     public bool IsEnabled { get; init; }
     public bool ActivateWindow { get; init; } = true;
     public int MouseHotkey { get; init; }
+    public int MouseGestureButton { get; init; }
     public int IgnoredDevices { get; init; }
     public string HotkeyJson { get; init; } = "";
     public string ContinuousGestureJson { get; init; } = "";

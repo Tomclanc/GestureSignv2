@@ -26,6 +26,10 @@ namespace GestureSign.Common.Applications
         private List<IApplication> _applications;
         IEnumerable<IApplication> _recognizedApplication;
         private Timer _timer;
+        private IPointCapture _pointCapture;
+        private Devices BindingDevice => _pointCapture?.SourceDevice ?? Devices.None;
+        private ManagedWinapi.Hooks.MouseActions BindingButton =>
+            (_pointCapture as IMouseGestureCapture)?.MouseGestureButton ?? ManagedWinapi.Hooks.MouseActions.None;
         private SystemWindow _recentClashPartyWindow;
         private DateTime _recentClashPartyWindowUtc;
         private SystemWindow _lastObservedForegroundWindow;
@@ -232,6 +236,7 @@ namespace GestureSign.Common.Applications
 
         public void Load(IPointCapture pointCapture)
         {
+            _pointCapture = pointCapture;
             // Shortcut method to control singleton instantiation
             // Consume Point Capture events
             if (pointCapture != null)
@@ -379,7 +384,7 @@ namespace GestureSign.Common.Applications
                 Logging.LogMessage($"TipTap rejected by application filter. TargetHwnd={target.HWnd}");
                 return new List<IAction>();
             }
-            var actions = GetDefinedAction(gestureName, apps, true)
+            var actions = GetDefinedActionForInput(gestureName, apps, true, Devices.TouchPad, ManagedWinapi.Hooks.MouseActions.None)
                 .Where(a => (a.IgnoredDevices & Devices.TouchPad) == 0).ToList();
             if (actions.Count != 0)
             {
@@ -468,7 +473,7 @@ namespace GestureSign.Common.Applications
             var recognizedActions = recognizedApplications
                 .Where(app => !(app is IgnoredApp) && !(app is GlobalApp) && app.Actions != null)
                 .SelectMany(app => app.Actions)
-                .Where(a => IsActionExecutable(a) && MatchesGestureHotkey(a) && predicate(a))
+                .Where(a => IsActionExecutable(a) && MatchesGestureHotkey(a) && MouseGestureBinding.Matches(a, BindingDevice, BindingButton) && predicate(a))
                 .ToList();
 
             var globalActions = GetGlobalApplication()?.Actions;
@@ -480,14 +485,21 @@ namespace GestureSign.Common.Applications
                 recognizedActions.AddRange(globalActions.Where(a =>
                     IsActionExecutable(a) &&
                     MatchesGestureHotkey(a) &&
+                    MouseGestureBinding.Matches(a, BindingDevice, BindingButton) &&
                     predicate(a) &&
                     !HasDefinedGestureAction(recognizedApplications, a.GestureName)));
             }
 
-            return recognizedActions;
+            return MouseGestureBinding.Select(recognizedActions, BindingDevice, BindingButton);
         }
 
         public IEnumerable<IAction> GetDefinedAction(string gestureName, IEnumerable<IApplication> application, bool useGlobal)
+        {
+            return GetDefinedActionForInput(gestureName, application, useGlobal, BindingDevice, BindingButton);
+        }
+
+        private IEnumerable<IAction> GetDefinedActionForInput(string gestureName, IEnumerable<IApplication> application, bool useGlobal,
+            Devices device, ManagedWinapi.Hooks.MouseActions button)
         {
             if (application == null)
             {
@@ -497,11 +509,13 @@ namespace GestureSign.Common.Applications
             var recognizedApplications = application.ToList();
             var finalAction =
                 recognizedApplications.Where(app => !(app is IgnoredApp) && app.Actions != null).SelectMany(app => app.Actions.Where(a => IsActionExecutable(a) && GestureNameEquals(a.GestureName, gestureName) && MatchesGestureHotkey(a))).ToList();
-            // If there is was no action found on given application, try to get an action for global application
-            if (finalAction.Count == 0 && useGlobal && !HasDefinedGestureAction(recognizedApplications, gestureName))
+            finalAction = MouseGestureBinding.Select(finalAction, device, button);
+            // Rules for a different starting button must not block global fallback.
+            if (finalAction.Count == 0 && useGlobal)
                 finalAction = GetGlobalApplication().Actions.Where(a => IsActionExecutable(a) && GestureNameEquals(a.GestureName, gestureName) && MatchesGestureHotkey(a)).ToList();
+            finalAction = MouseGestureBinding.Select(finalAction, device, button);
 
-            Logging.LogMessage($"Gesture action lookup context. Gesture={gestureName}, Applications={DescribeApplications(recognizedApplications)}, Actions={finalAction.Count}");
+            Logging.LogMessage($"Gesture action lookup context. Gesture={gestureName}, Device={device}, StartButton={button}, Applications={DescribeApplications(recognizedApplications)}, Actions={finalAction.Count}");
             // Return whatever the result was
             return finalAction;
         }
@@ -514,7 +528,7 @@ namespace GestureSign.Common.Applications
                    action.Commands.Any(command => command != null && command.IsEnabled);
         }
 
-        private static bool HasDefinedGestureAction(IEnumerable<IApplication> applications, string gestureName)
+        private bool HasDefinedGestureAction(IEnumerable<IApplication> applications, string gestureName)
         {
             return applications.Any(app =>
                 !(app is IgnoredApp) &&
@@ -523,6 +537,7 @@ namespace GestureSign.Common.Applications
                 app.Actions.Any(action => action != null &&
                                           IsActionExecutable(action) &&
                                           GestureNameEquals(action.GestureName, gestureName) &&
+                                          MouseGestureBinding.Matches(action, BindingDevice, BindingButton) &&
                                           MatchesGestureHotkey(action)));
         }
 

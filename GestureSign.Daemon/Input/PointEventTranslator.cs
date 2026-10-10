@@ -89,6 +89,17 @@ namespace GestureSign.Daemon.Input
                 !_touchScreenRelease.WaitingForContact;
         }
 
+        internal bool TestMissingTouchRelease()
+        {
+            ResetInputState("MissingTouchReleaseSelfTest");
+            var point = new System.Drawing.Point(400, 400);
+            TranslateTouchEvent(this, new RawPointsDataMessageEventArgs(
+                new List<RawData> { new RawData(DeviceStates.Tip, 901, point), new RawData(DeviceStates.Tip, 902, point) }, Devices.TouchScreen, true));
+            TranslateTouchEvent(this, new RawPointsDataMessageEventArgs(
+                new List<RawData> { new RawData(DeviceStates.None, 903, point) }, Devices.TouchScreen, true));
+            return InputStateCleared && PointCapture.Instance.Mode == CaptureMode.UserDisabled;
+        }
+
         internal bool InputStateCleared => SourceDevice == Devices.None && _lastPointsCount == 0 &&
             _activeTouchScreenContacts.Count == 0 && _releasedTouchScreenContacts.Count == 0 &&
             !_touchScreenRelease.WaitingForContact && _pressedMouseButton.Count == 0;
@@ -736,6 +747,14 @@ OnPointDown(args);
             if (rawData == null || rawData.Count == 0)
                 return;
 
+            var missing = TouchScreenFramePolicy.MissingContacts(_activeTouchScreenContacts.Keys,
+                rawData.Select(point => point.ContactIdentifier), e.CompleteContactFrame);
+            if (missing.Length > 0)
+            {
+                Logging.LogMessage($"TouchScreen stale contacts canceled. Reason=MissingFromCompleteFrame, MissingIds={string.Join(",", missing)}, ActiveContacts={_activeTouchScreenContacts.Count}, ReleasedContacts={_releasedTouchScreenContacts.Count}, FrameContacts={rawData.Count}");
+                PointCapture.Instance.CancelInputCapture("MissingFromCompleteTouchFrame");
+            }
+
             var wasWaitingForContact = _touchScreenRelease.WaitingForContact;
             var newContact = false;
             var previousCount = _activeTouchScreenContacts.Count;
@@ -745,6 +764,8 @@ OnPointDown(args);
                 newContact |= _touchScreenRelease.Observe(point.ContactIdentifier, point.RawPoints, point.State != DeviceStates.None);
                 if (point.State == DeviceStates.None)
                 {
+                    // Stray or duplicated lift reports are not gesture history.
+                    if (!_activeTouchScreenContacts.ContainsKey(point.ContactIdentifier)) continue;
                     // A number of HID drivers omit or reuse coordinates in the
                     // tip-up report. The last active report is the reliable
                     // release location for the current contact.

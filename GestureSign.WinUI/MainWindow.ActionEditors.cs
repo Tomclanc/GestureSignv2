@@ -149,6 +149,10 @@ public sealed partial class MainWindow
         var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = T("新动作", "New Action") };
         var gesture = new TextBox { PlaceholderText = T("手势名称，例如 3Right", "Gesture name, for example 3Right"), Margin = new Thickness(0, 8, 0, 0) };
         var deviceSelector = NewActionDeviceSelector(0);
+        var mouseGestureButton = NewActionMouseGestureButton(0);
+        BindActionMouseGestureDevice(mouseGestureButton, deviceSelector);
+        var mouseHotkey = NewMouseCombinationPicker(0);
+        mouseHotkey.SelectionChanged += (_, _) => { if (mouseHotkey.SelectedIndex > 0) deviceSelector.Mouse.IsChecked = true; };
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
         var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
         var trainingStatus = new TextBlock { Text = T("可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", "Draw a single- or multi-finger pattern, or record real strokes using the touchpad."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
@@ -230,6 +234,8 @@ public sealed partial class MainWindow
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         panel.Children.Add(deviceSelector.Content);
+        panel.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
+        panel.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
         panel.Children.Add(new TextBlock { Text = T("要执行的命令", "Command to execute"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         panel.Children.Add(commandName);
         panel.Children.Add(commandPlugin);
@@ -261,7 +267,7 @@ public sealed partial class MainWindow
         }
 
         var finalGestureName = ResolveGestureName(gesture, "");
-        if (string.IsNullOrWhiteSpace(finalGestureName))
+        if (string.IsNullOrWhiteSpace(finalGestureName) && mouseHotkey.SelectedIndex <= 0)
         {
             await ShowInfoDialog(T("缺少手势", "No gesture selected"), T("请先选择、输入或绘制一个手势。", "Select, enter or draw a gesture first."));
             return;
@@ -288,7 +294,7 @@ public sealed partial class MainWindow
         var commandPluginClassValue = commandPluginClass.Text.Trim();
         var commandSettingsValue = commandSettings.Text;
         var addInitialCommand = ShouldCreateCommand(commandPluginClassValue, commandSettingsValue);
-        _legacyData.AddAction(targetApp, name.Text, finalGestureName, ignoredDevices);
+        _legacyData.AddAction(targetApp, name.Text, finalGestureName, ignoredDevices, ActionMouseGestureButtonValue(mouseGestureButton), MouseActionValue(mouseHotkey.SelectedIndex));
         if (addInitialCommand)
         {
             _legacyData = LegacyDataStore.Load();
@@ -315,10 +321,11 @@ public sealed partial class MainWindow
         var condition = new TextBox { PlaceholderText = T("触发条件，可留空", "Trigger condition (optional)"), Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = action.IsEnabled };
         var activateWindow = new CheckBox { Content = T("执行前激活目标窗口", "Activate the target window before execution"), IsChecked = action.ActivateWindow };
-        var mouseHotkey = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = MouseActionIndex(action.MouseHotkey) };
-        foreach (var item in new[] { T("无鼠标快捷键", "No mouse shortcut"), T("滚轮前", "Wheel up"), T("滚轮后", "Wheel down"), T("左键", "Left"), T("右键", "Right"), T("中键", "Middle"), T("X1 键", "X1 button"), T("X2 键", "X2 button") })
-            mouseHotkey.Items.Add(item);
+        var mouseHotkey = NewMouseCombinationPicker(action.MouseHotkey);
         var deviceSelector = NewActionDeviceSelector(action.IgnoredDevices);
+        var mouseGestureButton = NewActionMouseGestureButton(action.MouseGestureButton);
+        BindActionMouseGestureDevice(mouseGestureButton, deviceSelector);
+        mouseHotkey.SelectionChanged += (_, _) => { if (mouseHotkey.SelectedIndex > 0) deviceSelector.Mouse.IsChecked = true; };
         var hotkeyJson = new TextBox { Text = action.HotkeyJson };
         var hotkeyRecorder = NewHotKeyRecorderWithClear(hotkeyJson, action.HotkeyJson, usesArrayKeyCode: false);
         var continuousGestureJson = new TextBox { PlaceholderText = T("连续手势 JSON，可留空", "Continuous gesture JSON (optional)"), Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
@@ -352,7 +359,8 @@ public sealed partial class MainWindow
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         panel.Children.Add(NewTwoColumnRow(enabled, activateWindow));
-        panel.Children.Add(mouseHotkey);
+        panel.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
+        panel.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
         panel.Children.Add(deviceSelector.Content);
         panel.Children.Add(hotkeyRecorder);
         // panel.Children.Add(continuousGestureJson);
@@ -395,11 +403,78 @@ public sealed partial class MainWindow
             return;
         }
 
-        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text);
+        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, mouseHotkey.SelectedIndex > 0 ? "" : name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text, ActionMouseGestureButtonValue(mouseGestureButton));
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
+
+    private static void BindActionMouseGestureDevice(ComboBox picker, ActionDeviceSelector devices)
+    {
+        picker.SelectionChanged += (_, _) => { if (picker.SelectedIndex > 0) devices.Mouse.IsChecked = true; };
+        devices.Mouse.Unchecked += (_, _) => picker.SelectedIndex = 0;
+        if (picker.SelectedIndex > 0) devices.Mouse.IsChecked = true;
+    }
+
+    private ComboBox NewMouseCombinationPicker(int hotkey)
+    {
+        var picker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
+        foreach (var item in new[] { IntentText("不使用", "Off"), T("滚轮前", "Wheel up"), T("滚轮后", "Wheel down"), T("左键", "Left"), T("右键", "Right"), T("中键", "Middle"), T("X1 键", "X1 button"), T("X2 键", "X2 button") })
+            picker.Items.Add(item);
+        picker.SelectedIndex = MouseActionIndex(hotkey);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(picker, IntentText("鼠标组合快捷键", "Mouse button combinations"));
+        return picker;
+    }
+
+    private FrameworkElement NewMouseCombinationField(ComboBox secondButton, ComboBox startButton)
+    {
+        var prefix = new TextBlock { VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap };
+        void RefreshPrefix()
+        {
+            prefix.Text = MouseCombinationStartText(ActionMouseGestureButtonValue(startButton)) + " +";
+        }
+        startButton.SelectionChanged += (_, _) => RefreshPrefix();
+        RefreshPrefix();
+        var row = new Grid { ColumnSpacing = 12 };
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        row.Children.Add(prefix);
+        Grid.SetColumn(secondButton, 1);
+        row.Children.Add(secondButton);
+        return NewDialogField(IntentText("鼠标组合快捷键", "Mouse button combinations"), IntentText("按住手势启动键后，再点击所选按钮或滚动滚轮；无需绘制轨迹。", "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed."), row);
+    }
+
+    private string MouseCombinationStartText(int selected)
+    {
+        var names = string.Join(" / ", new[] { 1048576, 4194304, 2097152 }
+            .Where(bit => (_legacyData.Options.DrawingButton & bit) != 0 && (selected == 0 || selected == bit))
+            .Select(ActionMouseGestureButtonText));
+        return names.Length == 0 ? IntentText("关", "Off") : names;
+    }
+
+    private string MouseCombinationInputText(int input) => input switch
+    {
+        1 => T("滚轮前", "Wheel up"),
+        2 => T("滚轮后", "Wheel down"),
+        8388608 => T("X1 键", "X1 button"),
+        16777216 => T("X2 键", "X2 button"),
+        _ => ActionMouseGestureButtonText(input)
+    };
+
+    private ComboBox NewActionMouseGestureButton(int button)
+    {
+        var picker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
+        foreach (var text in new[] { IntentText("任意", "Any"), IntentText("左键", "Left"), IntentText("中键", "Middle"), IntentText("右键", "Right") }) picker.Items.Add(text);
+        picker.SelectedIndex = button switch { 1048576 => 1, 4194304 => 2, 2097152 => 3, _ => 0 };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(picker, IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"));
+        return picker;
+    }
+
+    private static int ActionMouseGestureButtonValue(ComboBox picker) => picker.SelectedIndex switch
+    { 1 => 1048576, 2 => 4194304, 3 => 2097152, _ => 0 };
+
+    private string ActionMouseGestureButtonText(int button) => button switch
+    { 1048576 => IntentText("左键", "Left"), 4194304 => IntentText("中键", "Middle"), 2097152 => IntentText("右键", "Right"), _ => IntentText("任意", "Any") };
 
     private FrameworkElement NewGesturePickerRow(
         TextBox gesture,
@@ -737,12 +812,12 @@ public sealed partial class MainWindow
 
     private async Task AddCommandAsync(LegacyAction action)
     {
-        var name = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = T("发送快捷键", "Send Hotkey") };
+        var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = PluginName("GestureSign.CorePlugins.HotKey.HotKeyPlugin") };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(plugin);
         var pluginDescription = NewPluginDescriptionTextBlock();
-        var pluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
-        var settings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var settings = new TextBox { PlaceholderText = "JSON", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, "");
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
@@ -777,7 +852,7 @@ public sealed partial class MainWindow
         panel.Children.Add(typedSettings);
         panel.Children.Add(settings);
         UpdateEditor();
-        if (!await ConfirmDialogAsync(F("给 {0} 添加命令", "Add a command to {0}", action.Name), panel, T("添加", "Add")))
+        if (!await ConfirmDialogAsync(IntentText("添加命令", "Add command") + " · " + action.Name, panel, IntentText("添加命令", "Add command")))
             return;
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
@@ -788,21 +863,17 @@ public sealed partial class MainWindow
 
     private async Task SetCommandAsync(LegacyAction action)
     {
-        var command = action.Commands.FirstOrDefault();
-        if (command is null)
-            await AddCommandAsync(action);
-        else
-            await EditCommandAsync(command);
+        await ManageCommandsAsync(action);
     }
 
     private async Task EditCommandAsync(LegacyCommand command)
     {
-        var name = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = command.Name };
+        var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = command.Name };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
         var pluginDescription = NewPluginDescriptionTextBlock();
-        var pluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
-        var settings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
+        var settings = new TextBox { PlaceholderText = "JSON", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
         var hotkey = NewHotKeyRecorder(settings, command.Settings);
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
@@ -816,7 +887,7 @@ public sealed partial class MainWindow
             UpdatePluginDescription(pluginDescription, pluginClass.Text);
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
         };
-        var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
+        var enabled = new CheckBox { Content = IntentText("启用", "Enabled"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
         panel.MinWidth = 520;
         panel.Children.Add(name);
@@ -831,7 +902,7 @@ public sealed partial class MainWindow
         UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings, appPicker);
         UpdatePluginDescription(pluginDescription, command.PluginClass);
         UpdateTypedCommandSettingsEditor(typedSettings, command.PluginClass, settings.Text);
-        if (!await ConfirmDialogAsync(F("编辑命令 {0}", "Edit command {0}", command.Name), panel, T("保存", "Save")))
+        if (!await ConfirmDialogAsync(IntentText("编辑", "Edit") + " · " + command.Name, panel, IntentText("保存", "Save")))
             return;
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);

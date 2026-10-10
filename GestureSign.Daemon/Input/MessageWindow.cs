@@ -431,7 +431,8 @@ namespace GestureSign.Daemon.Input
 
                 if (_requiringContactCount == 0 && PointsIntercepted != null)
                 {
-                    PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice));
+                    PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice,
+                        completeContactFrame: _sourceDevice == Devices.TouchScreen));
                     if (_outputTouchs.TrueForAll(rd => rd.State == DeviceStates.None))
                     {
                         _sourceDevice = Devices.None;

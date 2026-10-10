@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Input;
+using GestureSign.Common.Input;
 using ManagedWinapi;
 using ManagedWinapi.Hooks;
 using Newtonsoft.Json;
@@ -50,6 +50,8 @@ namespace GestureSign.Common.Applications
         public Hotkey Hotkey { get; set; }
 
         public MouseActions MouseHotkey { get; set; }
+        // None keeps legacy bindings usable with any drawing button/device.
+        public MouseActions MouseGestureButton { get; set; }
         public ContinuousGesture ContinuousGesture { get; set; }
         public Devices IgnoredDevices { get; set; }
 

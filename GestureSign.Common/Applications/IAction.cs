@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Input;
+using GestureSign.Common.Input;
 using ManagedWinapi;
 using ManagedWinapi.Hooks;
 using System.Collections.Generic;
@@ -16,6 +16,7 @@ namespace GestureSign.Common.Applications
         IEnumerable<ICommand> Commands { get; set; }
         Hotkey Hotkey { get; set; }
         MouseActions MouseHotkey { get; set; }
+        MouseActions MouseGestureButton { get; set; }
         ContinuousGesture ContinuousGesture { get; set; }
         Devices IgnoredDevices { get; set; }
 

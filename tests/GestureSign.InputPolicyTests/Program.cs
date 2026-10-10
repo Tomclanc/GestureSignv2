@@ -77,4 +77,16 @@ t.Reset();Check(t.AllReleased && !t.WaitingForContact,"Recovery clears interrupt
 t.Observe(11,new Point(100,100),true);t.Observe(12,new Point(200,100),true);
 t.Observe(12,new Point(300,100),true);t.Observe(12,new Point(),false);
 Check(t.ShouldComplete(new[]{12}),"Fresh gesture after recovery ignores old contact history");
+Check(TouchScreenFramePolicy.MissingContacts(new[]{1,2},new[]{2},false).Length==0,"Partial hybrid packet preserves unseen anchor");
+Check(TouchScreenFramePolicy.MissingContacts(new[]{1,2},new[]{1,2},true).Length==0,"Complete frame retains live stationary anchor");
+Check(TouchScreenFramePolicy.MissingContacts(new[]{1,2},new[]{2},true).SequenceEqual(new[]{1}),"Complete frame detects lost tip-up");
+Check(TouchScreenFramePolicy.MissingContacts(new[]{1,2},Array.Empty<int>(),true).Length==2,"Empty complete frame cancels stale ownership");
+Check(TouchScreenFramePolicy.MissingContacts(new[]{1},new[]{1,1},true).Length==0,"Duplicate report never removes live contact");
+var active=new HashSet<int>(new[]{1,2,3,4});
+for(int id=10;id<244;id++){
+ var missing=TouchScreenFramePolicy.MissingContacts(active,new[]{id},true);
+ if(missing.Length>0) active.Clear();
+ active.Add(id); active.Remove(id);
+ Check(active.Count==0,"Lost contacts cannot accumulate across 234 later releases");
+}
 Console.WriteLine($"PASS: {checks} pen and touchscreen policy checks.");

@@ -116,52 +116,58 @@ namespace GestureSign.Common.Plugins
                         continue;
                     }
 
-                    var currentCommand = executableAction.Commands
+                    var commands = executableAction.Commands
                         .Where(item => item != null && item.IsEnabled)
-                        .FirstOrDefault();
-                    if (currentCommand == null)
+                        .ToList();
+                    if (commands.Count == 0)
                     {
                         Logging.LogMessage($"Gesture action skipped. Action={executableAction.Name}, Reason=NoEnabledCommand");
                         continue;
                     }
 
-                    if (mode == CaptureMode.UserDisabled && !"GestureSign.CorePlugins.ToggleDisableGestures".Equals(currentCommand.PluginClass))
+                    var actionExecuted = false;
+                    foreach (var currentCommand in commands)
                     {
-                        Logging.LogMessage($"Gesture action skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Reason=UserDisabled");
-                        continue;
+                        if (mode == CaptureMode.UserDisabled && !"GestureSign.CorePlugins.ToggleDisableGestures".Equals(currentCommand.PluginClass))
+                        {
+                            Logging.LogMessage($"Gesture action skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Reason=UserDisabled");
+                            continue;
+                        }
+
+                        NormalizeLegacyHotKeyCommand(executableAction, currentCommand);
+
+                        target.WaitForIdle(200);
+
+                        // Locate the plugin associated with this action
+                        IPluginInfo pluginInfo = FindPluginByClassAndFilename(currentCommand.PluginClass, currentCommand.PluginFilename);
+
+                        // Exit if there is no plugin available for action
+                        if (pluginInfo == null)
+                        {
+                            Logging.LogMessage($"Gesture command skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Plugin={currentCommand.PluginClass}, Reason=PluginNotFound");
+                            continue;
+                        }
+
+                        var requiresActivation = executableAction.ActivateWindow == null && pluginInfo.Plugin.ActivateWindowDefault ||
+                                                 executableAction.ActivateWindow.GetValueOrDefault();
+                        if (requiresActivation && !ActivateTargetWindow(target))
+                        {
+                            // Never inject into an unrelated foreground window or
+                            // click page content as an activation fallback.
+                            Logging.LogMessage($"Gesture command skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Reason=TargetActivationFailed");
+                            continue;
+                        }
+
+                        // Load action settings into plugin
+                        pluginInfo.Plugin.Deserialize(currentCommand.CommandSettings);
+                        Logging.LogMessage($"Gesture command executing. Action={executableAction.Name}, Command={currentCommand.Name}, Plugin={currentCommand.PluginClass}, TargetHwnd={target.HWnd}");
+                        // Execute plugin process
+                        pluginInfo.Plugin.Gestured(pointInfo);
+                        actionExecuted = true;
+                        executed = true;
                     }
-
-                    NormalizeLegacyHotKeyCommand(executableAction, currentCommand);
-
-                    target.WaitForIdle(200);
-
-                    // Locate the plugin associated with this action
-                    IPluginInfo pluginInfo = FindPluginByClassAndFilename(currentCommand.PluginClass, currentCommand.PluginFilename);
-
-                    // Exit if there is no plugin available for action
-                    if (pluginInfo == null)
-                    {
-                        Logging.LogMessage($"Gesture command skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Plugin={currentCommand.PluginClass}, Reason=PluginNotFound");
-                        continue;
-                    }
-
-                    var requiresActivation = executableAction.ActivateWindow == null && pluginInfo.Plugin.ActivateWindowDefault ||
-                                             executableAction.ActivateWindow.GetValueOrDefault();
-                    if (requiresActivation && !ActivateTargetWindow(target))
-                    {
-                        // Never inject into an unrelated foreground window or
-                        // click page content as an activation fallback.
-                        Logging.LogMessage($"Gesture command skipped. Action={executableAction.Name}, Command={currentCommand.Name}, Reason=TargetActivationFailed");
-                        continue;
-                    }
-
-                    // Load action settings into plugin
-                    pluginInfo.Plugin.Deserialize(currentCommand.CommandSettings);
-                    Logging.LogMessage($"Gesture command executing. Action={executableAction.Name}, Command={currentCommand.Name}, Plugin={currentCommand.PluginClass}, TargetHwnd={target.HWnd}");
-                    // Execute plugin process
-                    pluginInfo.Plugin.Gestured(pointInfo);
-                    OnGestureActionExecuted(new GestureActionExecutedEventArgs(executableAction.Name, executableAction.GestureName, devices));
-                    executed = true;
+                    if (actionExecuted)
+                        OnGestureActionExecuted(new GestureActionExecutedEventArgs(executableAction.Name, executableAction.GestureName, devices));
                 }
 
                 if (!executed)

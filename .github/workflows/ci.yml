@@ -27,6 +27,13 @@ jobs:
           if ($LASTEXITCODE -ne 0) { Get-Content winui-x64-build.log; exit $LASTEXITCODE }
       - name: Run regression tests
         run: dotnet run --project tests/GestureSign.RegressionTests/GestureSign.RegressionTests.csproj -c Release
+      - name: Test mouse bindings and command sequences
+        shell: pwsh
+        run: |
+          dotnet run --project tests/GestureSign.MouseBindingTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.CommandSequenceTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Run TipTap state machine tests
         run: dotnet run --project tests/GestureSign.TipTapTests/GestureSign.TipTapTests.csproj -c Release
       - name: Test native edge-click ownership

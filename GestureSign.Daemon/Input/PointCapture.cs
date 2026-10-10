@@ -25,7 +25,7 @@ using WindowsInput;
 
 namespace GestureSign.Daemon.Input
 {
-    public class PointCapture : ILoadable, IPointCapture, IDisposable
+    public class PointCapture : ILoadable, IPointCapture, IMouseGestureCapture, IDisposable
     {
         #region Private Variables
 
@@ -157,6 +157,7 @@ namespace GestureSign.Daemon.Input
         #region Public Instance Properties
 
         public Devices SourceDevice { get { return _pointEventTranslator.SourceDevice; } }
+        public MouseActions MouseGestureButton => SourceDevice == Devices.Mouse ? _capturedMouseButton : MouseActions.None;
 
         public LowLevelMouseHook MouseHook
         {
@@ -640,6 +641,7 @@ namespace GestureSign.Daemon.Input
         internal int InputRecoveryCount { get; private set; }
         internal void RequestSystemRecoveryForTest() => _inputProvider.RequestRecovery("SelfTestSystemEvent");
         internal bool TestPenPreemption() => _pointEventTranslator.TestPenPreemption();
+        internal bool TestMissingTouchRelease() => _pointEventTranslator.TestMissingTouchRelease();
         internal bool InputStateCleared => _pointEventTranslator.InputStateCleared;
 
         internal void RecoverInput(string reason)

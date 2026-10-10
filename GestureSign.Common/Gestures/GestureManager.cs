@@ -124,6 +124,13 @@ namespace GestureSign.Common.Gestures
             }
 
             var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
+            if (pointCapture.SourceDevice == Devices.Mouse && pointCapture.Mode != CaptureMode.Training)
+            {
+                var eligibleNames = new HashSet<string>(GestureSign.Common.Applications.ApplicationManager.Instance
+                    .GetRecognizedDefinedAction(action => !string.IsNullOrWhiteSpace(action.GestureName))
+                    .Select(action => action.GestureName), StringComparer.OrdinalIgnoreCase);
+                sourceGesture = sourceGesture?.Where(gesture => eligibleNames.Contains(gesture.Name)).ToList();
+            }
             if (pointCapture.SourceDevice == Devices.Mouse)
                 LogMouseMatchDiagnostics(e.Points.Select(l => l.ToArray()).ToArray(), sourceGesture, _gestureLevel);
             GestureName = GetGestureSetNameMatch(e.Points.Select(l => l.ToArray()).ToArray(), sourceGesture, _gestureLevel, out _gestureMatchResult);

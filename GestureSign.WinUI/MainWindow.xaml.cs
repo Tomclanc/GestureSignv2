@@ -5031,7 +5031,7 @@ public sealed partial class MainWindow : Window
         var text = NewCardPanel(4);
         text.Children.Add(new TextBlock { Text = DisplayName(action.Name), Style = BodyStrongTextBlockStyle });
         text.Children.Add(new TextBlock { Text = ActionSummary(application, action), Opacity = 0.68, TextWrapping = TextWrapping.Wrap });
-        foreach (var command in action.Commands.Take(1))
+        foreach (var command in action.Commands)
         {
             var commandRow = NewListRow(DisplayName(command.Name), $"{PluginName(command.PluginClass)} · {(command.IsEnabled ? L("启用", "Enabled", "啟用", "사용") : L("停用", "Disabled", "停用", "사용 안 함"))}", null);
             text.Children.Add(commandRow);
@@ -6787,7 +6787,9 @@ public sealed partial class MainWindow : Window
             commands += $" {L("等", "and", "等", "외")} {CountText(action.Commands.Count, L("个命令", "commands", "個命令", "개 명령"))}";
 
         var scope = app.Type == "全局" ? L("全局动作", "Global Actions", "全域動作", "전역 동작") : ApplicationDisplayName(app.Name);
-        return $"{scope} · {ActionDeviceSummary(action.IgnoredDevices)} · {commands}";
+        var startButton = action.MouseGestureButton == 0 ? "" : $" · {IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures")}: {ActionMouseGestureButtonText(action.MouseGestureButton)}";
+        var combination = action.MouseHotkey == 0 ? "" : $" · {IntentText("鼠标组合快捷键", "Mouse button combinations")}: {MouseCombinationStartText(action.MouseGestureButton)} + {MouseCombinationInputText(action.MouseHotkey)}";
+        return $"{scope} · {ActionDeviceSummary(action.IgnoredDevices)}{startButton}{combination} · {commands}";
     }
 
     private string ActionDeviceSummary(int ignoredDevices)

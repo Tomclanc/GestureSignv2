@@ -1,0 +1,40 @@
+GestureSign V2 18.3.4 - issue #6 test build issue6.5
+
+ARM64: native Surface Pro 11 / Snapdragon build.
+Includes .NET Desktop Runtime and Windows App SDK. Extract the entire ZIP.
+AI and Kando are optional and are not included. No personal configuration or logs
+are bundled. This test does not replace your installed application.
+
+Fix under test:
+- After a COMPLETE touchscreen HID frame has been assembled, cancel the old
+  capture if previously active contact IDs are missing. This avoids waiting
+  forever for missing finger-up reports. Cancellation never executes an action.
+- Partial HID packets keep existing contacts, including stationary anchor fingers.
+- Ignore stray or repeated finger-up reports instead of growing gesture history.
+- Log stale-contact cancellations, missing IDs and contact counts.
+
+Testing:
+1. Back up your configuration. Fully exit the installed GestureSign V2, including
+   settings and the background/tray daemon. Run only one build at a time.
+2. Extract to a new folder and launch GestureSign.WinUI.exe. It uses your existing
+   V2 user configuration; do not import or restore it again if already configured.
+3. Test repeated gestures with one finger held still, ordinary multi-finger
+   gestures, pen and mouse gestures. Also try sleep/resume and spacedesk if used.
+4. If gestures stop again, run Collect-SupportInfo.ps1 BEFORE running
+   Recover-Input.ps1 or restarting. Review the collected ZIP before attaching it
+   to issue #6. Recovery remains available if needed.
+5. If a gesture is canceled unexpectedly, include the time and input device.
+   The log marker is "MissingFromCompleteFrame".
+6. Roll back by fully exiting this test and launching your installed version.
+
+Validation: 291 input-policy checks, regression and TipTap checks; ARM64 package
+architecture and portable dependency checks. Surface Pro 11 hardware testing
+is still required. This is a candidate fix, not a confirmed hardware resolution.
+
+Issue: https://github.com/Tomclanc/GestureSignv2/issues/6
+
+中文说明：这是触屏残留触点问题的测试版，含运行时，不包含个人配置或日志。
+先退出已有手势程序，再完整解压并运行 GestureSign.WinUI.exe，继续使用已有配置。
+请测试锚点连续手势、多指、笔和鼠标，以及休眠恢复或 spacedesk。
+若再次卡死，先运行 Collect-SupportInfo.ps1 收集日志，再恢复输入或重启。
+尚需 Surface Pro 11 实机确认，暂不作为稳定版发布。
