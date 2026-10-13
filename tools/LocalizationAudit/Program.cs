@@ -2,6 +2,8 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using System.Reflection.Metadata;
+using System.Reflection.PortableExecutable;
 using GestureSign.WinUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -117,13 +119,24 @@ if (payload is not null)
     if (!File.Exists(foundationPath)) payloadIssues.Add("Missing published GestureSign.Foundation.dll");
     else
     {
-        var assembly = System.Reflection.Assembly.LoadFile(foundationPath);
+        // Read embedded resources without loading or executing the assembly;
+        // this also permits auditing ARM64 packages from an x64 build machine.
+        using var assemblyStream = File.OpenRead(foundationPath);
+        using var pe = new PEReader(assemblyStream);
+        var metadata = pe.GetMetadataReader();
+        var resourceSection = pe.GetSectionData(pe.PEHeaders.CorHeader!.ResourcesDirectory.RelativeVirtualAddress);
+        var resources = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+        foreach (var handle in metadata.ManifestResources)
+        {
+            var resource = metadata.GetManifestResource(handle);
+            if (!resource.Implementation.IsNil) continue;
+            var offset = checked((int)resource.Offset);
+            var reader = resourceSection.GetReader(offset, resourceSection.Length - offset);
+            resources.Add(metadata.GetString(resource.Name), reader.ReadBytes(reader.ReadInt32()));
+        }
         foreach (var culture in cultures)
         {
-            using var stream = assembly.GetManifestResourceStream("Intent." + culture + ".json");
-            using var buffer = new MemoryStream();
-            stream?.CopyTo(buffer);
-            if (stream is null || !buffer.ToArray().SequenceEqual(File.ReadAllBytes(Path.Combine(repo, "GestureSign.Foundation", "Localization", "Intent", culture + ".json"))))
+            if (!resources.TryGetValue("Intent." + culture + ".json", out var bytes) || !bytes.SequenceEqual(File.ReadAllBytes(Path.Combine(repo, "GestureSign.Foundation", "Localization", "Intent", culture + ".json"))))
                 payloadIssues.Add("Missing or stale published AI catalog: " + culture);
         }
     }
