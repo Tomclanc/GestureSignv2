@@ -37,5 +37,8 @@
   "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall.": "只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。",
   "Update check failed": "检查更新失败",
   "Update download failed": "更新下载失败",
-  "View logs": "查看日志"
+  "View logs": "查看日志",
+  "The operation was canceled.": "操作已取消。",
+  "Access denied.": "访问被拒绝。",
+  "No OneDrive folder was detected. Sign in to OneDrive first.": "未检测到 OneDrive 文件夹。请先登录并启用 OneDrive。"
 }

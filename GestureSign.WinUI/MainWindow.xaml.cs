@@ -1996,7 +1996,7 @@ public sealed partial class MainWindow : Window
         catch (Exception ex)
         {
             LogException(ex);
-            await ShowInfoDialog(T("操作失败", "Operation failed"), ex.Message);
+            await ShowInfoDialog(T("操作失败", "Operation failed"), UiExceptionMessage(ex));
         }
     }
 
@@ -2010,6 +2010,23 @@ public sealed partial class MainWindow : Window
         catch
         {
         }
+    }
+
+    private string UiExceptionMessage(Exception exception)
+    {
+        LogException(exception);
+        if (exception is OperationCanceledException)
+            return T("操作已取消。", "The operation was canceled.");
+        if (exception is UnauthorizedAccessException)
+            return T("访问被拒绝。", "Access denied.") + "\n" + T("请查看日志了解详情。", "See the log for details.");
+        var culture = ResolveUiCultureName(_uiCultureName);
+        var translated = UiTranslationCatalog.TranslateMessage(culture, exception.Message);
+        if (translated != exception.Message || culture.StartsWith("en", StringComparison.OrdinalIgnoreCase))
+            return translated;
+        translated = IntentMessage(exception.Message);
+        if (translated != exception.Message) return translated;
+        return T("操作失败", "Operation failed") + $" (0x{exception.HResult:X8})\n" +
+            T("请查看日志了解详情。", "See the log for details.");
     }
 
     private FrameworkElement NewHotKeyRecorderWithClear(TextBox settings, string existingSettings, bool usesArrayKeyCode = true, Action<string>? onRecorded = null)
@@ -3438,7 +3455,7 @@ public sealed partial class MainWindow : Window
 
     private async Task AddGestureAsync()
     {
-        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = "NewGesture" };
+        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = T("新手势", "New Gesture") };
         var fingerCount = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 2 };
         foreach (var item in new[] { T("1 指", "1 finger"), T("2 指", "2 fingers"), T("3 指", "3 fingers"), T("4 指", "4 fingers"), T("5 指", "5 fingers") })
             fingerCount.Items.Add(item);
@@ -3487,7 +3504,7 @@ public sealed partial class MainWindow : Window
 
     private async Task StartDaemonGestureTrainingAsync()
     {
-        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = "NewGesture" };
+        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = T("新手势", "New Gesture") };
         var panel = NewCardPanel(8);
         panel.Children.Add(name);
         panel.Children.Add(new TextBlock { Text = T("点击开始后，请用触控板/触摸屏绘制真实多指手势。后台捕获完成后会自动保存。", "Click Start, then draw a real multi-finger gesture on the touchpad or touchscreen. It is saved automatically after capture."), TextWrapping = TextWrapping.Wrap, Opacity = 0.68 });
@@ -3512,7 +3529,7 @@ public sealed partial class MainWindow : Window
         await NotifyDaemonAsync(DaemonCommand.StopTraining);
         _trainingPipeServer.Stop();
 
-        var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? "NewGesture" : _pendingTrainingGestureName;
+        var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? T("新手势", "New Gesture") : _pendingTrainingGestureName;
 
         if (_pendingTrainingStatus is not null)
         {
@@ -3536,7 +3553,7 @@ public sealed partial class MainWindow : Window
 
     private async Task StartGestureTrainingForNameAsync(string gestureName, TextBlock status, Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>>? preview = null)
     {
-        _pendingTrainingGestureName = string.IsNullOrWhiteSpace(gestureName) ? "NewGesture" : gestureName;
+        _pendingTrainingGestureName = string.IsNullOrWhiteSpace(gestureName) ? T("新手势", "New Gesture") : gestureName;
         _pendingTrainingStatus = status;
         _pendingTrainingPreview = preview;
         _trainingPipeServer.Start();
@@ -3553,7 +3570,7 @@ public sealed partial class MainWindow : Window
 
     private async Task DrawGestureAsync(LegacyGesture? gesture)
     {
-        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = gesture?.Name ?? "NewGesture" };
+        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = gesture?.Name ?? T("新手势", "New Gesture") };
         var sample = new List<List<(double X, double Y)>>();
         var drawing = NewInlineGestureDrawingPanel(sample, out _, out var clear, width: 620, height: 300);
         var panel = NewCardPanel(8);
@@ -5651,7 +5668,7 @@ public sealed partial class MainWindow : Window
         catch (Exception ex)
         {
             LogException(ex);
-            await ShowInfoDialog(T("选项保存失败", "Could not save options"), ex.Message);
+            await ShowInfoDialog(T("选项保存失败", "Could not save options"), UiExceptionMessage(ex));
         }
         finally
         {
@@ -5732,7 +5749,7 @@ public sealed partial class MainWindow : Window
             catch (Exception ex)
             {
                 RefreshStartupToggleStates();
-                await ShowInfoDialog(L("启动项设置失败", "Startup setting failed", "啟動項設定失敗", "시작 항목 설정 실패"), ex.Message);
+                await ShowInfoDialog(L("启动项设置失败", "Startup setting failed", "啟動項設定失敗", "시작 항목 설정 실패"), UiExceptionMessage(ex));
             }
             finally
             {
@@ -5780,7 +5797,7 @@ public sealed partial class MainWindow : Window
             catch (Exception ex)
             {
                 RefreshStartupToggleStates();
-                await ShowInfoDialog(L("管理员启动设置失败", "Administrator startup setting failed", "系統管理員啟動設定失敗", "관리자 시작 설정 실패"), ex.Message);
+                await ShowInfoDialog(L("管理员启动设置失败", "Administrator startup setting failed", "系統管理員啟動設定失敗", "관리자 시작 설정 실패"), UiExceptionMessage(ex));
             }
             finally
             {
@@ -5823,7 +5840,7 @@ public sealed partial class MainWindow : Window
                 LogException(ex);
                 await ShowInfoDialog(
                     L("OneDrive 同步设置失败", "OneDrive sync setting failed", "OneDrive 同步設定失敗", "OneDrive 동기화 설정 실패"),
-                    ex.Message);
+                    UiExceptionMessage(ex));
             }
         };
 
@@ -5982,7 +5999,7 @@ public sealed partial class MainWindow : Window
             {
                 await ShowInfoDialog(
                     L("检查更新失败", "Update check failed", "檢查更新失敗", "업데이트 확인 실패"),
-                    ex.Message);
+                    UiExceptionMessage(ex));
             }
         }
         finally
@@ -6068,7 +6085,7 @@ public sealed partial class MainWindow : Window
             LogException(ex);
             await ShowInfoDialog(
                 L("下载更新失败", "Update download failed", "下載更新失敗", "업데이트 다운로드 실패"),
-                ex.Message);
+                UiExceptionMessage(ex));
             return;
         }
 
@@ -6106,7 +6123,7 @@ public sealed partial class MainWindow : Window
             LogException(ex);
             await ShowInfoDialog(
                 L("无法启动更新", "Unable to start update", "無法啟動更新", "업데이트를 시작할 수 없음"),
-                ex.Message);
+                UiExceptionMessage(ex));
             return;
         }
 

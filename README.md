@@ -139,6 +139,7 @@ WinGet 18.3.7 的更新见 [提交记录](https://github.com/microsoft/winget-pk
 - 修复启动后第一次点击“设置命令”可能无响应或提示“配置已更新”的问题；后台检查更新及保存选项不再使动作按钮引用失效。
 - 动作按钮点击时自动定位当前配置中的动作，支持配置重载后的编辑、启停、命令设置和删除，避免同名动作或列表变化时选错目标。
 - 增加重复点击防护、动作引用恢复日志和回归检查。
+- 纳入 [Lambchop1020 的日语校对（PR #23）](https://github.com/Tomclanc/GestureSignv2/pull/23)，补齐数据源、手势默认名称、鼠标选项和异常提示的本地化，调整样本纠错标题。
 
 18.3.6 改进弹窗生命周期、最大化/还原/最小化窗口命令，并为手势库加入列表、网格和磁贴视图。
 
@@ -301,6 +302,7 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 - Fix the first Set Command click after startup silently failing or reporting that configuration changed. Update checks and option saves now refresh settings without invalidating action bindings.
 - Resolve action buttons against the current configuration after reloads, including edit, enable/disable, command settings and delete, without selecting another same-name action or relying on list positions.
 - Add repeated-click protection, action recovery diagnostics and regression coverage.
+- Incorporate [Japanese proofreading by Lambchop1020 (PR #23)](https://github.com/Tomclanc/GestureSignv2/pull/23), localize data sources, default gesture names and error messages, and unify mouse options and the sample review heading.
 
 18.3.6 improved dialog lifetimes and maximize/restore/minimize commands, and added List, Grid and Tiles gesture-library views.
 
@@ -469,6 +471,7 @@ WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pull
 - 起動後、最初にコマンド設定をクリックした際に反応しない、または設定変更のメッセージが表示される問題を修正。更新確認とオプション保存では、アクションへの参照を保持して設定だけを更新します。
 - 設定の再読み込み後も、編集、有効・無効の切り替え、コマンド設定、削除の対象を現在の設定から特定します。同名のアクションや一覧の並び替えで別の対象を選びません。
 - 連続クリックの防止、アクション参照の復旧ログ、回帰テストを追加。
+- [Lambchop1020 さんの日本語校正（PR #23）](https://github.com/Tomclanc/GestureSignv2/pull/23)を取り込み、設定のデータ元、ジェスチャーの初期名、エラー表示を日本語化。マウスボタンの用語とサンプル確認・修正の見出しも統一しました。
 
 18.3.6 ではダイアログと最大化・元に戻す・最小化の処理を改善し、ジェスチャーライブラリにリスト・グリッド・タイル表示を追加しました。
 

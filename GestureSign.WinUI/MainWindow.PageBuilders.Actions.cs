@@ -49,7 +49,9 @@ public sealed partial class MainWindow
 
         var appsPanel = NewCardPanel(12);
         var userApps = _legacyData.Applications.Where(app => app.Type != "忽略").ToList();
-        appsPanel.Children.Add(NewCardHeader(L("程序", "Applications", "程式", "프로그램"), $"{L("添加、编辑、删除或按分组管理匹配程序。数据源:", "Add, edit, delete, or group matching applications. Source:", "新增、編輯、刪除或依群組管理比對程式。資料來源:", "매칭 프로그램을 추가, 편집, 삭제하거나 그룹별로 관리합니다. 데이터 원본:")} {_legacyData.DataSource}", L("添加程序", "Add App", "新增程式", "프로그램 추가"), "添加程序"));
+        var dataSourceText = _legacyData.DataSource == "Defaults"
+            ? T("默认配置", "Default configuration") : T("用户配置", "User configuration");
+        appsPanel.Children.Add(NewCardHeader(L("程序", "Applications", "程式", "프로그램"), $"{L("添加、编辑、删除或按分组管理匹配程序。数据源:", "Add, edit, delete, or group matching applications. Source:", "新增、編輯、刪除或依群組管理比對程式。資料來源:", "매칭 프로그램을 추가, 편집, 삭제하거나 그룹별로 관리합니다. 데이터 원본:")} {dataSourceText}", L("添加程序", "Add App", "新增程式", "프로그램 추가"), "添加程序"));
         AddActionScopeRow(appsPanel, "all", NewListRow(L("全部动作", "All Actions", "全部動作", "모든 동작"), CountText(userApps.Sum(app => app.Actions.Count), L("个动作", "actions", "個動作", "개 동작")), null, _selectedActionScope == "all", () => SelectActionScope("all")));
         foreach (var group in userApps.GroupBy(app => string.IsNullOrWhiteSpace(app.Group) ? "(默认)" : app.Group))
         {

@@ -422,7 +422,7 @@ public sealed partial class MainWindow
     private ComboBox NewMouseCombinationPicker(int hotkey)
     {
         var picker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
-        foreach (var item in new[] { IntentText("不使用", "Off"), T("滚轮前", "Wheel up"), T("滚轮后", "Wheel down"), T("左键", "Left"), T("右键", "Right"), T("中键", "Middle"), T("X1 键", "X1 button"), T("X2 键", "X2 button") })
+        foreach (var item in new[] { IntentText("不使用", "Off"), T("滚轮前", "Wheel up"), T("滚轮后", "Wheel down"), T("左键", "Left button"), T("右键", "Right button"), T("中键", "Middle button"), T("X1 键", "X1 button"), T("X2 键", "X2 button") })
             picker.Items.Add(item);
         picker.SelectedIndex = MouseActionIndex(hotkey);
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(picker, IntentText("鼠标组合快捷键", "Mouse button combinations"));
@@ -467,7 +467,7 @@ public sealed partial class MainWindow
     private ComboBox NewActionMouseGestureButton(int button)
     {
         var picker = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
-        foreach (var text in new[] { IntentText("任意", "Any"), IntentText("左键", "Left"), IntentText("中键", "Middle"), IntentText("右键", "Right") }) picker.Items.Add(text);
+        foreach (var text in new[] { IntentText("任意", "Any"), T("左键", "Left button"), T("中键", "Middle button"), T("右键", "Right button") }) picker.Items.Add(text);
         picker.SelectedIndex = button switch { 1048576 => 1, 4194304 => 2, 2097152 => 3, _ => 0 };
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(picker, IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"));
         return picker;
@@ -477,7 +477,7 @@ public sealed partial class MainWindow
     { 1 => 1048576, 2 => 4194304, 3 => 2097152, _ => 0 };
 
     private string ActionMouseGestureButtonText(int button) => button switch
-    { 1048576 => IntentText("左键", "Left"), 4194304 => IntentText("中键", "Middle"), 2097152 => IntentText("右键", "Right"), _ => IntentText("任意", "Any") };
+    { 1048576 => T("左键", "Left button"), 4194304 => T("中键", "Middle button"), 2097152 => T("右键", "Right button"), _ => IntentText("任意", "Any") };
 
     private FrameworkElement NewGesturePickerRow(
         TextBox gesture,

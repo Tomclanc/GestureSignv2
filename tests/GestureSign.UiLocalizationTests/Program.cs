@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using GestureSign.WinUI;
@@ -14,6 +14,17 @@ void Check(bool passed, string description)
 }
 var repo = Path.GetFullPath(args.Length > 0 ? args[0] : ".");
 Check(UiTranslationCatalog.TranslateFallback("en-US", "新动作", "New Action") == "New Action", "English editor caption");
+Check(UiTranslationCatalog.Translate("ja-JP", "Default configuration") == "既定の設定", "Japanese default data source");
+Check(UiTranslationCatalog.Translate("ja-JP", "User configuration") == "ユーザー設定", "Japanese user data source");
+Check(UiTranslationCatalog.Translate("ja-JP", "New Gesture") == "新しいジェスチャー", "Japanese new gesture default name");
+Check(UiTranslationCatalog.TranslateMessage("ja-JP", "No OneDrive folder was detected. Sign in to OneDrive first.") ==
+    "OneDrive フォルダーが見つかりません。先に OneDrive にサインインしてください。", "English exception translated to Japanese");
+Check(UiTranslationCatalog.TranslateMessage("ja-JP", "未检测到 OneDrive 文件夹。请先登录并启用 OneDrive。") ==
+    "OneDrive フォルダーが見つかりません。先に OneDrive にサインインしてください。", "Legacy Chinese exception translated at display boundary");
+var customPath = "C:/用户自定义/Right/未检测到 OneDrive 文件夹。/file.json";
+Check(UiTranslationCatalog.TranslateMessage("ja-JP", customPath) == customPath, "Do not translate text inside user paths");
+foreach (var (key, expected) in new[] { ("Left button", "左ボタン"), ("Middle button", "中央ボタン"), ("Right button", "右ボタン") })
+    Check(UiTranslationCatalog.Translate("ja-JP", key) == expected, "Consistent Japanese mouse button terminology");
 Check(UiTranslationCatalog.TranslateFallback("en-GB", "新动作", "New Action") == "New Action", "British English editor caption");
 foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
 {

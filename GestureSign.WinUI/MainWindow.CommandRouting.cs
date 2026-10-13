@@ -99,7 +99,7 @@ public sealed partial class MainWindow
         }
         catch (Exception ex)
         {
-            await ShowInfoDialog(T("操作失败", "Operation failed"), ex.Message);
+            await ShowInfoDialog(T("操作失败", "Operation failed"), UiExceptionMessage(ex));
         }
     }
 

@@ -119,8 +119,8 @@ internal sealed class LegacyDataStore
             OneDriveSyncEnabled = oneDriveSyncEnabled,
             OneDriveSyncPath = oneDrivePath,
             DataSource = actionsPath is null || actionsFromDefaults
-                ? "默认配置"
-                : "用户配置"
+                ? "Defaults"
+                : "User"
         };
     }
 
@@ -144,7 +144,7 @@ internal sealed class LegacyDataStore
     public void SetOneDriveSyncEnabled(bool enabled)
     {
         var targetPath = enabled
-            ? GetOneDriveApplicationDataPath() ?? throw new InvalidOperationException("未检测到 OneDrive 文件夹。")
+            ? GetOneDriveApplicationDataPath() ?? throw new InvalidOperationException("No OneDrive folder was detected. Sign in to OneDrive first.")
             : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), ApplicationDataFolderName);
 
         CopyConfigurationFiles(targetPath, ActionsPath, GesturesPath, ConfigPath);

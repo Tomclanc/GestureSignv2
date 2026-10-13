@@ -80,7 +80,7 @@ public sealed partial class MainWindow
         installLocation.SelectionChanged += (_, _) =>
         {
             try { IntentComponentLocation.Select(AppContext.BaseDirectory, installLocation.SelectedIndex == 1); installPath.Text = IntentComponentService.InstallDirectory; }
-            catch (Exception ex) { status.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { status.Text = UiExceptionMessage(ex); }
         };
         var progress = new ProgressBar { Minimum = 0, Maximum = 100, Visibility = Visibility.Collapsed };
         content.Children.Add(progress);
@@ -147,7 +147,7 @@ public sealed partial class MainWindow
                 savingNotification = true;
                 vetoNotifications.IsOn = IntentNotificationSettings.ReadEnabled();
                 savingNotification = false;
-                status.Text = IntentText("通知设置保存失败：", "Could not save notification setting: ") + IntentMessage(ex.Message);
+                status.Text = IntentText("通知设置保存失败：", "Could not save notification setting: ") + UiExceptionMessage(ex);
             }
         };
         settings.Children.Add(vetoNotifications);
@@ -231,7 +231,7 @@ public sealed partial class MainWindow
         {
             if (progressPolling) return; progressPolling = true;
             try { ShowTrainingProgress(await _intentComponent.SendAsync(new("progress"))); }
-            catch (Exception ex) { trainingTimer.Stop(); trainingText.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { trainingTimer.Stop(); trainingText.Text = UiExceptionMessage(ex); }
             finally { progressPolling = false; }
         };
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
@@ -355,7 +355,7 @@ public sealed partial class MainWindow
             remove.Visibility = installed ? Visibility.Visible : Visibility.Collapsed;
             download.IsEnabled = import.IsEnabled = remove.IsEnabled = !transfer;
             status.Text = installed ? IntentText("学习组件已安装 · 独立更新，默认关闭", "Learning component installed · updated separately, disabled by default") : IntentText("尚未安装，可选下载后启用。", "Not installed. Download only if you want to use learning.");
-            try { if (!installed) status.Text += $"  {_intentComponent.Asset.Bytes / 1048576d:0.0} MB · {IntentComponentService.Architecture}"; } catch (Exception ex) { status.Text += " " + IntentMessage(ex.Message); }
+            try { if (!installed) status.Text += $"  {_intentComponent.Asset.Bytes / 1048576d:0.0} MB · {IntentComponentService.Architecture}"; } catch (Exception ex) { status.Text += " " + UiExceptionMessage(ex); }
         }
         async Task Refresh()
         {
@@ -427,7 +427,7 @@ public sealed partial class MainWindow
                 updating = false; SelectionState();
             }
             catch (OperationCanceledException) { if (loaded) status.Text = IntentText("学习引擎响应较慢，正在重试；已有显示暂未更新。", "The learning engine is responding slowly. Retrying; displayed data has not refreshed."); }
-            catch (Exception ex) { if (loaded) status.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { if (loaded) status.Text = UiExceptionMessage(ex); }
             finally { refreshing = false; updating = false; }
         }
         async Task Command(IntentHostRequest request)
@@ -443,13 +443,13 @@ public sealed partial class MainWindow
                 }
                 await Refresh();
             }
-            catch (Exception ex) { report.Text = IntentMessage(ex.Message); report.Visibility = Visibility.Visible; if (request.Command == "train") { trainingTimer.Stop(); trainingText.Text = IntentText("训练未启动：", "Training did not start: ") + IntentMessage(ex.Message); train.IsEnabled = true; } }
+            catch (Exception ex) { report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; if (request.Command == "train") { trainingTimer.Stop(); trainingText.Text = IntentText("训练未启动：", "Training did not start: ") + UiExceptionMessage(ex); train.IsEnabled = true; } }
         }
         samples.SelectionChanged += async (_, _) =>
         {
             SelectionState(); if (updating) return; var id = SelectedId(); selectedTrace = null; DrawTrace(); if (id == null) return;
             try { var response = await _intentComponent.SendAsync(new("trace", SampleId: id)); if (SelectedId() == id) { selectedTrace = response.Sample; DrawTrace(); } }
-            catch (Exception ex) { report.Text = IntentMessage(ex.Message); report.Visibility = Visibility.Visible; }
+            catch (Exception ex) { report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; }
         };
         refreshSamples.Click += async (_, _) => { reloadSamples = true; await Refresh(); };
         background.Click += async (_, _) =>
@@ -506,7 +506,7 @@ public sealed partial class MainWindow
                         if (gesture == null) correctedNames.Remove(id); else correctedNames[id] = gesture;
                         saved++;
                     }
-                    catch (Exception ex) { failed++; lastError = IntentMessage(ex.Message); continue; }
+                    catch (Exception ex) { failed++; lastError = UiExceptionMessage(ex); continue; }
                     try
                     {
                         var item = samples.Items.Cast<ListViewItem>().FirstOrDefault(i => (string)i.Tag == id);
@@ -522,7 +522,7 @@ public sealed partial class MainWindow
                             if (SelectedId() == sample.Id) { selectedTrace = sample; DrawTrace(); }
                         }
                     }
-                    catch (Exception ex) { refreshFailed++; lastError = IntentMessage(ex.Message); }
+                    catch (Exception ex) { refreshFailed++; lastError = UiExceptionMessage(ex); }
                 }
                 string operation = command == "delete" ? IntentText("删除", "Delete") : label == IntentLabel.Scroll ? IntentText("标记为滚动", "Mark as scrolling") : label == IntentLabel.Gesture ? IntentText("标记为有意手势", "Mark as intentional") : IntentText("撤销标注", "Clear labels");
                 correctionStatus.Text = IntentFormat("{0}: {1} succeeded, {2} failed.", operation, saved, failed) +
@@ -562,7 +562,7 @@ public sealed partial class MainWindow
                 if (await ShowDialogAsync(dialog) == ContentDialogResult.Primary && choice.SelectedItem is ComboBoxItem { Tag: LegacyGesture selected })
                     await CorrectSamples("label", IntentLabel.Gesture, gesture: selected.Name, targetIds: ids);
             }
-            catch (Exception ex) { correctionStatus.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { correctionStatus.Text = UiExceptionMessage(ex); }
         };
         labelScroll.Click += async (_, _) => await CorrectSamples("label", IntentLabel.Scroll);
         unlabel.Click += async (_, _) => await CorrectSamples("label");
@@ -580,7 +580,7 @@ public sealed partial class MainWindow
                 InstalledState();
             }
             catch (OperationCanceledException) { status.Text = IntentText("已取消。", "Canceled."); }
-            catch (Exception ex) { status.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { status.Text = UiExceptionMessage(ex); }
             finally { transfer = false; componentBackend.IsEnabled = installLocation.IsEnabled = !_intentComponent.Installed; download.IsEnabled = import.IsEnabled = remove.IsEnabled = true; cancel.Visibility = progress.Visibility = Visibility.Collapsed; await Refresh(); }
         }
         download.Click += async (_, _) => await Install(false); import.Click += async (_, _) => await Install(true); cancel.Click += (_, _) => cancellation.Cancel();
@@ -589,7 +589,7 @@ public sealed partial class MainWindow
         {
             if (transfer) return; transfer = true; installLocation.IsEnabled = false;
             try { await _intentComponent.UninstallAsync(); InstalledState(); }
-            catch (Exception ex) { status.Text = IntentMessage(ex.Message); }
+            catch (Exception ex) { status.Text = UiExceptionMessage(ex); }
             finally { transfer = false; componentBackend.IsEnabled = installLocation.IsEnabled = !_intentComponent.Installed; download.IsEnabled = import.IsEnabled = remove.IsEnabled = true; }
         };
         content.Loaded += async (_, _) => { loaded = true; ApplyAccessibleTree(Root); timer.Start(); await Refresh(); };
