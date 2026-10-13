@@ -1957,7 +1957,10 @@ public sealed partial class MainWindow : Window
             var button = NewPillButton(item.Text, false);
             button.Click += async (_, args) =>
             {
-                await RunUiActionAsync(item.Action);
+                if (!button.IsEnabled) return;
+                button.IsEnabled = false;
+                try { await RunUiActionAsync(item.Action); }
+                finally { button.IsEnabled = true; }
             };
             panel.Children.Add(button);
         }
@@ -1973,7 +1976,10 @@ public sealed partial class MainWindow : Window
             var button = NewPillButton(item.Text, false);
             button.Click += async (_, args) =>
             {
-                await RunUiActionAsync(() => item.Action(button));
+                if (!button.IsEnabled) return;
+                button.IsEnabled = false;
+                try { await RunUiActionAsync(() => item.Action(button)); }
+                finally { button.IsEnabled = true; }
             };
             panel.Children.Add(button);
         }
@@ -5020,6 +5026,23 @@ public sealed partial class MainWindow : Window
 
     private FrameworkElement NewActionRow(LegacyApplication application, LegacyAction action)
     {
+        async Task WithCurrentAction(Func<LegacyApplication, LegacyAction, Task> operation)
+        {
+            var current = ActionSelection.Resolve(_legacyData.Applications, application, action);
+            if (current is null)
+            {
+                LogDialog($"Action no longer available or ambiguous: {action.Name}; refreshing cards");
+                ReloadActionDataOnly();
+                return;
+            }
+            var owner = FindApplicationForAction(current)!;
+            if (!ReferenceEquals(current.Source, action.Source))
+                LogDialog($"Resolved refreshed action automatically: {action.Name}");
+            application = owner;
+            action = current;
+            await operation(owner, current);
+        }
+
         var grid = new Grid { ColumnSpacing = 14, RowSpacing = 10 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
         grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -5042,10 +5065,10 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(text);
 
         var buttons = NewInlineButtonsWithContext(
-            (L("编辑", "Edit", "編輯", "편집"), async _ => await EditActionAsync(action)),
-            (action.IsEnabled ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"), async button => await ToggleEnabledAsync(action.Source, button)),
-            (L("设置命令", "Set Command", "設定命令", "명령 설정"), async _ => await SetCommandAsync(action)),
-            (L("删除", "Delete", "刪除", "삭제"), async _ => await DeleteActionAsync(application, action)));
+            (L("编辑", "Edit", "編輯", "편집"), async _ => await WithCurrentAction((_, current) => EditActionAsync(current))),
+            (action.IsEnabled ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"), async button => await WithCurrentAction(async (_, current) => { await ToggleEnabledAsync(current.Source, button); })),
+            (L("设置命令", "Set Command", "設定命令", "명령 설정"), async _ => await WithCurrentAction((_, current) => SetCommandAsync(current))),
+            (L("删除", "Delete", "刪除", "삭제"), async _ => await WithCurrentAction((owner, current) => DeleteActionAsync(owner, current))));
         Grid.SetColumn(buttons, 2);
         grid.Children.Add(buttons);
         ConfigureResponsiveActionRow(grid, gestureBox, text, buttons, 760);
@@ -5622,7 +5645,7 @@ public sealed partial class MainWindow : Window
                 foreach (var (key, value) in updates)
                     _legacyData.UpdateOption(key, value);
             });
-            _legacyData = LegacyDataStore.Load();
+            _legacyData.ReloadOptions();
             await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
         }
         catch (Exception ex)
@@ -5972,7 +5995,7 @@ public sealed partial class MainWindow : Window
     {
         var value = DateTimeOffset.UtcNow.ToString("O", CultureInfo.InvariantCulture);
         await Task.Run(() => _legacyData.UpdateOption("LastUpdateCheckUtc", value));
-        _legacyData = LegacyDataStore.Load();
+        _legacyData.ReloadOptions();
     }
 
     private async Task DownloadAndInstallUpdateAsync(GitHubReleaseInfo latest)

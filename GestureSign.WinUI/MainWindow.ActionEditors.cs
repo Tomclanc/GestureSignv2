@@ -128,6 +128,9 @@ public sealed partial class MainWindow
                 : L("启用", "Enable", "啟用", "사용");
             toggleButton.UpdateLayout();
             _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
+            // Loading a fresh store invalidates every action/command JSON node
+            // captured by the existing cards. Rebuild their handlers as well.
+            ReloadActionDataOnly();
         }
         finally
         {

@@ -11,11 +11,16 @@ public sealed partial class MainWindow
 {
     private async Task ManageCommandsAsync(LegacyAction action)
     {
+        LogDialog($"Command editor requested: {action.Name}");
         var location = _legacyData.Applications
             .SelectMany((app, appIndex) => app.Actions.Select((item, actionIndex) => (item, appIndex, actionIndex)))
             .FirstOrDefault(entry => ReferenceEquals(entry.item.Source, action.Source));
         if (location.item is null)
+        {
+            LogDialog($"Command editor target is stale: {action.Name}; refreshing action cards");
+            ReloadActionDataOnly();
             return;
+        }
 
         while (true)
         {

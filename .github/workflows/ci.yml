@@ -37,6 +37,8 @@ jobs:
       - name: Test dialog lifecycle and window state commands
         shell: pwsh
         run: |
+          dotnet run --project tests/GestureSign.ActionSelectionTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet run --project tests/GestureSign.DialogLifecycleTests -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet run --project tests/GestureSign.WindowStateTests -c Release

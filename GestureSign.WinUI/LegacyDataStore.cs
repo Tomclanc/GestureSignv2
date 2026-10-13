@@ -45,7 +45,7 @@ internal sealed class LegacyDataStore
 
     public IReadOnlyList<LegacyApplication> Applications { get; private init; } = [];
     public IReadOnlyList<LegacyGesture> Gestures { get; private init; } = [];
-    public LegacyOptions Options { get; private init; } = new();
+    public LegacyOptions Options { get; private set; } = new();
     public string DataSource { get; private init; } = "Defaults";
     public string RoamingPath { get; private init; } = "";
     public string LocalPath { get; private init; } = "";
@@ -582,6 +582,10 @@ internal sealed class LegacyDataStore
             entry.ExtractToFile(destination, true);
         }
     }
+
+    // A settings-only refresh must not invalidate action cards or open editors.
+    public void ReloadOptions()
+        => Options = LoadOptions(FirstExisting(Path.Combine(RoamingPath, ConfigFileName), ConfigPath ?? ""));
 
     public void UpdateOption(string key, string value)
     {
