@@ -1004,9 +1004,13 @@ namespace ManagedWinapi.Windows
                 WINDOWPLACEMENT wp = new WINDOWPLACEMENT();
                 wp.length = Marshal.SizeOf(wp);
                 GetWindowPlacement(HWnd, ref wp);
-                switch (wp.showCmd % 4)
+                switch (wp.showCmd)
                 {
-                    case 2: return FormWindowState.Minimized;
+                    case 2: // SW_SHOWMINIMIZED
+                    case 6: // SW_MINIMIZE
+                    case 7: // SW_SHOWMINNOACTIVE
+                    case 11: // SW_FORCEMINIMIZE
+                        return FormWindowState.Minimized;
                     case 3: return FormWindowState.Maximized;
                     default: return FormWindowState.Normal;
                 }
@@ -1034,6 +1038,21 @@ namespace ManagedWinapi.Windows
         public bool RestoreWindow()
         {
             return ShowWindowAsync(HWnd, SW_RESTORE);
+        }
+
+        /// <summary>Queue a state change on the target window's owning thread.</summary>
+        public bool RequestWindowState(FormWindowState state)
+        {
+            if (HWnd == IntPtr.Zero || !IsWindow(HWnd))
+                return false;
+            var command = state switch
+            {
+                FormWindowState.Normal => SW_RESTORE,
+                FormWindowState.Minimized => 6, // SW_MINIMIZE: do not activate first.
+                FormWindowState.Maximized => 3,
+                _ => -1
+            };
+            return command >= 0 && ShowWindowAsync(HWnd, command);
         }
 
         /// <summary>

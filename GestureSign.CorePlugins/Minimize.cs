@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Plugins;
+using GestureSign.Common.Plugins;
 using ManagedWinapi.Windows;
 using GestureSign.Common.Localization;
 
@@ -62,21 +62,7 @@ namespace GestureSign.CorePlugins
 
         public bool Gestured(PointInfo ActionPoint)
         {
-            try
-            {
-                var className = ActionPoint.Window.ClassName;
-                // Don't attempt to minimize tool windows (including Windows Program Manager)
-                if ("Windows.UI.Core.CoreWindow".Equals(className) ||
-                   "ImmersiveBackgroundWindow".Equals(className) ||
-                   "ImmersiveLauncher".Equals(className) ||
-                   (ActionPoint.Window.ExtendedStyle & WindowExStyleFlags.TOOLWINDOW) == WindowExStyleFlags.TOOLWINDOW)
-                    return false;
-
-                // Minimize window
-                ActionPoint.Window.WindowState = System.Windows.Forms.FormWindowState.Minimized;
-            }
-            catch { return false; }
-            return true;
+            return WindowStateCommand.Execute(ActionPoint, true);
         }
 
         public bool Deserialize(string SerializedData)

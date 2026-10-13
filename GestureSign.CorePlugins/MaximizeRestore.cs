@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Plugins;
+using GestureSign.Common.Plugins;
 using GestureSign.Common.Localization;
 
 namespace GestureSign.CorePlugins
@@ -30,7 +30,9 @@ namespace GestureSign.CorePlugins
 
         public bool ActivateWindowDefault
         {
-            get { return true; }
+            // This command addresses the captured HWND directly. Foreground
+            // activation restrictions must not prevent the state request.
+            get { return false; }
         }
 
         public string Category
@@ -61,13 +63,7 @@ namespace GestureSign.CorePlugins
 
         public bool Gestured(PointInfo ActionPoint)
         {
-            // Toggle window state
-            if (ActionPoint.Window.WindowState == System.Windows.Forms.FormWindowState.Maximized)
-                ActionPoint.Window.WindowState = System.Windows.Forms.FormWindowState.Normal;
-            else
-                ActionPoint.Window.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-
-            return true;
+            return WindowStateCommand.Execute(ActionPoint, false);
         }
 
         public bool Deserialize(string SerializedData)

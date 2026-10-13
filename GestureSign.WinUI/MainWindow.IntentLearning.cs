@@ -559,7 +559,7 @@ public sealed partial class MainWindow
                 panel.Children.Add(choice); panel.Children.Add(preview);
                 var dialog = new ContentDialog { Title = IntentText("纠正为指定手势", "Correct to gesture"), Content = panel, PrimaryButtonText = IntentText("保存纠正", "Save correction"), CloseButtonText = IntentText("取消", "Cancel"), IsPrimaryButtonEnabled = false, XamlRoot = Content.XamlRoot };
                 choice.SelectionChanged += (_, _) => dialog.IsPrimaryButtonEnabled = choice.SelectedItem != null;
-                if (await dialog.ShowAsync() == ContentDialogResult.Primary && choice.SelectedItem is ComboBoxItem { Tag: LegacyGesture selected })
+                if (await ShowDialogAsync(dialog) == ContentDialogResult.Primary && choice.SelectedItem is ComboBoxItem { Tag: LegacyGesture selected })
                     await CorrectSamples("label", IntentLabel.Gesture, gesture: selected.Name, targetIds: ids);
             }
             catch (Exception ex) { correctionStatus.Text = IntentMessage(ex.Message); }

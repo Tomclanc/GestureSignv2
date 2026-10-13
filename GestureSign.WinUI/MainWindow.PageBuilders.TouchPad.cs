@@ -564,7 +564,7 @@ public sealed partial class MainWindow
             CloseButtonText = T("取消", "Cancel"),
             DefaultButton = ContentDialogButton.Primary
         };
-        var result = await dialog.ShowAsync();
+        var result = await ShowDialogAsync(dialog);
         if (result == ContentDialogResult.Secondary)
         {
             await DeleteTouchPadEdgeAsync(gestureName, title, confirm: false);

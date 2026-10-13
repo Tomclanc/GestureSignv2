@@ -4741,7 +4741,7 @@ public sealed partial class MainWindow : Window
             CloseButtonText = L("取消", "Cancel", "取消", "취소"),
             DefaultButton = ContentDialogButton.Primary
         };
-        return await dialog.ShowAsync() == ContentDialogResult.Primary;
+        return await ShowDialogAsync(dialog) == ContentDialogResult.Primary;
     }
 
     private string DeleteConfirmationTitle() =>
@@ -4841,7 +4841,7 @@ public sealed partial class MainWindow : Window
             Content = message,
             CloseButtonText = T("确定", "OK")
         };
-        await dialog.ShowAsync();
+        await ShowDialogAsync(dialog);
     }
 
     private FrameworkElement NewListRow(string title, string subtitle, FrameworkElement? trailing, bool isSelected = false, Action? onClick = null)
@@ -5561,57 +5561,6 @@ public sealed partial class MainWindow : Window
         };
     }
 
-    private FrameworkElement NewGestureGroup(string title, LegacyGesture[] gestures)
-    {
-        var panel = NewCardPanel(10);
-        panel.Children.Add(new TextBlock { Text = $"{title}  {CountText(gestures.Length, L("个", "items", "個", "개"))}", Style = BodyStrongTextBlockStyle });
-
-        var wrap = new VariableSizedWrapGrid
-        {
-            Orientation = Orientation.Horizontal,
-            HorizontalChildrenAlignment = HorizontalAlignment.Left,
-            VerticalChildrenAlignment = VerticalAlignment.Top
-        };
-        foreach (var gesture in gestures)
-        {
-            var content = NewCardPanel(6);
-            content.Children.Add(NewGestureCanvas(gesture, 148, 74));
-            content.Children.Add(new TextBlock
-            {
-                Text = DisplayName(gesture.Name),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                TextAlignment = TextAlignment.Center,
-                TextWrapping = TextWrapping.Wrap,
-                Style = BodyStrongTextBlockStyle
-            });
-            content.Children.Add(new TextBlock
-            {
-                Text = CountText(gesture.FingerCount, L("指", "finger(s)", "指", "손가락")),
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Opacity = 0.68
-            });
-            content.Children.Add(NewInlineButtons((L("重训", "Retrain", "重訓", "다시 훈련"), async () => await DrawGestureAsync(gesture)), (L("改名", "Rename", "重新命名", "이름 변경"), async () => await RenameGestureAsync(gesture)), (L("删除", "Delete", "刪除", "삭제"), async () => await DeleteGestureAsync(gesture))));
-
-            wrap.Children.Add(new Border
-            {
-                Width = Math.Max(250, 188 * new Windows.UI.ViewManagement.UISettings().TextScaleFactor),
-                MinHeight = 178,
-                Margin = new Thickness(0, 0, 8, 8),
-                Background = SubtleBrush(),
-                BorderBrush = BorderBrush(),
-                BorderThickness = new Thickness(1),
-                CornerRadius = new CornerRadius(10),
-                Padding = new Thickness(12),
-                Child = content
-            });
-        }
-        if (gestures.Length == 0)
-            wrap.Children.Add(new TextBlock { Text = L("暂无手势", "No gestures", "暫無手勢", "제스처 없음"), Opacity = 0.68 });
-
-        panel.Children.Add(wrap);
-        return NewCard(panel);
-    }
-
     private FrameworkElement NewSettingsGroup(string title, FrameworkElement[] rows)
     {
         var panel = NewCardPanel(0);
@@ -5989,7 +5938,7 @@ public sealed partial class MainWindow : Window
                     CloseButtonText = L("稍后", "Later", "稍後", "나중에"),
                     DefaultButton = ContentDialogButton.Primary
                 };
-                var result = await dialog.ShowAsync();
+                var result = await ShowDialogAsync(dialog);
                 if (result == ContentDialogResult.Primary)
                     await DownloadAndInstallUpdateAsync(latest);
                 else if (result == ContentDialogResult.Secondary)
@@ -6072,7 +6021,7 @@ public sealed partial class MainWindow : Window
                 value);
         });
 
-        var dialogOperation = downloadDialog.ShowAsync();
+        var dialogOperation = ShowDialogAsync(downloadDialog);
         try
         {
             await GitHubUpdateService.DownloadAssetAsync(assetUri, packagePath, progress, cancellation.Token);

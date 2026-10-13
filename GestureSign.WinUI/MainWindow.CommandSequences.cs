@@ -77,7 +77,7 @@ public sealed partial class MainWindow
             panel.Children.Add(NewInlineButtonsWithContext(
                 (IntentText("添加命令", "Add command"), _ => Choose(() => AddCommandAsync(action))),
                 (IntentText("添加延时", "Add delay"), _ => Choose(() => EditSequenceDelayAsync(action, null)))));
-            await dialog.ShowAsync();
+            await ShowDialogAsync(dialog);
             if (next is null)
                 return;
             await next();

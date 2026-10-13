@@ -1032,6 +1032,7 @@ internal sealed class LegacyDataStore
 
             return new LegacyOptions
             {
+                GestureLibraryViewMode = Math.Clamp(settings.IntValue("GestureLibraryViewMode", 2), 0, 2),
                 VisualFeedbackWidth = settings.IntValue("VisualFeedbackWidth", 9),
                 MinimumPointDistance = settings.IntValue("MinimumPointDistance", 20),
                 Opacity = settings.DoubleValue("Opacity", 0.35),
@@ -1242,6 +1243,7 @@ internal sealed record LegacyGesture
 
 internal sealed record LegacyOptions
 {
+    public int GestureLibraryViewMode { get; init; } = 2;
     public int VisualFeedbackWidth { get; init; } = 9;
     public int MinimumPointDistance { get; init; } = 20;
     public double Opacity { get; init; } = 0.35;

@@ -45,7 +45,7 @@ public sealed partial class MainWindow
                 CloseButtonText = KandoText("关闭", "Close"),
                 DefaultButton = ContentDialogButton.Close
             };
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            if (await ShowDialogAsync(dialog) == ContentDialogResult.Primary)
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(_legacyData.LocalPath) { UseShellExecute = true });
         }
     }
@@ -110,7 +110,7 @@ public sealed partial class MainWindow
                 PrimaryButtonText = managed && available ? KandoText("立即更新", "Update now") : "",
                 DefaultButton = ContentDialogButton.Close
             };
-            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+            if (await ShowDialogAsync(dialog) == ContentDialogResult.Primary)
                 await UpdateManagedKandoAsync(button, release);
         }
         finally

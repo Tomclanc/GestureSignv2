@@ -298,30 +298,36 @@ public sealed partial class MainWindow
         header.Children.Add(NewSmallCommandBar([(L("绘制手势", "Draw Gesture", "繪製手勢", "제스처 그리기"), "绘制手势"), (L("后台训练手势", "Background Training", "背景訓練手勢", "백그라운드 훈련"), "后台训练手势"), (L("导入手势文件", "Import Gesture File", "匯入手勢檔案", "제스처 파일 가져오기"), "导入手势文件"), (L("导出手势文件", "Export Gesture File", "匯出手勢檔案", "제스처 파일 내보내기"), "导出手势文件")]));
         root.Children.Add(NewCard(header));
 
-        var grid = new Grid { ColumnSpacing = 16, RowSpacing = 16 };
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-
-        var groupedGestures = _legacyData.Gestures
-            .GroupBy(gesture => gesture.FingerCount)
-            .OrderBy(group => group.Key)
-            .ToList();
-
-        var twoFinger = NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), groupedGestures.Where(group => group.Key <= 2).SelectMany(group => group).ToArray());
-        var threeFinger = NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), groupedGestures.Where(group => group.Key == 3).SelectMany(group => group).ToArray());
-        var custom = NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), groupedGestures.Where(group => group.Key >= 4).SelectMany(group => group).ToArray());
-
-        Grid.SetColumn(threeFinger, 1);
-        Grid.SetColumn(custom, 0);
-        Grid.SetColumnSpan(custom, 2);
-        Grid.SetRow(custom, 1);
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.Children.Add(twoFinger);
-        grid.Children.Add(threeFinger);
-        grid.Children.Add(custom);
-        ConfigureResponsiveGestureGrid(grid, twoFinger, threeFinger, custom, 760);
-        root.Children.Add(grid);
+        var viewMode = new ComboBox
+        {
+            Header = IntentText("显示方式", "View"),
+            MinWidth = 160,
+            HorizontalAlignment = HorizontalAlignment.Left
+        };
+        foreach (var name in new[] { IntentText("列表", "List"), IntentText("网格", "Grid"), IntentText("磁贴", "Tiles") })
+            viewMode.Items.Add(name);
+        var mode = _pendingOptionUpdates.TryGetValue("GestureLibraryViewMode", out var pendingMode)
+            && int.TryParse(pendingMode, out var pendingIndex) ? Math.Clamp(pendingIndex, 0, 2) : _legacyData.Options.GestureLibraryViewMode;
+        viewMode.SelectedIndex = mode;
+        header.Children.Add(viewMode);
+        var groups = NewSection();
+        void RenderGroups()
+        {
+            groups.Children.Clear();
+            var gestures = _legacyData.Gestures;
+            groups.Children.Add(NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), gestures.Where(g => g.FingerCount <= 2).ToArray(), viewMode.SelectedIndex));
+            groups.Children.Add(NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), gestures.Where(g => g.FingerCount == 3).ToArray(), viewMode.SelectedIndex));
+            var more = gestures.Where(g => g.FingerCount >= 4).ToArray();
+            if (more.Length > 0)
+                groups.Children.Add(NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), more, viewMode.SelectedIndex));
+        }
+        RenderGroups();
+        viewMode.SelectionChanged += (_, _) =>
+        {
+            RenderGroups();
+            UpdateOptionAndReload("GestureLibraryViewMode", viewMode.SelectedIndex.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        };
+        root.Children.Add(groups);
         return root;
     }
 
