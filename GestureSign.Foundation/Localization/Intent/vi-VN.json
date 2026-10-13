@@ -230,7 +230,7 @@
   "Template information unavailable": "Thông tin mẫu không có sẵn",
   "Candidate template unavailable": "Mẫu ứng viên không có sẵn",
   "{0} fingers": "Ngón tay {0}",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU bao gồm việc học tập và quyền phủ quyết của AI với lượt tải xuống nhỏ hơn. NPU/GPU bổ sung khả năng tăng tốc phần cứng. Cả hai đều yêu cầu .NET 10 Runtime cho kiến ​​trúc phù hợp. Gỡ cài đặt thành phần để chuyển đổi phiên bản; mẫu và mô hình được bảo quản.",
   "Any": "Bất kỳ",
   "Commands run in list order. Insert a delay between commands if needed.": "Các lệnh chạy theo thứ tự danh sách. Có thể thêm thời gian chờ giữa các lệnh.",
   "Set Command": "Đặt lệnh",

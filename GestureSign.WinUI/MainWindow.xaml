@@ -84,17 +84,17 @@
                                  CompactPaneLength="60"
                                  SelectionChanged="Navigation_SelectionChanged">
             <controls:NavigationView.MenuItems>
-                <controls:NavigationViewItem Content="动作" Tag="actions" Icon="Play" />
-                <controls:NavigationViewItem Content="忽略" Tag="ignored" Icon="BlockContact" />
-                <controls:NavigationViewItem Content="手势" Tag="gestures" Icon="TouchPointer" />
-                <controls:NavigationViewItem Content="快捷操作" Tag="quickActions" Icon="Keyboard" />
-                <controls:NavigationViewItem Content="触控板边缘" Tag="touchpad">
+                <controls:NavigationViewItem Content="" Tag="actions" Icon="Play" />
+                <controls:NavigationViewItem Content="" Tag="ignored" Icon="BlockContact" />
+                <controls:NavigationViewItem Content="" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="" Tag="quickActions" Icon="Keyboard" />
+                <controls:NavigationViewItem Content="" Tag="touchpad">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE815;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
-                <controls:NavigationViewItem Content="选项" Tag="options" Icon="Setting" />
-                <controls:NavigationViewItem Content="关于" Tag="about" Icon="Help" />
+                <controls:NavigationViewItem Content="" Tag="options" Icon="Setting" />
+                <controls:NavigationViewItem Content="" Tag="about" Icon="Help" />
             </controls:NavigationView.MenuItems>
 
             <Grid>
@@ -122,13 +122,13 @@
                                   VerticalAlignment="Center" />
                         <TextBlock x:Name="RecognitionDisabledText"
                                    Grid.Column="1"
-                                   Text="手势识别已关闭"
+                                   Text=""
                                    FontWeight="SemiBold"
                                    VerticalAlignment="Center"
                                    TextWrapping="Wrap" />
                         <Button x:Name="RecognitionDisabledEnableButton"
                                 Grid.Column="2"
-                                Content="启用手势识别"
+                                Content=""
                                 Click="RecognitionDisabledEnableButton_Click" />
                     </Grid>
                 </Border>
@@ -139,13 +139,13 @@
                               Background="Transparent">
                     <StackPanel Spacing="18">
                         <TextBlock x:Name="PageTitle"
-                                   Text="动作"
+                                   Text=""
                                    FontSize="20"
                                    FontWeight="SemiBold"
                                    IsTextSelectionEnabled="True"
                                    Margin="0,12,0,0" />
                         <TextBlock x:Name="PageSubtitle"
-                                   Text="按程序管理手势动作。"
+                                   Text=""
                                    IsTextSelectionEnabled="True"
                                    Opacity="0.72" />
 

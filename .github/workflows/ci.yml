@@ -77,6 +77,8 @@ jobs:
         run: |
           dotnet run --project tests/GestureSign.UiLocalizationTests -c Release -- .
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tools/LocalizationAudit -c Release -- . "$env:RUNNER_TEMP/localization-audit.json"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Test independent touch drawing and first-finger right-click mapping
         shell: pwsh
         run: |
@@ -129,4 +131,8 @@ jobs:
           ./tools/Test-DaemonStartup.ps1 -Executable ./publish/portable/Backend/GestureSign.exe
       - name: Validate portable payload
         shell: pwsh
-        run: ./tools/Test-PortablePackage.ps1 -PackagePath ./publish/portable -MinimumFileCount 200
+        run: |
+          ./tools/Test-PortablePackage.ps1 -PackagePath ./publish/portable -MinimumFileCount 200
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tools/LocalizationAudit -c Release -- . "$env:RUNNER_TEMP/localization-payload-audit.json" ./publish/portable
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

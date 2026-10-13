@@ -230,7 +230,7 @@
   "Template information unavailable": "టెంప్లేట్ సమాచారం అందుబాటులో లేదు",
   "Candidate template unavailable": "అభ్యర్థి టెంప్లేట్ అందుబాటులో లేదు",
   "{0} fingers": "{0} వేళ్లు",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPUలో చిన్న డౌన్‌లోడ్‌తో లెర్నింగ్ మరియు AI వీటో ఉన్నాయి. NPU / GPU హార్డ్‌వేర్ త్వరణాన్ని జోడిస్తుంది. మ్యాచింగ్ ఆర్కిటెక్చర్ కోసం రెండింటికీ .NET 10 Runtime అవసరం. సంస్కరణలను మార్చడానికి కాంపోనెంట్‌ను అన్‌ఇన్‌స్టాల్ చేయండి; నమూనాలు మరియు నమూనాలు భద్రపరచబడ్డాయి.",
   "Any": "ఏదైనా",
   "Commands run in list order. Insert a delay between commands if needed.": "ఆదేశాలు జాబితా క్రమంలో అమలవుతాయి. వాటి మధ్య ఆలస్యం జోడించవచ్చు.",
   "Set Command": "కమాండ్ సెట్ చేయండి",

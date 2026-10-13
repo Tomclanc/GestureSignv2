@@ -230,7 +230,7 @@
   "Template information unavailable": "Informacioni i shabllonit nuk është i disponueshëm",
   "Candidate template unavailable": "Modeli i kandidatit nuk disponohet",
   "{0} fingers": "gishtat {0}",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU përfshin mësimin dhe veton e AI me një shkarkim më të vogël. NPU / GPU shton përshpejtimin e harduerit. Të dy kërkojnë .NET 10 Runtime për arkitekturën që përputhet. Çinstaloni komponentin për të ndërruar versionet; janë ruajtur mostrat dhe modelet.",
   "Any": "Cilido",
   "Commands run in list order. Insert a delay between commands if needed.": "Komandat kryhen sipas rendit të listës. Mund të shtoni një vonesë ndërmjet tyre.",
   "Set Command": "Vendos Komandën",

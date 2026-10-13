@@ -1,0 +1,267 @@
+{
+  "*": [
+    "Microsoft Store",
+    "Unity",
+    "Kando",
+    "GestureSign V2",
+    "JSON",
+    "CPU",
+    "GPU",
+    "NPU",
+    "X1",
+    "X2",
+    "OK",
+    "Regex",
+    "Notepad",
+    "Windows Explorer"
+  ],
+  "da-DK": [
+    "1 finger",
+    "Browser",
+    "Cyan",
+    "Feedback",
+    "Normal",
+    "Orange",
+    "Pen",
+    "Pink",
+    "Start",
+    "System",
+    "Tip",
+    "Top",
+    "Touchpad",
+    "Version",
+    "apps",
+    "Backend"
+  ],
+  "uz-Latn-UZ": [
+    "Global",
+    "Import"
+  ],
+  "hr-HR": [
+    "Start"
+  ],
+  "gl-ES": [
+    "Global",
+    "Normal",
+    "Volume",
+    "Backend"
+  ],
+  "ca-ES": [
+    "Editors",
+    "Executable",
+    "Global",
+    "No",
+    "Normal",
+    "Touchpad",
+    "Backend"
+  ],
+  "ca-ES-valencia": [
+    "Editors",
+    "Executable",
+    "Global",
+    "No",
+    "Normal",
+    "Touchpad",
+    "Backend"
+  ],
+  "af-ZA": [
+    "Later",
+    "Pen",
+    "Volume",
+    "items"
+  ],
+  "lb-LU": [
+    "Browser",
+    "Cyan",
+    "Feedback",
+    "Global",
+    "Hotkey",
+    "Hover",
+    "Normal",
+    "Start",
+    "System",
+    "Touchpad",
+    "Touchscreen",
+    "Training",
+    "apps",
+    "Backend",
+    "Label"
+  ],
+  "id-ID": [
+    "Global",
+    "Volume",
+    "Label"
+  ],
+  "tr-TR": [
+    "Normal"
+  ],
+  "cy-GB": [
+    "Pen",
+    "System",
+    "Grid"
+  ],
+  "de-DE": [
+    "1 finger",
+    "Browser",
+    "Cyan",
+    "Global",
+    "Name",
+    "Normal",
+    "Orange",
+    "System",
+    "Touchpad",
+    "Touchscreen",
+    "Version",
+    "apps",
+    "Backend"
+  ],
+  "it-IT": [
+    "Backup",
+    "Feedback",
+    "No",
+    "Touchpad",
+    "Volume",
+    "Backend"
+  ],
+  "nb-NO": [
+    "1 finger",
+    "Cyan",
+    "Normal",
+    "Start",
+    "System",
+    "Backend"
+  ],
+  "nn-NO": [
+    "1 finger",
+    "Cyan",
+    "Start",
+    "System"
+  ],
+  "cs-CZ": [
+    "Tip",
+    "Touchpad",
+    "Backend"
+  ],
+  "sk-SK": [
+    "Tip",
+    "Touchpad",
+    "Backend"
+  ],
+  "el-GR": [
+    "Touchpad",
+    "Backend"
+  ],
+  "fr-CA": [
+    "10 minutes",
+    "Actions",
+    "Applications",
+    "Cyan",
+    "Global",
+    "Options",
+    "Orange",
+    "Version",
+    "Volume",
+    "actions"
+  ],
+  "fr-FR": [
+    "10 minutes",
+    "Actions",
+    "Applications",
+    "Cyan",
+    "Global",
+    "Options",
+    "Orange",
+    "Version",
+    "Volume",
+    "actions"
+  ],
+  "pl-PL": [
+    "System",
+    "Touchpad"
+  ],
+  "sv-SE": [
+    "1 finger",
+    "Cyan",
+    "Feedback",
+    "Global",
+    "Normal",
+    "Orange",
+    "System",
+    "Version",
+    "Backend"
+  ],
+  "ro-RO": [
+    "Backup",
+    "Browser",
+    "Feedback",
+    "Global",
+    "Import",
+    "Normal",
+    "Touchpad",
+    "Backend"
+  ],
+  "nl-NL": [
+    "Browser",
+    "Feedback",
+    "Later",
+    "Pen",
+    "Touchpad",
+    "Volume",
+    "apps",
+    "items"
+  ],
+  "pt-BR": [
+    "Backup",
+    "Global",
+    "Mouse",
+    "Touchpad",
+    "Volume",
+    "apps"
+  ],
+  "pt-PT": [
+    "Backup",
+    "Global",
+    "Touchpad",
+    "Volume",
+    "apps"
+  ],
+  "es-MX": [
+    "Global",
+    "No",
+    "apps",
+    "Backend"
+  ],
+  "es-ES": [
+    "Global",
+    "No",
+    "Backend"
+  ],
+  "az-Latn-AZ": [
+    "Normal"
+  ],
+  "sq-AL": [
+    "Feedback",
+    "Global",
+    "Touchpad",
+    "Backend"
+  ],
+  "ms-MY": [
+    "Edit",
+    "Edit {0}",
+    "Global",
+    "Import",
+    "Pen",
+    "apps",
+    "Label"
+  ],
+  "mt-MT": [
+    "Backup",
+    "Browser",
+    "Feedback",
+    "Hotkey",
+    "Touchpad",
+    "Touchscreen",
+    "apps",
+    "Backend"
+  ]
+}

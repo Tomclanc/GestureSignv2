@@ -230,7 +230,7 @@
   "Template information unavailable": "ٹیمپلیٹ کی معلومات دستیاب نہیں ہے۔",
   "Candidate template unavailable": "امیدوار ٹیمپلیٹ دستیاب نہیں ہے۔",
   "{0} fingers": "{0} انگلیاں",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "سی پی یو میں چھوٹے ڈاؤن لوڈ کے ساتھ سیکھنے اور اے آئی ویٹو شامل ہیں۔ NPU / GPU ہارڈویئر ایکسلریشن کا اضافہ کرتا ہے۔ دونوں کو مماثل فن تعمیر کے لیے .NET 10 Runtime کی ضرورت ہوتی ہے۔ ورژن سوئچ کرنے کے لیے جزو کو ان انسٹال کریں؛ نمونے اور ماڈل محفوظ ہیں.",
   "Any": "کوئی بھی",
   "Commands run in list order. Insert a delay between commands if needed.": "احکامات فہرست کی ترتیب سے چلتے ہیں۔ ان کے درمیان تاخیر شامل کر سکتے ہیں۔",
   "Set Command": "کمانڈ سیٹ کریں",

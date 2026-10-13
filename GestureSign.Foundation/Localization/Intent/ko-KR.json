@@ -230,7 +230,7 @@
   "Template information unavailable": "템플릿 정보를 사용할 수 없습니다.",
   "Candidate template unavailable": "후보자 템플릿을 사용할 수 없습니다.",
   "{0} fingers": "{0} 손가락",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU에는 더 작은 다운로드로 학습 및 AI 거부권이 포함됩니다. NPU/GPU는 하드웨어 가속을 추가합니다. 두 가지 모두 일치하는 아키텍처를 위해 .NET 10 Runtime가 필요합니다. 버전을 전환하려면 구성요소를 제거하세요. 샘플과 모델은 보존됩니다.",
   "Any": "제한 없음",
   "Commands run in list order. Insert a delay between commands if needed.": "목록 순서대로 실행합니다. 명령 사이에 지연을 추가할 수 있습니다.",
   "Set Command": "명령 설정",

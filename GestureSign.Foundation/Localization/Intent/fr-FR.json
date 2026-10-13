@@ -230,7 +230,7 @@
   "Template information unavailable": "Informations sur le modèle indisponibles",
   "Candidate template unavailable": "Modèle de candidat indisponible",
   "{0} fingers": "Doigts {0}",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "Le processeur inclut l'apprentissage et le veto de l'IA avec un téléchargement plus petit. NPU/GPU ajoute une accélération matérielle. Les deux nécessitent .NET 10 Runtime pour l’architecture correspondante. Désinstallez le composant pour changer de version ; des échantillons et des modèles sont conservés.",
   "Any": "N’importe lequel",
   "Commands run in list order. Insert a delay between commands if needed.": "Les commandes s’exécutent dans l’ordre de la liste. Ajoutez un délai entre elles si nécessaire.",
   "Set Command": "Définir la commande",

@@ -230,7 +230,7 @@
   "Template information unavailable": "ଟେମ୍ପଲେଟ୍ ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ |",
   "Candidate template unavailable": "ପ୍ରାର୍ଥୀ ଟେମ୍ପଲେଟ୍ ଉପଲବ୍ଧ ନାହିଁ |",
   "{0} fingers": "{0} ଆଙ୍ଗୁଠି |",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "ଏକ ଛୋଟ ଡାଉନଲୋଡ୍ ସହିତ CPU ଶିଖିବା ଏବଂ AI ଭେଟୋ ଅନ୍ତର୍ଭୁକ୍ତ କରେ | NPU / GPU ହାର୍ଡୱେର୍ ତ୍ୱରଣକୁ ଯୋଗ କରିଥାଏ | ମେଳକ ସ୍ଥାପତ୍ୟ ପାଇଁ ଉଭୟ .NET 10 Runtime ଆବଶ୍ୟକ କରନ୍ତି | ସଂସ୍କରଣ ପରିବର୍ତ୍ତନ କରିବାକୁ ଉପାଦାନକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ; ନମୁନା ଏବଂ ମଡେଲଗୁଡିକ ସଂରକ୍ଷିତ |",
   "Any": "ଯେକୌଣସି",
   "Commands run in list order. Insert a delay between commands if needed.": "ଆଦେଶଗୁଡ଼ିକ ତାଲିକା କ୍ରମରେ ଚାଲେ। ସେଗୁଡ଼ିକ ମଧ୍ୟରେ ବିଳମ୍ବ ଯୋଡ଼ିପାରିବେ।",
   "Set Command": "କମାଣ୍ଡ ସେଟ୍ କରନ୍ତୁ",

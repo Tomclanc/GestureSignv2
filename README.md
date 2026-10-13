@@ -123,8 +123,8 @@ GitHub 当前版本为 **18.3.7**；Microsoft Store 和 WinGet 的上架进度�
 
 | 架构 | MSI 安装包 | 便携版 ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3-portable.zip) |
 
 MSI 约 21 MB，便携 ZIP 约 28 MB。主程序包剔除 .NET / WinUI 运行环境包；Kando 和 AI 组件均为可选 DLC，独立下载。便携版解压后运行 `GestureSign.WinUI.exe`，升级前退出旧版设置窗口和托盘后台。
 
@@ -136,6 +136,7 @@ WinGet 18.3.7 的更新见 [提交记录](https://github.com/microsoft/winget-pk
 
 ### 18.3.7
 
+- 重新打包补齐 90 种语言和地区变体的界面资源，修正繁体中文和韩语提示回退，并加入全量资源、运行时和发行包检查。新增翻译包含机器辅助补译，低资源语种长句仍需母语复核。
 - 修复启动后第一次点击“设置命令”可能无响应或提示“配置已更新”的问题；后台检查更新及保存选项不再使动作按钮引用失效。
 - 动作按钮点击时自动定位当前配置中的动作，支持配置重载后的编辑、启停、命令设置和删除，避免同名动作或列表变化时选错目标。
 - 增加重复点击防护、动作引用恢复日志和回归检查。
@@ -288,8 +289,8 @@ Current version:
 
 | Architecture | MSI installer | Portable ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3-portable.zip) |
 
 MSI downloads are about 21 MB and portable ZIPs about 28 MB. The packages use shared .NET / WinUI runtimes. Kando and AI components are separate optional downloads. Extract the portable ZIP and run `GestureSign.WinUI.exe`; exit the old settings window and tray daemon before upgrading.
 
@@ -299,6 +300,7 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 
 ### What's new in 18.3.7
 
+- Rebuild with complete UI resource coverage for all 90 language and regional variants, fix Traditional Chinese and Korean fallback paths, and add catalog, runtime and package audits. Supplements include machine-assisted translations; low-resource language prose still needs native review.
 - Fix the first Set Command click after startup silently failing or reporting that configuration changed. Update checks and option saves now refresh settings without invalidating action bindings.
 - Resolve action buttons against the current configuration after reloads, including edit, enable/disable, command settings and delete, without selecting another same-name action or relying on list positions.
 - Add repeated-click protection, action recovery diagnostics and regression coverage.
@@ -457,8 +459,8 @@ GitHub の現在のリリースは **18.3.7** です。Microsoft Store と WinGe
 
 | アーキテクチャ | MSI インストーラー | ポータブル ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-x64-r3-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.7/GestureSign-V2-18.3.7-arm64-r3-portable.zip) |
 
 MSI は約 21 MB、ポータブル ZIP は約 28 MB です。.NET / WinUI の実行環境は同梱せず、システムの共有ランタイムを使用します。Kando と AI は任意の追加ダウンロードです。ZIP を展開し、`GestureSign.WinUI.exe` を実行してください。更新前に旧版の設定画面とトレイのバックグラウンドプロセスを終了します。
 
@@ -468,6 +470,7 @@ WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pull
 
 ### 18.3.7 の更新内容
 
+- 90 種類の言語・地域の UI リソースを補完して再ビルドし、繁体字中国語と韓国語のフォールバックを修正。リソース、実行時、配布パッケージの検査を追加しました。機械翻訳を使用した補完も含まれるため、低リソース言語の長文は母語話者による確認が必要です。
 - 起動後、最初にコマンド設定をクリックした際に反応しない、または設定変更のメッセージが表示される問題を修正。更新確認とオプション保存では、アクションへの参照を保持して設定だけを更新します。
 - 設定の再読み込み後も、編集、有効・無効の切り替え、コマンド設定、削除の対象を現在の設定から特定します。同名のアクションや一覧の並び替えで別の対象を選びません。
 - 連続クリックの防止、アクション参照の復旧ログ、回帰テストを追加。

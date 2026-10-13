@@ -230,7 +230,7 @@
   "Template information unavailable": "ടെംപ്ലേറ്റ് വിവരങ്ങൾ ലഭ്യമല്ല",
   "Candidate template unavailable": "കാൻഡിഡേറ്റ് ടെംപ്ലേറ്റ് ലഭ്യമല്ല",
   "{0} fingers": "{0} വിരലുകൾ",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "ചെറിയ ഡൗൺലോഡ് ഉള്ള പഠനവും AI വീറ്റോയും സിപിയുവിൽ ഉൾപ്പെടുന്നു. NPU / GPU ഹാർഡ്‌വെയർ ത്വരണം ചേർക്കുന്നു. പൊരുത്തപ്പെടുന്ന ആർക്കിടെക്ചറിന് രണ്ടിനും .NET 10 Runtime ആവശ്യമാണ്. പതിപ്പുകൾ മാറുന്നതിന് ഘടകം അൺഇൻസ്റ്റാൾ ചെയ്യുക; സാമ്പിളുകളും മോഡലുകളും സംരക്ഷിച്ചിരിക്കുന്നു.",
   "Any": "ഏതെങ്കിലും",
   "Commands run in list order. Insert a delay between commands if needed.": "കമാൻഡുകൾ പട്ടികയിലെ ക്രമത്തിൽ പ്രവർത്തിക്കും. അവയ്ക്കിടയിൽ കാലതാമസം ചേർക്കാം.",
   "Set Command": "കമാൻഡ് സജ്ജമാക്കുക",

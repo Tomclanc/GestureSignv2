@@ -230,7 +230,7 @@
   "Template information unavailable": "Níl faisnéis teimpléid ar fáil",
   "Candidate template unavailable": "Níl teimpléad an iarrthóra ar fáil",
   "{0} fingers": "{0} mhéara",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "Áirítear le CPU foghlaim agus crosadh AI le híoslódáil níos lú. Cuireann NPU / GPU luasghéarú crua-earraí. Éilíonn an dá cheann .NET 10 Runtime don ailtireacht mheaitseála. Díshuiteáil an chomhpháirt chun leaganacha a athrú; caomhnaítear samplaí agus samhlacha.",
   "Any": "Aon cheann",
   "Commands run in list order. Insert a delay between commands if needed.": "Ritheann orduithe in ord an liosta. Is féidir moill a chur eatarthu.",
   "Set Command": "Socraigh Ordú",

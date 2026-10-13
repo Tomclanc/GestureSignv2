@@ -230,7 +230,7 @@
   "Template information unavailable": "Maelezo ya kiolezo hayapatikani",
   "Candidate template unavailable": "Kiolezo cha mgombea hakipatikani",
   "{0} fingers": "{0} vidole",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU inajumuisha kujifunza na kura ya turufu ya AI na upakuaji mdogo. NPU / GPU huongeza kasi ya maunzi. Zote zinahitaji .NET 10 Runtime kwa usanifu unaolingana. Sanidua sehemu ya kubadili matoleo; sampuli na mifano zimehifadhiwa.",
   "Any": "Yoyote",
   "Commands run in list order. Insert a delay between commands if needed.": "Amri hutekelezwa kwa mpangilio wa orodha. Unaweza kuongeza muda wa kusubiri kati yake.",
   "Set Command": "Weka Amri",

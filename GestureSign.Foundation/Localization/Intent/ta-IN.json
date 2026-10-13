@@ -230,7 +230,7 @@
   "Template information unavailable": "டெம்ப்ளேட் தகவல் கிடைக்கவில்லை",
   "Candidate template unavailable": "வேட்பாளர் டெம்ப்ளேட் கிடைக்கவில்லை",
   "{0} fingers": "{0} விரல்கள்",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU ஆனது கற்றல் மற்றும் AI வீட்டோவை சிறிய பதிவிறக்கத்துடன் உள்ளடக்கியது. NPU / GPU வன்பொருள் முடுக்கம் சேர்க்கிறது. இரண்டுக்கும் பொருந்தும் கட்டமைப்பிற்கு .NET 10 Runtime தேவை. பதிப்புகளை மாற்ற கூறுகளை நிறுவல் நீக்கவும்; மாதிரிகள் மற்றும் மாதிரிகள் பாதுகாக்கப்படுகின்றன.",
   "Any": "ஏதேனும்",
   "Commands run in list order. Insert a delay between commands if needed.": "கட்டளைகள் பட்டியல் வரிசையில் இயங்கும். அவற்றுக்கிடையே தாமதத்தைச் சேர்க்கலாம்.",
   "Set Command": "கட்டளையை அமைக்கவும்",

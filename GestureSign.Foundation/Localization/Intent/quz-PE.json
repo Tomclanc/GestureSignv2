@@ -230,7 +230,7 @@
   "Template information unavailable": "Plantillamanta willakuy mana kanchu",
   "Candidate template unavailable": "Plantilla de candidato mana tarikuq",
   "{0} fingers": "{0} dedos",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU yachay chaymanta AI veto kaqwan aswan huch'uy uraykachiywan. NPU / GPU hardware utqaylla ruwayta yapan. Iskayninkupas .NET 10 Runtime nisqatam munanku tupaq arquitecturapaq. Componentta chinkachiy layakunata tikranapaq; muestrakuna, modelokuna ima waqaychasqa kanku.",
   "Any": "Mayqinpas",
   "Commands run in list order. Insert a delay between commands if needed.": "Kamachiykuna listapa ñiqinpi ruwakunku. Chawpinman suyana pachata yapayta atinki.",
   "Set Command": "Kamachiyta churay",

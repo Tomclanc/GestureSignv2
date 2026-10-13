@@ -29,7 +29,7 @@ Check(UiTranslationCatalog.TranslateFallback("en-GB", "新动作", "New Action")
 foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
 {
     var result = UiTranslationCatalog.TranslateFallback(culture, "这个新字符串没有译文", "A new untranslated UI string");
-    Check(result == (culture.StartsWith("zh-") ? "这个新字符串没有译文" : "A new untranslated UI string"), $"Missing translation fallback: {culture}");
+    Check(result == (culture == "zh-CN" ? "这个新字符串没有译文" : "A new untranslated UI string"), $"Missing translation fallback: {culture}");
 }
 Check(UiTranslationCatalog.TranslateFallback("invalid-culture", "动作", "Action") == "Action", "Unknown culture fallback");
 foreach (var culture in new[] { "ru-RU", "de-DE", "fr-FR", "ja-JP" })
@@ -53,7 +53,10 @@ var localizationCalls = new HashSet<string> { "L", "T", "F", "IntentText", "Inte
 var uiProperties = new HashSet<string> { "Text", "PlaceholderText", "Content", "Header", "Title", "PrimaryButtonText", "SecondaryButtonText", "CloseButtonText", "OnContent", "OffContent" };
 var chinese = new Regex("[\\u4e00-\\u9fff]");
 string Slots(string value) => string.Join(",", Regex.Matches(value, @"(?<!\{)\{(\d+)(?:,[^}:]+)?(?::[^}]+)?\}(?!\})").Select(m => m.Groups[1].Value).Order());
-foreach (var file in Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"), "MainWindow*.cs"))
+var productionUiFiles = Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"), "*.cs", SearchOption.AllDirectories)
+    .Where(path => !path.Split(Path.DirectorySeparatorChar).Any(part => part is "bin" or "obj")).ToArray();
+var requiredUiKeys = new HashSet<string>(StringComparer.Ordinal);
+foreach (var file in productionUiFiles)
 {
     var root = CSharpSyntaxTree.ParseText(File.ReadAllText(file)).GetRoot();
     foreach (var call in root.DescendantNodes().OfType<InvocationExpressionSyntax>())
@@ -63,6 +66,7 @@ foreach (var file in Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"),
         var values = call.ArgumentList.Arguments;
         if (values.Count < 2 || values[0].Expression is not LiteralExpressionSyntax zh || values[1].Expression is not LiteralExpressionSyntax en) continue;
         var key = en.Token.ValueText;
+        requiredUiKeys.Add(key);
         Check(!chinese.IsMatch(key.Replace("风夏", "")), $"Chinese in English baseline: {file}: {key}");
         Check(Slots(zh.Token.ValueText) == Slots(key), $"Mismatched format slots: {key}");
         if (name == "L")
@@ -95,6 +99,30 @@ foreach (var file in Directory.GetFiles(Path.Combine(repo, "GestureSign.WinUI"),
         if (literal.Ancestors().Any(n => n is AnonymousFunctionExpressionSyntax or ConstantPatternSyntax)) continue;
         Check(false, $"Hard-coded UI caption: {Path.GetFileName(file)}:{literal.GetLocation().GetLineSpan().StartLinePosition.Line + 1}: {literal.Token.ValueText}");
     }
+}
+// Include catalog-only entries used by dynamic captions and older components.
+var catalogs = UiTranslationCatalog.SupportedCultureNames.ToDictionary(culture => culture, culture =>
+{
+    using var doc = JsonDocument.Parse(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Languages", "UI", culture + ".json")));
+    var entries = doc.RootElement.EnumerateObject().ToArray();
+    Check(entries.Select(e => e.Name).Distinct(StringComparer.Ordinal).Count() == entries.Length, $"No duplicate UI keys: {culture}");
+    return entries.ToDictionary(e => e.Name, e => e.Value.GetString()!, StringComparer.Ordinal);
+});
+foreach (var catalog in catalogs.Values) requiredUiKeys.UnionWith(catalog.Keys);
+foreach (var (culture, catalog) in catalogs)
+foreach (var key in requiredUiKeys)
+{
+    Check(catalog.TryGetValue(key, out var value) && !string.IsNullOrWhiteSpace(value), $"Missing UI text: {culture}: {key}");
+    Check(Slots(key) == Slots(value!), $"UI format items preserved: {culture}: {key}");
+    if (Regex.IsMatch(key, @"(?<!\{)\{\d+(?:[,}:])"))
+    {
+        try { _ = string.Format(CultureInfo.GetCultureInfo(culture), value!, Enumerable.Repeat<object>(427, 12).ToArray()); }
+        catch (FormatException) { Check(false, $"UI format can execute: {culture}: {key}"); }
+    }
+    Check(UiTranslationCatalog.TranslateComponent(culture, key) == value, $"Runtime UI catalog lookup: {culture}: {key}");
+    if (culture != "zh-CN")
+        Check(UiTranslationCatalog.TranslateFallback(culture, "禁止简体中文回退", key) == value,
+            $"T/F must use selected language: {culture}: {key}");
 }
 foreach (var entry in japaneseCatalog)
 {

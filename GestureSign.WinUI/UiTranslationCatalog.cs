@@ -49,7 +49,7 @@ internal static class UiTranslationCatalog
     public static string TranslateFallback(string cultureName, string chinese, string english)
     {
         var resolved = ResolveCultureName(cultureName);
-        return resolved is "zh-CN" or "zh-TW" ? chinese : Translate(resolved, english);
+        return resolved == "zh-CN" ? chinese : Translate(resolved, english);
     }
 
     public static string TranslateMessage(string cultureName, string text)
@@ -168,6 +168,9 @@ internal static class UiTranslationCatalog
     private static string? CatalogName(string cultureName)
     {
         var resolved = ResolveCultureName(cultureName);
-        return HasCatalog(resolved) ? resolved : null;
+        // T/F callers also need catalogs for normally inline languages.
+        // In particular, ko-KR must not silently fall back to English, and
+        // zh-TW must resolve its own text rather than reusing simplified text.
+        return SupportedCultureNames.Contains(resolved, StringComparer.OrdinalIgnoreCase) ? resolved : null;
     }
 }

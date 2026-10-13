@@ -230,7 +230,7 @@
   "Template information unavailable": "Οι πληροφορίες προτύπου δεν είναι διαθέσιμες",
   "Candidate template unavailable": "Το πρότυπο υποψηφίου δεν είναι διαθέσιμο",
   "{0} fingers": "{0} δάχτυλα",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "Η CPU περιλαμβάνει εκμάθηση και βέτο AI με μικρότερη λήψη. Το NPU / GPU προσθέτει επιτάχυνση υλικού. Και τα δύο απαιτούν .NET 10 Runtime για την αντίστοιχη αρχιτεκτονική. Απεγκαταστήστε το στοιχείο για εναλλαγή εκδόσεων. σώζονται δείγματα και μακέτες.",
   "Any": "Οποιοδήποτε",
   "Commands run in list order. Insert a delay between commands if needed.": "Οι εντολές εκτελούνται με τη σειρά της λίστας. Μπορείτε να προσθέσετε καθυστέρηση ανάμεσά τους.",
   "Set Command": "Ορισμός εντολής",

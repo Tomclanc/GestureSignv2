@@ -230,7 +230,7 @@
   "Template information unavailable": "模板資訊不可用",
   "Candidate template unavailable": "候選人範本不可用",
   "{0} fingers": "{0} 手指",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU包含學習和AI否決，下載量較小。 NPU/GPU增加硬體加速。兩者都需要 .NET 10 Runtime 來匹配架構。卸載組件切換版本；樣品和模型被保留。",
   "Any": "任意",
   "Commands run in list order. Insert a delay between commands if needed.": "依清單順序執行；可在命令之間加入延遲等待。",
   "Set Command": "設定命令",

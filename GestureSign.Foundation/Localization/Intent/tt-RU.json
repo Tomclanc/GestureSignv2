@@ -230,7 +230,7 @@
   "Template information unavailable": "Шаблон турында мәгълүмат юк",
   "Candidate template unavailable": "Кандидат шаблоны юк",
   "{0} fingers": "{0} бармаклары",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "Uзәк эшкәрткеч җайланмага кечерәк йөкләү белән өйрәнү һәм AI вето керә. NPU / GPU аппарат тизләнешен өсти. Икесенә дә туры килгән архитектура өчен .NET 10 Runtime кирәк. Вариантларны күчерү өчен компонентны бетерегез; үрнәкләр һәм модельләр сакланган.",
   "Any": "Теләсә кайсы",
   "Commands run in list order. Insert a delay between commands if needed.": "Боерыклар исемлек тәртибендә үтәлә. Алар арасына көтү вакыты өсти аласыз.",
   "Set Command": "Команда урнаштыру",

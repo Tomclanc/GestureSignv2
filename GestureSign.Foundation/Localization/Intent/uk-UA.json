@@ -230,7 +230,7 @@
   "Template information unavailable": "Інформація про шаблон недоступна",
   "Candidate template unavailable": "Шаблон кандидата недоступний",
   "{0} fingers": "{0} пальців",
-  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.",
+  "CPU includes learning and AI veto with a smaller download. NPU / GPU adds hardware acceleration. Both require .NET 10 Runtime for the matching architecture. Uninstall the component to switch versions; samples and models are preserved.": "ЦП включає навчання та вето AI з меншим завантаженням. NPU / GPU додає апаратне прискорення. Обидва вимагають .NET 10 Runtime для відповідної архітектури. Видаліть компонент, щоб змінити версію; зразки і моделі збережені.",
   "Any": "Будь-яка",
   "Commands run in list order. Insert a delay between commands if needed.": "Команди виконуються за порядком списку. Між ними можна додати затримку.",
   "Set Command": "Встановити команду",
