@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [ئىجرا قىلىنمىدى] ئىشلىتىشكە بولىدىغان بۇيرۇق يوق",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [تونۇلدى] قول ئىشارىسى {1}، تېگىش نۇقتىلىرى {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [باشلاندى] {1}، {2} تېگىش نۇقتىسى، ھالەت {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [تونۇلمىدى] ماس كېلىدىغان قول ئىشارىسى يوق"
+  "{0} [Unrecognized] No matching gesture": "{0} [تونۇلمىدى] ماس كېلىدىغان قول ئىشارىسى يوق",
+  "Media Play": "media playback",
+  "Media Pause": "media stop",
+  "Media Fast Forward": "مېدىيانى تېز ئالغا سۈرۈش",
+  "Media Rewind": "مېدىيانى كەينىگە سۈرۈش",
+  "Media Next Track": "Media next",
+  "Media Previous Track": "Media previous song",
+  "Media Controls": "كۆپ ۋاسىتە كونترول قىلىش",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "نۆۋەتتىكى مېدىيا قويغۇچنى كونترول قىلىدۇ. ئويناش ۋە توختىتىش ئايرىم. قوللىغاندا 10 سېكۇنت كەينىگە ياكى كەينىگە قاراپ بېقىڭ. ئىشلەتكىلى بولىدىغان مەشغۇلاتلار قويغۇچقا باغلىق."
 }

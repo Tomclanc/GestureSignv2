@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Yürütülmedi] Kullanılabilir komut yok",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Tanındı] Hareket {1}, kişiler {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Başlat] {1}, {2} kontaklar, mod {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Tanınmıyor] Eşleşen hareket yok"
+  "{0} [Unrecognized] No matching gesture": "{0} [Tanınmıyor] Eşleşen hareket yok",
+  "Media Play": "Medya Oynatma",
+  "Media Pause": "Medyayı Duraklat",
+  "Media Fast Forward": "Medyayı Hızlı İleri Sarma",
+  "Media Rewind": "Medya Geri Sarma",
+  "Media Next Track": "Medya Sonraki Parça",
+  "Media Previous Track": "Medya Önceki Parça",
+  "Media Controls": "Medya Kontrolleri",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Geçerli medya oynatıcısını kontrol eder. Oynatma ve duraklatma ayrıdır; Desteklendiğinde 10 saniye ileri veya geri arama yapın. Kullanılabilir işlemler oynatıcıya bağlıdır."
 }

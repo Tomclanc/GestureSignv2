@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Pole käivitatud] Käske pole saadaval",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Tunnustatud] žest {1}, kontaktid {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} kontaktid, režiim {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Tuvastamata] Sobivat žesti pole"
+  "{0} [Unrecognized] No matching gesture": "{0} [Tuvastamata] Sobivat žesti pole",
+  "Media Play": "meedia taasesitus",
+  "Media Pause": "Meedia paus",
+  "Media Fast Forward": "Meedia edasikerimine",
+  "Media Rewind": "Meedia tagasikerimine",
+  "Media Next Track": "Meedia järgmine lugu",
+  "Media Previous Track": "Meedia eelmine lugu",
+  "Media Controls": "Meedia juhtnupud",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Juhib praegust meediumipleierit. Esitus ja paus on eraldi; toetamisel 10 sekundi võrra edasi või tagasi liikuma. Saadaolevad toimingud sõltuvad mängijast."
 }

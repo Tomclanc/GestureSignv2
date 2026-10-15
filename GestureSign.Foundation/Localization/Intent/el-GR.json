@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Κρατήστε ένα κουμπί έναρξης, έπειτα πατήστε το επιλεγμένο κουμπί ή κυλήστε τον τροχό. Δεν απαιτείται σχεδίαση.",
   "Name": "Όνομα",
   "Custom Plugin": "Προσαρμοσμένη προσθήκη",
-  "Mouse button combinations": "Συνδυασμοί κουμπιών ποντικιού"
+  "Mouse button combinations": "Συνδυασμοί κουμπιών ποντικιού",
+  "Media Play": "αναπαραγωγή πολυμέσων",
+  "Media Pause": "Παύση πολυμέσων",
+  "Media Fast Forward": "τα μέσα γρήγορης προώθησης",
+  "Media Rewind": "επαναφορά πολυμέσων",
+  "Media Next Track": "Επόμενο κομμάτι πολυμέσων",
+  "Media Previous Track": "Πολυμέσα Προηγούμενο κομμάτι",
+  "Media Controls": "Χειριστήρια πολυμέσων"
 }

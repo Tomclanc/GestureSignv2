@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Hold en startknap nede, og klik så på den valgte knap eller rul hjulet. Du behøver ikke tegne.",
   "Name": "Navn",
   "Custom Plugin": "Brugerdefineret plugin",
-  "Mouse button combinations": "Kombinationer af museknapper"
+  "Mouse button combinations": "Kombinationer af museknapper",
+  "Media Play": "Medieafspilning",
+  "Media Pause": "Mediepause",
+  "Media Fast Forward": "Medier hurtigt frem",
+  "Media Rewind": "Medier spole tilbage",
+  "Media Next Track": "Media næste spor",
+  "Media Previous Track": "Media Forrige spor",
+  "Media Controls": "Mediekontrol"
 }

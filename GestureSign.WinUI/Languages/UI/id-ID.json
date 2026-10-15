@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Tidak dijalankan] Tidak ada perintah yang tersedia",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Diakui] Gestur {1}, kontak {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Mulai] {1}, kontak {2}, mode {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Tidak dikenali] Tidak ada isyarat yang cocok"
+  "{0} [Unrecognized] No matching gesture": "{0} [Tidak dikenali] Tidak ada isyarat yang cocok",
+  "Media Play": "Pemutaran Media",
+  "Media Pause": "Jeda Media",
+  "Media Fast Forward": "Media Maju Cepat",
+  "Media Rewind": "Putar Ulang Media",
+  "Media Next Track": "Media Lagu Berikutnya",
+  "Media Previous Track": "Media Trek Sebelumnya",
+  "Media Controls": "Kontrol Media",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Mengontrol pemutar media saat ini. Putar dan jeda terpisah; mencari maju atau mundur 10 detik saat didukung. Operasi yang tersedia bergantung pada pemain."
 }

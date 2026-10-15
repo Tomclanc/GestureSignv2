@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Mhux eżegwit] L-ebda kmandi disponibbli",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Rikonoxxut] Ġest {1}, kuntatti {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Bidu] {1}, {2} kuntatti, mod {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Mhux rikonoxxut] L-ebda ġest li jaqbel"
+  "{0} [Unrecognized] No matching gesture": "{0} [Mhux rikonoxxut] L-ebda ġest li jaqbel",
+  "Media Play": "daqq tal-midja",
+  "Media Pause": "Pawża tal-Midja",
+  "Media Fast Forward": "Midja Fast Forward",
+  "Media Rewind": "rewind tal-midja",
+  "Media Next Track": "Media Li jmiss Track",
+  "Media Previous Track": "Media Preċedenti Track",
+  "Media Controls": "Kontrolli tal-Midja",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Jikkontrolla l-media player attwali. Play u pawsa huma separati; fittex 'il quddiem jew lura b'10 sekondi meta appoġġjat. Operazzjonijiet disponibbli jiddependu fuq il-plejer."
 }

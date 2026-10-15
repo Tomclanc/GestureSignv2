@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "సంజ్ఞ ప్రారంభ బటన్ పట్టుకుని, ఎంచుకున్న బటన్ క్లిక్ చేయండి లేదా చక్రం తిప్పండి. గీయనవసరం లేదు.",
   "Name": "పేరు",
   "Custom Plugin": "కస్టమ్ ప్లగిన్",
-  "Mouse button combinations": "మౌస్ బటన్ కలయికలు"
+  "Mouse button combinations": "మౌస్ బటన్ కలయికలు",
+  "Media Play": "మీడియా ప్లే",
+  "Media Pause": "మీడియా పాజ్",
+  "Media Fast Forward": "మీడియా ఫాస్ట్ ఫార్వర్డ్",
+  "Media Rewind": "మీడియా రివైండ్",
+  "Media Next Track": "మీడియా తదుపరి ట్రాక్",
+  "Media Previous Track": "మీడియా మునుపటి ట్రాక్",
+  "Media Controls": "మీడియా నియంత్రణలు"
 }

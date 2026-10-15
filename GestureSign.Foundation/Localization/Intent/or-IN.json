@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ଆରମ୍ଭ ବଟନ୍ ଧରି ରଖନ୍ତୁ, ତାପରେ ବାଛିଥିବା ବଟନ୍ କ୍ଲିକ୍ କରନ୍ତୁ କିମ୍ବା ଚକ ଘୂରାନ୍ତୁ। ଆଙ୍କିବା ଦରକାର ନାହିଁ।",
   "Name": "ନାମ",
   "Custom Plugin": "କଷ୍ଟମ୍ ପ୍ଲଗଇନ୍",
-  "Mouse button combinations": "ମାଉସ୍ ବଟନ୍ ସଂଯୋଗ"
+  "Mouse button combinations": "ମାଉସ୍ ବଟନ୍ ସଂଯୋଗ",
+  "Media Play": "ମିଡିଆ ପ୍ଲେ |",
+  "Media Pause": "ମିଡିଆ ବିରତି |",
+  "Media Fast Forward": "ମିଡିଆ ଦ୍ରୁତ ଅଗ୍ରଗାମୀ |",
+  "Media Rewind": "ମିଡିଆ ରିୱାଇଣ୍ଡ୍ |",
+  "Media Next Track": "ମିଡିଆ ପରବର୍ତ୍ତୀ ଟ୍ରାକ୍ |",
+  "Media Previous Track": "ମିଡିଆ ପୂର୍ବ ଟ୍ରାକ୍ |",
+  "Media Controls": "ମିଡିଆ ନିୟନ୍ତ୍ରଣ |"
 }

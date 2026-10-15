@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Սեղմած պահեք ժեստի մեկնարկի կոճակը, ապա սեղմեք ընտրված կոճակը կամ պտտեք անիվը։ Գծել պետք չէ։",
   "Name": "Անուն",
   "Custom Plugin": "Պատվերով Plugin",
-  "Mouse button combinations": "Մկնիկի կոճակների համակցություններ"
+  "Mouse button combinations": "Մկնիկի կոճակների համակցություններ",
+  "Media Play": "մեդիա նվագարկումը",
+  "Media Pause": "Մեդիա դադար",
+  "Media Fast Forward": "Մեդիա արագ առաջ",
+  "Media Rewind": "Մեդիա Rewind",
+  "Media Next Track": "Մեդիա Հաջորդ Հետքը",
+  "Media Previous Track": "Մեդիա Նախորդ Հետևել",
+  "Media Controls": "Մեդիա վերահսկում"
 }

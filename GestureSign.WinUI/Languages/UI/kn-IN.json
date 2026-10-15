@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [ಕಾರ್ಯಗತಗೊಳಿಸಲಾಗಿಲ್ಲ] ಯಾವುದೇ ಲಭ್ಯವಿರುವ ಆಜ್ಞೆಗಳಿಲ್ಲ",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ಗುರುತಿಸಲಾಗಿದೆ] ಗೆಸ್ಚರ್ {1}, ಸಂಪರ್ಕಗಳು {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ಪ್ರಾರಂಭ] {1}, {2} ಸಂಪರ್ಕಗಳು, ಮೋಡ್ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [ಗುರುತಿಸಲಾಗಿಲ್ಲ] ಯಾವುದೇ ಹೊಂದಾಣಿಕೆಯ ಗೆಸ್ಚರ್ ಇಲ್ಲ"
+  "{0} [Unrecognized] No matching gesture": "{0} [ಗುರುತಿಸಲಾಗಿಲ್ಲ] ಯಾವುದೇ ಹೊಂದಾಣಿಕೆಯ ಗೆಸ್ಚರ್ ಇಲ್ಲ",
+  "Media Play": "ಮೀಡಿಯಾ ಪ್ಲೇ",
+  "Media Pause": "ಮಾಧ್ಯಮ ವಿರಾಮ",
+  "Media Fast Forward": "ಮಾಧ್ಯಮ ಫಾಸ್ಟ್ ಫಾರ್ವರ್ಡ್",
+  "Media Rewind": "ಮೀಡಿಯಾ ರಿವೈಂಡ್",
+  "Media Next Track": "ಮಾಧ್ಯಮ ಮುಂದಿನ ಟ್ರ್ಯಾಕ್",
+  "Media Previous Track": "ಮಾಧ್ಯಮ ಹಿಂದಿನ ಟ್ರ್ಯಾಕ್",
+  "Media Controls": "ಮಾಧ್ಯಮ ನಿಯಂತ್ರಣಗಳು",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "ಪ್ರಸ್ತುತ ಮೀಡಿಯಾ ಪ್ಲೇಯರ್ ಅನ್ನು ನಿಯಂತ್ರಿಸುತ್ತದೆ. ಆಟ ಮತ್ತು ವಿರಾಮ ಪ್ರತ್ಯೇಕವಾಗಿರುತ್ತವೆ; ಬೆಂಬಲಿಸಿದಾಗ 10 ಸೆಕೆಂಡುಗಳಷ್ಟು ಮುಂದಕ್ಕೆ ಅಥವಾ ಹಿಂದಕ್ಕೆ ಹುಡುಕಿ. ಲಭ್ಯವಿರುವ ಕಾರ್ಯಾಚರಣೆಗಳು ಆಟಗಾರನ ಮೇಲೆ ಅವಲಂಬಿತವಾಗಿರುತ್ತದೆ."
 }

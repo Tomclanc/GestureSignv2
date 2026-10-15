@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Držite začetni gumb, nato kliknite izbrani gumb ali zavrtite kolesce. Risanje ni potrebno.",
   "Name": "Ime",
   "Custom Plugin": "Prilagojen vtičnik",
-  "Mouse button combinations": "Kombinacije miškinih gumbov"
+  "Mouse button combinations": "Kombinacije miškinih gumbov",
+  "Media Play": "predvajanje medijev",
+  "Media Pause": "Medijska pavza",
+  "Media Fast Forward": "mediji hitro naprej",
+  "Media Rewind": "Previjanje medijev nazaj",
+  "Media Next Track": "Mediji naslednji",
+  "Media Previous Track": "Mediji Prejšnja skladba",
+  "Media Controls": "Nadzor medijev"
 }

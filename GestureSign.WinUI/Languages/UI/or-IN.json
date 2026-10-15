@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [ଏକଜେକ୍ୟୁଟ୍ ହୋଇନାହିଁ] କ available ଣସି ଉପଲବ୍ଧ ନିର୍ଦ୍ଦେଶ ନାହିଁ |",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ଚିହ୍ନିତ] ଅଙ୍ଗଭଙ୍ଗୀ {1}, ଯୋଗାଯୋଗ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ଆରମ୍ଭ] {1}, {2} ସମ୍ପର୍କ, ମୋଡ୍ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [ଅଜ୍ଞାତ] କ match ଣସି ମେଳ ଖାଉଥିବା ଅଙ୍ଗଭଙ୍ଗୀ |"
+  "{0} [Unrecognized] No matching gesture": "{0} [ଅଜ୍ଞାତ] କ match ଣସି ମେଳ ଖାଉଥିବା ଅଙ୍ଗଭଙ୍ଗୀ |",
+  "Media Play": "ମିଡିଆ ପ୍ଲେ |",
+  "Media Pause": "ମିଡିଆ ବିରତି |",
+  "Media Fast Forward": "ମିଡିଆ ଦ୍ରୁତ ଅଗ୍ରଗାମୀ |",
+  "Media Rewind": "ମିଡିଆ ରିୱାଇଣ୍ଡ୍ |",
+  "Media Next Track": "ମିଡିଆ ପରବର୍ତ୍ତୀ ଟ୍ରାକ୍ |",
+  "Media Previous Track": "ମିଡିଆ ପୂର୍ବ ଟ୍ରାକ୍ |",
+  "Media Controls": "ମିଡିଆ ନିୟନ୍ତ୍ରଣ |",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "ସାମ୍ପ୍ରତିକ ମିଡିଆ ପ୍ଲେୟାରକୁ ନିୟନ୍ତ୍ରଣ କରେ | ଖେଳ ଏବଂ ବିରତି ଅଲଗା; ସମର୍ଥିତ ହେଲେ 10 ସେକେଣ୍ଡରେ ଆଗକୁ କିମ୍ବା ପଛକୁ ଖୋଜ | ଉପଲବ୍ଧ ଅପରେସନ୍ ପ୍ଲେୟାର ଉପରେ ନିର୍ଭର କରେ |"
 }

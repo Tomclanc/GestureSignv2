@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ইংগিত আৰম্ভণি বুটাম ধৰি ৰাখক, তাৰ পিছত বাছনি কৰা বুটাম ক্লিক কৰক বা চকা ঘূৰাওক। আঁকিব নালাগে।",
   "Name": "নাম",
   "Custom Plugin": "কাষ্টম প্লাগইন",
-  "Mouse button combinations": "মাউছ বুটামৰ সংমিশ্ৰণ"
+  "Mouse button combinations": "মাউছ বুটামৰ সংমিশ্ৰণ",
+  "Media Play": "মিডিয়া প্লে",
+  "Media Pause": "মিডিয়া বিৰতি",
+  "Media Fast Forward": "মিডিয়া ফাষ্ট ফৰৱাৰ্ড",
+  "Media Rewind": "মিডিয়া ৰিৱাইণ্ড",
+  "Media Next Track": "মিডিয়া পৰৱৰ্তী ট্ৰেক",
+  "Media Previous Track": "মিডিয়া পূৰ্বৰ ট্ৰেক",
+  "Media Controls": "মিডিয়া নিয়ন্ত্ৰণসমূহ"
 }

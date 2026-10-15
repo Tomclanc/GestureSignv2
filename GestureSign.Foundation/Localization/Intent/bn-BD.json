@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "অঙ্গভঙ্গি শুরুর বোতাম ধরে রাখুন, তারপর নির্বাচিত বোতামে ক্লিক করুন বা চাকা ঘোরান। আঁকতে হবে না।",
   "Name": "নাম",
   "Custom Plugin": "কাস্টম প্লাগইন",
-  "Mouse button combinations": "মাউস বোতামের সমন্বয়"
+  "Mouse button combinations": "মাউস বোতামের সমন্বয়",
+  "Media Play": "মিডিয়া প্লে",
+  "Media Pause": "মিডিয়া পজ",
+  "Media Fast Forward": "মিডিয়া ফাস্ট ফরোয়ার্ড",
+  "Media Rewind": "মিডিয়া রিওয়াইন্ড",
+  "Media Next Track": "মিডিয়া নেক্সট ট্র্যাক",
+  "Media Previous Track": "মিডিয়া পূর্ববর্তী ট্র্যাক",
+  "Media Controls": "মিডিয়া কন্ট্রোল"
 }

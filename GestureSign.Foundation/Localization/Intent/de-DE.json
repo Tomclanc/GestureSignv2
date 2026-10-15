@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Eine Gestenstarttaste halten, dann die gewählte Taste anklicken oder das Mausrad drehen. Zeichnen ist nicht nötig.",
   "Name": "Name",
   "Custom Plugin": "Benutzerdefiniertes Plugin",
-  "Mouse button combinations": "Maustastenkombinationen"
+  "Mouse button combinations": "Maustastenkombinationen",
+  "Media Play": "Medienwiedergabe",
+  "Media Pause": "Medienpause",
+  "Media Fast Forward": "Medienschneller Vorlauf",
+  "Media Rewind": "Medienrücklauf",
+  "Media Next Track": "Medien Nächster Titel",
+  "Media Previous Track": "Medien Vorheriger Titel",
+  "Media Controls": "Mediensteuerung"
 }

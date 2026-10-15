@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Haltu upphafshnappi niðri og smelltu svo á valinn hnapp eða snúðu hjólinu. Ekki þarf að teikna.",
   "Name": "Heiti",
   "Custom Plugin": "Sérsniðin viðbót",
-  "Mouse button combinations": "Samsetningar músarhnappa"
+  "Mouse button combinations": "Samsetningar músarhnappa",
+  "Media Play": "spilun fjölmiðla",
+  "Media Pause": "Fjölmiðlahlé",
+  "Media Fast Forward": "Fjölmiðlar hratt áfram",
+  "Media Rewind": "Spóla til baka fjölmiðla",
+  "Media Next Track": "Fjölmiðlar næst",
+  "Media Previous Track": "Media Fyrra lag",
+  "Media Controls": "Miðlunarstýringar"
 }

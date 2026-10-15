@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [সম্পাদিত হয়নি] কোন উপলব্ধ কমান্ড নেই",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [স্বীকৃত] অঙ্গভঙ্গি {1}, যোগাযোগ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [শুরু] {1}, {2} পরিচিতি, মোড {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [অপরিচিত] কোন মিলিত অঙ্গভঙ্গি নেই"
+  "{0} [Unrecognized] No matching gesture": "{0} [অপরিচিত] কোন মিলিত অঙ্গভঙ্গি নেই",
+  "Media Play": "মিডিয়া প্লে",
+  "Media Pause": "মিডিয়া পজ",
+  "Media Fast Forward": "মিডিয়া ফাস্ট ফরোয়ার্ড",
+  "Media Rewind": "মিডিয়া রিওয়াইন্ড",
+  "Media Next Track": "মিডিয়া নেক্সট ট্র্যাক",
+  "Media Previous Track": "মিডিয়া পূর্ববর্তী ট্র্যাক",
+  "Media Controls": "মিডিয়া কন্ট্রোল",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "বর্তমান মিডিয়া প্লেয়ার নিয়ন্ত্রণ করে। খেলা এবং বিরতি পৃথক; সমর্থিত হলে 10 সেকেন্ড এগিয়ে বা পিছনের দিকে তাকান। উপলব্ধ অপারেশন প্লেয়ার উপর নির্ভর করে."
 }

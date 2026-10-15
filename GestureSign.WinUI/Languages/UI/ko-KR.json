@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [실행되지 않음] 사용 가능한 명령이 없습니다.",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [인식됨] 제스처 {1}, 연락처 {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [시작] {1}, {2} 접점, 모드 {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [인식되지 않음] 일치하는 제스처가 없습니다."
+  "{0} [Unrecognized] No matching gesture": "{0} [인식되지 않음] 일치하는 제스처가 없습니다.",
+  "Media Play": "미디어 재생",
+  "Media Pause": "미디어 일시 정지",
+  "Media Fast Forward": "미디어 빨리 감기",
+  "Media Rewind": "미디어 되감기",
+  "Media Next Track": "미디어 다음 곡",
+  "Media Previous Track": "미디어 이전 곡",
+  "Media Controls": "미디어 제어",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "현재 미디어 플레이어를 제어합니다. 재생과 일시 정지는 별개이며, 지원되는 경우 10초 앞으로 또는 뒤로 이동합니다. 사용 가능한 동작은 플레이어에 따라 다릅니다."
 }

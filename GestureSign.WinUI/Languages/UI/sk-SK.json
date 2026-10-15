@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nevykonané] Žiadne dostupné príkazy",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Uznané] Gesto {1}, kontakty {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Štart] Kontakty {1}, {2}, režim {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Nerozpoznané] Žiadne zodpovedajúce gesto"
+  "{0} [Unrecognized] No matching gesture": "{0} [Nerozpoznané] Žiadne zodpovedajúce gesto",
+  "Media Play": "prehrávanie médií",
+  "Media Pause": "mediálna pauza",
+  "Media Fast Forward": "Prevíjanie médií vpred",
+  "Media Rewind": "Prevíjanie médií",
+  "Media Next Track": "Ďalej médiá",
+  "Media Previous Track": "Media Predchádzajúca skladba",
+  "Media Controls": "Ovládanie médií",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Ovláda aktuálny prehrávač médií. Prehrať a pozastaviť sú oddelené; vyhľadávanie dopredu alebo dozadu o 10 sekúnd, ak je podporované. Dostupné operácie závisia od prehrávača."
 }

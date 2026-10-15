@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Не выканана] Няма даступных каманд",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Распазнана] Жэст {1}, кантакты {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Пачатак] {1}, {2} кантакты, рэжым {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Нераспазнаны] Няма адпаведнага жэсту"
+  "{0} [Unrecognized] No matching gesture": "{0} [Нераспазнаны] Няма адпаведнага жэсту",
+  "Media Play": "прайграванне мультымедыя",
+  "Media Pause": "Медыяпаўза",
+  "Media Fast Forward": "Медыя, перамотка наперад",
+  "Media Rewind": "Перамотка мультымедыя",
+  "Media Next Track": "Мультымедыя Наступны трэк",
+  "Media Previous Track": "Мультымедыя Папярэдні трэк",
+  "Media Controls": "Элементы кіравання мультымедыя",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Кіруе бягучым медыяплэерам. Прайграванне і паўза асобныя; перамотка наперад або назад на 10 секунд пры падтрымцы. Даступныя аперацыі залежаць ад гульца."
 }

@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [未执行] 没有可用命令",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [识别] 手势 {1}，触点 {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [开始] {1}，{2} 个触点，模式 {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [未识别] 没有匹配到手势"
+  "{0} [Unrecognized] No matching gesture": "{0} [未识别] 没有匹配到手势",
+  "Media Play": "媒体播放",
+  "Media Pause": "媒体暂停",
+  "Media Fast Forward": "媒体快进",
+  "Media Rewind": "媒体快退",
+  "Media Next Track": "媒体下一首",
+  "Media Previous Track": "媒体上一首",
+  "Media Controls": "多媒体控制",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "控制当前媒体播放器。播放和暂停分别执行；支持进度控制时，快进或快退 10 秒。需要播放器支持对应操作。"
 }

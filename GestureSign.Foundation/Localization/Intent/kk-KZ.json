@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Бастау түймесін басып тұрып, таңдалған түймені басыңыз немесе дөңгелекті айналдырыңыз. Салу қажет емес.",
   "Name": "Атауы",
   "Custom Plugin": "Арнайы плагин",
-  "Mouse button combinations": "Тінтуір түймелерінің тіркесімдері"
+  "Mouse button combinations": "Тінтуір түймелерінің тіркесімдері",
+  "Media Play": "медиа ойнату",
+  "Media Pause": "Медиа кідірту",
+  "Media Fast Forward": "Медиа жылдам алға",
+  "Media Rewind": "Медиа кері айналдыру",
+  "Media Next Track": "Медиа келесі трек",
+  "Media Previous Track": "Медиа Алдыңғы трек",
+  "Media Controls": "Медиа басқару элементтері"
 }

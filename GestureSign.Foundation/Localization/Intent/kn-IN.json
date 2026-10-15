@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ಸನ್ನೆ ಪ್ರಾರಂಭ ಬಟನ್ ಹಿಡಿದು ನಂತರ ಆಯ್ಕೆ ಮಾಡಿದ ಬಟನ್ ಕ್ಲಿಕ್ ಮಾಡಿ ಅಥವಾ ಚಕ್ರ ತಿರುಗಿಸಿ. ಬರೆಯಬೇಕಿಲ್ಲ.",
   "Name": "ಹೆಸರು",
   "Custom Plugin": "ಕಸ್ಟಮ್ ಪ್ಲಗಿನ್",
-  "Mouse button combinations": "ಮೌಸ್ ಬಟನ್ ಸಂಯೋಜನೆಗಳು"
+  "Mouse button combinations": "ಮೌಸ್ ಬಟನ್ ಸಂಯೋಜನೆಗಳು",
+  "Media Play": "ಮೀಡಿಯಾ ಪ್ಲೇ",
+  "Media Pause": "ಮಾಧ್ಯಮ ವಿರಾಮ",
+  "Media Fast Forward": "ಮಾಧ್ಯಮ ಫಾಸ್ಟ್ ಫಾರ್ವರ್ಡ್",
+  "Media Rewind": "ಮೀಡಿಯಾ ರಿವೈಂಡ್",
+  "Media Next Track": "ಮಾಧ್ಯಮ ಮುಂದಿನ ಟ್ರ್ಯಾಕ್",
+  "Media Previous Track": "ಮಾಧ್ಯಮ ಹಿಂದಿನ ಟ್ರ್ಯಾಕ್",
+  "Media Controls": "ಮಾಧ್ಯಮ ನಿಯಂತ್ರಣಗಳು"
 }

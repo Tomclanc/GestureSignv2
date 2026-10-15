@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Cum putan tòiseachaidh sìos, agus briog air a’ phutan thaghte no sgrolaich a’ chuibhle. Chan eil tarraing riatanach.",
   "Name": "Ainm",
   "Custom Plugin": "Plugin gnàthaichte",
-  "Mouse button combinations": "Co-mheasgachaidhean putanan na luchaige"
+  "Mouse button combinations": "Co-mheasgachaidhean putanan na luchaige",
+  "Media Play": "Cluich nam meadhanan",
+  "Media Pause": "Na meadhanan stad",
+  "Media Fast Forward": "Na meadhanan gu sgiobalta air adhart",
+  "Media Rewind": "Ath-thionndadh nam meadhanan",
+  "Media Next Track": "Na meadhanan an ath rud",
+  "Media Previous Track": "Na meadhanan An t-slighe roimhe",
+  "Media Controls": "Smachdan meadhanan"
 }

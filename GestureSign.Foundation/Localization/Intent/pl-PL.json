@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Przytrzymaj przycisk rozpoczęcia gestu, następnie kliknij wybrany przycisk lub obróć kółko. Rysowanie nie jest potrzebne.",
   "Name": "Nazwa",
   "Custom Plugin": "Wtyczka niestandardowa",
-  "Mouse button combinations": "Kombinacje przycisków myszy"
+  "Mouse button combinations": "Kombinacje przycisków myszy",
+  "Media Play": "Odtwarzanie multimediów",
+  "Media Pause": "Pauza w mediach",
+  "Media Fast Forward": "Szybkie przewijanie multimediów",
+  "Media Rewind": "Przewijanie multimediów",
+  "Media Next Track": "Następny utwór w mediach",
+  "Media Previous Track": "Poprzedni utwór w mediach",
+  "Media Controls": "Sterowanie multimediami"
 }

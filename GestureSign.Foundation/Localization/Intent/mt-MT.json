@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Żomm buttuna tal-bidu, imbagħad ikklikkja l-buttuna magħżula jew dawwar ir-rota. M’hemmx għalfejn tpinġi.",
   "Name": "Isem",
   "Custom Plugin": "Plugin Personalizzat",
-  "Mouse button combinations": "Kombinazzjonijiet tal-buttuni tal-maws"
+  "Mouse button combinations": "Kombinazzjonijiet tal-buttuni tal-maws",
+  "Media Play": "daqq tal-midja",
+  "Media Pause": "Pawża tal-Midja",
+  "Media Fast Forward": "Midja Fast Forward",
+  "Media Rewind": "rewind tal-midja",
+  "Media Next Track": "Media Li jmiss Track",
+  "Media Previous Track": "Media Preċedenti Track",
+  "Media Controls": "Kontrolli tal-Midja"
 }

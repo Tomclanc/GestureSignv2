@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Држете почетно копче, па притиснете го избраното копче или свртете го тркалцето. Не треба да цртате.",
   "Name": "Име",
   "Custom Plugin": "Прилагоден додаток",
-  "Mouse button combinations": "Комбинации на копчиња на глувчето"
+  "Mouse button combinations": "Комбинации на копчиња на глувчето",
+  "Media Play": "репродукција на медиуми",
+  "Media Pause": "Медиумска пауза",
+  "Media Fast Forward": "Медиуми брзо напред",
+  "Media Rewind": "Медиумски премотување",
+  "Media Next Track": "Медиумска следна песна",
+  "Media Previous Track": "Медиуми Претходна песна",
+  "Media Controls": "Медиумски контроли"
 }

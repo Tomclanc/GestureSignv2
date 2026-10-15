@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Орындалмаған] Қолжетімді пәрмендер жоқ",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Танылды] Қимыл {1}, контактілер {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Бастау] {1}, {2} контактілері, режим {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Танылмаған] Сәйкес қимыл жоқ"
+  "{0} [Unrecognized] No matching gesture": "{0} [Танылмаған] Сәйкес қимыл жоқ",
+  "Media Play": "медиа ойнату",
+  "Media Pause": "Медиа кідірту",
+  "Media Fast Forward": "Медиа жылдам алға",
+  "Media Rewind": "Медиа кері айналдыру",
+  "Media Next Track": "Медиа келесі трек",
+  "Media Previous Track": "Медиа Алдыңғы трек",
+  "Media Controls": "Медиа басқару элементтері",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Ағымдағы медиа ойнатқышты басқарады. Ойнату және үзіліс бөлек; қолдау көрсетілгенде 10 секунд алға немесе артқа ұмтылыңыз. Қолжетімді операциялар ойнатқышқа байланысты."
 }

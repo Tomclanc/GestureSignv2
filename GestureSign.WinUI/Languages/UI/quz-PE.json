@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Mana ruwasqachu] Mana kamachiykuna tiyanchu",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Reqsisqa] Gesto {1}, {2} nisqawan rimanakuy",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Qallariy] {1}, {2} rimanakuykuna, modo {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Mana riqsisqa] Mana tupaq gesto"
+  "{0} [Unrecognized] No matching gesture": "{0} [Mana riqsisqa] Mana tupaq gesto",
+  "Media Play": "Media Play nisqa",
+  "Media Pause": "Medios de comunicación Pausa",
+  "Media Fast Forward": "Medios de comunicación Utqaylla ñawpaqman",
+  "Media Rewind": "Media Rebobinado nisqa",
+  "Media Next Track": "Medios de comunicación Qatiq Pista",
+  "Media Previous Track": "Media Ñawpaq Pista",
+  "Media Controls": "Controles de Medios nisqamanta",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Kunan willay mast'ariq pukllaqta kamachin. Pukllaypas, samaypas sapaqchasqam; ñawpaqman utaq qhipaman maskay 10 segundos yanapasqa kaptin. Kaq operacionkunaqa pukllaqmantam kanqa."
 }

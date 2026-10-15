@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [ไม่ได้ดำเนินการ] ไม่มีคำสั่งที่ใช้ได้",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ได้รับการยอมรับ] ท่าทาง {1}, หน้าสัมผัส {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [เริ่ม] หน้าสัมผัส {1}, {2}, โหมด {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [ไม่รู้จัก] ไม่มีท่าทางที่ตรงกัน"
+  "{0} [Unrecognized] No matching gesture": "{0} [ไม่รู้จัก] ไม่มีท่าทางที่ตรงกัน",
+  "Media Play": "การเล่นสื่อ",
+  "Media Pause": "สื่อหยุดชั่วคราว",
+  "Media Fast Forward": "สื่อกรอไปข้างหน้า",
+  "Media Rewind": "สื่อย้อนกลับ",
+  "Media Next Track": "สื่อเพลงถัดไป",
+  "Media Previous Track": "สื่อเพลงก่อนหน้า",
+  "Media Controls": "การควบคุมสื่อ",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "ควบคุมเครื่องเล่นสื่อปัจจุบัน การเล่นและการหยุดชั่วคราวจะแยกจากกัน ค้นหาไปข้างหน้าหรือข้างหลัง 10 วินาทีเมื่อรองรับ การดำเนินการที่มีอยู่ขึ้นอยู่กับผู้เล่น"
 }

@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nincs végrehajtva] Nincsenek elérhető parancsok",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Felismerve] Gesztus {1}, érintkezők {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} érintkezők, {3} üzemmód",
-  "{0} [Unrecognized] No matching gesture": "{0} [Ismeretlen] Nincs egyező gesztus"
+  "{0} [Unrecognized] No matching gesture": "{0} [Ismeretlen] Nincs egyező gesztus",
+  "Media Play": "média lejátszás",
+  "Media Pause": "Média szünet",
+  "Media Fast Forward": "Média Gyors előre",
+  "Media Rewind": "Média visszatekerése",
+  "Media Next Track": "Média következő szám",
+  "Media Previous Track": "Média előző szám",
+  "Media Controls": "Médiavezérlők",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Vezérli az aktuális médialejátszót. A lejátszás és a szünet különálló; 10 másodperccel előre vagy hátra kereshet, ha támogatott. Az elérhető műveletek a lejátszótól függenek."
 }

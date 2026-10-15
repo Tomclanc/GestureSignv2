@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Daliwch fotwm cychwyn, yna cliciwch y botwm a ddewiswyd neu sgroliwch yr olwyn. Nid oes angen tynnu.",
   "Name": "Enw",
   "Custom Plugin": "Plugin wedi'i addasu",
-  "Mouse button combinations": "Cyfuniadau botymau'r llygoden"
+  "Mouse button combinations": "Cyfuniadau botymau'r llygoden",
+  "Media Play": "Chwarae Cyfryngau",
+  "Media Pause": "Seibiant Cyfryngau",
+  "Media Fast Forward": "Cyfryngau Ymlaen yn Gyflym",
+  "Media Rewind": "Cyfryngau Ailddirwyn",
+  "Media Next Track": "Trac Nesaf y Cyfryngau",
+  "Media Previous Track": "Cyfryngau Trac Blaenorol",
+  "Media Controls": "Rheolaethau Cyfryngau"
 }

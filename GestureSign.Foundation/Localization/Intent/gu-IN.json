@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "હાવભાવ શરૂ કરવાનું બટન દબાવી રાખો, પછી પસંદ કરેલું બટન ક્લિક કરો અથવા ચક્ર ફેરવો. દોરવું જરૂરી નથી.",
   "Name": "નામ",
   "Custom Plugin": "કસ્ટમ પ્લગઇન",
-  "Mouse button combinations": "માઉસ બટનોનાં સંયોજનો"
+  "Mouse button combinations": "માઉસ બટનોનાં સંયોજનો",
+  "Media Play": "મીડિયા પ્લે",
+  "Media Pause": "મીડિયા વિરામ",
+  "Media Fast Forward": "મીડિયા ફાસ્ટ ફોરવર્ડ",
+  "Media Rewind": "મીડિયા રીવાઇન્ડ",
+  "Media Next Track": "મીડિયા નેક્સ્ટ ટ્રૅક",
+  "Media Previous Track": "મીડિયા પાછલો ટ્રેક",
+  "Media Controls": "મીડિયા નિયંત્રણો"
 }

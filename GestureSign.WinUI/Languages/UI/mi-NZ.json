@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Kare i mahia] Karekau he tono e waatea ana",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Mohiotia] Tohu {1}, hoapaki {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Tīmata] {1}, {2} hoapā, aratau {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Kare i te Mohiotia] Karekau he tohu rite"
+  "{0} [Unrecognized] No matching gesture": "{0} [Kare i te Mohiotia] Karekau he tohu rite",
+  "Media Play": "Whakaari Paapaho",
+  "Media Pause": "Whakatatari Media",
+  "Media Fast Forward": "Media Tere Whakamua",
+  "Media Rewind": "whakamuri pāpāho",
+  "Media Next Track": "Riu Panuku Media",
+  "Media Previous Track": "Riro o mua Media",
+  "Media Controls": "Mana Media",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Mana i te kaitākaro pāpāho o nāianei. He wehe ke te takaro me te okioki; rapu whakamua, whakamuri ranei ma te 10 hēkona ina tautokohia. Ko nga mahi e waatea ana ka whakawhirinaki ki te kaitakaro."
 }

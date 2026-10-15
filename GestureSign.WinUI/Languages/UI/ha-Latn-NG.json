@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Ba a aiwatar da shi] Babu wasu umarni da aka samu",
   "{0} [Recognized] Gesture {1}, contacts {2}": "Nufin {0} [Gane] {1}, lambobin sadarwa {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Fara] {1}, lambobi {2}, yanayin {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Ba a gane shi ba] Babu alamar da ta dace"
+  "{0} [Unrecognized] No matching gesture": "{0} [Ba a gane shi ba] Babu alamar da ta dace",
+  "Media Play": "Kunna Mai jarida",
+  "Media Pause": "Dakatawar Mai jarida",
+  "Media Fast Forward": "Mai Saurin Gaba",
+  "Media Rewind": "Maida Mai jarida",
+  "Media Next Track": "Waƙoƙi na gaba Media",
+  "Media Previous Track": "Waƙar Watsawa ta Baya",
+  "Media Controls": "Gudanarwar Mai jarida",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Yana sarrafa mai kunna watsa labarai na yanzu. Wasa da tsayawa sun bambanta; Nemo gaba ko baya da daƙiƙa 10 lokacin da aka goyan baya. Ayyukan da ake samuwa sun dogara da mai kunnawa."
 }

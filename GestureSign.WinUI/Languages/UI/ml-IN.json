@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [നിർവഹിച്ചിട്ടില്ല] കമാൻഡുകൾ ലഭ്യമല്ല",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [അംഗീകരിക്കപ്പെട്ട] ആംഗ്യ {1}, കോൺടാക്റ്റുകൾ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ആരംഭിക്കുക] {1}, {2} കോൺടാക്റ്റുകൾ, മോഡ് {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [തിരിച്ചറിയപ്പെടാത്തത്] പൊരുത്തപ്പെടുന്ന ആംഗ്യമൊന്നുമില്ല"
+  "{0} [Unrecognized] No matching gesture": "{0} [തിരിച്ചറിയപ്പെടാത്തത്] പൊരുത്തപ്പെടുന്ന ആംഗ്യമൊന്നുമില്ല",
+  "Media Play": "മീഡിയ പ്ലേ",
+  "Media Pause": "മീഡിയ താൽക്കാലികമായി നിർത്തുക",
+  "Media Fast Forward": "മീഡിയ ഫാസ്റ്റ് ഫോർവേഡ്",
+  "Media Rewind": "മീഡിയ റിവൈൻഡ്",
+  "Media Next Track": "മീഡിയ അടുത്ത ട്രാക്ക്",
+  "Media Previous Track": "മീഡിയ മുൻ ട്രാക്ക്",
+  "Media Controls": "മീഡിയ നിയന്ത്രണങ്ങൾ",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "നിലവിലെ മീഡിയ പ്ലെയർ നിയന്ത്രിക്കുന്നു. കളിയും ഇടവേളയും വെവ്വേറെയാണ്; പിന്തുണയ്‌ക്കുമ്പോൾ 10 സെക്കൻഡ് മുന്നോട്ട് അല്ലെങ്കിൽ പിന്നോട്ട് നോക്കുക. ലഭ്യമായ പ്രവർത്തനങ്ങൾ കളിക്കാരനെ ആശ്രയിച്ചിരിക്കുന്നു."
 }

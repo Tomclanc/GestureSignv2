@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "សង្កត់ប៊ូតុងចាប់ផ្ដើម រួចចុចប៊ូតុងដែលបានជ្រើសរើស ឬរមូរកង់កណ្ដុរ។ មិនចាំបាច់គូរទេ។",
   "Name": "ឈ្មោះ",
   "Custom Plugin": "ផ្លាក់អ៊ីនផ្ទាល់ខ្លួន",
-  "Mouse button combinations": "បន្សំប៊ូតុងកណ្ដុរ"
+  "Mouse button combinations": "បន្សំប៊ូតុងកណ្ដុរ",
+  "Media Play": "ការលេងប្រព័ន្ធផ្សព្វផ្សាយ",
+  "Media Pause": "ការផ្អាកប្រព័ន្ធផ្សព្វផ្សាយ",
+  "Media Fast Forward": "ប្រព័ន្ធផ្សព្វផ្សាយលឿនទៅមុខ",
+  "Media Rewind": "ប្រព័ន្ធផ្សព្វផ្សាយត្រឡប់",
+  "Media Next Track": "ប្រព័ន្ធផ្សព្វផ្សាយបទបន្ទាប់",
+  "Media Previous Track": "ប្រព័ន្ធផ្សព្វផ្សាយបទមុន។",
+  "Media Controls": "ការគ្រប់គ្រងប្រព័ន្ធផ្សព្វផ្សាយ"
 }

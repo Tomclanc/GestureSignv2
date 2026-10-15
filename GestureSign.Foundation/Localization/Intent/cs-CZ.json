@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Držte spouštěcí tlačítko a pak klikněte na vybrané tlačítko nebo otočte kolečkem. Kreslení není nutné.",
   "Name": "Název",
   "Custom Plugin": "Vlastní plugin",
-  "Mouse button combinations": "Kombinace tlačítek myši"
+  "Mouse button combinations": "Kombinace tlačítek myši",
+  "Media Play": "Přehrávání médií",
+  "Media Pause": "mediální pauza",
+  "Media Fast Forward": "Převíjení médií vpřed",
+  "Media Rewind": "Převíjení médií",
+  "Media Next Track": "Média Další stopa",
+  "Media Previous Track": "Média Předchozí skladba",
+  "Media Controls": "Ovládání médií"
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Manteniu premut un botó d’inici i feu clic al botó triat o gireu la roda. No cal dibuixar.",
   "Name": "Nom",
   "Custom Plugin": "Plugin personalitzat",
-  "Mouse button combinations": "Combinacions de botons del ratolí"
+  "Mouse button combinations": "Combinacions de botons del ratolí",
+  "Media Play": "reproducció de mitjans",
+  "Media Pause": "Pausa multimèdia",
+  "Media Fast Forward": "Avança ràpida dels mitjans",
+  "Media Rewind": "Rebobinat de mitjans",
+  "Media Next Track": "Pista següent de mitjans",
+  "Media Previous Track": "Media Pista anterior",
+  "Media Controls": "Controls de mitjans"
 }

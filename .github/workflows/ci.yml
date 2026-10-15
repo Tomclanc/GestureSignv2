@@ -34,6 +34,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet run --project tests/GestureSign.CommandSequenceTests -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.MediaControlTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Test dialog lifecycle and window state commands
         shell: pwsh
         run: |
@@ -65,6 +67,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet GestureSign.IntentDlc/bin/Release/net10.0-windows10.0.26100.0/win-x64/GestureSign.IntentDlc.dll --self-test intent-runtime-test.json
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Test delayed AI engine connection and command delivery
+        run: dotnet run --project tests/GestureSign.IntentConnectionTests -c Release
       - name: Test gesture correction and shared localization
         shell: pwsh
         run: |

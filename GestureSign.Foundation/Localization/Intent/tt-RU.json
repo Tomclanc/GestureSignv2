@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Башлау төймәсен тотыгыз, аннары сайланган төймәгә басыгыз яки тәгәрмәчне әйләндерегез. Сызарга кирәкми.",
   "Name": "Исем",
   "Custom Plugin": "Кастомлаштырылган плагин",
-  "Mouse button combinations": "Тычкан төймәләре комбинацияләре"
+  "Mouse button combinations": "Тычкан төймәләре комбинацияләре",
+  "Media Play": "Медиа Плей",
+  "Media Pause": "Медиа Пауза",
+  "Media Fast Forward": "Медиа Тиз алга",
+  "Media Rewind": "Медиа",
+  "Media Next Track": "Медиа Киләсе трек",
+  "Media Previous Track": "Медиа Алдагы трек",
+  "Media Controls": "Медиа Контроль"
 }

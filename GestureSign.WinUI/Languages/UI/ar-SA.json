@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [لم يُنفَّذ] لا توجد أوامر متاحة",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [تم التعرف] الإيماءة {1}، نقاط التلامس {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [البداية] {1}، {2} نقاط تلامس، الوضع {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [لم يتم التعرف] لا توجد إيماءة مطابقة"
+  "{0} [Unrecognized] No matching gesture": "{0} [لم يتم التعرف] لا توجد إيماءة مطابقة",
+  "Media Play": "تشغيل الوسائط",
+  "Media Pause": "وقفة وسائل الإعلام",
+  "Media Fast Forward": "وسائل الإعلام سريع إلى الأمام",
+  "Media Rewind": "ترجيع الوسائط",
+  "Media Next Track": "المسار التالي للوسائط",
+  "Media Previous Track": "المسار السابق للوسائط",
+  "Media Controls": "ضوابط وسائل الإعلام",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "يتحكم في مشغل الوسائط الحالي. التشغيل والإيقاف المؤقت منفصلان؛ ابحث للأمام أو للخلف بمقدار 10 ثوانٍ عند دعمه. العمليات المتاحة تعتمد على اللاعب."
 }

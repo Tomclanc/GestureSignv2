@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Haijatekelezwa] Hakuna amri zinazopatikana",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Inatambulika] Ishara {1}, anwani {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Anza] {1}, {2} anwani, hali ya {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Haijatambuliwa] Hakuna ishara inayolingana"
+  "{0} [Unrecognized] No matching gesture": "{0} [Haijatambuliwa] Hakuna ishara inayolingana",
+  "Media Play": "Uchezaji wa Vyombo vya Habari",
+  "Media Pause": "Sitisha Media",
+  "Media Fast Forward": "Media Haraka mbele",
+  "Media Rewind": "Urejeshaji nyuma wa media",
+  "Media Next Track": "Wimbo Unaofuata wa Media",
+  "Media Previous Track": "Wimbo Uliopita wa Vyombo vya Habari",
+  "Media Controls": "Vidhibiti vya Vyombo vya Habari",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Hudhibiti kicheza media cha sasa. Kucheza na pause ni tofauti; tafuta mbele au nyuma kwa sekunde 10 inapoauniwa. Shughuli zinazopatikana hutegemea mchezaji."
 }

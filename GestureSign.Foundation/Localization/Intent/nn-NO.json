@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Hald ein startknapp, og klikk deretter på den valde knappen eller rull hjulet. Du treng ikkje teikne.",
   "Name": "Namn",
   "Custom Plugin": "Eigedefinert programtillegg",
-  "Mouse button combinations": "Kombinasjonar av museknappar"
+  "Mouse button combinations": "Kombinasjonar av museknappar",
+  "Media Play": "medieavspilling",
+  "Media Pause": "Mediepause",
+  "Media Fast Forward": "Media spol fremover",
+  "Media Rewind": "Media spole tilbake",
+  "Media Next Track": "Media Neste spor",
+  "Media Previous Track": "Media Forrige spor",
+  "Media Controls": "Mediekontroller"
 }

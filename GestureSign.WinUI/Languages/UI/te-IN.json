@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [అమలు చేయబడలేదు] అందుబాటులో ఆదేశాలు లేవు",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [గుర్తించబడింది] సంజ్ఞ {1}, పరిచయాలు {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ప్రారంభించు] {1}, {2} పరిచయాలు, మోడ్ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [గుర్తించబడలేదు] సరిపోలే సంజ్ఞ లేదు"
+  "{0} [Unrecognized] No matching gesture": "{0} [గుర్తించబడలేదు] సరిపోలే సంజ్ఞ లేదు",
+  "Media Play": "మీడియా ప్లే",
+  "Media Pause": "మీడియా పాజ్",
+  "Media Fast Forward": "మీడియా ఫాస్ట్ ఫార్వర్డ్",
+  "Media Rewind": "మీడియా రివైండ్",
+  "Media Next Track": "మీడియా తదుపరి ట్రాక్",
+  "Media Previous Track": "మీడియా మునుపటి ట్రాక్",
+  "Media Controls": "మీడియా నియంత్రణలు",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "ప్రస్తుత మీడియా ప్లేయర్‌ని నియంత్రిస్తుంది. ప్లే మరియు పాజ్ వేరు; మద్దతు ఉన్నప్పుడు 10 సెకన్లు ముందుకు లేదా వెనుకకు వెతకండి. అందుబాటులో ఉన్న కార్యకలాపాలు ప్లేయర్‌పై ఆధారపడి ఉంటాయి."
 }

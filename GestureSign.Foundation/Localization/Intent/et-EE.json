@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Hoia alustamisnuppu ja seejärel klõpsa valitud nuppu või keri ratast. Joonistada pole vaja.",
   "Name": "Nimi",
   "Custom Plugin": "Kohandatud plugin",
-  "Mouse button combinations": "Hiirenuppude kombinatsioonid"
+  "Mouse button combinations": "Hiirenuppude kombinatsioonid",
+  "Media Play": "meedia taasesitus",
+  "Media Pause": "Meedia paus",
+  "Media Fast Forward": "Meedia edasikerimine",
+  "Media Rewind": "Meedia tagasikerimine",
+  "Media Next Track": "Meedia järgmine lugu",
+  "Media Previous Track": "Meedia eelmine lugu",
+  "Media Controls": "Meedia juhtnupud"
 }

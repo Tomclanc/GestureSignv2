@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "החזק לחצן התחלת מחווה ואז לחץ על הלחצן שנבחר או גלול בגלגלת. אין צורך לצייר.",
   "Name": "שם",
   "Custom Plugin": "תוסף מותאם אישית",
-  "Mouse button combinations": "שילובי לחצני עכבר"
+  "Mouse button combinations": "שילובי לחצני עכבר",
+  "Media Play": "השמעת מדיה",
+  "Media Pause": "השהיית מדיה",
+  "Media Fast Forward": "מדיה מהירה קדימה",
+  "Media Rewind": "החזרה לאחור של התקשורת",
+  "Media Next Track": "המדיה הבאה",
+  "Media Previous Track": "מדיה מסלול קודם",
+  "Media Controls": "בקרות מדיה"
 }

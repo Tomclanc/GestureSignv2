@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Halt eng Starttast gedréckt a klickt dann déi gewielt Tast oder dréint d'Mausrad. Zeechnen ass net néideg.",
   "Name": "Numm",
   "Custom Plugin": "Benotzerdefinéiert Plugin",
-  "Mouse button combinations": "Mausknäppchenkombinatiounen"
+  "Mouse button combinations": "Mausknäppchenkombinatiounen",
+  "Media Play": "Media Spill",
+  "Media Pause": "Media Paus",
+  "Media Fast Forward": "Medien séier no vir",
+  "Media Rewind": "Medien zréckzéien",
+  "Media Next Track": "Media Next Gleis",
+  "Media Previous Track": "Media Virdrun Streck",
+  "Media Controls": "Medien Kontrollen"
 }

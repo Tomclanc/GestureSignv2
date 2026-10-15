@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Exekutatu gabe] Ez dago komando erabilgarririk",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Aitortua] {1} keinua, {2} kontaktuak",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Hasi] {1}, {2} kontaktuak, {3} modua",
-  "{0} [Unrecognized] No matching gesture": "{0} [Ez da ezagutzen] Ez dago bat datorren keinurik"
+  "{0} [Unrecognized] No matching gesture": "{0} [Ez da ezagutzen] Ez dago bat datorren keinurik",
+  "Media Play": "multimedia erreprodukzioa",
+  "Media Pause": "Media Pausa",
+  "Media Fast Forward": "Komunikabideak Aurrera Azkarra",
+  "Media Rewind": "komunikabideen atzerakada",
+  "Media Next Track": "Media Hurrengo pista",
+  "Media Previous Track": "Media Aurreko pista",
+  "Media Controls": "Multimedia kontrolak",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Uneko multimedia erreproduzitzailea kontrolatzen du. Jolasa eta etenaldia bereizita daude; Bilatu aurrera edo atzera 10 segundoz onartzen denean. Eskuragarri dauden eragiketak jokalariaren araberakoak dira."
 }

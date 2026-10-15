@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [এক্সেকিউট কৰা হোৱা নাই] কোনো উপলব্ধ আদেশ নাই",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [স্বীকৃতিপ্ৰাপ্ত] ইংগিত {1}, যোগাযোগ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [আৰম্ভ] {1}, {2} যোগাযোগ, মোড {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [অচিনাক্ত] কোনো মিল থকা ইংগিত নাই"
+  "{0} [Unrecognized] No matching gesture": "{0} [অচিনাক্ত] কোনো মিল থকা ইংগিত নাই",
+  "Media Play": "মিডিয়া প্লে",
+  "Media Pause": "মিডিয়া বিৰতি",
+  "Media Fast Forward": "মিডিয়া ফাষ্ট ফৰৱাৰ্ড",
+  "Media Rewind": "মিডিয়া ৰিৱাইণ্ড",
+  "Media Next Track": "মিডিয়া পৰৱৰ্তী ট্ৰেক",
+  "Media Previous Track": "মিডিয়া পূৰ্বৰ ট্ৰেক",
+  "Media Controls": "মিডিয়া নিয়ন্ত্ৰণসমূহ",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "বৰ্তমানৰ মিডিয়া প্লেয়াৰ নিয়ন্ত্ৰণ কৰে। খেলা-ধূলা আৰু বিৰতি পৃথক; সমৰ্থিত হ'লে ১০ ছেকেণ্ড আগলৈ বা পিছলৈ বিচাৰক। উপলব্ধ অপাৰেচনসমূহ খেলুৱৈৰ ওপৰত নিৰ্ভৰ কৰে।"
 }

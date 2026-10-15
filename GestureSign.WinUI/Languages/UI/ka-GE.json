@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [არ არის შესრულებული] ბრძანებები არ არის ხელმისაწვდომი",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [აღიარებული] ჟესტი {1}, კონტაქტები {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [დაწყება] {1}, {2} კონტაქტები, რეჟიმი {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [უცნობი] შესატყვისი ჟესტი არ არის"
+  "{0} [Unrecognized] No matching gesture": "{0} [უცნობი] შესატყვისი ჟესტი არ არის",
+  "Media Play": "მედია თამაში",
+  "Media Pause": "მედია პაუზა",
+  "Media Fast Forward": "მედია სწრაფი წინსვლა",
+  "Media Rewind": "მედია გადახვევა",
+  "Media Next Track": "მედია შემდეგი სიმღერა",
+  "Media Previous Track": "მედია წინა სიმღერა",
+  "Media Controls": "მედია კონტროლი",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "აკონტროლებს მიმდინარე მედია ფლეერს. თამაში და პაუზა ცალკეა; მხარდაჭერის შემთხვევაში ისწრაფვით წინ ან უკან 10 წამით. ხელმისაწვდომი ოპერაციები დამოკიდებულია მოთამაშეზე."
 }

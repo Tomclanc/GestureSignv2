@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Tahan butang mula, kemudian klik butang yang dipilih atau tatal roda. Tidak perlu melukis.",
   "Name": "Nama",
   "Custom Plugin": "Plugin Tersuai",
-  "Mouse button combinations": "Gabungan butang tetikus"
+  "Mouse button combinations": "Gabungan butang tetikus",
+  "Media Play": "Main Media",
+  "Media Pause": "Jeda Media",
+  "Media Fast Forward": "Media Cepat Ke Hadapan",
+  "Media Rewind": "Putar Balik Media",
+  "Media Next Track": "Trek Seterusnya Media",
+  "Media Previous Track": "Media Trek Sebelumnya",
+  "Media Controls": "Kawalan Media"
 }

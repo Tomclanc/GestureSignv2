@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "የመጀመሪያ አዝራርን ተጭነው ይያዙ፣ ከዚያ የተመረጠውን አዝራር ይጫኑ ወይም መንኮራኩሩን ያሽከርክሩ። መሳል አያስፈልግም።",
   "Name": "ስም",
   "Custom Plugin": "ብጁ ተሰኪ",
-  "Mouse button combinations": "የመዳፊት አዝራር ጥምረቶች"
+  "Mouse button combinations": "የመዳፊት አዝራር ጥምረቶች",
+  "Media Play": "የሚዲያ ጨዋታ",
+  "Media Pause": "ሚዲያ ለአፍታ አቁም",
+  "Media Fast Forward": "ሚዲያ ፈጣን ወደፊት",
+  "Media Rewind": "የሚዲያ መመለስ",
+  "Media Next Track": "ሚዲያ ቀጣይ ትራክ",
+  "Media Previous Track": "የሚዲያ ቀዳሚ ትራክ",
+  "Media Controls": "የሚዲያ መቆጣጠሪያዎች"
 }

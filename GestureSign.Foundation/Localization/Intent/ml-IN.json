@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ആരംഭ ബട്ടൺ അമർത്തിപ്പിടിച്ച് തിരഞ്ഞെടുത്ത ബട്ടൺ ക്ലിക്ക് ചെയ്യുക അല്ലെങ്കിൽ ചക്രം തിരിക്കുക. വരയ്ക്കേണ്ടതില്ല.",
   "Name": "പേര്",
   "Custom Plugin": "ഇഷ്‌ടാനുസൃത പ്ലഗിൻ",
-  "Mouse button combinations": "മൗസ് ബട്ടൺ കോമ്പിനേഷനുകൾ"
+  "Mouse button combinations": "മൗസ് ബട്ടൺ കോമ്പിനേഷനുകൾ",
+  "Media Play": "മീഡിയ പ്ലേ",
+  "Media Pause": "മീഡിയ താൽക്കാലികമായി നിർത്തുക",
+  "Media Fast Forward": "മീഡിയ ഫാസ്റ്റ് ഫോർവേഡ്",
+  "Media Rewind": "മീഡിയ റിവൈൻഡ്",
+  "Media Next Track": "മീഡിയ അടുത്ത ട്രാക്ക്",
+  "Media Previous Track": "മീഡിയ മുൻ ട്രാക്ക്",
+  "Media Controls": "മീഡിയ നിയന്ത്രണങ്ങൾ"
 }

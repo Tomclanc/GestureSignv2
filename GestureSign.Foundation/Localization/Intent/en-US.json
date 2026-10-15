@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.",
   "Name": "Name",
   "Custom Plugin": "Custom Plugin",
-  "Mouse button combinations": "Mouse button combinations"
+  "Mouse button combinations": "Mouse button combinations",
+  "Media Play": "Media Play",
+  "Media Pause": "Media Pause",
+  "Media Fast Forward": "Media Fast Forward",
+  "Media Rewind": "Media Rewind",
+  "Media Next Track": "Media Next Track",
+  "Media Previous Track": "Media Previous Track",
+  "Media Controls": "Media Controls"
 }

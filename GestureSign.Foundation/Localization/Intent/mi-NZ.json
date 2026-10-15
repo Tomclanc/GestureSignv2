@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Puritia he pātene tīmata, kātahi ka pāwhiri i te pātene kua kōwhiria, ka huri rānei i te wira. Kāore he take ki te tā.",
   "Name": "Ingoa",
   "Custom Plugin": "Monomai Ritenga",
-  "Mouse button combinations": "Ngā pahekotanga pātene kiore"
+  "Mouse button combinations": "Ngā pahekotanga pātene kiore",
+  "Media Play": "Whakaari Paapaho",
+  "Media Pause": "Whakatatari Media",
+  "Media Fast Forward": "Media Tere Whakamua",
+  "Media Rewind": "whakamuri pāpāho",
+  "Media Next Track": "Riu Panuku Media",
+  "Media Previous Track": "Riro o mua Media",
+  "Media Controls": "Mana Media"
 }

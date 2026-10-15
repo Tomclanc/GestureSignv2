@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Boshlash tugmasini bosib turing, so‘ng tanlangan tugmani bosing yoki g‘ildirakni aylantiring. Chizish shart emas.",
   "Name": "Nomi",
   "Custom Plugin": "Maxsus plagin",
-  "Mouse button combinations": "Sichqoncha tugmalari kombinatsiyalari"
+  "Mouse button combinations": "Sichqoncha tugmalari kombinatsiyalari",
+  "Media Play": "media tinglash",
+  "Media Pause": "Media pauza",
+  "Media Fast Forward": "Media Tez oldinga",
+  "Media Rewind": "Media orqaga o'tkazish",
+  "Media Next Track": "Media keyingi trek",
+  "Media Previous Track": "Media oldingi trek",
+  "Media Controls": "Media boshqaruvlari"
 }

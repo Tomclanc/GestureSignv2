@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "اشارہ شروع کرنے کا بٹن دبائے رکھیں، پھر منتخب بٹن کلک کریں یا پہیہ گھمائیں۔ اشارہ بنانا ضروری نہیں۔",
   "Name": "نام",
   "Custom Plugin": "حسب ضرورت پلگ ان",
-  "Mouse button combinations": "ماؤس بٹنوں کے امتزاج"
+  "Mouse button combinations": "ماؤس بٹنوں کے امتزاج",
+  "Media Play": "میڈیا پلے",
+  "Media Pause": "میڈیا توقف",
+  "Media Fast Forward": "میڈیا فاسٹ فارورڈ",
+  "Media Rewind": "میڈیا ریوائنڈ",
+  "Media Next Track": "میڈیا نیکسٹ ٹریک",
+  "Media Previous Track": "میڈیا پچھلا ٹریک",
+  "Media Controls": "میڈیا کنٹرولز"
 }

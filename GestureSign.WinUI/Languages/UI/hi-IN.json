@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [निष्पादित नहीं] कोई आदेश उपलब्ध नहीं",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [मान्यता प्राप्त] इशारा {1}, संपर्क {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [प्रारंभ] {1}, {2} संपर्क, मोड {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [पहचाना नहीं गया] कोई मेल खाता इशारा नहीं"
+  "{0} [Unrecognized] No matching gesture": "{0} [पहचाना नहीं गया] कोई मेल खाता इशारा नहीं",
+  "Media Play": "मीडिया प्ले",
+  "Media Pause": "मीडिया विराम",
+  "Media Fast Forward": "मीडिया तेजी से आगे बढ़ें",
+  "Media Rewind": "मीडिया रिवाइंड",
+  "Media Next Track": "मीडिया नेक्स्ट ट्रैक",
+  "Media Previous Track": "मीडिया पिछला ट्रैक",
+  "Media Controls": "मीडिया नियंत्रण",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "वर्तमान मीडिया प्लेयर को नियंत्रित करता है. खेलना और रोकना अलग-अलग हैं; समर्थित होने पर 10 सेकंड आगे या पीछे देखें। उपलब्ध ऑपरेशन खिलाड़ी पर निर्भर करते हैं।"
 }

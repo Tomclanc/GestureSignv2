@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Držite početno dugme, zatim kliknite izabrano dugme ili okrenite točkić. Crtanje nije potrebno.",
   "Name": "Naziv",
   "Custom Plugin": "Prilagođeni dodatak",
-  "Mouse button combinations": "Kombinacije tastera miša"
+  "Mouse button combinations": "Kombinacije tastera miša",
+  "Media Play": "Media Plai",
+  "Media Pause": "Pauza medija",
+  "Media Fast Forward": "Media Fast Forvard",
+  "Media Rewind": "Media Revind",
+  "Media Next Track": "Media Nekt Track",
+  "Media Previous Track": "Medijska prethodna pesma",
+  "Media Controls": "Kontrole medija"
 }

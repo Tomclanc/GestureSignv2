@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Mantenga pulsado un botón de inicio y luego pulse el botón elegido o gire la rueda. No necesita dibujar.",
   "Name": "Nombre",
   "Custom Plugin": "Plugin personalizado",
-  "Mouse button combinations": "Combinaciones de botones del ratón"
+  "Mouse button combinations": "Combinaciones de botones del ratón",
+  "Media Play": "Reproducción multimedia",
+  "Media Pause": "Pausa de medios",
+  "Media Fast Forward": "Avance rápido de medios",
+  "Media Rewind": "Rebobinado multimedia",
+  "Media Next Track": "Pista siguiente multimedia",
+  "Media Previous Track": "Medios Pista anterior",
+  "Media Controls": "Controles de medios"
 }

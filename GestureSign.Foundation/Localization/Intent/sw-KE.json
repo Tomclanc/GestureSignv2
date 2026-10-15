@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Shikilia kitufe cha kuanza, kisha bofya kitufe ulichochagua au zungusha gurudumu. Huhitaji kuchora.",
   "Name": "Jina",
   "Custom Plugin": "Plugin ya Kawaida",
-  "Mouse button combinations": "Michanganyiko ya vitufe vya kipanya"
+  "Mouse button combinations": "Michanganyiko ya vitufe vya kipanya",
+  "Media Play": "Uchezaji wa Vyombo vya Habari",
+  "Media Pause": "Sitisha Media",
+  "Media Fast Forward": "Media Haraka mbele",
+  "Media Rewind": "Urejeshaji nyuma wa media",
+  "Media Next Track": "Wimbo Unaofuata wa Media",
+  "Media Previous Track": "Wimbo Uliopita wa Vyombo vya Habari",
+  "Media Controls": "Vidhibiti vya Vyombo vya Habari"
 }

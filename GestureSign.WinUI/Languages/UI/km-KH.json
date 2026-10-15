@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [មិនបានប្រតិបត្តិ] មិនមានពាក្យបញ្ជាទេ។",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ទទួលស្គាល់] កាយវិការ {1}, ទំនាក់ទំនង {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ចាប់ផ្តើម] ទំនាក់ទំនង {1}, {2}, របៀប {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [មិនស្គាល់] គ្មានកាយវិការដែលត្រូវគ្នា។"
+  "{0} [Unrecognized] No matching gesture": "{0} [មិនស្គាល់] គ្មានកាយវិការដែលត្រូវគ្នា។",
+  "Media Play": "ការលេងប្រព័ន្ធផ្សព្វផ្សាយ",
+  "Media Pause": "ការផ្អាកប្រព័ន្ធផ្សព្វផ្សាយ",
+  "Media Fast Forward": "ប្រព័ន្ធផ្សព្វផ្សាយលឿនទៅមុខ",
+  "Media Rewind": "ប្រព័ន្ធផ្សព្វផ្សាយត្រឡប់",
+  "Media Next Track": "ប្រព័ន្ធផ្សព្វផ្សាយបទបន្ទាប់",
+  "Media Previous Track": "ប្រព័ន្ធផ្សព្វផ្សាយបទមុន។",
+  "Media Controls": "ការគ្រប់គ្រងប្រព័ន្ធផ្សព្វផ្សាយ",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "គ្រប់គ្រងកម្មវិធីចាក់មេឌៀបច្ចុប្បន្ន។ ការលេង និងការផ្អាកគឺដាច់ដោយឡែកពីគ្នា; ស្វែងរកទៅមុខឬថយក្រោយរយៈពេល 10 វិនាទីនៅពេលដែលបានគាំទ្រ។ ប្រតិបត្តិការដែលអាចប្រើបានអាស្រ័យលើអ្នកលេង។"
 }

@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nije izvršeno] Nema dostupnih komandi",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [prepoznato] Gest {1}, kontakti {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} kontakti, režim {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Neprepoznato] Nema odgovarajući pokret"
+  "{0} [Unrecognized] No matching gesture": "{0} [Neprepoznato] Nema odgovarajući pokret",
+  "Media Play": "Media Plai",
+  "Media Pause": "Pauza medija",
+  "Media Fast Forward": "Media Fast Forvard",
+  "Media Rewind": "Media Revind",
+  "Media Next Track": "Media Nekt Track",
+  "Media Previous Track": "Medijska prethodna pesma",
+  "Media Controls": "Kontrole medija",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Kontroliše trenutni media plejer. Reprodukcija i pauza su odvojene; pomerajte unapred ili unazad za 10 sekundi kada je podržano. Dostupne operacije zavise od igrača."
 }

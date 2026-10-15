@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Non exécuté] Aucune commande disponible",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Reconnu] Geste {1}, contacts {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Démarrer] {1}, contacts {2}, mode {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Non reconnu] Aucun geste correspondant"
+  "{0} [Unrecognized] No matching gesture": "{0} [Non reconnu] Aucun geste correspondant",
+  "Media Play": "Lecture multimédia",
+  "Media Pause": "Pause média",
+  "Media Fast Forward": "Avance rapide des médias",
+  "Media Rewind": "Rembobinage des médias",
+  "Media Next Track": "Piste suivante des médias",
+  "Media Previous Track": "Piste précédente",
+  "Media Controls": "Contrôles multimédias",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Contrôle le lecteur multimédia actuel. La lecture et la pause sont séparées ; recherche en avant ou en arrière de 10 secondes lorsqu'elle est prise en charge. Les opérations disponibles dépendent du lecteur."
 }

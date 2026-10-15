@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Կատարված չէ] Հասանելի հրամաններ չկան",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Ճանաչված] Ժեստ {1}, կոնտակտներ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Սկսել] {1}, {2} կոնտակտներ, ռեժիմ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Չճանաչված] Համապատասխան ժեստ չկա"
+  "{0} [Unrecognized] No matching gesture": "{0} [Չճանաչված] Համապատասխան ժեստ չկա",
+  "Media Play": "մեդիա նվագարկումը",
+  "Media Pause": "Մեդիա դադար",
+  "Media Fast Forward": "Մեդիա արագ առաջ",
+  "Media Rewind": "Մեդիա Rewind",
+  "Media Next Track": "Մեդիա Հաջորդ Հետքը",
+  "Media Previous Track": "Մեդիա Նախորդ Հետևել",
+  "Media Controls": "Մեդիա վերահսկում",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Կառավարում է ընթացիկ մեդիա նվագարկիչը: Խաղը և դադարը առանձին են. որոնել առաջ կամ հետ 10 վայրկյան, երբ աջակցվում է: Հասանելի գործողությունները կախված են նվագարկիչից:"
 }

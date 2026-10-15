@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [એક્ઝીક્યુટ નથી] કોઈ ઉપલબ્ધ આદેશો નથી",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ઓળખી] હાવભાવ {1}, સંપર્કો {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [પ્રારંભ] {1}, {2} સંપર્કો, મોડ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [અઓળખાયેલ] કોઈ મેળ ખાતી હાવભાવ નથી"
+  "{0} [Unrecognized] No matching gesture": "{0} [અઓળખાયેલ] કોઈ મેળ ખાતી હાવભાવ નથી",
+  "Media Play": "મીડિયા પ્લે",
+  "Media Pause": "મીડિયા વિરામ",
+  "Media Fast Forward": "મીડિયા ફાસ્ટ ફોરવર્ડ",
+  "Media Rewind": "મીડિયા રીવાઇન્ડ",
+  "Media Next Track": "મીડિયા નેક્સ્ટ ટ્રૅક",
+  "Media Previous Track": "મીડિયા પાછલો ટ્રેક",
+  "Media Controls": "મીડિયા નિયંત્રણો",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "વર્તમાન મીડિયા પ્લેયરને નિયંત્રિત કરે છે. રમવું અને વિરામ અલગ છે; સમર્થિત હોય ત્યારે 10 સેકન્ડ આગળ અથવા પાછળ શોધો. ઉપલબ્ધ કામગીરી ખેલાડી પર આધાર રાખે છે."
 }

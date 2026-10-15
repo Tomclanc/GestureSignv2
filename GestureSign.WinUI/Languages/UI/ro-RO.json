@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Neexecutat] Nu există comenzi disponibile",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Recunoscut] Gest {1}, contacte {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} contacte, mod {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Nerecunoscut] Niciun gest care se potrivește"
+  "{0} [Unrecognized] No matching gesture": "{0} [Nerecunoscut] Niciun gest care se potrivește",
+  "Media Play": "redare media",
+  "Media Pause": "Pauză media",
+  "Media Fast Forward": "media înainte rapidă",
+  "Media Rewind": "rebobinare media",
+  "Media Next Track": "Media Următoarea piesă",
+  "Media Previous Track": "Piesa anterioară media",
+  "Media Controls": "Comenzi media",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Controlează playerul media curent. Redarea și pauză sunt separate; căutați înainte sau înapoi cu 10 secunde când este acceptat. Operațiunile disponibile depind de player."
 }

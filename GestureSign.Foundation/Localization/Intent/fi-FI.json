@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Pidä aloituspainiketta pohjassa ja napsauta sitten valittua painiketta tai vieritä rullaa. Piirtämistä ei tarvita.",
   "Name": "Nimi",
   "Custom Plugin": "Mukautettu lisäosa",
-  "Mouse button combinations": "Hiiren painikeyhdistelmät"
+  "Mouse button combinations": "Hiiren painikeyhdistelmät",
+  "Media Play": "Median toisto",
+  "Media Pause": "Median tauko",
+  "Media Fast Forward": "Median pikakelaus",
+  "Media Rewind": "Median kelaus",
+  "Media Next Track": "Median seuraava kappale",
+  "Media Previous Track": "Median edellinen kappale",
+  "Media Controls": "Mediaohjaimet"
 }

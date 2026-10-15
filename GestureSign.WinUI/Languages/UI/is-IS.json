@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Ekki keyrt] Engar tiltækar skipanir",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [viðurkennd] Bending {1}, tengiliðir {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} tengiliðir, ham {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Óþekkt] Engin samsvarandi bending"
+  "{0} [Unrecognized] No matching gesture": "{0} [Óþekkt] Engin samsvarandi bending",
+  "Media Play": "spilun fjölmiðla",
+  "Media Pause": "Fjölmiðlahlé",
+  "Media Fast Forward": "Fjölmiðlar hratt áfram",
+  "Media Rewind": "Spóla til baka fjölmiðla",
+  "Media Next Track": "Fjölmiðlar næst",
+  "Media Previous Track": "Media Fyrra lag",
+  "Media Controls": "Miðlunarstýringar",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Stjórnar núverandi fjölmiðlaspilara. Spila og hlé eru aðskilin; leitaðu áfram eða aftur á bak um 10 sekúndur þegar það er stutt. Tiltækar aðgerðir fer eftir spilaranum."
 }

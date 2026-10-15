@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [לא בוצע] אין פקודות זמינות",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [מוכר] מחווה {1}, אנשי קשר {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [התחל] אנשי קשר {1}, {2}, מצב {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [לא מזוהה] אין מחווה תואמת"
+  "{0} [Unrecognized] No matching gesture": "{0} [לא מזוהה] אין מחווה תואמת",
+  "Media Play": "השמעת מדיה",
+  "Media Pause": "השהיית מדיה",
+  "Media Fast Forward": "מדיה מהירה קדימה",
+  "Media Rewind": "החזרה לאחור של התקשורת",
+  "Media Next Track": "המדיה הבאה",
+  "Media Previous Track": "מדיה מסלול קודם",
+  "Media Controls": "בקרות מדיה",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "שולט בנגן המדיה הנוכחי. הפעלה והשהייה נפרדים; חפש קדימה או אחורה ב-10 שניות כאשר נתמך. הפעולות הזמינות תלויות בנגן."
 }

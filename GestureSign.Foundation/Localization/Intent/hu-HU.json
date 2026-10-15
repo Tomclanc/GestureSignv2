@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Tartson nyomva egy indítógombot, majd kattintson a választott gombbal vagy görgessen. Rajzolás nem szükséges.",
   "Name": "Név",
   "Custom Plugin": "Egyedi bővítmény",
-  "Mouse button combinations": "Egérgomb-kombinációk"
+  "Mouse button combinations": "Egérgomb-kombinációk",
+  "Media Play": "média lejátszás",
+  "Media Pause": "Média szünet",
+  "Media Fast Forward": "Média Gyors előre",
+  "Media Rewind": "Média visszatekerése",
+  "Media Next Track": "Média következő szám",
+  "Media Previous Track": "Média előző szám",
+  "Media Controls": "Médiavezérlők"
 }

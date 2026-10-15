@@ -88,7 +88,7 @@ internal sealed class IntentComponentService
             catch (HostUnavailableException) when (start)
             {
                 if (!Installed) throw new InvalidOperationException("请先下载或导入学习组件。");
-                if (_host == null || _host.HasExited)
+                void StartHost()
                 {
                     using var daemon = Process.GetProcessesByName("GestureSign").FirstOrDefault(p => p.SessionId == Process.GetCurrentProcess().SessionId)
                         ?? throw new InvalidOperationException("请先启动 GestureSign 手势后台。");
@@ -97,15 +97,28 @@ internal sealed class IntentComponentService
                     info.ArgumentList.Add("--serve"); info.ArgumentList.Add("--daemon-pid"); info.ArgumentList.Add(daemon.Id.ToString());
                     _host?.Dispose(); _host = Process.Start(info);
                 }
-                try { return await ExchangeAsync(request, 5000); }
+                // An earlier UI or daemon can own the engine during cold initialization.
+                try { return await IntentHostReadiness.WaitAsync(() => ExchangeAsync(request, 1000),
+                    ex => ex is HostUnavailableException, HostRunning, StartHost, TimeSpan.FromSeconds(30)); }
                 catch (HostUnavailableException) when (_host?.HasExited == true)
                 {
-                    throw new IOException($"Learning engine exited ({_host.ExitCode}). Install .NET 10 Runtime ({Architecture}) and check the component installation.");
+                    throw new HostUnavailableException(new IOException($"Learning engine exited ({_host.ExitCode}). Executable={Executable}; Architecture={Architecture}"));
                 }
             }
         }
         finally { _requests.Release(); }
     }
+    private static bool HostRunning()
+    {
+        try
+        {
+            Directory.CreateDirectory(IntentFiles.Root);
+            using var file = new FileStream(Path.Combine(IntentFiles.Root, "host.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+            return false;
+        }
+        catch (IOException) { return true; }
+    }
+    internal static bool IsConnectionFailure(Exception ex) => ex is HostUnavailableException or OperationCanceledException;
     private static async Task<IntentHostResponse> ExchangeAsync(IntentHostRequest request, int milliseconds)
     {
         using var timeout = new CancellationTokenSource(milliseconds);
@@ -123,7 +136,10 @@ internal sealed class IntentComponentService
         if (response.Error != null) throw new InvalidOperationException(response.Error);
         return response;
     }
-    private sealed class HostUnavailableException(Exception inner) : IOException("学习引擎未连接。", inner);
+    private sealed class HostUnavailableException(Exception inner) : IOException("学习引擎未连接。", inner)
+    {
+        public override string ToString() => base.ToString() + $"\nIntent pipe={IntentFiles.PipeName}.control; DataRoot={IntentFiles.Root}";
+    }
     private async Task StopAsync()
     {
         try { await SendAsync(new("stop"), start: false); } catch (IOException) { } catch (OperationCanceledException) { }

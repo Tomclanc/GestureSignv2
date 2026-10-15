@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Bir başlatma düğmesini basılı tutup seçilen düğmeye tıklayın veya tekerleği kaydırın. Çizim gerekmez.",
   "Name": "Ad",
   "Custom Plugin": "Özel Eklenti",
-  "Mouse button combinations": "Fare düğmesi birleşimleri"
+  "Mouse button combinations": "Fare düğmesi birleşimleri",
+  "Media Play": "Medya Oynatma",
+  "Media Pause": "Medyayı Duraklat",
+  "Media Fast Forward": "Medyayı Hızlı İleri Sarma",
+  "Media Rewind": "Medya Geri Sarma",
+  "Media Next Track": "Medya Sonraki Parça",
+  "Media Previous Track": "Medya Önceki Parça",
+  "Media Controls": "Medya Kontrolleri"
 }

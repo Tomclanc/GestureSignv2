@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "باشلاش كۇنۇپكىسىنى بېسىپ تۇرۇڭ، ئاندىن تاللانغان كۇنۇپكىنى چېكىڭ ياكى چاقنى ئايلاندۇرۇڭ. سىزىش ھاجەتسىز.",
   "Name": "نامى",
   "Custom Plugin": "Махсус Плагин",
-  "Mouse button combinations": "مائۇس كۇنۇپكىلىرى بىرىكمىسى"
+  "Mouse button combinations": "مائۇس كۇنۇپكىلىرى بىرىكمىسى",
+  "Media Play": "media playback",
+  "Media Pause": "media stop",
+  "Media Fast Forward": "مېدىيانى تېز ئالغا سۈرۈش",
+  "Media Rewind": "مېدىيانى كەينىگە سۈرۈش",
+  "Media Next Track": "Media next",
+  "Media Previous Track": "Media previous song",
+  "Media Controls": "كۆپ ۋاسىتە كونترول قىلىش"
 }

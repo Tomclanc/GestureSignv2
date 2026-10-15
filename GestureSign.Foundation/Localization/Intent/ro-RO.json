@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Țineți apăsat un buton de pornire, apoi apăsați butonul ales sau rotiți rotița. Nu trebuie să desenați.",
   "Name": "Nume",
   "Custom Plugin": "Plugin personalizat",
-  "Mouse button combinations": "Combinații de butoane ale mouse-ului"
+  "Mouse button combinations": "Combinații de butoane ale mouse-ului",
+  "Media Play": "redare media",
+  "Media Pause": "Pauză media",
+  "Media Fast Forward": "media înainte rapidă",
+  "Media Rewind": "rebobinare media",
+  "Media Next Track": "Media Următoarea piesă",
+  "Media Previous Track": "Piesa anterioară media",
+  "Media Controls": "Comenzi media"
 }

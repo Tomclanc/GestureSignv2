@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nie wykonano] Brak dostępnych poleceń",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Rozpoznano] Gest {1}, styki {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} styki, tryb {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Nierozpoznany] Brak pasującego gestu"
+  "{0} [Unrecognized] No matching gesture": "{0} [Nierozpoznany] Brak pasującego gestu",
+  "Media Play": "Odtwarzanie multimediów",
+  "Media Pause": "Pauza w mediach",
+  "Media Fast Forward": "Szybkie przewijanie multimediów",
+  "Media Rewind": "Przewijanie multimediów",
+  "Media Next Track": "Następny utwór w mediach",
+  "Media Previous Track": "Poprzedni utwór w mediach",
+  "Media Controls": "Sterowanie multimediami",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Steruje bieżącym odtwarzaczem multimedialnym. Odtwarzanie i pauza są oddzielne; przewijanie do przodu lub do tyłu o 10 sekund, jeśli jest obsługiwane. Dostępne operacje zależą od gracza."
 }

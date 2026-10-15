@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "按住手势启动键后，再点击所选按钮或滚动滚轮；无需绘制轨迹。",
   "Name": "名称",
   "Custom Plugin": "自定义插件",
-  "Mouse button combinations": "鼠标组合快捷键"
+  "Mouse button combinations": "鼠标组合快捷键",
+  "Media Play": "媒体播放",
+  "Media Pause": "媒体暂停",
+  "Media Fast Forward": "媒体快进",
+  "Media Rewind": "媒体快退",
+  "Media Next Track": "媒体下一首",
+  "Media Previous Track": "媒体上一首",
+  "Media Controls": "多媒体控制"
 }

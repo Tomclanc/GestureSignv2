@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Maintenez un bouton de démarrage, puis cliquez sur le bouton choisi ou tournez la molette. Aucun dessin nécessaire.",
   "Name": "Nom",
   "Custom Plugin": "Plugin personnalisé",
-  "Mouse button combinations": "Combinaisons de boutons de souris"
+  "Mouse button combinations": "Combinaisons de boutons de souris",
+  "Media Play": "Lecture multimédia",
+  "Media Pause": "Pause média",
+  "Media Fast Forward": "Avance rapide des médias",
+  "Media Rewind": "Rembobinage des médias",
+  "Media Next Track": "Piste suivante des médias",
+  "Media Previous Track": "Piste précédente",
+  "Media Controls": "Contrôles multimédias"
 }

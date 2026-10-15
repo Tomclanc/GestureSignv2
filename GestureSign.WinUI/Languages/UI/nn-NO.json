@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Ikke utført] Ingen tilgjengelege kommandoer",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [gjenkjent] Gest {1}, kontakter {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} kontakter, modus {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Ukjent] Ingen samsvarende gest"
+  "{0} [Unrecognized] No matching gesture": "{0} [Ukjent] Ingen samsvarende gest",
+  "Media Play": "medieavspilling",
+  "Media Pause": "Mediepause",
+  "Media Fast Forward": "Media spol fremover",
+  "Media Rewind": "Media spole tilbake",
+  "Media Next Track": "Media Neste spor",
+  "Media Previous Track": "Media Forrige spor",
+  "Media Controls": "Mediekontroller",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Styrer gjeldende mediespiller. Spill og pause er separate; søk fremover eller bakover med 10 sekunder når støttet. Tilgjengelige operasjoner avhenger av spilleren."
 }

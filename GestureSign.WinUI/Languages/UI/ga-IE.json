@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Gan rith] Níl aon orduithe ar fáil",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Aitheanta] Gothaí {1}, teagmhálaithe {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Tosaigh] {1}, {2} teagmhálaithe, mód {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Neamhaitheanta] Gan aon chomhartha meaitseála"
+  "{0} [Unrecognized] No matching gesture": "{0} [Neamhaitheanta] Gan aon chomhartha meaitseála",
+  "Media Play": "Seinn na Meáin",
+  "Media Pause": "Sos Meán",
+  "Media Fast Forward": "Meáin Fast Ar Aghaidh",
+  "Media Rewind": "Meáin Athchasadh",
+  "Media Next Track": "Meáin seo chugainn",
+  "Media Previous Track": "Meáin Rian Roimhe Seo",
+  "Media Controls": "Rialuithe Meáin",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Rialaíonn sé an seinnteoir meáin reatha. Tá súgradh agus sos ar leithligh; lorg ar aghaidh nó ar gcúl 10 soicind nuair a fhaigheann tú tacaíocht. Braitheann oibríochtaí atá ar fáil ar an imreoir."
 }

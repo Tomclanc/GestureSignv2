@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nav izpildīts] Nav pieejamu komandu",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Atpazīts] Žests {1}, kontakti {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Sākt] {1}, {2} kontakti, režīms {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Neatpazīts] Nav atbilstoša žesta"
+  "{0} [Unrecognized] No matching gesture": "{0} [Neatpazīts] Nav atbilstoša žesta",
+  "Media Play": "Multivides atskaņošana",
+  "Media Pause": "Multivides pauze",
+  "Media Fast Forward": "Multivides pārtīšana uz priekšu",
+  "Media Rewind": "Multivides attīšana",
+  "Media Next Track": "Multivides nākamais celiņš",
+  "Media Previous Track": "Multivides iepriekšējais ieraksts",
+  "Media Controls": "Multivides vadīklas",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Kontrolē pašreizējo multivides atskaņotāju. Atskaņošana un pauze ir atsevišķas; meklēt uz priekšu vai atpakaļ par 10 sekundēm, kad tiek atbalstīts. Pieejamās darbības ir atkarīgas no atskaņotāja."
 }

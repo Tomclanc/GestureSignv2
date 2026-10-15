@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Pindutin nang matagal ang panimulang pindutan, saka i-click ang napiling pindutan o i-scroll ang gulong. Hindi kailangang gumuhit.",
   "Name": "Pangalan",
   "Custom Plugin": "Pasadyang Plugin",
-  "Mouse button combinations": "Mga kombinasyon ng button ng mouse"
+  "Mouse button combinations": "Mga kombinasyon ng button ng mouse",
+  "Media Play": "pag-playback ng media",
+  "Media Pause": "I-pause ang Media",
+  "Media Fast Forward": "Mabilis na Pagpasa ng Media",
+  "Media Rewind": "rewind ng media",
+  "Media Next Track": "Media Susunod na Track",
+  "Media Previous Track": "Media Nakaraang Track",
+  "Media Controls": "Mga Kontrol sa Media"
 }

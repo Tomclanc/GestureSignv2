@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [ບໍ່ໄດ້ປະຕິບັດ] ບໍ່ມີຄໍາສັ່ງທີ່ມີຢູ່",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [ຮັບຮູ້] Gesture {1}, ຕິດຕໍ່ພົວພັນ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [ເລີ່ມ] {1}, {2} ລາຍຊື່ຜູ້ຕິດຕໍ່, ໂໝດ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [ບໍ່ຮູ້ຈັກ] ບໍ່ມີທ່າທາງທີ່ກົງກັນ"
+  "{0} [Unrecognized] No matching gesture": "{0} [ບໍ່ຮູ້ຈັກ] ບໍ່ມີທ່າທາງທີ່ກົງກັນ",
+  "Media Play": "ສື່ຫຼິ້ນ",
+  "Media Pause": "ຢຸດສື່",
+  "Media Fast Forward": "ສື່​ມວນ​ຊົນ​ໄປ​ຫນ້າ​ໄວ​",
+  "Media Rewind": "ສື່ມວນຊົນ Rewind",
+  "Media Next Track": "ມີເດຍຕິດຕາມຕໍ່ໄປ",
+  "Media Previous Track": "ສື່ກ່ອນໜ້າ",
+  "Media Controls": "ການຄວບຄຸມສື່",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "ຄວບຄຸມເຄື່ອງຫຼິ້ນສື່ປັດຈຸບັນ. ຫຼິ້ນແລະຢຸດແມ່ນແຍກຕ່າງຫາກ; ເລື່ອນໄປທາງໜ້າ ຫຼື ຖອຍຫຼັງ 10 ວິນາທີ ເມື່ອຖືກຮອງຮັບ. ການດໍາເນີນງານທີ່ມີຢູ່ແມ່ນຂຶ້ນກັບຜູ້ນ."
 }

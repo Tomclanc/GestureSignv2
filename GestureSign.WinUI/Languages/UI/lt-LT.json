@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nevykdoma] Nėra galimų komandų",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Atpažintas] Gestas {1}, kontaktai {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Pradėti] {1}, {2} kontaktai, režimas {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Neatpažintas] Nėra atitinkamo gesto"
+  "{0} [Unrecognized] No matching gesture": "{0} [Neatpažintas] Nėra atitinkamo gesto",
+  "Media Play": "medijos atkūrimas",
+  "Media Pause": "Medijos pauzė",
+  "Media Fast Forward": "žiniasklaida greitai į priekį",
+  "Media Rewind": "Medijos atsukimas atgal",
+  "Media Next Track": "Kitas medijos takelis",
+  "Media Previous Track": "Ankstesnis žiniasklaidos takelis",
+  "Media Controls": "Medijos valdikliai",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Valdo esamą medijos leistuvą. Grojimas ir pauzė yra atskiri; pasukti pirmyn arba atgal 10 sekundžių, kai palaikoma. Galimos operacijos priklauso nuo grotuvo."
 }

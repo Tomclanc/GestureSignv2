@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Mantendu hasiera-botoi bat sakatuta, eta egin klik hautatutako botoian edo biratu gurpila. Ez da marraztu behar.",
   "Name": "Izena",
   "Custom Plugin": "Pertsonalizatutako Plugin",
-  "Mouse button combinations": "Saguaren botoien konbinazioak"
+  "Mouse button combinations": "Saguaren botoien konbinazioak",
+  "Media Play": "multimedia erreprodukzioa",
+  "Media Pause": "Media Pausa",
+  "Media Fast Forward": "Komunikabideak Aurrera Azkarra",
+  "Media Rewind": "komunikabideen atzerakada",
+  "Media Next Track": "Media Hurrengo pista",
+  "Media Previous Track": "Media Aurreko pista",
+  "Media Controls": "Multimedia kontrolak"
 }

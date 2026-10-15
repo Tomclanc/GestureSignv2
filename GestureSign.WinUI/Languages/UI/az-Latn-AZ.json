@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [İcra olunmadı] Əlçatan əmrlər yoxdur",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Tanındı] Jest {1}, kontaktlar {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Başlat] {1}, {2} kontaktlar, rejim {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Tanınmayan] Uyğun jest yoxdur"
+  "{0} [Unrecognized] No matching gesture": "{0} [Tanınmayan] Uyğun jest yoxdur",
+  "Media Play": "media oynatma",
+  "Media Pause": "Media Pauzası",
+  "Media Fast Forward": "Media Sürətli İrəli",
+  "Media Rewind": "Media Geri Sarma",
+  "Media Next Track": "Media Növbəti Track",
+  "Media Previous Track": "Media Əvvəlki Track",
+  "Media Controls": "Media Nəzarətləri",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Cari media pleyerinə nəzarət edir. Oynatma və fasilə ayrıdır; dəstəkləndikdə 10 saniyə irəli və ya geri axtarın. Mövcud əməliyyatlar oyunçudan asılıdır."
 }

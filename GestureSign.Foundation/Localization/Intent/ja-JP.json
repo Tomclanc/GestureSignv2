@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "開始ボタンを押したまま、指定のボタンをクリックするかホイールを回します。描画は不要です。",
   "Name": "名前",
   "Custom Plugin": "カスタムプラグイン",
-  "Mouse button combinations": "マウスボタンの組み合わせ"
+  "Mouse button combinations": "マウスボタンの組み合わせ",
+  "Media Play": "メディアを再生",
+  "Media Pause": "メディアを一時停止",
+  "Media Fast Forward": "メディアを早送り",
+  "Media Rewind": "メディアを巻き戻し",
+  "Media Next Track": "次の曲へ",
+  "Media Previous Track": "前の曲へ",
+  "Media Controls": "メディアの操作"
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "제스처 시작 버튼을 누른 채 선택한 버튼을 클릭하거나 휠을 굴립니다. 그릴 필요가 없습니다.",
   "Name": "이름",
   "Custom Plugin": "사용자 지정 플러그인",
-  "Mouse button combinations": "마우스 버튼 조합"
+  "Mouse button combinations": "마우스 버튼 조합",
+  "Media Play": "미디어 재생",
+  "Media Pause": "미디어 일시 정지",
+  "Media Fast Forward": "미디어 빨리 감기",
+  "Media Rewind": "미디어 되감기",
+  "Media Next Track": "미디어 다음 곡",
+  "Media Previous Track": "미디어 이전 곡",
+  "Media Controls": "미디어 제어"
 }

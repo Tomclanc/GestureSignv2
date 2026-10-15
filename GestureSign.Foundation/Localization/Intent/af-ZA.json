@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Hou ’n beginknoppie in en klik dan die gekose knoppie of rol die wiel. Geen tekening is nodig nie.",
   "Name": "Naam",
   "Custom Plugin": "Pasgemaakte Inprop",
-  "Mouse button combinations": "Muisknoppiekombinasies"
+  "Mouse button combinations": "Muisknoppiekombinasies",
+  "Media Play": "Media speel",
+  "Media Pause": "Mediapouse",
+  "Media Fast Forward": "Media vinnig vorentoe",
+  "Media Rewind": "Media Terugspoel",
+  "Media Next Track": "Media Volgende Snit",
+  "Media Previous Track": "Media Vorige Snit",
+  "Media Controls": "Mediakontroles"
 }

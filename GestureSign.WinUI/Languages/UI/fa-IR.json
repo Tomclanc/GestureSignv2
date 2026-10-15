@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [اجرا نشد] هیچ فرمانی موجود نیست",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [شناسایی] اشاره {1}، مخاطبین {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [شروع] مخاطبین {1}، {2}، حالت {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [ناشناس] ژست منطبقی وجود ندارد"
+  "{0} [Unrecognized] No matching gesture": "{0} [ناشناس] ژست منطبقی وجود ندارد",
+  "Media Play": "پخش رسانه ای",
+  "Media Pause": "مکث رسانه",
+  "Media Fast Forward": "رسانه سریع به جلو",
+  "Media Rewind": "رسانه به عقب",
+  "Media Next Track": "آهنگ بعدی رسانه",
+  "Media Previous Track": "آهنگ قبلی رسانه",
+  "Media Controls": "کنترل رسانه ها",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "پخش کننده رسانه فعلی را کنترل می کند. پخش و مکث جدا هستند. در صورت پشتیبانی 10 ثانیه به جلو یا عقب بگردید. عملیات موجود به پخش کننده بستگی دارد."
 }

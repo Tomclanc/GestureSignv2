@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Mbani një buton nisjeje, pastaj klikoni butonin e zgjedhur ose rrotulloni rrotën. Nuk nevojitet vizatim.",
   "Name": "Emri",
   "Custom Plugin": "Shtojcë e Personalizuar",
-  "Mouse button combinations": "Kombinimet e butonave të miut"
+  "Mouse button combinations": "Kombinimet e butonave të miut",
+  "Media Play": "riprodhimi i medias",
+  "Media Pause": "Pauza e medias",
+  "Media Fast Forward": "media shpejt përpara",
+  "Media Rewind": "kthimi i medias",
+  "Media Next Track": "Kënga tjetër e medias",
+  "Media Previous Track": "Pjesa e mëparshme e medias",
+  "Media Controls": "Kontrollet e medias"
 }

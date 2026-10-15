@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Gun a chur an gnìomh] Chan eil àitheantan rim faighinn",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Aithnichte] Gesture {1}, cuir fios gu {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Tòisich] {1}, {2} caraidean, modh {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Neo-aithnichte] Gun ghluasad co-ionnan"
+  "{0} [Unrecognized] No matching gesture": "{0} [Neo-aithnichte] Gun ghluasad co-ionnan",
+  "Media Play": "Cluich nam meadhanan",
+  "Media Pause": "Na meadhanan stad",
+  "Media Fast Forward": "Na meadhanan gu sgiobalta air adhart",
+  "Media Rewind": "Ath-thionndadh nam meadhanan",
+  "Media Next Track": "Na meadhanan an ath rud",
+  "Media Previous Track": "Na meadhanan An t-slighe roimhe",
+  "Media Controls": "Smachdan meadhanan",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "A’ cumail smachd air cluicheadair mheadhanan gnàthach. Tha cluich is fois fa leth ; sireadh air adhart no air ais le 10 diogan nuair a gheibh thu taic. Tha gnìomhachd a tha ri fhaighinn an urra ris a’ chluicheadair."
 }

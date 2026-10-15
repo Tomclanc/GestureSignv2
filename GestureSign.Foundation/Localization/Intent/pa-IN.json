@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ਇਸ਼ਾਰਾ ਸ਼ੁਰੂਆਤੀ ਬਟਨ ਦਬਾਈ ਰੱਖੋ, ਫਿਰ ਚੁਣਿਆ ਬਟਨ ਕਲਿੱਕ ਕਰੋ ਜਾਂ ਪਹੀਆ ਘੁਮਾਓ। ਬਣਾਉਣ ਦੀ ਲੋੜ ਨਹੀਂ।",
   "Name": "ਨਾਂ",
   "Custom Plugin": "ਕਸਟਮ ਪਲੱਗਇਨ",
-  "Mouse button combinations": "ਮਾਊਸ ਬਟਨ ਸੰਜੋਗ"
+  "Mouse button combinations": "ਮਾਊਸ ਬਟਨ ਸੰਜੋਗ",
+  "Media Play": "ਮੀਡੀਆ ਪਲੇ",
+  "Media Pause": "ਮੀਡੀਆ ਵਿਰਾਮ",
+  "Media Fast Forward": "ਮੀਡੀਆ ਫਾਸਟ ਫਾਰਵਰਡ",
+  "Media Rewind": "ਮੀਡੀਆ ਰੀਵਾਇੰਡ",
+  "Media Next Track": "ਮੀਡੀਆ ਅਗਲਾ ਟਰੈਕ",
+  "Media Previous Track": "ਮੀਡੀਆ ਪਿਛਲਾ ਟਰੈਕ",
+  "Media Controls": "ਮੀਡੀਆ ਨਿਯੰਤਰਣ"
 }

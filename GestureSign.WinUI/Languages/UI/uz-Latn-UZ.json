@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Bajarilmadi] Mavjud buyruqlar yo'q",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [taniq] imo-ishora {1}, kontaktlar {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Boshlash] {1}, {2} kontaktlari, rejim {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Notanish] Mos ishora yo'q"
+  "{0} [Unrecognized] No matching gesture": "{0} [Notanish] Mos ishora yo'q",
+  "Media Play": "media tinglash",
+  "Media Pause": "Media pauza",
+  "Media Fast Forward": "Media Tez oldinga",
+  "Media Rewind": "Media orqaga o'tkazish",
+  "Media Next Track": "Media keyingi trek",
+  "Media Previous Track": "Media oldingi trek",
+  "Media Controls": "Media boshqaruvlari",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Joriy media pleerni boshqaradi. O'yin va pauza alohida; qo'llab-quvvatlanganda 10 soniya oldinga yoki orqaga harakat qiling. Mavjud operatsiyalar pleerga bog'liq."
 }

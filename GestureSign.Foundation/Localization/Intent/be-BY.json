@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Утрымлівайце кнопку запуску жэсту, затым націсніце выбраную кнопку або пракруціце кола. Маляваць не трэба.",
   "Name": "Назва",
   "Custom Plugin": "Карыстацкі плагін",
-  "Mouse button combinations": "Камбінацыі кнопак мышы"
+  "Mouse button combinations": "Камбінацыі кнопак мышы",
+  "Media Play": "прайграванне мультымедыя",
+  "Media Pause": "Медыяпаўза",
+  "Media Fast Forward": "Медыя, перамотка наперад",
+  "Media Rewind": "Перамотка мультымедыя",
+  "Media Next Track": "Мультымедыя Наступны трэк",
+  "Media Previous Track": "Мультымедыя Папярэдні трэк",
+  "Media Controls": "Элементы кіравання мультымедыя"
 }

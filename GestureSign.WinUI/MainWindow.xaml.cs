@@ -2015,6 +2015,8 @@ public sealed partial class MainWindow : Window
     private string UiExceptionMessage(Exception exception)
     {
         LogException(exception);
+        if (exception is System.IO.IOException && GestureSign.WinUI.Services.IntentComponentService.IsConnectionFailure(exception))
+            return IntentText("学习引擎响应较慢，正在重试；已有显示暂未更新。", "The learning engine is responding slowly. Retrying; displayed data has not refreshed.");
         if (exception is OperationCanceledException)
             return T("操作已取消。", "The operation was canceled.");
         if (exception is UnauthorizedAccessException)
@@ -3134,6 +3136,7 @@ public sealed partial class MainWindow : Window
             return false;
 
         return pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase)
+            || pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal)
             || pluginClass.Contains("PreviousApplication", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("NextApplication", StringComparison.OrdinalIgnoreCase)
             || pluginClass.Contains("TouchKeyboard", StringComparison.OrdinalIgnoreCase)
@@ -6886,6 +6889,18 @@ public sealed partial class MainWindow : Window
         if (string.IsNullOrWhiteSpace(pluginClass))
             return L("插件命令", "Plugin Command", "外掛命令", "플러그인 명령");
 
+        if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
+            return pluginClass[(pluginClass.LastIndexOf('.') + 1)..] switch
+            {
+                "MediaPlay" => L("媒体播放", "Media Play", "媒體播放", "미디어 재생"),
+                "MediaPause" => L("媒体暂停", "Media Pause", "媒體暫停", "미디어 일시 정지"),
+                "MediaForward" => L("媒体快进", "Media Fast Forward", "媒體快轉", "미디어 빨리 감기"),
+                "MediaBackward" => L("媒体快退", "Media Rewind", "媒體倒轉", "미디어 되감기"),
+                "MediaNext" => L("媒体下一首", "Media Next Track", "媒體下一首", "미디어 다음 곡"),
+                "MediaPrevious" => L("媒体上一首", "Media Previous Track", "媒體上一首", "미디어 이전 곡"),
+                _ => L("多媒体控制", "Media Controls", "多媒體控制", "미디어 제어")
+            };
+
         if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
             return L("快捷键", "Hotkey", "快速鍵", "단축키");
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
@@ -6933,6 +6948,14 @@ public sealed partial class MainWindow : Window
 
     private void UpdateDefaultCommandName(TextBox commandName, string pluginClass)
     {
+        var mediaNames = Enumerable.Range(18, 6).Select(index => PluginName(PluginClassFromIndex(index))).ToArray();
+        if (mediaNames.Contains(commandName.Text, StringComparer.Ordinal) ||
+            (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal) &&
+             (commandName.Text == PluginName("GestureSign.CorePlugins.HotKey.HotKeyPlugin") || commandName.Text == T("发送快捷键", "Send Hotkey"))))
+        {
+            commandName.Text = PluginName(pluginClass);
+            return;
+        }
         var smartCloseName = L("智能关闭", "Smart Close", "智慧關閉", "스마트 닫기");
         var smartNewTabName = L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "스마트 새 탭");
         var isSmartClose = pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase);
@@ -6965,6 +6988,16 @@ public sealed partial class MainWindow : Window
 
     private void UpdatePluginDescription(TextBlock description, string pluginClass)
     {
+        if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
+        {
+            description.Text = L(
+                "控制当前媒体播放器。播放和暂停分别执行；支持进度控制时，快进或快退 10 秒。需要播放器支持对应操作。",
+                "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.",
+                "控制目前的媒體播放器。播放和暫停分別執行；支援進度控制時，快轉或倒轉 10 秒。需要播放器支援對應操作。",
+                "현재 미디어 플레이어를 제어합니다. 재생과 일시 정지는 별개이며, 지원되는 경우 10초 앞으로 또는 뒤로 이동합니다. 사용 가능한 동작은 플레이어에 따라 다릅니다.");
+            description.Visibility = Visibility.Visible;
+            return;
+        }
         if (pluginClass.Contains("SmartClose", StringComparison.OrdinalIgnoreCase))
         {
             description.Text = L(
@@ -7011,6 +7044,9 @@ public sealed partial class MainWindow : Window
         plugin.Items.Add(L("智能关闭", "Smart Close", "智慧關閉", "스마트 닫기"));
         plugin.Items.Add(L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "스마트 새 탭"));
         plugin.Items.Add(L("自定义插件", "Custom Plugin", "自訂外掛", "사용자 지정 플러그인"));
+        // Preserve existing indexes (including custom plugin = 17).
+        for (var index = 18; index <= 23; index++)
+            plugin.Items.Add(PluginName(PluginClassFromIndex(index)));
     }
 
     private static string PluginClassFromIndex(int index)
@@ -7033,11 +7069,19 @@ public sealed partial class MainWindow : Window
             15 => "GestureSign.CorePlugins.SmartClose",
             16 => "GestureSign.CorePlugins.SmartNewTab",
             17 => "",
+            18 => "GestureSign.CorePlugins.MediaControl.MediaPause",
+            19 => "GestureSign.CorePlugins.MediaControl.MediaPlay",
+            20 => "GestureSign.CorePlugins.MediaControl.MediaForward",
+            21 => "GestureSign.CorePlugins.MediaControl.MediaBackward",
+            22 => "GestureSign.CorePlugins.MediaControl.MediaNext",
+            23 => "GestureSign.CorePlugins.MediaControl.MediaPrevious",
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
+        for (var index = 18; index <= 23; index++)
+            if (string.Equals(pluginClass, PluginClassFromIndex(index), StringComparison.Ordinal)) return index;
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
             return 17;
         if (pluginClass.Contains("PreviousApplication", StringComparison.OrdinalIgnoreCase))

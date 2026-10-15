@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [未実行] 実行可能なコマンドがありません",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [認識] ジェスチャー {1}、接触点 {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [開始] {1}、接触点 {2}、モード {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [未認識] 一致するジェスチャーがありません"
+  "{0} [Unrecognized] No matching gesture": "{0} [未認識] 一致するジェスチャーがありません",
+  "Media Play": "メディアを再生",
+  "Media Pause": "メディアを一時停止",
+  "Media Fast Forward": "メディアを早送り",
+  "Media Rewind": "メディアを巻き戻し",
+  "Media Next Track": "次の曲へ",
+  "Media Previous Track": "前の曲へ",
+  "Media Controls": "メディアの操作",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "現在のメディアプレーヤーを操作します。再生と一時停止は個別に実行します。再生位置の変更に対応している場合は、10秒先または前に移動します。利用できる操作はプレーヤーによって異なります。"
 }

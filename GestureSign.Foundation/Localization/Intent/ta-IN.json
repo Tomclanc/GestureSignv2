@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "சைகை தொடக்கப் பொத்தானைப் பிடித்து, தேர்ந்தெடுத்த பொத்தானைக் கிளிக் செய்யவும் அல்லது சக்கரத்தைச் சுழற்றவும். வரைய வேண்டாம்.",
   "Name": "பெயர்",
   "Custom Plugin": "தனிப்பயன் பிளக்கின்",
-  "Mouse button combinations": "சுட்டி பொத்தான் சேர்க்கைகள்"
+  "Mouse button combinations": "சுட்டி பொத்தான் சேர்க்கைகள்",
+  "Media Play": "மீடியா ப்ளே",
+  "Media Pause": "மீடியா இடைநிறுத்தம்",
+  "Media Fast Forward": "மீடியா ஃபாஸ்ட் ஃபார்வர்டு",
+  "Media Rewind": "மீடியா ரிவைண்ட்",
+  "Media Next Track": "மீடியா அடுத்த ட்ராக்",
+  "Media Previous Track": "மீடியா முந்தைய ட்ராக்",
+  "Media Controls": "மீடியா கட்டுப்பாடுகள்"
 }

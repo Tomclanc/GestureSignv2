@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [عمل نہیں کیا گیا] کوئی کمانڈ دستیاب نہیں ہے۔",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [تسلیم شدہ] اشارہ {1}، رابطے {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [شروع کریں] {1}، {2} رابطے، موڈ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [غیر شناخت شدہ] کوئی مماثل اشارہ نہیں۔"
+  "{0} [Unrecognized] No matching gesture": "{0} [غیر شناخت شدہ] کوئی مماثل اشارہ نہیں۔",
+  "Media Play": "میڈیا پلے",
+  "Media Pause": "میڈیا توقف",
+  "Media Fast Forward": "میڈیا فاسٹ فارورڈ",
+  "Media Rewind": "میڈیا ریوائنڈ",
+  "Media Next Track": "میڈیا نیکسٹ ٹریک",
+  "Media Previous Track": "میڈیا پچھلا ٹریک",
+  "Media Controls": "میڈیا کنٹرولز",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "موجودہ میڈیا پلیئر کو کنٹرول کرتا ہے۔ کھیلنا اور توقف الگ الگ ہیں۔ سپورٹ ہونے پر 10 سیکنڈ آگے یا پیچھے کی طرف تلاش کریں۔ دستیاب کارروائیوں کا انحصار کھلاڑی پر ہوتا ہے۔"
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "دکمهٔ شروع حرکت را نگه دارید و سپس دکمهٔ انتخابی را بزنید یا چرخ ماوس را بچرخانید. رسم لازم نیست.",
   "Name": "نام",
   "Custom Plugin": "پلاگین سفارشی",
-  "Mouse button combinations": "ترکیب دکمه‌های ماوس"
+  "Mouse button combinations": "ترکیب دکمه‌های ماوس",
+  "Media Play": "پخش رسانه ای",
+  "Media Pause": "مکث رسانه",
+  "Media Fast Forward": "رسانه سریع به جلو",
+  "Media Rewind": "رسانه به عقب",
+  "Media Next Track": "آهنگ بعدی رسانه",
+  "Media Previous Track": "آهنگ قبلی رسانه",
+  "Media Controls": "کنترل رسانه ها"
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Задръжте начален бутон, после натиснете избрания бутон или завъртете колелцето. Не е нужно рисуване.",
   "Name": "Име",
   "Custom Plugin": "Персонализиран плъгин",
-  "Mouse button combinations": "Комбинации от бутони на мишката"
+  "Mouse button combinations": "Комбинации от бутони на мишката",
+  "Media Play": "възпроизвеждане на мултимедия",
+  "Media Pause": "Медия пауза",
+  "Media Fast Forward": "Медия Бързо превъртане напред",
+  "Media Rewind": "Медия Пренавиване назад",
+  "Media Next Track": "Медия Следващ запис",
+  "Media Previous Track": "Медия Предишен запис",
+  "Media Controls": "Медийни контроли"
 }

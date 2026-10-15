@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Coinnigh cnaipe tosaigh síos, ansin cliceáil an cnaipe roghnaithe nó scrollaigh an roth. Ní gá tarraingt.",
   "Name": "Ainm",
   "Custom Plugin": "Breiseán Saincheaptha",
-  "Mouse button combinations": "Teaglamaí cnaipí luiche"
+  "Mouse button combinations": "Teaglamaí cnaipí luiche",
+  "Media Play": "Seinn na Meáin",
+  "Media Pause": "Sos Meán",
+  "Media Fast Forward": "Meáin Fast Ar Aghaidh",
+  "Media Rewind": "Meáin Athchasadh",
+  "Media Next Track": "Meáin seo chugainn",
+  "Media Previous Track": "Meáin Rian Roimhe Seo",
+  "Media Controls": "Rialuithe Meáin"
 }

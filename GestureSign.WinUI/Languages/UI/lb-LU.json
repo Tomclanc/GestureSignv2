@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Net ausgefouert] Keng verfügbar Kommandoen",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Erkannt] Geste {1}, Kontakter {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} Kontakter, Modus {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Onerkannt] Kee passende Geste"
+  "{0} [Unrecognized] No matching gesture": "{0} [Onerkannt] Kee passende Geste",
+  "Media Play": "Media Spill",
+  "Media Pause": "Media Paus",
+  "Media Fast Forward": "Medien séier no vir",
+  "Media Rewind": "Medien zréckzéien",
+  "Media Next Track": "Media Next Gleis",
+  "Media Previous Track": "Media Virdrun Streck",
+  "Media Controls": "Medien Kontrollen",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Kontrolléiert den aktuellen Media Player. Spill an Paus sinn getrennt; sichen no vir oder zréck vun 10 Sekonnen wann ënnerstëtzt. Verfügbar Operatiounen hänkt vum Spiller of."
 }

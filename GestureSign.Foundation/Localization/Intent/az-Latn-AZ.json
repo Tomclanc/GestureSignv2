@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Başlanğıc düyməsini basılı saxlayın, sonra seçilmiş düyməyə basın və ya çarxı fırladın. Çəkmək lazım deyil.",
   "Name": "Ad",
   "Custom Plugin": "Fərdi Plugin",
-  "Mouse button combinations": "Siçan düymələrinin kombinasiyaları"
+  "Mouse button combinations": "Siçan düymələrinin kombinasiyaları",
+  "Media Play": "media oynatma",
+  "Media Pause": "Media Pauzası",
+  "Media Fast Forward": "Media Sürətli İrəli",
+  "Media Rewind": "Media Geri Sarma",
+  "Media Next Track": "Media Növbəti Track",
+  "Media Previous Track": "Media Əvvəlki Track",
+  "Media Controls": "Media Nəzarətləri"
 }

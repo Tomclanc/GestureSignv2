@@ -96,6 +96,7 @@ foreach (var culture in cultures)
             if (!catalog.TryGetValue(key, out var value) || string.IsNullOrWhiteSpace(value)) { missing.Add(domain + ": " + key); continue; }
             if (Slots(key) != Slots(value)) issues.Add(domain + ": format mismatch: " + key);
             if (value.Contains('\uFFFD') || Regex.IsMatch(value, @"ZXQ(?:PH|SEP)|QXZ|\u202A|\u202B|\u202C")) issues.Add(domain + ": corrupt translation: " + key);
+            if (value.Contains("हें नांव\n") || value.Contains("हें नांव\r")) issues.Add(domain + ": translation service heading: " + key);
             if (!culture.StartsWith("en-") && Regex.IsMatch(value, @"\bTouchpad (?:Top|Bottom|Left|Right) Edge\b", RegexOptions.IgnoreCase))
                 issues.Add(domain + ": untranslated edge phrase: " + key);
             if (string.Equals(Regex.Replace(value.Trim(), @"\s+", " "), Regex.Replace(key.Trim(), @"\s+", " "), StringComparison.OrdinalIgnoreCase)

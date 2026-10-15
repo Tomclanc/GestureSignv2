@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Heb ei weithredu] Dim gorchmynion ar gael",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Cydnabyddedig] Ystum {1}, cysylltiadau {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Cychwyn] {1}, cysylltiadau {2}, modd {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Anadnabyddus] Dim ystum cyfatebol"
+  "{0} [Unrecognized] No matching gesture": "{0} [Anadnabyddus] Dim ystum cyfatebol",
+  "Media Play": "Chwarae Cyfryngau",
+  "Media Pause": "Seibiant Cyfryngau",
+  "Media Fast Forward": "Cyfryngau Ymlaen yn Gyflym",
+  "Media Rewind": "Cyfryngau Ailddirwyn",
+  "Media Next Track": "Trac Nesaf y Cyfryngau",
+  "Media Previous Track": "Cyfryngau Trac Blaenorol",
+  "Media Controls": "Rheolaethau Cyfryngau",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Yn rheoli'r chwaraewr cyfryngau cyfredol. Mae chwarae ac oedi ar wahân; ceisio ymlaen neu yn ôl o 10 eiliad pan gefnogir. Mae gweithrediadau sydd ar gael yn dibynnu ar y chwaraewr."
 }

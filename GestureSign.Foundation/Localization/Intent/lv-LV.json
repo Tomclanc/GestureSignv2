@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Turiet sākuma pogu, tad noklikšķiniet izvēlēto pogu vai ritiniet ritenīti. Zīmēt nav nepieciešams.",
   "Name": "Nosaukums",
   "Custom Plugin": "Pielāgots spraudnis",
-  "Mouse button combinations": "Peles pogu kombinācijas"
+  "Mouse button combinations": "Peles pogu kombinācijas",
+  "Media Play": "Multivides atskaņošana",
+  "Media Pause": "Multivides pauze",
+  "Media Fast Forward": "Multivides pārtīšana uz priekšu",
+  "Media Rewind": "Multivides attīšana",
+  "Media Next Track": "Multivides nākamais celiņš",
+  "Media Previous Track": "Multivides iepriekšējais ieraksts",
+  "Media Controls": "Multivides vadīklas"
 }

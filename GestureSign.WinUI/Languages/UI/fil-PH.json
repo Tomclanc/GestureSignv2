@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Not executed] Walang available na command",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Nakilala] Galaw {1}, mga contact {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Start] {1}, {2} contact, mode {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Unrecognized] Walang katugmang galaw"
+  "{0} [Unrecognized] No matching gesture": "{0} [Unrecognized] Walang katugmang galaw",
+  "Media Play": "pag-playback ng media",
+  "Media Pause": "I-pause ang Media",
+  "Media Fast Forward": "Mabilis na Pagpasa ng Media",
+  "Media Rewind": "rewind ng media",
+  "Media Next Track": "Media Susunod na Track",
+  "Media Previous Track": "Media Nakaraang Track",
+  "Media Controls": "Mga Kontrol sa Media",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Kinokontrol ang kasalukuyang media player. Magkahiwalay ang play at pause; humanap o paatras ng 10 segundo kapag sinusuportahan. Ang mga magagamit na operasyon ay depende sa player."
 }

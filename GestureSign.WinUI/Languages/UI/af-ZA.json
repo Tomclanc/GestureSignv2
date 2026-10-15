@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Nie uitgevoer nie] Geen beskikbare opdragte nie",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Herken] Gebaar {1}, kontakte {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Begin] {1}, {2} kontakte, modus {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Onherkenbaar] Geen ooreenstemmende gebaar nie"
+  "{0} [Unrecognized] No matching gesture": "{0} [Onherkenbaar] Geen ooreenstemmende gebaar nie",
+  "Media Play": "Media speel",
+  "Media Pause": "Mediapouse",
+  "Media Fast Forward": "Media vinnig vorentoe",
+  "Media Rewind": "Media Terugspoel",
+  "Media Next Track": "Media Volgende Snit",
+  "Media Previous Track": "Media Vorige Snit",
+  "Media Controls": "Mediakontroles",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Beheer die huidige mediaspeler. Speel en pouse is apart; soek vorentoe of agtertoe met 10 sekondes wanneer dit ondersteun word. Beskikbare bewerkings hang af van die speler."
 }

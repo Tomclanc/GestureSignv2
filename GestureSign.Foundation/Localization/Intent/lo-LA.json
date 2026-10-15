@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "ກົດປຸ່ມເລີ່ມຄ້າງໄວ້ ແລ້ວຄລິກປຸ່ມທີ່ເລືອກຫຼືໝຸນລໍ້. ບໍ່ຕ້ອງແຕ້ມ.",
   "Name": "ຊື່",
   "Custom Plugin": "ປລັກອິນແບບກຳນົດເອງ",
-  "Mouse button combinations": "ການປະສົມປຸ່ມເມົາສ໌"
+  "Mouse button combinations": "ການປະສົມປຸ່ມເມົາສ໌",
+  "Media Play": "ສື່ຫຼິ້ນ",
+  "Media Pause": "ຢຸດສື່",
+  "Media Fast Forward": "ສື່​ມວນ​ຊົນ​ໄປ​ຫນ້າ​ໄວ​",
+  "Media Rewind": "ສື່ມວນຊົນ Rewind",
+  "Media Next Track": "ມີເດຍຕິດຕາມຕໍ່ໄປ",
+  "Media Previous Track": "ສື່ກ່ອນໜ້າ",
+  "Media Controls": "ການຄວບຄຸມສື່"
 }

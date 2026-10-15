@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Удерживайте кнопку запуска жеста, затем нажмите выбранную кнопку или прокрутите колёсико. Рисовать не нужно.",
   "Name": "Название",
   "Custom Plugin": "Пользовательский плагин",
-  "Mouse button combinations": "Комбинации кнопок мыши"
+  "Mouse button combinations": "Комбинации кнопок мыши",
+  "Media Play": "Медиа-игра",
+  "Media Pause": "Медиа-пауза",
+  "Media Fast Forward": "СМИ, быстрая перемотка вперед",
+  "Media Rewind": "Медиа перемотка назад",
+  "Media Next Track": "Медиа Следующий трек",
+  "Media Previous Track": "Медиа Предыдущий трек",
+  "Media Controls": "Средства управления медиа"
 }

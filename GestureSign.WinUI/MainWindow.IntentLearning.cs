@@ -237,7 +237,7 @@ public sealed partial class MainWindow
         var timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
         var cancellation = new CancellationTokenSource();
         bool transfer = false, refreshing = false, loaded = false, busy = false, updating = false;
-        bool samplesInitialized = false, reloadSamples = false, correcting = false;
+        bool samplesInitialized = false, reloadSamples = false, correcting = false, connectionReport = false;
         int correctionRevision = 0;
         var correctedNames = new Dictionary<string, string>();
         string ScoreText(IntentSampleSummary sample)
@@ -367,6 +367,7 @@ public sealed partial class MainWindow
                 var state = await _intentComponent.SendAsync(new("status")); if (!loaded || revision != correctionRevision) return;
                 correctedNames = IntentGestureCorrections.Read(IntentFiles.Root).ToDictionary(c => c.SampleId, c => c.Gesture);
                 status.Text = IntentText("学习组件已安装 · 后台引擎已连接", "Learning component installed · background engine connected");
+                if (connectionReport) { report.Text = ""; report.Visibility = Visibility.Collapsed; connectionReport = false; }
                 busy = state.Busy;
                 ShowTrainingProgress(state);
                 background.IsEnabled = !busy;
@@ -435,6 +436,7 @@ public sealed partial class MainWindow
             try
             {
                 var response = await _intentComponent.SendAsync(request);
+                report.Text = ""; report.Visibility = Visibility.Collapsed; connectionReport = false;
                 if (request.Command == "train") ShowTrainingProgress(response);
                 if (response.Error == null && request.Command == "delete")
                 {
@@ -443,13 +445,13 @@ public sealed partial class MainWindow
                 }
                 await Refresh();
             }
-            catch (Exception ex) { report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; if (request.Command == "train") { trainingTimer.Stop(); trainingText.Text = IntentText("训练未启动：", "Training did not start: ") + UiExceptionMessage(ex); train.IsEnabled = true; } }
+            catch (Exception ex) { connectionReport = IntentComponentService.IsConnectionFailure(ex); report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; if (request.Command == "train") { trainingTimer.Stop(); trainingText.Text = IntentText("训练未启动：", "Training did not start: ") + UiExceptionMessage(ex); train.IsEnabled = true; } }
         }
         samples.SelectionChanged += async (_, _) =>
         {
             SelectionState(); if (updating) return; var id = SelectedId(); selectedTrace = null; DrawTrace(); if (id == null) return;
             try { var response = await _intentComponent.SendAsync(new("trace", SampleId: id)); if (SelectedId() == id) { selectedTrace = response.Sample; DrawTrace(); } }
-            catch (Exception ex) { report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; }
+            catch (Exception ex) { connectionReport = IntentComponentService.IsConnectionFailure(ex); report.Text = UiExceptionMessage(ex); report.Visibility = Visibility.Visible; }
         };
         refreshSamples.Click += async (_, _) => { reloadSamples = true; await Refresh(); };
         background.Click += async (_, _) =>

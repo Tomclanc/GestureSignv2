@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Houd een startknop ingedrukt en klik daarna op de gekozen knop of draai het muiswiel. Tekenen is niet nodig.",
   "Name": "Naam",
   "Custom Plugin": "Aangepaste plugin",
-  "Mouse button combinations": "Muisknopcombinaties"
+  "Mouse button combinations": "Muisknopcombinaties",
+  "Media Play": "Mediaspel",
+  "Media Pause": "Mediapauze",
+  "Media Fast Forward": "Mediasnel vooruitspoelen",
+  "Media Rewind": "Media terugspoelen",
+  "Media Next Track": "Mediavolgende track",
+  "Media Previous Track": "Media Vorig nummer",
+  "Media Controls": "Mediabediening"
 }

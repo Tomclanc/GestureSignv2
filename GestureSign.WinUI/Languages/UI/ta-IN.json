@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [செயல்படுத்தப்படவில்லை] கட்டளைகள் இல்லை",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [அங்கீகரிக்கப்பட்டது] சைகை {1}, தொடர்புகள் {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [தொடக்கம்] {1}, {2} தொடர்புகள், முறை {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [அங்கீகரிக்கப்படவில்லை] பொருந்தக்கூடிய சைகை இல்லை"
+  "{0} [Unrecognized] No matching gesture": "{0} [அங்கீகரிக்கப்படவில்லை] பொருந்தக்கூடிய சைகை இல்லை",
+  "Media Play": "மீடியா ப்ளே",
+  "Media Pause": "மீடியா இடைநிறுத்தம்",
+  "Media Fast Forward": "மீடியா ஃபாஸ்ட் ஃபார்வர்டு",
+  "Media Rewind": "மீடியா ரிவைண்ட்",
+  "Media Next Track": "மீடியா அடுத்த ட்ராக்",
+  "Media Previous Track": "மீடியா முந்தைய ட்ராக்",
+  "Media Controls": "மீடியா கட்டுப்பாடுகள்",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "தற்போதைய மீடியா பிளேயரைக் கட்டுப்படுத்துகிறது. விளையாட்டும் இடைநிறுத்தமும் தனித்தனியே; ஆதரிக்கப்படும் போது 10 வினாடிகள் முன்னோக்கி அல்லது பின்னோக்கி தேடுங்கள். கிடைக்கக்கூடிய செயல்பாடுகள் பிளேயரைப் பொறுத்தது."
 }

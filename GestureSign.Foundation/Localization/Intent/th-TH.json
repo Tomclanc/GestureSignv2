@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "กดปุ่มเริ่มท่าทางค้างไว้ แล้วคลิกปุ่มที่เลือกหรือหมุนล้อเมาส์ โดยไม่ต้องวาด",
   "Name": "ชื่อ",
   "Custom Plugin": "ปลั๊กอินแบบกำหนดเอง",
-  "Mouse button combinations": "การใช้ปุ่มเมาส์ร่วมกัน"
+  "Mouse button combinations": "การใช้ปุ่มเมาส์ร่วมกัน",
+  "Media Play": "การเล่นสื่อ",
+  "Media Pause": "สื่อหยุดชั่วคราว",
+  "Media Fast Forward": "สื่อกรอไปข้างหน้า",
+  "Media Rewind": "สื่อย้อนกลับ",
+  "Media Next Track": "สื่อเพลงถัดไป",
+  "Media Previous Track": "สื่อเพลงก่อนหน้า",
+  "Media Controls": "การควบคุมสื่อ"
 }

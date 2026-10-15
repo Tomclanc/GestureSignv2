@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Riƙe maɓallin farawa, sai ka danna maɓallin da aka zaɓa ko juya ƙafafun linzamin. Ba sai ka zana ba.",
   "Name": "Suna",
   "Custom Plugin": "Ƙari na Musamman",
-  "Mouse button combinations": "Haɗin maɓallan linzamin kwamfuta"
+  "Mouse button combinations": "Haɗin maɓallan linzamin kwamfuta",
+  "Media Play": "Kunna Mai jarida",
+  "Media Pause": "Dakatawar Mai jarida",
+  "Media Fast Forward": "Mai Saurin Gaba",
+  "Media Rewind": "Maida Mai jarida",
+  "Media Next Track": "Waƙoƙi na gaba Media",
+  "Media Previous Track": "Waƙar Watsawa ta Baya",
+  "Media Controls": "Gudanarwar Mai jarida"
 }

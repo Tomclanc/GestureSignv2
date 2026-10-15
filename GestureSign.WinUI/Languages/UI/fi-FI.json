@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Ei suoritettu] Ei käytettävissä olevia komentoja",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Tunnistettu] Ele {1}, kontaktit {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Käynnistä] {1}, {2} koskettimet, tila {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Tunnistamaton] Ei vastaavaa elettä"
+  "{0} [Unrecognized] No matching gesture": "{0} [Tunnistamaton] Ei vastaavaa elettä",
+  "Media Play": "Median toisto",
+  "Media Pause": "Median tauko",
+  "Media Fast Forward": "Median pikakelaus",
+  "Media Rewind": "Median kelaus",
+  "Media Next Track": "Median seuraava kappale",
+  "Media Previous Track": "Median edellinen kappale",
+  "Media Controls": "Mediaohjaimet",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Ohjaa nykyistä mediasoitinta. Toisto ja tauko ovat erillisiä; etsi eteenpäin tai taaksepäin 10 sekuntia, kun se on tuettu. Käytettävissä olevat toiminnot riippuvat soittimesta."
 }

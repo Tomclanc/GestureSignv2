@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Tahan tombol mulai gestur, lalu klik tombol yang dipilih atau gulir roda. Tidak perlu menggambar.",
   "Name": "Nama",
   "Custom Plugin": "Plugin Kustom",
-  "Mouse button combinations": "Kombinasi tombol mouse"
+  "Mouse button combinations": "Kombinasi tombol mouse",
+  "Media Play": "Pemutaran Media",
+  "Media Pause": "Jeda Media",
+  "Media Fast Forward": "Media Maju Cepat",
+  "Media Rewind": "Putar Ulang Media",
+  "Media Next Track": "Media Lagu Berikutnya",
+  "Media Previous Track": "Media Trek Sebelumnya",
+  "Media Controls": "Kontrol Media"
 }

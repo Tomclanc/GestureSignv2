@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [башкарылмый] Командалар юк",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Танылган] Ишарә {1}, контактлар {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Старт] {1}, {2} контактлар, {3} режимы",
-  "{0} [Unrecognized] No matching gesture": "{0} [Танылмаган] Ишарә юк"
+  "{0} [Unrecognized] No matching gesture": "{0} [Танылмаган] Ишарә юк",
+  "Media Play": "Медиа Плей",
+  "Media Pause": "Медиа Пауза",
+  "Media Fast Forward": "Медиа Тиз алга",
+  "Media Rewind": "Медиа",
+  "Media Next Track": "Медиа Киләсе трек",
+  "Media Previous Track": "Медиа Алдагы трек",
+  "Media Controls": "Медиа Контроль",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Хәзерге медиа-плеер белән идарә итә. Уйнау һәм пауза аерым; ярдәм иткәндә алга яки артка 10 секундка эзләгез. Мөмкин булган операцияләр плеерга бәйле."
 }

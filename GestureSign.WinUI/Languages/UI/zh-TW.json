@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [未執行] 無可用指令",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [已辨識] 手勢 {1}、聯絡人 {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [起始] {1}、{2} 接點，模式 {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [無法辨識] 沒有相符的手勢"
+  "{0} [Unrecognized] No matching gesture": "{0} [無法辨識] 沒有相符的手勢",
+  "Media Play": "媒體播放",
+  "Media Pause": "媒體暫停",
+  "Media Fast Forward": "媒體快轉",
+  "Media Rewind": "媒體倒轉",
+  "Media Next Track": "媒體下一首",
+  "Media Previous Track": "媒體上一首",
+  "Media Controls": "多媒體控制",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "控制目前的媒體播放器。播放和暫停分別執行；支援進度控制時，快轉或倒轉 10 秒。需要播放器支援對應操作。"
 }

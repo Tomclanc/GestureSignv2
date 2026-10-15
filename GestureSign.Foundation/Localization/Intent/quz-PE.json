@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Qallariy ñit'inata ñit'iy, chaymanta akllasqa ñit'inata ñit'iy utaq muyuqta muyuchiy. Siq'iyqa mana munakunchu.",
   "Name": "Suti",
   "Custom Plugin": "Plugin Personalizado nisqa",
-  "Mouse button combinations": "Ratón ñit'inakunap huñuynin"
+  "Mouse button combinations": "Ratón ñit'inakunap huñuynin",
+  "Media Play": "Media Play nisqa",
+  "Media Pause": "Medios de comunicación Pausa",
+  "Media Fast Forward": "Medios de comunicación Utqaylla ñawpaqman",
+  "Media Rewind": "Media Rebobinado nisqa",
+  "Media Next Track": "Medios de comunicación Qatiq Pista",
+  "Media Previous Track": "Media Ñawpaq Pista",
+  "Media Controls": "Controles de Medios nisqamanta"
 }

@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [No executat] No hi ha ordres disponibles",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Reconegut] Gest {1}, contactes {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Inici] {1}, {2} contactes, mode {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [No reconegut] No hi ha cap gest coincident"
+  "{0} [Unrecognized] No matching gesture": "{0} [No reconegut] No hi ha cap gest coincident",
+  "Media Play": "reproducció de mitjans",
+  "Media Pause": "Pausa multimèdia",
+  "Media Fast Forward": "Avança ràpida dels mitjans",
+  "Media Rewind": "Rebobinat de mitjans",
+  "Media Next Track": "Pista següent de mitjans",
+  "Media Previous Track": "Media Pista anterior",
+  "Media Controls": "Controls de mitjans",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Controla el reproductor multimèdia actual. El joc i la pausa són separats; buscar endavant o enrere 10 segons quan sigui compatible. Les operacions disponibles depenen del jugador."
 }

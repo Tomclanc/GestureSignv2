@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Laikykite pradžios mygtuką, tada spustelėkite pasirinktą mygtuką arba sukite ratuką. Piešti nereikia.",
   "Name": "Pavadinimas",
   "Custom Plugin": "Vartotojo papildinys",
-  "Mouse button combinations": "Pelės mygtukų deriniai"
+  "Mouse button combinations": "Pelės mygtukų deriniai",
+  "Media Play": "medijos atkūrimas",
+  "Media Pause": "Medijos pauzė",
+  "Media Fast Forward": "žiniasklaida greitai į priekį",
+  "Media Rewind": "Medijos atsukimas atgal",
+  "Media Next Track": "Kitas medijos takelis",
+  "Media Previous Track": "Ankstesnis žiniasklaidos takelis",
+  "Media Controls": "Medijos valdikliai"
 }

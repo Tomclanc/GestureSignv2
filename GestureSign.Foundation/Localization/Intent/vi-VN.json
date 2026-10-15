@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "Giữ nút bắt đầu cử chỉ, rồi nhấp nút đã chọn hoặc cuộn con lăn. Không cần vẽ.",
   "Name": "Tên",
   "Custom Plugin": "Plugin tùy chỉnh",
-  "Mouse button combinations": "Tổ hợp nút chuột"
+  "Mouse button combinations": "Tổ hợp nút chuột",
+  "Media Play": "Phát phương tiện",
+  "Media Pause": "Tạm dừng phương tiện",
+  "Media Fast Forward": "Chuyển tiếp nhanh phương tiện",
+  "Media Rewind": "Tua lại phương tiện",
+  "Media Next Track": "Bản nhạc tiếp theo của phương tiện",
+  "Media Previous Track": "Bản nhạc trước của phương tiện",
+  "Media Controls": "Điều khiển phương tiện"
 }

@@ -602,5 +602,13 @@
   "{0} [Not executed] No available commands": "{0} [Chưa thực thi] Không có lệnh nào",
   "{0} [Recognized] Gesture {1}, contacts {2}": "{0} [Được công nhận] Cử chỉ {1}, danh bạ {2}",
   "{0} [Start] {1}, {2} contacts, mode {3}": "{0} [Bắt đầu] Danh bạ {1}, {2}, chế độ {3}",
-  "{0} [Unrecognized] No matching gesture": "{0} [Không được nhận dạng] Không có cử chỉ phù hợp"
+  "{0} [Unrecognized] No matching gesture": "{0} [Không được nhận dạng] Không có cử chỉ phù hợp",
+  "Media Play": "Phát phương tiện",
+  "Media Pause": "Tạm dừng phương tiện",
+  "Media Fast Forward": "Chuyển tiếp nhanh phương tiện",
+  "Media Rewind": "Tua lại phương tiện",
+  "Media Next Track": "Bản nhạc tiếp theo của phương tiện",
+  "Media Previous Track": "Bản nhạc trước của phương tiện",
+  "Media Controls": "Điều khiển phương tiện",
+  "Controls the current media player. Play and pause are separate; seek forward or backward by 10 seconds when supported. Available operations depend on the player.": "Điều khiển trình phát media hiện tại. Phát và tạm dừng là riêng biệt; tua đi hoặc tua lại 10 giây khi được hỗ trợ. Các hoạt động có sẵn tùy thuộc vào người chơi."
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "გეჭიროთ საწყისი ღილაკი, შემდეგ დააჭირეთ არჩეულ ღილაკს ან დაატრიალეთ ბორბალი. ხატვა საჭირო არ არის.",
   "Name": "სახელი",
   "Custom Plugin": "საბაჟო წყვეტა",
-  "Mouse button combinations": "მაუსის ღილაკების კომბინაციები"
+  "Mouse button combinations": "მაუსის ღილაკების კომბინაციები",
+  "Media Play": "მედია თამაში",
+  "Media Pause": "მედია პაუზა",
+  "Media Fast Forward": "მედია სწრაფი წინსვლა",
+  "Media Rewind": "მედია გადახვევა",
+  "Media Next Track": "მედია შემდეგი სიმღერა",
+  "Media Previous Track": "მედია წინა სიმღერა",
+  "Media Controls": "მედია კონტროლი"
 }

@@ -251,5 +251,12 @@
   "Hold a gesture start button, then click the selected button or scroll the wheel. No drawing is needed.": "اضغط مطولاً على زر بدء الإيماءة، ثم انقر الزر المحدد أو مرّر العجلة. لا يلزم الرسم.",
   "Name": "الاسم",
   "Custom Plugin": "الملحق المخصص",
-  "Mouse button combinations": "مجموعات أزرار الماوس"
+  "Mouse button combinations": "مجموعات أزرار الماوس",
+  "Media Play": "تشغيل الوسائط",
+  "Media Pause": "وقفة وسائل الإعلام",
+  "Media Fast Forward": "وسائل الإعلام سريع إلى الأمام",
+  "Media Rewind": "ترجيع الوسائط",
+  "Media Next Track": "المسار التالي للوسائط",
+  "Media Previous Track": "المسار السابق للوسائط",
+  "Media Controls": "ضوابط وسائل الإعلام"
 }
