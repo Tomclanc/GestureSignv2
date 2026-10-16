@@ -62,6 +62,12 @@ try
     if (!new MediaPlay().Gestured(null)) throw new Exception("Repeated play was rejected");
     await Task.Delay(100);
     if (play != 1) throw new Exception("Repeated play toggled or sent a duplicate command");
+    if (!new MediaPlayPause().Gestured(null)) throw new Exception("Toggle from playing was rejected");
+    await Task.Delay(200);
+    if (pause != 2) throw new Exception("Toggle did not pause the isolated player");
+    if (!new MediaPlayPause().Gestured(null)) throw new Exception("Toggle from paused was rejected");
+    await Task.Delay(200);
+    if (play != 2) throw new Exception("Toggle did not resume the isolated player");
     if (!new MediaNext().Gestured(null) || !new MediaPrevious().Gestured(null)) throw new Exception("Track command rejected");
     await Task.Delay(200);
     if (next != 1 || previous != 1) throw new Exception("Track commands did not reach isolated player");

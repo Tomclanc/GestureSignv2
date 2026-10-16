@@ -1,8 +1,8 @@
 # 多媒体控制
 
-在动作的“设置命令”中添加或编辑命令，可选择六个独立操作：媒体播放、媒体暂停、媒体快进、媒体快退、媒体下一首、媒体上一首。也可以把它们加入现有的多命令序列。
+在动作的“设置命令”中添加或编辑命令，可选择“媒体播放/暂停”，也可选择六个独立操作：媒体播放、媒体暂停、媒体快进、媒体快退、媒体下一首、媒体上一首。也可以把它们加入现有的多命令序列。
 
-播放和暂停分别执行，不使用“播放/暂停”切换键；重复播放不会暂停，重复暂停不会开始播放。原有媒体快捷键配置保持可用。
+“媒体播放/暂停”根据当前状态切换：播放时暂停，暂停时继续播放。原来的独立播放和暂停命令仍分别执行；重复播放不会暂停，重复暂停不会开始播放。原有媒体快捷键配置保持可用。
 
 优先控制 Windows 当前选中的系统媒体会话，不需要先把播放器切换到前台。多个播放器同时存在时，由 Windows 的当前媒体会话选择决定控制对象。
 
@@ -21,6 +21,6 @@ dotnet run --project tests/GestureSign.MediaControlTests -c Release
 dotnet run --project tests/GestureSign.MediaControlIntegrationTests -c Release -- --run-integration
 ```
 
-第二项创建静音测试播放器，要求机器当前没有其他媒体会话，验证六个操作、重复播放/暂停和 10 秒跳转；不会操控用户正在播放的媒体。
+第二项创建静音测试播放器，要求机器当前没有其他媒体会话，验证播放/暂停双向切换、六个独立操作、重复播放/暂停和 10 秒跳转；不会操控用户正在播放的媒体。
 
 API 说明：[Windows 系统媒体会话](https://learn.microsoft.com/en-us/uwp/api/windows.media.control.globalsystemmediatransportcontrolssession)、[Windows 媒体命令](https://learn.microsoft.com/en-us/windows/win32/inputdev/wm-appcommand)。

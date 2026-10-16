@@ -1,6 +1,6 @@
 namespace GestureSign.Foundation;
 
-public enum MediaOperation { Play, Pause, Forward, Backward, Next, Previous }
+public enum MediaOperation { Play, Pause, Forward, Backward, Next, Previous, PlayPause }
 
 public static class MediaControlPolicy
 {
@@ -27,6 +27,7 @@ public static class MediaControlPolicy
     }
     public static int AppCommand(MediaOperation operation) => operation switch
     {
+        MediaOperation.PlayPause => 14,
         MediaOperation.Play => 46, MediaOperation.Pause => 47,
         MediaOperation.Forward => 49, MediaOperation.Backward => 50,
         MediaOperation.Next => 11, MediaOperation.Previous => 12,

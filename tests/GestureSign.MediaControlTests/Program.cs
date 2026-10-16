@@ -19,4 +19,5 @@ Check(MediaControlPolicy.AppCommand(MediaOperation.Play) != 14 && MediaControlPo
     "Independent play and pause must never send the toggle command");
 Check(MediaControlPolicy.AppCommand(MediaOperation.Next) != MediaControlPolicy.AppCommand(MediaOperation.Forward), "Next track is not seeking");
 Check(MediaControlPolicy.AppCommand(MediaOperation.Previous) != MediaControlPolicy.AppCommand(MediaOperation.Backward), "Previous track is not rewinding");
+Check(MediaControlPolicy.AppCommand(MediaOperation.PlayPause) == 14, "Combined play/pause uses the native toggle command");
 Console.WriteLine($"PASS: {checks} media seek, timing and discrete-command checks.");

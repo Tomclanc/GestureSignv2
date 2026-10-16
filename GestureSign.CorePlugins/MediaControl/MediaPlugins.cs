@@ -98,3 +98,19 @@ public sealed class MediaPrevious : IPlugin
     public string Serialize() => "";
     public bool Gestured(PointInfo point) => MediaCommand.Execute(MediaOperation.Previous);
 }
+
+public sealed class MediaPlayPause : IPlugin
+{
+    public string Name => MediaCommand.Name(MediaOperation.PlayPause);
+    public string Description => Name;
+    public string Category => MediaCommand.Text("Media Controls");
+    public bool IsAction => true;
+    public object GUI => null;
+    public bool ActivateWindowDefault => false;
+    public object Icon => IconSource.Volume;
+    public IHostControl HostControl { get; set; }
+    public void Initialize() { }
+    public bool Deserialize(string settings) => true;
+    public string Serialize() => "";
+    public bool Gestured(PointInfo point) => MediaCommand.Execute(MediaOperation.PlayPause);
+}

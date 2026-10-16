@@ -6892,6 +6892,7 @@ public sealed partial class MainWindow : Window
         if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
             return pluginClass[(pluginClass.LastIndexOf('.') + 1)..] switch
             {
+                "MediaPlayPause" => L("媒体播放/暂停", "Media Play/Pause", "媒體播放/暫停", "미디어 재생/일시 정지"),
                 "MediaPlay" => L("媒体播放", "Media Play", "媒體播放", "미디어 재생"),
                 "MediaPause" => L("媒体暂停", "Media Pause", "媒體暫停", "미디어 일시 정지"),
                 "MediaForward" => L("媒体快进", "Media Fast Forward", "媒體快轉", "미디어 빨리 감기"),
@@ -6988,6 +6989,12 @@ public sealed partial class MainWindow : Window
 
     private void UpdatePluginDescription(TextBlock description, string pluginClass)
     {
+        if (pluginClass == "GestureSign.CorePlugins.MediaControl.MediaPlayPause")
+        {
+            description.Text = L("播放/暂停", "Play/Pause", "播放/暫停", "재생/일시 정지");
+            description.Visibility = Visibility.Visible;
+            return;
+        }
         if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
         {
             description.Text = L(
@@ -7045,7 +7052,7 @@ public sealed partial class MainWindow : Window
         plugin.Items.Add(L("智能新建标签页", "Smart New Tab", "智慧新增分頁", "스마트 새 탭"));
         plugin.Items.Add(L("自定义插件", "Custom Plugin", "自訂外掛", "사용자 지정 플러그인"));
         // Preserve existing indexes (including custom plugin = 17).
-        for (var index = 18; index <= 23; index++)
+        for (var index = 18; index <= 24; index++)
             plugin.Items.Add(PluginName(PluginClassFromIndex(index)));
     }
 
@@ -7075,12 +7082,13 @@ public sealed partial class MainWindow : Window
             21 => "GestureSign.CorePlugins.MediaControl.MediaBackward",
             22 => "GestureSign.CorePlugins.MediaControl.MediaNext",
             23 => "GestureSign.CorePlugins.MediaControl.MediaPrevious",
+            24 => "GestureSign.CorePlugins.MediaControl.MediaPlayPause",
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
-        for (var index = 18; index <= 23; index++)
+        for (var index = 18; index <= 24; index++)
             if (string.Equals(pluginClass, PluginClassFromIndex(index), StringComparison.Ordinal)) return index;
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
             return 17;

@@ -18,6 +18,7 @@ internal static class MediaCommand
 
     public static string Name(MediaOperation operation) => Text(operation switch
     {
+        MediaOperation.PlayPause => "Media Play/Pause",
         MediaOperation.Play => "Media Play", MediaOperation.Pause => "Media Pause",
         MediaOperation.Forward => "Media Fast Forward", MediaOperation.Backward => "Media Rewind",
         MediaOperation.Next => "Media Next Track", MediaOperation.Previous => "Media Previous Track",
@@ -63,6 +64,20 @@ internal static class MediaCommand
         Task<bool> request;
         switch (operation)
         {
+            case MediaOperation.PlayPause:
+                if (controls.IsPlayPauseToggleEnabled)
+                    request = session.TryTogglePlayPauseAsync().AsTask();
+                else if (info.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing)
+                {
+                    if (!controls.IsPauseEnabled) return Unsupported(operation);
+                    request = session.TryPauseAsync().AsTask();
+                }
+                else
+                {
+                    if (!controls.IsPlayEnabled) return Unsupported(operation);
+                    request = session.TryPlayAsync().AsTask();
+                }
+                break;
             case MediaOperation.Play:
                 if (info.PlaybackStatus == GlobalSystemMediaTransportControlsSessionPlaybackStatus.Playing) return true;
                 if (!controls.IsPlayEnabled) return Unsupported(operation);
