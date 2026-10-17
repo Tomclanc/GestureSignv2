@@ -15,7 +15,7 @@ try {
         Start-Sleep -Milliseconds 100
         try {
             $health = Get-Content (Join-Path $logRoot 'Input-health.json') -Raw -ErrorAction Stop | ConvertFrom-Json
-            if ($health.Reason -eq 'SupportRequest' -and [DateTimeOffset]::Parse($health.RecordedUtc) -ge $requestUtc) {
+            if ($health.Reason -eq 'SupportRequest' -and ([DateTimeOffset]$health.RecordedUtc) -ge $requestUtc) {
                 $healthStatus = 'Acknowledged by input owner thread'; break
             }
         } catch { }
