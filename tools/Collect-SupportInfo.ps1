@@ -4,7 +4,25 @@ $ErrorActionPreference = 'Stop'
 $folder = Join-Path $OutputDirectory ('GestureSign-support-' + (Get-Date -Format 'yyyyMMdd-HHmmss'))
 New-Item -ItemType Directory -Path $folder | Out-Null
 $logRoot = Join-Path $env:LOCALAPPDATA 'GestureSign V2'
-foreach ($name in @('GestureSign.log','GestureSign.WinUI.log')) {
+# Snapshot request is read-only: never sends RecoverInput or changes capture mode.
+$requestUtc = [DateTimeOffset]::UtcNow
+$healthStatus = 'Not acknowledged (older build, stopped daemon, or unresponsive input thread)'
+try {
+    $sid = [Security.Principal.WindowsIdentity]::GetCurrent().User.Value
+    $pipe = [IO.Pipes.NamedPipeClientStream]::new('.', "GestureSignDaemon-$sid", [IO.Pipes.PipeDirection]::Out)
+    try { $pipe.Connect(1500); $pipe.WriteByte(15); $pipe.Flush() } finally { $pipe.Dispose() }
+    for ($attempt=0; $attempt -lt 20; $attempt++) {
+        Start-Sleep -Milliseconds 100
+        try {
+            $health = Get-Content (Join-Path $logRoot 'Input-health.json') -Raw -ErrorAction Stop | ConvertFrom-Json
+            if ($health.Reason -eq 'SupportRequest' -and ([DateTimeOffset]$health.RecordedUtc) -ge $requestUtc) {
+                $healthStatus = 'Acknowledged by input owner thread'; break
+            }
+        } catch { }
+    }
+} catch { $healthStatus = 'Snapshot request failed: ' + $_.Exception.Message }
+$healthStatus | Set-Content (Join-Path $folder 'Input-health-request.txt') -Encoding UTF8
+foreach ($name in @('GestureSign.log','GestureSign.WinUI.log','Input-health.json')) {
     $path = Join-Path $logRoot $name
     if (Test-Path -LiteralPath $path) {
         try {
@@ -17,6 +35,7 @@ foreach ($name in @('GestureSign.log','GestureSign.WinUI.log')) {
     }
 }
 $info = [ordered]@{
+    InputHealthRequest = $healthStatus
     CollectedAt = (Get-Date).ToString('o')
     Windows = [Environment]::OSVersion.VersionString
     OSArchitecture = $env:PROCESSOR_ARCHITECTURE

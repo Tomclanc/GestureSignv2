@@ -100,6 +100,7 @@ namespace GestureSign.Daemon.Input
             return InputStateCleared && PointCapture.Instance.Mode == CaptureMode.UserDisabled;
         }
 
+        internal string InputHealthState => $"Source={SourceDevice}, ActiveTouchContacts={_activeTouchScreenContacts.Count}, ReleasedTouchContacts={_releasedTouchScreenContacts.Count}, WaitingForContact={_touchScreenRelease.WaitingForContact}, PressedMouseButtons={_pressedMouseButton.Count}, LastMouseHookAgeMs={(_lastMouseHookEventUtc == default ? -1 : (DateTime.UtcNow - _lastMouseHookEventUtc).TotalMilliseconds):0}";
         internal bool InputStateCleared => SourceDevice == Devices.None && _lastPointsCount == 0 &&
             _activeTouchScreenContacts.Count == 0 && _releasedTouchScreenContacts.Count == 0 &&
             !_touchScreenRelease.WaitingForContact && _pressedMouseButton.Count == 0;
