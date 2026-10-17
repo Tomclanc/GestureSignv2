@@ -5,5 +5,6 @@
 <Compile Include="../../GestureSign.Common/Input/DeviceStates.cs" Link="DeviceStates.cs" />
 <Compile Include="../../GestureSign.Common/Input/PenGesturePolicy.cs" Link="PenGesturePolicy.cs" />
 <Compile Include="../../GestureSign.Common/Input/TouchScreenReleaseTracker.cs" Link="TouchScreenReleaseTracker.cs" />
+<Compile Include="../../GestureSign.Common/Input/RawInputHealthPolicy.cs" Link="RawInputHealthPolicy.cs" />
 </ItemGroup>
 </Project>

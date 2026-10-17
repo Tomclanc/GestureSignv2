@@ -90,3 +90,15 @@ for(int id=10;id<244;id++){
  Check(active.Count==0,"Lost contacts cannot accumulate across 234 later releases");
 }
 Console.WriteLine($"PASS: {checks} pen and touchscreen policy checks.");
+
+var expectedHealthUsages = new ushort[] { 4, 5 };
+var healthyRegistrations = new[] {new RawInputRegistrationStatus(13,4,0x2100,123),new RawInputRegistrationStatus(13,5,0x2100,123)};
+Check(!RawInputHealthPolicy.NeedsRepair(true,123,expectedHealthUsages,healthyRegistrations),"Healthy registrations never reset an idle gesture");
+Check(RawInputHealthPolicy.NeedsRepair(true,123,expectedHealthUsages,healthyRegistrations.Take(1)),"Missing registration detected");
+Check(RawInputHealthPolicy.NeedsRepair(true,124,expectedHealthUsages,healthyRegistrations),"Wrong target window detected");
+Check(RawInputHealthPolicy.NeedsRepair(true,123,new ushort[]{4},new[]{new RawInputRegistrationStatus(13,4,0,123)}),"Missing background-input flag detected");
+Check(!RawInputHealthPolicy.NeedsRepair(false,123,expectedHealthUsages,Array.Empty<RawInputRegistrationStatus>()),"A query error is not proof of registration loss");
+Check(!RawInputHealthPolicy.NeedsRepair(true,0,expectedHealthUsages,Array.Empty<RawInputRegistrationStatus>()),"Absent message window cannot trigger a repair loop");
+Check(!RawInputHealthPolicy.NeedsRepair(true,123,Array.Empty<ushort>(),Array.Empty<RawInputRegistrationStatus>()),"Disabled devices are never re-enabled by health checks");
+Check(RawInputHealthPolicy.NeedsRepair(true,123,new ushort[]{4},new[]{new RawInputRegistrationStatus(1,4,0x100,123)}),"Usage page must match");
+Console.WriteLine($"PASS: {checks} total input-policy checks including registration health.");

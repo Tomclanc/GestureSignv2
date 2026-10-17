@@ -11,7 +11,7 @@ using GestureSign.Daemon.Native;
 
 namespace GestureSign.Daemon.Input
 {
-    public class MessageWindow : NativeWindow
+    public partial class MessageWindow : NativeWindow
     {
         private const int WmResetSourceDevice = 0x8000 + 0x475;
         private Screen _currentScr;
@@ -71,7 +71,7 @@ namespace GestureSign.Daemon.Input
 
         protected override void OnHandleChange()
         {
-            UpdateRegistration();
+            if (Handle != IntPtr.Zero) UpdateRegistration();
             base.OnHandleChange();
         }
 
@@ -108,6 +108,7 @@ namespace GestureSign.Daemon.Input
 
         public void UpdateRegistration()
         {
+            if (Handle == IntPtr.Zero) return;
             _ignoreTouchInputWhenUsingPen = AppConfig.IgnoreTouchInputWhenUsingPen;
             var penSetting = AppConfig.PenGestureButton;
             _penGestureButton = PenGesturePolicy.Normalize(penSetting);
@@ -248,7 +249,10 @@ namespace GestureSign.Daemon.Input
             {
                 case NativeMethods.WM_INPUT:
                     {
-                        ProcessInputCommand(message.LParam);
+                        _rawMessages++;
+                        _lastRawTick = Environment.TickCount64;
+                        try { ProcessInputCommand(message.LParam); }
+                        catch { _inputErrors++; throw; }
                         break;
                     }
                 case NativeMethods.WM_INPUT_DEVICE_CHANGE:
@@ -316,8 +320,7 @@ namespace GestureSign.Daemon.Input
                         _validDevices.Add(raw.header.hDevice, usage);
                 }
 
-                if (usage == 0)
-                    return;
+                if (usage == 0) { _invalidDevices++; return; }
                 if (usage == NativeMethods.PenUsage)
                 {
                     if (_ignoreTouchInputWhenUsingPen)
@@ -431,6 +434,7 @@ namespace GestureSign.Daemon.Input
 
                 if (_requiringContactCount == 0 && PointsIntercepted != null)
                 {
+                    _completeFrames++;
                     PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice,
                         completeContactFrame: _sourceDevice == Devices.TouchScreen));
                     if (_outputTouchs.TrueForAll(rd => rd.State == DeviceStates.None))

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace GestureSign.Daemon.Native
@@ -149,7 +149,7 @@ namespace GestureSign.Daemon.Native
         [DllImport("User32.dll")]
         internal static extern uint GetRawInputData(IntPtr hRawInput, uint uiCommand, IntPtr pData, ref uint pcbSize, uint cbSizeHeader);
 
-        [DllImport("User32.dll")]
+        [DllImport("User32.dll", SetLastError = true)]
         internal static extern bool RegisterRawInputDevices(RAWINPUTDEVICE[] pRawInputDevice, uint uiNumDevices, uint cbSize);
 
         [DllImport("User32.dll")]
