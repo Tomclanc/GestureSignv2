@@ -32,7 +32,7 @@ namespace ManagedWinapi
     /// Specifies a component that creates a global keyboard hotkey.
     /// </summary>
     [DefaultEvent("HotkeyPressed")]
-    public class Hotkey : IDisposable//: Component
+    public partial class Hotkey : IDisposable//: Component
     {
 
         /// <summary>
@@ -109,6 +109,8 @@ namespace ManagedWinapi
             }
         }
 
+        public int[] ModifierKeyCodes { get; set; }
+
         public int ModifierKeys
         {
             get { return _modifierKeys; }
@@ -169,7 +171,7 @@ namespace ManagedWinapi
                 return false;
             if (object.ReferenceEquals(this, other))
                 return true;
-            return Equals(other.KeyCode, this.KeyCode) && Equals(other.ModifierKeys, this.ModifierKeys);
+            return Equals(other.KeyCode, this.KeyCode) && Equals(other.ModifierKeys, this.ModifierKeys) && System.Linq.Enumerable.SequenceEqual(other.ModifierKeyCodes ?? Array.Empty<int>(), ModifierKeyCodes ?? Array.Empty<int>());
         }
 
         public override bool Equals(object obj)
@@ -224,6 +226,8 @@ namespace ManagedWinapi
         private void updateHotkey(bool reregister)
         {
             bool shouldBeRegistered = _isEnabled && !_isDisposed;
+            UpdateHookRegistration(shouldBeRegistered);
+            if (UsesKeyboardHook) shouldBeRegistered = false;
             if (_isRegistered && (!shouldBeRegistered || reregister))
             {
                 // unregister hotkey

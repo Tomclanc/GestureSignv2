@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -158,6 +158,16 @@ namespace GestureSign.CorePlugins.HotKey
             {
                 if (_Settings == null)
                     return false;
+                if ((_Settings.ModifierKeyCodes?.Length ?? 0) != 0 || (_Settings.KeyCode?.Any(k => GestureSign.Shortcuts.ShortcutKeys.IsModifier((int)k)) ?? false))
+                {
+                    var simulator = new InputSimulator();
+                    int mask = (_Settings.Windows ? 8 : 0) | (_Settings.Control ? 2 : 0) | (_Settings.Alt ? 1 : 0) | (_Settings.Shift ? 4 : 0);
+                    var modifiers = GestureSign.Shortcuts.ShortcutKeys.Resolve(mask, _Settings.ModifierKeyCodes).Select(k => (VirtualKeyCode)k).ToArray();
+                    var keys = (_Settings.KeyCode ?? new List<Keys>()).Select(k => (VirtualKeyCode)k).ToArray();
+                    if (keys.Length == 0) simulator.Keyboard.KeyPress(modifiers);
+                    else simulator.Keyboard.ModifiedKeyStroke(modifiers, keys);
+                    return true;
+                }
                 if (_Settings.Windows &&
                   _Settings.KeyCode.Count != 0 && _Settings.KeyCode[0] == Keys.L)
                 {
@@ -229,6 +239,13 @@ namespace GestureSign.CorePlugins.HotKey
             if (Settings == null || Settings.KeyCode == null)
                 return LocalizationProvider.Instance.GetTextValue("CorePlugins.HotKey.Description");
 
+            if ((Settings.ModifierKeyCodes?.Length ?? 0) != 0)
+            {
+                int mask = (Settings.Windows ? 8 : 0) | (Settings.Control ? 2 : 0) | (Settings.Alt ? 1 : 0) | (Settings.Shift ? 4 : 0);
+                var parts = GestureSign.Shortcuts.ShortcutKeys.Resolve(mask, Settings.ModifierKeyCodes).Select(k => GestureSign.Shortcuts.ShortcutKeys.Name(k));
+                return String.Format(LocalizationProvider.Instance.GetTextValue("CorePlugins.HotKey.SpecificDescription"),
+                    string.Join(" + ", parts.Concat(Settings.KeyCode.Select(k => GestureSign.Shortcuts.ShortcutKeys.Name((int)k) ?? GetKeyName(k)))));
+            }
             // Create string to store key combination and final output description
             string strKeyCombo = "";
             string strFormattedOutput = LocalizationProvider.Instance.GetTextValue("CorePlugins.HotKey.SpecificDescription");
@@ -248,7 +265,7 @@ namespace GestureSign.CorePlugins.HotKey
             if (Settings.KeyCode.Count != 0)
             {
                 foreach (var k in Settings.KeyCode)
-                    strKeyCombo += GetKeyName(k) + " + ";
+                    strKeyCombo += (GestureSign.Shortcuts.ShortcutKeys.Name((int)k) ?? GetKeyName(k)) + " + ";
             }
             strKeyCombo = strKeyCombo.TrimEnd(' ', '+');
 

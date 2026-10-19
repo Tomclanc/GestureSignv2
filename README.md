@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.3.9">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -115,30 +115,32 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.3.9) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4) 下载最新便携版。
 
-GitHub 当前版本为 **18.3.9**；Microsoft Store 和 WinGet 的上架进度可能不同，获取此版本请使用下方 GitHub 附件。
+GitHub 当前版本为 **18.4**；Microsoft Store 和 WinGet 的上架进度可能不同，获取此版本请使用下方 GitHub 附件。
 
 当前版本：
 
 | 架构 | MSI 安装包 | 便携版 ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64-portable.zip) |
 
 MSI 约 21 MB，便携 ZIP 约 28 MB。主程序包剔除 .NET / WinUI 运行环境包；Kando 和 AI 组件均为可选 DLC，独立下载。便携版解压后运行 `GestureSign.WinUI.exe`，升级前退出旧版设置窗口和托盘后台。
 
 运行需要对应架构的 .NET 10 Desktop Runtime 和 Windows App SDK Runtime。WinGet 会按清单安装依赖；手动安装或使用便携版时，请先安装所需运行环境。NPU 另需兼容硬件、驱动与 Windows ML 官方执行提供程序。
 
-WinGet 18.3.9 的更新见 [提交记录](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.3.9)。若源中尚未同步此版本，请使用上方 GitHub 下载。
+WinGet 18.4 的更新见 [提交记录](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4)。若源中尚未同步此版本，请使用上方 GitHub 下载。
 
 ## 更新内容
 
-### 18.3.9
+### 18.4
 
-- 新增“媒体播放/暂停”切换命令：播放中暂停，暂停后继续播放，支持同一个手势切换。
-- 保留独立播放和暂停命令及现有绑定，兼容原有命令序列。
-- 同步 90 种语言名称，增加实际 Windows 媒体会话双向切换测试。
+- 快捷键录制和发送支持左右 Ctrl、Alt、Shift、Win；支持单独修饰键，适合 AI 输入法等场景。
+- 单按在松开时确认；参与组合键后不触发单按，避免 Ctrl+C 等操作误触。旧配置继续不区分左右；录制框右键菜单可选择单键或恢复通用修饰键。
+- 提供 x64 / ARM64 MSI、便携版和商店包。
+
+18.3.9 增加统一媒体播放/暂停命令，保留独立播放、暂停及已有绑定。
 
 18.3.8 新增六项独立媒体控制，改进 AI 引擎连接与错误提示恢复，并补充多语言和发行包检查。
 
@@ -208,7 +210,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 ## 兼容性
 
 - 推荐系统：Windows 11 x64 / ARM64。
-- GitHub 18.3.9 同时提供 x64 / ARM64 的 MSI 和便携 ZIP；请按设备架构选择，不提供 x86 包。
+- GitHub 18.4 同时提供 x64 / ARM64 的 MSI 和便携 ZIP；请按设备架构选择，不提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -283,28 +285,30 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.3.9).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4).
 
-The current GitHub release is **18.3.9**. Microsoft Store and WinGet availability may differ; use the GitHub assets below for this version.
+The current GitHub release is **18.4**. Microsoft Store and WinGet availability may differ; use the GitHub assets below for this version.
 
 Current version:
 
 | Architecture | MSI installer | Portable ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64-portable.zip) |
 
 MSI downloads are about 21 MB and portable ZIPs about 28 MB. The packages use shared .NET / WinUI runtimes. Kando and AI components are separate optional downloads. Extract the portable ZIP and run `GestureSign.WinUI.exe`; exit the old settings window and tray daemon before upgrading.
 
 The matching .NET 10 Desktop Runtime and Windows App SDK Runtime are required. WinGet installs the declared dependencies; install them separately when using the MSI manually or the portable ZIP. NPU use also requires compatible hardware, drivers and an official Windows ML execution provider.
 
-See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.3.9). Use the GitHub downloads above if your source has not yet received 18.3.9.
+See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4). Use the GitHub downloads above if your source has not yet received 18.4.
 
-### What's new in 18.3.9
+### What's new in 18.4
 
-- Add Media Play/Pause: pause while playing and resume while paused using the same gesture.
-- Preserve separate Play and Pause commands and existing bindings and sequences.
-- Reuse translations for all 90 locales and verify both toggle directions with a real Windows media session.
+- Record and send left/right Ctrl, Alt, Shift and Win, including a standalone modifier for AI input methods.
+- Standalone triggers fire on release and are cancelled by combinations. Existing shortcuts remain side-independent; use the recorder context menu to choose a modifier or restore generic matching.
+
+
+18.3.9 added a combined media Play/Pause command while preserving existing bindings.
 
 18.3.8 added six discrete media commands, improved AI engine connection recovery, and expanded localization and package checks.
 
@@ -380,7 +384,7 @@ For installations managed by GestureSign, check for updates to view installed an
 ## Compatibility
 
 - Recommended OS: Windows 11 x64 / ARM64.
-- GitHub 18.3.9 provides x64 / ARM64 MSI and portable ZIP packages. Choose the architecture matching your device; x86 is not supported.
+- GitHub 18.4 provides x64 / ARM64 MSI and portable ZIP packages. Choose the architecture matching your device; x86 is not supported.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -455,24 +459,28 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.3.9) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4) からも入手できます。
 
-GitHub の現在のリリースは **18.3.9** です。Microsoft Store と WinGet では公開時期が異なる場合があるため、このバージョンは以下の GitHub 添付ファイルから入手してください。
+GitHub の現在のリリースは **18.4** です。Microsoft Store と WinGet では公開時期が異なる場合があるため、このバージョンは以下の GitHub 添付ファイルから入手してください。
 
 現在のバージョン:
 
 | アーキテクチャ | MSI インストーラー | ポータブル ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.3.9/GestureSign-V2-18.3.9-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4/GestureSign-V2-18.4-arm64-portable.zip) |
 
 MSI は約 21 MB、ポータブル ZIP は約 28 MB です。.NET / WinUI の実行環境は同梱せず、システムの共有ランタイムを使用します。Kando と AI は任意の追加ダウンロードです。ZIP を展開し、`GestureSign.WinUI.exe` を実行してください。更新前に旧版の設定画面とトレイのバックグラウンドプロセスを終了します。
 
 対応アーキテクチャの .NET 10 Desktop Runtime と Windows App SDK Runtime が必要です。WinGet は宣言された依存関係をインストールします。MSI を手動でインストールする場合やポータブル版を使用する場合は、必要なランタイムを別途インストールしてください。NPU の利用には対応ハードウェア、ドライバー、Windows ML 公式実行プロバイダーも必要です。
 
-WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.3.9) をご覧ください。18.3.9 がまだ配信されていない場合は、上記の GitHub ダウンロードをご利用ください。
+WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4) をご覧ください。18.4 がまだ配信されていない場合は、上記の GitHub ダウンロードをご利用ください。
 
-### 18.3.9 の更新内容
+### 18.4 の更新内容
+
+- 左右の Ctrl、Alt、Shift、Win を区別した記録・送信と、修飾キー単独のショートカットに対応しました。
+- 単独操作はキーを離したときに確定し、組み合わせ操作では発動しません。既存の設定との互換性を維持します。
+
 
 - メディアの再生・一時停止を切り替えるコマンドを追加。同じジェスチャーで一時停止と再開ができます。
 - 個別の再生・一時停止コマンドと既存の割り当ては維持します。
@@ -552,7 +560,7 @@ GestureSign が管理する Kando は、更新確認で現在のバージョン�
 ## 互換性
 
 - 推奨 OS: Windows 11 x64 / ARM64。
-- GitHub 18.3.9 は x64 / ARM64 の MSI とポータブル ZIP を提供します。デバイスに合うアーキテクチャを選択してください。x86 は提供しません。
+- GitHub 18.4 は x64 / ARM64 の MSI とポータブル ZIP を提供します。デバイスに合うアーキテクチャを選択してください。x86 は提供しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## ポータブルパッケージの検証

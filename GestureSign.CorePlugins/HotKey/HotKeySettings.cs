@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using GestureSign.Common.Localization;
 
@@ -7,6 +7,8 @@ namespace GestureSign.CorePlugins.HotKey
     public class HotKeySettings
     {
         #region Public Properties
+
+        public int[] ModifierKeyCodes { get; set; }
 
         public bool Windows { get; set; }
 

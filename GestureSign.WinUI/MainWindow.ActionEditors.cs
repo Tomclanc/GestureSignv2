@@ -1,3 +1,4 @@
+using System.Text.Json.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -938,9 +939,46 @@ public sealed partial class MainWindow
             Margin = new Thickness(0, 8, 0, 0),
             IsReadOnly = true
         };
+        // Key names are standard keyboard legends, so they remain recognizable in every UI language.
+        var menu = new MenuFlyout();
+        foreach (int code in new[] {17, 162, 163, 18, 164, 165, 16, 160, 161, 91, 92})
+        {
+            var item = new MenuFlyoutItem { Text = KeyDisplayName(code) };
+            item.Click += (_, _) =>
+            {
+                StopHotKeyRecording();
+                string json = usesArrayKeyCode ? HotKeySettingsJson(false, false, false, false, code) : ActionHotKeySettingsJson(false, false, false, false, code);
+                settings.Text = json;
+                recorder.Text = HotKeyDisplayText(json);
+                onRecorded?.Invoke(json);
+            };
+            menu.Items.Add(item);
+        }
+        var generic = new MenuFlyoutItem { Text = "Ctrl / Alt / Shift / Win" };
+        generic.Click += (_, _) =>
+        {
+            StopHotKeyRecording();
+            if (string.IsNullOrWhiteSpace(settings.Text) || JsonNode.Parse(settings.Text) is not JsonObject root) return;
+            root.Remove("ModifierKeyCodes");
+            if (root["KeyCode"] is JsonArray keys && keys.Count == 1 && keys[0] is not null)
+            {
+                int code = keys[0]!.GetValue<int>();
+                if (code >= 160 && code <= 165) keys[0] = code <= 161 ? 16 : code <= 163 ? 17 : 18;
+            }
+            else if (root["KeyCode"] is JsonValue value && value.TryGetValue<int>(out int code) && code >= 160 && code <= 165)
+                root["KeyCode"] = code <= 161 ? 16 : code <= 163 ? 17 : 18;
+            string json = root.ToJsonString();
+            settings.Text = json;
+            recorder.Text = HotKeyDisplayText(json);
+            onRecorded?.Invoke(json);
+        };
+        menu.Items.Add(new MenuFlyoutSeparator());
+        menu.Items.Add(generic);
+        recorder.ContextFlyout = menu;
         recorder.GotFocus += (_, _) => StartHotKeyRecording(recorder, settings, usesArrayKeyCode, onRecorded);
         recorder.LostFocus += (_, _) => StopHotKeyRecording();
         return recorder;
     }
 }
+
 

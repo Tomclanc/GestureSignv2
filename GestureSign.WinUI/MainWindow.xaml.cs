@@ -3164,25 +3164,16 @@ public sealed partial class MainWindow : Window
                 return "";
 
             var parts = new List<string>();
-            if (root["Windows"]?.GetValue<bool>() == true)
-                parts.Add("Win");
-            if (root["Control"]?.GetValue<bool>() == true)
-                parts.Add("Ctrl");
-            if (root["Shift"]?.GetValue<bool>() == true)
-                parts.Add("Shift");
-            if (root["Alt"]?.GetValue<bool>() == true)
-                parts.Add("Alt");
-            if (root["ModifierKeys"] is JsonValue modifierValue && modifierValue.TryGetValue<int>(out var modifiers))
-            {
-                if ((modifiers & 8) != 0 && !parts.Contains("Win"))
-                    parts.Add("Win");
-                if ((modifiers & 2) != 0 && !parts.Contains("Ctrl"))
-                    parts.Add("Ctrl");
-                if ((modifiers & 4) != 0 && !parts.Contains("Shift"))
-                    parts.Add("Shift");
-                if ((modifiers & 1) != 0 && !parts.Contains("Alt"))
-                    parts.Add("Alt");
-            }
+            var exact = (root["ModifierKeyCodes"] as JsonArray)?.Select(k => k!.GetValue<int>()).ToArray() ?? Array.Empty<int>();
+            foreach (var code in exact) parts.Add(KeyDisplayName(code));
+            int mask = root["ModifierKeys"]?.GetValue<int>() ?? 0;
+            if (root["Windows"]?.GetValue<bool>() == true) mask |= 8;
+            if (root["Control"]?.GetValue<bool>() == true) mask |= 2;
+            if (root["Shift"]?.GetValue<bool>() == true) mask |= 4;
+            if (root["Alt"]?.GetValue<bool>() == true) mask |= 1;
+            foreach (var code in new[] {91, 17, 16, 18})
+                if ((mask & GestureSign.Shortcuts.ShortcutKeys.Flag(code)) != 0 && !exact.Any(k => GestureSign.Shortcuts.ShortcutKeys.Flag(k) == GestureSign.Shortcuts.ShortcutKeys.Flag(code)))
+                    parts.Add(code == 91 ? "Win" : KeyDisplayName(code));
             if (root["KeyCode"] is JsonArray keys)
             {
                 foreach (var key in keys)
@@ -3209,6 +3200,8 @@ public sealed partial class MainWindow : Window
         if (keyCode >= 0x41 && keyCode <= 0x5A)
             return ((char)keyCode).ToString();
 
+        var sidedName = GestureSign.Shortcuts.ShortcutKeys.Name(keyCode);
+        if (sidedName is not null) return sidedName;
         var key = (VirtualKey)keyCode;
         return key switch
         {
@@ -3240,6 +3233,8 @@ public sealed partial class MainWindow : Window
     private static bool IsAsyncKeyDown(int virtualKey)
         => (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
 
+    private bool _modifierRecordingChord;
+
     private void StartHotKeyRecording(TextBox recorder, TextBox settings, bool usesArrayKeyCode, Action<string>? onRecorded = null)
     {
         _activeHotKeyRecorder = recorder;
@@ -3248,6 +3243,7 @@ public sealed partial class MainWindow : Window
         _activeHotKeyUsesArrayKeyCode = usesArrayKeyCode;
         _hotKeyRecordingPressedKeys.Clear();
         _stopHotKeyRecordingWhenReleased = false;
+        _modifierRecordingChord = false;
         recorder.Text = T("请按下快捷键...", "Press a shortcut...");
         if (_keyboardHook != IntPtr.Zero)
             return;
@@ -3279,63 +3275,65 @@ public sealed partial class MainWindow : Window
 
     private IntPtr LowLevelKeyboardCallback(int nCode, IntPtr wParam, IntPtr lParam)
     {
-        const int wmKeyDown = 0x0100;
-        const int wmSysKeyDown = 0x0104;
-        const int wmKeyUp = 0x0101;
-        const int wmSysKeyUp = 0x0105;
         if (nCode >= 0 && _activeHotKeyRecorder is not null && _activeHotKeySettings is not null)
         {
             var info = Marshal.PtrToStructure<KbdLlHookStruct>(lParam);
-            var virtualKey = info.VkCode;
-            var isDown = wParam == wmKeyDown || wParam == wmSysKeyDown;
-            var isUp = wParam == wmKeyUp || wParam == wmSysKeyUp;
-
-            if (isDown)
+            if ((info.Flags & 16) != 0) return CallNextHookEx(_keyboardHook, nCode, wParam, lParam);
+            int key = GestureSign.Shortcuts.ShortcutKeys.Normalize(info.VkCode, info.ScanCode, info.Flags);
+            bool down = wParam == 0x100 || wParam == 0x104;
+            bool up = wParam == 0x101 || wParam == 0x105;
+            if (down)
             {
-                _hotKeyRecordingPressedKeys.Add(virtualKey);
-
-                if (IsModifierVirtualKey(virtualKey))
+                bool first = _hotKeyRecordingPressedKeys.Add(key);
+                if (!first || _stopHotKeyRecordingWhenReleased) return new IntPtr(1);
+                if (IsModifierVirtualKey(key))
                 {
-                    var preview = HotKeyModifierDisplayText(
-                        HasPressedModifier(0x5B, 0x5C),
-                        HasPressedModifier(0x11, 0xA2, 0xA3),
-                        HasPressedModifier(0x10, 0xA0, 0xA1),
-                        HasPressedModifier(0x12, 0xA4, 0xA5));
-                    _ = DispatcherQueue.TryEnqueue(() => _activeHotKeyRecorder.Text = string.IsNullOrWhiteSpace(preview) ? T("请按下快捷键...", "Press a shortcut...") : $"{preview} + ...");
-                    return new IntPtr(1);
+                    if (_hotKeyRecordingPressedKeys.Count > 1) _modifierRecordingChord = true;
+                    var preview = string.Join(" + ", _hotKeyRecordingPressedKeys.Select(KeyDisplayName));
+                    var recorder = _activeHotKeyRecorder;
+                    _ = DispatcherQueue.TryEnqueue(() => recorder.Text = preview + " + ...");
                 }
-
-                var windows = HasPressedModifier(0x5B, 0x5C);
-                var control = HasPressedModifier(0x11, 0xA2, 0xA3);
-                var shift = HasPressedModifier(0x10, 0xA0, 0xA1);
-                var alt = HasPressedModifier(0x12, 0xA4, 0xA5);
-                var settings = _activeHotKeySettings;
-                var recorder = _activeHotKeyRecorder;
-                var onRecorded = _activeHotKeyRecorded;
-                var usesArrayKeyCode = _activeHotKeyUsesArrayKeyCode;
-                _stopHotKeyRecordingWhenReleased = true;
-                _ = DispatcherQueue.TryEnqueue(() =>
+                else
                 {
-                    var nextSettings = usesArrayKeyCode
-                        ? HotKeySettingsJson(windows, control, shift, alt, virtualKey)
-                        : ActionHotKeySettingsJson(windows, control, shift, alt, virtualKey);
-                    settings.Text = nextSettings;
-                    recorder.Text = HotKeyDisplayText(nextSettings);
-                    onRecorded?.Invoke(nextSettings);
-                });
+                    CommitRecordedShortcut(key, _hotKeyRecordingPressedKeys.Where(IsModifierVirtualKey).ToArray());
+                    _stopHotKeyRecordingWhenReleased = true;
+                }
                 return new IntPtr(1);
             }
-
-            if (isUp)
+            if (up)
             {
-                _hotKeyRecordingPressedKeys.Remove(virtualKey);
+                if (!_modifierRecordingChord && !_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 1 && _hotKeyRecordingPressedKeys.Contains(key) && IsModifierVirtualKey(key))
+                {
+                    CommitRecordedShortcut(key, Array.Empty<int>());
+                    _stopHotKeyRecordingWhenReleased = true;
+                }
+                _hotKeyRecordingPressedKeys.Remove(key);
                 if (_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 0)
                     _ = DispatcherQueue.TryEnqueue(StopHotKeyRecording);
                 return new IntPtr(1);
             }
         }
-
         return CallNextHookEx(_keyboardHook, nCode, wParam, lParam);
+    }
+
+    private void CommitRecordedShortcut(int key, int[] modifiers)
+    {
+        var settings = _activeHotKeySettings!;
+        var recorder = _activeHotKeyRecorder!;
+        var callback = _activeHotKeyRecorded;
+        int mask = modifiers.Aggregate(0, (value, code) => value | GestureSign.Shortcuts.ShortcutKeys.Flag(code));
+        string json = _activeHotKeyUsesArrayKeyCode
+            ? HotKeySettingsJson((mask & 8) != 0, (mask & 2) != 0, (mask & 4) != 0, (mask & 1) != 0, key)
+            : ActionHotKeySettingsJson((mask & 8) != 0, (mask & 2) != 0, (mask & 4) != 0, (mask & 1) != 0, key);
+        var root = JsonNode.Parse(json)!.AsObject();
+        root["ModifierKeyCodes"] = new JsonArray(modifiers.Select(code => (JsonNode?)JsonValue.Create(code)).ToArray());
+        json = root.ToJsonString();
+        _ = DispatcherQueue.TryEnqueue(() =>
+        {
+            settings.Text = json;
+            recorder.Text = HotKeyDisplayText(json);
+            callback?.Invoke(json);
+        });
     }
 
     private static bool IsModifierVirtualKey(int virtualKey)

@@ -94,7 +94,7 @@ namespace GestureSign.Common.Applications
             action.Condition = Condition == null ? null : new string(Condition.ToCharArray());
             action.IsEnabled = IsEnabled;
             action._commands = new List<ICommand>(_commands);
-            action.Hotkey = Hotkey == null ? null : new Hotkey() { KeyCode = Hotkey.KeyCode, ModifierKeys = Hotkey.ModifierKeys };
+            action.Hotkey = Hotkey == null ? null : new Hotkey() { KeyCode = Hotkey.KeyCode, ModifierKeys = Hotkey.ModifierKeys, ModifierKeyCodes = Hotkey.ModifierKeyCodes == null ? null : (int[])Hotkey.ModifierKeyCodes.Clone() };
             action.ContinuousGesture = ContinuousGesture == null ? null : new ContinuousGesture(ContinuousGesture.ContactCount, ContinuousGesture.Gesture);
 
             return action;

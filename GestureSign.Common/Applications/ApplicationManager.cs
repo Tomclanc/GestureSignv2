@@ -551,6 +551,9 @@ namespace GestureSign.Common.Applications
             if (action == null || action.Hotkey == null || action.Hotkey.KeyCode == 0)
                 return true;
 
+            if ((action.Hotkey.ModifierKeyCodes?.Length ?? 0) != 0 && !action.Hotkey.ModifierKeyCodes.All(IsKeyDown))
+                return false;
+
             if (action.Hotkey.ModifierKeys != 0 && !IsModifierKeysDown(action.Hotkey.ModifierKeys))
                 return false;
 

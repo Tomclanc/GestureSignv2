@@ -27,6 +27,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { Get-Content winui-x64-build.log; exit $LASTEXITCODE }
       - name: Run regression tests
         run: dotnet run --project tests/GestureSign.RegressionTests/GestureSign.RegressionTests.csproj -c Release
+      - name: Test sided and standalone modifier shortcuts
+        run: dotnet run --project tests/GestureSign.ShortcutTests -c Release
       - name: Test mouse bindings and command sequences
         shell: pwsh
         run: |

@@ -58,14 +58,9 @@ namespace GestureSign.Common.Plugins
             var modifiers = new List<VirtualKeyCode>();
             var keys = new List<VirtualKeyCode>();
 
-            if (settings.Windows)
-                modifiers.Add(VirtualKeyCode.LWIN);
-            if (settings.Control)
-                modifiers.Add(VirtualKeyCode.LCONTROL);
-            if (settings.Alt)
-                modifiers.Add(VirtualKeyCode.LMENU);
-            if (settings.Shift)
-                modifiers.Add(VirtualKeyCode.LSHIFT);
+            int mask = (settings.Windows ? 8 : 0) | (settings.Control ? 2 : 0) | (settings.Alt ? 1 : 0) | (settings.Shift ? 4 : 0);
+            foreach (int key in GestureSign.Shortcuts.ShortcutKeys.Resolve(mask, settings.ModifierKeyCodes))
+                modifiers.Add((VirtualKeyCode)key);
 
             if (settings.KeyCode != null)
             {
@@ -97,6 +92,7 @@ namespace GestureSign.Common.Plugins
             public bool Alt { get; set; }
             public List<Keys> KeyCode { get; set; }
             public bool SendByKeybdEvent { get; set; }
+            public int[] ModifierKeyCodes { get; set; }
         }
     }
 }

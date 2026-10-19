@@ -122,9 +122,9 @@ namespace GestureSign.Daemon.Triggers
             {
                 var h = action.Hotkey;
 
-                if (h != null && h.ModifierKeys != 0 && h.KeyCode != 0)
+                if (h != null && h.KeyCode != 0 && (h.ModifierKeys != 0 || GestureSign.Shortcuts.ShortcutKeys.IsModifier(h.KeyCode)))
                 {
-                    int index = _hotKeyMap.FindIndex(p => p.Key.KeyCode == h.KeyCode && p.Key.ModifierKeys == h.ModifierKeys);
+                    int index = _hotKeyMap.FindIndex(p => p.Key.Equals(h));
                     if (index >= 0)
                     {
                         var actionList = _hotKeyMap[index].Value;
@@ -133,7 +133,7 @@ namespace GestureSign.Daemon.Triggers
                     }
                     else
                     {
-                        var hotKey = new Hotkey() { KeyCode = h.KeyCode, ModifierKeys = h.ModifierKeys };
+                        var hotKey = new Hotkey() { KeyCode = h.KeyCode, ModifierKeys = h.ModifierKeys, ModifierKeyCodes = h.ModifierKeyCodes };
                         hotKey.HotkeyPressed += Hotkey_HotkeyPressed;
                         _hotKeyMap.Add(new KeyValuePair<Hotkey, List<IAction>>(hotKey, new List<IAction>() { action }));
                         try
@@ -170,10 +170,11 @@ namespace GestureSign.Daemon.Triggers
             UnloadOpenSettingsHotKey();
             int keyCode;
             int modifierKeys;
-            if (!TryParseHotKey(AppConfig.OpenSettingsHotKey, out keyCode, out modifierKeys))
+            int[] exactKeys;
+            if (!TryParseHotKey(AppConfig.OpenSettingsHotKey, out keyCode, out modifierKeys, out exactKeys))
                 return;
 
-            _openSettingsHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys };
+            _openSettingsHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys, ModifierKeyCodes = exactKeys };
             _openSettingsHotKey.HotkeyPressed += OpenSettingsHotKey_HotkeyPressed;
             try
             {
@@ -200,10 +201,11 @@ namespace GestureSign.Daemon.Triggers
             UnloadKandoHotKey();
             int keyCode;
             int modifierKeys;
-            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoHotKey, out keyCode, out modifierKeys))
+            int[] exactKeys;
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoHotKey, out keyCode, out modifierKeys, out exactKeys))
                 return;
 
-            _kandoHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys };
+            _kandoHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys, ModifierKeyCodes = exactKeys };
             _kandoHotKey.HotkeyPressed += KandoHotKey_HotkeyPressed;
             try
             {
@@ -230,10 +232,11 @@ namespace GestureSign.Daemon.Triggers
             UnloadKandoSettingsHotKey();
             int keyCode;
             int modifierKeys;
-            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoSettingsHotKey, out keyCode, out modifierKeys))
+            int[] exactKeys;
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoSettingsHotKey, out keyCode, out modifierKeys, out exactKeys))
                 return;
 
-            _kandoSettingsHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys };
+            _kandoSettingsHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys, ModifierKeyCodes = exactKeys };
             _kandoSettingsHotKey.HotkeyPressed += KandoSettingsHotKey_HotkeyPressed;
             try
             {
@@ -255,16 +258,18 @@ namespace GestureSign.Daemon.Triggers
             _kandoSettingsHotKey = null;
         }
 
-        private static bool TryParseHotKey(string settings, out int keyCode, out int modifierKeys)
+        private static bool TryParseHotKey(string settings, out int keyCode, out int modifierKeys, out int[] exactKeys)
         {
             keyCode = 0;
             modifierKeys = 0;
+            exactKeys = null;
             if (string.IsNullOrWhiteSpace(settings))
                 return false;
 
             try
             {
                 keyCode = ParseFirstKeyCode(settings);
+                exactKeys = Newtonsoft.Json.Linq.JObject.Parse(settings)["ModifierKeyCodes"]?.ToObject<int[]>();
                 if (ParseBool(settings, "Alt"))
                     modifierKeys |= 1;
                 if (ParseBool(settings, "Control"))
@@ -273,7 +278,7 @@ namespace GestureSign.Daemon.Triggers
                     modifierKeys |= 4;
                 if (ParseBool(settings, "Windows"))
                     modifierKeys |= 8;
-                return keyCode != 0 && modifierKeys != 0;
+                return keyCode != 0 && (modifierKeys != 0 || GestureSign.Shortcuts.ShortcutKeys.IsModifier(keyCode));
             }
             catch
             {
@@ -310,7 +315,7 @@ namespace GestureSign.Daemon.Triggers
         private void Hotkey_HotkeyPressed(object sender, EventArgs e)
         {
             Hotkey hotkey = (Hotkey)sender;
-            int index = _hotKeyMap.FindIndex(p => p.Key.KeyCode == hotkey.KeyCode && p.Key.ModifierKeys == hotkey.ModifierKeys);
+            int index = _hotKeyMap.FindIndex(p => ReferenceEquals(p.Key, hotkey));
             if (index >= 0)
             {
                 var window = ApplicationManager.Instance.GetForegroundApplications();

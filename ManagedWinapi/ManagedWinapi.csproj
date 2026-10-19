@@ -8,4 +8,5 @@
     <PlatformTarget Condition="'$(PlatformTarget)' == ''">x64</PlatformTarget>
     <NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
+  <ItemGroup><Compile Include="..\Shared\ShortcutKeys.cs" Link="ShortcutKeys.cs" /></ItemGroup>
 </Project>
