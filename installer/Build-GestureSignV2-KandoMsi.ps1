@@ -401,4 +401,3 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "MSI built: $OutputMsi"
-

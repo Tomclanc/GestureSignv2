@@ -16,7 +16,7 @@ var cultures = UiTranslationCatalog.SupportedCultureNames;
 var calls = new List<TextCall>();
 var hardcoded = new List<string>();
 var technicalCaptions = new HashSet<string>(StringComparer.Ordinal)
-{ "JSON", "GestureSign V2", "Win", "X", "Y", "TipTap", "exe", "CPU", "GPU", "NPU", "NPU / GPU / CPU" };
+{ "JSON", "GestureSign V2", "Win", "X", "Y", "TipTap", "exe", "CPU", "GPU", "NPU", "NPU / GPU / CPU", "Ctrl / Alt / Shift / Win" };
 var uiProperties = new HashSet<string> { "Text", "Content", "Header", "Title", "PlaceholderText", "PrimaryButtonText", "SecondaryButtonText", "CloseButtonText", "OnContent", "OffContent" };
 var names = new HashSet<string> { "L", "T", "F", "IntentText", "IntentFormat", "KandoText", "KandoFormat" };
 foreach (var file in Directory.EnumerateFiles(Path.Combine(repo, "GestureSign.WinUI"), "*.cs", SearchOption.AllDirectories)

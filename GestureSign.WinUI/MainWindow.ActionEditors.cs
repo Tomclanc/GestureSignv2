@@ -980,5 +980,3 @@ public sealed partial class MainWindow
         return recorder;
     }
 }
-
-
