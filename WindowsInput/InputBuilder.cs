@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using WindowsInput.Native;
@@ -82,6 +82,10 @@ namespace WindowsInput
         {
             if (keyCode == VirtualKeyCode.RMENU ||
                 keyCode == VirtualKeyCode.RCONTROL ||
+                // Windows logo keys are extended keys, including standalone sends.
+                // https://learn.microsoft.com/windows/win32/inputdev/about-keyboard-input
+                keyCode == VirtualKeyCode.LWIN ||
+                keyCode == VirtualKeyCode.RWIN ||
                 keyCode == VirtualKeyCode.INSERT ||
                 keyCode == VirtualKeyCode.DELETE ||
                 keyCode == VirtualKeyCode.HOME ||

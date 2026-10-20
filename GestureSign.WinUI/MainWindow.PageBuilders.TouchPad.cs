@@ -448,7 +448,7 @@ public sealed partial class MainWindow
             AcceptsReturn = true,
             MinHeight = 80
         };
-        var hotkey = NewHotKeyRecorderWithClear(settings, settings.Text);
+        var hotkey = NewHotKeyCommandEditor(settings, settings.Text, includeClear: true);
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings, enableEdgeContinuousVolume: true);
         var continuousVolumeHint = new TextBlock

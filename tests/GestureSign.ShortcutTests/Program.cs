@@ -42,7 +42,12 @@ static class Program
         // Native input test: observe an injected, otherwise harmless right Ctrl tap.
         var events=new List<(int key,int flags,int msg)>();
         using var hook=new LowLevelKeyboardHook();
-        hook.KeyIntercepted+=(int msg,int vk,int scan,int flags,int time,IntPtr extra,ref bool handled)=>events.Add((ShortcutKeys.Normalize(vk,scan,flags),flags,msg));
+        hook.KeyIntercepted+=(int msg,int vk,int scan,int flags,int time,IntPtr extra,ref bool handled)=>
+        {
+            events.Add((ShortcutKeys.Normalize(vk,scan,flags),flags,msg));
+            // Stop test-generated modifiers from opening Start or activating an input method.
+            if ((flags & 16) != 0 && (vk == 162 || vk == 163 || vk == 91 || vk == 92 || vk == 17)) handled = true;
+        };
         hook.StartHook();
         int fired=0;
         using var tapHotkey=new Hotkey{KeyCode=163};
@@ -57,6 +62,28 @@ static class Program
         Check(events.Any(e=>e.key==163&&(e.flags&16)!=0&&e.msg==0x101),"Native right Ctrl up");
         Check(!events.Any(e=>e.key==162),"No left Ctrl injected");
         Check(fired==0,"Injected command cannot recursively trigger hotkey");
-        Console.WriteLine($"PASS {checks} shortcut checks, including native right Ctrl sender and injected-event exclusion.");
+        foreach (int code in new[] {162,163,91,92})
+        {
+            foreach (bool fallback in new[] {false,true})
+            {
+                events.Clear();
+                GestureSign.Common.Plugins.IPlugin sender = fallback
+                    ? (GestureSign.Common.Plugins.IPlugin)Activator.CreateInstance(typeof(GestureSign.Common.Plugins.IPlugin).Assembly.GetType("GestureSign.Common.Plugins.BuiltInHotKeyPlugin", true)!, true)!
+                    : new HotKeyPlugin();
+                var config = new HotKeySettings { KeyCode = new List<Keys> {(Keys)code} };
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(config);
+                Check(sender.Deserialize(json), $"Deserialize {code} fallback={fallback}");
+                Check(sender.Gestured(null), $"Send {code} fallback={fallback}");
+                limit=DateTime.UtcNow.AddMilliseconds(120);
+                while(DateTime.UtcNow<limit){Application.DoEvents();Thread.Sleep(5);}
+                var keyEvents=events.Where(e=>(e.flags&16)!=0).ToArray();
+                Check(keyEvents.Count(e=>e.key==code&&(e.msg==0x100||e.msg==0x104))==1, $"Exactly one down {code}");
+                Check(keyEvents.Count(e=>e.key==code&&(e.msg==0x101||e.msg==0x105))==1, $"Exactly one up {code}");
+                Check(keyEvents.All(e=>e.key==code), $"No other key injected for {code}");
+                Check(keyEvents.All(e=>((e.flags&1)!=0)==(code!=162)), $"Correct extended flags for {code}");
+                Check(fired==0, "Modifier command cannot recursively trigger its binding");
+            }
+        }
+        Console.WriteLine($"PASS {checks} shortcut checks, including native LCtrl/RCtrl/LWin/RWin sends through normal and fallback plugins.");
     }
 }

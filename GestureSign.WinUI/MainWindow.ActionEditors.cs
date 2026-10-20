@@ -173,7 +173,7 @@ public sealed partial class MainWindow
         var commandPluginDescription = NewPluginDescriptionTextBlock();
         var commandPluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
         var commandSettings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
-        var commandHotkey = NewHotKeyRecorder(commandSettings, "");
+        var commandHotkey = NewHotKeyCommandEditor(commandSettings, "");
         var commandAppPicker = NewCommandAppPicker(commandPlugin, commandPluginClass, commandSettings);
         var commandTypedSettings = NewTypedCommandSettingsEditor(commandPluginClass, commandSettings);
         var commandPreview = NewCardPanel(6);
@@ -822,7 +822,7 @@ public sealed partial class MainWindow
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "JSON", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
-        var hotkey = NewHotKeyRecorder(settings, "");
+        var hotkey = NewHotKeyCommandEditor(settings, "");
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
         void UpdateEditor()
@@ -878,7 +878,7 @@ public sealed partial class MainWindow
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "JSON", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
-        var hotkey = NewHotKeyRecorder(settings, command.Settings);
+        var hotkey = NewHotKeyCommandEditor(settings, command.Settings);
         var appPicker = NewCommandAppPicker(plugin, pluginClass, settings);
         var typedSettings = NewTypedCommandSettingsEditor(pluginClass, settings);
         plugin.SelectionChanged += (_, _) =>
@@ -928,6 +928,46 @@ public sealed partial class MainWindow
         _legacyData.DeleteCommand(action, command);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly();
+    }
+
+    private FrameworkElement NewHotKeyCommandEditor(TextBox settings, string existingSettings, bool includeClear = false)
+    {
+        var panel = new StackPanel { Spacing = 8 };
+        var recorder = NewHotKeyRecorder(settings, existingSettings);
+        panel.Children.Add(recorder);
+        var keys = new Grid { ColumnSpacing = 8 };
+        var codes = new[] {162, 163, 91, 92};
+        for (int index = 0; index < codes.Length; index++)
+        {
+            int code = codes[index];
+            keys.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            string label = KeyDisplayName(code);
+            var button = new Button { Content = label, HorizontalAlignment = HorizontalAlignment.Stretch };
+            string accessibleName = T("发送快捷键", "Send Hotkey") + " · " + label;
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, accessibleName);
+            ToolTipService.SetToolTip(button, accessibleName);
+            button.Click += (_, _) =>
+            {
+                StopHotKeyRecording();
+                // Selection configures the command; input is sent only when the command executes.
+                settings.Text = HotKeySettingsJson(false, false, false, false, code);
+                recorder.Text = HotKeyDisplayText(settings.Text);
+            };
+            Grid.SetColumn(button, index);
+            keys.Children.Add(button);
+        }
+        panel.Children.Add(keys);
+        if (includeClear)
+        {
+            var clear = new Button { Content = T("清除", "Clear") };
+            clear.Click += (_, _) => { StopHotKeyRecording(); settings.Text = ""; recorder.Text = ""; };
+            panel.Children.Add(clear);
+        }
+        settings.TextChanged += (_, _) =>
+        {
+            if (!ReferenceEquals(_activeHotKeyRecorder, recorder)) recorder.Text = HotKeyDisplayText(settings.Text);
+        };
+        return panel;
     }
 
     private TextBox NewHotKeyRecorder(TextBox settings, string existingSettings, bool usesArrayKeyCode = true, Action<string>? onRecorded = null)
