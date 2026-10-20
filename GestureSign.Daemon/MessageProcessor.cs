@@ -26,6 +26,9 @@ namespace GestureSign.Daemon
             {
                 switch (command)
                 {
+                    case IpcCommands.InputHealth:
+                        PointCapture.Instance.RecordInputHealth("SupportRequest");
+                        break;
                     case IpcCommands.RecoverInput:
                         PointCapture.Instance.RecoverInput("IPC");
                         break;

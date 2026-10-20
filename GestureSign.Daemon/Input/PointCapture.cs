@@ -638,6 +638,8 @@ namespace GestureSign.Daemon.Input
             Process.GetCurrentProcess().PriorityClass = ProcessPriorityClass.Normal;
         }
 
+        internal string InputHealthState => $"Mode={Mode}, State={State}, Source={SourceDevice}; {_pointEventTranslator.InputHealthState}";
+        internal void RecordInputHealth(string reason) => _inputProvider.RecordInputHealth(reason, false);
         internal int InputRecoveryCount { get; private set; }
         internal void RequestSystemRecoveryForTest() => _inputProvider.RequestRecovery("SelfTestSystemEvent");
         internal bool TestPenPreemption() => _pointEventTranslator.TestPenPreemption();
@@ -646,6 +648,7 @@ namespace GestureSign.Daemon.Input
 
         internal void RecoverInput(string reason)
         {
+            _inputProvider.RecordInputHealth("BeforeRecovery:" + reason, false);
             CancelInputCapture(reason);
             State = CaptureState.Ready;
             _inputProvider.RefreshNativeInput(reason);

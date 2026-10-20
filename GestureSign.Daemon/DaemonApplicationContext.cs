@@ -78,6 +78,17 @@ namespace GestureSign.Daemon
                         try
                         {
                             bool ipc = await NamedPipe.SendMessageAsync(IpcCommands.Ping, Constants.Daemon);
+                            bool healthCommand = await NamedPipe.SendMessageAsync(IpcCommands.InputHealth, Constants.Daemon);
+                            await System.Threading.Tasks.Task.Delay(150);
+                            var healthPath = Path.Combine(Path.GetDirectoryName(Logging.LogFilePath), "Input-health.json");
+                            bool healthSnapshot = false;
+                            if (File.Exists(healthPath))
+                            {
+                                using var snapshot = System.Text.Json.JsonDocument.Parse(File.ReadAllText(healthPath));
+                                healthSnapshot = healthCommand && snapshot.RootElement.GetProperty("Reason").GetString() == "SupportRequest" &&
+                                    snapshot.RootElement.GetProperty("RegistrationQuerySucceeded").GetBoolean() &&
+                                    !snapshot.RootElement.GetProperty("RegistrationMismatch").GetBoolean();
+                            }
                             var previousMode = _capture.Mode;
                             _capture.Mode = GestureSign.Common.Input.CaptureMode.UserDisabled;
                             bool penPreemption = _capture.TestPenPreemption();
@@ -94,8 +105,8 @@ namespace GestureSign.Daemon
                             _capture.Mode = previousMode;
                             bool mouse = _capture.MouseHook.Hooked;
                             bool tray = TrayManager.Instance.TrayIconVisible;
-                            bool pass = ipc && mouse && tray && recovery && penPreemption && systemRecovery && missingTouchRelease;
-                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\nPenPreemption={penPreemption}\nMissingTouchRelease={missingTouchRelease}\nInputRecovery={recovery}\nSystemEventRecovery={systemRecovery}\n");
+                            bool pass = healthSnapshot && ipc && mouse && tray && recovery && penPreemption && systemRecovery && missingTouchRelease;
+                            File.WriteAllText(_selfTestReport, $"Pass={pass}\nArchitecture={RuntimeInformation.ProcessArchitecture}\nMouseHook={mouse}\nTrayVisible={tray}\nIPC={ipc}\nInputHealthSnapshot={healthSnapshot}\nPenPreemption={penPreemption}\nMissingTouchRelease={missingTouchRelease}\nInputRecovery={recovery}\nSystemEventRecovery={systemRecovery}\n");
                             Environment.ExitCode = pass ? 0 : 1;
                         }
                         catch (Exception ex) { ReportFailure(ex); }

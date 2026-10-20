@@ -19,6 +19,7 @@ namespace GestureSign.Daemon.Input
         private MessageWindow _messageWindow;
         private CustomNamedPipeServer _deviceStateServer;
         private int _stateUpdating;
+        private readonly System.Windows.Forms.Timer _healthTimer;
         private readonly SynchronizationContext _ownerContext;
         private MouseActions _hookDrawingButton;
         private volatile bool _suppressPointerMotion;
@@ -71,8 +72,41 @@ namespace GestureSign.Daemon.Input
             SystemEvents.SessionSwitch += new SessionSwitchEventHandler(OnSessionSwitch);
             SystemEvents.PowerModeChanged += new PowerModeChangedEventHandler(OnPowerModeChanged);
 
+            _healthTimer = new System.Windows.Forms.Timer { Interval = 30000 };
+            _healthTimer.Tick += (_, _) => RecordInputHealth("Heartbeat", true);
+            _healthTimer.Start();
+            Logging.LogMessage("Input health diagnostics enabled. Build=issue6.6, HeartbeatSeconds=30, Repair=ConfirmedRegistrationMismatchOnly");
             _deviceStateServer = new CustomNamedPipeServer(Common.Constants.Daemon + "DeviceState", IpcCommands.SynDeviceState,
                 () => HidDevice.EnumerateDevices());
+        }
+
+        internal void RecordInputHealth(string reason, bool repair)
+        {
+            if (disposedValue) return;
+            try
+            {
+                bool mismatch = _messageWindow.ReadInputHealth(out var snapshot);
+                snapshot["RecordedUtc"] = DateTimeOffset.UtcNow;
+                snapshot["Reason"] = reason;
+                snapshot["Capture"] = PointCapture.Instance.InputHealthState;
+                snapshot["MouseHookInstalled"] = LowLevelMouseHook.Hooked;
+                var json = System.Text.Json.JsonSerializer.Serialize(snapshot);
+                Logging.LogMessage("Input health: " + json);
+                if (!string.IsNullOrEmpty(Logging.LogFilePath))
+                {
+                    var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Logging.LogFilePath), "Input-health.json");
+                    var temp = path + ".tmp";
+                    try { System.IO.File.WriteAllText(temp, json); System.IO.File.Move(temp, path, true); }
+                    catch (Exception ex) { Logging.LogMessage("Input health snapshot write failed: " + ex.Message); }
+                    finally { if (System.IO.File.Exists(temp)) System.IO.File.Delete(temp); }
+                }
+                if (repair && mismatch)
+                {
+                    Logging.LogMessage("Input registration mismatch confirmed; canceling capture and restoring registration.");
+                    PointCapture.Instance.RecoverInput("RegistrationMismatch");
+                }
+            }
+            catch (Exception ex) { Logging.LogMessage("Input health check failed: " + ex); }
         }
 
         private void CleanupEdgeClickHook(LowLevelMessage message, ref bool handled)
@@ -274,6 +308,8 @@ namespace GestureSign.Daemon.Input
             {
                 if (disposing)
                 {
+                    _healthTimer?.Stop();
+                    _healthTimer?.Dispose();
                     AppConfig.ConfigChanged -= AppConfig_ConfigChanged;
                 }
 
