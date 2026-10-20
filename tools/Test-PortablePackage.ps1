@@ -25,7 +25,9 @@ $requiredFiles = @(
     'GestureSign.WinUI.exe',
     'Backend\GestureSign.exe',
     'GestureSign.WinUI.dll',
-    'Backend\GestureSign.dll'
+    'Backend\GestureSign.dll',
+    'Collect-SupportInfo.ps1',
+    'Recover-Input.ps1'
 )
 foreach ($requiredFile in $requiredFiles) {
     $requiredPath = Join-Path $resolvedPackagePath $requiredFile

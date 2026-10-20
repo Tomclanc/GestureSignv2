@@ -202,6 +202,11 @@ elseif (!(Test-Path -LiteralPath $publishPath)) {
     throw "Prepared publish directory is missing: $publishPath"
 }
 
+# Support tooling must also be refreshed when reusing a prepared payload.
+foreach ($supportScript in @('Collect-SupportInfo.ps1', 'Recover-Input.ps1')) {
+    Copy-Item -LiteralPath (Join-Path $repoRoot.ProviderPath "tools/$supportScript") -Destination (Join-Path $publishPath $supportScript) -Force
+}
+
 # Apply the same portable payload policy used by CI before generating the MSI.
 # This catches stale PDB/diagnostic files and accidentally bundled Kando
 # binaries even when the payload was prepared by a previous build.

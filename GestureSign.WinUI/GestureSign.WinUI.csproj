@@ -65,6 +65,8 @@
     <Content Include="Assets\logo.ico" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Assets\Square44x44Logo.targetsize-*.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Assets\kando-preview.gif" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\tools\Collect-SupportInfo.ps1" Link="Collect-SupportInfo.ps1" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\tools\Recover-Input.ps1" Link="Recover-Input.ps1" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="Languages\UI\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\Defaults\Actions.gsa" Link="Defaults\Actions.gsa" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Content Include="..\Defaults\Gestures.gest" Link="Defaults\Gestures.gest" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
