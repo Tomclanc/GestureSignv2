@@ -75,7 +75,7 @@ namespace GestureSign.Daemon.Input
             _healthTimer = new System.Windows.Forms.Timer { Interval = 30000 };
             _healthTimer.Tick += (_, _) => RecordInputHealth("Heartbeat", true);
             _healthTimer.Start();
-            Logging.LogMessage("Input health diagnostics enabled. Build=issue6.6, HeartbeatSeconds=30, Repair=ConfirmedRegistrationMismatchOnly");
+            Logging.LogMessage("Input health diagnostics enabled. Build=18.4.1, HeartbeatSeconds=30, Repair=ConfirmedRegistrationMismatchOnly");
             _deviceStateServer = new CustomNamedPipeServer(Common.Constants.Daemon + "DeviceState", IpcCommands.SynDeviceState,
                 () => HidDevice.EnumerateDevices());
         }
