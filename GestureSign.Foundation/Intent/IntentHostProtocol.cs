@@ -10,6 +10,7 @@ public sealed class IntentHostResponse
     public int? TrainingPercent { get; set; }
     public string TrainingStage { get; set; } = "";
     public bool BackgroundLearning { get; set; }
+    public bool? AiVeto { get; set; } // Null supports older independently updated engines.
     public bool Eligible { get; set; }
     public bool HasModel { get; set; }
     public string Message { get; set; } = "";

@@ -113,7 +113,17 @@ using (var restarted = new IntentHost(root, pipeName, () => false))
     var run = restarted.RunAsync(Process.GetCurrentProcess());
     for (int i = 0; i < 600 && (await Send(new("status"))).Busy; i++) await Task.Delay(100);
     var state = await Send(new("status"));
-    Check(state.HasModel && state.BackgroundLearning && state.Control.Mode == IntentMode.ExperimentalVeto, "Restart lost persisted veto choice.");
+    Check(state.AiVeto == true && state.HasModel && state.BackgroundLearning && state.Control.Mode == IntentMode.ExperimentalVeto, "Restart lost persisted veto choice.");
+    await Send(new("stop")); await run.WaitAsync(TimeSpan.FromSeconds(3));
+    Check(IntentFiles.Read<IntentPreferences>(Path.Combine(root, "preferences.json"))?.AiVeto == true, "Engine shutdown cleared saved veto.");
+}
+using (var restartedAgain = new IntentHost(root, pipeName, () => false))
+{
+    var run = restartedAgain.RunAsync(Process.GetCurrentProcess());
+    var starting = await Send(new("status"));
+    Check(starting.AiVeto == true, "Startup must report the saved choice even before model readiness.");
+    for (int i = 0; i < 600 && (await Send(new("status"))).Busy; i++) await Task.Delay(100);
+    Check((await Send(new("status"))).Control.Mode == IntentMode.ExperimentalVeto, "Engine stop/restart failed to resume veto.");
     await Send(new("mode", IntentMode.Off));
     Check(IntentFiles.Read<IntentPreferences>(Path.Combine(root, "preferences.json"))?.AiVeto == false, "Explicit stop must clear persisted veto.");
     await Send(new("stop")); await run.WaitAsync(TimeSpan.FromSeconds(3));

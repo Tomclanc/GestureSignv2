@@ -142,7 +142,12 @@ internal sealed class IntentComponentService
     }
     private async Task StopAsync()
     {
+        // Older engines clear preferences on stop. Preserve the user's choices
+        // across component replacement without changing samples or the model.
+        var preferencesPath = Path.Combine(IntentFiles.Root, "preferences.json");
+        var preferences = File.Exists(preferencesPath) ? File.ReadAllBytes(preferencesPath) : null;
         try { await SendAsync(new("stop"), start: false); } catch (IOException) { } catch (OperationCanceledException) { }
+        finally { if (preferences != null) File.WriteAllBytes(preferencesPath, preferences); }
         // A prior UI instance may own the process; the lock file is the authoritative lifetime check.
         for (int i = 0; i < 30; i++)
         {

@@ -11,7 +11,7 @@ $output = [IO.Path]::GetFullPath($OutputDirectory)
 if ((Test-Path -LiteralPath $output) -and (Get-ChildItem -LiteralPath $output -Force | Select-Object -First 1)) {
     throw 'Choose an empty output directory; stale runtime files must never enter a new component.'
 }
-$version = '18.3.2'
+$version = '18.4.2'
 $runtimeSuffix = if ($SelfContained) { '-standalone' } else { '' }
 $archive = Join-Path (Split-Path $output -Parent) "GestureSign-IntentDlc-$version-$($Backend.ToLowerInvariant())-win-$Architecture$runtimeSuffix.zip"
 if (Test-Path -LiteralPath $archive) { throw "Archive already exists; choose a fresh output directory: $archive" }

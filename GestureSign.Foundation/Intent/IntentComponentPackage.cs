@@ -8,12 +8,12 @@ public sealed record IntentComponentManifest(int Protocol, string Version, strin
 
 public static class IntentComponentPackage
 {
-    public const string ComponentVersion = "18.3.2";
+    public const string ComponentVersion = "18.4.2";
     public const int Protocol = 2;
     public static bool IsCompatible(IntentComponentManifest? manifest, string architecture) =>
         manifest is { Protocol: Protocol, Backend: "Cpu" or "Hardware" } &&
         manifest.Architecture == architecture &&
-        (manifest.Version == ComponentVersion || manifest.Version == "18.3.1");
+        (manifest.Version == ComponentVersion || manifest.Version == "18.3.2" || manifest.Version == "18.3.1");
 
     // Archive digests come from the application-shipped catalog, not from the downloaded archive.
     public static void Install(string archivePath, IntentComponentAsset asset, string installDirectory, CancellationToken cancellationToken = default)

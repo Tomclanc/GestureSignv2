@@ -373,7 +373,7 @@ public sealed partial class MainWindow
                 background.IsEnabled = !busy;
                 foreach (var b in new[] { train, observe, hardware }) b.IsEnabled = !busy;
                 protect.IsEnabled = state.Eligible && !busy;
-                experimental.IsEnabled = state.HasModel && !busy;
+                experimental.IsEnabled = (state.HasModel || state.AiVeto == true) && !busy;
                 hardwarePreview.Text = string.IsNullOrWhiteSpace(state.HardwarePreview)
                     ? IntentText("本机设备尚未检测，请更新学习组件或等待引擎就绪。", "Hardware not detected yet. Update the learning component or wait for the engine.") : IntentMessage(state.HardwarePreview);
                 backend.Text = IntentText("实际推理后端：", "Actual inference backend: ") + IntentMessage(state.Backend);
@@ -384,7 +384,7 @@ public sealed partial class MainWindow
                     ? IntentText("后台学习已开启 · 点击关闭", "Background learning enabled · Click to turn off")
                     : IntentText("开启后台学习", "Enable background learning");
                 background.Style = backgroundActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
-                experimentalActive = c.Mode == IntentMode.ExperimentalVeto && now >= c.StartsUtc && now < c.ExpiresUtc;
+                experimentalActive = state.AiVeto ?? (c.Mode == IntentMode.ExperimentalVeto && now >= c.StartsUtc && now < c.ExpiresUtc);
                 experimental.Content = experimentalActive
                     ? IntentText("已启用 AI 否决 · 点击关闭", "AI veto enabled · Click to turn off")
                     : IntentText("启用 AI 否决", "Enable AI veto");

@@ -213,7 +213,9 @@ internal sealed class IntentHost : IDisposable
                     else if (_preferences.BackgroundLearning) SetMode(IntentMode.BackgroundLearn);
                     _message = _preferences.BackgroundLearning ? "已确认。样本充足后，在电脑空闲时自动训练；未确认样本不参与训练。" : "标注已更改，请重新训练。"; break;
                 case "trace": return new IntentHostResponse { Sample = IntentFiles.Read<IntentSample>(SamplePath(request.SampleId ?? "")) };
-                case "stop": _preferences.AiVeto = false; _preferences.BackgroundLearning = false; IntentFiles.Write(PreferencesPath, _preferences); SetMode(IntentMode.Off); _ = Task.Delay(100).ContinueWith(_ => _stop.Cancel()); break;
+                // Stopping the engine is a lifecycle operation, not an opt-out.
+                // Explicit mode Off and veto-off persist the user's choice.
+                case "stop": SetMode(IntentMode.Off); _ = Task.Delay(100).ContinueWith(_ => _stop.Cancel()); break;
                 default: throw new InvalidDataException("Unsupported command.");
             }
         }
@@ -221,7 +223,7 @@ internal sealed class IntentHost : IDisposable
         lock (_sync) return new IntentHostResponse
         {
             TrainingPercent = _trainingPercent, TrainingStage = _trainingStage,
-            HasModel = _model != null, BackgroundLearning = _preferences.BackgroundLearning, Busy = _busy, Eligible = !_busy && _model?.EligibleForProtection == true, Message = _message, HardwarePreview = _inference.HardwarePreview, Backend = _backend + (_model == null ? "" : "；已训练指数量：" + string.Join(" / ", _model.SupportedContacts)), Control = _control,
+            AiVeto = _preferences.AiVeto, HasModel = _model != null, BackgroundLearning = _preferences.BackgroundLearning, Busy = _busy, Eligible = !_busy && _model?.EligibleForProtection == true, Message = _message, HardwarePreview = _inference.HardwarePreview, Backend = _backend + (_model == null ? "" : "；已训练指数量：" + string.Join(" / ", _model.SupportedContacts)), Control = _control,
             Scrolls = library.Count(s => s.Label == IntentLabel.Scroll), Gestures = library.Count(s => s.Label == IntentLabel.Gesture), Unknown = library.Count(s => s.Label == IntentLabel.Unknown),
             Samples = library.OrderByDescending(s => s.AiVeto && s.Label == IntentLabel.Unknown).ThenByDescending(s => _preferences.BackgroundLearning && s.Label == IntentLabel.Unknown && !string.IsNullOrEmpty(s.Candidate)).ThenByDescending(s => s.CreatedUtc).Take(100).Select(s => new IntentSampleSummary(s.Id, s.CreatedUtc, s.Label, s.Candidate, s.Prediction?.GestureScore, s.Prediction?.Backend, s.Blocked, s.AiVeto, s.Prediction?.Error)).ToArray()
         };
