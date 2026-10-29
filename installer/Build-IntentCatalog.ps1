@@ -7,7 +7,7 @@ foreach ($architecture in @('x64', 'arm64')) {
     foreach ($backend in @('Cpu', 'Hardware')) {
         $payload = Join-Path $output "$architecture-$backend"
         & (Join-Path $PSScriptRoot 'Build-IntentDlc.ps1') -Architecture $architecture -Backend $backend -OutputDirectory $payload
-        $entry = Get-Content (Join-Path $output "GestureSign-IntentDlc-18.3.2-$($backend.ToLowerInvariant())-win-$architecture.zip.catalog.json") -Raw | ConvertFrom-Json
+        $entry = Get-Content (Join-Path $output "GestureSign-IntentDlc-18.4.2-$($backend.ToLowerInvariant())-win-$architecture.zip.catalog.json") -Raw | ConvertFrom-Json
         $entries += $entry
     }
 }
