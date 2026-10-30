@@ -3234,6 +3234,7 @@ public sealed partial class MainWindow : Window
         => (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
 
     private bool _modifierRecordingChord;
+    private int[] _hotKeyRecordingPresetModifiers = Array.Empty<int>();
 
     private void StartHotKeyRecording(TextBox recorder, TextBox settings, bool usesArrayKeyCode, Action<string>? onRecorded = null)
     {
@@ -3244,6 +3245,7 @@ public sealed partial class MainWindow : Window
         _hotKeyRecordingPressedKeys.Clear();
         _stopHotKeyRecordingWhenReleased = false;
         _modifierRecordingChord = false;
+        _hotKeyRecordingPresetModifiers = Array.Empty<int>();
         recorder.Text = T("请按下快捷键...", "Press a shortcut...");
         if (_keyboardHook != IntPtr.Zero)
             return;
@@ -3256,6 +3258,7 @@ public sealed partial class MainWindow : Window
     {
         var recorder = _activeHotKeyRecorder;
         var settings = _activeHotKeySettings;
+        _hotKeyRecordingPresetModifiers = Array.Empty<int>();
         _activeHotKeyRecorder = null;
         _activeHotKeySettings = null;
         _activeHotKeyRecorded = null;
@@ -3269,7 +3272,7 @@ public sealed partial class MainWindow : Window
         _keyboardHook = IntPtr.Zero;
         _keyboardHookProc = null;
 
-        if (recorder is not null && settings is not null && string.Equals(recorder.Text, T("请按下快捷键...", "Press a shortcut..."), StringComparison.Ordinal))
+        if (recorder is not null && settings is not null)
             recorder.Text = HotKeyDisplayText(settings.Text);
     }
 
@@ -3295,14 +3298,14 @@ public sealed partial class MainWindow : Window
                 }
                 else
                 {
-                    CommitRecordedShortcut(key, _hotKeyRecordingPressedKeys.Where(IsModifierVirtualKey).ToArray());
+                    CommitRecordedShortcut(key, _hotKeyRecordingPresetModifiers.Concat(_hotKeyRecordingPressedKeys.Where(IsModifierVirtualKey)).Distinct().ToArray());
                     _stopHotKeyRecordingWhenReleased = true;
                 }
                 return new IntPtr(1);
             }
             if (up)
             {
-                if (!_modifierRecordingChord && !_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 1 && _hotKeyRecordingPressedKeys.Contains(key) && IsModifierVirtualKey(key))
+                if (_hotKeyRecordingPresetModifiers.Length == 0 && !_modifierRecordingChord && !_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 1 && _hotKeyRecordingPressedKeys.Contains(key) && IsModifierVirtualKey(key))
                 {
                     CommitRecordedShortcut(key, Array.Empty<int>());
                     _stopHotKeyRecordingWhenReleased = true;

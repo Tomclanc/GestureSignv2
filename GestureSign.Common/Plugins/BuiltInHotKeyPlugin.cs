@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using WindowsInput;
@@ -22,6 +23,7 @@ namespace GestureSign.Common.Plugins
 
         [DllImport("user32.dll")]
         private static extern bool LockWorkStation();
+        private Func<bool> _lockWorkStation = LockWorkStation;
 
         public void Initialize()
         {
@@ -42,12 +44,9 @@ namespace GestureSign.Common.Plugins
             if (_settings == null)
                 return false;
 
-            if (_settings.Windows && _settings.KeyCode != null && _settings.KeyCode.Count != 0 && _settings.KeyCode[0] == Keys.L)
-            {
-                LockWorkStation();
-                return true;
-            }
-
+            int lockMask = (_settings.Windows ? 8 : 0) | (_settings.Control ? 2 : 0) | (_settings.Alt ? 1 : 0) | (_settings.Shift ? 4 : 0);
+            if (GestureSign.Shortcuts.ShortcutKeys.IsLockShortcut(lockMask, _settings.ModifierKeyCodes, _settings.KeyCode?.Select(k => (int)k)))
+                return _lockWorkStation();
             SendShortcutKeys(_settings);
             return true;
         }

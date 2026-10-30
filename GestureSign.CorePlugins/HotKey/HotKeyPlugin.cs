@@ -27,6 +27,7 @@ namespace GestureSign.CorePlugins.HotKey
 
         [DllImport(User32)]
         private static extern bool LockWorkStation();
+        private Func<bool> _lockWorkStation = LockWorkStation;
 
         [DllImport(User32)]
         private static extern int GetKeyNameText(int lParam, [Out] StringBuilder lpString, int nSize);
@@ -158,6 +159,9 @@ namespace GestureSign.CorePlugins.HotKey
             {
                 if (_Settings == null)
                     return false;
+                int lockMask = (_Settings.Windows ? 8 : 0) | (_Settings.Control ? 2 : 0) | (_Settings.Alt ? 1 : 0) | (_Settings.Shift ? 4 : 0);
+                if (GestureSign.Shortcuts.ShortcutKeys.IsLockShortcut(lockMask, _Settings.ModifierKeyCodes, _Settings.KeyCode?.Select(k => (int)k)))
+                    return _lockWorkStation();
                 if ((_Settings.ModifierKeyCodes?.Length ?? 0) != 0 || (_Settings.KeyCode?.Any(k => GestureSign.Shortcuts.ShortcutKeys.IsModifier((int)k)) ?? false))
                 {
                     var simulator = new InputSimulator();
@@ -168,13 +172,6 @@ namespace GestureSign.CorePlugins.HotKey
                     else simulator.Keyboard.ModifiedKeyStroke(modifiers, keys);
                     return true;
                 }
-                if (_Settings.Windows &&
-                  _Settings.KeyCode.Count != 0 && _Settings.KeyCode[0] == Keys.L)
-                {
-                    LockWorkStation();
-                    return true;
-                }
-
                 if (ActionPoint.Window.Title.Contains(_exceptionWindow))
                 {
                     SendKeysSeparately(_Settings);

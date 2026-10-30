@@ -941,17 +941,17 @@ public sealed partial class MainWindow
         {
             int code = codes[index];
             keys.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-            string label = KeyDisplayName(code);
+            string label = KeyDisplayName(code) + " + …";
             var button = new Button { Content = label, HorizontalAlignment = HorizontalAlignment.Stretch };
             string accessibleName = T("发送快捷键", "Send Hotkey") + " · " + label;
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, accessibleName);
             ToolTipService.SetToolTip(button, accessibleName);
             button.Click += (_, _) =>
             {
-                StopHotKeyRecording();
-                // Selection configures the command; input is sent only when the command executes.
-                settings.Text = HotKeySettingsJson(false, false, false, false, code);
-                recorder.Text = HotKeyDisplayText(settings.Text);
+                recorder.Focus(FocusState.Programmatic);
+                StartHotKeyRecording(recorder, settings, true);
+                _hotKeyRecordingPresetModifiers = new[] { code };
+                recorder.Text = KeyDisplayName(code) + " + …";
             };
             Grid.SetColumn(button, index);
             keys.Children.Add(button);
@@ -983,7 +983,7 @@ public sealed partial class MainWindow
         var menu = new MenuFlyout();
         foreach (int code in new[] {17, 162, 163, 18, 164, 165, 16, 160, 161, 91, 92})
         {
-            var item = new MenuFlyoutItem { Text = KeyDisplayName(code) };
+            var item = new MenuFlyoutItem { Text = KeyDisplayName(code) + " ↓↑" };
             item.Click += (_, _) =>
             {
                 StopHotKeyRecording();

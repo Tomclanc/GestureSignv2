@@ -84,6 +84,32 @@ static class Program
                 Check(fired==0, "Modifier command cannot recursively trigger its binding");
             }
         }
+        foreach (var config in new[] {
+            new HotKeySettings { Windows=true, KeyCode=new() {Keys.L} },
+            new HotKeySettings { Windows=true, ModifierKeyCodes=new[]{91}, KeyCode=new() {Keys.L} },
+            new HotKeySettings { ModifierKeyCodes=new[]{92}, KeyCode=new() {Keys.L} },
+            new HotKeySettings { KeyCode=new() {Keys.LWin,Keys.L} }
+        })
+        foreach (bool fallback in new[]{false,true})
+        {
+            GestureSign.Common.Plugins.IPlugin sender = fallback
+                ? (GestureSign.Common.Plugins.IPlugin)Activator.CreateInstance(typeof(GestureSign.Common.Plugins.IPlugin).Assembly.GetType("GestureSign.Common.Plugins.BuiltInHotKeyPlugin", true)!, true)!
+                : new HotKeyPlugin();
+            int locks=0;
+            bool accepted=true;
+            // Replace only this instance's native call. Never lock the user's session.
+            sender.GetType().GetField("_lockWorkStation", System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic)!.SetValue(sender, (Func<bool>)(()=>{locks++;return accepted;}));
+            Check(sender.Deserialize(Newtonsoft.Json.JsonConvert.SerializeObject(config)), "Win+L settings accepted");
+            Check(sender.Gestured(null) && locks==1, "Win+L uses lock API before sided modifier dispatch");
+            accepted=false;
+            Check(!sender.Gestured(null) && locks==2, "Lock API failure is reported");
+        }
+        Check(!ShortcutKeys.IsLockShortcut(10,null,new[]{76}), "Ctrl+Win+L is not lock");
+        Check(!ShortcutKeys.IsLockShortcut(8,new[]{160},new[]{76}), "Shift+Win+L is not lock");
+        Check(!ShortcutKeys.IsLockShortcut(8,null,new[]{76,65}), "Multi-key command is not lock");
+        Check(!ShortcutKeys.IsLockShortcut(0,null,new[]{76}), "L alone is not lock");
+        Check(!ShortcutKeys.IsLockShortcut(8,null,new[]{91}), "Standalone Win is not lock");
+        Check(!ShortcutKeys.IsLockShortcut(8,null,new[]{65}), "Win+A is not lock");
         Console.WriteLine($"PASS {checks} shortcut checks, including native LCtrl/RCtrl/LWin/RWin sends through normal and fallback plugins.");
     }
 }

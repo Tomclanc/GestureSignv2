@@ -18,6 +18,13 @@ namespace GestureSign.Shortcuts
                 if ((mask & Flag(key)) != 0 && !result.Any(k => Flag(k) == Flag(key))) result.Add(key);
             return result.ToArray();
         }
+        public static bool IsLockShortcut(int mask, IEnumerable<int> exact, IEnumerable<int> keys)
+        {
+            var codes = (keys ?? Array.Empty<int>()).ToArray();
+            var modifiers = Resolve(mask, exact).Concat(codes.Where(IsModifier)).Distinct().ToArray();
+            return modifiers.Length > 0 && modifiers.All(k => Flag(k) == 8)
+                && codes.Where(k => !IsModifier(k)).SequenceEqual(new[] { 76 });
+        }
         public static string Name(int key) => key == 162 ? "LCtrl" : key == 163 ? "RCtrl" : key == 160 ? "LShift" : key == 161 ? "RShift" : key == 164 ? "LAlt" : key == 165 ? "RAlt" : key == 91 ? "LWin" : key == 92 ? "RWin" : key == 17 ? "Ctrl" : key == 16 ? "Shift" : key == 18 ? "Alt" : null;
         public static bool Matches(int mask, IEnumerable<int> exact, Func<int, bool> down)
         {
