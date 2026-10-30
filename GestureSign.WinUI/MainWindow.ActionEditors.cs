@@ -949,9 +949,7 @@ public sealed partial class MainWindow
             button.Click += (_, _) =>
             {
                 recorder.Focus(FocusState.Programmatic);
-                StartHotKeyRecording(recorder, settings, true);
-                _hotKeyRecordingPresetModifiers = new[] { code };
-                recorder.Text = KeyDisplayName(code) + " + …";
+                StartHotKeyRecording(recorder, settings, true, presetModifiers: new[] { code });
             };
             Grid.SetColumn(button, index);
             keys.Children.Add(button);
@@ -1016,7 +1014,11 @@ public sealed partial class MainWindow
         menu.Items.Add(generic);
         recorder.ContextFlyout = menu;
         recorder.GotFocus += (_, _) => StartHotKeyRecording(recorder, settings, usesArrayKeyCode, onRecorded);
-        recorder.LostFocus += (_, _) => StopHotKeyRecording();
+        recorder.LostFocus += (_, _) =>
+        {
+            if (ReferenceEquals(_activeHotKeyRecorder, recorder) && recorder.FocusState == FocusState.Unfocused)
+                StopHotKeyRecording();
+        };
         return recorder;
     }
 }

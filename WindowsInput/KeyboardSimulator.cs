@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using WindowsInput.Native;
 
@@ -81,7 +82,41 @@ namespace WindowsInput
         /// <param name="inputList">The <see cref="System.Array"/> of <see cref="INPUT"/> messages to send.</param>
         private void SendSimulatedInput(INPUT[] inputList)
         {
-            _messageDispatcher.DispatchInput(inputList);
+            // A zero-duration arrow tap can be missed by applications polling key
+            // state. Keep SendInput, but match the legacy sender's 30 ms hold.
+            bool ArrowPair(int i) => i + 1 < inputList.Length && inputList[i].Type == (uint)InputType.Keyboard
+                && inputList[i + 1].Type == (uint)InputType.Keyboard
+                && inputList[i].Data.Keyboard.KeyCode >= (ushort)VirtualKeyCode.LEFT
+                && inputList[i].Data.Keyboard.KeyCode <= (ushort)VirtualKeyCode.DOWN
+                && inputList[i].Data.Keyboard.Flags == (uint)KeyboardFlag.ExtendedKey
+                && inputList[i + 1].Data.Keyboard.KeyCode == inputList[i].Data.Keyboard.KeyCode
+                && inputList[i + 1].Data.Keyboard.Flags == (uint)(KeyboardFlag.ExtendedKey | KeyboardFlag.KeyUp);
+            if (!Enumerable.Range(0, inputList.Length).Any(ArrowPair))
+            {
+                _messageDispatcher.DispatchInput(inputList);
+                return;
+            }
+            try
+            {
+                int start = 0;
+                for (int i = 0; i < inputList.Length; i++)
+                {
+                    if (!ArrowPair(i)) continue;
+                    _messageDispatcher.DispatchInput(inputList.Skip(start).Take(i - start + 1).ToArray());
+                    Thread.Sleep(30);
+                    start = i + 1;
+                    i++;
+                }
+                if (start < inputList.Length) _messageDispatcher.DispatchInput(inputList.Skip(start).ToArray());
+            }
+            catch
+            {
+                // A later dispatch can fail after a modifier/arrow was pressed.
+                // Best-effort release; retain the original failure for the caller.
+                var releases = inputList.Where(i => i.Type == (uint)InputType.Keyboard && (i.Data.Keyboard.Flags & (uint)KeyboardFlag.KeyUp) != 0).ToArray();
+                try { if (releases.Length != 0) _messageDispatcher.DispatchInput(releases); } catch { }
+                throw;
+            }
         }
 
         /// <summary>

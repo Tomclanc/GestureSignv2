@@ -78,6 +78,12 @@ namespace WindowsInput
         /// 
         /// See http://msdn.microsoft.com/en-us/library/ms646267(v=vs.85).aspx Section "Extended-Key Flag"
         /// </remarks>
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern uint MapVirtualKey(uint code, uint mapType);
+        private static ushort ArrowScan(VirtualKeyCode keyCode)
+            => keyCode >= VirtualKeyCode.LEFT && keyCode <= VirtualKeyCode.DOWN
+                ? (ushort)(MapVirtualKey((uint)keyCode, 0) & 0xff) : (ushort)0;
+
         public static bool IsExtendedKey(VirtualKeyCode keyCode)
         {
             if (keyCode == VirtualKeyCode.RMENU ||
@@ -126,7 +132,7 @@ namespace WindowsInput
                                     new KEYBDINPUT
                                         {
                                             KeyCode = (UInt16) keyCode,
-                                            Scan = 0,
+                                            Scan = ArrowScan(keyCode),
                                             Flags = IsExtendedKey(keyCode) ? (UInt32) KeyboardFlag.ExtendedKey : 0,
                                             Time = 0,
                                             ExtraInfo = IntPtr.Zero
@@ -155,7 +161,7 @@ namespace WindowsInput
                                     new KEYBDINPUT
                                         {
                                             KeyCode = (UInt16) keyCode,
-                                            Scan = 0,
+                                            Scan = ArrowScan(keyCode),
                                             Flags = (UInt32) (IsExtendedKey(keyCode)
                                                                   ? KeyboardFlag.KeyUp | KeyboardFlag.ExtendedKey
                                                                   : KeyboardFlag.KeyUp),

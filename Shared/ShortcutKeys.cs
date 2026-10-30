@@ -38,6 +38,24 @@ namespace GestureSign.Shortcuts
             return true;
         }
     }
+    // UI focus notifications can arrive after a preset click. A duplicate focus
+    // entry must not erase the preset, and queued work belongs to one session.
+    public sealed class ShortcutRecordingSession
+    {
+        private object owner;
+        public int Generation { get; private set; }
+        public int[] PresetModifiers { get; private set; } = Array.Empty<int>();
+        public bool Begin(object nextOwner, int[] preset = null)
+        {
+            if (ReferenceEquals(owner, nextOwner) && preset == null) return false;
+            owner = nextOwner;
+            Generation++;
+            PresetModifiers = (preset ?? Array.Empty<int>()).ToArray();
+            return true;
+        }
+        public bool IsCurrent(int generation) => owner != null && Generation == generation;
+        public void Stop() { owner = null; Generation++; PresetModifiers = Array.Empty<int>(); }
+    }
     public sealed class ModifierTapState
     {
         private readonly HashSet<int> held = new HashSet<int>();

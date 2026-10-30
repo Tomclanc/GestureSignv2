@@ -10,6 +10,21 @@ static class Program
     static void Check(bool ok, string name) { if (!ok) throw new Exception(name); checks++; }
     [STAThread] static void Main()
     {
+        var session = new ShortcutRecordingSession();
+        var box = new object();
+        Check(session.Begin(box), "Initial focus starts recorder");
+        int old = session.Generation;
+        Check(session.Begin(box, new[]{91}), "Preset explicitly starts a new generation");
+        int selected = session.Generation;
+        Check(!session.Begin(box) && session.Generation == selected, "Late GotFocus cannot reset preset generation");
+        Check(session.PresetModifiers.SequenceEqual(new[]{91}), "Late GotFocus retains LWin");
+        Check(!session.IsCurrent(old) && session.IsCurrent(selected), "Queued stop or commit from old recording is ignored");
+        Check(ShortcutKeys.IsLockShortcut(0,session.PresetModifiers,new[]{76}), "L after late focus produces LWin+L");
+        session.Stop();
+        Check(!session.IsCurrent(selected) && session.PresetModifiers.Length==0, "Cancel invalidates queued work");
+        Check(session.Begin(box,new[]{92}) && !session.Begin(box), "Preset before focus also survives late focus");
+        Check(ShortcutKeys.IsLockShortcut(0,session.PresetModifiers,new[]{76}), "RWin preset survives focus");
+        Check(session.Begin(new object()) && session.PresetModifiers.Length==0, "Different recorder never inherits preset");
         Check(ShortcutKeys.Normalize(17,29,0)==162,"Left Ctrl scan");
         Check(ShortcutKeys.Normalize(17,29,1)==163,"Right Ctrl extended");
         Check(ShortcutKeys.Normalize(18,56,1)==165,"Right Alt extended");
@@ -40,13 +55,13 @@ static class Program
         using var left=new Hotkey{KeyCode=65,ModifierKeys=2,ModifierKeyCodes=new[]{162}};
         Check(!right.Equals(left),"Sided identity");
         // Native input test: observe an injected, otherwise harmless right Ctrl tap.
-        var events=new List<(int key,int flags,int msg)>();
+        var events=new List<(int key,int flags,int msg,int scan,int time)>();
         using var hook=new LowLevelKeyboardHook();
         hook.KeyIntercepted+=(int msg,int vk,int scan,int flags,int time,IntPtr extra,ref bool handled)=>
         {
-            events.Add((ShortcutKeys.Normalize(vk,scan,flags),flags,msg));
+            events.Add((ShortcutKeys.Normalize(vk,scan,flags),flags,msg,scan,time));
             // Stop test-generated modifiers from opening Start or activating an input method.
-            if ((flags & 16) != 0 && (vk == 162 || vk == 163 || vk == 91 || vk == 92 || vk == 17)) handled = true;
+            if ((flags & 16) != 0 && (vk == 162 || vk == 163 || vk == 91 || vk == 92 || vk == 17 || (vk >= 37 && vk <= 40))) handled = true;
         };
         hook.StartHook();
         int fired=0;
@@ -110,6 +125,23 @@ static class Program
         Check(!ShortcutKeys.IsLockShortcut(0,null,new[]{76}), "L alone is not lock");
         Check(!ShortcutKeys.IsLockShortcut(8,null,new[]{91}), "Standalone Win is not lock");
         Check(!ShortcutKeys.IsLockShortcut(8,null,new[]{65}), "Win+A is not lock");
+        foreach (int code in new[]{37,38,39,40})
+        foreach (bool modified in new[]{false,true})
+        {
+            events.Clear();
+            var sim = new WindowsInput.InputSimulator();
+            if (modified) sim.Keyboard.ModifiedKeyStroke(WindowsInput.Native.VirtualKeyCode.LCONTROL,(WindowsInput.Native.VirtualKeyCode)code);
+            else sim.Keyboard.KeyPress(new[]{(WindowsInput.Native.VirtualKeyCode)code});
+            limit=DateTime.UtcNow.AddMilliseconds(120);
+            while(DateTime.UtcNow<limit){Application.DoEvents();Thread.Sleep(5);}
+            var arrow = events.Where(e=>e.key==code&&(e.flags&16)!=0).ToArray();
+            Check(arrow.Length==2 && arrow[0].msg==0x100 && arrow[1].msg==0x101,"Arrow down/up once");
+            Check(arrow.All(e=>(e.flags&1)!=0),"Arrow extended flags");
+            int scan = code==37?0x4b:code==38?0x48:code==39?0x4d:0x50;
+            Check(arrow.All(e=>e.scan==scan),"Arrow hardware scan code");
+            Check(unchecked((uint)(arrow[1].time-arrow[0].time))>=25,"Arrow held before release, not after release");
+            if(modified) { var sent=events.Where(e=>(e.flags&16)!=0).ToArray(); Check(sent[0].key==162&&sent[0].msg==0x100&&sent.Last().key==162&&sent.Last().msg==0x101,"Modifier surrounds arrow hold: "+string.Join(";",sent.Where(e=>e.key==162||e.key==code).Select(e=>$"{e.key}/{e.msg:X}/{e.flags:X}"))); }
+        }
         Console.WriteLine($"PASS {checks} shortcut checks, including native LCtrl/RCtrl/LWin/RWin sends through normal and fallback plugins.");
     }
 }

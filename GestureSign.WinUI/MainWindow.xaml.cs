@@ -3234,10 +3234,11 @@ public sealed partial class MainWindow : Window
         => (GetAsyncKeyState(virtualKey) & 0x8000) != 0;
 
     private bool _modifierRecordingChord;
-    private int[] _hotKeyRecordingPresetModifiers = Array.Empty<int>();
+    private readonly GestureSign.Shortcuts.ShortcutRecordingSession _hotKeyRecordingSession = new();
 
-    private void StartHotKeyRecording(TextBox recorder, TextBox settings, bool usesArrayKeyCode, Action<string>? onRecorded = null)
+    private void StartHotKeyRecording(TextBox recorder, TextBox settings, bool usesArrayKeyCode, Action<string>? onRecorded = null, int[]? presetModifiers = null)
     {
+        if (!_hotKeyRecordingSession.Begin(recorder, presetModifiers)) return;
         _activeHotKeyRecorder = recorder;
         _activeHotKeySettings = settings;
         _activeHotKeyRecorded = onRecorded;
@@ -3245,8 +3246,9 @@ public sealed partial class MainWindow : Window
         _hotKeyRecordingPressedKeys.Clear();
         _stopHotKeyRecordingWhenReleased = false;
         _modifierRecordingChord = false;
-        _hotKeyRecordingPresetModifiers = Array.Empty<int>();
-        recorder.Text = T("请按下快捷键...", "Press a shortcut...");
+        recorder.Text = _hotKeyRecordingSession.PresetModifiers.Length == 0
+            ? T("请按下快捷键...", "Press a shortcut...")
+            : string.Join(" + ", _hotKeyRecordingSession.PresetModifiers.Select(KeyDisplayName)) + " + …";
         if (_keyboardHook != IntPtr.Zero)
             return;
 
@@ -3258,7 +3260,7 @@ public sealed partial class MainWindow : Window
     {
         var recorder = _activeHotKeyRecorder;
         var settings = _activeHotKeySettings;
-        _hotKeyRecordingPresetModifiers = Array.Empty<int>();
+        _hotKeyRecordingSession.Stop();
         _activeHotKeyRecorder = null;
         _activeHotKeySettings = null;
         _activeHotKeyRecorded = null;
@@ -3292,27 +3294,31 @@ public sealed partial class MainWindow : Window
                 if (IsModifierVirtualKey(key))
                 {
                     if (_hotKeyRecordingPressedKeys.Count > 1) _modifierRecordingChord = true;
-                    var preview = string.Join(" + ", _hotKeyRecordingPressedKeys.Select(KeyDisplayName));
+                    var preview = string.Join(" + ", _hotKeyRecordingSession.PresetModifiers.Concat(_hotKeyRecordingPressedKeys).Distinct().Select(KeyDisplayName));
                     var recorder = _activeHotKeyRecorder;
-                    _ = DispatcherQueue.TryEnqueue(() => recorder.Text = preview + " + ...");
+                    int generation = _hotKeyRecordingSession.Generation;
+                    _ = DispatcherQueue.TryEnqueue(() => { if (_hotKeyRecordingSession.IsCurrent(generation)) recorder.Text = preview + " + ..."; });
                 }
                 else
                 {
-                    CommitRecordedShortcut(key, _hotKeyRecordingPresetModifiers.Concat(_hotKeyRecordingPressedKeys.Where(IsModifierVirtualKey)).Distinct().ToArray());
+                    CommitRecordedShortcut(key, _hotKeyRecordingSession.PresetModifiers.Concat(_hotKeyRecordingPressedKeys.Where(IsModifierVirtualKey)).Distinct().ToArray());
                     _stopHotKeyRecordingWhenReleased = true;
                 }
                 return new IntPtr(1);
             }
             if (up)
             {
-                if (_hotKeyRecordingPresetModifiers.Length == 0 && !_modifierRecordingChord && !_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 1 && _hotKeyRecordingPressedKeys.Contains(key) && IsModifierVirtualKey(key))
+                if (_hotKeyRecordingSession.PresetModifiers.Length == 0 && !_modifierRecordingChord && !_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 1 && _hotKeyRecordingPressedKeys.Contains(key) && IsModifierVirtualKey(key))
                 {
                     CommitRecordedShortcut(key, Array.Empty<int>());
                     _stopHotKeyRecordingWhenReleased = true;
                 }
                 _hotKeyRecordingPressedKeys.Remove(key);
                 if (_stopHotKeyRecordingWhenReleased && _hotKeyRecordingPressedKeys.Count == 0)
-                    _ = DispatcherQueue.TryEnqueue(StopHotKeyRecording);
+                {
+                    int generation = _hotKeyRecordingSession.Generation;
+                    _ = DispatcherQueue.TryEnqueue(() => { if (_hotKeyRecordingSession.IsCurrent(generation)) StopHotKeyRecording(); });
+                }
                 return new IntPtr(1);
             }
         }
@@ -3324,6 +3330,7 @@ public sealed partial class MainWindow : Window
         var settings = _activeHotKeySettings!;
         var recorder = _activeHotKeyRecorder!;
         var callback = _activeHotKeyRecorded;
+        int generation = _hotKeyRecordingSession.Generation;
         int mask = modifiers.Aggregate(0, (value, code) => value | GestureSign.Shortcuts.ShortcutKeys.Flag(code));
         string json = _activeHotKeyUsesArrayKeyCode
             ? HotKeySettingsJson((mask & 8) != 0, (mask & 2) != 0, (mask & 4) != 0, (mask & 1) != 0, key)
@@ -3333,6 +3340,7 @@ public sealed partial class MainWindow : Window
         json = root.ToJsonString();
         _ = DispatcherQueue.TryEnqueue(() =>
         {
+            if (!_hotKeyRecordingSession.IsCurrent(generation)) return;
             settings.Text = json;
             recorder.Text = HotKeyDisplayText(json);
             callback?.Invoke(json);
