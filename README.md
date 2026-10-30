@@ -216,6 +216,8 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## 致谢
 
+**特别鸣谢 [Pianism1108](https://github.com/Pianism1108)**：感谢你在搭载高通骁龙处理器的 Surface Pro 上持续协助 ARM64 平台测试，提供复现反馈与日志，帮助排查手势输入问题并验证修复。你的实机测试为 GestureSign V2 的 ARM64 支持提供了重要帮助！
+
 特别感谢 [Lambchop1020](https://github.com/Lambchop1020) 贡献日语翻译资源、推进界面翻译资源化，并指出代码中写死的中文文字。这些贡献已通过 [PR #13](https://github.com/Tomclanc/GestureSignv2/pull/13) 整合，保留原始提交与署名，并继续包含在 18.3.7 中。感谢你帮助 GestureSign V2 完善日语支持！详见 [日语本地化反馈 #10](https://github.com/Tomclanc/GestureSignv2/issues/10)。
 
 感谢原项目 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) 以及 HighSign、MahApps.Metro、WGestures 等项目。GestureSign V2 仍然站在这些工作的基础上继续前进。
@@ -380,6 +382,8 @@ When reporting gesture, recording, saving, or UI issues, please include:
 - Screenshots marking the problem, reproduction steps and actual behavior.
 
 ## Credits
+
+**Special thanks to [Pianism1108](https://github.com/Pianism1108)** for ongoing ARM64 testing on a Qualcomm Snapdragon-powered Surface Pro, sharing reproduction details and logs, and helping investigate gesture-input issues and verify fixes. Your testing on real hardware has been invaluable to GestureSign V2’s ARM64 support!
 
 Special thanks to [Lambchop1020](https://github.com/Lambchop1020) for contributing Japanese translation resources, moving UI translations into the localization catalog, and identifying hard-coded Chinese text. These contributions were integrated in [PR #13](https://github.com/Tomclanc/GestureSignv2/pull/13), with the original commit and attribution preserved, and remain included in 18.3.7. Thank you for helping improve Japanese support in GestureSign V2! See [Japanese localization feedback #10](https://github.com/Tomclanc/GestureSignv2/issues/10).
 
@@ -572,6 +576,8 @@ dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release *> winui-buil
 - 問題の箇所を示したスクリーンショット、再現手順、実際の挙動。
 
 ## クレジット
+
+**[Pianism1108](https://github.com/Pianism1108) さんに特別な感謝を申し上げます。** Qualcomm Snapdragon 搭載の Surface Pro で ARM64 版の継続的な実機テストにご協力いただき、再現手順やログの提供、ジェスチャー入力の問題調査、修正の確認を通じて GestureSign V2 の ARM64 対応を支えてくださっています。ありがとうございます！
 
 [Lambchop1020](https://github.com/Lambchop1020) さんには、日本語翻訳リソースの提供、UI 翻訳のリソース化、コードに直接記述された中国語テキストの指摘にご協力いただきました。心より感謝します。これらの貢献は [PR #13](https://github.com/Tomclanc/GestureSignv2/pull/13) で元のコミットと作者名を保持して統合され、18.3.7 にも引き継がれています。GestureSign V2 の日本語対応の改善にご協力いただき、ありがとうございます！詳しくは [日本語ローカライズの提案 #10](https://github.com/Tomclanc/GestureSignv2/issues/10) をご覧ください。
 
