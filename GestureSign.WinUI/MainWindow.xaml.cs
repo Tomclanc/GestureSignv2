@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = ProductVersion.Current + "-community-preview2";
+    private const string AppVersion = ProductVersion.Current;
     private const uint WmGetIcon = 0x007F;
     private const uint WmSetIcon = 0x0080;
     private const int IconSmall = 0;
