@@ -27,6 +27,10 @@
   简体中文 | <a href="#english">English</a> | <a href="#日本語">日本語</a> | <a href="#软件展示">软件展示 / Screenshots</a>
 </p>
 
+## ⭐ 感谢 50 Stars！
+
+GestureSign V2 达到 **50 Stars** 了！感谢每一位点亮 Star、试用软件、反馈问题和参与贡献的朋友。你们的支持，是我继续修复问题、打磨手势体验的动力。感谢大家一路支持！
+
 ## 软件展示
 
 ### 动作管理
@@ -234,6 +238,10 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 ## English
 
+### ⭐ Thank you for 50 stars!
+
+GestureSign V2 has reached **50 stars**! Thank you to everyone who has starred the project, tried the app, reported issues, or contributed. Your support keeps me motivated to fix problems and improve the gesture experience. Thank you for being part of this project!
+
 ### Screenshots and demo
 
 The [gallery above](#软件展示) shows action management, the gesture library, TipTap, input devices, accessibility settings and Quick Actions, followed by a demo of the optional Kando radial menu. Screenshots are from the 18.3.4 Store build. Kando is downloaded separately; layout and available features depend on the installed version.
@@ -400,6 +408,10 @@ If GestureSign V2 is useful to you, you can support its continued development vi
 ---
 
 ## 日本語
+
+### ⭐ 50 Stars ありがとうございます！
+
+GestureSign V2 が **50 Stars** に到達しました！Star を付けてくださった皆さん、アプリを試してくださった皆さん、不具合の報告や開発に協力してくださった皆さん、ありがとうございます。皆さんの応援が、不具合の修正やジェスチャー操作の改善を続ける励みになっています。これからもよろしくお願いします！
 
 ### 画面とデモ
 
