@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = ProductVersion.Current;
+    private const string AppVersion = ProductVersion.Current + "-community-preview2";
     private const uint WmGetIcon = 0x007F;
     private const uint WmSetIcon = 0x0080;
     private const int IconSmall = 0;
@@ -178,7 +178,7 @@ public sealed partial class MainWindow : Window
         _uiCultureName = _legacyData.Options.CultureName;
         ApplyUiCulture(_uiCultureName);
         ApplyUiFlowDirection();
-        _trainingPipeServer = new TrainingPipeServer(points => DispatcherQueue.TryEnqueue(async () => await SaveTrainedGestureAsync(points)));
+        _trainingPipeServer = new TrainingPipeServer((points, device, button) => DispatcherQueue.TryEnqueue(async () => { if (_trainingPipeServer?.IsRunning != true) return; _pendingTrainingInput?.Invoke(device, button); await SaveTrainedGestureAsync(points); }));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
         _kandoMenuRefreshTimer.Interval = TimeSpan.FromSeconds(1);
@@ -2803,6 +2803,8 @@ public sealed partial class MainWindow : Window
     private IReadOnlyList<MouseEventChoice> MouseEventChoices()
         =>
         [
+            new(T("切换拖动锁定（Esc 释放）", "Toggle drag lock (Esc to release)"), 65536),
+            new(T("释放拖动锁定", "Release drag lock"), 131072),
             new(L("左键单击", "Left click", "左鍵按一下", "왼쪽 클릭"), 257),
             new(L("右键单击", "Right click", "右鍵按一下", "오른쪽 클릭"), 258),
             new(L("左键双击", "Left double-click", "左鍵按兩下", "왼쪽 두 번 클릭"), 513),
@@ -3432,7 +3434,10 @@ public sealed partial class MainWindow : Window
         if (file is null)
             return;
         if (Path.GetExtension(file).Equals(".ges", StringComparison.OrdinalIgnoreCase))
-            _legacyData.RestoreArchive(file);
+        {
+            if (await ImportArchiveWithPreviewAsync(file)) ReloadData();
+            return;
+        }
         else
             _legacyData.ImportActions(file);
         ReloadData();
@@ -3533,12 +3538,15 @@ public sealed partial class MainWindow : Window
         }
     }
 
+    private Action<int, int>? _pendingTrainingInput;
     private string? _pendingTrainingGestureName;
     private Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>>? _pendingTrainingPreview;
 
     private async Task SaveTrainedGestureAsync(IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
     {
+        var editorStatus = _pendingTrainingStatus;
         await NotifyDaemonAsync(DaemonCommand.StopTraining);
+        if (editorStatus != null && !ReferenceEquals(editorStatus, _pendingTrainingStatus)) return;
         _trainingPipeServer.Stop();
 
         var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? T("新手势", "New Gesture") : _pendingTrainingGestureName;
@@ -3550,6 +3558,7 @@ public sealed partial class MainWindow : Window
             _pendingTrainingGestureName = null;
             _pendingTrainingStatus = null;
             _pendingTrainingPreview = null;
+            _pendingTrainingInput = null;
             return;
         }
 
@@ -3559,6 +3568,7 @@ public sealed partial class MainWindow : Window
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         _pendingTrainingGestureName = null;
         _pendingTrainingPreview = null;
+            _pendingTrainingInput = null;
         ReloadData();
         await ShowInfoDialog(T("训练完成", "Training complete"), F("已保存手势 {0}。", "Saved gesture {0}.", name));
     }
@@ -3577,6 +3587,7 @@ public sealed partial class MainWindow : Window
         _pendingTrainingGestureName = null;
         _pendingTrainingStatus = null;
         _pendingTrainingPreview = null;
+            _pendingTrainingInput = null;
         status.Text = T("后台识别服务未连接，无法捕捉触控板原始轨迹。可以先确认托盘服务已启动。", "The background recognition service is not connected, so touchpad strokes cannot be captured. Check that the tray service is running.");
     }
 
@@ -3627,7 +3638,7 @@ public sealed partial class MainWindow : Window
         ReloadData();
     }
 
-    private FrameworkElement NewInlineGestureDrawingPanel(List<List<(double X, double Y)>> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture, out Button clearButton, double width = 460, double height = 180)
+    private FrameworkElement NewInlineGestureDrawingPanel(List<List<(double X, double Y)>> sample, out Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> showRecordedGesture, out Button clearButton, double width = 460, double height = 180, Action<int, int>? inputDetected = null)
     {
         var session = new GestureDrawingSession(sample);
         var canvas = new Canvas
@@ -3696,6 +3707,10 @@ public sealed partial class MainWindow : Window
                 activeLines.Clear();
                 canvas.Children.Clear();
             }
+            var detectedDevice = point.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Touch ? 1
+                : point.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Pen ? 8 : 6;
+            var detectedButton = point.Properties.IsRightButtonPressed ? 2097152 : point.Properties.IsMiddleButtonPressed ? 4194304 : 1048576;
+            inputDetected?.Invoke(detectedDevice, detectedDevice == 6 ? detectedButton : 0);
             session.Begin(point.PointerId, point.Position.X, point.Position.Y);
             var colors = new[] { Color.FromArgb(255, 0, 120, 212), Color.FromArgb(255, 230, 100, 35), Color.FromArgb(255, 30, 160, 100) };
             var line = new Polyline
@@ -3759,7 +3774,7 @@ public sealed partial class MainWindow : Window
         var file = await PickOpenFileAsync([".ges"]);
         if (file is null)
             return;
-        _legacyData.RestoreArchive(file);
+        if (!await ImportArchiveWithPreviewAsync(file)) return;
         ReloadData();
         await ShowInfoDialog(T("恢复完成", "Restore complete"), T("配置已恢复，后台服务会在重载后使用新配置。", "Configuration restored. The background service will use it after reloading."));
     }
@@ -4765,7 +4780,7 @@ public sealed partial class MainWindow : Window
         return file?.Path;
     }
 
-    private async Task<bool> ConfirmDialogAsync(string title, object content, string primaryText)
+    private async Task<bool> ConfirmDialogAsync(string title, object content, string primaryText, Func<bool>? validate = null)
     {
         var dialog = new ContentDialog
         {
@@ -4776,6 +4791,7 @@ public sealed partial class MainWindow : Window
             CloseButtonText = L("取消", "Cancel", "取消", "취소"),
             DefaultButton = ContentDialogButton.Primary
         };
+        if (validate != null) dialog.PrimaryButtonClick += (_, args) => args.Cancel = !validate();
         return await ShowDialogAsync(dialog) == ContentDialogResult.Primary;
     }
 
@@ -8182,7 +8198,8 @@ public sealed partial class MainWindow : Window
         EnableRecognition = 9,
         DisableRecognition = 10,
         Exit = 11,
-        Ping = 13
+        Ping = 13,
+        InputHealth = 15
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);
@@ -8248,13 +8265,15 @@ public sealed partial class MainWindow : Window
 
     private sealed class TrainingPipeServer
     {
-        private readonly Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> _onGesture;
+        private readonly Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>, int, int> _onGesture;
         private System.Threading.CancellationTokenSource? _cancellation;
 
-        public TrainingPipeServer(Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> onGesture)
+        public TrainingPipeServer(Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>, int, int> onGesture)
         {
             _onGesture = onGesture;
         }
+
+        public bool IsRunning => _cancellation != null;
 
         public void Start()
         {
@@ -8282,10 +8301,10 @@ public sealed partial class MainWindow : Window
                 {
                     await using var server = new NamedPipeServerStream(pipeName, PipeDirection.In, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
                     await server.WaitForConnectionAsync(cancellationToken);
-                    var patterns = ReadTrainingGesture(server);
+                    var patterns = ReadTrainingGesture(server, out var device, out var button);
                     if (patterns.Count > 0)
                     {
-                        _onGesture(patterns);
+                        _onGesture(patterns, device, button);
                         return;
                     }
                 }
@@ -8301,8 +8320,9 @@ public sealed partial class MainWindow : Window
             }
         }
 
-        private static IReadOnlyList<IReadOnlyList<(double X, double Y)>> ReadTrainingGesture(Stream stream)
+        private static IReadOnlyList<IReadOnlyList<(double X, double Y)>> ReadTrainingGesture(Stream stream, out int device, out int button)
         {
+            device = 0; button = 0;
             using var memory = new MemoryStream();
             stream.CopyTo(memory);
             memory.Position = 0;
@@ -8330,6 +8350,7 @@ public sealed partial class MainWindow : Window
                 }
             }
 
+            if (memory.Length - memory.Position >= 8) { device = reader.ReadInt32(); button = reader.ReadInt32(); }
             var newestPattern = raw.FirstOrDefault();
             if (newestPattern is null)
                 return [];

@@ -183,6 +183,7 @@ namespace GestureSign.Daemon.Input
             {
                 if (value == CaptureState.Disabled)
                 {
+                    GestureSign.CorePlugins.MouseActions.DragLock.Release();
                     _pointEventTranslator?.ResetTipTap();
                     ReleasePointerMotionSuppression("CaptureDisabled");
                 }
@@ -198,6 +199,7 @@ namespace GestureSign.Daemon.Input
                 if (value == _mode) return;
                 if (value != CaptureMode.Normal)
                 {
+                    GestureSign.CorePlugins.MouseActions.DragLock.Release();
                     _pointEventTranslator?.ResetTipTap();
                     ReleasePointerMotionSuppression("ModeChanged");
                 }
@@ -1142,7 +1144,7 @@ namespace GestureSign.Daemon.Input
                 _pointPatternCache.Clear();
                 _pointPatternCache.Add(new PointPattern(_pointsCaptured.Values));
 
-                if (!NamedPipe.SendMessageAsync(IpcCommands.GotGesture, Constants.Settings, _pointPatternCache.Select(p => p.Points).ToArray(), false).Result)
+                if (!NamedPipe.SendMessageAsync(IpcCommands.GotGesture, Constants.Settings, Tuple.Create(_pointPatternCache.Select(p => p.Points).ToArray(), (int)SourceDevice, (int)_capturedMouseButton), false).Result)
                     Mode = CaptureMode.Normal;
 
                 // The pipe call has completed synchronously. Keeping the training

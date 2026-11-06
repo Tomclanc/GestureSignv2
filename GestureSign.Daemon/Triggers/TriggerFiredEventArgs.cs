@@ -1,4 +1,4 @@
-﻿using GestureSign.Common.Applications;
+using GestureSign.Common.Applications;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,6 +20,7 @@ namespace GestureSign.Daemon.Triggers
         }
 
         public List<IAction> FiredActions { get; }
+        public GestureSign.Common.Input.Devices? SourceDevice { get; set; }
         public Point FiredPoint { get; }
         public List<List<Point>> Points { get; }
     }

@@ -142,6 +142,15 @@ public sealed partial class MainWindow
         await Task.CompletedTask;
     }
 
+    private async Task StopEditorTrainingAsync()
+    {
+        if (!_trainingPipeServer.IsRunning) return;
+        _trainingPipeServer.Stop();
+        _pendingTrainingInput = null; _pendingTrainingStatus = null;
+        _pendingTrainingPreview = null; _pendingTrainingGestureName = null;
+        await NotifyDaemonAsync(DaemonCommand.StopTraining);
+    }
+
     private async Task AddActionAsync(LegacyApplication? app)
     {
         if (app is null)
@@ -150,21 +159,41 @@ public sealed partial class MainWindow
             return;
         }
 
-        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = T("新动作", "New Action") };
+        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = T("新动作", "New Action") + " " + DateTime.Now.ToString("HHmmssfff") };
         var gesture = new TextBox { PlaceholderText = T("手势名称，例如 3Right", "Gesture name, for example 3Right"), Margin = new Thickness(0, 8, 0, 0) };
         var deviceSelector = NewActionDeviceSelector(0);
         var mouseGestureButton = NewActionMouseGestureButton(0);
         BindActionMouseGestureDevice(mouseGestureButton, deviceSelector);
         var mouseHotkey = NewMouseCombinationPicker(0);
         mouseHotkey.SelectionChanged += (_, _) => { if (mouseHotkey.SelectedIndex > 0) deviceSelector.Mouse.IsChecked = true; };
+        var inputSummary = new TextBlock { Text = T("绘制时自动识别输入；可在高级选项修改。", "Input is detected while drawing; adjust it in Advanced options."), TextWrapping = TextWrapping.Wrap };
+        void ApplyDetectedInput(int device, int button)
+        {
+            if (device == 0) return;
+            if ((device & 4) == 0) button = 0;
+            deviceSelector.TouchScreen.IsChecked = (device & 1) != 0;
+            deviceSelector.TouchPad.IsChecked = (device & 2) != 0;
+            deviceSelector.Mouse.IsChecked = (device & 4) != 0;
+            deviceSelector.Pen.IsChecked = (device & 8) != 0;
+            mouseGestureButton.SelectedIndex = button switch { 1048576 => 1, 4194304 => 2, 2097152 => 3, _ => 0 };
+            inputSummary.Text = device switch {
+                1 => T("已识别：触摸屏", "Detected: touchscreen"),
+                2 => T("已识别：触控板", "Detected: touchpad"),
+                8 => T("已识别：手写笔", "Detected: pen"),
+                4 => T("已识别：鼠标", "Detected: mouse"),
+                _ => T("鼠标或触控板指针：如需准确识别触控板，请使用录制按钮。", "Mouse or touchpad pointer: use Record for precise touchpad detection.")
+            };
+            if (button != 0) inputSummary.Text += " · " + ActionMouseGestureButtonText(button) + " · " + T("保存时启用此鼠标按键识别", "Enable this mouse button for recognition when saved");
+        }
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
-        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: ApplyDetectedInput);
         var trainingStatus = new TextBlock { Text = T("可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", "Draw a single- or multi-finger pattern, or record real strokes using the touchpad."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
         var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
         trainByTouchpad.Click += async (_, _) =>
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
             SetGestureText(gesture, gestureName);
+            _pendingTrainingInput = ApplyDetectedInput;
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
         var commandName = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = T("发送快捷键", "Send Hotkey"), Margin = new Thickness(0, 8, 0, 0) };
@@ -218,10 +247,11 @@ public sealed partial class MainWindow
             RefreshCommandPreview();
         };
         commandSettings.TextChanged += (_, _) => RefreshCommandPreview();
-        var panel = NewCardPanel(0);
-        panel.Children.Add(name);
-        panel.Children.Add(gesture);
-        panel.Children.Add(NewGesturePickerRow(
+        var panel = NewCardPanel(8);
+        var advanced = NewCardPanel(8);
+        advanced.Children.Add(name);
+        advanced.Children.Add(gesture);
+        advanced.Children.Add(NewGesturePickerRow(
             gesture,
             selectedGesture =>
             {
@@ -233,28 +263,62 @@ public sealed partial class MainWindow
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
-        panel.Children.Add(new TextBlock { Text = T("手势图案", "Gesture pattern"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
+        panel.Children.Add(new TextBlock { Text = T("1. 手势：直接在下面画", "1. Gesture: draw below"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
+        panel.Children.Add(inputSummary);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
-        panel.Children.Add(deviceSelector.Content);
-        panel.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
-        panel.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
-        panel.Children.Add(new TextBlock { Text = T("要执行的命令", "Command to execute"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
-        panel.Children.Add(commandName);
+        advanced.Children.Add(deviceSelector.Content);
+        advanced.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
+        advanced.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
+        panel.Children.Add(new TextBlock { Text = T("2. 命令：选择要执行的操作", "2. Command: choose an action"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
+        advanced.Children.Add(commandName);
+        var presets = new ComboBox { Header = T("常用命令", "Common commands"), HorizontalAlignment = HorizontalAlignment.Stretch };
+        foreach (var label in new[] { T("自定义命令", "Custom command"), T("返回", "Back"), T("关闭标签页", "Close tab"), T("复制", "Copy"), T("粘贴", "Paste") }) presets.Items.Add(label);
+        presets.SelectedIndex = 0;
+        presets.SelectionChanged += (_, _) =>
+        {
+            var keys = presets.SelectedIndex switch { 1 => new[] { 18, 37 }, 2 => new[] { 17, 87 }, 3 => new[] { 17, 67 }, 4 => new[] { 17, 86 }, _ => Array.Empty<int>() };
+            if (keys.Length == 0) return;
+            commandPlugin.SelectedIndex = 0;
+            commandName.Text = presets.SelectedItem?.ToString() ?? "";
+            commandSettings.Text = System.Text.Json.JsonSerializer.Serialize(new { ModifierKeyCodes = new[] { keys[0] }, KeyCode = new[] { keys[1] }, Alt = keys[0] == 18, Control = keys[0] == 17 });
+        };
+        panel.Children.Add(presets);
         panel.Children.Add(commandPlugin);
         panel.Children.Add(commandPluginDescription);
-        panel.Children.Add(commandPluginClass);
+        advanced.Children.Add(commandPluginClass);
         panel.Children.Add(commandHotkey);
         panel.Children.Add(commandAppPicker);
         panel.Children.Add(commandTypedSettings);
-        panel.Children.Add(commandSettings);
+        advanced.Children.Add(commandSettings);
         panel.Children.Add(commandPreview);
         UpdateCommandEditor();
+        panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
-        if (!await ConfirmDialogAsync(F("给 {0} 添加动作", "Add an action to {0}", app.Name), panel, T("添加", "Add")))
-            return;
+        bool accepted;
+        var validation = new TextBlock { TextWrapping = TextWrapping.Wrap };
+        panel.Children.Add(validation);
+        bool ValidateNewAction()
+        {
+            CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
+            if (!drawnPointPatterns.Any(stroke => stroke.Count >= 2) && string.IsNullOrWhiteSpace(ResolveGestureName(gesture, "")) && mouseHotkey.SelectedIndex <= 0)
+            { validation.Text = T("请先画一个手势。", "Draw a gesture first."); return false; }
+            if (!ShouldCreateCommand(commandPluginClass.Text, commandSettings.Text))
+            { validation.Text = T("请选择命令，或录入快捷键。", "Choose a command or record a shortcut."); return false; }
+            if (GetIgnoredActionDevices(deviceSelector) == ActionDeviceAll)
+            { validation.Text = T("请至少选择一种输入设备。", "Select at least one input device."); return false; }
+            return true;
+        }
+        try { accepted = await ConfirmDialogAsync(F("给 {0} 添加动作", "Add an action to {0}", app.Name), panel, T("添加", "Add"), ValidateNewAction); }
+        finally { await StopEditorTrainingAsync(); }
+        if (!accepted) return;
+        if (deviceSelector.Mouse.IsChecked == true && ActionMouseGestureButtonValue(mouseGestureButton) != 0)
+        {
+            _legacyData.UpdateOption("DrawingButton", (_legacyData.Options.DrawingButton | ActionMouseGestureButtonValue(mouseGestureButton)).ToString(CultureInfo.InvariantCulture));
+            await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
+        }
 
         CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
 
@@ -333,20 +397,41 @@ public sealed partial class MainWindow
         var hotkeyJson = new TextBox { Text = action.HotkeyJson };
         var hotkeyRecorder = NewHotKeyRecorderWithClear(hotkeyJson, action.HotkeyJson, usesArrayKeyCode: false);
         var continuousGestureJson = new TextBox { PlaceholderText = T("连续手势 JSON，可留空", "Continuous gesture JSON (optional)"), Text = action.ContinuousGestureJson, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap, AcceptsReturn = true, MinHeight = 64 };
+        var inputSummary = new TextBlock { Text = T("绘制时自动识别输入；可在高级选项修改。", "Input is detected while drawing; adjust it in Advanced options."), TextWrapping = TextWrapping.Wrap };
+        void ApplyDetectedInput(int device, int button)
+        {
+            if (device == 0) return;
+            if ((device & 4) == 0) button = 0;
+            deviceSelector.TouchScreen.IsChecked = (device & 1) != 0;
+            deviceSelector.TouchPad.IsChecked = (device & 2) != 0;
+            deviceSelector.Mouse.IsChecked = (device & 4) != 0;
+            deviceSelector.Pen.IsChecked = (device & 8) != 0;
+            mouseGestureButton.SelectedIndex = button switch { 1048576 => 1, 4194304 => 2, 2097152 => 3, _ => 0 };
+            inputSummary.Text = device switch {
+                1 => T("已识别：触摸屏", "Detected: touchscreen"),
+                2 => T("已识别：触控板", "Detected: touchpad"),
+                8 => T("已识别：手写笔", "Detected: pen"),
+                4 => T("已识别：鼠标", "Detected: mouse"),
+                _ => T("鼠标或触控板指针：如需准确识别触控板，请使用录制按钮。", "Mouse or touchpad pointer: use Record for precise touchpad detection.")
+            };
+            if (button != 0) inputSummary.Text += " · " + ActionMouseGestureButtonText(button) + " · " + T("保存时启用此鼠标按键识别", "Enable this mouse button for recognition when saved");
+        }
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
-        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton);
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: ApplyDetectedInput);
         var trainingStatus = new TextBlock { Text = T("触控板或触控录制会使用后台识别服务捕捉真实多指轨迹。", "Touchpad and touchscreen recording use the background recognition service to capture real multi-finger strokes."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
         var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
         trainByTouchpad.Click += async (_, _) =>
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
             SetGestureText(gesture, gestureName);
+            _pendingTrainingInput = ApplyDetectedInput;
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
-        var panel = NewCardPanel(0);
-        panel.Children.Add(name);
-        panel.Children.Add(gesture);
-        panel.Children.Add(NewGesturePickerRow(
+        var panel = NewCardPanel(8);
+        var advanced = NewCardPanel(8);
+        advanced.Children.Add(name);
+        advanced.Children.Add(gesture);
+        advanced.Children.Add(NewGesturePickerRow(
             gesture,
             selectedGesture =>
             {
@@ -358,20 +443,29 @@ public sealed partial class MainWindow
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
-        panel.Children.Add(new TextBlock { Text = T("手势图案", "Gesture pattern"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
+        panel.Children.Add(new TextBlock { Text = T("1. 手势：直接在下面画", "1. Gesture: draw below"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
+        panel.Children.Add(inputSummary);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
-        panel.Children.Add(NewTwoColumnRow(enabled, activateWindow));
-        panel.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
-        panel.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
-        panel.Children.Add(deviceSelector.Content);
-        panel.Children.Add(hotkeyRecorder);
+        advanced.Children.Add(NewTwoColumnRow(enabled, activateWindow));
+        advanced.Children.Add(NewMouseCombinationField(mouseHotkey, mouseGestureButton));
+        advanced.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
+        advanced.Children.Add(deviceSelector.Content);
+        advanced.Children.Add(hotkeyRecorder);
         // panel.Children.Add(continuousGestureJson);
+        panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
-        if (!await ConfirmDialogAsync(F("编辑动作 {0}", "Edit action {0}", DisplayName(action.Name)), panel, T("保存", "Save")))
-            return;
+        bool accepted;
+        try { accepted = await ConfirmDialogAsync(F("编辑动作 {0}", "Edit action {0}", DisplayName(action.Name)), panel, T("保存", "Save")); }
+        finally { await StopEditorTrainingAsync(); }
+        if (!accepted) return;
+        if (deviceSelector.Mouse.IsChecked == true && ActionMouseGestureButtonValue(mouseGestureButton) != 0)
+        {
+            _legacyData.UpdateOption("DrawingButton", (_legacyData.Options.DrawingButton | ActionMouseGestureButtonValue(mouseGestureButton)).ToString(CultureInfo.InvariantCulture));
+            await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
+        }
 
         var validDrawnPointPatterns = drawnPointPatterns
             .Where(pattern => pattern.Count > 0)

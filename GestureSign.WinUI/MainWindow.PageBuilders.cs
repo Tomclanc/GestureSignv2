@@ -40,6 +40,9 @@ public sealed partial class MainWindow
             L("发送反馈", "Send feedback", "傳送回饋", "피드백 보내기"),
             L("查看日志", "View logs", "檢視記錄", "로그 보기")
         ]));
+        var diagnostics = NewPillButton(T("导出诊断包", "Export diagnostics"), false);
+        diagnostics.Click += async (_, _) => await ExportDiagnosticsAsync();
+        content.Children.Add(diagnostics);
         root.Children.Add(NewCard(content));
         root.Children.Add(NewProjectLinksCard(
             L("项目页面", "Project Pages", "專案頁面", "프로젝트 페이지"),

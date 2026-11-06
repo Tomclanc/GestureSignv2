@@ -572,14 +572,106 @@ internal sealed class LegacyDataStore
         return path;
     }
 
+    public sealed record ArchivePreview(int Applications, int Actions, int Gestures, int Conflicts, bool IncludesOptions);
+
+    private static Dictionary<string, byte[]> ReadArchive(string archivePath)
+    {
+        using var archive = ZipFile.OpenRead(archivePath);
+        var files = new Dictionary<string, byte[]>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in archive.Entries)
+        {
+            var name = entry.Name;
+            if (name is not (ActionsFileName or GesturesFileName or ConfigFileName or "Actions.act")) continue;
+            if (entry.Length > 32 * 1024 * 1024) throw new InvalidDataException("Configuration entry exceeds 32 MB.");
+            var target = name == "Actions.act" ? ActionsFileName : name;
+            if (files.ContainsKey(target)) throw new InvalidDataException("Duplicate configuration entry: " + target);
+            using var input = entry.Open(); using var output = new MemoryStream();
+            input.CopyTo(output);
+            var bytes = output.ToArray();
+            var text = System.Text.Encoding.UTF8.GetString(bytes).TrimStart('\uFEFF');
+            if (target == ConfigFileName)
+            {
+                using var reader = System.Xml.XmlReader.Create(new StringReader(text), new System.Xml.XmlReaderSettings { DtdProcessing = System.Xml.DtdProcessing.Prohibit, XmlResolver = null });
+                var xml = XDocument.Load(reader);
+                if (xml.Root?.Name.LocalName != "configuration") throw new InvalidDataException("Invalid configuration XML.");
+            }
+            else
+            {
+                var node = JsonNode.Parse(text);
+                var array = node as JsonArray ?? (node as JsonObject)?["$values"] as JsonArray;
+                if (array == null || array.Any(item => item is not JsonObject)) throw new InvalidDataException("Unsupported configuration format: " + name);
+                if (name == "Actions.act")
+                {
+                    foreach (var app in array.OfType<JsonObject>())
+                    {
+                        var type = app.StringValue("$type", "");
+                        app["$type"] = type.Contains("Ignored") ? "GestureSign.Common.Applications.IgnoredApp, GestureSign.Common"
+                            : type.Contains("Global") ? "GestureSign.Common.Applications.GlobalApp, GestureSign.Common"
+                            : "GestureSign.Common.Applications.UserApp, GestureSign.Common";
+                        if (app["Actions"] is JsonObject wrapper && wrapper["$values"] is JsonArray values) app["Actions"] = values.DeepClone();
+                        foreach (var action in (app["Actions"] as JsonArray ?? []).OfType<JsonObject>())
+                        {
+                            action.Remove("$type");
+                            if (action["Commands"] == null && action["PluginClass"] != null)
+                                action["Commands"] = new JsonArray(new JsonObject {
+                                    ["Name"] = action["Name"]?.DeepClone(), ["PluginClass"] = action["PluginClass"]?.DeepClone(),
+                                    ["PluginFilename"] = action["PluginFilename"]?.DeepClone(), ["IsEnabled"] = true,
+                                    ["CommandSettings"] = action["ActionSettings"]?.DeepClone() });
+                        }
+                    }
+                }
+                // Preserve original bytes for current archives, including formatting.
+                if (name == "Actions.act" || node is not JsonArray) bytes = System.Text.Encoding.UTF8.GetBytes(array.ToJsonString(JsonOptions()));
+            }
+            files.Add(target, bytes);
+        }
+        if (!files.ContainsKey(ActionsFileName) && !files.ContainsKey(GesturesFileName)) throw new InvalidDataException("No supported actions or gestures in this archive.");
+        return files;
+    }
+
+    public ArchivePreview PreviewArchive(string archivePath)
+    {
+        var files = ReadArchive(archivePath);
+        JsonArray Read(string name) => files.TryGetValue(name, out var bytes)
+            ? JsonNode.Parse(System.Text.Encoding.UTF8.GetString(bytes).TrimStart('\uFEFF'))!.AsArray() : [];
+        var apps = Read(ActionsFileName); var gestures = Read(GesturesFileName);
+        var actions = apps.OfType<JsonObject>().SelectMany(app => app["Actions"] as JsonArray ?? []).OfType<JsonObject>().ToList();
+        var existing = _actionsRoot.OfType<JsonObject>().SelectMany(app => app["Actions"] as JsonArray ?? []).OfType<JsonObject>()
+            .Select(action => action.StringValue("GestureName", "")).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        return new(apps.Count, actions.Count, gestures.Count, actions.Count(action => existing.Contains(action.StringValue("GestureName", ""))), files.ContainsKey(ConfigFileName));
+    }
+
+    public string? LastImportBackupPath { get; private set; }
     public void RestoreArchive(string archivePath)
     {
+        var files = ReadArchive(archivePath);
         Directory.CreateDirectory(RoamingPath);
-        using var archive = ZipFile.OpenRead(archivePath);
-        foreach (var entry in archive.Entries.Where(entry => entry.Name is ActionsFileName or GesturesFileName or ConfigFileName))
+        var previous = files.Keys.ToDictionary(name => name, name => File.Exists(Path.Combine(RoamingPath, name)) ? File.ReadAllBytes(Path.Combine(RoamingPath, name)) : null);
+        var backup = Path.Combine(RoamingPath, "Backups", "BeforeImport-" + DateTime.Now.ToString("yyyyMMdd-HHmmss") + "-" + Guid.NewGuid().ToString("N") + ".ges");
+        Directory.CreateDirectory(Path.GetDirectoryName(backup)!);
+        using (var zip = ZipFile.Open(backup, ZipArchiveMode.Create))
+            foreach (var item in previous.Where(item => item.Value != null))
+            { using var stream = zip.CreateEntry(item.Key).Open(); stream.Write(item.Value!); }
+        LastImportBackupPath = backup;
+        var written = new List<string>();
+        try
         {
-            var destination = Path.Combine(RoamingPath, entry.Name);
-            entry.ExtractToFile(destination, true);
+            foreach (var item in files)
+            {
+                var path = Path.Combine(RoamingPath, item.Key);
+                var temp = path + ".import-" + Guid.NewGuid().ToString("N");
+                try { File.WriteAllBytes(temp, item.Value); File.Move(temp, path, true); written.Add(item.Key); }
+                finally { if (File.Exists(temp)) File.Delete(temp); }
+            }
+        }
+        catch
+        {
+            foreach (var name in written)
+            {
+                var path = Path.Combine(RoamingPath, name);
+                if (previous[name] is byte[] bytes) File.WriteAllBytes(path, bytes); else File.Delete(path);
+            }
+            throw;
         }
     }
 

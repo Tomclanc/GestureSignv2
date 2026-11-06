@@ -625,6 +625,20 @@ namespace GestureSign.Common.Applications
                         excludedApplication != a.Name).ToArray();
         }
 
+        public List<IAction> PrepareDesktopEdgeWheel(string gestureName)
+        {
+            var target = SystemWindow.ForegroundWindow;
+            if (target == null || target.HWnd == IntPtr.Zero) return new List<IAction>();
+            var apps = GetApplicationFromWindow(target);
+            if (apps.Any(a => a is IgnoredApp && a.IsEnabled) ||
+                ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(target)))
+                return new List<IAction>();
+            var actions = GetDefinedActionForInput(gestureName, apps, true, Devices.Mouse, ManagedWinapi.Hooks.MouseActions.None)
+                .Where(a => (a.IgnoredDevices & Devices.Mouse) == 0).ToList();
+            if (actions.Count > 0) { CaptureWindow = target; _recognizedApplication = apps; }
+            return actions;
+        }
+
         public SystemWindow GetForegroundApplications()
         {
             CaptureWindow = SystemWindow.ForegroundWindow;

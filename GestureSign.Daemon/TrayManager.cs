@@ -889,6 +889,16 @@ namespace GestureSign.Daemon
         protected TrayManager()
         {
             PointCapture.Instance.ModeChanged += CaptureMode_Changed;
+            GestureSign.CorePlugins.MouseActions.DragLock.Changed += held =>
+            {
+                if (_trayMenu.IsDisposed) return;
+                _trayMenu.BeginInvoke(new Action(() =>
+                {
+                    var chinese = System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("zh");
+                    _trayIcon.Text = held ? (chinese ? "拖动已锁定 · Esc 释放" : "Drag locked - Esc to release") : "GestureSign V2";
+                    if (held) _trayIcon.ShowBalloonTip(3000, "GestureSign V2", chinese ? "拖动已锁定；再次触发或按 Esc 释放。" : "Drag locked. Trigger again or press Esc to release.", ToolTipIcon.Info);
+                }));
+            };
             Application.ApplicationExit += Application_ApplicationExit;
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }

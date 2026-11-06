@@ -126,6 +126,16 @@ try
 finally { Directory.Delete(root, true); }
 Console.WriteLine($"PASS: {checks} mouse binding, dispatch, recognition and persistence checks.");
 
+// Extended training payload retains the original point-array prefix for older UI readers.
+var ipcWriter = typeof(GestureSign.Common.InterProcessCommunication.NamedPipe).GetMethod("WriteMessage", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)!;
+var trainingPoints = new System.Drawing.Point[][][] { new[] { new[] { new System.Drawing.Point(1,2), new System.Drawing.Point(3,4) } } };
+byte[] Wire(object payload) { using var stream = new MemoryStream(); ipcWriter.Invoke(null, new object[] { stream, GestureSign.Common.InterProcessCommunication.IpcCommands.GotGesture, payload }); return stream.ToArray(); }
+var oldWire = Wire(trainingPoints);
+var newWire = Wire(Tuple.Create(trainingPoints, 2, 0));
+if (newWire.Length != oldWire.Length + 8 || !oldWire.SequenceEqual(newWire.Take(oldWire.Length))) throw new Exception("Training IPC compatibility changed");
+if (BitConverter.ToInt32(newWire, oldWire.Length) != 2 || BitConverter.ToInt32(newWire, oldWire.Length + 4) != 0) throw new Exception("Training input metadata changed");
+Console.WriteLine("PASS: training IPC retains legacy point payload and appends exact device/button metadata.");
+
 sealed class Capture : IPointCapture, IMouseGestureCapture
 {
     public Devices SourceDevice { get; set; } = Devices.Mouse;

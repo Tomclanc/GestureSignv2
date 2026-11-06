@@ -144,6 +144,7 @@ namespace GestureSign.Daemon
         private static void Application_ApplicationExit(object sender, EventArgs e)
         {
             Logging.LogMessage("GestureSign daemon exiting. Reason=ApplicationExit");
+            GestureSign.CorePlugins.MouseActions.DragLock.Release();
             NamedPipe.Instance.Dispose();
             DaemonApplicationContext.DisposeInput();
         }
@@ -151,6 +152,7 @@ namespace GestureSign.Daemon
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             Logging.LogMessage($"GestureSign daemon unhandled exception. IsTerminating={e.IsTerminating}");
+            GestureSign.CorePlugins.MouseActions.DragLock.Release();
             if (e.ExceptionObject is Exception exception)
                 Logging.LogException(exception);
             else

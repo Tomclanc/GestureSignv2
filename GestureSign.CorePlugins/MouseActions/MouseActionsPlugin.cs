@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -94,6 +94,10 @@ namespace GestureSign.CorePlugins.MouseActions
                 EdgeInputDiagnostics.Record("COMMAND_SEND", $"Id={diagnosticId} MouseAction={_settings.MouseAction} Point={Cursor.Position.X},{Cursor.Position.Y}");
                 switch (_settings.MouseAction)
                 {
+                    case MouseActions.ToggleDragLock:
+                        DragLock.Toggle(); return true;
+                    case MouseActions.ReleaseDragLock:
+                        DragLock.Release(); return true;
                     case MouseActions.HorizontalScroll:
                         simulator.Mouse.HorizontalScroll(_settings.ScrollAmount).Sleep(30);
                         return true;
@@ -267,6 +271,8 @@ namespace GestureSign.CorePlugins.MouseActions
                     return LocalizationProvider.Instance.GetTextValue("CorePlugins.MouseActions.Description.MoveMouseTo") + _settings.MovePoint;
             }
 
+            if (_settings.MouseAction == MouseActions.ToggleDragLock) return "Drag lock (Esc to release)";
+            if (_settings.MouseAction == MouseActions.ReleaseDragLock) return "Release drag lock";
             string button, action, location;
             MouseActionDescription.ButtonDescription.TryGetValue(_settings.MouseAction.GetButtons(), out button);
             MouseActionDescription.DescriptionDict.TryGetValue(_settings.MouseAction.GetActions(), out action);

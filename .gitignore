@@ -182,3 +182,5 @@ installer/GestureSign-Setup.exe
 
 # Local release artifacts
 /outputs/
+
+/artifacts/

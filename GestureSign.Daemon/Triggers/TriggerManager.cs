@@ -36,8 +36,11 @@ namespace GestureSign.Daemon.Triggers
 
         public void Load()
         {
+            Microsoft.Win32.SystemEvents.SessionSwitch += (_, e) => { if (e.Reason == Microsoft.Win32.SessionSwitchReason.SessionLock) GestureSign.CorePlugins.MouseActions.DragLock.Release(); };
+            Microsoft.Win32.SystemEvents.PowerModeChanged += (_, e) => { if (e.Mode == Microsoft.Win32.PowerModes.Suspend) GestureSign.CorePlugins.MouseActions.DragLock.Release(); };
             AddTrigger(new HotKeyManager());
             AddTrigger(new MouseTrigger());
+            AddTrigger(new DesktopEdgeWheelTrigger());
             AddTrigger(new ContinuousGestureTrigger());
             AddTrigger(new TouchPadEdgeTrigger());
             AddTrigger(new TouchPadEdgeTrigger(GestureSign.Common.Input.Devices.TouchScreen, "TouchScreenEdge", "TouchScreen", 12, 70, 60, 1.2, true));
@@ -65,7 +68,7 @@ namespace GestureSign.Daemon.Triggers
             var points = e.Points != null && e.Points.Count > 0
                 ? e.Points
                 : new List<List<Point>>(new[] { point });
-            PluginManager.Instance.ExecuteAction(e.FiredActions, PointCapture.Instance.Mode, PointCapture.Instance.SourceDevice, new List<int>(new[] { 1 }), point, points);
+            PluginManager.Instance.ExecuteAction(e.FiredActions, PointCapture.Instance.Mode, e.SourceDevice ?? PointCapture.Instance.SourceDevice, new List<int>(new[] { 1 }), point, points);
         }
 
         #endregion

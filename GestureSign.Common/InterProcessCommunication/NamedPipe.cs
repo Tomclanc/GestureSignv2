@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -76,7 +76,13 @@ namespace GestureSign.Common.InterProcessCommunication
                 switch (command)
                 {
                     case IpcCommands.GotGesture:
-                        WritePointPatterns(writer, (Point[][][])message);
+                        if (message is Tuple<Point[][][], int, int> capture)
+                        {
+                            WritePointPatterns(writer, capture.Item1);
+                            writer.Write(capture.Item2);
+                            writer.Write(capture.Item3);
+                        }
+                        else WritePointPatterns(writer, (Point[][][])message);
                         break;
                     case IpcCommands.SynDeviceState:
                         writer.Write((int)(Common.Input.Devices)message);

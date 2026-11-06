@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace GestureSign.CorePlugins.MouseActions
 {
@@ -22,6 +22,8 @@ namespace GestureSign.CorePlugins.MouseActions
 
         MoveMouseTo = 1 << 14,
         MoveMouseBy = 1 << 15,
+        ToggleDragLock = 1 << 16,
+        ReleaseDragLock = 1 << 17,
 
         LeftButtonClick = LeftButton | Click,
         LeftButtonDoubleClick = LeftButton | DoubleClick,

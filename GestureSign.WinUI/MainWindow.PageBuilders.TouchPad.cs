@@ -28,6 +28,17 @@ public sealed partial class MainWindow
         root.Children.Add(NewTipTapCard());
         root.Children.Add(NewTouchPadMapCard());
         root.Children.Add(NewTouchScreenMapCard());
+        var desktop = NewCardPanel(8);
+        desktop.Children.Add(new TextBlock { Text = T("桌面边缘鼠标滚轮", "Desktop edge mouse wheel"), Style = BodyStrongTextBlockStyle });
+        desktop.Children.Add(new TextBlock { Text = T("指针停在显示器外侧边缘时滚动。未配置时保持原有滚动；相邻显示器内部边界不触发。", "Scroll at an outer display edge. Unassigned actions keep normal scrolling; internal monitor boundaries are excluded."), TextWrapping = TextWrapping.Wrap });
+        foreach (var edge in new[] { "Left", "Right", "Top", "Bottom" })
+        foreach (var direction in new[] { "WheelUp", "WheelDown" })
+        {
+            var edgeTitle = edge switch { "Left" => T("左边缘", "Left edge"), "Right" => T("右边缘", "Right edge"), "Top" => T("上边缘", "Top edge"), _ => T("下边缘", "Bottom edge") };
+            var title = edgeTitle + " · " + (direction == "WheelUp" ? T("向上滚动", "Scroll up") : T("向下滚动", "Scroll down"));
+            desktop.Children.Add(NewTouchPadGestureButton(new TouchPadEdgeAction(title, "DesktopEdge." + edge + "." + direction)));
+        }
+        root.Children.Add(NewCard(desktop));
         return root;
     }
 
@@ -540,18 +551,20 @@ public sealed partial class MainWindow
         plugin.SelectionChanged += (_, _) => UpdateEditor(true);
 
         var panel = NewCardPanel(8);
-        panel.Children.Add(name);
+        var advanced = NewCardPanel(8);
+        advanced.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
-        panel.Children.Add(pluginClass);
+        advanced.Children.Add(pluginClass);
         panel.Children.Add(hotkey);
         panel.Children.Add(appPicker);
         panel.Children.Add(typedSettings);
         panel.Children.Add(continuousVolumeHint);
         panel.Children.Add(continuousBrightnessHint);
         panel.Children.Add(continuousScrollHint);
-        panel.Children.Add(settings);
-        panel.Children.Add(enabled);
+        advanced.Children.Add(settings);
+        advanced.Children.Add(enabled);
+        panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, HorizontalAlignment = HorizontalAlignment.Stretch });
         UpdateEditor(false);
 
         var dialog = new ContentDialog

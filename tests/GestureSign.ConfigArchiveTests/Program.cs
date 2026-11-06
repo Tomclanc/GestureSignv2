@@ -37,3 +37,38 @@ if (args.Length != 0) {
     if (File.ReadAllText(config) != expected[config]) throw new Exception("Sample import unexpectedly replaced global options.");
     Console.WriteLine("PASS: RestoreArchive imports all 59 sample rules and 30 gesture definitions, retaining global options.");
 }
+string MakeArchive(string filename, params (string Name, string Text)[] entries)
+{
+    var path = Path.Combine(root, filename);
+    using var zip = ZipFile.Open(path, ZipArchiveMode.Create);
+    foreach (var entry in entries) { using var writer = new StreamWriter(zip.CreateEntry(entry.Name).Open()); writer.Write(entry.Text); }
+    return path;
+}
+void RejectWithoutChanges(string archive)
+{
+    var before = File.ReadAllBytes(actions);
+    try { store.RestoreArchive(archive); throw new Exception("Invalid archive accepted"); }
+    catch (InvalidDataException) { }
+    catch (System.Text.Json.JsonException) { }
+    if (!before.SequenceEqual(File.ReadAllBytes(actions))) throw new Exception("Validation modified live config");
+}
+RejectWithoutChanges(MakeArchive("invalid.ges", ("Actions.gsa", "not JSON")));
+RejectWithoutChanges(MakeArchive("duplicate.ges", ("Actions.gsa", "[]"), ("nested/Actions.gsa", "[]")));
+RejectWithoutChanges(MakeArchive("empty.ges", ("other.txt", "x")));
+var beforeRollback = File.ReadAllBytes(actions);
+var originalGestures = File.ReadAllBytes(gestures);
+File.Delete(gestures); Directory.CreateDirectory(gestures);
+try
+{
+    try { store.RestoreArchive(MakeArchive("rollback.ges", ("Actions.gsa", "[]"), ("Gestures.gest", "[]"))); throw new Exception("Expected write failure"); }
+    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
+    if (!beforeRollback.SequenceEqual(File.ReadAllBytes(actions))) throw new Exception("Rollback failed");
+}
+finally { Directory.Delete(gestures); File.WriteAllBytes(gestures, originalGestures); }
+var legacy = MakeArchive("legacy.ges", ("Actions.act", "[{\"$type\":\"GestureSign.Applications.GlobalApplication, GestureSign\",\"Actions\":[{\"Name\":\"Back\",\"GestureName\":\"Left\",\"PluginClass\":\"HotKey\",\"ActionSettings\":\"{}\"}]}]"));
+var preview = store.PreviewArchive(legacy);
+if (preview.Actions != 1) throw new Exception("Legacy preview lost action");
+store.RestoreArchive(legacy);
+if (JsonNode.Parse(File.ReadAllText(actions))![0]!["Actions"]![0]!["Commands"]![0]!["CommandSettings"]!.GetValue<string>() != "{}") throw new Exception("Legacy conversion lost command");
+if (!File.Exists(store.LastImportBackupPath)) throw new Exception("Missing backup");
+Console.WriteLine("PASS: invalid, duplicate and empty archives rejected; write failure rolled back; legacy commands converted with preview and backup.");
