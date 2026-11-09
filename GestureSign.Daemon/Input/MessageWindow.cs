@@ -269,6 +269,28 @@ namespace GestureSign.Daemon.Input
             base.WndProc(ref message);
         }
 
+        internal bool TrySelectTouchSource(Devices device, int contactCount)
+        {
+            if (_sourceDevice != Devices.None)
+                return _sourceDevice == device;
+
+            // A zero-contact report may be an idle packet or a continuation
+            // whose first packet was lost. It must not claim the source lock:
+            // there is no frame to deliver and therefore no capture to release it.
+            if (contactCount <= 0)
+            {
+                _emptyTouchReports++;
+                return false;
+            }
+
+            _currentScr = Screen.FromPoint(Cursor.Position);
+            if (_currentScr == null) return false;
+            _sourceDevice = device;
+            if (device == Devices.TouchScreen)
+                TouchScreenDevice.GetCurrentScreenOrientation();
+            return true;
+        }
+
         private void CheckLastError()
         {
             int errCode = Marshal.GetLastWin32Error();
@@ -376,20 +398,15 @@ namespace GestureSign.Daemon.Input
                 {
                     if (_penLastActivity != null && Environment.TickCount - _penLastActivity < 100)
                         return;
-                    if (_sourceDevice == Devices.None)
+                    if (_sourceDevice != Devices.None && _sourceDevice != Devices.TouchScreen)
                     {
-                        _currentScr = Screen.FromPoint(Cursor.Position);
-                        if (_currentScr == null)
-                            return;
-                        _sourceDevice = Devices.TouchScreen;
-                        TouchScreenDevice.GetCurrentScreenOrientation();
-                    }
-                    else if (_sourceDevice != Devices.TouchScreen)
+                        _sourceMismatchReports++;
                         return;
-
+                    }
                     using (TouchScreenDevice touchScreen = new TouchScreenDevice(buffer, ref raw))
                     {
                         int contactCount = touchScreen.GetContactCount();
+                        if (!TrySelectTouchSource(Devices.TouchScreen, contactCount)) return;
                         HidNativeApi.HIDP_LINK_COLLECTION_NODE[] linkCollection = touchScreen.GetLinkCollectionNodes();
                         touchScreen.GetPhysicalMax(linkCollection.Length);
 
@@ -405,19 +422,15 @@ namespace GestureSign.Daemon.Input
                 }
                 else if (usage == NativeMethods.TouchPadUsage)
                 {
-                    if (_sourceDevice == Devices.None)
+                    if (_sourceDevice != Devices.None && _sourceDevice != Devices.TouchPad)
                     {
-                        _currentScr = Screen.FromPoint(Cursor.Position);
-                        if (_currentScr == null)
-                            return;
-                        _sourceDevice = Devices.TouchPad;
-                    }
-                    else if (_sourceDevice != Devices.TouchPad)
+                        _sourceMismatchReports++;
                         return;
-
+                    }
                     using (TouchPadDevice touchPad = new TouchPadDevice(buffer, ref raw))
                     {
                         int contactCount = touchPad.GetContactCount();
+                        if (!TrySelectTouchSource(Devices.TouchPad, contactCount)) return;
                         HidNativeApi.HIDP_LINK_COLLECTION_NODE[] linkCollection = touchPad.GetLinkCollectionNodes();
                         touchPad.GetPhysicalMax(linkCollection.Length);
 

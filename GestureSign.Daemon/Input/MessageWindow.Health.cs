@@ -11,6 +11,7 @@ public partial class MessageWindow
 {
     private long _rawMessages, _completeFrames, _inputErrors, _invalidDevices;
     private long _lastRawTick;
+    private long _emptyTouchReports, _sourceMismatchReports;
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern uint GetRegisteredRawInputDevices([Out] RAWINPUTDEVICE[] devices, ref uint count, uint size);
@@ -38,10 +39,12 @@ public partial class MessageWindow
             actual.Select(r => new RawInputRegistrationStatus(r.usUsagePage, r.usUsage, r.dwFlags, r.hwndTarget.ToInt64())));
         snapshot = new Dictionary<string, object>
         {
+            ["InputBuild"] = "18.4.4-community-test1",
             ["RawMessages"] = _rawMessages, ["FramesDelivered"] = _completeFrames,
             ["InputErrors"] = _inputErrors, ["InvalidDeviceReports"] = _invalidDevices,
             ["LastRawAgeMs"] = _rawMessages == 0 ? -1 : Environment.TickCount64 - _lastRawTick,
             ["RawSource"] = _sourceDevice.ToString(), ["PendingContacts"] = _requiringContactCount,
+            ["EmptyTouchReports"] = _emptyTouchReports, ["SourceMismatchReports"] = _sourceMismatchReports,
             ["BufferedContacts"] = _outputTouchs.Count, ["MessageHwnd"] = Handle.ToInt64(),
             ["RegistrationQuerySucceeded"] = success, ["RegistrationQueryError"] = error,
             ["RegistrationMismatch"] = repair, ["ExpectedUsages"] = _registeredDeviceList.ToArray(),

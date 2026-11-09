@@ -54,7 +54,7 @@ public sealed partial class MainWindow : Window
     private const int WindowPickHoverConfirmMilliseconds = 3000;
     private const byte DarkMicaDimmingOverlayAlpha = 150;
     private const byte LightMicaDimmingOverlayAlpha = 89;
-    private const string AppVersion = ProductVersion.Current;
+    private const string AppVersion = ProductVersion.Current + "-community-test1";
     private const uint WmGetIcon = 0x007F;
     private const uint WmSetIcon = 0x0080;
     private const int IconSmall = 0;
@@ -5093,7 +5093,16 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-        var gestureBox = NewGesturePreview(action.GestureName, 150, 76);
+        var gestureBox = new Button
+        {
+            Content = NewGesturePreview(action.GestureName, 150, 76),
+            Padding = new Thickness(0),
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(gestureBox, T("绘制手势", "Draw Gesture"));
+        ToolTipService.SetToolTip(gestureBox, T("绘制手势", "Draw Gesture"));
+        gestureBox.Click += async (_, _) => await WithCurrentAction((_, current) => EditActionAsync(current, recordGesture: true));
         grid.Children.Add(gestureBox);
 
         var text = NewCardPanel(4);

@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using GestureSign.Common.Configuration;
+using GestureSign.Common.Input;
 using GestureSign.Daemon.Input;
 using GestureSign.Daemon.Native;
 
@@ -19,6 +20,25 @@ internal static class Program
         var window = new MessageWindow();
         try
         {
+            foreach (var idleSource in new[] { Devices.TouchPad, Devices.TouchScreen })
+            {
+                window.ResetInputState();
+                for (int report = 0; report < 100; report++)
+                    if (window.TrySelectTouchSource(idleSource, 0))
+                        throw new Exception("Idle report acquired source ownership");
+                window.ReadInputHealth(out var idle);
+                if ((string)idle["RawSource"] != "None" || (long)idle["FramesDelivered"] != 0)
+                    throw new Exception("Idle reports changed capture or fabricated frames");
+                var nextSource = idleSource == Devices.TouchPad ? Devices.TouchScreen : Devices.TouchPad;
+                if (!window.TrySelectTouchSource(nextSource, 2))
+                    throw new Exception("Idle report blocked the next input device");
+                if (!window.TrySelectTouchSource(nextSource, 0))
+                    throw new Exception("Active-source continuation was rejected");
+                if (window.TrySelectTouchSource(idleSource, 1))
+                    throw new Exception("Another device stole the active source");
+            }
+            window.ResetInputState();
+            Console.WriteLine("PASS: idle touch reports cannot lock out another device; active-source continuations preserve ownership.");
             if(window.ReadInputHealth(out var initial) || !(bool)initial["RegistrationQuerySucceeded"]) throw new Exception("Initial registrations unhealthy");
             var remove=new RAWINPUTDEVICE {usUsagePage=13,usUsage=4,dwFlags=1,hwndTarget=IntPtr.Zero};
             if(!RegisterRawInputDevices(new[]{remove},1,(uint)Marshal.SizeOf<RAWINPUTDEVICE>())) throw new Exception("Could not simulate lost registration");
