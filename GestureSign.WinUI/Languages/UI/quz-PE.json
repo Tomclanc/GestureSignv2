@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Mana uyarisqa makiwan ruwaykuna",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Akllasqa makiwan ruwaypaq ruwaykunata hark'ay, wak makiwan ruwaykunata waqaychaspa. Nativo yaykuyqa manam kutichisqachu.",
+  "Add ignored gesture": "Mana qhawasqa gestota yapay",
+  "All applications": "Tukuy aplicacionkuna",
+  "Select all applications or enter application match text.": "Llapan ruwanakuna akllay utaq ruwana tupachiy qillqata qillqay.",
+  "Invalid regular expression.": "Expresión regular mana allin.",
+  "Choose script": "Guionta akllay",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python chaymanta AutoHotkey nisqakunata yanapan. Munasqa t'ikraqta churay hinaspa kamachiyta llamk'achiy argumentokuna yapanaykipaq.",
+  "Configure application and gesture exclusions.": "Aplicación chaymanta gesto exclusiones nisqakunata ruway."
 }

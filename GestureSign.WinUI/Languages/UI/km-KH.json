@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "កាយវិការមិនអើពើ",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "រារាំងសកម្មភាពសម្រាប់កាយវិការដែលបានជ្រើសរើស ខណៈពេលដែលរក្សាកាយវិការផ្សេងទៀតដែលអាចប្រើបាន។ ការបញ្ចូលដើមមិនត្រូវបានស្ដារឡើងវិញទេ។",
+  "Add ignored gesture": "បន្ថែមកាយវិការដែលមិនអើពើ",
+  "All applications": "កម្មវិធីទាំងអស់។",
+  "Select all applications or enter application match text.": "ជ្រើសរើសកម្មវិធីទាំងអស់ ឬបញ្ចូលអត្ថបទដែលត្រូវគ្នានឹងកម្មវិធី។",
+  "Invalid regular expression.": "កន្សោមធម្មតាមិនត្រឹមត្រូវ។",
+  "Choose script": "ជ្រើសរើសស្គ្រីប",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "គាំទ្រ PowerShell, CMD/BAT, Python និង AutoHotkey ។ ដំឡើងអ្នកបកប្រែដែលត្រូវការ ហើយកែសម្រួលពាក្យបញ្ជាដើម្បីបន្ថែមអាគុយម៉ង់។",
+  "Configure application and gesture exclusions.": "កំណត់រចនាសម្ព័ន្ធកម្មវិធី និងការបដិសេធដោយកាយវិការ។"
 }

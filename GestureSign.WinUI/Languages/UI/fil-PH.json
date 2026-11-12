@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Hindi pinansin ang mga kilos",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "I-block ang mga pagkilos para sa napiling galaw habang pinapanatiling available ang iba pang galaw. Hindi naibalik ang native input.",
+  "Add ignored gesture": "Magdagdag ng hindi pinansin na kilos",
+  "All applications": "Lahat ng application",
+  "Select all applications or enter application match text.": "Piliin ang lahat ng application o ilagay ang text match ng application.",
+  "Invalid regular expression.": "Di-wastong regular na expression.",
+  "Choose script": "Pumili ng script",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Sinusuportahan ang PowerShell, CMD/BAT, Python at AutoHotkey. I-install ang kinakailangang interpreter at i-edit ang command para magdagdag ng mga argumento.",
+  "Configure application and gesture exclusions.": "I-configure ang mga pagbubukod ng application at galaw."
 }

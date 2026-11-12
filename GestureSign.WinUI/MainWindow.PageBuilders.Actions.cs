@@ -24,7 +24,7 @@ public sealed partial class MainWindow
         return new MainWindowPageService(new[]
         {
             RegisterPage("actions", L("动作", "Actions", "動作", "동작"), L("按程序管理手势动作。", "Manage gesture actions by application.", "依程式管理手勢動作。", "프로그램별로 제스처 동작을 관리합니다."), BuildActionsPage),
-            RegisterPage("ignored", L("忽略", "Ignored", "忽略", "무시"), L("设置不参与手势识别的程序和匹配规则。", "Configure applications and matching rules excluded from gesture recognition.", "設定不參與手勢辨識的程式與比對規則。", "제스처 인식에서 제외할 프로그램과 매칭 규칙을 설정합니다."), BuildIgnoredPageFromService),
+            RegisterPage("ignored", L("忽略", "Ignored", "忽略", "무시"), T("设置程序忽略和手势忽略规则。", "Configure application and gesture exclusions."), BuildIgnoredPageFromService),
             RegisterPage("gestures", L("手势", "Gestures", "手勢", "제스처"), L("查看、导入和整理可用手势。", "View, import, and organize available gestures.", "檢視、匯入與整理可用手勢。", "사용 가능한 제스처를 보고 가져오고 정리합니다."), BuildGesturesPageFromService),
             RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), L("用独立快捷键唤起 Kando 圆环菜单。", "Open the Kando radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出 Kando 環形選單。", "전용 단축키로 Kando 원형 메뉴를 엽니다."), BuildQuickActionsPageFromService),
             RegisterPage("touchpad", L("边缘交互", "Edge Interaction", "邊緣互動", "가장자리 상호작용"), L("设置触控板和触摸屏边缘点击、滑动动作。", "Configure touchpad and touchscreen edge taps and swipes.", "設定觸控板與觸控螢幕邊緣點擊、滑動動作。", "터치패드와 터치스크린 가장자리 탭 및 스와이프 동작을 설정합니다."), BuildTouchPadPageFromService),
@@ -216,7 +216,7 @@ public sealed partial class MainWindow
         root.Children.Add(NewCard(NewCardHeader(L("忽略列表", "Ignored List", "忽略清單", "무시 목록"), L("按窗口标题、窗口类名或可执行文件匹配。", "Match by window title, window class, or executable file.", "依視窗標題、視窗類別或可執行檔比對。", "창 제목, 창 클래스 또는 실행 파일로 매칭합니다."), L("添加忽略项", "Add Ignored Item", "新增忽略項", "무시 항목 추가"), "添加忽略项")));
 
         var table = NewCardPanel(10);
-        var ignoredApps = _legacyData.Applications.Where(app => app.Type == "忽略").ToList();
+        var ignoredApps = _legacyData.Applications.Where(app => app.Type == "忽略" && string.IsNullOrWhiteSpace(app.IgnoredGesture)).ToList();
         table.Children.Add(NewTableHeader([L("启用", "Enabled", "啟用", "사용"), L("匹配类型", "Match Type", "比對類型", "매칭 유형"), L("程序名称", "App Name", "程式名稱", "프로그램 이름"), L("匹配文本", "Match Text", "比對文字", "매칭 텍스트"), L("正则", "Regex", "正則", "정규식")]));
         foreach (var app in ignoredApps)
             table.Children.Add(NewTableRow([app.IsEnabled ? L("开", "On", "開", "켬") : L("关", "Off", "關", "끔"), MatchUsingText(app.MatchUsing), app.Name, app.MatchString, app.IsRegEx ? L("是", "Yes", "是", "예") : L("否", "No", "否", "아니요")], false, NewInlineButtonsWithContext(
@@ -231,6 +231,7 @@ public sealed partial class MainWindow
             table.Children.Add(NewTableRow(["-", "-", L("暂无忽略项", "No ignored items", "暫無忽略項", "무시 항목 없음"), L("可以从这里添加窗口标题、类名或 exe 匹配", "Add title, class, or exe matches here.", "可在此新增標題、類別或 exe 比對。", "여기서 제목, 클래스 또는 exe 매칭을 추가할 수 있습니다."), "-"]));
         table.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "가져오기"), "导入"), (L("导出", "Export", "匯出", "내보내기"), "导出"), (L("下载列表", "Download List", "下載清單", "목록 다운로드"), "下载列表")]));
         root.Children.Add(NewCard(table, new Thickness(14)));
+        root.Children.Add(BuildIgnoredGestureCard());
         return root;
     }
 

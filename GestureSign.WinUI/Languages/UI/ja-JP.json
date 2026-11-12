@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "ドラッグロックの切り替え（Escで解除）",
   "Release drag lock": "ドラッグロックを解除",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "アプリ：{0}、アクション：{1}、ジェスチャー：{2}、同じジェスチャーの割り当て：{3}",
-  "Enable this mouse button for recognition when saved": "保存時にこのマウスボタンの認識を有効にします"
+  "Enable this mouse button for recognition when saved": "保存時にこのマウスボタンの認識を有効にします",
+  "Ignored gestures": "無視するジェスチャー",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "選択したジェスチャーのアクションのみを無効にし、他のジェスチャーは引き続き利用できます。元の入力は復元されません。",
+  "Add ignored gesture": "無視するジェスチャーを追加",
+  "All applications": "すべてのアプリ",
+  "Select all applications or enter application match text.": "すべてのアプリを選択するか、アプリの一致条件を入力してください。",
+  "Invalid regular expression.": "正規表現が無効です。",
+  "Choose script": "スクリプトを選択",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell、CMD/BAT、Python、AutoHotkey に対応しています。必要な実行環境をインストールし、引数はコマンドを編集して追加してください。",
+  "Configure application and gesture exclusions.": "アプリとジェスチャーの除外ルールを設定します。"
 }

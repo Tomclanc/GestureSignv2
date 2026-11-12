@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "విస్మరించిన సంజ్ఞలు",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "ఇతర సంజ్ఞలను అందుబాటులో ఉంచుతూ ఎంచుకున్న సంజ్ఞ కోసం చర్యలను బ్లాక్ చేయండి. స్థానిక ఇన్‌పుట్ పునరుద్ధరించబడలేదు.",
+  "Add ignored gesture": "విస్మరించబడిన సంజ్ఞను జోడించండి",
+  "All applications": "అన్ని అప్లికేషన్లు",
+  "Select all applications or enter application match text.": "అన్ని అప్లికేషన్‌లను ఎంచుకోండి లేదా అప్లికేషన్ సరిపోలిక వచనాన్ని నమోదు చేయండి.",
+  "Invalid regular expression.": "చెల్లని సాధారణ వ్యక్తీకరణ.",
+  "Choose script": "స్క్రిప్ట్‌ని ఎంచుకోండి",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python మరియు AutoHotkeyకి మద్దతు ఇస్తుంది. ఆర్గ్యుమెంట్‌లను జోడించడానికి అవసరమైన ఇంటర్‌ప్రెటర్‌ను ఇన్‌స్టాల్ చేయండి మరియు ఆదేశాన్ని సవరించండి.",
+  "Configure application and gesture exclusions.": "అప్లికేషన్ మరియు సంజ్ఞ మినహాయింపులను కాన్ఫిగర్ చేయండి."
 }

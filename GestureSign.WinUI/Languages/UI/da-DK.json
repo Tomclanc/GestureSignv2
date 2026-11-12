@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ignorerede bevægelser",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Bloker handlinger for den valgte bevægelse, mens andre bevægelser holdes tilgængelige. Native input er ikke gendannet.",
+  "Add ignored gesture": "Tilføj ignoreret gestus",
+  "All applications": "Alle applikationer",
+  "Select all applications or enter application match text.": "Vælg alle applikationer, eller indtast applikationsmatchtekst.",
+  "Invalid regular expression.": "Ugyldigt regulært udtryk.",
+  "Choose script": "Vælg script",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Understøtter PowerShell, CMD/BAT, Python og AutoHotkey. Installer den nødvendige fortolker og rediger kommandoen for at tilføje argumenter.",
+  "Configure application and gesture exclusions.": "Konfigurer applikations- og bevægelsesekskluderinger."
 }

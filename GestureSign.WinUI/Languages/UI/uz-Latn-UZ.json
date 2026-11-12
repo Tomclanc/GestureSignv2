@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "E'tiborsiz imo-ishoralar",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Tanlangan imo-ishora uchun amallarni bloklang, shu bilan birga boshqa imo-ishoralar mavjud bo‘lsin. Mahalliy kirish tiklanmadi.",
+  "Add ignored gesture": "E'tiborsiz imo-ishora qo'shing",
+  "All applications": "Barcha ilovalar",
+  "Select all applications or enter application match text.": "Barcha ilovalarni tanlang yoki ilovaga mos matnni kiriting.",
+  "Invalid regular expression.": "Oddiy ifoda noto‘g‘ri.",
+  "Choose script": "Skriptni tanlang",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python va AutoHotkey-ni qo'llab-quvvatlaydi. Kerakli tarjimonni o'rnating va argumentlar qo'shish buyrug'ini tahrirlang.",
+  "Configure application and gesture exclusions.": "Ilova va imo-ishora istisnolarini sozlang."
 }

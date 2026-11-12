@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Hunsuð bendingar",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Lokaðu á aðgerðir fyrir valda bendingu á meðan aðrar bendingar eru tiltækar. Náttúrulegt inntak er ekki endurheimt.",
+  "Add ignored gesture": "Bættu við hunsuðum bendingum",
+  "All applications": "Allar umsóknir",
+  "Select all applications or enter application match text.": "Veldu öll forrit eða sláðu inn texta sem samsvarar forritum.",
+  "Invalid regular expression.": "Ógild regluleg tjáning.",
+  "Choose script": "Veldu handrit",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Styður PowerShell, CMD/BAT, Python og AutoHotkey. Settu upp nauðsynlegan túlk og breyttu skipuninni til að bæta við rökum.",
+  "Configure application and gesture exclusions.": "Stilltu útilokanir á forritum og bendingum."
 }

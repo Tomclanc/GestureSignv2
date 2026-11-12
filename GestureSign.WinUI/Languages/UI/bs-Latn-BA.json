@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ignorisani gestovi",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokirajte radnje za odabranu gestu dok ostale geste držite na raspolaganju. Izvorni unos se ne vraća.",
+  "Add ignored gesture": "Dodajte zanemareni pokret",
+  "All applications": "Sve aplikacije",
+  "Select all applications or enter application match text.": "Odaberite sve aplikacije ili unesite tekst koji odgovara aplikaciji.",
+  "Invalid regular expression.": "Nevažeći regularni izraz.",
+  "Choose script": "Odaberite skriptu",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Podržava PowerShell, CMD/BAT, Python i AutoHotkey. Instalirajte potreban interpreter i uredite naredbu za dodavanje argumenata.",
+  "Configure application and gesture exclusions.": "Konfigurirajte izuzimanja aplikacija i pokreta."
 }

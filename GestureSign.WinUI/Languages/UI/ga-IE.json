@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Gothaí neamhaird",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Cuir bac ar ghníomhartha don gotha roghnaithe agus gothaí eile á gcoimeád ar fáil. Ní dhéantar ionchur dúchasach a athchóiriú.",
+  "Add ignored gesture": "Cuir chomhartha neamhshuim leis",
+  "All applications": "Gach iarratas",
+  "Select all applications or enter application match text.": "Roghnaigh gach feidhmchlár nó cuir isteach téacs meaitseála feidhmchláir.",
+  "Invalid regular expression.": "Sloinneadh rialta neamhbhailí.",
+  "Choose script": "Roghnaigh script",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Tacaíonn sé le PowerShell, CMD/BAT, Python agus AutoHotkey. Suiteáil an t-ateangaire riachtanach agus cuir an t-ordú in eagar chun argóintí a chur leis.",
+  "Configure application and gesture exclusions.": "Cumraigh eisiamh iarratais agus gothaí."
 }

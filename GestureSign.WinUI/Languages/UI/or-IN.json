@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "ଅବହେଳିତ ଅଙ୍ଗଭଙ୍ଗୀ |",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "ଅନ୍ୟାନ୍ୟ ଅଙ୍ଗଭଙ୍ଗୀ ଉପଲବ୍ଧ ଥିବାବେଳେ ମନୋନୀତ ଅଙ୍ଗଭଙ୍ଗୀ ପାଇଁ କାର୍ଯ୍ୟଗୁଡିକ ଅବରୋଧ କରନ୍ତୁ | ଦେଶୀ ନିବେଶ ପୁନ restored ସ୍ଥାପିତ ହୋଇନାହିଁ |",
+  "Add ignored gesture": "ଅବହେଳିତ ଅଙ୍ଗଭଙ୍ଗୀ ଯୋଡନ୍ତୁ |",
+  "All applications": "ସମସ୍ତ ପ୍ରୟୋଗଗୁଡ଼ିକ |",
+  "Select all applications or enter application match text.": "ସମସ୍ତ ଅନୁପ୍ରୟୋଗ ଚୟନ କରନ୍ତୁ କିମ୍ବା ଅନୁପ୍ରୟୋଗ ମେଳକ ପାଠ୍ୟ ପ୍ରବେଶ କରନ୍ତୁ |",
+  "Invalid regular expression.": "ଅବ regular ଧ ନିୟମିତ ଅଭିବ୍ୟକ୍ତି |",
+  "Choose script": "ସ୍କ୍ରିପ୍ଟ ବାଛନ୍ତୁ |",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD / BAT, Python ଏବଂ AutoHotkey କୁ ସମର୍ଥନ କରେ | ଆବଶ୍ୟକ ଅନୁବାଦକ ସଂସ୍ଥାପନ କରନ୍ତୁ ଏବଂ ଆର୍ଗୁମେଣ୍ଟସ୍ ଯୋଡିବାକୁ ନିର୍ଦ୍ଦେଶକୁ ଏଡିଟ୍ କରନ୍ତୁ |",
+  "Configure application and gesture exclusions.": "ପ୍ରୟୋଗ ଏବଂ ଅଙ୍ଗଭଙ୍ଗୀ ବହିଷ୍କାରକୁ ବିନ୍ୟାସ କରନ୍ତୁ |"
 }

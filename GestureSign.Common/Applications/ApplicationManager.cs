@@ -490,7 +490,8 @@ namespace GestureSign.Common.Applications
                     !HasDefinedGestureAction(recognizedApplications, a.GestureName)));
             }
 
-            return MouseGestureBinding.Select(recognizedActions, BindingDevice, BindingButton);
+            var ignoredNames = GetIgnoredGestureNames();
+            return MouseGestureBinding.Select(recognizedActions.Where(a => !ignoredNames.Contains(a.GestureName)), BindingDevice, BindingButton);
         }
 
         public IEnumerable<IAction> GetDefinedAction(string gestureName, IEnumerable<IApplication> application, bool useGlobal)
@@ -501,6 +502,11 @@ namespace GestureSign.Common.Applications
         private IEnumerable<IAction> GetDefinedActionForInput(string gestureName, IEnumerable<IApplication> application, bool useGlobal,
             Devices device, ManagedWinapi.Hooks.MouseActions button)
         {
+            if (GetIgnoredGestureNames().Contains(gestureName))
+            {
+                Logging.LogMessage($"Gesture ignored by gesture rule. Gesture={gestureName}");
+                return Enumerable.Empty<IAction>();
+            }
             if (application == null)
             {
                 return Enumerable.Empty<IAction>();
@@ -901,14 +907,26 @@ namespace GestureSign.Common.Applications
 
         #region Private Methods
 
-        private IApplication[] FindMatchApplications(IEnumerable<IApplication> applications, string className, string title, string fileName)
+        private HashSet<string> GetIgnoredGestureNames()
+        {
+            var rules = Applications.OfType<IgnoredApp>().Where(a => a.IsEnabled && !string.IsNullOrWhiteSpace(a.IgnoredGesture)).ToList();
+            var names = rules.Where(a => a.MatchUsing == MatchUsing.All).Select(a => a.IgnoredGesture).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            if (CaptureWindow != null && rules.Any(a => a.MatchUsing != MatchUsing.All))
+            {
+                GetWindowInfo(CaptureWindow, out var className, out var title, out var fileName);
+                names.UnionWith(FindMatchApplications(rules, className, title, fileName, true).Cast<IgnoredApp>().Select(a => a.IgnoredGesture));
+            }
+            return names;
+        }
+
+        private IApplication[] FindMatchApplications(IEnumerable<IApplication> applications, string className, string title, string fileName, bool includeGestureRules = false)
         {
             var byFileName = new List<IApplication>();
             var byTitle = new List<IApplication>();
             var byClass = new List<IApplication>();
             foreach (var app in applications)
             {
-                if (!app.IsEnabled)
+                if (!app.IsEnabled || !includeGestureRules && app is IgnoredApp rule && !string.IsNullOrWhiteSpace(rule.IgnoredGesture))
                     continue;
 
                 switch (app.MatchUsing)

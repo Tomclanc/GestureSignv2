@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Figyelmen kívül hagyott gesztusok",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "A kiválasztott kézmozdulat műveleteinek letiltása, miközben a többi kézmozdulat elérhető marad. A natív bemenet nem áll vissza.",
+  "Add ignored gesture": "Figyelmen kívül hagyott kézmozdulat hozzáadása",
+  "All applications": "Minden alkalmazás",
+  "Select all applications or enter application match text.": "Jelölje ki az összes alkalmazást, vagy írja be az alkalmazásegyezési szöveget.",
+  "Invalid regular expression.": "Érvénytelen reguláris kifejezés.",
+  "Choose script": "Válassza ki a szkriptet",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Támogatja a PowerShellt, a CMD/BAT-ot, a Python-t és az AutoHotkey-t. Telepítse a szükséges értelmezőt, és módosítsa a parancsot argumentumok hozzáadásához.",
+  "Configure application and gesture exclusions.": "Alkalmazás- és kézmozdulat-kizárások konfigurálása."
 }

@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ishara zilizopuuzwa",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Zuia vitendo kwa ishara iliyochaguliwa huku ukiweka ishara zingine zinapatikana. Ingizo asilia halijarejeshwa.",
+  "Add ignored gesture": "Ongeza ishara iliyopuuzwa",
+  "All applications": "Maombi yote",
+  "Select all applications or enter application match text.": "Chagua programu zote au weka maandishi yanayolingana na programu.",
+  "Invalid regular expression.": "Usemi wa kawaida usio sahihi.",
+  "Choose script": "Chagua hati",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Inasaidia PowerShell, CMD/BAT, Python na AutoHotkey. Sakinisha mkalimani anayehitajika na uhariri amri ili kuongeza hoja.",
+  "Configure application and gesture exclusions.": "Sanidi uondoaji wa programu na ishara."
 }

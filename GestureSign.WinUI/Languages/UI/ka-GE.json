@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "უგულებელყო ჟესტები",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "დაბლოკეთ მოქმედებები არჩეული ჟესტისთვის, ხოლო სხვა ჟესტები ხელმისაწვდომია. მშობლიური შენატანი არ აღდგება.",
+  "Add ignored gesture": "დაამატეთ იგნორირებული ჟესტი",
+  "All applications": "ყველა აპლიკაცია",
+  "Select all applications or enter application match text.": "აირჩიეთ ყველა აპლიკაცია ან შეიყვანეთ აპლიკაციის შესატყვისი ტექსტი.",
+  "Invalid regular expression.": "რეგულარული გამოთქმა არასწორია.",
+  "Choose script": "აირჩიეთ სკრიპტი",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "მხარს უჭერს PowerShell, CMD/BAT, Python და AutoHotkey. დააინსტალირეთ საჭირო თარჯიმანი და შეცვალეთ ბრძანება არგუმენტების დასამატებლად.",
+  "Configure application and gesture exclusions.": "აპლიკაციისა და ჟესტების გამორიცხვის კონფიგურაცია."
 }

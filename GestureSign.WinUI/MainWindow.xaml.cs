@@ -2393,6 +2393,20 @@ public sealed partial class MainWindow : Window
         var runCommandPanel = new StackPanel { Spacing = 8 };
         runCommandPanel.Children.Add(runCommandText);
         runCommandPanel.Children.Add(runCommandOptions);
+        var chooseScript = NewPillButton(T("选择脚本", "Choose script"), false);
+        chooseScript.Click += async (_, _) =>
+        {
+            var path = await PickOpenFileAsync([".ps1", ".cmd", ".bat", ".py", ".ahk"]);
+            if (path is null) return;
+            runCommandShell.SelectedIndex = 1;
+            runCommandText.Text = GestureSign.Shared.ScriptInvocation.PowerShellCommand(path);
+        };
+        runCommandPanel.Children.Add(chooseScript);
+        runCommandPanel.Children.Add(new TextBlock
+        {
+            Text = T("支持 PowerShell、CMD/BAT、Python 和 AutoHotkey；需安装相应解释器，可编辑命令添加参数。", "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments."),
+            TextWrapping = TextWrapping.Wrap
+        });
 
         var mouseEvent = new ComboBox
         {

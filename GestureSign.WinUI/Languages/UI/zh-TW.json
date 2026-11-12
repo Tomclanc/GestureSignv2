@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "手勢忽略",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "僅阻止所選手勢執行動作，其他手勢仍可使用；不會還原原生輸入。",
+  "Add ignored gesture": "新增手勢忽略",
+  "All applications": "所有程式",
+  "Select all applications or enter application match text.": "請選擇所有程式，或填寫程式比對文字。",
+  "Invalid regular expression.": "正規表示式無效。",
+  "Choose script": "選擇指令碼",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "支援 PowerShell、CMD/BAT、Python 和 AutoHotkey。請安裝所需的直譯器，並編輯命令以新增參數。",
+  "Configure application and gesture exclusions.": "設定程式忽略和手勢忽略規則。"
 }

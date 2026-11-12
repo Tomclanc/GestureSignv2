@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ignorovaná gesta",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokujte akce pro vybrané gesto a ponechte ostatní gesta dostupná. Nativní vstup se neobnoví.",
+  "Add ignored gesture": "Přidat ignorované gesto",
+  "All applications": "Všechny aplikace",
+  "Select all applications or enter application match text.": "Vyberte všechny aplikace nebo zadejte odpovídající text aplikace.",
+  "Invalid regular expression.": "Neplatný regulární výraz.",
+  "Choose script": "Vyberte skript",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Podporuje PowerShell, CMD/BAT, Python a AutoHotkey. Nainstalujte požadovaný interpret a upravte příkaz pro přidání argumentů.",
+  "Configure application and gesture exclusions.": "Nakonfigurujte vyloučení aplikací a gest."
 }

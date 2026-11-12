@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "무시된 제스처",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "다른 동작을 계속 사용 가능하게 유지하면서 선택한 동작에 대한 작업을 차단합니다. 기본 입력은 복원되지 않습니다.",
+  "Add ignored gesture": "무시된 동작 추가",
+  "All applications": "모든 애플리케이션",
+  "Select all applications or enter application match text.": "모든 애플리케이션을 선택하거나 애플리케이션 일치 텍스트를 입력하세요.",
+  "Invalid regular expression.": "잘못된 정규 표현식입니다.",
+  "Choose script": "스크립트 선택",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python 및 AutoHotkey를 지원합니다. 필요한 인터프리터를 설치하고 명령을 편집하여 인수를 추가하십시오.",
+  "Configure application and gesture exclusions.": "애플리케이션 및 제스처 제외를 구성합니다."
 }

@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Isyarat yang diabaikan",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokir tindakan untuk isyarat yang dipilih sambil tetap menyediakan isyarat lainnya. Masukan asli tidak dipulihkan.",
+  "Add ignored gesture": "Tambahkan isyarat yang diabaikan",
+  "All applications": "Semua aplikasi",
+  "Select all applications or enter application match text.": "Pilih semua aplikasi atau masukkan teks pencocokan aplikasi.",
+  "Invalid regular expression.": "Ekspresi reguler tidak valid.",
+  "Choose script": "Pilih skrip",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Mendukung PowerShell, CMD/BAT, Python dan AutoHotkey. Instal juru bahasa yang diperlukan dan edit perintah untuk menambahkan argumen.",
+  "Configure application and gesture exclusions.": "Konfigurasikan pengecualian aplikasi dan isyarat."
 }

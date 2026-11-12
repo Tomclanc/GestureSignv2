@@ -58,6 +58,38 @@ middle.IsEnabled = false;
 Check(manager.GetRecognizedDefinedAction("Down").Single() == any, "disabled specific rule hides fallback");
 middle.IsEnabled = true;
 
+// Gesture exclusions must block both preview and app/global fallback, not the whole application.
+var other = Rule("Other"); other.GestureName = "Other";
+var ignore = new IgnoredApp { Name = "Only Down", IgnoredGesture = "down", MatchUsing = MatchUsing.All, IsEnabled = true };
+manager.Applications.Add(ignore);
+var originalGlobal = global.Actions.ToArray(); global.Actions = originalGlobal.Append(other).ToArray();
+capture.SourceDevice = Devices.TouchPad;
+Check(!manager.GetRecognizedDefinedAction("Down").Any(), "global gesture ignore leaked to global fallback");
+Check(!manager.GetRecognizedDefinedAction(a => a.GestureName == "Down").Any(), "ignored gesture still appears in preview");
+Check(manager.GetRecognizedDefinedAction("Other").Single() == other, "gesture rule blocked unrelated gesture");
+ignore.IsEnabled = false;
+Check(manager.GetRecognizedDefinedAction("Down").Any(), "disabled gesture rule remains active");
+ignore.IsEnabled = true; ignore.MatchUsing = MatchUsing.WindowTitle; ignore.MatchString = "GestureIgnoreProbe";
+var hwnd = ProbeWindow.CreateWindowEx(0, "STATIC", "GestureIgnoreProbe", 0, 0, 0, 10, 10, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+if (hwnd == IntPtr.Zero) throw new Exception("Cannot create hidden test window");
+try
+{
+    Field(manager, "<CaptureWindow>k__BackingField", new ManagedWinapi.Windows.SystemWindow(hwnd));
+    Check(!manager.GetRecognizedDefinedAction("Down").Any(), "matching window gesture rule did not apply");
+    Check(manager.GetRecognizedDefinedAction("Other").Single() == other, "scoped rule blocked unrelated gesture");
+    Check(!manager.GetApplicationFromWindow(new ManagedWinapi.Windows.SystemWindow(hwnd)).OfType<IgnoredApp>().Any(), "gesture-only rule became a whole-app ignore");
+    ignore.MatchString = "Unrelated window";
+    Check(manager.GetRecognizedDefinedAction("Down").Any(), "window-scoped rule leaked outside its scope");
+    ignore.IsRegEx = true; ignore.MatchString = "^GestureIgnore.*$";
+    Check(!manager.GetRecognizedDefinedAction("Down").Any(), "regex gesture scope failed");
+}
+finally { ProbeWindow.DestroyWindow(hwnd); Field(manager, "<CaptureWindow>k__BackingField", null); }
+var ignoredJson = JsonConvert.DeserializeObject<IgnoredApp>(JsonConvert.SerializeObject(ignore));
+Check(ignoredJson.IgnoredGesture == "down", "backend serialization lost ignored gesture");
+Check(JsonConvert.DeserializeObject<IgnoredApp>("{\"Name\":\"Legacy\"}").IgnoredGesture == null, "legacy whole-app rule changed");
+manager.Applications.Remove(ignore); global.Actions = originalGlobal;
+capture.SourceDevice = Devices.Mouse; capture.MouseGestureButton = MouseActions.Middle;
+
 // Combination lookup uses the held start button independently of the second input.
 var rightLeft = Rule("Right + Left", MouseActions.Right);
 rightLeft.GestureName = "";
@@ -122,6 +154,22 @@ try
     store.AddAction(uiApp, "Right + Left", "", 0, (int)MouseActions.Right, (int)MouseActions.Left);
     var combination = jsonApp["Actions"].AsArray().Last().AsObject();
     Check(combination["MouseHotkey"].GetValue<int>() == (int)MouseActions.Left && combination["GestureName"].GetValue<string>() == "", "UI add loses combination without a drawn gesture");
+    store.SaveIgnoredGesture(null, "Down", 4, "", false, true);
+    var savedIgnore = JsonNode.Parse(File.ReadAllText(store.ActionsPath)).AsArray().OfType<JsonObject>().Single(a => a["IgnoredGesture"]?.GetValue<string>() == "Down");
+    Check(savedIgnore["MatchUsing"].GetValue<int>() == 4, "global gesture ignore not persisted");
+    // Use the actual in-memory source node for edit persistence.
+    var rootField = typeof(LegacyDataStore).GetField("_actionsRoot", BindingFlags.NonPublic | BindingFlags.Instance);
+    var actualIgnore = ((JsonArray)rootField.GetValue(store)).OfType<JsonObject>().Single(a => a["IgnoredGesture"]?.GetValue<string>() == "Down");
+    store.SaveIgnoredGesture(new LegacyApplication { Source = actualIgnore }, "Other", 2, "editor.exe", false, false);
+    var editedIgnore = JsonNode.Parse(File.ReadAllText(store.ActionsPath)).AsArray().OfType<JsonObject>().Single(a => a["IgnoredGesture"]?.GetValue<string>() == "Other");
+    Check(!editedIgnore["IsEnabled"].GetValue<bool>() && editedIgnore["MatchString"].GetValue<string>() == "editor.exe", "edit lost gesture-ignore scope or enabled state");
+    File.Delete(backup); // The isolated test can create both archives within the same timestamp second.
+    var ignoreBackup = store.CreateBackup();
+    File.WriteAllText(store.ActionsPath, "[]");
+    store.RestoreArchive(ignoreBackup);
+    var restoredIgnore = JsonNode.Parse(File.ReadAllText(store.ActionsPath)).AsArray().OfType<JsonObject>().Single(a => a["IgnoredGesture"]?.GetValue<string>() == "Other");
+    Check(!restoredIgnore["IsEnabled"].GetValue<bool>() && restoredIgnore["MatchUsing"].GetValue<int>() == 2 && restoredIgnore["MatchString"].GetValue<string>() == "editor.exe", "backup/restore lost gesture exclusion");
+
 }
 finally { Directory.Delete(root, true); }
 Console.WriteLine($"PASS: {checks} mouse binding, dispatch, recognition and persistence checks.");
@@ -149,4 +197,11 @@ sealed class Capture : IPointCapture, IMouseGestureCapture
     public event EventHandler CaptureEnded;
     public event RecognitionEventHandler GestureRecognized;
     public event PointsCapturedEventHandler PointCaptured;
+}
+
+static class ProbeWindow
+{
+    [System.Runtime.InteropServices.DllImport("user32.dll", CharSet=System.Runtime.InteropServices.CharSet.Unicode)]
+    internal static extern IntPtr CreateWindowEx(int exStyle, string className, string title, int style, int x, int y, int width, int height, IntPtr parent, IntPtr menu, IntPtr instance, IntPtr parameter);
+    [System.Runtime.InteropServices.DllImport("user32.dll")] internal static extern bool DestroyWindow(IntPtr hwnd);
 }

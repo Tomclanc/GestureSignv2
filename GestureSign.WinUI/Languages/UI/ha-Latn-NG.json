@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Karimcin da aka yi watsi da su",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Toshe ayyuka don karimcin da aka zaɓa yayin da ake samun sauran alamun. Ba a dawo da shigarwar asali ba.",
+  "Add ignored gesture": "Ƙara motsin da ba a kula da su ba",
+  "All applications": "Duk aikace-aikace",
+  "Select all applications or enter application match text.": "Zaɓi duk aikace-aikace ko shigar da rubutun matching aikace-aikace.",
+  "Invalid regular expression.": "Magana akai-akai mara inganci.",
+  "Choose script": "Zaɓi rubutun",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Yana goyan bayan PowerShell, CMD/BAT, Python da AutoHotkey. Shigar da fassarar da ake buƙata kuma shirya umarnin don ƙara muhawara.",
+  "Configure application and gesture exclusions.": "Sanya aikace-aikace da keɓancewa."
 }

@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Gesturi ignorate",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blocați acțiunile pentru gestul selectat, păstrând alte gesturi disponibile. Intrarea nativă nu este restaurată.",
+  "Add ignored gesture": "Adăugați gest ignorat",
+  "All applications": "Toate aplicațiile",
+  "Select all applications or enter application match text.": "Selectați toate aplicațiile sau introduceți textul de potrivire a aplicației.",
+  "Invalid regular expression.": "Expresie regulată nevalidă.",
+  "Choose script": "Alegeți scenariul",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Suportă PowerShell, CMD/BAT, Python și AutoHotkey. Instalați interpretul necesar și editați comanda pentru a adăuga argumente.",
+  "Configure application and gesture exclusions.": "Configurați excluderile de aplicații și gesturi."
 }

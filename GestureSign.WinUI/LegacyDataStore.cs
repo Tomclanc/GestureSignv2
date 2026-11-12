@@ -278,6 +278,21 @@ internal sealed class LegacyDataStore
         SaveActions();
     }
 
+    public void SaveIgnoredGesture(LegacyApplication? existing, string gesture, int matchUsing, string matchString, bool regex, bool enabled)
+    {
+        if (string.IsNullOrWhiteSpace(gesture)) throw new ArgumentException("Gesture is required.", nameof(gesture));
+        var item = existing?.Source ?? new JsonObject();
+        item["$type"] = "GestureSign.Common.Applications.IgnoredApp, GestureSign.Common";
+        item["Name"] = gesture;
+        item["IgnoredGesture"] = gesture;
+        item["MatchUsing"] = matchUsing;
+        item["MatchString"] = matchString;
+        item["IsRegEx"] = regex;
+        item["IsEnabled"] = enabled;
+        if (existing is null) _actionsRoot.Add(item);
+        SaveActions();
+    }
+
     public void EnsureGlobalApplication()
     {
         if (_actionsRoot.OfType<JsonObject>().Any(app => app.StringValue("$type", "").Contains("GlobalApp", StringComparison.OrdinalIgnoreCase)))
@@ -542,6 +557,11 @@ internal sealed class LegacyDataStore
     {
         var oldName = gesture.Name;
         var newName = GetUniqueGestureName(name, oldName);
+        foreach (var rule in _actionsRoot.OfType<JsonObject>().Where(a => string.Equals(a.StringValue("IgnoredGesture", ""), oldName, StringComparison.OrdinalIgnoreCase)))
+        {
+            rule["IgnoredGesture"] = newName;
+            rule["Name"] = newName;
+        }
         gesture.Source["Name"] = newName;
 
         foreach (var action in _actionsRoot.OfType<JsonObject>()
@@ -817,6 +837,7 @@ internal sealed class LegacyDataStore
                 Type = AppType(app.StringValue("$type", "")),
                 MatchUsing = app.IntValue("MatchUsing", 0),
                 MatchString = app.StringValue("MatchString", ""),
+                IgnoredGesture = app.StringValue("IgnoredGesture", ""),
                 IsRegEx = app.BoolValue("IsRegEx", false),
                 IsEnabled = app.BoolValue("IsEnabled", true),
                 LimitNumberOfFingers = app.IntValue("LimitNumberOfFingers", 2),
@@ -986,6 +1007,7 @@ internal sealed class LegacyDataStore
 
     private static bool IsSettingsWindowIgnore(JsonObject app)
         => app.StringValue("$type", "").Contains("IgnoredApp", StringComparison.Ordinal)
+           && string.IsNullOrWhiteSpace(app.StringValue("IgnoredGesture", ""))
            && string.Equals(app.StringValue("MatchString", ""), "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase);
 
     private static string SettingsWindowIgnoreRemovalMarkerPath()
@@ -1027,6 +1049,15 @@ internal sealed class LegacyDataStore
             }
         }
 
+        foreach (var rule in actionsRoot.OfType<JsonObject>())
+        {
+            var oldGestureName = rule.StringValue("IgnoredGesture", "");
+            if (nameMap.TryGetValue(oldGestureName, out var newGestureName))
+            {
+                rule["IgnoredGesture"] = newGestureName;
+                changedActions = true;
+            }
+        }
         return changedGestures;
     }
 
@@ -1296,6 +1327,7 @@ internal sealed record LegacyApplication
     public string Type { get; init; } = "";
     public int MatchUsing { get; init; }
     public string MatchString { get; init; } = "";
+    public string IgnoredGesture { get; init; } = "";
     public bool IsRegEx { get; init; }
     public bool IsEnabled { get; init; }
     public int LimitNumberOfFingers { get; init; }

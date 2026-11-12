@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "切换拖动锁定（Esc 释放）",
   "Release drag lock": "释放拖动锁定",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "程序：{0}，动作：{1}，手势：{2}，同名手势绑定：{3}",
-  "Enable this mouse button for recognition when saved": "保存时启用此鼠标按键识别"
+  "Enable this mouse button for recognition when saved": "保存时启用此鼠标按键识别",
+  "Ignored gestures": "手势忽略",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "仅阻止所选手势执行动作，其他手势仍然可用；不保证还原系统原生输入。",
+  "Add ignored gesture": "添加手势忽略",
+  "All applications": "所有程序",
+  "Select all applications or enter application match text.": "请选择所有程序，或填写程序匹配文本。",
+  "Invalid regular expression.": "正则表达式无效。",
+  "Choose script": "选择脚本",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "支持 PowerShell、CMD/BAT、Python 和 AutoHotkey；需安装相应解释器，可编辑命令添加参数。",
+  "Configure application and gesture exclusions.": "设置程序忽略和手势忽略规则。"
 }

@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "התעלמו מחוות",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "חסום פעולות עבור המחווה שנבחרה תוך שמירה על מחוות אחרות זמינות. קלט מקורי לא שוחזר.",
+  "Add ignored gesture": "הוסף מחווה שהתעלמה ממנה",
+  "All applications": "כל האפליקציות",
+  "Select all applications or enter application match text.": "בחר את כל היישומים או הזן טקסט התאמת יישומים.",
+  "Invalid regular expression.": "ביטוי רגולרי לא חוקי.",
+  "Choose script": "בחר תסריט",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "תומך ב-PowerShell, CMD/BAT, Python ו-AutoHotkey. התקן את המתורגמן הנדרש וערוך את הפקודה כדי להוסיף ארגומנטים.",
+  "Configure application and gesture exclusions.": "הגדר אי הכללות של יישומים ומחוות."
 }

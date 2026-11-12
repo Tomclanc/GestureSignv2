@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -7,6 +7,8 @@ namespace GestureSign.Common.Applications
 {
     public class IgnoredApp : ApplicationBase, INotifyPropertyChanged
     {
+        public string IgnoredGesture { get; set; }
+
         #region Contructors
 
         public IgnoredApp()

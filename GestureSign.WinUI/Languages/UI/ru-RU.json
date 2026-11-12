@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Игнорируемые жесты",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Заблокируйте действия для выбранного жеста, оставив при этом доступ к другим жестам. Родной ввод не восстанавливается.",
+  "Add ignored gesture": "Добавить игнорируемый жест",
+  "All applications": "Все приложения",
+  "Select all applications or enter application match text.": "Выберите все приложения или введите текст соответствия приложениям.",
+  "Invalid regular expression.": "Недопустимое регулярное выражение.",
+  "Choose script": "Выбрать сценарий",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Поддерживает PowerShell, CMD/BAT, Python и AutoHotkey. Установите необходимый интерпретатор и отредактируйте команду, добавив аргументы.",
+  "Configure application and gesture exclusions.": "Настройте исключения приложений и жестов."
 }

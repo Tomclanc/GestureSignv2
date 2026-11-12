@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Անտեսված ժեստերը",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Արգելափակել գործողությունները ընտրված ժեստի համար՝ միաժամանակ հասանելի պահելով այլ ժեստերը: Մայրենի մուտքագրումը չի վերականգնվել:",
+  "Add ignored gesture": "Ավելացրեք անտեսված ժեստ",
+  "All applications": "Բոլոր հավելվածները",
+  "Select all applications or enter application match text.": "Ընտրեք բոլոր հավելվածները կամ մուտքագրեք հավելվածի համընկնման տեքստը:",
+  "Invalid regular expression.": "Անվավեր կանոնավոր արտահայտություն:",
+  "Choose script": "Ընտրեք սցենար",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Աջակցում է PowerShell, CMD/BAT, Python և AutoHotkey: Տեղադրեք անհրաժեշտ թարգմանիչը և խմբագրեք հրամանը՝ արգումենտներ ավելացնելու համար:",
+  "Configure application and gesture exclusions.": "Կազմաձևեք հավելվածների և ժեստերի բացառումները:"
 }

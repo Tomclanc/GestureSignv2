@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "புறக்கணிக்கப்பட்ட சைகைகள்",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "தேர்ந்தெடுக்கப்பட்ட சைகைக்கான செயல்களைத் தடுக்கவும், அதே நேரத்தில் மற்ற சைகைகள் கிடைக்கும். பூர்வீக உள்ளீடு மீட்டெடுக்கப்படவில்லை.",
+  "Add ignored gesture": "புறக்கணிக்கப்பட்ட சைகையைச் சேர்க்கவும்",
+  "All applications": "அனைத்து பயன்பாடுகள்",
+  "Select all applications or enter application match text.": "எல்லா பயன்பாடுகளையும் தேர்ந்தெடுக்கவும் அல்லது பயன்பாட்டுப் பொருத்த உரையை உள்ளிடவும்.",
+  "Invalid regular expression.": "தவறான வழக்கமான வெளிப்பாடு.",
+  "Choose script": "ஸ்கிரிப்டைத் தேர்ந்தெடுக்கவும்",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python மற்றும் AutoHotkey ஆகியவற்றை ஆதரிக்கிறது. தேவையான மொழிபெயர்ப்பாளரை நிறுவி, வாதங்களைச் சேர்க்க கட்டளையைத் திருத்தவும்.",
+  "Configure application and gesture exclusions.": "பயன்பாடு மற்றும் சைகை விலக்குகளை உள்ளமைக்கவும்."
 }

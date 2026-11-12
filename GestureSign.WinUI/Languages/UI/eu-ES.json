@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Keinuak baztertu",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokeatu aukeratutako keinurako ekintzak beste keinu batzuk erabilgarri mantenduz. Jatorrizko sarrera ez da leheneratu.",
+  "Add ignored gesture": "Gehitu ez ikusitako keinua",
+  "All applications": "Aplikazio guztiak",
+  "Select all applications or enter application match text.": "Hautatu aplikazio guztiak edo idatzi aplikazio bat datorren testua.",
+  "Invalid regular expression.": "Adierazpen erregular baliogabea.",
+  "Choose script": "Aukeratu gidoia",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python eta AutoHotkey onartzen ditu. Instalatu beharrezko interpretea eta editatu komandoa argumentuak gehitzeko.",
+  "Configure application and gesture exclusions.": "Konfiguratu aplikazio eta keinuen bazterketak."
 }

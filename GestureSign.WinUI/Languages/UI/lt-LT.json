@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ignoruojami gestai",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokuoti pasirinkto gesto veiksmus, išlaikant pasiekiamus kitus gestus. Savoji įvestis neatkurta.",
+  "Add ignored gesture": "Pridėti ignoruojamą gestą",
+  "All applications": "Visos programos",
+  "Select all applications or enter application match text.": "Pasirinkite visas programas arba įveskite programos atitikties tekstą.",
+  "Invalid regular expression.": "Neteisinga reguliarioji išraiška.",
+  "Choose script": "Pasirinkite scenarijų",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Palaiko PowerShell, CMD/BAT, Python ir AutoHotkey. Įdiekite reikiamą interpretatorių ir redaguokite komandą, kad pridėtumėte argumentų.",
+  "Configure application and gesture exclusions.": "Konfigūruokite programų ir gestų išskyrimus."
 }

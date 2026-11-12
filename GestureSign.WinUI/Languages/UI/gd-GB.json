@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Gluasadan air an dearmad",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Cuir casg air gnìomhan airson an gluasad taghte fhad ‘s a chumas tu gluasadan eile rim faighinn. Chan eil cuir a-steach dùthchasach air ath-nuadhachadh.",
+  "Add ignored gesture": "Cuir ris a’ ghluasad nach deach a leigeil seachad",
+  "All applications": "A h-uile aplacaid",
+  "Select all applications or enter application match text.": "Tagh a h-uile tagradh no cuir a-steach teacsa maids tagraidh.",
+  "Invalid regular expression.": "Briseadh cunbhalach neo-dhligheach.",
+  "Choose script": "Tagh sgriobt",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "A’ toirt taic do PowerShell, CMD/BAT, Python agus AutoHotkey. Stàlaich an eadar-theangair a tha a dhìth agus deasaich an àithne gus argamaidean a chur ris.",
+  "Configure application and gesture exclusions.": "Dèan rèiteachadh air tagradh agus toirmeasg gluasad-bodhaig."
 }

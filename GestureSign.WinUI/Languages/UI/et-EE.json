@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ignoreeritud žestid",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Blokeerige valitud liigutuse toimingud, jättes samal ajal muud liigutused kättesaadavaks. Omasisendit ei taastata.",
+  "Add ignored gesture": "Lisa ignoreeritud žest",
+  "All applications": "Kõik rakendused",
+  "Select all applications or enter application match text.": "Valige kõik rakendused või sisestage rakenduse vaste tekst.",
+  "Invalid regular expression.": "Kehtetu regulaaravaldis.",
+  "Choose script": "Valige skript",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Toetab PowerShelli, CMD/BAT-i, Pythonit ja AutoHotkeyt. Installige vajalik tõlk ja muutke argumentide lisamiseks käsku.",
+  "Configure application and gesture exclusions.": "Rakenduste ja liigutuste välistamise konfigureerimine."
 }

@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Ġesti injorati",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Imblokka l-azzjonijiet għall-ġest magħżul filwaqt li żżomm ġesti oħra disponibbli. L-input nattiv ma jiġix restawrat.",
+  "Add ignored gesture": "Żid ġest injorat",
+  "All applications": "L-applikazzjonijiet kollha",
+  "Select all applications or enter application match text.": "Agħżel l-applikazzjonijiet kollha jew daħħal it-test ta' l-applikazzjoni.",
+  "Invalid regular expression.": "Espressjoni regolari mhux valida.",
+  "Choose script": "Agħżel iskrittura",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Jappoġġja PowerShell, CMD/BAT, Python u AutoHotkey. Installa l-interpretu meħtieġ u editja l-kmand biex iżżid argumenti.",
+  "Configure application and gesture exclusions.": "Ikkonfigura l-esklużjonijiet tal-applikazzjoni u tal-ġesti."
 }

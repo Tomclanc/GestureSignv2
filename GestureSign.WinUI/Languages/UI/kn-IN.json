@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "ಸನ್ನೆಗಳನ್ನು ನಿರ್ಲಕ್ಷಿಸಲಾಗಿದೆ",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "ಇತರ ಗೆಸ್ಚರ್‌ಗಳು ಲಭ್ಯವಿದ್ದಾಗ ಆಯ್ದ ಗೆಸ್ಚರ್‌ಗಾಗಿ ಕ್ರಿಯೆಗಳನ್ನು ನಿರ್ಬಂಧಿಸಿ. ಸ್ಥಳೀಯ ಇನ್‌ಪುಟ್ ಅನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗಿಲ್ಲ.",
+  "Add ignored gesture": "ನಿರ್ಲಕ್ಷಿಸಲಾದ ಗೆಸ್ಚರ್ ಸೇರಿಸಿ",
+  "All applications": "ಎಲ್ಲಾ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು",
+  "Select all applications or enter application match text.": "ಎಲ್ಲಾ ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್ ಹೊಂದಾಣಿಕೆ ಪಠ್ಯವನ್ನು ನಮೂದಿಸಿ.",
+  "Invalid regular expression.": "ಅಮಾನ್ಯ ನಿಯಮಿತ ಅಭಿವ್ಯಕ್ತಿ.",
+  "Choose script": "ಸ್ಕ್ರಿಪ್ಟ್ ಆಯ್ಕೆಮಾಡಿ",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python ಮತ್ತು AutoHotkey ಅನ್ನು ಬೆಂಬಲಿಸುತ್ತದೆ. ಅಗತ್ಯವಿರುವ ಇಂಟರ್ಪ್ರಿಟರ್ ಅನ್ನು ಸ್ಥಾಪಿಸಿ ಮತ್ತು ಆರ್ಗ್ಯುಮೆಂಟ್ಗಳನ್ನು ಸೇರಿಸಲು ಆಜ್ಞೆಯನ್ನು ಸಂಪಾದಿಸಿ.",
+  "Configure application and gesture exclusions.": "ಅಪ್ಲಿಕೇಶನ್ ಮತ್ತು ಗೆಸ್ಚರ್ ಹೊರಗಿಡುವಿಕೆಗಳನ್ನು ಕಾನ್ಫಿಗರ್ ಮಾಡಿ."
 }

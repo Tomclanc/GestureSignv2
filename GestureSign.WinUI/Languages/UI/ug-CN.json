@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "قول ئىشارىسى",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "باشقا قول ئىشارىتىنى ساقلاپ قېلىش بىلەن بىللە ، تاللانغان قول ئىشارىسىنىڭ ھەرىكىتىنى چەكلەڭ. يەرلىك كىرگۈزۈش ئەسلىگە كەلمىدى.",
+  "Add ignored gesture": "سەل قارالغان قول ئىشارىسىنى قوشۇڭ",
+  "All applications": "بارلىق قوللىنىشچان پروگراممىلار",
+  "Select all applications or enter application match text.": "بارلىق پروگراممىلارنى تاللاڭ ياكى قوللىنىشچان پروگرامما تېكىستىنى كىرگۈزۈڭ.",
+  "Invalid regular expression.": "دائىملىق ئىپادىلەش ئىناۋەتسىز.",
+  "Choose script": "قوليازما تاللاڭ",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell ، CMD / BAT ، Python ۋە AutoHotkey نى قوللايدۇ. لازىملىق تەرجىماننى ئورنىتىپ ، بۇيرۇق قوشۇش ئۈچۈن بۇيرۇقنى تەھرىرلەڭ.",
+  "Configure application and gesture exclusions.": "قوللىنىش ۋە قول ئىشارىسىنى چىقىرىۋېتىش."
 }

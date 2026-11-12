@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Αγνοημένες χειρονομίες",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Αποκλεισμός ενεργειών για την επιλεγμένη χειρονομία, διατηρώντας παράλληλα διαθέσιμες άλλες κινήσεις. Η εγγενής εισαγωγή δεν αποκαθίσταται.",
+  "Add ignored gesture": "Προσθήκη χειρονομίας που αγνοήθηκε",
+  "All applications": "Όλες οι εφαρμογές",
+  "Select all applications or enter application match text.": "Επιλέξτε όλες τις εφαρμογές ή εισαγάγετε κείμενο αντιστοίχισης εφαρμογής.",
+  "Invalid regular expression.": "Μη έγκυρη τυπική έκφραση.",
+  "Choose script": "Επιλέξτε σενάριο",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Υποστηρίζει PowerShell, CMD/BAT, Python και AutoHotkey. Εγκαταστήστε τον απαιτούμενο διερμηνέα και επεξεργαστείτε την εντολή για να προσθέσετε ορίσματα.",
+  "Configure application and gesture exclusions.": "Διαμόρφωση εξαιρέσεων εφαρμογών και χειρονομιών."
 }

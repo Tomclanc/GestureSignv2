@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "ບໍ່ສົນໃຈທ່າທາງ",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "ຂັດຂວາງການດໍາເນີນການສໍາລັບ gesture ທີ່ເລືອກໃນຂະນະທີ່ຮັກສາ gestures ອື່ນໆທີ່ມີຢູ່. ການປ້ອນຂໍ້ມູນເດີມບໍ່ໄດ້ຖືກຟື້ນຟູ.",
+  "Add ignored gesture": "ເພີ່ມທ່າທາງທີ່ບໍ່ສົນໃຈ",
+  "All applications": "ຄໍາຮ້ອງສະຫມັກທັງຫມົດ",
+  "Select all applications or enter application match text.": "ເລືອກແອັບພລິເຄຊັນທັງໝົດ ຫຼືໃສ່ຂໍ້ຄວາມທີ່ກົງກັບແອັບພລິເຄຊັນ.",
+  "Invalid regular expression.": "ການສະແດງອອກປົກກະຕິບໍ່ຖືກຕ້ອງ.",
+  "Choose script": "ເລືອກສະຄຣິບ",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "ຮອງຮັບ PowerShell, CMD/BAT, Python ແລະ AutoHotkey. ຕິດຕັ້ງນາຍພາສາທີ່ຕ້ອງການແລະແກ້ໄຂຄໍາສັ່ງເພື່ອເພີ່ມການໂຕ້ຖຽງ.",
+  "Configure application and gesture exclusions.": "ຕັ້ງຄ່າການຍົກເວັ້ນແອັບພລິເຄຊັນ ແລະທ່າທາງ."
 }

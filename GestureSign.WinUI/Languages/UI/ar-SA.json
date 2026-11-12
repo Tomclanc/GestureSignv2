@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "الإيماءات التي تم تجاهلها",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "حظر الإجراءات للإيماءة المحددة مع الاحتفاظ بالإيماءات الأخرى متاحة. لا تتم استعادة الإدخال الأصلي.",
+  "Add ignored gesture": "إضافة لفتة تجاهلها",
+  "All applications": "جميع التطبيقات",
+  "Select all applications or enter application match text.": "حدد كافة التطبيقات أو أدخل نص مطابقة التطبيق.",
+  "Invalid regular expression.": "تعبير عادي غير صالح.",
+  "Choose script": "اختر البرنامج النصي",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "يدعم PowerShell وCMD/BAT وPython وAutoHotkey. قم بتثبيت المترجم المطلوب وقم بتحرير الأمر لإضافة الوسائط.",
+  "Configure application and gesture exclusions.": "تكوين استثناءات التطبيقات والإيماءات."
 }

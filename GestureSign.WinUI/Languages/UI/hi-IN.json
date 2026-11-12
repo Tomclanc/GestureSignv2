@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "इशारों को नजरअंदाज किया",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "अन्य जेस्चर उपलब्ध रखते हुए चयनित जेस्चर के लिए क्रियाओं को ब्लॉक करें। मूल इनपुट पुनर्स्थापित नहीं किया गया है.",
+  "Add ignored gesture": "उपेक्षित इशारा जोड़ें",
+  "All applications": "सभी अनुप्रयोग",
+  "Select all applications or enter application match text.": "सभी एप्लिकेशन चुनें या एप्लिकेशन मिलान टेक्स्ट दर्ज करें।",
+  "Invalid regular expression.": "अमान्य नियमित अभिव्यक्ति.",
+  "Choose script": "स्क्रिप्ट चुनें",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "पॉवरशेल, सीएमडी/बीएटी, पायथन और ऑटोहॉटकी को सपोर्ट करता है। आवश्यक दुभाषिया स्थापित करें और तर्क जोड़ने के लिए कमांड संपादित करें।",
+  "Configure application and gesture exclusions.": "एप्लिकेशन और जेस्चर बहिष्करण कॉन्फ़िगर करें."
 }

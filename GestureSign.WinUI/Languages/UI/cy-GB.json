@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Anwybyddu ystumiau",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Rhwystro gweithredoedd ar gyfer yr ystum a ddewiswyd tra'n cadw ystumiau eraill ar gael. Nid yw mewnbwn brodorol yn cael ei adfer.",
+  "Add ignored gesture": "Ychwanegu ystum wedi'i anwybyddu",
+  "All applications": "Pob cais",
+  "Select all applications or enter application match text.": "Dewiswch bob cymhwysiad neu nodwch destun sy'n cyfateb i'r rhaglen.",
+  "Invalid regular expression.": "Mynegiant rheolaidd annilys.",
+  "Choose script": "Dewiswch sgript",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Yn cefnogi PowerShell, CMD/BAT, Python ac AutoHotkey. Gosodwch y dehonglydd gofynnol a golygu'r gorchymyn i ychwanegu dadleuon.",
+  "Configure application and gesture exclusions.": "Ffurfweddu gwaharddiadau cais ac ystum."
 }

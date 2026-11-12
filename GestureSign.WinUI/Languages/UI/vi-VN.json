@@ -649,5 +649,14 @@
   "Toggle drag lock (Esc to release)": "Toggle drag lock (Esc to release)",
   "Release drag lock": "Release drag lock",
   "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}": "Applications: {0}, actions: {1}, gestures: {2}, matching gesture bindings: {3}",
-  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved"
+  "Enable this mouse button for recognition when saved": "Enable this mouse button for recognition when saved",
+  "Ignored gestures": "Cử chỉ bị bỏ qua",
+  "Block actions for the selected gesture while keeping other gestures available. Native input is not restored.": "Chặn các hành động cho cử chỉ đã chọn trong khi vẫn giữ các cử chỉ khác. Đầu vào gốc không được khôi phục.",
+  "Add ignored gesture": "Thêm cử chỉ bị bỏ qua",
+  "All applications": "Tất cả các ứng dụng",
+  "Select all applications or enter application match text.": "Chọn tất cả các ứng dụng hoặc nhập văn bản phù hợp với ứng dụng.",
+  "Invalid regular expression.": "Biểu thức chính quy không hợp lệ.",
+  "Choose script": "Chọn tập lệnh",
+  "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Hỗ trợ PowerShell, CMD/BAT, Python và AutoHotkey. Cài đặt trình thông dịch cần thiết và chỉnh sửa lệnh để thêm đối số.",
+  "Configure application and gesture exclusions.": "Định cấu hình loại trừ ứng dụng và cử chỉ."
 }
