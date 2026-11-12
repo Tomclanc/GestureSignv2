@@ -743,17 +743,19 @@ namespace GestureSign.Daemon.Surface
                 var paddingY = 12f;
                 var width = Math.Max(92f, textSize.Width + paddingX * 2);
                 var height = textSize.Height + paddingY * 2;
-                var x = (Width - width) / 2f;
                 var workArea = Screen.FromPoint(Cursor.Position).WorkingArea;
-                var y = workArea.Bottom - Bounds.Top - height - 12f;
-                var rect = new RectangleF(x, y, width, height);
+                var rect = GestureHintLayout.Place(workArea, Bounds.Location, new SizeF(width, height));
 
                 using (var path = RoundedRectangle(rect, 10f))
                 using (var brush = new SolidBrush(Color.FromArgb(222, 86, 86, 86)))
                 using (var textBrush = new SolidBrush(Color.White))
+                using (var format = new StringFormat { Trimming = StringTrimming.EllipsisCharacter,
+                    FormatFlags = StringFormatFlags.NoWrap })
                 {
                     graphics.FillPath(brush, path);
-                    graphics.DrawString(text, font, textBrush, x + paddingX, y + paddingY - 1f);
+                    graphics.DrawString(text, font, textBrush,
+                        new RectangleF(rect.X + paddingX, rect.Y + paddingY - 1f,
+                            Math.Max(1f, rect.Width - paddingX * 2), rect.Height), format);
                 }
             }
 
