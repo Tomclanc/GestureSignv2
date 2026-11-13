@@ -1,4 +1,4 @@
-﻿using WindowsInput;
+using WindowsInput;
 using GestureSign.Common.Localization;
 using GestureSign.Common.Plugins;
 using ManagedWinapi;
@@ -147,59 +147,16 @@ namespace GestureSign.CorePlugins.Volume
 
             try
             {
-                InputSimulator simulator = new InputSimulator();
-                int t = settings.Percent / 2;
-
-                switch ((Method)settings.Method)
-                {
-                    case Method.VolumeUp:
-                        for (int i = 0; i < t; i++)
-                        {
-                            simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_UP);
-                        }
-                        break;
-                    case Method.VolumeDown:
-                        for (int i = 0; i < t; i++)
-                        {
-                            simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_DOWN);
-                        }
-                        break;
-                    case Method.Mute:
-                        simulator.Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_MUTE);
-                        break;
-                }
-
+                if ((Method)settings.Method == Method.Mute)
+                    new InputSimulator().Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_MUTE);
+                else if (settings.Method == 0 || settings.Method == 1)
+                    EndpointVolume.Adjust(settings.Method == 0 ? settings.Percent : -settings.Percent);
+                else return false;
                 return true;
             }
-            catch
+            catch (System.Exception ex)
             {
-                int t = settings.Percent / 2;
-
-                switch ((Method)settings.Method)
-                {
-                    case Method.VolumeUp:
-                        var volumeUpKey = new KeyboardKey(Keys.VolumeUp);
-                        for (int i = 0; i < t; i++)
-                        {
-                            volumeUpKey.Press();
-                            Thread.Sleep(3);
-                            volumeUpKey.Release();
-                        }
-                        break;
-                    case Method.VolumeDown:
-                        var volumeDownKey = new KeyboardKey(Keys.VolumeDown);
-                        for (int i = 0; i < t; i++)
-                        {
-                            volumeDownKey.Press();
-                            Thread.Sleep(3);
-                            volumeDownKey.Release();
-                        }
-                        break;
-                    case Method.Mute:
-                        var muteKey = new KeyboardKey(Keys.VolumeMute);
-                        muteKey.PressAndRelease();
-                        break;
-                }
+                GestureSign.Common.Log.Logging.LogException(ex);
                 return false;
             }
         }

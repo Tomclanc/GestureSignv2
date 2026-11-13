@@ -133,6 +133,7 @@ namespace GestureSign.Updater
                 await Task.Run(() =>
                 {
                     ValidateOptions();
+                    if (!string.IsNullOrWhiteSpace(_options.ReadyPath)) File.WriteAllText(_options.ReadyPath, "ready");
                     WaitForMainProcess();
                     SetStatus("正在关闭后台服务和快捷操作…");
                     StopTargetProcesses();
@@ -184,10 +185,12 @@ namespace GestureSign.Updater
             try
             {
                 using (var process = Process.GetProcessById(_options.WaitProcessId))
-                    process.WaitForExit(45000);
+                    if (!process.WaitForExit(45000))
+                        throw new TimeoutException("GestureSign is still running; update was cancelled before replacing files.");
             }
-            catch
+            catch (ArgumentException)
             {
+                // The original process already exited.
             }
         }
 
@@ -417,6 +420,7 @@ namespace GestureSign.Updater
         public string LaunchExecutable { get; private set; }
         public int WaitProcessId { get; private set; }
         public bool FromTemp { get; private set; }
+        public string ReadyPath { get; private set; }
 
         public static UpdateOptions Parse(string[] args)
         {
@@ -437,6 +441,7 @@ namespace GestureSign.Updater
             int.TryParse(Get(values, "wait-pid"), out var waitPid);
             return new UpdateOptions
             {
+                ReadyPath = Get(values, "ready"),
                 Mode = Get(values, "mode"),
                 PackagePath = Get(values, "package"),
                 TargetDirectory = Get(values, "target"),

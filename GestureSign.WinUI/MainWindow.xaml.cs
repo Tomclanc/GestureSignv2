@@ -2793,9 +2793,8 @@ public sealed partial class MainWindow : Window
         => new JsonObject
         {
             ["Method"] = Math.Clamp(method, 0, 2),
-            // Windows media keys change volume in 2% units. A 1% setting would
-            // result in zero key presses in the legacy volume plugin.
-            ["Percent"] = Math.Clamp(percent, 2, 100),
+            // The endpoint API accepts one percentage point increments.
+            ["Percent"] = Math.Clamp(percent, 1, 100),
             ["ContinuousEdge"] = continuousEdge
         }.ToJsonString();
 
@@ -3939,6 +3938,8 @@ public sealed partial class MainWindow : Window
                     (Path.GetFileNameWithoutExtension(fullPath).StartsWith("GestureSign", StringComparison.OrdinalIgnoreCase) ||
                      Path.GetFileNameWithoutExtension(fullPath).Equals("RestartAgent", StringComparison.OrdinalIgnoreCase));
 
+                if (Path.GetFileName(fullPath).Equals("GestureSign-Updater.exe", StringComparison.OrdinalIgnoreCase))
+                    continue;
                 if (!isInstalledGestureSignProcess)
                     continue;
 
@@ -6061,9 +6062,10 @@ public sealed partial class MainWindow : Window
     {
         var msiInstallation = IsMsiInstallation();
         var versionText = latest.TagName.TrimStart('v', 'V');
+        var architecture = System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64 ? "arm64" : "x64";
         var assetName = msiInstallation
-            ? $"GestureSign-V2-{versionText}-x64.msi"
-            : $"GestureSign-V2-{versionText}-portable-x64.zip";
+            ? $"GestureSign-V2-{versionText}-{architecture}.msi"
+            : $"GestureSign-V2-{versionText}-{architecture}-portable.zip";
         var assetUri = GitHubUpdateService.GetAssetUri(latest, assetName);
         var updateDirectory = Path.Combine(Path.GetTempPath(), "GestureSign-V2-Updates");
         Directory.CreateDirectory(updateDirectory);
@@ -6142,8 +6144,10 @@ public sealed partial class MainWindow : Window
         }
 
         var targetDirectory = Path.GetFullPath(AppContext.BaseDirectory).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+        var readyPath = packagePath + ".ready";
         var arguments = string.Join(" ", new[]
         {
+            "--ready", QuoteCommandLineArgument(readyPath),
             "--mode", QuoteCommandLineArgument(msiInstallation ? "msi" : "portable"),
             "--package", QuoteCommandLineArgument(packagePath),
             "--target", QuoteCommandLineArgument(targetDirectory),
@@ -6158,6 +6162,11 @@ public sealed partial class MainWindow : Window
                 UseShellExecute = true,
                 WorkingDirectory = AppContext.BaseDirectory
             });
+            var timer = Stopwatch.StartNew();
+            while (!File.Exists(readyPath) && timer.Elapsed < TimeSpan.FromSeconds(20))
+                await Task.Delay(100);
+            if (!File.Exists(readyPath)) throw new IOException(T("无法启动更新", "Unable to start update"));
+            TryDeleteDownloadedUpdate(readyPath);
         }
         catch (Exception ex)
         {
