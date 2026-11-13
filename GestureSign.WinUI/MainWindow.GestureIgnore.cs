@@ -31,7 +31,7 @@ public sealed partial class MainWindow
     private async Task EditIgnoredGestureAsync(LegacyApplication? app)
     {
         var panel = NewCardPanel(10);
-        var gestures = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
+        var gestures = new ComboBox { Header = T("手势", "Gestures"), HorizontalAlignment = HorizontalAlignment.Stretch, IsTextSearchEnabled = true };
         var edgeNames = from prefix in new[] { "TouchPadEdge", "TouchScreenEdge" }
                         from edge in new[] { "Top", "Bottom", "Left", "Right" }
                         from suffix in edge is "Top" or "Bottom" ? new[] { "", ".Left", ".Right" } : new[] { "", ".Up", ".Down" }
@@ -49,22 +49,55 @@ public sealed partial class MainWindow
         matchUsing.SelectedIndex = app?.MatchUsing switch { 1 => 0, 0 => 2, _ => 1 };
         var regex = new CheckBox { Content = T("使用正则匹配", "Use regular expressions"), IsChecked = app?.IsRegEx ?? false };
         var enabled = new CheckBox { Content = T("启用", "Enable"), IsChecked = app?.IsEnabled ?? true };
-        void ScopeChanged() { match.IsEnabled = matchUsing.IsEnabled = regex.IsEnabled = all.IsChecked != true; }
+        // Common workflow: select a gesture, then optionally choose a running app.
+        // Reuse the existing pickers so users do not need to type executable names.
+        var appName = new TextBox();
+        var scopedPanel = NewCardPanel(8);
+        scopedPanel.Children.Add(NewRunningProcessPicker(appName, match, matchUsing));
+        var advancedPanel = NewCardPanel(8);
+        advancedPanel.Children.Add(NewWindowPicker(appName, match, matchUsing));
+        advancedPanel.Children.Add(matchUsing);
+        advancedPanel.Children.Add(regex);
+        advancedPanel.Children.Add(enabled);
+        var advanced = new Expander
+        {
+            Header = T("高级选项", "Advanced options"),
+            Content = advancedPanel,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            IsExpanded = app != null && (app.MatchUsing is 0 or 1 or 3 || app.IsRegEx || !app.IsEnabled)
+        };
+        scopedPanel.Children.Add(match);
+        scopedPanel.Children.Add(advanced);
+        var error = new TextBlock { TextWrapping = TextWrapping.Wrap, Visibility = Visibility.Collapsed };
+        void ScopeChanged() => scopedPanel.Visibility = all.IsChecked == true ? Visibility.Collapsed : Visibility.Visible;
         all.Checked += (_, _) => ScopeChanged(); all.Unchecked += (_, _) => ScopeChanged(); ScopeChanged();
-        panel.Children.Add(gestures); panel.Children.Add(all); panel.Children.Add(matchUsing); panel.Children.Add(match); panel.Children.Add(regex); panel.Children.Add(enabled);
-        if (!await ConfirmDialogAsync(T("手势忽略", "Ignored gestures"), panel, T("保存", "Save"))) return;
+        panel.Children.Add(gestures); panel.Children.Add(all); panel.Children.Add(scopedPanel); panel.Children.Add(error);
+        bool Validate()
+        {
+            error.Visibility = Visibility.Collapsed;
+            if (gestures.SelectedItem is not ComboBoxItem) return false;
+            if (all.IsChecked != true && string.IsNullOrWhiteSpace(match.Text))
+            {
+                error.Text = T("请选择所有程序，或填写程序匹配文本。", "Select all applications or enter application match text.");
+                error.Visibility = Visibility.Visible;
+                return false;
+            }
+            if (regex.IsChecked == true && all.IsChecked != true)
+            {
+                try { _ = new System.Text.RegularExpressions.Regex(match.Text, System.Text.RegularExpressions.RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)); }
+                catch (ArgumentException)
+                {
+                    error.Text = T("正则表达式无效。", "Invalid regular expression.");
+                    error.Visibility = Visibility.Visible;
+                    advanced.IsExpanded = true;
+                    return false;
+                }
+            }
+            return true;
+        }
+        if (!await ConfirmDialogAsync(T("手势忽略", "Ignored gestures"), panel, T("保存", "Save"), Validate)) return;
         if (gestures.SelectedItem is not ComboBoxItem selected) return;
-        if (all.IsChecked != true && string.IsNullOrWhiteSpace(match.Text))
-        {
-            await ShowInfoDialog(T("匹配文本", "Match Text"), T("请选择所有程序，或填写程序匹配文本。", "Select all applications or enter application match text."));
-            return;
-        }
-        if (regex.IsChecked == true && all.IsChecked != true)
-        {
-            try { _ = new System.Text.RegularExpressions.Regex(match.Text, System.Text.RegularExpressions.RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(100)); }
-            catch (ArgumentException) { await ShowInfoDialog(T("正则", "Regex"), T("正则表达式无效。", "Invalid regular expression.")); return; }
-        }
-        _legacyData.SaveIgnoredGesture(app, (string)selected.Tag, all.IsChecked == true ? 4 : matchUsing.SelectedIndex switch { 0 => 1, 2 => 0, _ => 2 }, match.Text, regex.IsChecked == true, enabled.IsChecked == true);
+        _legacyData.SaveIgnoredGesture(app, (string)selected.Tag, all.IsChecked == true ? 4 : matchUsing.SelectedIndex switch { 0 => 1, 2 => 0, _ => 2 }, match.Text.Trim(), regex.IsChecked == true, enabled.IsChecked == true);
         ReloadData();
     }
 }

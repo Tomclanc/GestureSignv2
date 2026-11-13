@@ -23,14 +23,24 @@ public sealed partial class MainWindow
         matchUsing.Items.Add(T("窗口类", "Window Class"));
         var regex = new CheckBox { Content = T("使用正则匹配", "Use regular expressions"), Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(12);
+        var advancedIgnorePanel = NewCardPanel(8);
         panel.Children.Add(NewDialogField(T("程序名称", "App Name"), T("用于在动作页列表中显示，建议填写容易识别的名称。", "Displayed in the actions list. Choose a recognizable name."), name));
         panel.Children.Add(NewDialogField(T("匹配文本", "Match Text"), T("后台会用这里的文本匹配窗口。可执行文件示例: msedge.exe；多个程序可用 | 分隔。", "The service matches windows using this text. Executable example: msedge.exe. Separate multiple programs with |."), matchText));
         panel.Children.Add(NewDialogField(T("从运行中程序选择", "Choose a running application"), T("自动填入程序名称和可执行文件名，适合普通桌面程序。", "Fills in the application name and executable file name for desktop applications."), NewRunningProcessPicker(name, matchText, matchUsing)));
         panel.Children.Add(NewDialogField(T("拾取窗口", "Pick a window"), T("点击后在目标窗口上单击，可按 exe、标题或类名提取匹配信息。", "Click this button, then click the target window to capture its executable, title or class name."), NewWindowPicker(name, matchText, matchUsing)));
         if (!ignored)
             panel.Children.Add(NewDialogField(T("分组", "Group"), T("可留空。相同分组会在动作页中归在一起，方便管理。", "Optional. Applications in the same group appear together on the actions page."), group));
+        if (ignored)
+        {
+            advancedIgnorePanel.Children.Add(NewDialogField(T("匹配方式", "Match by"), T("可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", "Executable matching is most reliable. Use titles for windows with fixed titles, or classes for system windows and special applications."), matchUsing));
+            advancedIgnorePanel.Children.Add(NewDialogField(T("正则匹配", "Regular expression matching"), T("开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", "Treats the match text as a regular expression. For example, chrome|firefox matches multiple browsers."), regex));
+            panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advancedIgnorePanel, HorizontalAlignment = HorizontalAlignment.Stretch });
+        }
+        else
+        {
         panel.Children.Add(NewDialogField(T("匹配方式", "Match by"), T("可执行文件最稳定；窗口标题适合标题固定的窗口；窗口类适合系统窗口或特殊程序。", "Executable matching is most reliable. Use titles for windows with fixed titles, or classes for system windows and special applications."), matchUsing));
         panel.Children.Add(NewDialogField(T("正则匹配", "Regular expression matching"), T("开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", "Treats the match text as a regular expression. For example, chrome|firefox matches multiple browsers."), regex));
+        }
 
         if (!await ConfirmDialogAsync(ignored ? T("添加忽略项", "Add Ignored Item") : T("添加程序", "Add App"), panel, T("添加", "Add")))
             return;
