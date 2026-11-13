@@ -967,6 +967,11 @@ namespace GestureSign.Daemon.Surface
 
         #region Base Method Overrides
 
+        // Form.Show otherwise requests activation even though the native window
+        // also has WS_EX_NOACTIVATE. Preserve the editor's focused control and
+        // selection when the gesture trail or result hint first becomes visible.
+        protected override bool ShowWithoutActivation => true;
+
         protected override CreateParams CreateParams
         {
             get
