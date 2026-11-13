@@ -312,6 +312,12 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 
 - Center gesture-name hints at the bottom of the monitor containing the pointer, instead of across the combined desktop.
 - Keep long names within that monitor with ellipsis.
+- Add script selection for PowerShell, CMD/BAT, Python and AutoHotkey commands.
+- Add global and per-application gesture exclusions with simpler setup.
+- Restore visual settings for continuous gestures, including finger count and direction.
+- Show gesture feedback without requesting activation.
+- Use exact percentage-point volume adjustments.
+- Confirm updater handoff before exit, fix update asset selection and localize the helper in 90 languages.
 
 ### Previous releases
 
