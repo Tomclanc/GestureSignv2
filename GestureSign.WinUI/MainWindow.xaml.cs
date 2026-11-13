@@ -6147,6 +6147,7 @@ public sealed partial class MainWindow : Window
         var readyPath = packagePath + ".ready";
         var arguments = string.Join(" ", new[]
         {
+            "--culture", QuoteCommandLineArgument(ResolveUiCultureName(_uiCultureName)),
             "--ready", QuoteCommandLineArgument(readyPath),
             "--mode", QuoteCommandLineArgument(msiInstallation ? "msi" : "portable"),
             "--package", QuoteCommandLineArgument(packagePath),

@@ -1,3 +1,4 @@
+using static GestureSign.Updater.UpdateText;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -20,6 +21,7 @@ namespace GestureSign.Updater
             AppContext.SetSwitch("Switch.System.Windows.Forms.EnableWindowsFormsHighDpiAutoResizing", true);
 
             var options = UpdateOptions.Parse(args);
+            SetCulture(options.CultureName);
             if (!options.FromTemp)
             {
                 RelaunchFromTemp(args);
@@ -59,7 +61,9 @@ namespace GestureSign.Updater
         public UpdateForm(UpdateOptions options)
         {
             _options = options;
-            Text = "更新 GestureSign V2";
+            Text = T("Update GestureSign V2");
+            RightToLeft = System.Globalization.CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? RightToLeft.Yes : RightToLeft.No;
+            RightToLeftLayout = RightToLeft == RightToLeft.Yes;
             StartPosition = FormStartPosition.CenterScreen;
             MinimumSize = new Size(560, 290);
             Size = new Size(620, 310);
@@ -85,7 +89,7 @@ namespace GestureSign.Updater
             };
             Controls.Add(panel);
 
-            _title.Text = "正在更新 GestureSign V2";
+            _title.Text = T("Updating GestureSign V2");
             _title.Font = new Font(Font.FontFamily, 18F, FontStyle.Bold);
             _title.ForeColor = text;
             _title.AutoSize = false;
@@ -93,7 +97,7 @@ namespace GestureSign.Updater
             _title.Size = new Size(490, 40);
             panel.Controls.Add(_title);
 
-            _status.Text = "正在等待 GestureSign 退出…";
+            _status.Text = T("Waiting for GestureSign to exit…");
             _status.ForeColor = subText;
             _status.AutoSize = false;
             _status.Location = new Point(30, 82);
@@ -106,7 +110,7 @@ namespace GestureSign.Updater
             _progress.Size = new Size(488, 18);
             panel.Controls.Add(_progress);
 
-            _closeButton.Text = "取消";
+            _closeButton.Text = T("Cancel");
             _closeButton.Enabled = false;
             _closeButton.Location = new Point(478, 232);
             _closeButton.Size = new Size(98, 36);
@@ -135,7 +139,7 @@ namespace GestureSign.Updater
                     ValidateOptions();
                     if (!string.IsNullOrWhiteSpace(_options.ReadyPath)) File.WriteAllText(_options.ReadyPath, "ready");
                     WaitForMainProcess();
-                    SetStatus("正在关闭后台服务和快捷操作…");
+                    SetStatus(T("Closing the background service and quick actions…"));
                     StopTargetProcesses();
 
                     if (string.Equals(_options.Mode, "msi", StringComparison.OrdinalIgnoreCase))
@@ -146,8 +150,8 @@ namespace GestureSign.Updater
 
                 _progress.MarqueeAnimationSpeed = 0;
                 _progress.Value = 100;
-                _title.Text = "更新完成";
-                _status.Text = "GestureSign V2 已更新，正在重新启动…";
+                _title.Text = T("Update completed");
+                _status.Text = T("GestureSign V2 has been updated. Restarting…");
                 await Task.Delay(700);
                 LaunchUpdatedApplication();
                 _closeButton.Enabled = true;
@@ -156,9 +160,9 @@ namespace GestureSign.Updater
             catch (Exception ex)
             {
                 _progress.MarqueeAnimationSpeed = 0;
-                _title.Text = "更新失败";
+                _title.Text = T("Update failed");
                 _status.Text = ex.Message;
-                _closeButton.Text = "关闭";
+                _closeButton.Text = T("Close");
                 _closeButton.Enabled = true;
             }
             finally
@@ -171,11 +175,11 @@ namespace GestureSign.Updater
         {
             if (!string.Equals(_options.Mode, "msi", StringComparison.OrdinalIgnoreCase) &&
                 !string.Equals(_options.Mode, "portable", StringComparison.OrdinalIgnoreCase))
-                throw new InvalidOperationException("未知的更新方式。");
+                throw new InvalidOperationException(T("Unknown update mode."));
             if (string.IsNullOrWhiteSpace(_options.PackagePath) || !File.Exists(_options.PackagePath))
-                throw new FileNotFoundException("找不到已下载的更新包。", _options.PackagePath);
+                throw new FileNotFoundException(T("The downloaded update package was not found."), _options.PackagePath);
             if (string.IsNullOrWhiteSpace(_options.TargetDirectory) || !Directory.Exists(_options.TargetDirectory))
-                throw new DirectoryNotFoundException("找不到当前 GestureSign 目录。");
+                throw new DirectoryNotFoundException(T("The current GestureSign directory was not found."));
         }
 
         private void WaitForMainProcess()
@@ -186,7 +190,7 @@ namespace GestureSign.Updater
             {
                 using (var process = Process.GetProcessById(_options.WaitProcessId))
                     if (!process.WaitForExit(45000))
-                        throw new TimeoutException("GestureSign is still running; update was cancelled before replacing files.");
+                        throw new TimeoutException(T("GestureSign is still running; update was cancelled before replacing files."));
             }
             catch (ArgumentException)
             {
@@ -224,9 +228,9 @@ namespace GestureSign.Updater
 
         private void InstallMsi()
         {
-            SetStatus("正在保留已安装的 Kando 可选组件…");
+            SetStatus(T("Preserving the installed Kando component…"));
             PreserveBundledKando(_options.TargetDirectory);
-            SetStatus("正在覆盖安装新版本…");
+            SetStatus(T("Installing the new version…"));
             var logPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
             var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{logPath}\"";
             using (var process = Process.Start(new ProcessStartInfo("msiexec.exe", arguments)
@@ -236,29 +240,29 @@ namespace GestureSign.Updater
             }))
             {
                 if (process == null)
-                    throw new InvalidOperationException("无法启动 Windows Installer。");
+                    throw new InvalidOperationException(T("Could not start Windows Installer."));
                 process.WaitForExit();
                 if (process.ExitCode != 0 && process.ExitCode != 3010)
-                    throw new InvalidOperationException($"Windows Installer 返回 {process.ExitCode}。详细日志：{logPath}");
+                    throw new InvalidOperationException(string.Format(T("Windows Installer returned {0}. Detailed log: {1}"), process.ExitCode, logPath));
             }
         }
 
         private void ReplacePortableDirectory()
         {
-            SetStatus("正在解压并验证便携版…");
+            SetStatus(T("Extracting and validating the portable update…"));
             var target = NormalizeDirectory(_options.TargetDirectory);
-            var parent = Directory.GetParent(target)?.FullName ?? throw new InvalidOperationException("无法确定程序目录的上级路径。");
+            var parent = Directory.GetParent(target)?.FullName ?? throw new InvalidOperationException(T("Could not determine the parent application directory."));
             var staging = Path.Combine(parent, $".{Path.GetFileName(target)}.update-{Guid.NewGuid():N}");
             var backup = Path.Combine(parent, $".{Path.GetFileName(target)}.backup-{Guid.NewGuid():N}");
             var targetMoved = false;
 
             try
             {
-                SetStatus("正在保留已安装的 Kando 可选组件…");
+                SetStatus(T("Preserving the installed Kando component…"));
                 PreserveBundledKando(target);
                 ZipFile.ExtractToDirectory(_options.PackagePath, staging);
                 ValidatePortableDirectory(staging);
-                SetStatus("正在替换程序文件…");
+                SetStatus(T("Replacing application files…"));
 
                 Directory.Move(target, backup);
                 targetMoved = true;
@@ -289,7 +293,7 @@ namespace GestureSign.Updater
             foreach (var relative in new[] { "GestureSign.WinUI.exe", @"Backend\GestureSign.exe" })
             {
                 if (!File.Exists(Path.Combine(directory, relative)))
-                    throw new InvalidDataException("更新包缺少必要文件：" + relative);
+                    throw new InvalidDataException(string.Format(T("The update package is missing a required file: {0}"), relative));
             }
         }
 
@@ -421,6 +425,7 @@ namespace GestureSign.Updater
         public int WaitProcessId { get; private set; }
         public bool FromTemp { get; private set; }
         public string ReadyPath { get; private set; }
+        public string CultureName { get; private set; }
 
         public static UpdateOptions Parse(string[] args)
         {
@@ -442,6 +447,7 @@ namespace GestureSign.Updater
             return new UpdateOptions
             {
                 ReadyPath = Get(values, "ready"),
+                CultureName = Get(values, "culture"),
                 Mode = Get(values, "mode"),
                 PackagePath = Get(values, "package"),
                 TargetDirectory = Get(values, "target"),
