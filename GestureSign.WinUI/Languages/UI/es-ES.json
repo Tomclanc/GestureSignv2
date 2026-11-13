@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Expresión regular no válida.",
   "Choose script": "Elige guión",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Soporta PowerShell, CMD/BAT, Python y AutoHotkey. Instale el intérprete requerido y edite el comando para agregar argumentos.",
-  "Configure application and gesture exclusions.": "Configure exclusiones de aplicaciones y gestos."
+  "Configure application and gesture exclusions.": "Configure exclusiones de aplicaciones y gestos.",
+  "Continuous sliding (repeat without lifting)": "Deslizamiento continuo (repetir sin levantar)",
+  "Finger count": "contar los dedos",
+  "Sliding direction": "Dirección de deslizamiento",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Deslice con el número y dirección de dedos seleccionados. Cada paso de movimiento vuelve a ejecutar los comandos de esta acción; no se requiere ningún patrón dibujado."
 }

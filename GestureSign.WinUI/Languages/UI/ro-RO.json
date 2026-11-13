@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Expresie regulată nevalidă.",
   "Choose script": "Alegeți scenariul",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Suportă PowerShell, CMD/BAT, Python și AutoHotkey. Instalați interpretul necesar și editați comanda pentru a adăuga argumente.",
-  "Configure application and gesture exclusions.": "Configurați excluderile de aplicații și gesturi."
+  "Configure application and gesture exclusions.": "Configurați excluderile de aplicații și gesturi.",
+  "Continuous sliding (repeat without lifting)": "Alunecare continuă (repetă fără ridicare)",
+  "Finger count": "Numărarea degetelor",
+  "Sliding direction": "Direcția de alunecare",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Glisați cu numărul de degete și direcția selectate. Fiecare pas de mișcare execută din nou comenzile acestei acțiuni; nu este necesar nici un model desenat."
 }

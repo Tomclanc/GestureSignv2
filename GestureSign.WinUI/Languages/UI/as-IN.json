@@ -658,5 +658,9 @@
   "Invalid regular expression.": "অবৈধ নিয়মিত প্ৰকাশ।",
   "Choose script": "লিপি বাছক",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, পাইথন আৰু AutoHotkey সমৰ্থন কৰে। প্ৰয়োজনীয় দোভাষী সংস্থাপন কৰক আৰু যুক্তি যোগ কৰিবলে আদেশ সম্পাদনা কৰক।",
-  "Configure application and gesture exclusions.": "এপ্লিকেচন আৰু ইংগিত বাদ বিন্যাস কৰক।"
+  "Configure application and gesture exclusions.": "এপ্লিকেচন আৰু ইংগিত বাদ বিন্যাস কৰক।",
+  "Continuous sliding (repeat without lifting)": "অবিৰতভাৱে পিছলি থকা (উঠাব নোৱাৰাকৈ পুনৰাবৃত্তি কৰা)",
+  "Finger count": "আঙুলিৰ গণনা",
+  "Sliding direction": "স্লাইডিং দিশ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "নিৰ্বাচিত আঙুলিৰ সংখ্যা আৰু দিশৰ সৈতে স্লাইড কৰক। প্ৰতিটো গতিৰ পদক্ষেপে এই কাৰ্য্যৰ আদেশসমূহ পুনৰ চলায়; কোনো অংকন কৰা আৰ্হিৰ প্ৰয়োজন নাই।"
 }

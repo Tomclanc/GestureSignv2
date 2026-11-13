@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Sloinneadh rialta neamhbhailí.",
   "Choose script": "Roghnaigh script",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Tacaíonn sé le PowerShell, CMD/BAT, Python agus AutoHotkey. Suiteáil an t-ateangaire riachtanach agus cuir an t-ordú in eagar chun argóintí a chur leis.",
-  "Configure application and gesture exclusions.": "Cumraigh eisiamh iarratais agus gothaí."
+  "Configure application and gesture exclusions.": "Cumraigh eisiamh iarratais agus gothaí.",
+  "Continuous sliding (repeat without lifting)": "Sleamhnú leanúnach (arís gan ardú)",
+  "Finger count": "Comhaireamh méar",
+  "Sliding direction": "Treo sleamhnáin",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Sleamhnaigh leis an líon méar roghnaithe agus treo. Ritheann gach céim gluaiseachta orduithe an ghnímh seo arís; ní gá patrún tarraingthe."
 }

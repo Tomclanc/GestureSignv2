@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Nederīga regulārā izteiksme.",
   "Choose script": "Izvēlieties skriptu",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Atbalsta PowerShell, CMD/BAT, Python un AutoHotkey. Instalējiet nepieciešamo tulku un rediģējiet komandu, lai pievienotu argumentus.",
-  "Configure application and gesture exclusions.": "Konfigurējiet lietojumprogrammu un žestu izslēgšanu."
+  "Configure application and gesture exclusions.": "Konfigurējiet lietojumprogrammu un žestu izslēgšanu.",
+  "Continuous sliding (repeat without lifting)": "Nepārtraukta slīdēšana (atkārtot bez pacelšanas)",
+  "Finger count": "Pirkstu skaits",
+  "Sliding direction": "Slīdošais virziens",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Bīdiet ar atlasīto pirkstu skaitu un virzienu. Katrs kustības solis vēlreiz izpilda šīs darbības komandas; nav nepieciešams zīmēts raksts."
 }

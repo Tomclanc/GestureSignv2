@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Shprehje e rregullt e pavlefshme.",
   "Choose script": "Zgjidhni skriptin",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Mbështet PowerShell, CMD/BAT, Python dhe AutoHotkey. Instaloni interpretuesin e kërkuar dhe modifikoni komandën për të shtuar argumente.",
-  "Configure application and gesture exclusions.": "Konfiguro përjashtimet e aplikacioneve dhe gjesteve."
+  "Configure application and gesture exclusions.": "Konfiguro përjashtimet e aplikacioneve dhe gjesteve.",
+  "Continuous sliding (repeat without lifting)": "Rrëshqitje e vazhdueshme (përsëriteni pa ngritur)",
+  "Finger count": "Numërimi i gishtave",
+  "Sliding direction": "Drejtimi i rrëshqitjes",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Rrëshqisni me numrin dhe drejtimin e zgjedhur të gishtave. Çdo hap i lëvizjes ekzekuton përsëri komandat e këtij veprimi; nuk kërkohet asnjë model i vizatuar."
 }

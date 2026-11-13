@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Magana akai-akai mara inganci.",
   "Choose script": "Zaɓi rubutun",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Yana goyan bayan PowerShell, CMD/BAT, Python da AutoHotkey. Shigar da fassarar da ake buƙata kuma shirya umarnin don ƙara muhawara.",
-  "Configure application and gesture exclusions.": "Sanya aikace-aikace da keɓancewa."
+  "Configure application and gesture exclusions.": "Sanya aikace-aikace da keɓancewa.",
+  "Continuous sliding (repeat without lifting)": "Ci gaba da zamewa (maimaita ba tare da ɗagawa ba)",
+  "Finger count": "Ƙididdigar yatsa",
+  "Sliding direction": "Hanyar zamiya",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Zamewa tare da zaɓin ƙidayar yatsa da shugabanci. Kowane mataki motsi yana sake aiwatar da umarnin wannan aikin; ba a buƙatar zane mai zane."
 }

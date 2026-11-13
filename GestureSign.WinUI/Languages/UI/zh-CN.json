@@ -658,5 +658,9 @@
   "Invalid regular expression.": "正则表达式无效。",
   "Choose script": "选择脚本",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "支持 PowerShell、CMD/BAT、Python 和 AutoHotkey；需安装相应解释器，可编辑命令添加参数。",
-  "Configure application and gesture exclusions.": "设置程序忽略和手势忽略规则。"
+  "Configure application and gesture exclusions.": "设置程序忽略和手势忽略规则。",
+  "Continuous sliding (repeat without lifting)": "连续滑动（无需松手，重复执行动作）",
+  "Finger count": "手指数",
+  "Sliding direction": "滑动方向",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "按所选指数量和方向滑动，每移动一段距离就执行一次当前动作的命令，无需绘制图案。"
 }

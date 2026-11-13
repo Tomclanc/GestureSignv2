@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Briseadh cunbhalach neo-dhligheach.",
   "Choose script": "Tagh sgriobt",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "A’ toirt taic do PowerShell, CMD/BAT, Python agus AutoHotkey. Stàlaich an eadar-theangair a tha a dhìth agus deasaich an àithne gus argamaidean a chur ris.",
-  "Configure application and gesture exclusions.": "Dèan rèiteachadh air tagradh agus toirmeasg gluasad-bodhaig."
+  "Configure application and gesture exclusions.": "Dèan rèiteachadh air tagradh agus toirmeasg gluasad-bodhaig.",
+  "Continuous sliding (repeat without lifting)": "Sleamhnachadh leantainneach (ath-aithris gun togail)",
+  "Finger count": "Cunntas meòir",
+  "Sliding direction": "Stiùireadh sleamhnachaidh",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Sleamhnachadh leis a’ chunntais mheòir taghte agus an stiùireadh. Bidh gach ceum gluasaid a 'ruith òrdughan a' ghnìomh seo a-rithist; chan eil feum air pàtran air a tharraing."
 }

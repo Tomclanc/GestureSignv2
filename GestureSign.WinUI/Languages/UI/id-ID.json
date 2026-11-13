@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Ekspresi reguler tidak valid.",
   "Choose script": "Pilih skrip",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Mendukung PowerShell, CMD/BAT, Python dan AutoHotkey. Instal juru bahasa yang diperlukan dan edit perintah untuk menambahkan argumen.",
-  "Configure application and gesture exclusions.": "Konfigurasikan pengecualian aplikasi dan isyarat."
+  "Configure application and gesture exclusions.": "Konfigurasikan pengecualian aplikasi dan isyarat.",
+  "Continuous sliding (repeat without lifting)": "Geser terus menerus (ulangi tanpa mengangkat)",
+  "Finger count": "Hitungan jari",
+  "Sliding direction": "Arah geser",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Geser dengan jumlah jari dan arah yang dipilih. Setiap langkah gerakan menjalankan perintah tindakan ini lagi; tidak diperlukan pola yang digambar."
 }

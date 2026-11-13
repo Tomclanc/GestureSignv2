@@ -658,5 +658,9 @@
   "Invalid regular expression.": "தவறான வழக்கமான வெளிப்பாடு.",
   "Choose script": "ஸ்கிரிப்டைத் தேர்ந்தெடுக்கவும்",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python மற்றும் AutoHotkey ஆகியவற்றை ஆதரிக்கிறது. தேவையான மொழிபெயர்ப்பாளரை நிறுவி, வாதங்களைச் சேர்க்க கட்டளையைத் திருத்தவும்.",
-  "Configure application and gesture exclusions.": "பயன்பாடு மற்றும் சைகை விலக்குகளை உள்ளமைக்கவும்."
+  "Configure application and gesture exclusions.": "பயன்பாடு மற்றும் சைகை விலக்குகளை உள்ளமைக்கவும்.",
+  "Continuous sliding (repeat without lifting)": "தொடர்ச்சியான நெகிழ் (தூக்காமல் மீண்டும் செய்யவும்)",
+  "Finger count": "விரல் எண்ணிக்கை",
+  "Sliding direction": "நெகிழ் திசை",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "தேர்ந்தெடுக்கப்பட்ட விரல் எண்ணிக்கை மற்றும் திசையுடன் ஸ்லைடு செய்யவும். ஒவ்வொரு இயக்கப் படியும் இந்த செயலின் கட்டளைகளை மீண்டும் இயக்குகிறது; வரையப்பட்ட முறை தேவையில்லை."
 }

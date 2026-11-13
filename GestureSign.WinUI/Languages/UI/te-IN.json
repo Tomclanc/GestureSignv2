@@ -658,5 +658,9 @@
   "Invalid regular expression.": "చెల్లని సాధారణ వ్యక్తీకరణ.",
   "Choose script": "స్క్రిప్ట్‌ని ఎంచుకోండి",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python మరియు AutoHotkeyకి మద్దతు ఇస్తుంది. ఆర్గ్యుమెంట్‌లను జోడించడానికి అవసరమైన ఇంటర్‌ప్రెటర్‌ను ఇన్‌స్టాల్ చేయండి మరియు ఆదేశాన్ని సవరించండి.",
-  "Configure application and gesture exclusions.": "అప్లికేషన్ మరియు సంజ్ఞ మినహాయింపులను కాన్ఫిగర్ చేయండి."
+  "Configure application and gesture exclusions.": "అప్లికేషన్ మరియు సంజ్ఞ మినహాయింపులను కాన్ఫిగర్ చేయండి.",
+  "Continuous sliding (repeat without lifting)": "నిరంతర స్లైడింగ్ (లిఫ్టింగ్ లేకుండా పునరావృతం)",
+  "Finger count": "వేలు లెక్కింపు",
+  "Sliding direction": "స్లైడింగ్ దిశ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "ఎంచుకున్న వేలి లెక్కింపు మరియు దిశతో స్లయిడ్ చేయండి. ప్రతి కదలిక దశ ఈ చర్య యొక్క ఆదేశాలను మళ్లీ అమలు చేస్తుంది; గీసిన నమూనా అవసరం లేదు."
 }

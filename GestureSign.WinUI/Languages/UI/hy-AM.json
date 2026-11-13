@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Անվավեր կանոնավոր արտահայտություն:",
   "Choose script": "Ընտրեք սցենար",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Աջակցում է PowerShell, CMD/BAT, Python և AutoHotkey: Տեղադրեք անհրաժեշտ թարգմանիչը և խմբագրեք հրամանը՝ արգումենտներ ավելացնելու համար:",
-  "Configure application and gesture exclusions.": "Կազմաձևեք հավելվածների և ժեստերի բացառումները:"
+  "Configure application and gesture exclusions.": "Կազմաձևեք հավելվածների և ժեստերի բացառումները:",
+  "Continuous sliding (repeat without lifting)": "Շարունակական սահում (կրկնել առանց բարձրացնելու)",
+  "Finger count": "Մատների հաշվարկ",
+  "Sliding direction": "Սահող ուղղություն",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Սահեցրեք ընտրված մատների քանակով և ուղղությամբ: Շարժման յուրաքանչյուր քայլ նորից գործարկում է այս գործողության հրամանները. ոչ մի գծված օրինակ չի պահանջվում:"
 }

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Invalid regulären Ausdrock.",
   "Choose script": "Wielt Schrëft",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Ënnerstëtzt PowerShell, CMD / BAT, Python an AutoHotkey. Installéiert den erfuerderlechen Dolmetscher an ännert de Kommando fir Argumenter ze addéieren.",
-  "Configure application and gesture exclusions.": "Konfiguréieren Applikatioun a Geste Ausgrenzungen."
+  "Configure application and gesture exclusions.": "Konfiguréieren Applikatioun a Geste Ausgrenzungen.",
+  "Continuous sliding (repeat without lifting)": "Kontinuéierlech rutschen (Wiederholen ouni Lift)",
+  "Finger count": "Fanger zielen",
+  "Sliding direction": "Rutsch Richtung",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Rutsch mat der gewielter Fangerzuel a Richtung. All Bewegungsschrëtt leeft d'Befehle vun dëser Aktioun erëm; kee gezeechent Muster ass erfuerderlech."
 }

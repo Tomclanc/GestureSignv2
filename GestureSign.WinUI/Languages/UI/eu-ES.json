@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Adierazpen erregular baliogabea.",
   "Choose script": "Aukeratu gidoia",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python eta AutoHotkey onartzen ditu. Instalatu beharrezko interpretea eta editatu komandoa argumentuak gehitzeko.",
-  "Configure application and gesture exclusions.": "Konfiguratu aplikazio eta keinuen bazterketak."
+  "Configure application and gesture exclusions.": "Konfiguratu aplikazio eta keinuen bazterketak.",
+  "Continuous sliding (repeat without lifting)": "Etengabeko irristatzea (errepikatu altxatu gabe)",
+  "Finger count": "Hatz zenbaketa",
+  "Sliding direction": "Irristatzearen norabidea",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Irristatu hautatutako hatz zenbaketa eta norabidearekin. Mugimendu-urrats bakoitzak ekintza honen aginduak exekutatzen ditu berriro; ez da marraztutako eredurik behar."
 }

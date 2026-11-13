@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Няправільны рэгулярны выраз.",
   "Choose script": "Выберыце сцэнар",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Падтрымлівае PowerShell, CMD/BAT, Python і AutoHotkey. Усталюйце неабходны інтэрпрэтатар і адрэдагуйце каманду, каб дадаць аргументы.",
-  "Configure application and gesture exclusions.": "Наладзьце выключэнні прыкладанняў і жэстаў."
+  "Configure application and gesture exclusions.": "Наладзьце выключэнні прыкладанняў і жэстаў.",
+  "Continuous sliding (repeat without lifting)": "Бесперапыннае слізгаценне (паўтарыце, не падымаючы)",
+  "Finger count": "Пералік пальцаў",
+  "Sliding direction": "Напрамак слізгацення",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Правядзіце пальцам у выбраным напрамку і колькасці пальцаў. Кожны крок руху зноў запускае каманды гэтага дзеяння; намаляваны шаблон не патрабуецца."
 }

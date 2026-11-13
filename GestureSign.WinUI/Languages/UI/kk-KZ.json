@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Жарамсыз тұрақты өрнек.",
   "Choose script": "Скриптті таңдаңыз",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python және AutoHotkey қолдайды. Қажетті аудармашыны орнатыңыз және аргументтерді қосу пәрменін өңдеңіз.",
-  "Configure application and gesture exclusions.": "Қолданба мен қимылды ерекшелеуді конфигурациялаңыз."
+  "Configure application and gesture exclusions.": "Қолданба мен қимылды ерекшелеуді конфигурациялаңыз.",
+  "Continuous sliding (repeat without lifting)": "Үздіксіз сырғанау (көтерусіз қайталаңыз)",
+  "Finger count": "Саусақ санау",
+  "Sliding direction": "Сырғымалы бағыт",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Таңдалған саусақ саны мен бағытымен сырғытыңыз. Әрбір қозғалыс қадамы осы әрекеттің пәрмендерін қайта іске қосады; сызылған үлгі қажет емес."
 }

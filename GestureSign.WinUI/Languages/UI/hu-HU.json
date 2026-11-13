@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Érvénytelen reguláris kifejezés.",
   "Choose script": "Válassza ki a szkriptet",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Támogatja a PowerShellt, a CMD/BAT-ot, a Python-t és az AutoHotkey-t. Telepítse a szükséges értelmezőt, és módosítsa a parancsot argumentumok hozzáadásához.",
-  "Configure application and gesture exclusions.": "Alkalmazás- és kézmozdulat-kizárások konfigurálása."
+  "Configure application and gesture exclusions.": "Alkalmazás- és kézmozdulat-kizárások konfigurálása.",
+  "Continuous sliding (repeat without lifting)": "Folyamatos csúsztatás (ismétlés emelés nélkül)",
+  "Finger count": "Ujjszám",
+  "Sliding direction": "Csúszó irány",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Csúsztassa a kiválasztott ujjszámot és irányt. Minden mozgáslépés újra futtatja ennek a műveletnek a parancsait; nincs szükség rajzolt mintára."
 }

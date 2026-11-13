@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Oddiy ifoda noto‘g‘ri.",
   "Choose script": "Skriptni tanlang",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python va AutoHotkey-ni qo'llab-quvvatlaydi. Kerakli tarjimonni o'rnating va argumentlar qo'shish buyrug'ini tahrirlang.",
-  "Configure application and gesture exclusions.": "Ilova va imo-ishora istisnolarini sozlang."
+  "Configure application and gesture exclusions.": "Ilova va imo-ishora istisnolarini sozlang.",
+  "Continuous sliding (repeat without lifting)": "Doimiy siljish (ko'tarmasdan takrorlang)",
+  "Finger count": "Barmoqlar soni",
+  "Sliding direction": "Sirpanish yo'nalishi",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Tanlangan barmoqlar soni va yoʻnalishi bilan suring. Har bir harakat qadami ushbu amalning buyruqlarini qayta ishga tushiradi; chizilgan naqsh talab qilinmaydi."
 }

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Дөрес булмаган белдерү.",
   "Choose script": "Сценарийны сайлагыз",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD / BAT, Python һәм AutoHotkey ярдәм итә. Кирәкле тәрҗемәчене урнаштырыгыз һәм аргументлар өстәү өчен боерыкны үзгәртегез.",
-  "Configure application and gesture exclusions.": "Кушымтаны һәм ишарәләрне конфигурацияләгез."
+  "Configure application and gesture exclusions.": "Кушымтаны һәм ишарәләрне конфигурацияләгез.",
+  "Continuous sliding (repeat without lifting)": "Даими сикерү (күтәрмичә кабатлау)",
+  "Finger count": "Бармаклар саны",
+  "Sliding direction": "Слайд юнәлеше",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Сайланган бармак санау һәм юнәлеш белән слайд. Eachәр хәрәкәт адымы бу хәрәкәтнең боерыкларын яңадан эшли; сызылган үрнәк кирәк түгел."
 }

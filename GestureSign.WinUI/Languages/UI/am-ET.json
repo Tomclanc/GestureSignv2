@@ -658,5 +658,9 @@
   "Invalid regular expression.": "ልክ ያልሆነ መደበኛ አገላለጽ።",
   "Choose script": "ስክሪፕት ይምረጡ",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShellን፣ CMD/BATን፣ Python እና AutoHotkeyን ይደግፋል። ክርክሮችን ለመጨመር አስፈላጊውን አስተርጓሚ ይጫኑ እና ትዕዛዙን ያርትዑ።",
-  "Configure application and gesture exclusions.": "የመተግበሪያ እና የእጅ ምልክት ማግለሎችን ያዋቅሩ።"
+  "Configure application and gesture exclusions.": "የመተግበሪያ እና የእጅ ምልክት ማግለሎችን ያዋቅሩ።",
+  "Continuous sliding (repeat without lifting)": "ቀጣይነት ያለው መንሸራተት (ሳይነሱ ይድገሙት)",
+  "Finger count": "የጣት ብዛት",
+  "Sliding direction": "ተንሸራታች አቅጣጫ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "በተመረጠው የጣት ብዛት እና አቅጣጫ ያንሸራትቱ። እያንዳንዱ የእንቅስቃሴ ደረጃ የዚህን ድርጊት ትዕዛዞች እንደገና ያስኬዳል; ምንም የተሳለ ንድፍ አያስፈልግም."
 }

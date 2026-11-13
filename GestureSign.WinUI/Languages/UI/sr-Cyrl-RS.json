@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Неважећи регуларни израз.",
   "Choose script": "Изаберите скрипту",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Подржава ПоверСхелл, ЦМД/БАТ, Питхон и АутоХоткеи. Инсталирајте потребан тумач и уредите команду да бисте додали аргументе.",
-  "Configure application and gesture exclusions.": "Конфигуришите изузимања апликација и покрета."
+  "Configure application and gesture exclusions.": "Конфигуришите изузимања апликација и покрета.",
+  "Continuous sliding (repeat without lifting)": "Континуирано клизање (поновити без подизања)",
+  "Finger count": "Бројање прстију",
+  "Sliding direction": "Смер клизања",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Превуците са изабраним бројем прстију и смером. Сваки корак покрета поново покреће команде ове акције; није потребан нацртан образац."
 }

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "កន្សោមធម្មតាមិនត្រឹមត្រូវ។",
   "Choose script": "ជ្រើសរើសស្គ្រីប",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "គាំទ្រ PowerShell, CMD/BAT, Python និង AutoHotkey ។ ដំឡើងអ្នកបកប្រែដែលត្រូវការ ហើយកែសម្រួលពាក្យបញ្ជាដើម្បីបន្ថែមអាគុយម៉ង់។",
-  "Configure application and gesture exclusions.": "កំណត់រចនាសម្ព័ន្ធកម្មវិធី និងការបដិសេធដោយកាយវិការ។"
+  "Configure application and gesture exclusions.": "កំណត់រចនាសម្ព័ន្ធកម្មវិធី និងការបដិសេធដោយកាយវិការ។",
+  "Continuous sliding (repeat without lifting)": "ការរអិលជាបន្តបន្ទាប់ (ធ្វើម្តងទៀតដោយមិនលើក)",
+  "Finger count": "ការរាប់ម្រាមដៃ",
+  "Sliding direction": "ទិសដៅរអិល",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "រុញដោយប្រើចំនួនម្រាមដៃ និងទិសដៅដែលបានជ្រើសរើស។ ជំហានចលនានីមួយៗដំណើរការពាក្យបញ្ជារបស់សកម្មភាពនេះម្តងទៀត។ មិនចាំបាច់មានលំនាំគូរទេ។"
 }

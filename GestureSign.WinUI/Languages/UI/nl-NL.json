@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Ongeldige reguliere expressie.",
   "Choose script": "Kies schrift",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Ondersteunt PowerShell, CMD/BAT, Python en AutoHotkey. Installeer de vereiste tolk en bewerk de opdracht om argumenten toe te voegen.",
-  "Configure application and gesture exclusions.": "Configureer applicatie- en gebarenuitsluitingen."
+  "Configure application and gesture exclusions.": "Configureer applicatie- en gebarenuitsluitingen.",
+  "Continuous sliding (repeat without lifting)": "Continu glijden (herhalen zonder tillen)",
+  "Finger count": "Aantal vingers",
+  "Sliding direction": "Glijdende richting",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Schuif met het geselecteerde aantal vingers en de geselecteerde richting. Bij elke bewegingsstap worden de opdrachten van deze actie opnieuw uitgevoerd; er is geen getekend patroon vereist."
 }

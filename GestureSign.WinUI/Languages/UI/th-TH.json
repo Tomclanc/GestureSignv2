@@ -658,5 +658,9 @@
   "Invalid regular expression.": "นิพจน์ทั่วไปไม่ถูกต้อง",
   "Choose script": "เลือกสคริปต์",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "รองรับ PowerShell, CMD/BAT, Python และ AutoHotkey ติดตั้งล่ามที่จำเป็นและแก้ไขคำสั่งเพื่อเพิ่มอาร์กิวเมนต์",
-  "Configure application and gesture exclusions.": "กำหนดค่าการยกเว้นแอปพลิเคชันและท่าทาง"
+  "Configure application and gesture exclusions.": "กำหนดค่าการยกเว้นแอปพลิเคชันและท่าทาง",
+  "Continuous sliding (repeat without lifting)": "เลื่อนต่อเนื่อง (ทำซ้ำโดยไม่ต้องยก)",
+  "Finger count": "นับนิ้ว",
+  "Sliding direction": "ทิศทางเลื่อน",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "เลื่อนตามจำนวนนิ้วและทิศทางที่เลือก แต่ละขั้นตอนการเคลื่อนไหวจะรันคำสั่งของการกระทำนี้อีกครั้ง ไม่จำเป็นต้องวาดลวดลาย"
 }

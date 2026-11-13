@@ -658,5 +658,9 @@
   "Invalid regular expression.": "അസാധുവായ റെഗുലർ എക്സ്പ്രഷൻ.",
   "Choose script": "സ്ക്രിപ്റ്റ് തിരഞ്ഞെടുക്കുക",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python, AutoHotkey എന്നിവയെ പിന്തുണയ്ക്കുന്നു. ആർഗ്യുമെൻ്റുകൾ ചേർക്കുന്നതിന് ആവശ്യമായ ഇൻ്റർപ്രെറ്റർ ഇൻസ്റ്റാൾ ചെയ്ത് കമാൻഡ് എഡിറ്റ് ചെയ്യുക.",
-  "Configure application and gesture exclusions.": "ആപ്ലിക്കേഷനും ആംഗ്യ ഒഴിവാക്കലുകളും കോൺഫിഗർ ചെയ്യുക."
+  "Configure application and gesture exclusions.": "ആപ്ലിക്കേഷനും ആംഗ്യ ഒഴിവാക്കലുകളും കോൺഫിഗർ ചെയ്യുക.",
+  "Continuous sliding (repeat without lifting)": "തുടർച്ചയായ സ്ലൈഡിംഗ് (ഉയർത്താതെ ആവർത്തിക്കുക)",
+  "Finger count": "വിരലുകളുടെ എണ്ണം",
+  "Sliding direction": "സ്ലൈഡിംഗ് ദിശ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "തിരഞ്ഞെടുത്ത വിരലുകളുടെ എണ്ണവും ദിശയും ഉപയോഗിച്ച് സ്ലൈഡ് ചെയ്യുക. ഓരോ ചലന ഘട്ടവും ഈ പ്രവർത്തനത്തിൻ്റെ കമാൻഡുകൾ വീണ്ടും പ്രവർത്തിപ്പിക്കുന്നു; വരച്ച പാറ്റേൺ ആവശ്യമില്ല."
 }

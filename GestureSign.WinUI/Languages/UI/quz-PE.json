@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Expresión regular mana allin.",
   "Choose script": "Guionta akllay",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python chaymanta AutoHotkey nisqakunata yanapan. Munasqa t'ikraqta churay hinaspa kamachiyta llamk'achiy argumentokuna yapanaykipaq.",
-  "Configure application and gesture exclusions.": "Aplicación chaymanta gesto exclusiones nisqakunata ruway."
+  "Configure application and gesture exclusions.": "Aplicación chaymanta gesto exclusiones nisqakunata ruway.",
+  "Continuous sliding (repeat without lifting)": "Sapa kuti llimp’iy (mana hoqarispa yapamanta ruway) .",
+  "Finger count": "Dedo yupay",
+  "Sliding direction": "Dirección deslizante nisqa",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Akllasqa dedo yupaywan, mayman risqanwan ima llimp’iy. Sapa kuyuy llamkayqa kay ruwaypa kamachikuyninkunata yapamanta purichin; mana siq’isqa patrón nisqatapas necesitakunchu."
 }

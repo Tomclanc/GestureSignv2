@@ -658,5 +658,9 @@
   "Invalid regular expression.": "غلط ریگولر ایکسپریشن۔",
   "Choose script": "اسکرپٹ کا انتخاب کریں۔",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell، CMD/BAT، Python اور AutoHotkey کو سپورٹ کرتا ہے۔ مطلوبہ مترجم انسٹال کریں اور آرگیومنٹس شامل کرنے کے لیے کمانڈ میں ترمیم کریں۔",
-  "Configure application and gesture exclusions.": "ایپلیکیشن اور اشارے کے اخراج کو ترتیب دیں۔"
+  "Configure application and gesture exclusions.": "ایپلیکیشن اور اشارے کے اخراج کو ترتیب دیں۔",
+  "Continuous sliding (repeat without lifting)": "مسلسل سلائڈنگ (اٹھانے کے بغیر دہرائیں)",
+  "Finger count": "انگلیوں کی گنتی",
+  "Sliding direction": "سلائیڈنگ سمت",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "منتخب انگلی کی گنتی اور سمت کے ساتھ سلائیڈ کریں۔ ہر حرکتی قدم اس کارروائی کے حکموں کو دوبارہ چلاتا ہے۔ کوئی تیار کردہ پیٹرن کی ضرورت نہیں ہے."
 }

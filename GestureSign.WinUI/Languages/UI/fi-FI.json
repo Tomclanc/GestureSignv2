@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Virheellinen säännöllinen lauseke.",
   "Choose script": "Valitse skripti",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Tukee PowerShell-, CMD/BAT-, Python- ja AutoHotkey-tukea. Asenna tarvittava tulkki ja muokkaa komentoa argumenttien lisäämiseksi.",
-  "Configure application and gesture exclusions.": "Määritä sovellusten ja eleiden poissulkemiset."
+  "Configure application and gesture exclusions.": "Määritä sovellusten ja eleiden poissulkemiset.",
+  "Continuous sliding (repeat without lifting)": "Jatkuva liukuminen (toista ilman nostamista)",
+  "Finger count": "Sormien määrä",
+  "Sliding direction": "Liukusuunta",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Liu'uta valitulla sormien lukumäärällä ja suunnalla. Jokainen liikevaihe suorittaa tämän toiminnon komennot uudelleen; piirrettyä kuviota ei tarvita."
 }

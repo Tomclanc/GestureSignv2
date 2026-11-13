@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Μη έγκυρη τυπική έκφραση.",
   "Choose script": "Επιλέξτε σενάριο",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Υποστηρίζει PowerShell, CMD/BAT, Python και AutoHotkey. Εγκαταστήστε τον απαιτούμενο διερμηνέα και επεξεργαστείτε την εντολή για να προσθέσετε ορίσματα.",
-  "Configure application and gesture exclusions.": "Διαμόρφωση εξαιρέσεων εφαρμογών και χειρονομιών."
+  "Configure application and gesture exclusions.": "Διαμόρφωση εξαιρέσεων εφαρμογών και χειρονομιών.",
+  "Continuous sliding (repeat without lifting)": "Συνεχής ολίσθηση (επανάληψη χωρίς ανύψωση)",
+  "Finger count": "Αριθμός δακτύλων",
+  "Sliding direction": "Κατεύθυνση ολίσθησης",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Σύρετε με τον επιλεγμένο αριθμό δακτύλων και κατεύθυνση. Κάθε βήμα κίνησης εκτελεί ξανά τις εντολές αυτής της ενέργειας. δεν απαιτείται σχεδιασμένο σχέδιο."
 }

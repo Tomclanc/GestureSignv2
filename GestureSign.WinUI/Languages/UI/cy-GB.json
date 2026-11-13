@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Mynegiant rheolaidd annilys.",
   "Choose script": "Dewiswch sgript",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Yn cefnogi PowerShell, CMD/BAT, Python ac AutoHotkey. Gosodwch y dehonglydd gofynnol a golygu'r gorchymyn i ychwanegu dadleuon.",
-  "Configure application and gesture exclusions.": "Ffurfweddu gwaharddiadau cais ac ystum."
+  "Configure application and gesture exclusions.": "Ffurfweddu gwaharddiadau cais ac ystum.",
+  "Continuous sliding (repeat without lifting)": "Llithro parhaus (ailadrodd heb godi)",
+  "Finger count": "Cyfrif bysedd",
+  "Sliding direction": "Cyfeiriad llithro",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Llithro gyda'r cyfrif bys a ddewiswyd a'r cyfeiriad. Mae pob cam symud yn rhedeg gorchmynion y weithred hon eto; nid oes angen patrwm wedi'i dynnu."
 }

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Ugyldig regulært uttrykk.",
   "Choose script": "Vel skript",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Støttar PowerShell, CMD/BAT, Python og AutoHotkey. Installer den nødvendige tolken og rediger kommandoen for å leggje til argument.",
-  "Configure application and gesture exclusions.": "Set opp unntak for program og rørsler."
+  "Configure application and gesture exclusions.": "Set opp unntak for program og rørsler.",
+  "Continuous sliding (repeat without lifting)": "Kontinuerleg gliding (gjenta utan å løfte)",
+  "Finger count": "Tal på fingrar",
+  "Sliding direction": "Glideretning",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Gli med det valde talet på fingrar i den valde retninga. Kvart rørslessteg køyrer kommandoane i handlinga på nytt; du treng ikkje teikne eit mønster."
 }

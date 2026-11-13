@@ -171,6 +171,7 @@ public sealed partial class MainWindow
 
         var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = T("新动作", "New Action") + " " + DateTime.Now.ToString("HHmmssfff") };
         var gesture = new TextBox { PlaceholderText = T("手势名称，例如 3Right", "Gesture name, for example 3Right"), Margin = new Thickness(0, 8, 0, 0) };
+        var continuousGestureJson = new TextBox();
         var deviceSelector = NewActionDeviceSelector(0);
         var mouseGestureButton = NewActionMouseGestureButton(0);
         BindActionMouseGestureDevice(mouseGestureButton, deviceSelector);
@@ -276,6 +277,7 @@ public sealed partial class MainWindow
         panel.Children.Add(new TextBlock { Text = T("1. 手势：直接在下面画", "1. Gesture: draw below"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(inputSummary);
+        panel.Children.Add(NewContinuousGestureEditor(continuousGestureJson));
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         advanced.Children.Add(deviceSelector.Content);
@@ -313,7 +315,7 @@ public sealed partial class MainWindow
         bool ValidateNewAction()
         {
             CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
-            if (!drawnPointPatterns.Any(stroke => stroke.Count >= 2) && string.IsNullOrWhiteSpace(ResolveGestureName(gesture, "")) && mouseHotkey.SelectedIndex <= 0)
+            if (!drawnPointPatterns.Any(stroke => stroke.Count >= 2) && string.IsNullOrWhiteSpace(ResolveGestureName(gesture, "")) && mouseHotkey.SelectedIndex <= 0 && string.IsNullOrWhiteSpace(continuousGestureJson.Text))
             { validation.Text = T("请先画一个手势。", "Draw a gesture first."); return false; }
             if (!ShouldCreateCommand(commandPluginClass.Text, commandSettings.Text))
             { validation.Text = T("请选择命令，或录入快捷键。", "Choose a command or record a shortcut."); return false; }
@@ -345,7 +347,7 @@ public sealed partial class MainWindow
         }
 
         var finalGestureName = ResolveGestureName(gesture, "");
-        if (string.IsNullOrWhiteSpace(finalGestureName) && mouseHotkey.SelectedIndex <= 0)
+        if (string.IsNullOrWhiteSpace(finalGestureName) && mouseHotkey.SelectedIndex <= 0 && string.IsNullOrWhiteSpace(continuousGestureJson.Text))
         {
             await ShowInfoDialog(T("缺少手势", "No gesture selected"), T("请先选择、输入或绘制一个手势。", "Select, enter or draw a gesture first."));
             return;
@@ -372,7 +374,7 @@ public sealed partial class MainWindow
         var commandPluginClassValue = commandPluginClass.Text.Trim();
         var commandSettingsValue = commandSettings.Text;
         var addInitialCommand = ShouldCreateCommand(commandPluginClassValue, commandSettingsValue);
-        _legacyData.AddAction(targetApp, name.Text, finalGestureName, ignoredDevices, ActionMouseGestureButtonValue(mouseGestureButton), MouseActionValue(mouseHotkey.SelectedIndex));
+        _legacyData.AddAction(targetApp, name.Text, finalGestureName, ignoredDevices, ActionMouseGestureButtonValue(mouseGestureButton), MouseActionValue(mouseHotkey.SelectedIndex), continuousGestureJson.Text);
         if (addInitialCommand)
         {
             _legacyData = LegacyDataStore.Load();
@@ -463,7 +465,7 @@ public sealed partial class MainWindow
         advanced.Children.Add(NewDialogField(IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures"), IntentText("按住所选按键并绘制手势后执行；任意表示不限制启动按键。", "Hold the selected button and draw a gesture to execute. Any allows every enabled start button."), mouseGestureButton));
         advanced.Children.Add(deviceSelector.Content);
         advanced.Children.Add(hotkeyRecorder);
-        // panel.Children.Add(continuousGestureJson);
+        panel.Children.Add(NewContinuousGestureEditor(continuousGestureJson));
         panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;

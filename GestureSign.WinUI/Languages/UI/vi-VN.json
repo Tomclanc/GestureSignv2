@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Biểu thức chính quy không hợp lệ.",
   "Choose script": "Chọn tập lệnh",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Hỗ trợ PowerShell, CMD/BAT, Python và AutoHotkey. Cài đặt trình thông dịch cần thiết và chỉnh sửa lệnh để thêm đối số.",
-  "Configure application and gesture exclusions.": "Định cấu hình loại trừ ứng dụng và cử chỉ."
+  "Configure application and gesture exclusions.": "Định cấu hình loại trừ ứng dụng và cử chỉ.",
+  "Continuous sliding (repeat without lifting)": "Trượt liên tục (lặp lại mà không cần nâng)",
+  "Finger count": "đếm ngón tay",
+  "Sliding direction": "Hướng trượt",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Trượt theo số ngón tay và hướng đã chọn. Mỗi bước chuyển động sẽ chạy lại các lệnh của hành động này; không cần vẽ mẫu."
 }

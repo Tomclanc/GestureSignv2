@@ -658,5 +658,9 @@
   "Invalid regular expression.": "ଅବ regular ଧ ନିୟମିତ ଅଭିବ୍ୟକ୍ତି |",
   "Choose script": "ସ୍କ୍ରିପ୍ଟ ବାଛନ୍ତୁ |",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD / BAT, Python ଏବଂ AutoHotkey କୁ ସମର୍ଥନ କରେ | ଆବଶ୍ୟକ ଅନୁବାଦକ ସଂସ୍ଥାପନ କରନ୍ତୁ ଏବଂ ଆର୍ଗୁମେଣ୍ଟସ୍ ଯୋଡିବାକୁ ନିର୍ଦ୍ଦେଶକୁ ଏଡିଟ୍ କରନ୍ତୁ |",
-  "Configure application and gesture exclusions.": "ପ୍ରୟୋଗ ଏବଂ ଅଙ୍ଗଭଙ୍ଗୀ ବହିଷ୍କାରକୁ ବିନ୍ୟାସ କରନ୍ତୁ |"
+  "Configure application and gesture exclusions.": "ପ୍ରୟୋଗ ଏବଂ ଅଙ୍ଗଭଙ୍ଗୀ ବହିଷ୍କାରକୁ ବିନ୍ୟାସ କରନ୍ତୁ |",
+  "Continuous sliding (repeat without lifting)": "କ୍ରମାଗତ ସ୍ଲାଇଡିଂ (ଉଠାଇବା ବିନା ପୁନରାବୃତ୍ତି)",
+  "Finger count": "ଆଙ୍ଗୁଠି ଗଣନା |",
+  "Sliding direction": "ସ୍ଲାଇଡିଂ ଦିଗ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "ମନୋନୀତ ଆଙ୍ଗୁଠି ଗଣନା ଏବଂ ଦିଗ ସହିତ ସ୍ଲାଇଡ୍ କରନ୍ତୁ | ପ୍ରତ୍ୟେକ ଗତି ପଦକ୍ଷେପ ଏହି କାର୍ଯ୍ୟର ନିର୍ଦ୍ଦେଶଗୁଡ଼ିକୁ ପୁନର୍ବାର ଚଲାଇଥାଏ | କ drawn ଣସି ଅଙ୍କିତ pattern ାଞ୍ଚା ଆବଶ୍ୟକ ନାହିଁ |"
 }

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "تعبير عادي غير صالح.",
   "Choose script": "اختر البرنامج النصي",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "يدعم PowerShell وCMD/BAT وPython وAutoHotkey. قم بتثبيت المترجم المطلوب وقم بتحرير الأمر لإضافة الوسائط.",
-  "Configure application and gesture exclusions.": "تكوين استثناءات التطبيقات والإيماءات."
+  "Configure application and gesture exclusions.": "تكوين استثناءات التطبيقات والإيماءات.",
+  "Continuous sliding (repeat without lifting)": "الانزلاق المستمر (كرر دون رفع)",
+  "Finger count": "عدد الأصابع",
+  "Sliding direction": "اتجاه انزلاق",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "قم بالتمرير باستخدام عدد الأصابع والاتجاه المحددين. تقوم كل خطوة حركة بتشغيل أوامر هذا الإجراء مرة أخرى؛ لا يوجد نمط مرسوم مطلوب."
 }

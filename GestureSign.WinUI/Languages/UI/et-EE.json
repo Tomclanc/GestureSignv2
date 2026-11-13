@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Kehtetu regulaaravaldis.",
   "Choose script": "Valige skript",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Toetab PowerShelli, CMD/BAT-i, Pythonit ja AutoHotkeyt. Installige vajalik tõlk ja muutke argumentide lisamiseks käsku.",
-  "Configure application and gesture exclusions.": "Rakenduste ja liigutuste välistamise konfigureerimine."
+  "Configure application and gesture exclusions.": "Rakenduste ja liigutuste välistamise konfigureerimine.",
+  "Continuous sliding (repeat without lifting)": "Pidev libisemine (korrata ilma tõstmiseta)",
+  "Finger count": "Sõrmede arv",
+  "Sliding direction": "Libisev suund",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Libistage valitud sõrmede arvu ja suunaga. Iga liigutuse samm käivitab selle toimingu käsud uuesti; joonistatud mustrit pole vaja."
 }

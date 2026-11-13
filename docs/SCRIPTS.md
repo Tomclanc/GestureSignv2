@@ -32,3 +32,9 @@ Supported types: PowerShell (`.ps1`), CMD/BAT, Python (`.py`), AutoHotkey (`.ahk
 手势忽略只阻止该手势对应的动作执行，其他手势仍可用。绘制手势通常需要捕捉结束后才知道匹配结果；忽略动作不会重放或还原已拦截的原生输入。
 
 The Ignored page provides separate application exclusions and gesture exclusions. A gesture rule blocks the selected gesture's actions globally or within an executable/title/class scope. Other gestures remain available. Rules are included in configuration archives. Ignoring a recognized action does not replay native input already consumed during capture.
+
+# 连续手势 / Continuous gestures
+
+新增或编辑动作，打开“连续滑动”，选择手指数与滑动方向，再设置要执行的命令（如音量增加）。手指保持接触并沿该方向继续移动，会重复执行命令；不需要先画一个图案。输入设备和程序范围仍受动作设置及全局识别设置约束。
+
+In Add/Edit Action, enable continuous sliding and select the finger count and direction. Configure the command, for example Volume Up. Continue sliding without lifting to repeat it; a drawn pattern is optional. Application scope, input device selection and global recognition settings still apply.

@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Usemi wa kawaida usio sahihi.",
   "Choose script": "Chagua hati",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Inasaidia PowerShell, CMD/BAT, Python na AutoHotkey. Sakinisha mkalimani anayehitajika na uhariri amri ili kuongeza hoja.",
-  "Configure application and gesture exclusions.": "Sanidi uondoaji wa programu na ishara."
+  "Configure application and gesture exclusions.": "Sanidi uondoaji wa programu na ishara.",
+  "Continuous sliding (repeat without lifting)": "Kuteleza kwa kuendelea (rudia bila kuinua)",
+  "Finger count": "Idadi ya vidole",
+  "Sliding direction": "Mwelekeo wa kuteleza",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Telezesha kidole kwa hesabu ya vidole vilivyochaguliwa na mwelekeo. Kila hatua ya harakati huendesha amri za kitendo hiki tena; hakuna muundo uliochorwa unahitajika."
 }

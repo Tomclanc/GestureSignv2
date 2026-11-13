@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Ógild regluleg tjáning.",
   "Choose script": "Veldu handrit",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Styður PowerShell, CMD/BAT, Python og AutoHotkey. Settu upp nauðsynlegan túlk og breyttu skipuninni til að bæta við rökum.",
-  "Configure application and gesture exclusions.": "Stilltu útilokanir á forritum og bendingum."
+  "Configure application and gesture exclusions.": "Stilltu útilokanir á forritum og bendingum.",
+  "Continuous sliding (repeat without lifting)": "Stöðug renna (endurtaka án þess að lyfta)",
+  "Finger count": "Fingratalning",
+  "Sliding direction": "Renna átt",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Renndu með völdum fingratalningu og stefnu. Hvert hreyfingarskref keyrir skipanir þessarar aðgerðar aftur; ekki þarf teiknað mynstur."
 }

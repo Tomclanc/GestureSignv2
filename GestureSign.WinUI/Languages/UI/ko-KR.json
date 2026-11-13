@@ -658,5 +658,9 @@
   "Invalid regular expression.": "잘못된 정규 표현식입니다.",
   "Choose script": "스크립트 선택",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python 및 AutoHotkey를 지원합니다. 필요한 인터프리터를 설치하고 명령을 편집하여 인수를 추가하십시오.",
-  "Configure application and gesture exclusions.": "애플리케이션 및 제스처 제외를 구성합니다."
+  "Configure application and gesture exclusions.": "애플리케이션 및 제스처 제외를 구성합니다.",
+  "Continuous sliding (repeat without lifting)": "연속 슬라이딩(들리지 않고 반복)",
+  "Finger count": "손가락 수",
+  "Sliding direction": "슬라이딩 방향",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "선택한 손가락 수와 방향으로 슬라이드하세요. 각 이동 단계는 이 작업의 명령을 다시 실행합니다. 그려진 패턴이 필요하지 않습니다."
 }

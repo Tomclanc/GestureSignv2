@@ -658,5 +658,9 @@
   "Invalid regular expression.": "ਅਵੈਧ ਨਿਯਮਤ ਸਮੀਕਰਨ।",
   "Choose script": "ਸਕ੍ਰਿਪਟ ਚੁਣੋ",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python ਅਤੇ AutoHotkey ਦਾ ਸਮਰਥਨ ਕਰਦਾ ਹੈ। ਲੋੜੀਂਦੇ ਦੁਭਾਸ਼ੀਏ ਨੂੰ ਸਥਾਪਿਤ ਕਰੋ ਅਤੇ ਆਰਗੂਮੈਂਟ ਜੋੜਨ ਲਈ ਕਮਾਂਡ ਨੂੰ ਸੰਪਾਦਿਤ ਕਰੋ।",
-  "Configure application and gesture exclusions.": "ਐਪਲੀਕੇਸ਼ਨ ਅਤੇ ਸੰਕੇਤ ਅਲਹਿਦਗੀ ਨੂੰ ਕੌਂਫਿਗਰ ਕਰੋ।"
+  "Configure application and gesture exclusions.": "ਐਪਲੀਕੇਸ਼ਨ ਅਤੇ ਸੰਕੇਤ ਅਲਹਿਦਗੀ ਨੂੰ ਕੌਂਫਿਗਰ ਕਰੋ।",
+  "Continuous sliding (repeat without lifting)": "ਲਗਾਤਾਰ ਸਲਾਈਡਿੰਗ (ਬਿਨਾਂ ਚੁੱਕਣ ਦੇ ਦੁਹਰਾਓ)",
+  "Finger count": "ਉਂਗਲਾਂ ਦੀ ਗਿਣਤੀ",
+  "Sliding direction": "ਸਲਾਈਡਿੰਗ ਦਿਸ਼ਾ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "ਚੁਣੀ ਹੋਈ ਉਂਗਲੀ ਦੀ ਗਿਣਤੀ ਅਤੇ ਦਿਸ਼ਾ ਨਾਲ ਸਲਾਈਡ ਕਰੋ। ਹਰ ਅੰਦੋਲਨ ਕਦਮ ਇਸ ਕਾਰਵਾਈ ਦੇ ਹੁਕਮਾਂ ਨੂੰ ਦੁਬਾਰਾ ਚਲਾਉਂਦਾ ਹੈ; ਕੋਈ ਖਿੱਚਿਆ ਪੈਟਰਨ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ।"
 }

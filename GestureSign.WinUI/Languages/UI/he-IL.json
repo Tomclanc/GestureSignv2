@@ -658,5 +658,9 @@
   "Invalid regular expression.": "ביטוי רגולרי לא חוקי.",
   "Choose script": "בחר תסריט",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "תומך ב-PowerShell, CMD/BAT, Python ו-AutoHotkey. התקן את המתורגמן הנדרש וערוך את הפקודה כדי להוסיף ארגומנטים.",
-  "Configure application and gesture exclusions.": "הגדר אי הכללות של יישומים ומחוות."
+  "Configure application and gesture exclusions.": "הגדר אי הכללות של יישומים ומחוות.",
+  "Continuous sliding (repeat without lifting)": "החלקה מתמשכת (חזור ללא הרמה)",
+  "Finger count": "ספירת אצבעות",
+  "Sliding direction": "כיוון הזזה",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "החלק עם ספירת האצבעות והכיוון שנבחרו. כל צעד תנועה מפעיל שוב את הפקודות של פעולה זו; אין צורך בדוגמה מצוירת."
 }

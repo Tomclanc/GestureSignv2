@@ -343,7 +343,7 @@ internal sealed class LegacyDataStore
         SaveActions();
     }
 
-    public void AddAction(LegacyApplication application, string name, string gestureName, int ignoredDevices = 0, int mouseGestureButton = 0, int mouseHotkey = 0)
+    public void AddAction(LegacyApplication application, string name, string gestureName, int ignoredDevices = 0, int mouseGestureButton = 0, int mouseHotkey = 0, string continuousGestureJson = "")
     {
         var actions = GetOrCreateArray(application.Source, "Actions");
         actions.Add(new JsonObject
@@ -355,6 +355,7 @@ internal sealed class LegacyDataStore
             ["IgnoredDevices"] = ignoredDevices,
             ["MouseGestureButton"] = mouseGestureButton,
             ["MouseHotkey"] = mouseHotkey,
+            ["ContinuousGesture"] = ParseJsonObjectOrNull(continuousGestureJson),
             ["Commands"] = new JsonArray()
         });
         SaveActions();

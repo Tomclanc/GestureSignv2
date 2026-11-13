@@ -658,5 +658,9 @@
   "Invalid regular expression.": "正規表現が無効です。",
   "Choose script": "スクリプトを選択",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell、CMD/BAT、Python、AutoHotkey に対応しています。必要な実行環境をインストールし、引数はコマンドを編集して追加してください。",
-  "Configure application and gesture exclusions.": "アプリとジェスチャーの除外ルールを設定します。"
+  "Configure application and gesture exclusions.": "アプリとジェスチャーの除外ルールを設定します。",
+  "Continuous sliding (repeat without lifting)": "連続スライド（持ち上げずに繰り返す）",
+  "Finger count": "指の数",
+  "Sliding direction": "スライド方向",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "選択した指の数と方向でスライドします。各動作ステップでは、このアクションのコマンドが再度実行されます。描かれたパターンは必要ありません。"
 }

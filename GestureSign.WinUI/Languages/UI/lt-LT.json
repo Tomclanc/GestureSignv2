@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Neteisinga reguliarioji išraiška.",
   "Choose script": "Pasirinkite scenarijų",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Palaiko PowerShell, CMD/BAT, Python ir AutoHotkey. Įdiekite reikiamą interpretatorių ir redaguokite komandą, kad pridėtumėte argumentų.",
-  "Configure application and gesture exclusions.": "Konfigūruokite programų ir gestų išskyrimus."
+  "Configure application and gesture exclusions.": "Konfigūruokite programų ir gestų išskyrimus.",
+  "Continuous sliding (repeat without lifting)": "Nuolatinis slydimas (kartokite nekeliant)",
+  "Finger count": "Pirštų skaičius",
+  "Sliding direction": "Slydimo kryptis",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Slyskite pasirinktu pirštų skaičiumi ir kryptimi. Kiekvienas judesio veiksmas vėl paleidžia šio veiksmo komandas; nereikia nupiešti rašto."
 }

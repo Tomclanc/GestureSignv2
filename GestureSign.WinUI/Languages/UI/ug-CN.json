@@ -658,5 +658,9 @@
   "Invalid regular expression.": "دائىملىق ئىپادىلەش ئىناۋەتسىز.",
   "Choose script": "قوليازما تاللاڭ",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell ، CMD / BAT ، Python ۋە AutoHotkey نى قوللايدۇ. لازىملىق تەرجىماننى ئورنىتىپ ، بۇيرۇق قوشۇش ئۈچۈن بۇيرۇقنى تەھرىرلەڭ.",
-  "Configure application and gesture exclusions.": "قوللىنىش ۋە قول ئىشارىسىنى چىقىرىۋېتىش."
+  "Configure application and gesture exclusions.": "قوللىنىش ۋە قول ئىشارىسىنى چىقىرىۋېتىش.",
+  "Continuous sliding (repeat without lifting)": "توختىماي سىيرىلىش (كۆتۈرمەي تەكرارلاش)",
+  "Finger count": "بارماق سانى",
+  "Sliding direction": "سىيرىلىش يۆنىلىشى",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "تاللانغان بارماق سانى ۋە يۆنىلىشى بىلەن سىيرىڭ. ھەر بىر ھەرىكەت باسقۇچى بۇ ھەرىكەتنىڭ بۇيرۇقلىرىنى قايتا ئىجرا قىلىدۇ. سىزىلغان ئەندىزە تەلەپ قىلىنمايدۇ."
 }

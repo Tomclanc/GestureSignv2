@@ -658,5 +658,9 @@
   "Invalid regular expression.": "ການສະແດງອອກປົກກະຕິບໍ່ຖືກຕ້ອງ.",
   "Choose script": "ເລືອກສະຄຣິບ",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "ຮອງຮັບ PowerShell, CMD/BAT, Python ແລະ AutoHotkey. ຕິດຕັ້ງນາຍພາສາທີ່ຕ້ອງການແລະແກ້ໄຂຄໍາສັ່ງເພື່ອເພີ່ມການໂຕ້ຖຽງ.",
-  "Configure application and gesture exclusions.": "ຕັ້ງຄ່າການຍົກເວັ້ນແອັບພລິເຄຊັນ ແລະທ່າທາງ."
+  "Configure application and gesture exclusions.": "ຕັ້ງຄ່າການຍົກເວັ້ນແອັບພລິເຄຊັນ ແລະທ່າທາງ.",
+  "Continuous sliding (repeat without lifting)": "ການເລື່ອນຢ່າງຕໍ່ເນື່ອງ (ເຮັດຊ້ຳໂດຍບໍ່ມີການຍົກ)",
+  "Finger count": "ນັບນິ້ວມື",
+  "Sliding direction": "ທິດທາງເລື່ອນ",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "ເລື່ອນດ້ວຍຈຳນວນນິ້ວມືທີ່ເລືອກ ແລະທິດທາງ. ແຕ່ລະຂັ້ນຕອນການເຄື່ອນໄຫວດໍາເນີນການຄໍາສັ່ງຂອງການປະຕິບັດນີ້ອີກເທື່ອຫນຶ່ງ; ບໍ່ຈໍາເປັນຕ້ອງມີຮູບແບບທີ່ແຕ້ມ."
 }

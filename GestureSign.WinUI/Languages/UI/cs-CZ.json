@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Neplatný regulární výraz.",
   "Choose script": "Vyberte skript",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Podporuje PowerShell, CMD/BAT, Python a AutoHotkey. Nainstalujte požadovaný interpret a upravte příkaz pro přidání argumentů.",
-  "Configure application and gesture exclusions.": "Nakonfigurujte vyloučení aplikací a gest."
+  "Configure application and gesture exclusions.": "Nakonfigurujte vyloučení aplikací a gest.",
+  "Continuous sliding (repeat without lifting)": "Nepřetržité posouvání (opakování bez zvedání)",
+  "Finger count": "Počítání prstů",
+  "Sliding direction": "Posuvný směr",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Posuňte vybraným počtem prstů a směrem. Každý krok pohybu znovu spustí příkazy této akce; není vyžadován žádný kreslený vzor."
 }

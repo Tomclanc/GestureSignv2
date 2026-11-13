@@ -154,6 +154,10 @@ try
     store.AddAction(uiApp, "Right + Left", "", 0, (int)MouseActions.Right, (int)MouseActions.Left);
     var combination = jsonApp["Actions"].AsArray().Last().AsObject();
     Check(combination["MouseHotkey"].GetValue<int>() == (int)MouseActions.Left && combination["GestureName"].GetValue<string>() == "", "UI add loses combination without a drawn gesture");
+    store.AddAction(uiApp, "Continuous volume", "", 0, 0, 0, "{\"ContactCount\":2,\"Gesture\":4}");
+    var continuous = JsonNode.Parse(File.ReadAllText(store.ActionsPath))[0]["Actions"].AsArray().Last().ToJsonString();
+    var continuousAction = JsonConvert.DeserializeObject<GestureSign.Common.Applications.Action>(continuous);
+    Check(continuousAction.ContinuousGesture.ContactCount == 2 && continuousAction.ContinuousGesture.Gesture == Gestures.Up, "continuous editor data cannot be read by backend");
     store.SaveIgnoredGesture(null, "Down", 4, "", false, true);
     var savedIgnore = JsonNode.Parse(File.ReadAllText(store.ActionsPath)).AsArray().OfType<JsonObject>().Single(a => a["IgnoredGesture"]?.GetValue<string>() == "Down");
     Check(savedIgnore["MatchUsing"].GetValue<int>() == 4, "global gesture ignore not persisted");

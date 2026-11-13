@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Di-wastong regular na expression.",
   "Choose script": "Pumili ng script",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Sinusuportahan ang PowerShell, CMD/BAT, Python at AutoHotkey. I-install ang kinakailangang interpreter at i-edit ang command para magdagdag ng mga argumento.",
-  "Configure application and gesture exclusions.": "I-configure ang mga pagbubukod ng application at galaw."
+  "Configure application and gesture exclusions.": "I-configure ang mga pagbubukod ng application at galaw.",
+  "Continuous sliding (repeat without lifting)": "Patuloy na pag-slide (ulitin nang hindi inaangat)",
+  "Finger count": "Bilang ng daliri",
+  "Sliding direction": "Pag-slide ng direksyon",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "I-slide gamit ang napiling bilang at direksyon ng daliri. Ang bawat hakbang ng paggalaw ay nagpapatakbo muli ng mga utos ng aksyon na ito; walang iginuhit na pattern ay kinakailangan."
 }

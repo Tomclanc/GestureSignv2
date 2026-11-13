@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Invalid regular expression.",
   "Choose script": "Choose script",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.",
-  "Configure application and gesture exclusions.": "Configure application and gesture exclusions."
+  "Configure application and gesture exclusions.": "Configure application and gesture exclusions.",
+  "Continuous sliding (repeat without lifting)": "Continuous sliding (repeat without lifting)",
+  "Finger count": "Finger count",
+  "Sliding direction": "Sliding direction",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required."
 }

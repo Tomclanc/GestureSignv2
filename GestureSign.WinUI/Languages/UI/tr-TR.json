@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Geçersiz normal ifade.",
   "Choose script": "Komut dosyasını seçin",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python ve AutoHotkey'i destekler. Gerekli yorumlayıcıyı yükleyin ve argüman eklemek için komutu düzenleyin.",
-  "Configure application and gesture exclusions.": "Uygulama ve hareket hariç tutmalarını yapılandırın."
+  "Configure application and gesture exclusions.": "Uygulama ve hareket hariç tutmalarını yapılandırın.",
+  "Continuous sliding (repeat without lifting)": "Sürekli kayma (kaldırmadan tekrarlayın)",
+  "Finger count": "Parmak sayımı",
+  "Sliding direction": "Kayma yönü",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Seçilen parmak sayısı ve yönü ile kaydırın. Her hareket adımı bu eylemin komutlarını yeniden çalıştırır; çizilmiş bir desene gerek yoktur."
 }

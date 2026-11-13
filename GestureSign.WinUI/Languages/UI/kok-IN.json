@@ -658,5 +658,9 @@
   "Invalid regular expression.": "अवैध नियमित अभिव्यक्ती.",
   "Choose script": "लिपी निवडात",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "PowerShell, CMD/BAT, Python आनी AutoHotkey हांकां तेंको दिता. गरजेचो दुभाषी स्थापीत करचो आनी आर्ग्युमेंट जोडपाखातीर आदेश संपादीत करचो.",
-  "Configure application and gesture exclusions.": "ऍप्लिकेशन आनी हावभाव वगडावप संरचीत करात."
+  "Configure application and gesture exclusions.": "ऍप्लिकेशन आनी हावभाव वगडावप संरचीत करात.",
+  "Continuous sliding (repeat without lifting)": "सतत सरकप (उखलनासतना परतून करप)",
+  "Finger count": "बोटांची संख्या",
+  "Sliding direction": "सरकपाची दिका",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "निवडिल्ल्या बोटांची संख्या आनी दिका घेवन स्लाइड करात. दरेक हालचालीचें पावल हे कृतीचे आदेश परतून चालीक लायता; काडिल्लो नमुनो जायना."
 }

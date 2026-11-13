@@ -658,5 +658,9 @@
   "Invalid regular expression.": "عبارت منظم نامعتبر است.",
   "Choose script": "اسکریپت را انتخاب کنید",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "از PowerShell، CMD/BAT، Python و AutoHotkey پشتیبانی می کند. مفسر مورد نیاز را نصب کنید و دستور اضافه کردن آرگومان ها را ویرایش کنید.",
-  "Configure application and gesture exclusions.": "پیکربندی برنامه‌ها و استثناهای اشاره."
+  "Configure application and gesture exclusions.": "پیکربندی برنامه‌ها و استثناهای اشاره.",
+  "Continuous sliding (repeat without lifting)": "سر خوردن مداوم (تکرار بدون بلند کردن)",
+  "Finger count": "شمارش انگشت",
+  "Sliding direction": "جهت لغزش",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "با تعداد انگشتان و جهت انتخاب شده بلغزانید. هر مرحله از حرکت دوباره دستورات این عمل را اجرا می کند. هیچ الگوی ترسیمی لازم نیست"
 }

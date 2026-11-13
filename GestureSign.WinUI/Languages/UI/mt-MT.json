@@ -658,5 +658,9 @@
   "Invalid regular expression.": "Espressjoni regolari mhux valida.",
   "Choose script": "Agħżel iskrittura",
   "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments.": "Jappoġġja PowerShell, CMD/BAT, Python u AutoHotkey. Installa l-interpretu meħtieġ u editja l-kmand biex iżżid argumenti.",
-  "Configure application and gesture exclusions.": "Ikkonfigura l-esklużjonijiet tal-applikazzjoni u tal-ġesti."
+  "Configure application and gesture exclusions.": "Ikkonfigura l-esklużjonijiet tal-applikazzjoni u tal-ġesti.",
+  "Continuous sliding (repeat without lifting)": "Żerq kontinwu (irrepeti mingħajr irfigħ)",
+  "Finger count": "Għadd tas-swaba'",
+  "Sliding direction": "Direzzjoni li tiżżerżaq",
+  "Slide with the selected finger count and direction. Each movement step runs this action's commands again; no drawn pattern is required.": "Żerżaq bl-għadd tas-swaba 'magħżula u d-direzzjoni. Kull pass ta' moviment jerġa' jmexxi l-kmandi ta' din l-azzjoni; l-ebda mudell imfassal mhu meħtieġ."
 }
