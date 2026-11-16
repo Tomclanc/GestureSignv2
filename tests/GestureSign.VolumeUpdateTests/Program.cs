@@ -3,7 +3,8 @@ using GestureSign.CorePlugins.Volume;
 using GestureSign.Updater;
 internal static class Checks
 {
-    static void Main()
+    [STAThread]
+    static void Main(string[] args)
     {
         int checks = 0;
         for (int current = 0; current <= 100; current++)
@@ -31,5 +32,14 @@ internal static class Checks
         var options = UpdateOptions.Parse(new[] { "--mode", "portable", "--ready", @"C:\Temp Folder\ready", "--wait-pid", "123", "--from-temp" });
         if (options.ReadyPath != @"C:\Temp Folder\ready" || options.WaitProcessId != 123 || !options.FromTemp) throw new Exception("Update handoff arguments lost");
         Console.WriteLine($"PASS {checks} volume step/boundary checks and updater handoff options. No volume changed or update installed.");
+        if (Array.IndexOf(args, "--native-smoke") >= 0)
+        {
+            // Opt-in only: reacquire the real default endpoint, write back its
+            // existing rounded percentage, and request the native Shell UI.
+            if (!EndpointVolume.Adjust(0)) throw new Exception("Core Audio readback failed");
+            if (!GestureSign.CorePlugins.ScreenBrightness.NativeBrightnessFlyout.TryShowVolume())
+                throw new Exception("Native volume flyout request failed");
+            Console.WriteLine("PASS native endpoint readback and volume flyout COM request. Visual/device confirmation is still required.");
+        }
     }
 }

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../GestureSign.Daemon/Triggers/ContinuousGestureTrigger.cs" Link="ContinuousGestureTrigger.cs" />
+    <Compile Include="../../GestureSign.Daemon/Triggers/Trigger.cs" Link="Trigger.cs" />
+    <Compile Include="../../GestureSign.Daemon/Triggers/TriggerFiredEventArgs.cs" Link="TriggerFiredEventArgs.cs" />
+    <Compile Include="../../GestureSign.Common/Applications/ContinuousGesture.cs" Link="ContinuousGesture.cs" />
+    <Compile Include="../../GestureSign.Common/Input/PointsCapturedEventArgs.cs" Link="PointsCapturedEventArgs.cs" />
+    <Compile Include="../../GestureSign.Common/Input/PointsCapturedEventHandler.cs" Link="PointsCapturedEventHandler.cs" />
+    <Compile Include="../../GestureSign.Common/Input/CaptureState.cs" Link="CaptureState.cs" />
+    <Compile Include="../../GestureSign.Common/Input/Devices.cs" Link="Devices.cs" />
+  </ItemGroup>
+</Project>

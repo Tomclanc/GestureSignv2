@@ -32,6 +32,15 @@ foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
     Check(result == (culture == "zh-CN" ? "这个新字符串没有译文" : "A new untranslated UI string"), $"Missing translation fallback: {culture}");
 }
 Check(UiTranslationCatalog.TranslateFallback("invalid-culture", "动作", "Action") == "Action", "Unknown culture fallback");
+Check(UiTranslationCatalog.ResolveCultureName("sr-Cyrl-ME") == "sr-Cyrl-RS", "Regional fallback preserves Cyrillic script");
+Check(UiTranslationCatalog.ResolveCultureName("sr-Latn-BA") == "sr-Latn-RS", "Regional fallback preserves Latin script");
+Check(UiTranslationCatalog.ResolveCultureName(" sr_Cyrl_ME ") == "sr-Cyrl-RS", "Normalize culture separators and whitespace");
+Check(UiTranslationCatalog.ResolveCultureName("zh-HK") == "zh-TW", "Hong Kong uses Traditional Chinese");
+foreach (var culture in new[] { "ar-SA", "fa-IR", "he-IL", "ur-PK", "ug-CN" })
+    Check(UiTranslationCatalog.IsRightToLeft(culture), $"Right-to-left language: {culture}");
+Check(!UiTranslationCatalog.IsRightToLeft("de-DE"), "Left-to-right language");
+Check(!Regex.IsMatch(UiTranslationCatalog.TranslateComponent("sr-Latn-RS", "Custom command"), "[\\u0400-\\u04ff]"), "Serbian Latin catalog keeps Latin script");
+Check(Regex.IsMatch(UiTranslationCatalog.TranslateComponent("sr-Cyrl-ME", "Custom command"), "[\\u0400-\\u04ff]"), "Serbian regional fallback returns Cyrillic text");
 foreach (var culture in new[] { "ru-RU", "de-DE", "fr-FR", "ja-JP" })
 {
     var path = Path.Combine(AppContext.BaseDirectory, "Languages", "UI", culture + ".json");
@@ -109,6 +118,12 @@ var catalogs = UiTranslationCatalog.SupportedCultureNames.ToDictionary(culture =
     return entries.ToDictionary(e => e.Name, e => e.Value.GetString()!, StringComparer.Ordinal);
 });
 foreach (var catalog in catalogs.Values) requiredUiKeys.UnionWith(catalog.Keys);
+// These workflows previously passed key/format checks while their values were
+// English copies. Guard the actual translations as well as their presence.
+foreach (var (culture, catalog) in catalogs.Where(entry => !entry.Key.StartsWith("en-")))
+foreach (var key in new[] { "Export diagnostics", "Advanced options", "Custom command", "Back up and import",
+    "This import replaces the configuration files included in the archive; it does not merge them. Existing files are backed up and restored if writing fails." })
+    Check(catalog.TryGetValue(key, out var text) && text != key, $"Workflow must be translated: {culture}: {key}");
 foreach (var (culture, catalog) in catalogs)
 foreach (var key in requiredUiKeys)
 {

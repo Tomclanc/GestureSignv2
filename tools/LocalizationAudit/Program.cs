@@ -107,6 +107,25 @@ foreach (var culture in cultures)
     errors += missing.Count + issues.Count + unchanged.Count;
     results.Add(new { Culture = culture, Missing = missing, Issues = issues, Unchanged = unchanged });
 }
+Dictionary<string, byte[]> EmbeddedResources(string path)
+{
+    // Read metadata rather than loading code, so ARM64 and legacy .NET
+    // Framework payloads can both be checked safely from the audit host.
+    using var stream = File.OpenRead(path);
+    using var pe = new PEReader(stream);
+    var metadata = pe.GetMetadataReader();
+    var section = pe.GetSectionData(pe.PEHeaders.CorHeader!.ResourcesDirectory.RelativeVirtualAddress);
+    var resources = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+    foreach (var handle in metadata.ManifestResources)
+    {
+        var resource = metadata.GetManifestResource(handle);
+        if (!resource.Implementation.IsNil) continue;
+        var offset = checked((int)resource.Offset);
+        var reader = section.GetReader(offset, section.Length - offset);
+        resources.Add(metadata.GetString(resource.Name), reader.ReadBytes(reader.ReadInt32()));
+    }
+    return resources;
+}
 var payloadIssues = new List<string>();
 if (payload is not null)
 {
@@ -120,25 +139,23 @@ if (payload is not null)
     if (!File.Exists(foundationPath)) payloadIssues.Add("Missing published GestureSign.Foundation.dll");
     else
     {
-        // Read embedded resources without loading or executing the assembly;
-        // this also permits auditing ARM64 packages from an x64 build machine.
-        using var assemblyStream = File.OpenRead(foundationPath);
-        using var pe = new PEReader(assemblyStream);
-        var metadata = pe.GetMetadataReader();
-        var resourceSection = pe.GetSectionData(pe.PEHeaders.CorHeader!.ResourcesDirectory.RelativeVirtualAddress);
-        var resources = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-        foreach (var handle in metadata.ManifestResources)
-        {
-            var resource = metadata.GetManifestResource(handle);
-            if (!resource.Implementation.IsNil) continue;
-            var offset = checked((int)resource.Offset);
-            var reader = resourceSection.GetReader(offset, resourceSection.Length - offset);
-            resources.Add(metadata.GetString(resource.Name), reader.ReadBytes(reader.ReadInt32()));
-        }
+        var resources = EmbeddedResources(foundationPath);
         foreach (var culture in cultures)
         {
             if (!resources.TryGetValue("Intent." + culture + ".json", out var bytes) || !bytes.SequenceEqual(File.ReadAllBytes(Path.Combine(repo, "GestureSign.Foundation", "Localization", "Intent", culture + ".json"))))
                 payloadIssues.Add("Missing or stale published AI catalog: " + culture);
+        }
+    }
+    var updaterPath = Path.Combine(payload, "GestureSign-Updater.exe");
+    if (!File.Exists(updaterPath)) payloadIssues.Add("Missing published GestureSign-Updater.exe");
+    else
+    {
+        var resources = EmbeddedResources(updaterPath);
+        foreach (var culture in cultures)
+        {
+            if (!resources.TryGetValue("UI." + culture + ".json", out var bytes) ||
+                !bytes.SequenceEqual(File.ReadAllBytes(Path.Combine(repo, "GestureSign.WinUI", "Languages", "UI", culture + ".json"))))
+                payloadIssues.Add("Missing or stale published updater catalog: " + culture);
         }
     }
 }

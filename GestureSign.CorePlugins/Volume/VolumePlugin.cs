@@ -79,7 +79,7 @@ namespace GestureSign.CorePlugins.Volume
 
         public bool Gestured(PointInfo ActionPoint)
         {
-            return AdjustVolume(_settings);
+            return AdjustVolume(_settings, ActionPoint);
         }
 
         public bool Deserialize(string SerializedData)
@@ -140,7 +140,7 @@ namespace GestureSign.CorePlugins.Volume
             return strOutput;
         }
 
-        private bool AdjustVolume(VolumeSettings settings)
+        private bool AdjustVolume(VolumeSettings settings, PointInfo actionPoint)
         {
             if (settings == null)
                 return false;
@@ -150,7 +150,24 @@ namespace GestureSign.CorePlugins.Volume
                 if ((Method)settings.Method == Method.Mute)
                     new InputSimulator().Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_MUTE);
                 else if (settings.Method == 0 || settings.Method == 1)
-                    EndpointVolume.Adjust(settings.Method == 0 ? settings.Percent : -settings.Percent);
+                {
+                    GestureSign.Common.Log.Logging.LogMessage("Volume settings. Backend=CoreAudioReadbackFlyout, Method=" + settings.Method + ", Percent=" + settings.Percent);
+                    if (!EndpointVolume.Adjust(settings.Method == 0 ? settings.Percent : -settings.Percent))
+                        return false;
+                    // Shell COM runs on the daemon UI context, as for brightness.
+                    // A flyout failure must not repeat a successful volume change.
+                    try
+                    {
+                        void Show() => GestureSign.Common.Log.Logging.LogMessage(
+                            "Volume flyout. Success=" + ScreenBrightness.NativeBrightnessFlyout.TryShowVolume());
+                        if (actionPoint != null) actionPoint.Invoke(Show);
+                        else Show();
+                    }
+                    catch (System.Exception ex)
+                    {
+                        GestureSign.Common.Log.Logging.LogMessage("Volume flyout failed. " + ex.Message);
+                    }
+                }
                 else return false;
                 return true;
             }

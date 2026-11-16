@@ -9,6 +9,13 @@ namespace GestureSign.CorePlugins.ScreenBrightness
         // brightness operation; do not simulate volume keys to open this UI.
         // IFlyoutDisplay's brightness selector is 3 on Windows 11.
         internal static bool TryShow()
+            => TryShow(3);
+
+        // Volume is selector 0. Showing the Shell UI never sends media keys or
+        // changes the endpoint volume; it is independent of the audio operation.
+        internal static bool TryShowVolume() => TryShow(0);
+
+        private static bool TryShow(int kind)
         {
             if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)) return false;
             object shell = null;
@@ -22,7 +29,7 @@ namespace GestureSign.CorePlugins.ScreenBrightness
                 var result = ((IShellServiceProvider)shell).QueryService(ref id, ref id, out pointer);
                 if (result < 0 || pointer == IntPtr.Zero) return false;
                 display = Marshal.GetObjectForIUnknown(pointer);
-                return ((IFlyoutDisplay)display).ShowFlyout(3, 0) >= 0;
+                return ((IFlyoutDisplay)display).ShowFlyout(kind, 0) >= 0;
             }
             catch { return false; }
             finally

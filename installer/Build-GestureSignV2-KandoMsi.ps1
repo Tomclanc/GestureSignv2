@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.4.5",
+    [string]$PackageVersion = "18.4.6",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -169,12 +169,7 @@ $updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.e
 # Use the same .NET SDK restore/build path as regression CI for this legacy project.
 & dotnet build $updaterProject -c Release /p:Platform=x64 /v:minimal
 if ($LASTEXITCODE -ne 0) {
-    if (Test-Path -LiteralPath $updaterExe) {
-        Write-Warning "Updater build failed with exit code $LASTEXITCODE; reusing the existing unchanged updater binary: $updaterExe"
-    }
-    else {
-        throw "Updater build failed with exit code $LASTEXITCODE and no existing updater binary is available"
-    }
+    throw "Updater build failed with exit code $LASTEXITCODE; refusing to package stale embedded translations"
 }
 
 if (!(Test-Path -LiteralPath $updaterExe)) {
@@ -216,6 +211,12 @@ if (!(Test-Path -LiteralPath $portableValidator -PathType Leaf)) {
 }
 & $portableValidator -PackagePath $publishPath -SharedRuntimeOnly
 & (Join-Path $repoRoot.ProviderPath "tools\Test-BackendArchitecture.ps1") -PackagePath $publishPath -Architecture $platformTarget
+
+$localizationReport = Join-Path $PSScriptRoot "obj\localization-audit-$Architecture.json"
+& dotnet run --project (Join-Path $repoRoot.ProviderPath "tools\LocalizationAudit") -c Release -- $repoRoot.ProviderPath $localizationReport $publishPath
+if ($LASTEXITCODE -ne 0) {
+    throw "Localization payload validation failed; see $localizationReport"
+}
 
 # Kando is an on-demand component. Never inherit a stale bundled copy from a previous publish.
 $staleKandoPath = Join-Path $publishPath "Kando"

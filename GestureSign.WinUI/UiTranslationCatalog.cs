@@ -85,6 +85,8 @@ internal static class UiTranslationCatalog
         if (string.IsNullOrWhiteSpace(cultureName))
             return "en-US";
 
+        cultureName = cultureName.Trim().Replace('_', '-');
+
         var exact = SupportedCultureNames.FirstOrDefault(name =>
             string.Equals(name, cultureName, StringComparison.OrdinalIgnoreCase));
         if (exact is not null)
@@ -97,6 +99,17 @@ internal static class UiTranslationCatalog
             return "zh-TW";
         if (cultureName.StartsWith("zh", StringComparison.OrdinalIgnoreCase))
             return "zh-CN";
+
+        // Preserve an explicitly requested script when a regional catalog is
+        // unavailable, e.g. sr-Cyrl-ME must not fall back to Serbian Latin.
+        var parts = cultureName.Split('-');
+        if (parts.Length >= 2 && parts[1].Length == 4)
+        {
+            var scriptPrefix = parts[0] + "-" + parts[1] + "-";
+            var sameScript = SupportedCultureNames.FirstOrDefault(name =>
+                name.StartsWith(scriptPrefix, StringComparison.OrdinalIgnoreCase));
+            if (sameScript is not null) return sameScript;
+        }
 
         try
         {
