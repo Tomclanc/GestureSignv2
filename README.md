@@ -149,7 +149,7 @@ WinGet 18.4.6 的更新见 [提交记录](https://github.com/microsoft/winget-pk
 
 ### 历史版本
 
-18.4.4 简化录制与命令配置，加入桌面边缘滚轮、拖动锁定、配置导入预览与诊断导出；18.4.3 修复左右 Win＋L 录入与锁屏，并改进方向键发送兼容性；18.4.2 修复 AI 否决设置在引擎重启及组件更新时丢失的问题；18.4.1 合入输入健康诊断、恢复与修饰键发送修复；18.4 加入左右修饰键与单按快捷键；18.3.9 增加统一媒体播放/暂停命令；18.3.8 补充独立媒体控制并改进 AI 引擎连接；18.3.7 修复首次设置命令与配置重载，补齐多语言并纳入日语校对；18.3.6 改进弹窗、窗口命令和手势库视图；18.3.5 加入多命令与延时、鼠标按键独立绑定和组合快捷键。更早版本逐步完善多指手势、TipTap、边缘交互、本地 AI、Kando、OneDrive 同步及无障碍功能。详细历史请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.4.5 修复多屏手势提示，加入脚本选择和手势忽略，恢复连续滑动设置，并改进音量步长、更新流程与多语言支持；18.4.4 简化录制与命令配置，加入桌面边缘滚轮、拖动锁定、配置导入预览与诊断导出；18.4.3 修复左右 Win＋L 录入与锁屏，并改进方向键发送兼容性；18.4.2 修复 AI 否决设置在引擎重启及组件更新时丢失的问题；18.4.1 合入输入健康诊断、恢复与修饰键发送修复；18.4 加入左右修饰键与单按快捷键；18.3.9 增加统一媒体播放/暂停命令；18.3.8 补充独立媒体控制并改进 AI 引擎连接；18.3.7 修复首次设置命令与配置重载，补齐多语言并纳入日语校对；18.3.6 改进弹窗、窗口命令和手势库视图；18.3.5 加入多命令与延时、鼠标按键独立绑定和组合快捷键。更早版本逐步完善多指手势、TipTap、边缘交互、本地 AI、Kando、OneDrive 同步及无障碍功能。详细历史请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -315,7 +315,7 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 
 ### Previous releases
 
-18.4.4 simplified recording and command setup and added desktop-edge wheel bindings, drag lock, import preview and diagnostic export; 18.4.3 fixed sided Win+L recording and locking and improved arrow-key compatibility; 18.4.2 preserved AI veto settings across engine restarts and component updates; 18.4.1 added input health diagnostics, recovery and modifier sending fixes; 18.4 added sided and standalone modifier shortcuts; 18.3.9 added combined media Play/Pause; 18.3.8 added discrete media controls and improved AI engine connections; 18.3.7 fixed first-click command settings and configuration reloads and completed localization and Japanese proofreading; 18.3.6 improved dialogs, window commands and gesture-library views; 18.3.5 added command sequences with delays, independent mouse button bindings and combination shortcuts. Earlier releases developed multitouch gestures, TipTap, edge interactions, local AI, Kando, OneDrive sync and accessibility. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full history.
+18.4.5 fixed multi-monitor gesture hints, added script selection and gesture exclusions, restored continuous-slide settings, and improved volume steps, updating and localization; 18.4.4 simplified recording and command setup and added desktop-edge wheel bindings, drag lock, import preview and diagnostic export; 18.4.3 fixed sided Win+L recording and locking and improved arrow-key compatibility; 18.4.2 preserved AI veto settings across engine restarts and component updates; 18.4.1 added input health diagnostics, recovery and modifier sending fixes; 18.4 added sided and standalone modifier shortcuts; 18.3.9 added combined media Play/Pause; 18.3.8 added discrete media controls and improved AI engine connections; 18.3.7 fixed first-click command settings and configuration reloads and completed localization and Japanese proofreading; 18.3.6 improved dialogs, window commands and gesture-library views; 18.3.5 added command sequences with delays, independent mouse button bindings and combination shortcuts. Earlier releases developed multitouch gestures, TipTap, edge interactions, local AI, Kando, OneDrive sync and accessibility. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full history.
 
 ## Installation
 
@@ -487,7 +487,7 @@ WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pull
 
 ### 過去のバージョン
 
-18.4.4 では記録とコマンド設定の簡素化、デスクトップ端のホイール操作、ドラッグロック、インポートのプレビュー、診断情報の書き出しを追加しました。18.4.3 では左右の Win+L の記録とロックを修正し、方向キー送信の互換性を改善しました。18.4.2 では AI 拒否設定の保持を修正し、18.4.1 では入力診断・復旧と修飾キー送信を修正し、18.4 では左右の修飾キーと単独ショートカットへの対応、18.3.9 ではメディアの再生・一時停止の切り替え、18.3.8 では個別のメディア操作と AI エンジン接続の改善、18.3.7 では初回のコマンド設定・設定再読み込みの修正と翻訳・日本語校正、18.3.6 ではダイアログ・ウィンドウ操作・ライブラリ表示の改善、18.3.5 では待機時間を含む複数コマンドとマウスボタン別の割り当てを追加しました。それ以前は、複数指ジェスチャー、TipTap、エッジ操作、ローカル AI、Kando、OneDrive 同期、アクセシビリティを順次改善しました。詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.4.5 では複数画面のジェスチャー表示を修正し、スクリプト選択とジェスチャー除外、連続スライド設定を追加・復元するとともに、音量の変化量、更新処理、多言語対応を改善しました。18.4.4 では記録とコマンド設定の簡素化、デスクトップ端のホイール操作、ドラッグロック、インポートのプレビュー、診断情報の書き出しを追加しました。18.4.3 では左右の Win+L の記録とロックを修正し、方向キー送信の互換性を改善しました。18.4.2 では AI 拒否設定の保持を修正し、18.4.1 では入力診断・復旧と修飾キー送信を修正し、18.4 では左右の修飾キーと単独ショートカットへの対応、18.3.9 ではメディアの再生・一時停止の切り替え、18.3.8 では個別のメディア操作と AI エンジン接続の改善、18.3.7 では初回のコマンド設定・設定再読み込みの修正と翻訳・日本語校正、18.3.6 ではダイアログ・ウィンドウ操作・ライブラリ表示の改善、18.3.5 では待機時間を含む複数コマンドとマウスボタン別の割り当てを追加しました。それ以前は、複数指ジェスチャー、TipTap、エッジ操作、ローカル AI、Kando、OneDrive 同期、アクセシビリティを順次改善しました。詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
