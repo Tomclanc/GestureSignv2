@@ -117,8 +117,10 @@ public sealed partial class MainWindow
         var trainingStatus = new StackPanel { Spacing = 4, Visibility = Visibility.Collapsed };
         trainingStatus.Children.Add(trainingText);
         // Legacy validated-protection entry is hidden; retain its implementation.
-        var experimental = NewPillButton(IntentText("启用 AI 否决", "Enable AI veto"), false);
-        bool experimentalActive = false;
+        var experimental = NewPillButton(IntentText("正在读取 AI 否决状态…", "Reading AI veto status…"), false);
+        experimental.IsEnabled = false;
+        bool experimentalActive = false, changingVeto = false;
+        int vetoRevision = 0;
         var actionRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };
         foreach (var button in new[] { train, observe, experimental })
         {
@@ -357,11 +359,28 @@ public sealed partial class MainWindow
             status.Text = installed ? IntentText("学习组件已安装 · 独立更新，默认关闭", "Learning component installed · updated separately, disabled by default") : IntentText("尚未安装，可选下载后启用。", "Not installed. Download only if you want to use learning.");
             try { if (!installed) status.Text += $"  {_intentComponent.Asset.Bytes / 1048576d:0.0} MB · {IntentComponentService.Architecture}"; } catch (Exception ex) { status.Text += " " + UiExceptionMessage(ex); }
         }
+        void UpdateVetoButton(IntentHostResponse state)
+        {
+            var control = state.Control;
+            experimentalActive = state.AiVeto ?? (control.Active && control.Mode == IntentMode.ExperimentalVeto);
+            experimental.Content = experimentalActive
+                ? IntentText("已启用 AI 否决 · 点击关闭", "AI veto enabled · Click to turn off")
+                : IntentText("启用 AI 否决", "Enable AI veto");
+            experimental.Style = experimentalActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
+            experimental.IsEnabled = !changingVeto && (experimentalActive || state.HasModel && !state.Busy);
+        }
+        void UnknownVetoButton()
+        {
+            experimental.IsEnabled = false;
+            experimental.Style = null;
+            experimental.Content = IntentText("AI 否决状态未确认", "AI veto status unavailable");
+        }
         async Task Refresh()
         {
             if (!loaded || refreshing || transfer || correcting || !_intentComponent.Installed) return;
             refreshing = true;
             int revision = correctionRevision;
+            int observedVetoRevision = vetoRevision;
             try
             {
                 var state = await _intentComponent.SendAsync(new("status")); if (!loaded || revision != correctionRevision) return;
@@ -373,7 +392,7 @@ public sealed partial class MainWindow
                 background.IsEnabled = !busy;
                 foreach (var b in new[] { train, observe, hardware }) b.IsEnabled = !busy;
                 protect.IsEnabled = state.Eligible && !busy;
-                experimental.IsEnabled = (state.HasModel || state.AiVeto == true) && !busy;
+
                 hardwarePreview.Text = string.IsNullOrWhiteSpace(state.HardwarePreview)
                     ? IntentText("本机设备尚未检测，请更新学习组件或等待引擎就绪。", "Hardware not detected yet. Update the learning component or wait for the engine.") : IntentMessage(state.HardwarePreview);
                 backend.Text = IntentText("实际推理后端：", "Actual inference backend: ") + IntentMessage(state.Backend);
@@ -384,11 +403,7 @@ public sealed partial class MainWindow
                     ? IntentText("后台学习已开启 · 点击关闭", "Background learning enabled · Click to turn off")
                     : IntentText("开启后台学习", "Enable background learning");
                 background.Style = backgroundActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
-                experimentalActive = state.AiVeto ?? (c.Mode == IntentMode.ExperimentalVeto && now >= c.StartsUtc && now < c.ExpiresUtc);
-                experimental.Content = experimentalActive
-                    ? IntentText("已启用 AI 否决 · 点击关闭", "AI veto enabled · Click to turn off")
-                    : IntentText("启用 AI 否决", "Enable AI veto");
-                experimental.Style = experimentalActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
+                if (!changingVeto && observedVetoRevision == vetoRevision) UpdateVetoButton(state);
                 mode.Text = c.Mode == IntentMode.Off || now >= c.ExpiresUtc ? IntentText("当前：关闭", "Current mode: off") :
                     now < c.StartsUtc ? IntentText("开始倒计时：", "Starting in: ") + $"{Math.Ceiling((c.StartsUtc - now).TotalSeconds)} s" :
                     c.Mode == IntentMode.BackgroundLearn ? IntentText("当前：后台学习 · 不拦截 · 待确认样本不会自动当成答案", "Current mode: background learning · no blocking · confirmed labels only") :
@@ -427,8 +442,14 @@ public sealed partial class MainWindow
                 if (SelectedId() == null) { selectedTrace = null; DrawTrace(); }
                 updating = false; SelectionState();
             }
-            catch (OperationCanceledException) { if (loaded) status.Text = IntentText("学习引擎响应较慢，正在重试；已有显示暂未更新。", "The learning engine is responding slowly. Retrying; displayed data has not refreshed."); }
-            catch (Exception ex) { if (loaded) status.Text = UiExceptionMessage(ex); }
+            catch (Exception ex)
+            {
+                if (!loaded) return;
+                if (!changingVeto && observedVetoRevision == vetoRevision) UnknownVetoButton();
+                status.Text = ex is OperationCanceledException
+                    ? IntentText("学习引擎响应较慢，正在重试；已有显示暂未更新。", "The learning engine is responding slowly. Retrying; displayed data has not refreshed.")
+                    : UiExceptionMessage(ex);
+            }
             finally { refreshing = false; updating = false; }
         }
         async Task Command(IntentHostRequest request)
@@ -470,8 +491,32 @@ public sealed partial class MainWindow
         observe.Click += async (_, _) => await Command(new("mode", IntentMode.Observe));
         experimental.Click += async (_, _) =>
         {
+            changingVeto = true;
+            vetoRevision++;
             experimental.IsEnabled = false;
-            await Command(experimentalActive ? new("veto-off") : new("mode", IntentMode.ExperimentalVeto));
+            try
+            {
+                var state = await _intentComponent.SendAsync(experimentalActive ? new("veto-off") : new("mode", IntentMode.ExperimentalVeto));
+                changingVeto = false;
+                if (loaded)
+                {
+                    UpdateVetoButton(state);
+                    report.Visibility = Visibility.Collapsed;
+                    connectionReport = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (loaded)
+                {
+                    UnknownVetoButton();
+                    connectionReport = IntentComponentService.IsConnectionFailure(ex);
+                    report.Text = UiExceptionMessage(ex);
+                    report.Visibility = Visibility.Visible;
+                }
+            }
+            finally { changingVeto = false; }
+            await Refresh();
         };
         protect.Click += async (_, _) => await Command(new("mode", IntentMode.ProtectSmartClose));
         hardware.Click += async (_, _) => await Command(new("hardware"));

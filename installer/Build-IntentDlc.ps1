@@ -11,12 +11,13 @@ $output = [IO.Path]::GetFullPath($OutputDirectory)
 if ((Test-Path -LiteralPath $output) -and (Get-ChildItem -LiteralPath $output -Force | Select-Object -First 1)) {
     throw 'Choose an empty output directory; stale runtime files must never enter a new component.'
 }
-$version = '18.4.2'
+$version = '18.4.7'
 $runtimeSuffix = if ($SelfContained) { '-standalone' } else { '' }
 $archive = Join-Path (Split-Path $output -Parent) "GestureSign-IntentDlc-$version-$($Backend.ToLowerInvariant())-win-$Architecture$runtimeSuffix.zip"
 if (Test-Path -LiteralPath $archive) { throw "Archive already exists; choose a fresh output directory: $archive" }
 New-Item -ItemType Directory -Path $output -Force | Out-Null
-& dotnet publish (Join-Path $repo 'GestureSign.IntentDlc\GestureSign.IntentDlc.csproj') -c Release -r "win-$Architecture" --self-contained ($SelfContained.IsPresent.ToString().ToLowerInvariant()) -o (Join-Path $output 'Runtime') -p:PlatformTarget=$Architecture -p:IntentBackend=$Backend
+$platform = if ($Architecture -eq 'arm64') { 'ARM64' } else { 'x64' }
+& dotnet publish (Join-Path $repo 'GestureSign.IntentDlc\GestureSign.IntentDlc.csproj') -c Release -r "win-$Architecture" --self-contained ($SelfContained.IsPresent.ToString().ToLowerInvariant()) -o (Join-Path $output 'Runtime') -p:Platform=$platform -p:PlatformTarget=$platform -p:IntentBackend=$Backend
 if ($LASTEXITCODE -ne 0) { throw 'Intent DLC publish failed.' }
 $metadata = @{ Protocol = 2; Version = $version; Architecture = $Architecture; Backend = $Backend; SelfContained = $SelfContained.IsPresent }
 [IO.File]::WriteAllText((Join-Path $output 'component.json'), ($metadata | ConvertTo-Json))

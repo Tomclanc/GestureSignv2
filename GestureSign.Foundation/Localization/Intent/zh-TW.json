@@ -259,5 +259,7 @@
   "Media Next Track": "媒體下一首",
   "Media Previous Track": "媒體上一首",
   "Media Controls": "多媒體控制",
-  "Media Play/Pause": "媒體播放/暫停"
+  "Media Play/Pause": "媒體播放/暫停",
+  "Reading AI veto status…": "正在讀取 AI 否決狀態…",
+  "AI veto status unavailable": "無法確認 AI 否決狀態"
 }

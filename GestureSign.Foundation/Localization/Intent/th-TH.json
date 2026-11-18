@@ -259,5 +259,7 @@
   "Media Next Track": "สื่อเพลงถัดไป",
   "Media Previous Track": "สื่อเพลงก่อนหน้า",
   "Media Controls": "การควบคุมสื่อ",
-  "Media Play/Pause": "เล่น/หยุดชั่วคราวสื่อ"
+  "Media Play/Pause": "เล่น/หยุดชั่วคราวสื่อ",
+  "Reading AI veto status…": "กำลังอ่านสถานะการยับยั้ง AI...",
+  "AI veto status unavailable": "สถานะยับยั้ง AI ไม่พร้อมใช้งาน"
 }

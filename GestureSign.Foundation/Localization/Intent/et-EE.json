@@ -259,5 +259,7 @@
   "Media Next Track": "Meedia järgmine lugu",
   "Media Previous Track": "Meedia eelmine lugu",
   "Media Controls": "Meedia juhtnupud",
-  "Media Play/Pause": "Meedia esitamine/paus"
+  "Media Play/Pause": "Meedia esitamine/paus",
+  "Reading AI veto status…": "AI veto oleku lugemine…",
+  "AI veto status unavailable": "AI veto olek pole saadaval"
 }

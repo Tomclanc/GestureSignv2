@@ -259,5 +259,7 @@
   "Media Next Track": "Media Li jmiss Track",
   "Media Previous Track": "Media Preċedenti Track",
   "Media Controls": "Kontrolli tal-Midja",
-  "Media Play/Pause": "Reproduzzjoni/Paws tal-Midja"
+  "Media Play/Pause": "Reproduzzjoni/Paws tal-Midja",
+  "Reading AI veto status…": "Qari tal-istatus tal-veto tal-AI...",
+  "AI veto status unavailable": "L-istatus tal-veto tal-AI mhux disponibbli"
 }

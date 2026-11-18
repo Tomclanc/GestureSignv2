@@ -259,5 +259,7 @@
   "Media Next Track": "Медіа Наступний трек",
   "Media Previous Track": "Медіа Попередній трек",
   "Media Controls": "Елементи керування медіа",
-  "Media Play/Pause": "Відтворити/пауза медіа"
+  "Media Play/Pause": "Відтворити/пауза медіа",
+  "Reading AI veto status…": "Читання статусу вето AI…",
+  "AI veto status unavailable": "Статус вето AI недоступний"
 }

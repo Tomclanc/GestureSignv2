@@ -259,5 +259,7 @@
   "Media Next Track": "Kitas medijos takelis",
   "Media Previous Track": "Ankstesnis žiniasklaidos takelis",
   "Media Controls": "Medijos valdikliai",
-  "Media Play/Pause": "Medijos paleidimas/pauzė"
+  "Media Play/Pause": "Medijos paleidimas/pauzė",
+  "Reading AI veto status…": "Skaitoma AI veto būsena…",
+  "AI veto status unavailable": "AI veto būsena nepasiekiama"
 }

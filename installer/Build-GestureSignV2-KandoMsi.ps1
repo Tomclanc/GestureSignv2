@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.4.6",
+    [string]$PackageVersion = "18.4.7",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -198,7 +198,7 @@ elseif (!(Test-Path -LiteralPath $publishPath)) {
 }
 
 # Support tooling must also be refreshed when reusing a prepared payload.
-foreach ($supportScript in @('Collect-SupportInfo.ps1', 'Recover-Input.ps1')) {
+foreach ($supportScript in @('Collect-SupportInfo.ps1', 'Collect-StartupInfo.ps1', 'Recover-Input.ps1')) {
     Copy-Item -LiteralPath (Join-Path $repoRoot.ProviderPath "tools/$supportScript") -Destination (Join-Path $publishPath $supportScript) -Force
 }
 

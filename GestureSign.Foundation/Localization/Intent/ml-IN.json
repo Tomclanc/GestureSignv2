@@ -259,5 +259,7 @@
   "Media Next Track": "മീഡിയ അടുത്ത ട്രാക്ക്",
   "Media Previous Track": "മീഡിയ മുൻ ട്രാക്ക്",
   "Media Controls": "മീഡിയ നിയന്ത്രണങ്ങൾ",
-  "Media Play/Pause": "മീഡിയ പ്ലേ/പോസ്"
+  "Media Play/Pause": "മീഡിയ പ്ലേ/പോസ്",
+  "Reading AI veto status…": "AI വീറ്റോ നില വായിക്കുന്നു...",
+  "AI veto status unavailable": "AI വീറ്റോ നില ലഭ്യമല്ല"
 }

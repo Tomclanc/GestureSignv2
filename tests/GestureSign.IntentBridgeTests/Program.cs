@@ -67,8 +67,14 @@ using (var bridge = new TouchPadIntentBridge(root, pipeName, () => 1))
     response = Respond(.96f); Check(!bridge.ShouldSuppress("L", true, 2), "Experimental veto rejected allowed score."); await response;
     response = Respond(.1f); Check(bridge.ShouldSuppress("L", true, 2) && bridge.LastAiVetoReason != null, "Experimental veto did not report rejection."); await response;
     response = Respond(.1f); Check(bridge.ShouldSuppress("Custom", false, 2, freeDraw: true), "Custom drawing bypassed AI review."); await response;
+    response = Respond(.1f);
+    Check(!bridge.ShouldSuppress("Custom", false, 2, freeDraw: true, strongTemplateMatch: true), "A low model score vetoed a deliberate curved template match.");
+    await response;
+    response = Respond(.1f);
+    Check(bridge.ShouldSuppress("L", true, 2, freeDraw: true, strongTemplateMatch: true), "Strong template evidence bypassed Smart Close protection.");
+    await response;
     Check(!bridge.ShouldSuppress("Custom", false, 2, freeDraw: true), "Unavailable model blocked an ordinary drawing.");
-    Check(bridge.ShouldSuppress("Custom", false, 2, missingTemplateTurn: true, freeDraw: true), "Missing sustained template turn was allowed.");
+    Check(bridge.ShouldSuppress("Custom", false, 2, missingTemplateTurn: true, freeDraw: true, strongTemplateMatch: true), "Strong-match flag bypassed missing sustained template turn.");
     new IntentReviewSettings { TwoFingers = false, ThreeFourFingers = false, SingleFingerCustom = false, ExcludedGestures = ["Custom"] }.Save(root); await Task.Delay(650);
     Check(bridge.ShouldSuppress("Custom", false, 2, missingTemplateTurn: true, freeDraw: true), "Legacy exclusions bypassed mandatory drawing review.");
     new IntentReviewSettings().Save(root); await Task.Delay(650);
@@ -77,7 +83,7 @@ using (var bridge = new TouchPadIntentBridge(root, pipeName, () => 1))
     {
         await Trace(bridge, contacts);
         response = Respond(.1f, contacts, 3);
-        Check(bridge.ShouldSuppress("Custom", false, contacts, freeDraw: true), "Multi-contact review did not veto."); await response;
+        Check(bridge.ShouldSuppress("Custom", false, contacts, freeDraw: true, strongTemplateMatch: true), "Two-finger template exemption escaped its contact-count scope."); await response;
         response = Respond(.95f, contacts, 3);
         Check(!bridge.ShouldSuppress("Custom", false, contacts, freeDraw: true), "Multi-contact review rejected positive score."); await response;
         response = Respond(.1f, contacts, 0);

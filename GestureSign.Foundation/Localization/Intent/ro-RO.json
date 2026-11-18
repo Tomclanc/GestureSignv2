@@ -259,5 +259,7 @@
   "Media Next Track": "Media Următoarea piesă",
   "Media Previous Track": "Piesa anterioară media",
   "Media Controls": "Comenzi media",
-  "Media Play/Pause": "Redare/Pauză media"
+  "Media Play/Pause": "Redare/Pauză media",
+  "Reading AI veto status…": "Se citește starea de veto AI...",
+  "AI veto status unavailable": "Statutul de veto al AI indisponibil"
 }

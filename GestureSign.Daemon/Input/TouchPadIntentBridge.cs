@@ -200,7 +200,7 @@ internal sealed class TouchPadIntentBridge : IDisposable
         if (_sample != null) { _sample.Blocked = true; _sample.AiVeto = true; _sample.ContextReason += " AI 否决：" + reason; }
         return true;
     }
-    public bool ShouldSuppress(string candidate, bool smartClose, int contacts, string templateEvidence = null, bool missingTemplateTurn = false, bool freeDraw = false, bool hasExecutableAction = true)
+    public bool ShouldSuppress(string candidate, bool smartClose, int contacts, string templateEvidence = null, bool missingTemplateTurn = false, bool freeDraw = false, bool hasExecutableAction = true, bool strongTemplateMatch = false)
     {
         LastAiVetoReason = null;
         var current = Volatile.Read(ref _control);
@@ -249,7 +249,13 @@ internal sealed class TouchPadIntentBridge : IDisposable
             _sample.Prediction = PredictAsync(IntentFeatures.Extract(_sample), 45, _stop.Token, contacts).GetAwaiter().GetResult();
             Common.Log.Logging.LogMessage($"Intent review: Candidate={candidate}, Contacts={contacts}, ElapsedMs={watch.Elapsed.TotalMilliseconds:F1}, Backend={_sample.Prediction.Backend}, Error={_sample.Prediction.Error}");
             // Unsupported models and deadlines are not negative predictions. Close stays conservative.
-            _sample.Blocked = _sample.Prediction.Error == null ? !_sample.Prediction.Allows : smartClose;
+            bool trustTemplate = reviewDraw && contacts == 2 && !smartClose && strongTemplateMatch && !_recentWheel && !_scrollContinuation;
+            _sample.Blocked = _sample.Prediction.Error == null ? !_sample.Prediction.Allows && !trustTemplate : smartClose;
+            if (trustTemplate && _sample.Prediction.Error == null && !_sample.Prediction.Allows)
+            {
+                _sample.ContextReason += " 双指转向及模板匹配明确，保留已识别动作。";
+                Common.Log.Logging.LogMessage($"Intent review: Candidate={candidate}, Outcome=AllowStrongTemplate, ModelScore={_sample.Prediction.GestureScore:F3}, {templateEvidence}");
+            }
             if (_sample.Prediction.Error != null) _sample.ContextReason += " 未完成模型复核：" + _sample.Prediction.Error;
         }
         catch { _sample.Blocked = smartClose; }

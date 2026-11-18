@@ -259,5 +259,7 @@
   "Media Next Track": "Media Neste spor",
   "Media Previous Track": "Media Forrige spor",
   "Media Controls": "Mediekontroller",
-  "Media Play/Pause": "Spel av / set på pause"
+  "Media Play/Pause": "Spel av / set på pause",
+  "Reading AI veto status…": "Les status for AI-veto…",
+  "AI veto status unavailable": "Status for AI-veto er ikkje tilgjengeleg"
 }

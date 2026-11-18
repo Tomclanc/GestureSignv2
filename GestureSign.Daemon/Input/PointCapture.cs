@@ -1155,12 +1155,13 @@ namespace GestureSign.Daemon.Input
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
             var recognizedGestureName = ResolveActionGestureName(GestureManager.Instance.GestureName, pointsInformation.Points);
             string templateEvidence = null;
-            bool missingTemplateTurn = false;
+            bool missingTemplateTurn = false, strongTemplateMatch = false;
             if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal && !string.IsNullOrEmpty(recognizedGestureName))
-                templateEvidence = GestureManager.Instance.GetTemplateEvidence(recognizedGestureName, pointsInformation.Points.Select(p => p.ToArray()).ToArray(), out missingTemplateTurn);
+                templateEvidence = GestureManager.Instance.GetTemplateEvidence(recognizedGestureName, pointsInformation.Points.Select(p => p.ToArray()).ToArray(), out missingTemplateTurn, out strongTemplateMatch);
             if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal &&
                 _intentDlc.ShouldSuppress(recognizedGestureName, IsSmartCloseGestureName(recognizedGestureName), pointsInformation.Points.Count, templateEvidence, missingTemplateTurn, freeDraw: true,
-                    hasExecutableAction: !string.IsNullOrEmpty(recognizedGestureName) && ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)?.Any() == true))
+                    hasExecutableAction: !string.IsNullOrEmpty(recognizedGestureName) && ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)?.Any() == true,
+                    strongTemplateMatch: strongTemplateMatch))
             {
                 if (_intentDlc.LastAiVetoReason != null) TrayManager.Instance.ShowAiVeto(_intentDlc.LastAiVetoReason);
                 Logging.LogMessage($"Intent DLC suppressed traced action. Gesture={recognizedGestureName ?? "(none)"}");

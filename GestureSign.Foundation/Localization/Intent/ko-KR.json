@@ -259,5 +259,7 @@
   "Media Next Track": "미디어 다음 곡",
   "Media Previous Track": "미디어 이전 곡",
   "Media Controls": "미디어 제어",
-  "Media Play/Pause": "미디어 재생/일시 정지"
+  "Media Play/Pause": "미디어 재생/일시 정지",
+  "Reading AI veto status…": "AI 차단 상태를 읽는 중…",
+  "AI veto status unavailable": "AI 차단 상태를 확인할 수 없습니다"
 }

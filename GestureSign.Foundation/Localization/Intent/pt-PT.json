@@ -259,5 +259,7 @@
   "Media Next Track": "Próxima faixa de mídia",
   "Media Previous Track": "Faixa Anterior de Mídia",
   "Media Controls": "Controles de mídia",
-  "Media Play/Pause": "Reproduzir/Pausar mídia"
+  "Media Play/Pause": "Reproduzir/Pausar mídia",
+  "Reading AI veto status…": "Lendo o estado de veto da IA…",
+  "AI veto status unavailable": "Estatuto de veto de IA indisponível"
 }

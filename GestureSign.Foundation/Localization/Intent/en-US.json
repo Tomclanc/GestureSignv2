@@ -259,5 +259,7 @@
   "Media Next Track": "Media Next Track",
   "Media Previous Track": "Media Previous Track",
   "Media Controls": "Media Controls",
-  "Media Play/Pause": "Media Play/Pause"
+  "Media Play/Pause": "Media Play/Pause",
+  "Reading AI veto status…": "Reading AI veto status…",
+  "AI veto status unavailable": "AI veto status unavailable"
 }

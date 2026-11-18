@@ -259,5 +259,7 @@
   "Media Next Track": "Następny utwór w mediach",
   "Media Previous Track": "Poprzedni utwór w mediach",
   "Media Controls": "Sterowanie multimediami",
-  "Media Play/Pause": "Odtwarzanie/Wstrzymanie mediów"
+  "Media Play/Pause": "Odtwarzanie/Wstrzymanie mediów",
+  "Reading AI veto status…": "Czytanie statusu weta AI…",
+  "AI veto status unavailable": "Status weta AI jest niedostępny"
 }

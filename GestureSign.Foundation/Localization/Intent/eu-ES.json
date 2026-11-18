@@ -259,5 +259,7 @@
   "Media Next Track": "Media Hurrengo pista",
   "Media Previous Track": "Media Aurreko pista",
   "Media Controls": "Multimedia kontrolak",
-  "Media Play/Pause": "Multimedia erreproduzitzea/Pausatu"
+  "Media Play/Pause": "Multimedia erreproduzitzea/Pausatu",
+  "Reading AI veto status…": "AIren betoaren egoera irakurtzen…",
+  "AI veto status unavailable": "AIren betoaren egoera ez dago erabilgarri"
 }

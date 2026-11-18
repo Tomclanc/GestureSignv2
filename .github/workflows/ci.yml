@@ -113,7 +113,7 @@ jobs:
           ./installer/Build-IntentCatalog.ps1 -OutputDirectory ./publish/intent
           foreach ($architecture in @('x64', 'arm64')) {
             foreach ($backend in @('Cpu', 'Hardware')) {
-              ./tools/Test-IntentPackage.ps1 -PackagePath "./publish/intent/GestureSign-IntentDlc-18.4.2-$($backend.ToLowerInvariant())-win-$architecture.zip" -Backend $backend
+              ./tools/Test-IntentPackage.ps1 -PackagePath "./publish/intent/GestureSign-IntentDlc-18.4.7-$($backend.ToLowerInvariant())-win-$architecture.zip" -Backend $backend
             }
           }
           $engine = Start-Process ./publish/intent/x64-Cpu/Runtime/GestureSign.IntentDlc.exe -ArgumentList @('--self-test', "$env:RUNNER_TEMP/intent-cpu-test.json") -WindowStyle Hidden -PassThru -Wait
@@ -145,6 +145,10 @@ jobs:
           dotnet run --project tests/GestureSign.InputPolicyTests/GestureSign.InputPolicyTests.csproj -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           dotnet run --project tests/GestureSign.ConfigArchiveTests/GestureSign.ConfigArchiveTests.csproj -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.StartupStateTests -c Release
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet run --project tests/GestureSign.TemplateEvidenceTests -c Release
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           ./tools/Test-DaemonStartup.ps1 -Executable ./publish/portable/Backend/GestureSign.exe
       - name: Validate portable payload

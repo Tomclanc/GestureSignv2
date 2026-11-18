@@ -259,5 +259,7 @@
   "Media Next Track": "Ďalej médiá",
   "Media Previous Track": "Media Predchádzajúca skladba",
   "Media Controls": "Ovládanie médií",
-  "Media Play/Pause": "Prehrať/Zastaviť prehrávanie mediálneho súboru"
+  "Media Play/Pause": "Prehrať/Zastaviť prehrávanie mediálneho súboru",
+  "Reading AI veto status…": "Číta sa stav veta AI…",
+  "AI veto status unavailable": "Stav veta AI nie je k dispozícii"
 }

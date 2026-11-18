@@ -259,5 +259,7 @@
   "Media Next Track": "მედია შემდეგი სიმღერა",
   "Media Previous Track": "მედია წინა სიმღერა",
   "Media Controls": "მედია კონტროლი",
-  "Media Play/Pause": "მედია წყვეტა/გადართვა"
+  "Media Play/Pause": "მედია წყვეტა/გადართვა",
+  "Reading AI veto status…": "AI ვეტოს სტატუსის კითხვა…",
+  "AI veto status unavailable": "AI ვეტოს სტატუსი მიუწვდომელია"
 }

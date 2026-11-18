@@ -259,5 +259,7 @@
   "Media Next Track": "المسار التالي للوسائط",
   "Media Previous Track": "المسار السابق للوسائط",
   "Media Controls": "ضوابط وسائل الإعلام",
-  "Media Play/Pause": "تشغيل/إيقاف وسائط"
+  "Media Play/Pause": "تشغيل/إيقاف وسائط",
+  "Reading AI veto status…": "قراءة حالة نقض الذكاء الاصطناعي...",
+  "AI veto status unavailable": "حالة حق النقض لمنظمة العفو الدولية غير متاحة"
 }

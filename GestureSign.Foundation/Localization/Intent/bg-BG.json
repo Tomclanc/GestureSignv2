@@ -259,5 +259,7 @@
   "Media Next Track": "Медия Следващ запис",
   "Media Previous Track": "Медия Предишен запис",
   "Media Controls": "Медийни контроли",
-  "Media Play/Pause": "Възпроизвеждане/Пауза на медия"
+  "Media Play/Pause": "Възпроизвеждане/Пауза на медия",
+  "Reading AI veto status…": "Четене на състоянието на вето върху AI...",
+  "AI veto status unavailable": "Статусът на вето на AI е недостъпен"
 }

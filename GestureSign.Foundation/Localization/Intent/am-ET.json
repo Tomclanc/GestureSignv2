@@ -259,5 +259,7 @@
   "Media Next Track": "ሚዲያ ቀጣይ ትራክ",
   "Media Previous Track": "የሚዲያ ቀዳሚ ትራክ",
   "Media Controls": "የሚዲያ መቆጣጠሪያዎች",
-  "Media Play/Pause": "የሚዲያ አጫውት/ለአፍታ አቁም"
+  "Media Play/Pause": "የሚዲያ አጫውት/ለአፍታ አቁም",
+  "Reading AI veto status…": "AI veto ሁኔታን በማንበብ ላይ…",
+  "AI veto status unavailable": "የ AI veto ሁኔታ የለም።"
 }

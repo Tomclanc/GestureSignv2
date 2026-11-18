@@ -259,5 +259,7 @@
   "Media Next Track": "Mediavolgende track",
   "Media Previous Track": "Media Vorig nummer",
   "Media Controls": "Mediabediening",
-  "Media Play/Pause": "Media afspelen/pauzeren"
+  "Media Play/Pause": "Media afspelen/pauzeren",
+  "Reading AI veto status…": "AI-vetostatus lezen…",
+  "AI veto status unavailable": "AI-vetostatus niet beschikbaar"
 }

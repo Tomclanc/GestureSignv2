@@ -34,3 +34,14 @@ foreach (var count in new[] { 1, 2, 3, 4 })
     if (TemplateTurnEvidence.MissingTurn(Enumerable.Repeat(deliberate,count).ToArray(), Enumerable.Repeat(deliberate,count).ToArray())) throw new Exception("Deliberate L rejected.");
 }
 Console.WriteLine("PASS: diagonal-hook versus deliberate-L checks for 1–4 fingers.");
+
+Check(TemplateTurnEvidence.StrongMatch([l,l], [l,l], 85, 75), "Strong threshold match was rejected.");
+Check(TemplateTurnEvidence.StrongMatch([scaled,scaled], [l,l], 96, null), "Scale/translation or absent runner-up changed strong evidence.");
+Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], 84.99, 70), "Low similarity was trusted.");
+Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], 95, 85.01), "Ambiguous templates were trusted.");
+Check(!TemplateTurnEvidence.StrongMatch([l,line], [l,l], 99, 60), "One straight finger was trusted.");
+Check(!TemplateTurnEvidence.StrongMatch([line,line], [line,line], 99, 60), "Straight scrolling templates were trusted.");
+Check(!TemplateTurnEvidence.StrongMatch([l,l,l], [l,l,l], 99, 60), "Three-finger capture used two-finger exemption.");
+Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], double.NaN, 60), "NaN similarity was trusted.");
+Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], 99, double.NaN), "NaN runner-up was trusted.");
+Console.WriteLine("PASS: strong-template thresholds, ambiguity, contact count and scrolling safeguards.");

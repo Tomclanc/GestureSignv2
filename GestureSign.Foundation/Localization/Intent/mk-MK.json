@@ -259,5 +259,7 @@
   "Media Next Track": "Медиумска следна песна",
   "Media Previous Track": "Медиуми Претходна песна",
   "Media Controls": "Медиумски контроли",
-  "Media Play/Pause": "Репродукција/Пауза на медија"
+  "Media Play/Pause": "Репродукција/Пауза на медија",
+  "Reading AI veto status…": "Се чита статусот на вето за вештачка интелигенција…",
+  "AI veto status unavailable": "Статусот на вето со вештачка интелигенција е недостапен"
 }

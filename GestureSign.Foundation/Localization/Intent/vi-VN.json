@@ -259,5 +259,7 @@
   "Media Next Track": "Bản nhạc tiếp theo của phương tiện",
   "Media Previous Track": "Bản nhạc trước của phương tiện",
   "Media Controls": "Điều khiển phương tiện",
-  "Media Play/Pause": "Phát/Tạm dừng phương tiện"
+  "Media Play/Pause": "Phát/Tạm dừng phương tiện",
+  "Reading AI veto status…": "Đang đọc trạng thái phủ quyết của AI…",
+  "AI veto status unavailable": "Trạng thái phủ quyết của AI không có sẵn"
 }

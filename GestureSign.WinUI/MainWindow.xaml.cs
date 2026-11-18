@@ -31,7 +31,7 @@ using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Devices.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage.Pickers;
+using Microsoft.Windows.Storage.Pickers;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI;
@@ -4778,8 +4778,9 @@ public sealed partial class MainWindow : Window
 
     private async Task<string?> PickOpenFileAsync(string[] extensions)
     {
-        var picker = new FileOpenPicker();
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+        // The legacy Windows.Storage picker fails in elevated processes.
+        // App SDK pickers support both normal and administrator execution.
+        var picker = new FileOpenPicker(AppWindow.Id);
         foreach (var extension in extensions)
             picker.FileTypeFilter.Add(extension);
         var file = await picker.PickSingleFileAsync();
@@ -4788,8 +4789,11 @@ public sealed partial class MainWindow : Window
 
     private async Task<string?> PickSaveFileAsync(string suggestedName, string extension)
     {
-        var picker = new FileSavePicker { SuggestedFileName = suggestedName };
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, WinRT.Interop.WindowNative.GetWindowHandle(this));
+        var picker = new FileSavePicker(AppWindow.Id)
+        {
+            SuggestedFileName = suggestedName,
+            DefaultFileExtension = extension
+        };
         picker.FileTypeChoices.Add(T("GestureSign 配置", "GestureSign configuration"), [extension]);
         var file = await picker.PickSaveFileAsync();
         return file?.Path;
@@ -7346,6 +7350,10 @@ public sealed partial class MainWindow : Window
 
         try
         {
+            using var identity = WindowsIdentity.GetCurrent();
+            if (!StartupTaskState.IsEnabledForLogon(taskXml, identity.User?.Value ?? string.Empty))
+                return false;
+
             var document = XDocument.Parse(taskXml);
             var command = document.Descendants().FirstOrDefault(element => element.Name.LocalName == "Command")?.Value ?? string.Empty;
             if (string.Equals(Path.GetFileName(command), PackagedDaemonExecutionAlias, StringComparison.OrdinalIgnoreCase))

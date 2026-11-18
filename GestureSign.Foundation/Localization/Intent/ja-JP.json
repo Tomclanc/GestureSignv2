@@ -259,5 +259,7 @@
   "Media Next Track": "次の曲へ",
   "Media Previous Track": "前の曲へ",
   "Media Controls": "メディアの操作",
-  "Media Play/Pause": "メディア再生/一時停止"
+  "Media Play/Pause": "メディア再生/一時停止",
+  "Reading AI veto status…": "AI 拒否の状態を読み込み中…",
+  "AI veto status unavailable": "AI 拒否の状態を確認できません"
 }

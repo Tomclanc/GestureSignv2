@@ -259,5 +259,7 @@
   "Media Next Track": "Media næste spor",
   "Media Previous Track": "Media Forrige spor",
   "Media Controls": "Mediekontrol",
-  "Media Play/Pause": "Medie Afspil/Pause"
+  "Media Play/Pause": "Medie Afspil/Pause",
+  "Reading AI veto status…": "Læser AI-vetostatus...",
+  "AI veto status unavailable": "AI-vetostatus er ikke tilgængelig"
 }

@@ -259,5 +259,7 @@
   "Media Next Track": "মিডিয়া নেক্সট ট্র্যাক",
   "Media Previous Track": "মিডিয়া পূর্ববর্তী ট্র্যাক",
   "Media Controls": "মিডিয়া কন্ট্রোল",
-  "Media Play/Pause": "মিডিয়া প্লে/পজ"
+  "Media Play/Pause": "মিডিয়া প্লে/পজ",
+  "Reading AI veto status…": "AI ভেটো স্ট্যাটাস পড়া হচ্ছে...",
+  "AI veto status unavailable": "AI ভেটো স্ট্যাটাস অনুপলব্ধ৷"
 }

@@ -76,7 +76,18 @@ await Send(new("train"));
 for (int i = 0; i < 600 && (await Send(new("status"))).Busy; i++) await Task.Delay(100);
 var afterCombinedTraining = await Send(new("status"));
 Check(!afterCombinedTraining.Busy && afterCombinedTraining.BackgroundLearning && afterCombinedTraining.Control.Mode == IntentMode.ExperimentalVeto, "Training failed to restore both switches.");
-await Send(new("veto-off"));
+// Hold the busy state deterministically instead of depending on training timing.
+var busyField = typeof(IntentHost).GetField("_busy", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+busyField.SetValue(host, true);
+try
+{
+    var stoppedWhileBusy = await Send(new("veto-off"));
+    Check(stoppedWhileBusy.Error == null && stoppedWhileBusy.AiVeto == false && stoppedWhileBusy.Busy && stoppedWhileBusy.BackgroundLearning,
+        "Busy engine rejected veto-off or changed background learning.");
+    Check(IntentFiles.Read<IntentPreferences>(Path.Combine(root, "preferences.json"))?.AiVeto == false,
+        "Busy-engine veto-off did not persist the user's choice.");
+}
+finally { busyField.SetValue(host, false); }
 Check(IntentFiles.Read<IntentPreferences>(Path.Combine(root, "preferences.json"))?.AiVeto == false, "Veto off preference was not persisted.");
 var learningOnly = await Send(new("status"));
 Check(learningOnly.BackgroundLearning && learningOnly.Control.Mode == IntentMode.BackgroundLearn, "Disabling veto disabled learning.");

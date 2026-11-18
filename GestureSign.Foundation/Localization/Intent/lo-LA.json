@@ -259,5 +259,7 @@
   "Media Next Track": "ມີເດຍຕິດຕາມຕໍ່ໄປ",
   "Media Previous Track": "ສື່ກ່ອນໜ້າ",
   "Media Controls": "ການຄວບຄຸມສື່",
-  "Media Play/Pause": "ການຫຼິ້ນ/ຢຸດສື່ມວນຊົນ"
+  "Media Play/Pause": "ການຫຼິ້ນ/ຢຸດສື່ມວນຊົນ",
+  "Reading AI veto status…": "ກຳລັງອ່ານສະຖານະ AI veto…",
+  "AI veto status unavailable": "ບໍ່ມີສະຖານະ AI veto"
 }

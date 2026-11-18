@@ -259,5 +259,7 @@
   "Media Next Track": "آهنگ بعدی رسانه",
   "Media Previous Track": "آهنگ قبلی رسانه",
   "Media Controls": "کنترل رسانه ها",
-  "Media Play/Pause": "پخش/توقف رسانه"
+  "Media Play/Pause": "پخش/توقف رسانه",
+  "Reading AI veto status…": "خواندن وضعیت وتوی هوش مصنوعی…",
+  "AI veto status unavailable": "وضعیت وتوی هوش مصنوعی در دسترس نیست"
 }

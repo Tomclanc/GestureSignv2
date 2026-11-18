@@ -453,8 +453,12 @@ namespace GestureSign.Common.Gestures
         }
 
         public string GetTemplateEvidence(string name, Point[][] points, out bool missingTurn)
+            => GetTemplateEvidence(name, points, out missingTurn, out _);
+
+        public string GetTemplateEvidence(string name, Point[][] points, out bool missingTurn, out bool strongMatch)
         {
             missingTurn = false;
+            strongMatch = false;
             var source = WithCorrections(_gestureLevel == 0 ? _Gestures : _gestureMatchResult, _gestureLevel);
             var templates = source?.Where(g => g.PointPatterns != null && g.PointPatterns.Length > _gestureLevel && g.PointPatterns[_gestureLevel].Points?.Length == points.Length).ToArray();
             if (templates == null) return "模板信息不可用";
@@ -470,6 +474,7 @@ namespace GestureSign.Common.Gestures
             var template = pattern.GetComparisonPoints(AppConfig.IsOrderByLocation);
             points = PointPattern.ForComparison(points, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition);
             missingTurn = TemplateTurnEvidence.MissingTurn(points, template);
+            strongMatch = TemplateTurnEvidence.StrongMatch(points, template, candidate.Score, other?.Score);
             return $"模板匹配分数 {candidate.Score:F1}；其他候选 {other?.Gesture.Name ?? "无"} {other?.Score:F1}；模板转向 {string.Join("/",template.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°，本次 {string.Join("/",points.Select(p => TemplateTurnEvidence.Turn(p).ToString("F0")))}°";
         }
 

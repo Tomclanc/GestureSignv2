@@ -22,6 +22,21 @@ var expected = new Dictionary<string,string> {
 };
 foreach (var pair in expected) File.WriteAllText(pair.Key, pair.Value);
 Set("ActionsPath", actions); Set("GesturesPath", gestures); Set("ConfigPath", config);
+var exportStore = (LegacyDataStore)factory.Invoke([
+    JsonNode.Parse(expected[actions])!.AsArray(), JsonNode.Parse(expected[gestures])!.AsArray(), root]);
+var exportFolder = Path.Combine(root, "导出配置");
+Directory.CreateDirectory(exportFolder);
+foreach (var (name, source, export) in new (string, string, Func<string, string>)[] {
+    ("动作配置.gsa", expected[actions], exportStore.ExportActions),
+    ("手势配置.gest", expected[gestures], exportStore.ExportGestures) })
+{
+    var destination = Path.Combine(exportFolder, name);
+    File.WriteAllText(destination, "old export");
+    if (export(destination) != destination ||
+        !JsonNode.DeepEquals(JsonNode.Parse(File.ReadAllText(destination)), JsonNode.Parse(source)))
+        throw new Exception("Export changed configuration data: " + name);
+}
+Console.WriteLine("PASS: action/gesture exports preserve real configuration data at Unicode paths and replace old exports.");
 var backup = store.CreateBackup();
 foreach (var path in expected.Keys) File.WriteAllText(path, "changed");
 store.RestoreArchive(backup);

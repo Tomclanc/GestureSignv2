@@ -259,5 +259,7 @@
   "Media Next Track": "Medien Nächster Titel",
   "Media Previous Track": "Medien Vorheriger Titel",
   "Media Controls": "Mediensteuerung",
-  "Media Play/Pause": "Medien Wiedergabe/Pause"
+  "Media Play/Pause": "Medien Wiedergabe/Pause",
+  "Reading AI veto status…": "Status des KI-Vetos wird gelesen…",
+  "AI veto status unavailable": "Status des KI-Vetos nicht verfügbar"
 }

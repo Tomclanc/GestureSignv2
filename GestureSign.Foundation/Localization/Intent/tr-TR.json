@@ -259,5 +259,7 @@
   "Media Next Track": "Medya Sonraki Parça",
   "Media Previous Track": "Medya Önceki Parça",
   "Media Controls": "Medya Kontrolleri",
-  "Media Play/Pause": "Medya Oynat/Duraklat"
+  "Media Play/Pause": "Medya Oynat/Duraklat",
+  "Reading AI veto status…": "Yapay Zeka veto durumu okunuyor…",
+  "AI veto status unavailable": "AI veto durumu mevcut değil"
 }

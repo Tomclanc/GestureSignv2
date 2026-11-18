@@ -259,5 +259,7 @@
   "Media Next Track": "Մեդիա Հաջորդ Հետքը",
   "Media Previous Track": "Մեդիա Նախորդ Հետևել",
   "Media Controls": "Մեդիա վերահսկում",
-  "Media Play/Pause": "Մեդիա Ուրախ/Մեկանգամյա ընդհատում"
+  "Media Play/Pause": "Մեդիա Ուրախ/Մեկանգամյա ընդհատում",
+  "Reading AI veto status…": "AI-ի վետոյի կարգավիճակի ընթերցում…",
+  "AI veto status unavailable": "AI-ի վետոյի կարգավիճակն անհասանելի է"
 }

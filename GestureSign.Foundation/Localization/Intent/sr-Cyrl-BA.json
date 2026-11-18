@@ -259,5 +259,7 @@
   "Media Next Track": "Медиа Нект Трацк",
   "Media Previous Track": "Медиа Превиоус Трацк",
   "Media Controls": "Контроле медија",
-  "Media Play/Pause": "Претпоставка медија/Паузирај"
+  "Media Play/Pause": "Претпоставка медија/Паузирај",
+  "Reading AI veto status…": "Читање статуса вета АИ…",
+  "AI veto status unavailable": "АИ статус вета је недоступан"
 }

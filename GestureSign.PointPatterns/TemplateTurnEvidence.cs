@@ -5,6 +5,22 @@ namespace GestureSign.PointPatterns
 {
     public static class TemplateTurnEvidence
     {
+        // A strong two-finger curved drawing can outweigh a low intent-model score.
+        // Similarity alone is insufficient: both fingers must make the expected turn,
+        // and the chosen template must clearly beat the next different gesture.
+        public static bool StrongMatch(Point[][] captured, Point[][] template, double score, double? otherScore)
+        {
+            if (captured == null || template == null || captured.Length != 2 || template.Length != 2 ||
+                !double.IsFinite(score) || score < 85 ||
+                otherScore.HasValue && (!double.IsFinite(otherScore.Value) || score - otherScore.Value < 10))
+                return false;
+            return Enumerable.Range(0, 2).All(i =>
+            {
+                double expected = Turn(template[i]), actual = Turn(captured[i]);
+                return expected >= 45 && actual >= 40 && Math.Abs(expected - actual) <= 25;
+            });
+        }
+
         // Compare sustained directions over arc length, not adjacent noisy points.
         public static double Turn(Point[] points)
         {

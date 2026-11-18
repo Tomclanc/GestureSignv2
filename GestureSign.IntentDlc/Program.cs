@@ -168,7 +168,7 @@ internal sealed class IntentHost : IDisposable
     {
         lock (_sync)
         {
-            if (_busy && request.Command is not ("status" or "progress" or "stop") && !(request.Command == "mode" && request.Mode == IntentMode.Off)) throw new InvalidOperationException("训练或硬件初始化正在进行，请稍后。");
+            if (_busy && request.Command is not ("status" or "progress" or "stop" or "veto-off") && !(request.Command == "mode" && request.Mode == IntentMode.Off)) throw new InvalidOperationException("训练或硬件初始化正在进行，请稍后。");
             switch (request.Command)
             {
                 case "status": case "progress": break;

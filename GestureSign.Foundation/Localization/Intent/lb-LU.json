@@ -259,5 +259,7 @@
   "Media Next Track": "Media Next Gleis",
   "Media Previous Track": "Media Virdrun Streck",
   "Media Controls": "Medien Kontrollen",
-  "Media Play/Pause": "Medien Spill/Paus"
+  "Media Play/Pause": "Medien Spill/Paus",
+  "Reading AI veto status…": "Liesen AI Veto Status ...",
+  "AI veto status unavailable": "AI Veto Status net verfügbar"
 }

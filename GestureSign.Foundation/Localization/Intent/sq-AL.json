@@ -259,5 +259,7 @@
   "Media Next Track": "Kënga tjetër e medias",
   "Media Previous Track": "Pjesa e mëparshme e medias",
   "Media Controls": "Kontrollet e medias",
-  "Media Play/Pause": "Luaj/Pauzo media"
+  "Media Play/Pause": "Luaj/Pauzo media",
+  "Reading AI veto status…": "Po lexon statusin e vetos së AI…",
+  "AI veto status unavailable": "Statusi i vetos së AI nuk ofrohet"
 }

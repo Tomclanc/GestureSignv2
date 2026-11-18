@@ -259,5 +259,7 @@
   "Media Next Track": "Median seuraava kappale",
   "Media Previous Track": "Median edellinen kappale",
   "Media Controls": "Mediaohjaimet",
-  "Media Play/Pause": "Media toisto/tauko"
+  "Media Play/Pause": "Media toisto/tauko",
+  "Reading AI veto status…": "Luetaan tekoälyn veto-tilaa…",
+  "AI veto status unavailable": "AI veto -tila ei ole käytettävissä"
 }

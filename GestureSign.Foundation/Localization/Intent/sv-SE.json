@@ -259,5 +259,7 @@
   "Media Next Track": "Media nästa spår",
   "Media Previous Track": "Media Föregående spår",
   "Media Controls": "Mediekontroller",
-  "Media Play/Pause": "Media Spela/Pausa"
+  "Media Play/Pause": "Media Spela/Pausa",
+  "Reading AI veto status…": "Läser AI-vetostatus...",
+  "AI veto status unavailable": "AI-vetostatus är inte tillgänglig"
 }

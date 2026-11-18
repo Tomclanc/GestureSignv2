@@ -259,5 +259,7 @@
   "Media Next Track": "Média következő szám",
   "Media Previous Track": "Média előző szám",
   "Media Controls": "Médiavezérlők",
-  "Media Play/Pause": "Média lejátszás/szünet"
+  "Media Play/Pause": "Média lejátszás/szünet",
+  "Reading AI veto status…": "AI-vétó állapot olvasása…",
+  "AI veto status unavailable": "Az AI-vétó állapot nem érhető el"
 }

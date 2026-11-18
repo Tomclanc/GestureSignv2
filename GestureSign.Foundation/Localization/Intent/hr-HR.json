@@ -259,5 +259,7 @@
   "Media Next Track": "Mediji slijede",
   "Media Previous Track": "Mediji Prethodna pjesma",
   "Media Controls": "Kontrole medija",
-  "Media Play/Pause": "Reprodukcija/Pauza medija"
+  "Media Play/Pause": "Reprodukcija/Pauza medija",
+  "Reading AI veto status…": "Čitanje statusa veta na AI...",
+  "AI veto status unavailable": "AI veto status nedostupan"
 }
