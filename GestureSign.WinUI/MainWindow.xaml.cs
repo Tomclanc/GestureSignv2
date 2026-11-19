@@ -5766,6 +5766,9 @@ public sealed partial class MainWindow : Window
             try
             {
                 _isUpdatingStartupToggles = true;
+                SetStartupControlsBusy(true);
+                LogWinUiDaemonMessage($"Startup setting requested. Enabled={requestedValue}; Elevated={IsCurrentProcessElevated()}");
+                LogStartupRegistrationState("Before change");
                 if (requestedValue)
                 {
                     var runAsAdministrator = IsCurrentProcessElevated();
@@ -5776,9 +5779,9 @@ public sealed partial class MainWindow : Window
                     }
                     else
                     {
+                        SetStartupShortcutEnabled(true);
                         if (IsAdminStartupTaskRegistered())
                             await SetAdminStartupEnabledAsync(false);
-                        SetStartupShortcutEnabled(true);
                     }
 
                     UpdateOptionAndReload("RunAsAdmin", runAsAdministrator ? "True" : "False");
@@ -5791,6 +5794,10 @@ public sealed partial class MainWindow : Window
                     UpdateOptionAndReload("RunAsAdmin", "False");
                 }
 
+                LogStartupRegistrationState("After change");
+                if (IsStartupEnabled() != requestedValue)
+                    throw new InvalidOperationException("Startup registration verification failed. See GestureSign.WinUI.log.");
+                LogWinUiDaemonMessage($"Startup setting verified. Enabled={requestedValue}");
                 RefreshStartupToggleStates();
             }
             catch (Exception ex)
@@ -5801,6 +5808,7 @@ public sealed partial class MainWindow : Window
             finally
             {
                 _isUpdatingStartupToggles = false;
+                SetStartupControlsBusy(false);
             }
         };
         return NewSettingRow(L("Windows 启动时运行", "Run at Windows startup", "Windows 啟動時執行", "Windows 시작 시 실행"), L("按当前权限保存启动方式：管理员运行时启用将以管理员身份启动，普通运行时启用则普通启动。", "Uses the current permission level: enabling while elevated starts as administrator; otherwise it starts normally.", "依目前權限儲存啟動方式：以系統管理員執行時啟用將以系統管理員身分啟動，否則一般啟動。", "현재 권한으로 시작 방식을 저장합니다. 관리자 권한에서 켜면 관리자로, 그 외에는 일반 권한으로 시작합니다."), toggle);
@@ -5825,6 +5833,9 @@ public sealed partial class MainWindow : Window
             try
             {
                 _isUpdatingStartupToggles = true;
+                SetStartupControlsBusy(true);
+                LogWinUiDaemonMessage($"Administrator startup setting requested. Enabled={requestedValue}");
+                LogStartupRegistrationState("Before administrator change");
                 if (requestedValue)
                 {
                     await SetAdminStartupEnabledAsync(true);
@@ -5833,11 +5844,14 @@ public sealed partial class MainWindow : Window
                 else
                 {
                     var keepStartupEnabled = IsStartupEnabled();
-                    await SetAdminStartupEnabledAsync(false);
                     if (keepStartupEnabled)
                         SetStartupShortcutEnabled(true);
+                    await SetAdminStartupEnabledAsync(false);
                 }
 
+                LogStartupRegistrationState("After administrator change");
+                if (IsAdminStartupEnabled() != requestedValue)
+                    throw new InvalidOperationException("Administrator startup registration verification failed. See GestureSign.WinUI.log.");
                 UpdateOptionAndReload("RunAsAdmin", requestedValue ? "True" : "False");
                 RefreshStartupToggleStates();
             }
@@ -5849,6 +5863,7 @@ public sealed partial class MainWindow : Window
             finally
             {
                 _isUpdatingStartupToggles = false;
+                SetStartupControlsBusy(false);
             }
         };
         return NewSettingRow(L("以管理员身份启动", "Start as administrator", "以系統管理員身分啟動", "관리자 권한으로 시작"), L("使用最高权限计划任务启动；关闭后若自启动仍开启，将自动切换为普通启动。需要 UAC 确认。", "Starts through a highest-privilege scheduled task. Turning this off switches enabled startup back to normal. UAC confirmation is required.", "透過最高權限排程工作啟動；關閉後若自動啟動仍開啟，將自動切換為一般啟動。需要 UAC 確認。", "최고 권한 예약 작업으로 시작합니다. 끄더라도 자동 시작이 켜져 있으면 일반 시작으로 전환됩니다. UAC 확인이 필요합니다."), toggle);
@@ -7351,11 +7366,12 @@ public sealed partial class MainWindow : Window
         try
         {
             using var identity = WindowsIdentity.GetCurrent();
-            if (!StartupTaskState.IsEnabledForLogon(taskXml, identity.User?.Value ?? string.Empty))
+            if (!StartupTaskState.IsEnabledForLogon(taskXml, identity.User?.Value ?? string.Empty,
+                account => ((SecurityIdentifier)new NTAccount(account).Translate(typeof(SecurityIdentifier))).Value))
                 return false;
 
             var document = XDocument.Parse(taskXml);
-            var command = document.Descendants().FirstOrDefault(element => element.Name.LocalName == "Command")?.Value ?? string.Empty;
+            var command = (document.Descendants().FirstOrDefault(element => element.Name.LocalName == "Command")?.Value ?? string.Empty).Trim().Trim('"');
             if (string.Equals(Path.GetFileName(command), PackagedDaemonExecutionAlias, StringComparison.OrdinalIgnoreCase))
                 return true;
 
@@ -7372,32 +7388,32 @@ public sealed partial class MainWindow : Window
 
     private static string? ReadAdminStartupTaskXml()
     {
+        object? schedulerObject = null;
+        object? folderObject = null;
+        object? taskObject = null;
         try
         {
-            using var process = Process.Start(new ProcessStartInfo("schtasks.exe")
-            {
-                UseShellExecute = false,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                Arguments = "/query /tn StartGestureSign /xml"
-            });
-            if (process is null)
-                return null;
-
-            var output = process.StandardOutput.ReadToEnd();
-            if (!process.WaitForExit(3000))
-            {
-                try { process.Kill(true); } catch { }
-                return null;
-            }
-
-            return process.ExitCode == 0 ? output : null;
+            var schedulerType = Type.GetTypeFromProgID("Schedule.Service")
+                ?? throw new InvalidOperationException("Task Scheduler COM service is unavailable.");
+            schedulerObject = Activator.CreateInstance(schedulerType)!;
+            dynamic scheduler = schedulerObject;
+            scheduler.Connect();
+            folderObject = scheduler.GetFolder(@"\");
+            dynamic folder = folderObject;
+            taskObject = folder.GetTask("StartGestureSign");
+            dynamic task = taskObject;
+            return (string)task.Xml;
         }
-        catch
+        catch (Exception ex)
         {
+            LogWinUiDaemonMessage($"Startup task query failed. HResult=0x{ex.HResult:X8}; {ex.Message}");
             return null;
+        }
+        finally
+        {
+            foreach (var value in new[] { taskObject, folderObject, schedulerObject })
+                if (value is not null && Marshal.IsComObject(value))
+                    Marshal.ReleaseComObject(value);
         }
     }
 
@@ -7423,6 +7439,18 @@ public sealed partial class MainWindow : Window
             _adminStartupToggle.IsOn = adminEnabled;
     }
 
+    private void SetStartupControlsBusy(bool busy)
+    {
+        if (_startupToggle is not null) _startupToggle.IsEnabled = !busy;
+        if (_adminStartupToggle is not null) _adminStartupToggle.IsEnabled = !busy;
+    }
+
+    private static void LogStartupRegistrationState(string stage)
+    {
+        using var identity = WindowsIdentity.GetCurrent();
+        LogWinUiDaemonMessage($"Startup state ({stage}). UserSid={identity.User?.Value}; Shortcut={StartupShortcutPath()}; ShortcutExists={File.Exists(StartupShortcutPath())}; TaskXml={ReadAdminStartupTaskXml() ?? "<unavailable>"}");
+    }
+
     private static void SetStartupShortcutEnabled(bool enabled)
     {
         var shortcut = StartupShortcutPath();
@@ -7430,6 +7458,9 @@ public sealed partial class MainWindow : Window
         {
             if (File.Exists(shortcut))
                 File.Delete(shortcut);
+            if (File.Exists(shortcut))
+                throw new IOException("Startup shortcut still exists after removal.");
+            LogWinUiDaemonMessage("Startup shortcut removed.");
             return;
         }
 
@@ -7439,13 +7470,29 @@ public sealed partial class MainWindow : Window
 
         Directory.CreateDirectory(Path.GetDirectoryName(shortcut)!);
         var shellType = Type.GetTypeFromProgID("WScript.Shell") ?? throw new InvalidOperationException("无法创建 WScript.Shell。");
-        dynamic shell = Activator.CreateInstance(shellType)!;
-        dynamic link = shell.CreateShortcut(shortcut);
-        link.TargetPath = daemonPath;
-        link.WorkingDirectory = Path.GetDirectoryName(daemonPath);
-        link.IconLocation = daemonPath;
-        link.Description = "GestureSign background service";
-        link.Save();
+        object? shellObject = null;
+        object? linkObject = null;
+        try
+        {
+            shellObject = Activator.CreateInstance(shellType)!;
+            dynamic shell = shellObject;
+            linkObject = shell.CreateShortcut(shortcut);
+            dynamic link = linkObject;
+            link.TargetPath = daemonPath;
+            link.WorkingDirectory = Path.GetDirectoryName(daemonPath);
+            link.IconLocation = daemonPath;
+            link.Description = "GestureSign background service";
+            link.Save();
+            if (!File.Exists(shortcut))
+                throw new IOException("Startup shortcut was not saved or was removed by another program.");
+            LogWinUiDaemonMessage($"Startup shortcut saved. Path={shortcut}; Target={daemonPath}");
+        }
+        finally
+        {
+            foreach (var value in new[] { linkObject, shellObject })
+                if (value is not null && Marshal.IsComObject(value))
+                    Marshal.ReleaseComObject(value);
+        }
     }
 
     private static async Task SetAdminStartupEnabledAsync(bool enabled)
@@ -7502,6 +7549,7 @@ public sealed partial class MainWindow : Window
             await process.WaitForExitAsync();
             var standardOutput = await standardOutputTask;
             var standardError = await standardErrorTask;
+            LogWinUiDaemonMessage($"Startup task command completed. Enabled={enabled}; Elevated={alreadyElevated}; ExitCode={process.ExitCode}; Output={standardOutput.Trim()}; Error={standardError.Trim()}");
             if (process.ExitCode != 0)
             {
                 var details = string.Join(Environment.NewLine, new[] { standardError, standardOutput }
@@ -7511,6 +7559,8 @@ public sealed partial class MainWindow : Window
                     ? $"schtasks 退出代码: {process.ExitCode}"
                     : $"schtasks 退出代码: {process.ExitCode}{Environment.NewLine}{details}");
             }
+            if (enabled && !IsAdminStartupEnabled())
+                throw new InvalidOperationException("Created startup task could not be verified for this user and executable. See GestureSign.WinUI.log.");
         }
         finally
         {

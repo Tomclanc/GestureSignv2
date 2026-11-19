@@ -30,3 +30,11 @@ foreach (var test in cases)
 if (StartupTaskState.IsEnabledForLogon(Task("true", Logon()).ToString(), ""))
     throw new Exception("Missing user identity must not report enabled.");
 Console.WriteLine($"PASS: {cases.Length + 1} startup task state cases.");
+var accountTask = Task("true", Logon("true", @"PC\Alice")).ToString();
+if (!StartupTaskState.IsEnabledForLogon(accountTask, sid, account => account == @"PC\Alice" ? sid : null))
+    throw new Exception("Account-name trigger must resolve to current SID.");
+if (StartupTaskState.IsEnabledForLogon(accountTask, sid, _ => sid + "9"))
+    throw new Exception("Another account must not be accepted.");
+if (StartupTaskState.IsEnabledForLogon(accountTask, sid, _ => throw new Exception("Account unavailable")))
+    throw new Exception("Unresolvable account must not be accepted.");
+Console.WriteLine("PASS: 3 account-name trigger cases.");

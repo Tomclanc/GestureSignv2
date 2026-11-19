@@ -8,7 +8,7 @@ namespace GestureSign.WinUI;
 internal static class StartupTaskState
 {
     // A registered task is not necessarily enabled for this user's next logon.
-    internal static bool IsEnabledForLogon(string? taskXml, string userSid)
+    internal static bool IsEnabledForLogon(string? taskXml, string userSid, Func<string, string?>? resolveUserSid = null)
     {
         if (string.IsNullOrWhiteSpace(taskXml) || string.IsNullOrWhiteSpace(userSid))
             return false;
@@ -23,12 +23,22 @@ internal static class StartupTaskState
             return task.Element(ns + "Triggers")?.Elements(ns + "LogonTrigger").Any(trigger =>
                 IsEnabled(trigger, ns) &&
                 (string.IsNullOrWhiteSpace((string?)trigger.Element(ns + "UserId")) ||
-                 string.Equals(((string?)trigger.Element(ns + "UserId"))?.Trim(), userSid, StringComparison.OrdinalIgnoreCase))) == true;
+                 IsCurrentUser(((string?)trigger.Element(ns + "UserId"))!.Trim(), userSid, resolveUserSid))) == true;
         }
         catch
         {
             return false;
         }
+    }
+
+    private static bool IsCurrentUser(string user, string userSid, Func<string, string?>? resolveUserSid)
+    {
+        if (string.Equals(user, userSid, StringComparison.OrdinalIgnoreCase))
+            return true;
+        // Task Scheduler can serialize an account name instead of its SID.
+        // Resolve the identity rather than accepting an unqualified name match.
+        try { return string.Equals(resolveUserSid?.Invoke(user), userSid, StringComparison.OrdinalIgnoreCase); }
+        catch { return false; }
     }
 
     private static bool IsEnabled(XElement? element, XNamespace ns)
