@@ -651,19 +651,33 @@ namespace GestureSign.Common.Applications
         /// otherwise the global action of that slot is used. Returns an empty map
         /// when the target is ignored, fullscreen-excluded or has no slots, so the
         /// caller can leave the native middle button untouched.
+        /// Returns null when the menu must not open (switched off, ignored or
+        /// fullscreen-excluded target); an empty map still opens an empty menu.
         /// </summary>
         public Dictionary<string, IAction> PrepareRadialMenu(Point point)
         {
+            if (!AppConfig.RadialMenuEnabled)
+                return null;
             var result = new Dictionary<string, IAction>(StringComparer.OrdinalIgnoreCase);
             var hit = GetWindowFromPoint(point);
             var target = hit?.TopLevelWindow ?? hit;
             if (target == null || target.HWnd == IntPtr.Zero || Applications == null)
-                return result;
+            {
+                Logging.LogMessage("Radial menu skipped. Reason=NoTargetWindow");
+                return null;
+            }
 
             var apps = GetApplicationFromWindow(target);
-            if (apps.Any(a => a is IgnoredApp && a.IsEnabled) ||
-                ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(target)))
-                return result;
+            if (apps.Any(a => a is IgnoredApp && a.IsEnabled))
+            {
+                Logging.LogMessage($"Radial menu skipped. Reason=IgnoredApplication, Applications={DescribeApplications(apps.ToList())}");
+                return null;
+            }
+            if ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(target))
+            {
+                Logging.LogMessage("Radial menu skipped. Reason=FullscreenIgnored");
+                return null;
+            }
 
             bool Usable(IAction a) => IsActionExecutable(a) &&
                                       RadialMenuSlots.IsRadialMenuGesture(a.GestureName) &&
@@ -678,7 +692,8 @@ namespace GestureSign.Common.Applications
             var globalActions = GetGlobalApplication()?.Actions?.Where(Usable).ToList() ?? new List<IAction>();
             var ignoredNames = GetIgnoredGestureNames();
 
-            foreach (var outer in new[] { false, true })
+            var rings = AppConfig.RadialMenuOuterRing ? new[] { false, true } : new[] { false };
+            foreach (var outer in rings)
             {
                 for (var index = 0; index < RadialMenuSlots.SlotsPerRing; index++)
                 {
@@ -692,11 +707,8 @@ namespace GestureSign.Common.Applications
                 }
             }
 
-            if (result.Count > 0)
-            {
-                CaptureWindow = target;
-                _recognizedApplication = apps;
-            }
+            CaptureWindow = target;
+            _recognizedApplication = apps;
             Logging.LogMessage($"Radial menu lookup. Applications={DescribeApplications(apps.ToList())}, Slots={result.Count}");
             return result;
         }

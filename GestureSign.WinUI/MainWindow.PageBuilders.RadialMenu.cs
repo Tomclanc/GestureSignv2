@@ -30,18 +30,52 @@ public sealed partial class MainWindow
             TextWrapping = TextWrapping.Wrap
         });
 
+        var options = _legacyData.Options;
         var rings = new Grid { ColumnSpacing = 16, RowSpacing = 16 };
         rings.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         rings.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        for (var ring = 0; ring < 2; ring++)
+        var innerGrid = NewRadialMenuRingGrid(outer: false);
+        var outerGrid = NewRadialMenuRingGrid(outer: true);
+        Grid.SetColumn(outerGrid, 1);
+        rings.Children.Add(innerGrid);
+        rings.Children.Add(outerGrid);
+
+        void RefreshRings(bool enabled, bool outerRing)
         {
-            var grid = NewRadialMenuRingGrid(outer: ring == 1);
-            Grid.SetColumn(grid, ring);
-            rings.Children.Add(grid);
+            rings.Opacity = enabled ? 1 : 0.45;
+            outerGrid.Visibility = outerRing ? Visibility.Visible : Visibility.Collapsed;
         }
+
+        var enabledSwitch = NewRadialMenuToggle(options.RadialMenuEnabled);
+        var outerSwitch = NewRadialMenuToggle(options.RadialMenuOuterRing);
+        enabledSwitch.Toggled += (_, _) =>
+        {
+            UpdateOptionAndReload("RadialMenuEnabled", enabledSwitch.IsOn ? "True" : "False");
+            RefreshRings(enabledSwitch.IsOn, outerSwitch.IsOn);
+        };
+        outerSwitch.Toggled += (_, _) =>
+        {
+            UpdateOptionAndReload("RadialMenuOuterRing", outerSwitch.IsOn ? "True" : "False");
+            RefreshRings(enabledSwitch.IsOn, outerSwitch.IsOn);
+        };
+        var title = L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴");
+        var outerTitle = L("外圈", "Outer ring", "外圈", "바깥쪽 링");
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(enabledSwitch, title);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(outerSwitch, outerTitle);
+        panel.Children.Add(NewSettingRow(L("启用", "Enable", "啟用", "사용"), null, enabledSwitch));
+        panel.Children.Add(NewSettingRow(outerTitle, null, outerSwitch));
+        RefreshRings(options.RadialMenuEnabled, options.RadialMenuOuterRing);
         panel.Children.Add(rings);
         return NewCard(panel);
     }
+
+    private ToggleSwitch NewRadialMenuToggle(bool isOn) => new()
+    {
+        IsOn = isOn,
+        OnContent = L("开", "On", "開", "켬"),
+        OffContent = L("关", "Off", "關", "끔"),
+        VerticalAlignment = VerticalAlignment.Center
+    };
 
     private Grid NewRadialMenuRingGrid(bool outer)
     {

@@ -1167,6 +1167,8 @@ internal sealed class LegacyDataStore
                 ShowTrayIcon = settings.BoolValue("ShowTrayIcon", true),
                 SendErrorReport = settings.BoolValue("SendErrorReport", true),
                 RegisterTouchPad = settings.BoolValue("RegisterTouchPad", true),
+                RadialMenuEnabled = settings.BoolValue("RadialMenuEnabled", false),
+                RadialMenuOuterRing = settings.BoolValue("RadialMenuOuterRing", true),
                 PreferWindowsTouchPadGestures = settings.BoolValue("PreferWindowsTouchPadGestures", false),
                 RegisterTouchScreen = settings.BoolValue("RegisterTouchScreen", true),
                 TouchScreenBlockLeftPercent = Math.Clamp(settings.IntValue("TouchScreenBlockLeftPercent", 0), 0, 45),
@@ -1379,6 +1381,8 @@ internal sealed record LegacyOptions
     public bool ShowTrayIcon { get; init; } = true;
     public bool SendErrorReport { get; init; } = true;
     public bool RegisterTouchPad { get; init; } = true;
+    public bool RadialMenuEnabled { get; init; }
+    public bool RadialMenuOuterRing { get; init; } = true;
     public bool PreferWindowsTouchPadGestures { get; init; }
     public bool RegisterTouchScreen { get; init; } = true;
     public int TouchScreenBlockLeftPercent { get; init; }

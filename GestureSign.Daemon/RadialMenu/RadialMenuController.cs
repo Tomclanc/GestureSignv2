@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using GestureSign.Common.Applications;
+using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
 using GestureSign.Daemon.Input;
@@ -54,7 +55,7 @@ namespace GestureSign.Daemon.RadialMenu
         {
             _slots = slots;
             Scale = Math.Max(1f, DpiHelper.GetScreenDpi(origin) / 96f);
-            HasOuter = Enumerable.Range(0, Slots).Any(i => slots.ContainsKey(RadialMenuSlots.Name(true, i)));
+            HasOuter = AppConfig.RadialMenuOuterRing;
             DeadZoneRadius = DeadZone96 * Scale;
             InnerRadius = Inner96 * Scale;
             OuterRadius = Outer96 * Scale;
@@ -97,8 +98,7 @@ namespace GestureSign.Daemon.RadialMenu
 
         /// <summary>
         /// Picks a slot by direction, then by distance (near = inner ring, far =
-        /// outer ring). An empty slot falls back to the other ring in the same
-        /// direction so partially filled menus stay forgiving.
+        /// outer ring). An empty slot selects nothing.
         /// </summary>
         public RadialMenuHit HitTest(Point cursor)
         {
@@ -112,8 +112,7 @@ namespace GestureSign.Daemon.RadialMenu
             if (angle < 0) angle += 2 * Math.PI;
             var index = (int)Math.Round(angle / (2 * Math.PI / Slots)) % Slots;
 
-            var preferOuter = HasOuter && distance >= InnerRadius;
-            return Find(preferOuter, index) ?? Find(!preferOuter, index);
+            return Find(HasOuter && distance >= InnerRadius, index);
         }
 
         private RadialMenuHit Find(bool outer, int index)
@@ -191,6 +190,7 @@ namespace GestureSign.Daemon.RadialMenu
         private DateTime _beganUtc;
         private DateTime _lastHookUtc;
         private int _releasedTicks;
+        private bool _observedDown;
 
         internal RadialMenuTrigger Trigger { get; set; }
 
@@ -214,7 +214,7 @@ namespace GestureSign.Daemon.RadialMenu
                 Logging.LogException(ex);
                 return false;
             }
-            if (slots.Count == 0)
+            if (slots == null)
                 return false;
 
             _slots = slots;
@@ -225,6 +225,7 @@ namespace GestureSign.Daemon.RadialMenu
             _open = false;
             _dirty = false;
             _releasedTicks = 0;
+            _observedDown = false;
             _beganUtc = _lastHookUtc = DateTime.UtcNow;
             IsActive = true;
             EnsureTimer();
@@ -338,9 +339,14 @@ namespace GestureSign.Daemon.RadialMenu
                 return;
             }
 
-            // A protected window can swallow the button-up hook. Only trust the
-            // asynchronous key state after the hook itself has gone quiet.
-            var released = (GetAsyncKeyState(VK_MBUTTON) & 0x8000) == 0;
+            // A protected window can swallow the button-up hook. Our own hook
+            // blocks the button-down, so the asynchronous key state normally
+            // never reports the button as pressed: only treat "up" as a real
+            // release after the key state has first been seen down.
+            var down = (GetAsyncKeyState(VK_MBUTTON) & 0x8000) != 0;
+            if (down)
+                _observedDown = true;
+            var released = _observedDown && !down;
             if (released && (DateTime.UtcNow - _lastHookUtc).TotalMilliseconds > 300)
             {
                 if (++_releasedTicks >= 3)

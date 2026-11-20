@@ -272,6 +272,12 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        /// <summary>Middle-button radial menu master switch (off by default).</summary>
+        public static bool RadialMenuEnabled => GetValue(nameof(RadialMenuEnabled), false);
+
+        /// <summary>Show and use the outer ring of the radial menu (two rings when on, one when off).</summary>
+        public static bool RadialMenuOuterRing => GetValue(nameof(RadialMenuOuterRing), true);
+
         public static bool RegisterTouchPad
         {
             get
