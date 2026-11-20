@@ -791,5 +791,6 @@
   "Select a gesture first": "Prvo odaberite gest",
   "Selected: {0}": "Odabrano: {0}",
   "No action uses this gesture yet": "Nijedna radnja još ne koristi ovaj gest",
-  "No matching gestures": "Nema odgovarajućih gestova"
+  "No matching gestures": "Nema odgovarajućih gestova",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ključ se čuva šifrovan na ovom računaru; samo vaš Windows račun ga može dešifrovati. Izvezene ili dijeljene radnje ga nikad ne sadrže."
 }

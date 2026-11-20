@@ -791,5 +791,6 @@
   "Select a gesture first": "Agħżel ġest l-ewwel",
   "Selected: {0}": "Magħżul: {0}",
   "No action uses this gesture yet": "L-ebda azzjoni għadha ma tuża dan il-ġest",
-  "No matching gestures": "L-ebda ġest ma jaqbel"
+  "No matching gestures": "L-ebda ġest ma jaqbel",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Iċ-ċavetta tinħażen kriptata f'dan il-PC; il-kont Windows tiegħek biss jista' jiddekriptaha. Azzjonijiet esportati jew maqsuma qatt ma jinkluduha."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "Επιλέξτε πρώτα μια χειρονομία",
   "Selected: {0}": "Επιλέχθηκε: {0}",
   "No action uses this gesture yet": "Καμία ενέργεια δεν χρησιμοποιεί ακόμη αυτή τη χειρονομία",
-  "No matching gestures": "Δεν βρέθηκαν χειρονομίες"
+  "No matching gestures": "Δεν βρέθηκαν χειρονομίες",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Το κλειδί αποθηκεύεται κρυπτογραφημένο σε αυτόν τον υπολογιστή· μόνο ο λογαριασμός σας Windows μπορεί να το αποκρυπτογραφήσει. Οι ενέργειες που εξάγονται ή κοινοποιούνται δεν το περιέχουν ποτέ."
 }

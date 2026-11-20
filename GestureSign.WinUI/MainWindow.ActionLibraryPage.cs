@@ -97,7 +97,7 @@ public sealed partial class MainWindow
     {
         var options = _legacyData.Options;
         var endpoint = new TextBox { Header = T("接口地址", "API address"), Text = options.AiEndpoint, PlaceholderText = "https://api.deepseek.com/v1" };
-        var apiKey = new PasswordBox { Header = T("API 密钥", "API key"), Password = options.AiApiKey };
+        var apiKey = new PasswordBox { Header = T("API 密钥", "API key"), Password = GestureSign.Foundation.Security.SecretStore.Reveal(options.AiApiKey) };
         var model = new TextBox { Header = T("模型", "Model"), Text = options.AiModel, PlaceholderText = "deepseek-chat" };
         var presets = new ComboBox { Header = T("服务商", "Provider"), HorizontalAlignment = HorizontalAlignment.Stretch };
         var presetValues = new (string Name, string Endpoint, string Model)[]
@@ -130,7 +130,7 @@ public sealed partial class MainWindow
         panel.Children.Add(model);
         panel.Children.Add(new TextBlock
         {
-            Text = T("密钥保存在本机的 GestureSign 配置文件中。导出或分享动作时不会包含它。", "The key is stored in GestureSign's settings file on this PC. Exported or shared actions never include it."),
+            Text = T("密钥加密保存在本机，只有当前 Windows 账户能解密。导出或分享动作时不会包含它。", "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it."),
             TextWrapping = TextWrapping.Wrap,
             FontSize = 12,
             Opacity = 0.6
@@ -138,7 +138,7 @@ public sealed partial class MainWindow
         if (!await ConfirmDialogAsync(T("AI 设置", "AI settings"), panel, L("保存", "Save", "儲存", "저장")))
             return;
         _pendingOptionUpdates["AiEndpoint"] = endpoint.Text.Trim();
-        _pendingOptionUpdates["AiApiKey"] = apiKey.Password.Trim();
+        _pendingOptionUpdates["AiApiKey"] = GestureSign.Foundation.Security.SecretStore.Protect(apiKey.Password.Trim());
         await UpdateOptionAndWaitAsync("AiModel", model.Text.Trim());
     }
 

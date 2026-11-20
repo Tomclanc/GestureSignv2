@@ -791,5 +791,6 @@
   "Select a gesture first": "முதலில் ஒரு சைகையைத் தேர்ந்தெடுக்கவும்",
   "Selected: {0}": "தேர்ந்தெடுத்தது: {0}",
   "No action uses this gesture yet": "இந்தச் சைகையை இன்னும் எந்தச் செயலும் பயன்படுத்தவில்லை",
-  "No matching gestures": "பொருந்தும் சைகைகள் இல்லை"
+  "No matching gestures": "பொருந்தும் சைகைகள் இல்லை",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "விசை இந்தக் கணினியில் மறையாக்கம் செய்து சேமிக்கப்படுகிறது; உங்கள் Windows கணக்கு மட்டுமே அதை மறைவிலக்க முடியும். ஏற்றுமதி அல்லது பகிரப்பட்ட செயல்களில் அது ஒருபோதும் இருக்காது."
 }

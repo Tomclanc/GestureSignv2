@@ -1267,6 +1267,17 @@ public sealed partial class MainWindow
                 combo.SelectionChanged += (_, _) => { if (combo.SelectedIndex >= 0) Set(choices[combo.SelectedIndex]); };
                 editor = combo;
                 break;
+            case StepParameterKind.Secret:
+                // Shown masked; written back encrypted for the current Windows user.
+                var secret = new PasswordBox { Header = header, Password = GestureSign.Foundation.Security.SecretStore.Reveal(value) };
+                secret.PasswordChanged += (_, _) =>
+                {
+                    if (string.Equals(GestureSign.Foundation.Security.SecretStore.Reveal(step.Arg(parameter.Key)), secret.Password, StringComparison.Ordinal))
+                        return;
+                    Set(GestureSign.Foundation.Security.SecretStore.Protect(secret.Password.Trim()));
+                };
+                editor = secret;
+                break;
             case StepParameterKind.Variable:
                 var suggest = new AutoSuggestBox { Header = header, Text = value, FontFamily = new FontFamily("Cascadia Mono, Consolas") };
                 suggest.GotFocus += (_, _) =>

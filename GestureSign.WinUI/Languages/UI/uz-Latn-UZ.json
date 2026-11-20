@@ -791,5 +791,6 @@
   "Select a gesture first": "Avval imo-ishorani tanlang",
   "Selected: {0}": "Tanlangan: {0}",
   "No action uses this gesture yet": "Bu imo-ishoradan hali hech bir amal foydalanmaydi",
-  "No matching gestures": "Mos imo-ishoralar yo‘q"
+  "No matching gestures": "Mos imo-ishoralar yo‘q",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Kalit bu kompyuterda shifrlangan holda saqlanadi; uni faqat Windows hisobingiz ocha oladi. Eksport qilingan yoki ulashilgan amallarda u hech qachon bo‘lmaydi."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "Първо изберете жест",
   "Selected: {0}": "Избран: {0}",
   "No action uses this gesture yet": "Все още нито едно действие не използва този жест",
-  "No matching gestures": "Няма съвпадащи жестове"
+  "No matching gestures": "Няма съвпадащи жестове",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ключът се съхранява шифрован на този компютър; само вашият акаунт в Windows може да го дешифрира. Експортираните или споделените действия никога не го съдържат."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "پہلے ایک اشارہ منتخب کریں",
   "Selected: {0}": "منتخب: {0}",
   "No action uses this gesture yet": "یہ اشارہ ابھی کوئی عمل استعمال نہیں کرتا",
-  "No matching gestures": "کوئی مماثل اشارہ نہیں"
+  "No matching gestures": "کوئی مماثل اشارہ نہیں",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "کلید اس PC پر خفیہ کر کے محفوظ کی جاتی ہے؛ صرف آپ کا Windows اکاؤنٹ اسے کھول سکتا ہے۔ برآمد یا شیئر کیے گئے اعمال میں یہ کبھی شامل نہیں ہوتی۔"
 }

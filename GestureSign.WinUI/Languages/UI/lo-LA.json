@@ -791,5 +791,6 @@
   "Select a gesture first": "ເລືອກທ່າທາງກ່ອນ",
   "Selected: {0}": "ເລືອກແລ້ວ: {0}",
   "No action uses this gesture yet": "ຍັງບໍ່ມີການກະທຳໃດໃຊ້ທ່າທາງນີ້",
-  "No matching gestures": "ບໍ່ມີທ່າທາງທີ່ກົງກັນ"
+  "No matching gestures": "ບໍ່ມີທ່າທາງທີ່ກົງກັນ",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "ກະແຈຖືກເກັບແບບເຂົ້າລະຫັດໄວ້ໃນ PC ນີ້; ມີແຕ່ບັນຊີ Windows ຂອງທ່ານທີ່ຖອດລະຫັດໄດ້. ການກະທຳທີ່ສົ່ງອອກ ຫຼື ແບ່ງປັນຈະບໍ່ມີມັນເລີຍ."
 }

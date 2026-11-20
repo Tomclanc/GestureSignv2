@@ -791,5 +791,6 @@
   "Select a gesture first": "Спочатку виберіть жест",
   "Selected: {0}": "Вибрано: {0}",
   "No action uses this gesture yet": "Жодна дія ще не використовує цей жест",
-  "No matching gestures": "Відповідних жестів немає"
+  "No matching gestures": "Відповідних жестів немає",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ключ зберігається на цьому ПК у зашифрованому вигляді; розшифрувати його може лише ваш обліковий запис Windows. Експортовані чи поширені дії ніколи його не містять."
 }

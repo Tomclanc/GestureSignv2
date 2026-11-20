@@ -791,5 +791,6 @@
   "Select a gesture first": "Նախ ընտրեք ժեստ",
   "Selected: {0}": "Ընտրված է՝ {0}",
   "No action uses this gesture yet": "Այս ժեստը դեռ ոչ մի գործողություն չի օգտագործում",
-  "No matching gestures": "Համապատասխան ժեստեր չկան"
+  "No matching gestures": "Համապատասխան ժեստեր չկան",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Բանալին պահվում է այս համակարգչում գաղտնագրված տեսքով. այն կարող է վերծանել միայն ձեր Windows հաշիվը։ Արտահանված կամ համօգտագործված գործողությունները երբեք այն չեն պարունակում։"
 }

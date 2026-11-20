@@ -791,5 +791,6 @@
   "Select a gesture first": "Zaɓi motsin hannu da farko",
   "Selected: {0}": "An zaɓa: {0}",
   "No action uses this gesture yet": "Babu aikin da ke amfani da wannan motsin hannu tukuna",
-  "No matching gestures": "Babu motsin hannu da ya dace"
+  "No matching gestures": "Babu motsin hannu da ya dace",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ana adana maɓallin a ɓoye a wannan kwamfuta; asusun Windows ɗinku kaɗai zai iya warware shi. Ayyukan da aka fitar ko aka raba ba sa ƙunshe da shi."
 }

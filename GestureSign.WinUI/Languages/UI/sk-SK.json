@@ -791,5 +791,6 @@
   "Select a gesture first": "Najprv vyberte gesto",
   "Selected: {0}": "Vybraté: {0}",
   "No action uses this gesture yet": "Toto gesto zatiaľ nepoužíva žiadna akcia",
-  "No matching gestures": "Žiadne zodpovedajúce gestá"
+  "No matching gestures": "Žiadne zodpovedajúce gestá",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Kľúč je v tomto počítači uložený šifrovane; dešifrovať ho môže iba váš účet Windows. Exportované ani zdieľané akcie ho nikdy neobsahujú."
 }

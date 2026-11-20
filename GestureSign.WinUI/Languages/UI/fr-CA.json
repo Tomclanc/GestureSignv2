@@ -791,5 +791,6 @@
   "Select a gesture first": "Sélectionnez d'abord un geste",
   "Selected: {0}": "Sélectionné : {0}",
   "No action uses this gesture yet": "Aucune action n'utilise encore ce geste",
-  "No matching gestures": "Aucun geste correspondant"
+  "No matching gestures": "Aucun geste correspondant",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "La clé est stockée chiffrée sur ce PC; seul votre compte Windows peut la déchiffrer. Les actions exportées ou partagées ne la contiennent jamais."
 }

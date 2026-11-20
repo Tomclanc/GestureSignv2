@@ -791,5 +791,6 @@
   "Select a gesture first": "Tagh gluasad an toiseach",
   "Selected: {0}": "Air a thaghadh: {0}",
   "No action uses this gesture yet": "Chan eil gnìomh sam bith a' cleachdadh a' ghluasaid seo fhathast",
-  "No matching gestures": "Chan eil gluasad co-fhreagarrach ann"
+  "No matching gestures": "Chan eil gluasad co-fhreagarrach ann",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Thèid an iuchair a stòradh crioptaichte air a' PC seo; chan urrainn ach do chunntas Windows a dì-chrioptachadh. Cha bhi i ann an gnìomhan às-phortaichte no co-roinnte idir."
 }

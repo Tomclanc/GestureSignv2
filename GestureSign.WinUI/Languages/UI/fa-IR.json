@@ -791,5 +791,6 @@
   "Select a gesture first": "ابتدا یک اشاره انتخاب کنید",
   "Selected: {0}": "انتخاب‌شده: {0}",
   "No action uses this gesture yet": "هنوز هیچ اقدامی از این اشاره استفاده نمی‌کند",
-  "No matching gestures": "اشاره منطبقی وجود ندارد"
+  "No matching gestures": "اشاره منطبقی وجود ندارد",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "کلید به‌صورت رمزگذاری‌شده در این رایانه ذخیره می‌شود؛ فقط حساب Windows شما می‌تواند آن را رمزگشایی کند. اقدام‌های صادرشده یا اشتراک‌گذاشته‌شده هرگز آن را شامل نمی‌شوند."
 }

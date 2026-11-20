@@ -791,5 +791,6 @@
   "Select a gesture first": "ପ୍ରଥମେ ଏକ ଅଙ୍ଗଭଙ୍ଗୀ ବାଛନ୍ତୁ",
   "Selected: {0}": "ବଛାଯାଇଛି: {0}",
   "No action uses this gesture yet": "ଏହି ଅଙ୍ଗଭଙ୍ଗୀକୁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କାର୍ଯ୍ୟ ବ୍ୟବହାର କରୁନାହିଁ",
-  "No matching gestures": "ମେଳ ଖାଉଥିବା ଅଙ୍ଗଭଙ୍ଗୀ ନାହିଁ"
+  "No matching gestures": "ମେଳ ଖାଉଥିବା ଅଙ୍ଗଭଙ୍ଗୀ ନାହିଁ",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "କି ଏହି PC ରେ ଏନକ୍ରିପ୍ଟ କରି ସଞ୍ଚିତ ହୁଏ; କେବଳ ଆପଣଙ୍କ Windows ଆକାଉଣ୍ଟ ଏହାକୁ ଡିକ୍ରିପ୍ଟ କରିପାରିବ। ରପ୍ତାନି ବା ସେୟାର କରାଯାଇଥିବା କାର୍ଯ୍ୟରେ ଏହା କେବେ ନଥାଏ।"
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "حدد إيماءة أولاً",
   "Selected: {0}": "المحدد: {0}",
   "No action uses this gesture yet": "لا يستخدم أي إجراء هذه الإيماءة بعد",
-  "No matching gestures": "لا توجد إيماءات مطابقة"
+  "No matching gestures": "لا توجد إيماءات مطابقة",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "يُخزَّن المفتاح مشفّرًا على هذا الكمبيوتر؛ ولا يمكن فك تشفيره إلا بحساب Windows الخاص بك. لا تتضمنه الإجراءات المصدَّرة أو المشتركة أبدًا."
 }

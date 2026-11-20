@@ -791,5 +791,6 @@
   "Select a gesture first": "Önce bir hareket seçin",
   "Selected: {0}": "Seçili: {0}",
   "No action uses this gesture yet": "Bu hareketi henüz hiçbir eylem kullanmıyor",
-  "No matching gestures": "Eşleşen hareket yok"
+  "No matching gestures": "Eşleşen hareket yok",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Anahtar bu bilgisayarda şifreli olarak saklanır; yalnızca Windows hesabınız şifresini çözebilir. Dışa aktarılan veya paylaşılan eylemler onu asla içermez."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "पहिले एउटा इशारा छान्नुहोस्",
   "Selected: {0}": "छानिएको: {0}",
   "No action uses this gesture yet": "यो इशारा अहिलेसम्म कुनै कार्यले प्रयोग गरेको छैन",
-  "No matching gestures": "मिल्ने इशारा छैन"
+  "No matching gestures": "मिल्ने इशारा छैन",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "कुञ्जी यो पीसीमा इन्क्रिप्ट गरेर राखिन्छ; तपाईंको Windows खाताले मात्र यसलाई डिक्रिप्ट गर्न सक्छ। निर्यात वा साझा गरिएका कार्यहरूमा यो कहिल्यै हुँदैन।"
 }

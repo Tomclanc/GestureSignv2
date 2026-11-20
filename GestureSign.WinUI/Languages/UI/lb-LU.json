@@ -791,5 +791,6 @@
   "Select a gesture first": "Wielt fir d'éischt eng Geste",
   "Selected: {0}": "Gewielt: {0}",
   "No action uses this gesture yet": "Nach keng Aktioun benotzt dës Geste",
-  "No matching gestures": "Keng passend Gesten"
+  "No matching gestures": "Keng passend Gesten",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "De Schlëssel gëtt op dësem PC verschlësselt gespäichert; nëmmen Äre Windows-Kont kann en entschlësselen. Exportéiert oder gedeelt Aktiounen enthalen en ni."
 }

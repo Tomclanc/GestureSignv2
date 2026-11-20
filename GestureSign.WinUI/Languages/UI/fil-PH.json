@@ -791,5 +791,6 @@
   "Select a gesture first": "Pumili muna ng galaw",
   "Selected: {0}": "Napili: {0}",
   "No action uses this gesture yet": "Wala pang aksyong gumagamit ng galaw na ito",
-  "No matching gestures": "Walang tumutugmang galaw"
+  "No matching gestures": "Walang tumutugmang galaw",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Naka-encrypt na nakaimbak ang key sa PC na ito; ang Windows account mo lang ang makaka-decrypt nito. Hindi ito kailanman kasama sa mga in-export o ibinahaging aksyon."
 }

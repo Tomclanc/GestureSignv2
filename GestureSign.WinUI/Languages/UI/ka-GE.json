@@ -791,5 +791,6 @@
   "Select a gesture first": "ჯერ აირჩიეთ ჟესტი",
   "Selected: {0}": "არჩეულია: {0}",
   "No action uses this gesture yet": "ამ ჟესტს ჯერ არცერთი მოქმედება არ იყენებს",
-  "No matching gestures": "შესაბამისი ჟესტები არ არის"
+  "No matching gestures": "შესაბამისი ჟესტები არ არის",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "გასაღები ამ კომპიუტერზე დაშიფრულად ინახება; მისი გაშიფვრა მხოლოდ თქვენს Windows ანგარიშს შეუძლია. ექსპორტირებული ან გაზიარებული მოქმედებები მას არასოდეს შეიცავს."
 }

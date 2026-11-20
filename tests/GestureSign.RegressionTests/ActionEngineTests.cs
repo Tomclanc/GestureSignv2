@@ -1,5 +1,6 @@
 #nullable disable
 using GestureSign.Foundation.RadialMenus;
+using GestureSign.Foundation.Security;
 using GestureSign.Foundation.Steps;
 
 /// <summary>Step engine, action templates, radial menu rings/submenus and action packages.</summary>
@@ -298,6 +299,24 @@ internal static class ActionEngineTests
         try { ActionPackage.Parse("{\"x\":1}"); }
         catch (InvalidDataException) { rejected = true; }
         Check(rejected);
+    }
+
+    public static void TestSecrets()
+    {
+        Check(SecretStore.Reveal("plain-key") == "plain-key");
+        Check(SecretStore.Reveal(SecretStore.Protect("sk-test")) == "sk-test");
+        Check(SecretStore.IsProtected(SecretStore.Protect("sk-test")) == OperatingSystem.IsWindows());
+        Check(SecretStore.Protect("") == "" && SecretStore.Reveal(null) == "");
+        Check(SecretStore.Reveal("dpapi:not base64!") == "");
+
+        var ai = Step.Create(StepCatalog.AiChat);
+        ai.Args["ApiKey"] = "sk-1";
+        var group = Step.Create(StepCatalog.Group);
+        group.Body.Add(ai);
+        var program = new StepProgram { Steps = { group } };
+        Check(StepSecrets.ProtectPlain(program, v => "dpapi:" + v) && ai.Args["ApiKey"] == "dpapi:sk-1");
+        Check(!StepSecrets.ProtectPlain(program, v => "dpapi:" + v));
+        Check(StepCatalog.Find(StepCatalog.AiChat).Parameters.Single(p => p.Key == "ApiKey").Kind == StepParameterKind.Secret);
     }
 
     private static void Check(bool condition, [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)

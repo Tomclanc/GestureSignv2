@@ -791,5 +791,6 @@
   "Select a gesture first": "Tīpakohia tētahi tohu ā-ringa i te tuatahi",
   "Selected: {0}": "Kua tīpakohia: {0}",
   "No action uses this gesture yet": "Kāore anō tētahi mahi kia whakamahi i tēnei tohu",
-  "No matching gestures": "Kāore he tohu e hāngai ana"
+  "No matching gestures": "Kāore he tohu e hāngai ana",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ka penapenahia te kī kua whakamunatia ki tēnei rorohiko; ko tō pūkete Windows anake ka taea te wetemuna. Kāore rawa e whakaurua ki ngā mahi kua kaweake, kua tiritiria rānei."
 }

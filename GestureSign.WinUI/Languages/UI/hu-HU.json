@@ -791,5 +791,6 @@
   "Select a gesture first": "Először válasszon kézmozdulatot",
   "Selected: {0}": "Kijelölve: {0}",
   "No action uses this gesture yet": "Ezt a kézmozdulatot még egy művelet sem használja",
-  "No matching gestures": "Nincs egyező kézmozdulat"
+  "No matching gestures": "Nincs egyező kézmozdulat",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "A kulcs titkosítva tárolódik ezen a számítógépen; csak az Ön Windows-fiókja tudja visszafejteni. Az exportált vagy megosztott műveletek soha nem tartalmazzák."
 }

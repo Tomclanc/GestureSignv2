@@ -791,5 +791,6 @@
   "Select a gesture first": "Primer seleccioneu un gest",
   "Selected: {0}": "Seleccionat: {0}",
   "No action uses this gesture yet": "Encara cap acció no fa servir aquest gest",
-  "No matching gestures": "Cap gest coincident"
+  "No matching gestures": "Cap gest coincident",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "La clau es desa xifrada en aquest PC; només el vostre compte de Windows la pot desxifrar. Les accions exportades o compartides no la inclouen mai."
 }

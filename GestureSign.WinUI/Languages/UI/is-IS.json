@@ -791,5 +791,6 @@
   "Select a gesture first": "Veldu fyrst bendingu",
   "Selected: {0}": "Valið: {0}",
   "No action uses this gesture yet": "Engin aðgerð notar þessa bendingu enn",
-  "No matching gestures": "Engar samsvarandi bendingar"
+  "No matching gestures": "Engar samsvarandi bendingar",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Lykillinn er geymdur dulkóðaður á þessari tölvu; aðeins Windows-aðgangurinn þinn getur afkóðað hann. Útfluttar eða deildar aðgerðir innihalda hann aldrei."
 }

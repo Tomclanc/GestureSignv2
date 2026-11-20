@@ -791,5 +791,6 @@
   "Select a gesture first": "ਪਹਿਲਾਂ ਇੱਕ ਇਸ਼ਾਰਾ ਚੁਣੋ",
   "Selected: {0}": "ਚੁਣਿਆ: {0}",
   "No action uses this gesture yet": "ਇਹ ਇਸ਼ਾਰਾ ਅਜੇ ਕੋਈ ਕਾਰਵਾਈ ਨਹੀਂ ਵਰਤਦੀ",
-  "No matching gestures": "ਕੋਈ ਮੇਲ ਖਾਂਦਾ ਇਸ਼ਾਰਾ ਨਹੀਂ"
+  "No matching gestures": "ਕੋਈ ਮੇਲ ਖਾਂਦਾ ਇਸ਼ਾਰਾ ਨਹੀਂ",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "ਕੁੰਜੀ ਇਸ PC 'ਤੇ ਐਨਕ੍ਰਿਪਟ ਕਰਕੇ ਰੱਖੀ ਜਾਂਦੀ ਹੈ; ਸਿਰਫ਼ ਤੁਹਾਡਾ Windows ਖਾਤਾ ਇਸਨੂੰ ਡੀਕ੍ਰਿਪਟ ਕਰ ਸਕਦਾ ਹੈ। ਨਿਰਯਾਤ ਜਾਂ ਸਾਂਝੀਆਂ ਕਾਰਵਾਈਆਂ ਵਿੱਚ ਇਹ ਕਦੇ ਸ਼ਾਮਲ ਨਹੀਂ ਹੁੰਦੀ।"
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "請先選取一個手勢",
   "Selected: {0}": "已選取：{0}",
   "No action uses this gesture yet": "尚無動作使用這個手勢",
-  "No matching gestures": "沒有符合條件的手勢"
+  "No matching gestures": "沒有符合條件的手勢",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "金鑰加密儲存在本機，只有目前的 Windows 帳戶能解密。匯出或分享動作時不會包含它。"
 }

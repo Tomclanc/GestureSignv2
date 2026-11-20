@@ -791,5 +791,6 @@
   "Select a gesture first": "ជ្រើសរើសកាយវិការជាមុនសិន",
   "Selected: {0}": "បានជ្រើសរើស៖ {0}",
   "No action uses this gesture yet": "មិនទាន់មានសកម្មភាពណាប្រើកាយវិការនេះទេ",
-  "No matching gestures": "គ្មានកាយវិការដែលត្រូវគ្នា"
+  "No matching gestures": "គ្មានកាយវិការដែលត្រូវគ្នា",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "កូនសោត្រូវបានរក្សាទុកជាទម្រង់អ៊ិនគ្រីបនៅលើកុំព្យូទ័រនេះ មានតែគណនី Windows របស់អ្នកទេដែលអាចឌិគ្រីបវាបាន។ សកម្មភាពដែលបាននាំចេញ ឬចែករំលែក មិនដែលមានវាទេ។"
 }

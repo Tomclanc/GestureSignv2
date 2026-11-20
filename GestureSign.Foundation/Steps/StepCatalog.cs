@@ -16,7 +16,9 @@ public enum StepParameterKind
     /// <summary>A variable name (output or loop variable), without braces.</summary>
     Variable,
     /// <summary>A program or file path; the editor offers a Browse button.</summary>
-    FilePath
+    FilePath,
+    /// <summary>A secret such as an API key: masked in the editor and stored encrypted (see SecretStore).</summary>
+    Secret
 }
 
 /// <summary>
@@ -282,7 +284,7 @@ public static class StepCatalog
                         HintZh: "例如：把用户的文字翻译成英文，只输出译文。", HintEn: "For example: Translate the user's text into English. Output only the translation."),
                     new StepParameter("Model", "模型（留空用 AI 设置）", "Model (empty: AI settings)", StepParameterKind.Text, ""),
                     new StepParameter("Endpoint", "接口地址（留空用 AI 设置）", "API address (empty: AI settings)", StepParameterKind.Text, ""),
-                    new StepParameter("ApiKey", "API Key（留空用 AI 设置）", "API key (empty: AI settings)", StepParameterKind.Text, ""),
+                    new StepParameter("ApiKey", "API Key（留空用 AI 设置）", "API key (empty: AI settings)", StepParameterKind.Secret, ""),
                     new StepParameter("Temperature", "随机性 0~2（可留空）", "Temperature 0-2 (optional)", StepParameterKind.Text, ""),
                     Output("result") },
             descriptionZh: "调用兼容 OpenAI 的接口（OpenAI、DeepSeek、通义千问、Ollama 等），把回复保存到变量。",

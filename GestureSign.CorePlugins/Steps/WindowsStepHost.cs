@@ -300,6 +300,8 @@ namespace GestureSign.CorePlugins.Steps
         public string AiChat(string endpoint, string apiKey, string model, string systemPrompt, string prompt, double? temperature)
         {
             endpoint = string.IsNullOrWhiteSpace(endpoint) ? GestureSign.Common.Configuration.AppConfig.AiEndpoint : endpoint;
+            // A key typed into the step itself is stored encrypted, like the global one.
+            apiKey = GestureSign.Foundation.Security.SecretStore.Reveal(apiKey);
             apiKey = string.IsNullOrWhiteSpace(apiKey) ? GestureSign.Common.Configuration.AppConfig.AiApiKey : apiKey;
             model = string.IsNullOrWhiteSpace(model) ? GestureSign.Common.Configuration.AppConfig.AiModel : model;
             if (string.IsNullOrWhiteSpace(endpoint) || string.IsNullOrWhiteSpace(model))

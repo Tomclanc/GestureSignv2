@@ -791,5 +791,6 @@
   "Select a gesture first": "Ñawpaqta huk makiwan rikuchiyta akllay",
   "Selected: {0}": "Akllasqa: {0}",
   "No action uses this gesture yet": "Manaraq mayqin ruwanapas kay rikuchiyta llamk'achinchu",
-  "No matching gestures": "Manam tupaq rikuchiykuna kanchu"
+  "No matching gestures": "Manam tupaq rikuchiykuna kanchu",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Llaveqa kay PC-pi pakasqa waqaychasqa; Windows cuentaykillan kichayta atin. Hawaman apasqa utaq rakinakusqa ruwanakunaqa manapuni chayta apankuchu."
 }

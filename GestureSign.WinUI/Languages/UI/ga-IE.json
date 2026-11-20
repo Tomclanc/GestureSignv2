@@ -791,5 +791,6 @@
   "Select a gesture first": "Roghnaigh gotha ar dtús",
   "Selected: {0}": "Roghnaithe: {0}",
   "No action uses this gesture yet": "Níl aon ghníomh ag úsáid an gotha seo fós",
-  "No matching gestures": "Níl aon ghothaí comhoiriúnacha"
+  "No matching gestures": "Níl aon ghothaí comhoiriúnacha",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Stóráiltear an eochair criptithe ar an ríomhaire seo; ní féidir ach le do chuntas Windows í a dhíchriptiú. Ní chuimsíonn gníomhartha easpórtáilte ná comhroinnte í riamh."
 }

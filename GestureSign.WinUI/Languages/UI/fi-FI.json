@@ -791,5 +791,6 @@
   "Select a gesture first": "Valitse ensin ele",
   "Selected: {0}": "Valittu: {0}",
   "No action uses this gesture yet": "Mikään toiminto ei vielä käytä tätä elettä",
-  "No matching gestures": "Ei vastaavia eleitä"
+  "No matching gestures": "Ei vastaavia eleitä",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Avain tallennetaan tähän tietokoneeseen salattuna; vain Windows-tilisi voi purkaa sen. Viedyt tai jaetut toiminnot eivät koskaan sisällä sitä."
 }

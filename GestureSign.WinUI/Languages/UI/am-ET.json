@@ -791,5 +791,6 @@
   "Select a gesture first": "መጀመሪያ የእጅ ምልክት ይምረጡ",
   "Selected: {0}": "የተመረጠ፦ {0}",
   "No action uses this gesture yet": "ይህን የእጅ ምልክት የሚጠቀም እርምጃ ገና የለም",
-  "No matching gestures": "የሚዛመዱ የእጅ ምልክቶች የሉም"
+  "No matching gestures": "የሚዛመዱ የእጅ ምልክቶች የሉም",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "ቁልፉ በዚህ ኮምፒውተር ላይ ተመስጥሮ ይቀመጣል፤ ሊፈታው የሚችለው የእርስዎ Windows መለያ ብቻ ነው። ወደ ውጭ የተላኩ ወይም የተጋሩ እርምጃዎች በፍጹም አያካትቱትም።"
 }

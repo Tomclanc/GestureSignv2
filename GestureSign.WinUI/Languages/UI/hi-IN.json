@@ -791,5 +791,6 @@
   "Select a gesture first": "पहले कोई जेस्चर चुनें",
   "Selected: {0}": "चयनित: {0}",
   "No action uses this gesture yet": "इस जेस्चर का उपयोग अभी कोई क्रिया नहीं करती",
-  "No matching gestures": "कोई मेल खाता जेस्चर नहीं"
+  "No matching gestures": "कोई मेल खाता जेस्चर नहीं",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "कुंजी इस पीसी पर एन्क्रिप्ट करके सहेजी जाती है; केवल आपका Windows खाता ही इसे डिक्रिप्ट कर सकता है। निर्यात या साझा की गई क्रियाओं में यह कभी शामिल नहीं होती।"
 }

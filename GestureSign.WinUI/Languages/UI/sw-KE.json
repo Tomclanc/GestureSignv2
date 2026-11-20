@@ -791,5 +791,6 @@
   "Select a gesture first": "Chagua ishara kwanza",
   "Selected: {0}": "Imechaguliwa: {0}",
   "No action uses this gesture yet": "Hakuna kitendo kinachotumia ishara hii bado",
-  "No matching gestures": "Hakuna ishara zinazolingana"
+  "No matching gestures": "Hakuna ishara zinazolingana",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ufunguo huhifadhiwa ukiwa umesimbwa kwenye Kompyuta hii; ni akaunti yako ya Windows tu inayoweza kuusimbua. Vitendo vilivyohamishwa au kushirikiwa haviujumuishi kamwe."
 }

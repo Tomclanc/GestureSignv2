@@ -791,5 +791,6 @@
   "Select a gesture first": "Selecciona primeiro un xesto",
   "Selected: {0}": "Seleccionado: {0}",
   "No action uses this gesture yet": "Aínda ningunha acción usa este xesto",
-  "No matching gestures": "Non hai xestos coincidentes"
+  "No matching gestures": "Non hai xestos coincidentes",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "A clave gárdase cifrada neste PC; só a túa conta de Windows pode descifrala. As accións exportadas ou compartidas nunca a inclúen."
 }

@@ -18,7 +18,8 @@ var tests = new (string Name, Action Run)[]
     ("step engine and variables", ActionEngineTests.TestStepsAndVariables),
     ("AI text templates", ActionEngineTests.TestAiTemplates),
     ("radial rings and submenus", ActionEngineTests.TestRingsAndSubmenus),
-    ("action package export/import/review", ActionEngineTests.TestActionPackage)
+    ("action package export/import/review", ActionEngineTests.TestActionPackage),
+    ("API key encryption", ActionEngineTests.TestSecrets)
 };
 
 foreach (var (name, run) in tests)

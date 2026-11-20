@@ -791,5 +791,6 @@
   "Select a gesture first": "Əvvəlcə jest seçin",
   "Selected: {0}": "Seçilib: {0}",
   "No action uses this gesture yet": "Bu jestdən hələ heç bir əməliyyat istifadə etmir",
-  "No matching gestures": "Uyğun jest yoxdur"
+  "No matching gestures": "Uyğun jest yoxdur",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Açar bu kompüterdə şifrələnmiş saxlanılır; onu yalnız sizin Windows hesabınız deşifrə edə bilər. İxrac edilən və ya paylaşılan əməliyyatlara heç vaxt daxil edilmir."
 }

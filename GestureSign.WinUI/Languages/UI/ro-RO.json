@@ -791,5 +791,6 @@
   "Select a gesture first": "Selectați mai întâi un gest",
   "Selected: {0}": "Selectat: {0}",
   "No action uses this gesture yet": "Nicio acțiune nu folosește încă acest gest",
-  "No matching gestures": "Niciun gest potrivit"
+  "No matching gestures": "Niciun gest potrivit",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Cheia este stocată criptat pe acest PC; doar contul dvs. Windows o poate decripta. Acțiunile exportate sau partajate nu o includ niciodată."
 }

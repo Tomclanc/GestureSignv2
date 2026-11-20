@@ -791,5 +791,6 @@
   "Select a gesture first": "Select a gesture first",
   "Selected: {0}": "Selected: {0}",
   "No action uses this gesture yet": "No action uses this gesture yet",
-  "No matching gestures": "No matching gestures"
+  "No matching gestures": "No matching gestures",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it."
 }

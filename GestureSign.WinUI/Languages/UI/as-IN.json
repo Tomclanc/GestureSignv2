@@ -791,5 +791,6 @@
   "Select a gesture first": "প্ৰথমে এটা অংগভংগী বাছক",
   "Selected: {0}": "বাছনি কৰা: {0}",
   "No action uses this gesture yet": "এই অংগভংগী এতিয়াও কোনো কাৰ্যই ব্যৱহাৰ কৰা নাই",
-  "No matching gestures": "মিল থকা অংগভংগী নাই"
+  "No matching gestures": "মিল থকা অংগভংগী নাই",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "চাবিটো এই পিচিত এনক্ৰিপ্ট কৰি সংৰক্ষণ কৰা হয়; কেৱল আপোনাৰ Windows একাউণ্টেহে ইয়াক ডিক্ৰিপ্ট কৰিব পাৰে। ৰপ্তানি বা শ্বেয়াৰ কৰা কাৰ্যত ই কেতিয়াও নাথাকে।"
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "Pirmiausia pasirinkite gestą",
   "Selected: {0}": "Pasirinkta: {0}",
   "No action uses this gesture yet": "Šio gesto dar nenaudoja joks veiksmas",
-  "No matching gestures": "Atitinkančių gestų nėra"
+  "No matching gestures": "Atitinkančių gestų nėra",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Raktas šiame kompiuteryje saugomas užšifruotas; iššifruoti jį gali tik jūsų „Windows“ paskyra. Eksportuotuose ar bendrinamuose veiksmuose jo niekada nebūna."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "เลือกท่าทางก่อน",
   "Selected: {0}": "เลือกแล้ว: {0}",
   "No action uses this gesture yet": "ยังไม่มีการกระทำใดใช้ท่าทางนี้",
-  "No matching gestures": "ไม่มีท่าทางที่ตรงกัน"
+  "No matching gestures": "ไม่มีท่าทางที่ตรงกัน",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "คีย์ถูกเก็บแบบเข้ารหัสไว้ในพีซีเครื่องนี้ มีเพียงบัญชี Windows ของคุณที่ถอดรหัสได้ การกระทำที่ส่งออกหรือแชร์จะไม่มีคีย์นี้"
 }

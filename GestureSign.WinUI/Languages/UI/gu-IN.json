@@ -791,5 +791,6 @@
   "Select a gesture first": "પહેલા હાવભાવ પસંદ કરો",
   "Selected: {0}": "પસંદ કરેલ: {0}",
   "No action uses this gesture yet": "આ હાવભાવ હજી કોઈ ક્રિયા વાપરતી નથી",
-  "No matching gestures": "મેળ ખાતા હાવભાવ નથી"
+  "No matching gestures": "મેળ ખાતા હાવભાવ નથી",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "કી આ PC પર એન્ક્રિપ્ટ કરીને સાચવવામાં આવે છે; ફક્ત તમારું Windows એકાઉન્ટ જ તેને ડિક્રિપ્ટ કરી શકે છે. નિકાસ કે શેર કરેલી ક્રિયાઓમાં તે ક્યારેય શામેલ હોતી નથી."
 }

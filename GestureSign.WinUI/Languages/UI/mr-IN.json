@@ -791,5 +791,6 @@
   "Select a gesture first": "आधी एक जेश्चर निवडा",
   "Selected: {0}": "निवडलेले: {0}",
   "No action uses this gesture yet": "हे जेश्चर अद्याप कोणतीही क्रिया वापरत नाही",
-  "No matching gestures": "जुळणारे जेश्चर नाहीत"
+  "No matching gestures": "जुळणारे जेश्चर नाहीत",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "की या PC वर एन्क्रिप्ट करून साठवली जाते; फक्त तुमचे Windows खाते ती डिक्रिप्ट करू शकते. निर्यात किंवा शेअर केलेल्या क्रियांमध्ये ती कधीही नसते."
 }

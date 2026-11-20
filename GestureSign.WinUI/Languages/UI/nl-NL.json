@@ -791,5 +791,6 @@
   "Select a gesture first": "Selecteer eerst een beweging",
   "Selected: {0}": "Geselecteerd: {0}",
   "No action uses this gesture yet": "Nog geen actie gebruikt deze beweging",
-  "No matching gestures": "Geen overeenkomende bewegingen"
+  "No matching gestures": "Geen overeenkomende bewegingen",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "De sleutel wordt versleuteld op deze pc opgeslagen; alleen uw Windows-account kan hem ontsleutelen. Geëxporteerde of gedeelde acties bevatten hem nooit."
 }

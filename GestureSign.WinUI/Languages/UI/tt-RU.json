@@ -791,5 +791,6 @@
   "Select a gesture first": "Башта ишарә сайлагыз",
   "Selected: {0}": "Сайланган: {0}",
   "No action uses this gesture yet": "Бу ишарәне әлегә бер гамәл дә кулланмый",
-  "No matching gestures": "Туры килгән ишарәләр юк"
+  "No matching gestures": "Туры килгән ишарәләр юк",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Ачкыч бу санакта шифрланган килеш саклана; аны сезнең Windows хисап язмасы гына шифрдан чыгара ала. Экспортланган яки уртаклашылган гамәлләрдә ул беркайчан да булмый."
 }

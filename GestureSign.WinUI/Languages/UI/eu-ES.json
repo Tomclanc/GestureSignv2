@@ -791,5 +791,6 @@
   "Select a gesture first": "Hautatu keinu bat lehenik",
   "Selected: {0}": "Hautatuta: {0}",
   "No action uses this gesture yet": "Oraindik ez du ekintzarik keinu hau erabiltzen",
-  "No matching gestures": "Ez dago bat datorren keinurik"
+  "No matching gestures": "Ez dago bat datorren keinurik",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Gakoa zifratuta gordetzen da ordenagailu honetan; zure Windows kontuak soilik deszifra dezake. Esportatutako edo partekatutako ekintzek ez dute inoiz barne hartzen."
 }

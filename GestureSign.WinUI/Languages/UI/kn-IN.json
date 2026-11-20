@@ -791,5 +791,6 @@
   "Select a gesture first": "ಮೊದಲು ಒಂದು ಸನ್ನೆ ಆಯ್ಕೆಮಾಡಿ",
   "Selected: {0}": "ಆಯ್ಕೆ ಮಾಡಲಾಗಿದೆ: {0}",
   "No action uses this gesture yet": "ಈ ಸನ್ನೆಯನ್ನು ಇನ್ನೂ ಯಾವುದೇ ಕ್ರಿಯೆ ಬಳಸುತ್ತಿಲ್ಲ",
-  "No matching gestures": "ಹೊಂದುವ ಸನ್ನೆಗಳಿಲ್ಲ"
+  "No matching gestures": "ಹೊಂದುವ ಸನ್ನೆಗಳಿಲ್ಲ",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "ಕೀಯನ್ನು ಈ PC ಯಲ್ಲಿ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ; ನಿಮ್ಮ Windows ಖಾತೆ ಮಾತ್ರ ಅದನ್ನು ಡಿಕ್ರಿಪ್ಟ್ ಮಾಡಬಹುದು. ರಫ್ತು ಮಾಡಿದ ಅಥವಾ ಹಂಚಿಕೊಂಡ ಕ್ರಿಯೆಗಳು ಅದನ್ನು ಎಂದಿಗೂ ಒಳಗೊಂಡಿರುವುದಿಲ್ಲ."
 }

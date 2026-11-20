@@ -791,5 +791,6 @@
   "Select a gesture first": "Velg en bevegelse først",
   "Selected: {0}": "Valgt: {0}",
   "No action uses this gesture yet": "Ingen handling bruker denne bevegelsen ennå",
-  "No matching gestures": "Ingen samsvarende bevegelser"
+  "No matching gestures": "Ingen samsvarende bevegelser",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Nøkkelen lagres kryptert på denne PC-en; bare Windows-kontoen din kan dekryptere den. Eksporterte eller delte handlinger inneholder den aldri."
 }

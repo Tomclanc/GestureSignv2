@@ -791,5 +791,6 @@
   "Select a gesture first": "Valige esmalt žest",
   "Selected: {0}": "Valitud: {0}",
   "No action uses this gesture yet": "Ükski toiming ei kasuta seda žesti veel",
-  "No matching gestures": "Sobivaid žeste pole"
+  "No matching gestures": "Sobivaid žeste pole",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Võti salvestatakse selles arvutis krüptituna; dekrüptida saab seda ainult teie Windowsi konto. Eksporditud või jagatud toimingud ei sisalda seda kunagi."
 }

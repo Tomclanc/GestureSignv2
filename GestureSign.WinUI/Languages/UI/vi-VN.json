@@ -791,5 +791,6 @@
   "Select a gesture first": "Hãy chọn một cử chỉ trước",
   "Selected: {0}": "Đã chọn: {0}",
   "No action uses this gesture yet": "Chưa có hành động nào dùng cử chỉ này",
-  "No matching gestures": "Không có cử chỉ phù hợp"
+  "No matching gestures": "Không có cử chỉ phù hợp",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Khóa được lưu đã mã hóa trên máy này; chỉ tài khoản Windows của bạn mới giải mã được. Hành động được xuất hoặc chia sẻ không bao giờ chứa khóa."
 }

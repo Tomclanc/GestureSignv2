@@ -791,5 +791,6 @@
   "Select a gesture first": "Kies eers 'n gebaar",
   "Selected: {0}": "Gekies: {0}",
   "No action uses this gesture yet": "Geen aksie gebruik hierdie gebaar nog nie",
-  "No matching gestures": "Geen passende gebare nie"
+  "No matching gestures": "Geen passende gebare nie",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Die sleutel word geënkripteer op hierdie rekenaar gestoor; net jou Windows-rekening kan dit ontsyfer. Uitgevoerde of gedeelde aksies sluit dit nooit in nie."
 }

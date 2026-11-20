@@ -791,5 +791,6 @@
   "Select a gesture first": "先にジェスチャを選択してください",
   "Selected: {0}": "選択中: {0}",
   "No action uses this gesture yet": "このジェスチャを使うアクションはまだありません",
-  "No matching gestures": "一致するジェスチャはありません"
+  "No matching gestures": "一致するジェスチャはありません",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "キーはこの PC に暗号化して保存され、復号できるのはあなたの Windows アカウントだけです。エクスポートや共有したアクションには含まれません。"
 }

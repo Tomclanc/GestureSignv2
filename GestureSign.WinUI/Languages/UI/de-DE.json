@@ -791,5 +791,6 @@
   "Select a gesture first": "Zuerst eine Geste auswählen",
   "Selected: {0}": "Ausgewählt: {0}",
   "No action uses this gesture yet": "Noch keine Aktion verwendet diese Geste",
-  "No matching gestures": "Keine passenden Gesten"
+  "No matching gestures": "Keine passenden Gesten",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Der Schlüssel wird auf diesem PC verschlüsselt gespeichert; nur Ihr Windows-Konto kann ihn entschlüsseln. Exportierte oder geteilte Aktionen enthalten ihn nie."
 }

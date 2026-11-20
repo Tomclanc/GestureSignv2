@@ -791,5 +791,6 @@
   "Select a gesture first": "בחר תחילה מחווה",
   "Selected: {0}": "נבחר: {0}",
   "No action uses this gesture yet": "אף פעולה עדיין לא משתמשת במחווה זו",
-  "No matching gestures": "אין מחוות תואמות"
+  "No matching gestures": "אין מחוות תואמות",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "המפתח נשמר מוצפן במחשב זה; רק חשבון Windows שלך יכול לפענח אותו. פעולות שיוצאו או שותפו לעולם אינן כוללות אותו."
 }

@@ -791,5 +791,6 @@
   "Select a gesture first": "প্রথমে একটি অঙ্গভঙ্গি নির্বাচন করুন",
   "Selected: {0}": "নির্বাচিত: {0}",
   "No action uses this gesture yet": "এই অঙ্গভঙ্গি এখনও কোনো অ্যাকশন ব্যবহার করে না",
-  "No matching gestures": "মিলে যাওয়া কোনো অঙ্গভঙ্গি নেই"
+  "No matching gestures": "মিলে যাওয়া কোনো অঙ্গভঙ্গি নেই",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "কীটি এই পিসিতে এনক্রিপ্ট করে সংরক্ষিত থাকে; শুধু আপনার Windows অ্যাকাউন্ট এটি ডিক্রিপ্ট করতে পারে। রপ্তানি বা শেয়ার করা অ্যাকশনে এটি কখনো থাকে না।"
 }

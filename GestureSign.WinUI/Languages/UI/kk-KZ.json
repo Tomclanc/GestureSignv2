@@ -791,5 +791,6 @@
   "Select a gesture first": "Алдымен қимылды таңдаңыз",
   "Selected: {0}": "Таңдалды: {0}",
   "No action uses this gesture yet": "Бұл қимылды әлі ешбір әрекет пайдаланбайды",
-  "No matching gestures": "Сәйкес қимылдар жоқ"
+  "No matching gestures": "Сәйкес қимылдар жоқ",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Кілт осы компьютерде шифрланып сақталады; оны тек сіздің Windows тіркелгіңіз шеше алады. Экспортталған не бөлісілген әрекеттерде ол ешқашан болмайды."
 }

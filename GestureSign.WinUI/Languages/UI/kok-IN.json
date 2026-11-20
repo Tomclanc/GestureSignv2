@@ -791,5 +791,6 @@
   "Select a gesture first": "पयलीं एक हावभाव वेंचात",
   "Selected: {0}": "वेंचिल्लें: {0}",
   "No action uses this gesture yet": "हो हावभाव अजून खंयचीच कृती वापरिना",
-  "No matching gestures": "जुळपी हावभाव ना"
+  "No matching gestures": "जुळपी हावभाव ना",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "की ह्या PC चेर एन्क्रिप्ट करून सांबाळटा; फकत तुमचें Windows खातें ती डिक्रिप्ट करूंक शकता. निर्यात वा वांटून घेतिल्ल्या कृतींनी ती केन्नाच आसना."
 }

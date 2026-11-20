@@ -791,5 +791,6 @@
   "Select a gesture first": "Zgjidh fillimisht një gjest",
   "Selected: {0}": "Zgjedhur: {0}",
   "No action uses this gesture yet": "Asnjë veprim nuk e përdor ende këtë gjest",
-  "No matching gestures": "Nuk ka gjeste që përputhen"
+  "No matching gestures": "Nuk ka gjeste që përputhen",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Çelësi ruhet i enkriptuar në këtë PC; vetëm llogaria juaj Windows mund ta dekriptojë. Veprimet e eksportuara ose të ndara nuk e përfshijnë kurrë."
 }

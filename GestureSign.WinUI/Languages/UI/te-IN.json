@@ -791,5 +791,6 @@
   "Select a gesture first": "ముందుగా ఒక సంజ్ఞను ఎంచుకోండి",
   "Selected: {0}": "ఎంచుకున్నది: {0}",
   "No action uses this gesture yet": "ఈ సంజ్ఞను ఇంకా ఏ చర్యా ఉపయోగించడం లేదు",
-  "No matching gestures": "సరిపోలే సంజ్ఞలు లేవు"
+  "No matching gestures": "సరిపోలే సంజ్ఞలు లేవు",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "కీ ఈ PCలో ఎన్‌క్రిప్ట్ చేసి నిల్వ చేయబడుతుంది; మీ Windows ఖాతా మాత్రమే దాన్ని డిక్రిప్ట్ చేయగలదు. ఎగుమతి లేదా షేర్ చేసిన చర్యల్లో ఇది ఎప్పుడూ ఉండదు."
 }

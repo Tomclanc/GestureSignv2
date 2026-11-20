@@ -791,5 +791,6 @@
   "Select a gesture first": "ആദ്യം ഒരു ആംഗ്യം തിരഞ്ഞെടുക്കുക",
   "Selected: {0}": "തിരഞ്ഞെടുത്തത്: {0}",
   "No action uses this gesture yet": "ഈ ആംഗ്യം ഇതുവരെ ഒരു പ്രവർത്തനവും ഉപയോഗിക്കുന്നില്ല",
-  "No matching gestures": "പൊരുത്തപ്പെടുന്ന ആംഗ്യങ്ങളില്ല"
+  "No matching gestures": "പൊരുത്തപ്പെടുന്ന ആംഗ്യങ്ങളില്ല",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "കീ ഈ PC-യിൽ എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കുന്നു; നിങ്ങളുടെ Windows അക്കൗണ്ടിന് മാത്രമേ ഇത് ഡീക്രിപ്റ്റ് ചെയ്യാനാകൂ. എക്സ്പോർട്ട് ചെയ്തതോ പങ്കിട്ടതോ ആയ പ്രവർത്തനങ്ങളിൽ ഇത് ഒരിക്കലും ഉണ്ടാകില്ല."
 }

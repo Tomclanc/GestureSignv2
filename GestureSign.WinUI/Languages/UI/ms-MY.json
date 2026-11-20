@@ -791,5 +791,6 @@
   "Select a gesture first": "Pilih gerak isyarat dahulu",
   "Selected: {0}": "Dipilih: {0}",
   "No action uses this gesture yet": "Belum ada tindakan yang menggunakan gerak isyarat ini",
-  "No matching gestures": "Tiada gerak isyarat yang sepadan"
+  "No matching gestures": "Tiada gerak isyarat yang sepadan",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Kunci disimpan secara tersulit pada PC ini; hanya akaun Windows anda yang boleh menyahsulitnya. Tindakan yang dieksport atau dikongsi tidak pernah menyertakannya."
 }

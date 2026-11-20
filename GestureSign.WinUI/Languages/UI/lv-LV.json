@@ -791,5 +791,6 @@
   "Select a gesture first": "Vispirms atlasiet žestu",
   "Selected: {0}": "Atlasīts: {0}",
   "No action uses this gesture yet": "Šo žestu vēl neizmanto neviena darbība",
-  "No matching gestures": "Nav atbilstošu žestu"
+  "No matching gestures": "Nav atbilstošu žestu",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "Atslēga šajā datorā tiek glabāta šifrēta; to var atšifrēt tikai jūsu Windows konts. Eksportētās vai kopīgotās darbības to nekad neietver."
 }

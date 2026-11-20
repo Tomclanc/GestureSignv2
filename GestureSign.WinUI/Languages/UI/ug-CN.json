@@ -791,5 +791,6 @@
   "Select a gesture first": "ئاۋۋال بىر ئىشارەت تاللاڭ",
   "Selected: {0}": "تاللانغان: {0}",
   "No action uses this gesture yet": "بۇ ئىشارەتنى تېخى ھېچقانداق مەشغۇلات ئىشلەتمىدى",
-  "No matching gestures": "ماس كېلىدىغان ئىشارەت يوق"
+  "No matching gestures": "ماس كېلىدىغان ئىشارەت يوق",
+  "The key is stored encrypted on this PC; only your Windows account can decrypt it. Exported or shared actions never include it.": "ئاچقۇچ بۇ كومپيۇتېردا شىفىرلىنىپ ساقلىنىدۇ؛ ئۇنى پەقەت Windows ھېساباتىڭىزلا شىفىردىن يېشەلەيدۇ. چىقىرىلغان ياكى ھەمبەھىرلەنگەن مەشغۇلاتلاردا ئۇ ھەرگىز بولمايدۇ."
 }

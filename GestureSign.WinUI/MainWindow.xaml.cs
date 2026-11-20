@@ -182,6 +182,7 @@ public sealed partial class MainWindow : Window
         _trainingPipeServer = new TrainingPipeServer((points, device, button) => DispatcherQueue.TryEnqueue(async () => { if (_trainingPipeServer?.IsRunning != true) return; _pendingTrainingInput?.Invoke(device, button); await SaveTrainedGestureAsync(points); }));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
+        ProtectPlainSecrets();
         _kandoMenuRefreshTimer.Interval = TimeSpan.FromSeconds(1);
         _kandoMenuRefreshTimer.Tick += KandoMenuRefreshTimer_Tick;
         _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
