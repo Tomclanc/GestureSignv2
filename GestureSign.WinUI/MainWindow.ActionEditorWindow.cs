@@ -105,6 +105,8 @@ public sealed partial class MainWindow
         var enabled = existing?.IsEnabled ?? true;
         var collapsed = new HashSet<Step>();
         EditorRow? selected = null;
+        var summaryBlocks = new Dictionary<Step, TextBlock>();
+        var suppressSelection = false;
         var rows = new List<EditorRow>();
 
         var window = new Window { Title = T("编辑动作", "Edit action") + (string.IsNullOrWhiteSpace(name) ? "" : " - " + name) };
@@ -286,9 +288,9 @@ public sealed partial class MainWindow
             var title = new TextBlock { Text = stepName, FontWeight = info?.HasBody == true ? FontWeights.SemiBold : FontWeights.Normal };
             if (step.Disabled) title.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
             texts.Children.Add(title);
-            var summary = Summary(step);
-            if (summary.Length > 0)
-                texts.Children.Add(new TextBlock { Text = summary, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 640 });
+            var summaryBlock = new TextBlock { Text = Summary(step), Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 640 };
+            texts.Children.Add(summaryBlock);
+            summaryBlocks[step] = summaryBlock;
             if (collapsed.Contains(step))
                 texts.Children.Add(new TextBlock { Text = "…", Opacity = 0.6 });
             if (!string.IsNullOrWhiteSpace(step.Note))
@@ -319,6 +321,7 @@ public sealed partial class MainWindow
         void Refresh(Step? keep = null)
         {
             rows.Clear();
+            summaryBlocks.Clear();
             Flatten(program.Steps, 0);
             list.Items.Clear();
             object? toSelect = null;
@@ -340,13 +343,29 @@ public sealed partial class MainWindow
 
         void RefreshRowOf(Step step)
         {
+            // Usual case: only the summary changed; update it without touching the list.
+            if (summaryBlocks.TryGetValue(step, out var block))
+            {
+                block.Text = Summary(step);
+                return;
+            }
             for (var index = 0; index < list.Items.Count; index++)
             {
                 if (list.Items[index] is FrameworkElement { Tag: EditorRow row } && row.Kind == EditorRowKind.Step && row.Step == step)
                 {
                     var wasSelected = list.SelectedIndex == index;
-                    list.Items[index] = RowVisual(row);
-                    if (wasSelected) list.SelectedIndex = index;
+                    // Replacing the item drops and restores the selection; keep
+                    // the properties form as it is while that happens.
+                    suppressSelection = true;
+                    try
+                    {
+                        list.Items[index] = RowVisual(row);
+                        if (wasSelected) list.SelectedIndex = index;
+                    }
+                    finally
+                    {
+                        suppressSelection = false;
+                    }
                     return;
                 }
             }
@@ -382,7 +401,15 @@ public sealed partial class MainWindow
 
         list.SelectionChanged += (_, _) =>
         {
-            selected = list.SelectedItem is FrameworkElement { Tag: EditorRow row } ? row : null;
+            if (suppressSelection) return;
+            var row = list.SelectedItem is FrameworkElement { Tag: EditorRow r } ? r : null;
+            // Same step still selected (row redrawn): keep the form and its focus.
+            if (row is not null && selected is not null && row.Kind == selected.Kind && row.Step == selected.Step)
+            {
+                selected = row;
+                return;
+            }
+            selected = row;
             if (selected?.Kind == EditorRowKind.Step) ShowTab(true);
             ShowProperties();
         };
@@ -847,9 +874,38 @@ public sealed partial class MainWindow
         Refresh(program.Steps.FirstOrDefault());
         // A blank new action starts on Appearance so it gets a title first.
         ShowTab(existing is not null || template is not null);
+        // Owned by the main window: it always stays above it (and minimizes with it).
+        var editorHwnd = IntPtr.Zero;
+        try
+        {
+            editorHwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
+            var ownerHwnd = WinRT.Interop.WindowNative.GetWindowHandle(this);
+            EditorSetWindowLongPtr(editorHwnd, GwlpHwndParent, ownerHwnd);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine(ex);
+        }
         window.Activate();
+        // A double click that opened the editor finishes afterwards and gives
+        // focus back to the list; bring the editor forward once it has.
+        window.DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            window.Activate();
+            if (editorHwnd != IntPtr.Zero)
+                EditorSetForegroundWindow(editorHwnd);
+        });
         return completion.Task;
     }
+
+    private const int GwlpHwndParent = -8;
+
+    [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
+    private static extern IntPtr EditorSetWindowLongPtr(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
+
+    [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetForegroundWindow")]
+    [return: System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.Bool)]
+    private static extern bool EditorSetForegroundWindow(IntPtr hWnd);
 
     private static Style? ThemeStyle(string key)
     {
@@ -911,8 +967,18 @@ public sealed partial class MainWindow
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClass.Text, settings.Text);
         }
         plugin.SelectionChanged += (_, _) => Update(true);
-        pluginClass.TextChanged += (_, _) => { step.Args!["PluginClass"] = pluginClass.Text.Trim(); changed(); };
-        settings.TextChanged += (_, _) => { step.Args!["Settings"] = settings.Text; changed(); };
+        pluginClass.TextChanged += (_, _) =>
+        {
+            if (step.Arg("PluginClass") == pluginClass.Text.Trim()) return;
+            step.Args!["PluginClass"] = pluginClass.Text.Trim();
+            changed();
+        };
+        settings.TextChanged += (_, _) =>
+        {
+            if (step.Arg("Settings") == settings.Text) return;
+            step.Args!["Settings"] = settings.Text;
+            changed();
+        };
         Update(false);
 
         var panel = new StackPanel { Spacing = 8 };
@@ -936,6 +1002,9 @@ public sealed partial class MainWindow
         var value = step.Arg(parameter.Key);
         void Set(string text)
         {
+            // TextChanged also fires when the form is built; ignore no-op updates.
+            if (string.Equals(step.Arg(parameter.Key), text, StringComparison.Ordinal))
+                return;
             step.Args![parameter.Key] = text;
             changed();
         }
