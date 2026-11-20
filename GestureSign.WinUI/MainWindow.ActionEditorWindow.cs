@@ -816,8 +816,22 @@ public sealed partial class MainWindow
             panel.Children.Add(variableNameBox);
             panel.Children.Add(variableKindBox);
             panel.Children.Add(variableDefaultBox);
+            // Fills the default value with a program or file path. The picker closes the
+            // flyout first, so the result is written to the variable directly.
+            var browseDefault = new Button { Content = T("浏览", "Browse") };
+            panel.Children.Add(browseDefault);
             panel.Children.Add(variableDescriptionBox);
             var flyout = new Flyout { Content = panel };
+            browseDefault.Click += async (_, _) =>
+            {
+                var picked = await PickOpenFileAsync(new[] { "*" });
+                if (string.IsNullOrEmpty(picked))
+                    return;
+                variableDefaultBox.Text = picked;
+                Checkpoint();
+                variable.Default = picked;
+                FillVariables();
+            };
             flyout.Opened += (_, _) => Checkpoint();
             flyout.Closed += (_, _) =>
             {
@@ -1251,8 +1265,21 @@ public sealed partial class MainWindow
                 head.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 head.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 head.Children.Add(new TextBlock { Text = header, VerticalAlignment = VerticalAlignment.Bottom });
-                Grid.SetColumn(insert, 1);
-                head.Children.Add(insert);
+                var tools = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 4 };
+                if (parameter.Kind == StepParameterKind.FilePath)
+                {
+                    var browse = new Button { Content = T("浏览", "Browse"), Padding = new Thickness(8, 0, 8, 0), MinHeight = 24, FontSize = 12 };
+                    browse.Click += async (_, _) =>
+                    {
+                        var picked = await PickOpenFileAsync(new[] { "*" });
+                        if (!string.IsNullOrEmpty(picked))
+                            box.Text = picked;
+                    };
+                    tools.Children.Add(browse);
+                }
+                tools.Children.Add(insert);
+                Grid.SetColumn(tools, 1);
+                head.Children.Add(tools);
                 var stack = new StackPanel { Spacing = 4 };
                 stack.Children.Add(head);
                 stack.Children.Add(box);

@@ -22,7 +22,12 @@ public interface IStepHost
     void TypeText(string text);
     void SendKeys(string keys);
     /// <summary>Starts a program, file or URL. When wait is set, returns its standard output.</summary>
-    string RunProgram(string path, string arguments, bool wait);
+    string RunProgram(string path, string arguments, bool wait, string workingDirectory, bool runAsAdmin);
+    /// <summary>
+    /// Switches to a window of the program, or launches it when none is open.
+    /// whenActive is "minimize", "cycle" or "none". Returns launched, activated, minimized or none.
+    /// </summary>
+    string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow);
     string Http(string method, string url, string body, string contentType);
     void Notify(string text);
     /// <summary>Shows a message box; buttons are "OK", "OKCancel" or "YesNo". Returns true for OK/Yes.</summary>
@@ -32,6 +37,10 @@ public interface IStepHost
     /// <summary>Asks to pick one item; returns null when cancelled.</summary>
     string AskChoice(string prompt, IReadOnlyList<string> items);
     IReadOnlyList<string> GetClipboardFiles();
+    /// <summary>Full paths of the files and folders selected in File Explorer, on the desktop or (via Ctrl+C) in other file managers.</summary>
+    IReadOnlyList<string> GetSelectedFiles();
+    /// <summary>The folder open in File Explorer (the desktop folder on the desktop); empty when unknown.</summary>
+    string GetExplorerFolder();
     /// <summary>Converts between Simplified and Traditional Chinese.</summary>
     string ConvertChinese(string text, bool toTraditional);
     /// <summary>Calls an OpenAI-compatible chat API; empty settings use the global AI settings.</summary>
@@ -196,7 +205,8 @@ public sealed class StepRunner
             {
                 var end = template.IndexOf('}', i + 1);
                 var name = end > i ? template.Substring(i + 1, end - i - 1).Trim() : null;
-                // Optional format: {name:url} URL-encodes, {name:json} escapes for a JSON string.
+                // Optional format: {name:url} URL-encodes, {name:json} escapes for a JSON string,
+                // {name:quote} wraps in double quotes (each item of a list, separated by spaces).
                 var format = "";
                 var colon = name?.IndexOf(':') ?? -1;
                 if (colon > 0)
@@ -204,11 +214,14 @@ public sealed class StepRunner
                     format = name.Substring(colon + 1).Trim().ToLowerInvariant();
                     name = name.Substring(0, colon).Trim();
                 }
-                if (end > i && IsVariableName(name) && format is "" or "url" or "json")
+                if (end > i && IsVariableName(name) && format is "" or "url" or "json" or "quote")
                 {
                     var text = variables.Text(name);
                     builder.Append(format switch
                     {
+                        "quote" => variables[name] is System.Collections.IList items
+                            ? string.Join(" ", StepVariables.ToList(items).Select(item => Quote(StepVariables.ToText(item))))
+                            : Quote(text),
                         "url" => Uri.EscapeDataString(text),
                         "json" => System.Text.Json.JsonSerializer.Serialize(text, RelaxedJson)[1..^1],
                         _ => text
@@ -220,6 +233,15 @@ public sealed class StepRunner
             builder.Append(c);
         }
         return builder.ToString();
+    }
+
+    private static string Quote(string text)
+    {
+        text = (text ?? "").Trim().Trim('"');
+        // A trailing backslash would escape the closing quote (C:\ becomes "C:\\").
+        if (text.EndsWith("\\", StringComparison.Ordinal))
+            text += "\\";
+        return "\"" + text + "\"";
     }
 
     private static readonly System.Text.Json.JsonSerializerOptions RelaxedJson = new()
@@ -409,7 +431,7 @@ public sealed class StepRunner
                 break;
 
             case StepCatalog.OpenUrl:
-                _host.RunProgram(Arg("Url").Trim(), "", false);
+                _host.RunProgram(Arg("Url").Trim(), "", false, null, false);
                 break;
 
             case StepCatalog.GetSelectedText:
@@ -418,6 +440,14 @@ public sealed class StepRunner
 
             case StepCatalog.GetClipboard:
                 Output(_host.GetClipboardText() ?? "");
+                break;
+
+            case StepCatalog.GetSelectedFiles:
+                Output((_host.GetSelectedFiles() ?? Array.Empty<string>()).Cast<object>().ToList());
+                break;
+
+            case StepCatalog.GetExplorerFolder:
+                Output(_host.GetExplorerFolder() ?? "");
                 break;
 
             case StepCatalog.GetClipboardFiles:
@@ -442,8 +472,14 @@ public sealed class StepRunner
 
             case StepCatalog.RunProgram:
                 var wait = StepVariables.IsTruthy(Arg("Wait").Trim());
-                var output = _host.RunProgram(Arg("Path").Trim(), Arg("Arguments"), wait);
+                var output = _host.RunProgram(Arg("Path").Trim(), Arg("Arguments"), wait,
+                    Arg("WorkingDirectory").Trim(), StepVariables.IsTruthy(Arg("RunAsAdmin").Trim()));
                 if (wait) Output(output ?? "");
+                break;
+
+            case StepCatalog.LaunchOrActivate:
+                Output(_host.LaunchOrActivate(Arg("Path").Trim(), Arg("Arguments"), Arg("ProcessName").Trim(), Arg("TitleFilter").Trim(),
+                    Arg("WhenActive").Trim(), StepVariables.IsTruthy(Arg("HideLaunchWindow").Trim())) ?? "");
                 break;
 
             case StepCatalog.Http:

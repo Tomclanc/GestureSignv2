@@ -19,13 +19,26 @@ internal static class ActionEngineTests
         public void PasteText(string text) => Calls.Add("paste:" + text);
         public void TypeText(string text) => Calls.Add("type:" + text);
         public void SendKeys(string keys) => Calls.Add("keys:" + keys);
-        public string RunProgram(string path, string arguments, bool wait) { Calls.Add("run:" + path); return null; }
+        public string Folder = @"C:\";
+        public string RunProgram(string path, string arguments, bool wait, string workingDirectory, bool runAsAdmin)
+        {
+            Calls.Add("run:" + path);
+            if (!string.IsNullOrEmpty(arguments) || runAsAdmin) Calls.Add($"args:{arguments}|{workingDirectory}|{runAsAdmin}");
+            return null;
+        }
+        public string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow)
+        {
+            Calls.Add($"switch:{path}|{arguments}|{whenActive}");
+            return "activated";
+        }
         public string Http(string method, string url, string body, string contentType) => "";
         public void Notify(string text) => Calls.Add("notify:" + text);
         public bool ShowMessageBox(string title, string text, string buttons) => true;
         public string AskText(string prompt, string defaultValue, bool multiline) => Answer;
         public string AskChoice(string prompt, IReadOnlyList<string> items) => items.Count > 1 ? items[1] : null;
         public IReadOnlyList<string> GetClipboardFiles() => new[] { @"C:\a.txt", @"D:\b c.txt" };
+        public IReadOnlyList<string> GetSelectedFiles() => new[] { @"C:\a.txt", @"D:\b c.txt" };
+        public string GetExplorerFolder() => Folder;
         public string ConvertChinese(string text, bool toTraditional) => toTraditional ? text.Replace("简", "簡") : text.Replace("簡", "简");
         public string AiChat(string endpoint, string apiKey, string model, string systemPrompt, string prompt, double? temperature)
         {
@@ -43,6 +56,7 @@ internal static class ActionEngineTests
             "simplified != text" => variables.Text("simplified") != variables.Text("text"),
             "text == text.toUpperCase()" => variables.Text("text") == variables.Text("text").ToUpperInvariant(),
             "link != \"\"" => variables.Text("link") != "",
+            "folder != \"\"" => variables.Text("folder") != "",
             "files.length > 0" => StepVariables.ToList(variables["files"]).Count > 0,
             _ => "JS"
         };
@@ -86,6 +100,15 @@ internal static class ActionEngineTests
         Check(RunTemplate("clean-lines", h => h.Selected = "a\r\n\r\n  \r\nb\nc").Calls.Contains("paste:a\r\nb\r\nc"));
         Check(RunTemplate("copy-file-paths").Calls.Contains("setclip:C:\\a.txt\r\nD:\\b c.txt"));
         Check(RunTemplate("paste-plain", h => h.Clipboard = "plain").Calls.Contains("paste:plain"));
+        var openWith = RunTemplate("open-with");
+        Check(openWith.Calls.Contains(@"args: ""C:\a.txt"" ""D:\b c.txt""||False"));
+        var terminal = RunTemplate("terminal-here");
+        Check(terminal.Calls.Contains("run:wt.exe") && terminal.Calls.Contains(@"args:-d ""C:\\""|C:\|False"));
+        var noFolder = RunTemplate("terminal-here", h => h.Folder = "");
+        Check(noFolder.Calls.Contains("run:wt.exe") && !noFolder.Calls.Any(c => c.StartsWith("args:")));
+        Check(RunTemplate("open-folder-with", h => h.Folder = @"D:\Work").Calls.Contains(@"args:""D:\Work""||False"));
+        Check(RunTemplate("system-tool").Calls.Contains("run:ms-settings:display"));
+        Check(RunTemplate("launch-or-switch").Calls.Contains("switch:notepad.exe||minimize"));
     }
 
     public static void TestStepsAndVariables()
@@ -120,6 +143,13 @@ internal static class ActionEngineTests
         var host = new FakeHost();
         new StepRunner(host).Run(new StepProgram { Steps = { group, Step.Create(StepCatalog.Comment) } });
         Check(host.Calls.Contains("notify:in group"));
+
+        var launch = Step.Create(StepCatalog.LaunchOrActivate);
+        Check(launch.Arg("WhenActive") == "minimize");
+        var launched = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { launch } });
+        Check(launched.Error == null && launched.Variables.Text("status") == "activated");
+        Check(ActionPackage.Review(new[] { new RadialMenuAction { Name = "L", Commands = { new RadialMenuCommand { PluginClass = ActionPackage.StepsPluginClass, CommandSettings = new StepProgram { Steps = { launch } }.ToJson() } } } })
+            .Any(r => r.Kind == ActionRiskKind.RunProgram && r.Detail == "notepad.exe"));
     }
 
     public static void TestAiTemplates()

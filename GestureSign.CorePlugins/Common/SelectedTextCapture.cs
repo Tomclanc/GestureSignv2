@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -29,6 +30,35 @@ namespace GestureSign.CorePlugins.Common
 
         public static string Capture(PointInfo pointInfo)
         {
+            var text = CaptureWith(pointInfo, () => Retry(() => Clipboard.ContainsText() ? Clipboard.GetText() : string.Empty), "text");
+            Logging.LogMessage($"Selected text captured. Length={text?.Length ?? 0}");
+            return text ?? string.Empty;
+        }
+
+        /// <summary>Copies the selection with Ctrl+C and returns the file paths it put on the clipboard.</summary>
+        public static string[] CaptureFiles(PointInfo pointInfo)
+        {
+            var files = CaptureWith(pointInfo, () =>
+            {
+                for (var attempt = 0; attempt < 5; attempt++)
+                {
+                    try
+                    {
+                        return Clipboard.ContainsFileDropList() ? Clipboard.GetFileDropList().Cast<string>().ToArray() : Array.Empty<string>();
+                    }
+                    catch (ExternalException)
+                    {
+                        Thread.Sleep(30);
+                    }
+                }
+                return Array.Empty<string>();
+            }, "files");
+            return files ?? Array.Empty<string>();
+        }
+
+        /// <summary>Sends Ctrl+C, reads the clipboard with read on the UI thread, then restores the clipboard.</summary>
+        private static T CaptureWith<T>(PointInfo pointInfo, Func<T> read, string what) where T : class
+        {
             DataObject backup = null;
             var hadContent = false;
             pointInfo.Invoke(() => backup = Snapshot(out hadContent));
@@ -41,16 +71,16 @@ namespace GestureSign.CorePlugins.Common
                 Thread.Sleep(15);
             if (GetClipboardSequenceNumber() == before)
             {
-                Logging.LogMessage("Selected text capture: clipboard did not change; nothing selected or copy not supported.");
-                return string.Empty;
+                Logging.LogMessage($"Selection capture ({what}): clipboard did not change; nothing selected or copy not supported.");
+                return null;
             }
             // Some applications publish several formats in a row.
             Thread.Sleep(40);
 
-            var text = string.Empty;
+            T result = null;
             pointInfo.Invoke(() =>
             {
-                text = Retry(() => Clipboard.ContainsText() ? Clipboard.GetText() : string.Empty) ?? string.Empty;
+                result = read();
                 Retry(() =>
                 {
                     if (backup != null)
@@ -60,8 +90,7 @@ namespace GestureSign.CorePlugins.Common
                     return string.Empty;
                 });
             });
-            Logging.LogMessage($"Selected text captured. Length={text.Length}, ClipboardRestored={backup != null || !hadContent}");
-            return text;
+            return result;
         }
 
         /// <summary>

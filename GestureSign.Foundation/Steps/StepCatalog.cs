@@ -14,7 +14,9 @@ public enum StepParameterKind
     Boolean,
     Choice,
     /// <summary>A variable name (output or loop variable), without braces.</summary>
-    Variable
+    Variable,
+    /// <summary>A program or file path; the editor offers a Browse button.</summary>
+    FilePath
 }
 
 /// <summary>
@@ -47,6 +49,8 @@ public static class StepCatalog
     public const string GetSelectedText = "GetSelectedText";
     public const string GetClipboard = "GetClipboard";
     public const string GetClipboardFiles = "GetClipboardFiles";
+    public const string GetSelectedFiles = "GetSelectedFiles";
+    public const string GetExplorerFolder = "GetExplorerFolder";
     public const string SetClipboard = "SetClipboard";
     public const string PasteText = "PasteText";
     public const string TypeText = "TypeText";
@@ -59,6 +63,7 @@ public static class StepCatalog
     public const string GetDateTime = "GetDateTime";
     public const string OpenUrl = "OpenUrl";
     public const string RunProgram = "RunProgram";
+    public const string LaunchOrActivate = "LaunchOrActivate";
     public const string Http = "Http";
     public const string RunJavaScript = "RunJavaScript";
     public const string RunLua = "RunLua";
@@ -173,6 +178,13 @@ public static class StepCatalog
         // Clipboard and keys
         Type("input", GetSelectedText, "获取选中的文本", "Get selected text", "",
             new[] { Output("text") }),
+        Type("input", GetSelectedFiles, "获取选中的文件", "Get selected files", "\uE8E5",
+            new[] { Output("files") },
+            descriptionZh: "资源管理器或桌面中选中的文件和文件夹的完整路径（列表）。其他文件管理器通过 Ctrl+C 读取。用 {files:quote} 可以把每个路径加上引号并用空格连接，直接作为程序参数。",
+            descriptionEn: "Full paths of the files and folders selected in File Explorer or on the desktop, as a list. Other file managers are read with Ctrl+C. {files:quote} quotes each path and joins them with spaces, ready to use as program arguments."),
+        Type("input", GetExplorerFolder, "获取当前文件夹", "Get current folder", "\uE838",
+            new[] { Output("folder") },
+            descriptionZh: "资源管理器当前打开的文件夹；在桌面上为桌面文件夹。", descriptionEn: "The folder open in File Explorer; the desktop folder on the desktop."),
         Type("input", GetClipboard, "获取剪贴板文本", "Get clipboard text", "",
             new[] { Output("clipboard") }),
         Type("input", GetClipboardFiles, "获取剪贴板文件列表", "Get clipboard files", "",
@@ -205,10 +217,30 @@ public static class StepCatalog
         Type("system", OpenUrl, "打开网址", "Open URL", "",
             new[] { new StepParameter("Url", "网址", "URL", StepParameterKind.Text, "https://") }),
         Type("system", RunProgram, "运行或打开", "Run or open", "",
-            new[] { new StepParameter("Path", "程序、文件或网址", "Program, file or URL", StepParameterKind.Text, ""),
-                    new StepParameter("Arguments", "参数", "Arguments", StepParameterKind.Text, ""),
+            new[] { new StepParameter("Path", "程序、文件或网址", "Program, file or URL", StepParameterKind.FilePath, ""),
+                    new StepParameter("Arguments", "参数", "Arguments", StepParameterKind.Text, "",
+                        HintZh: "可以用变量，例如 {files:quote}、\"{folder}\"", HintEn: "Variables work, e.g. {files:quote} or \"{folder}\""),
+                    new StepParameter("WorkingDirectory", "起始位置（可留空）", "Start in (optional)", StepParameterKind.Text, ""),
+                    new StepParameter("RunAsAdmin", "以管理员身份运行", "Run as administrator", StepParameterKind.Boolean, "false"),
                     new StepParameter("Wait", "等待结束并读取输出", "Wait and read output", StepParameterKind.Boolean, "false"),
                     Output("output") }),
+        Type("system", LaunchOrActivate, "启动或切换程序", "Launch or switch to app", "\uE8A7",
+            new[] { new StepParameter("Path", "程序路径或名称", "Program path or name", StepParameterKind.FilePath, "notepad.exe",
+                        HintZh: "例如 C:\\Program Files\\App\\app.exe，或 PATH 里的 notepad.exe", HintEn: "For example C:\\Program Files\\App\\app.exe, or notepad.exe from PATH"),
+                    new StepParameter("Arguments", "启动参数（只在启动时使用）", "Arguments (used only when launching)", StepParameterKind.Text, ""),
+                    new StepParameter("ProcessName", "窗口所属程序（可留空）", "Program that owns the window (optional)", StepParameterKind.FilePath, "",
+                        HintZh: "用 .bat、快捷方式或启动器启动，而窗口属于另一个程序时填这里，例如 微信小店助手.exe 或它的完整路径。留空时按上面的路径找窗口。",
+                        HintEn: "Fill this in when you start a .bat file, shortcut or launcher but the window belongs to another program, e.g. App.exe or its full path. When empty, the path above is used."),
+                    new StepParameter("HideLaunchWindow", "启动时隐藏命令行窗口（.bat、.cmd）", "Hide the console window when launching (.bat, .cmd)", StepParameterKind.Boolean, "false"),
+                    new StepParameter("TitleFilter", "窗口标题包含（可留空）", "Window title contains (optional)", StepParameterKind.Text, "",
+                        HintZh: "同一程序有多种窗口时，用来只匹配其中一种。", HintEn: "Use it to match only one kind of window when a program has several."),
+                    new StepParameter("WhenActive", "已经在最前面时", "When it is already in front", StepParameterKind.Choice, "minimize",
+                        new[] { "minimize", "cycle", "none" },
+                        ChoiceNamesZh: new[] { "最小化", "切换到它的下一个窗口", "不操作" },
+                        ChoiceNamesEn: new[] { "Minimize it", "Switch to its next window", "Do nothing" }),
+                    Output("status") },
+            descriptionZh: "程序没运行就启动；已经运行就切换到它的窗口（最小化的会还原）。status 为 launched、activated、minimized 或 none。",
+            descriptionEn: "Launches the program if it is not running; otherwise switches to its window and restores it if minimized. status is launched, activated, minimized or none."),
         Type("system", Http, "HTTP 请求", "HTTP request", "",
             new[] { new StepParameter("Method", "方法", "Method", StepParameterKind.Choice, "GET", new[] { "GET", "POST", "PUT", "DELETE" }),
                     new StepParameter("Url", "网址", "URL", StepParameterKind.Text, "https://"),

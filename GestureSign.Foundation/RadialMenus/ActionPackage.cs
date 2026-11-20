@@ -184,6 +184,7 @@ public sealed class ActionPackage
         switch (step.Type)
         {
             case StepCatalog.RunProgram:
+            case StepCatalog.LaunchOrActivate:
                 risks.Add(new ActionRisk(name, ActionRiskKind.RunProgram, (step.Arg("Path") + " " + step.Arg("Arguments")).Trim()));
                 break;
             case StepCatalog.RunJavaScript:

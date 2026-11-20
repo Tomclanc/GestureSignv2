@@ -125,19 +125,34 @@ namespace GestureSign.CorePlugins.Steps
             throw new InvalidOperationException($"Unknown key: {token}");
         }
 
-        public string RunProgram(string path, string arguments, bool wait)
+        public string RunProgram(string path, string arguments, bool wait, string workingDirectory, bool runAsAdmin)
         {
             if (string.IsNullOrWhiteSpace(path))
                 throw new InvalidOperationException("No program, file or URL was given.");
-            if (!wait)
+            path = Environment.ExpandEnvironmentVariables(path.Trim().Trim('"'));
+            workingDirectory = string.IsNullOrWhiteSpace(workingDirectory) ? "" : Environment.ExpandEnvironmentVariables(workingDirectory.Trim().Trim('"'));
+            // Output can only be read from a process started without the shell, which cannot elevate.
+            if (!wait || runAsAdmin)
             {
-                using var started = Process.Start(new ProcessStartInfo(path, arguments ?? "") { UseShellExecute = true });
+                var startInfo = new ProcessStartInfo(path, arguments ?? "") { UseShellExecute = true, WorkingDirectory = workingDirectory };
+                if (runAsAdmin)
+                    startInfo.Verb = "runas";
+                try
+                {
+                    using var started = Process.Start(startInfo);
+                }
+                catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
+                {
+                    // The user declined the administrator prompt.
+                    Logging.LogMessage($"Step run program: elevation was cancelled. Path={path}");
+                }
                 return null;
             }
             using var process = new Process
             {
                 StartInfo = new ProcessStartInfo(path, arguments ?? "")
                 {
+                    WorkingDirectory = workingDirectory,
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true,
@@ -154,6 +169,9 @@ namespace GestureSign.CorePlugins.Steps
             }
             return output.GetAwaiter().GetResult().TrimEnd('\r', '\n');
         }
+
+        public string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow)
+            => AppSwitcher.LaunchOrActivate(path, arguments, processName, titleFilter, whenActive, hideLaunchWindow);
 
         public string Http(string method, string url, string body, string contentType)
         {
@@ -222,6 +240,31 @@ namespace GestureSign.CorePlugins.Steps
                 }
             });
             return files;
+        }
+
+        public IReadOnlyList<string> GetSelectedFiles()
+        {
+            var window = _pointInfo.Window?.HWnd ?? IntPtr.Zero;
+            string[] files = null;
+            _pointInfo.Invoke(() =>
+            {
+                try { files = ExplorerSelection.SelectedFiles(window); }
+                catch (Exception ex) { Logging.LogMessage($"Step selected files: Explorer query failed. Error={ex.GetType().Name}: {ex.Message}"); }
+            });
+            // Desktop, other file managers and Explorer windows that could not be read: copy with Ctrl+C.
+            return files ?? SelectedTextCapture.CaptureFiles(_pointInfo);
+        }
+
+        public string GetExplorerFolder()
+        {
+            var window = _pointInfo.Window?.HWnd ?? IntPtr.Zero;
+            string folder = null;
+            _pointInfo.Invoke(() =>
+            {
+                try { folder = ExplorerSelection.CurrentFolder(window); }
+                catch (Exception ex) { Logging.LogMessage($"Step current folder: Explorer query failed. Error={ex.GetType().Name}: {ex.Message}"); }
+            });
+            return folder ?? "";
         }
 
         // ----- AI ------------------------------------------------------------
