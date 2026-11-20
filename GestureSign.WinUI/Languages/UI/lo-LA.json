@@ -731,5 +731,6 @@
   "Choose an action from the library": "ເລືອກການກະທຳຈາກຄັງ",
   "Create or edit the action": "ສ້າງ ຫຼື ແກ້ໄຂການກະທຳ",
   "Library action": "ການກະທຳຈາກຄັງ",
-  "Reusable actions for the radial menu, gestures and edge swipes.": "ການກະທຳທີ່ໃຊ້ຄືນໄດ້ສຳລັບເມນູວົງມົນ, ທ່າທາງ ແລະ ການປັດຂອບ."
+  "Reusable actions for the radial menu, gestures and edge swipes.": "ການກະທຳທີ່ໃຊ້ຄືນໄດ້ສຳລັບເມນູວົງມົນ, ທ່າທາງ ແລະ ການປັດຂອບ.",
+  "Third ring": "ວົງທີສາມ"
 }

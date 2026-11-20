@@ -19,21 +19,22 @@ namespace GestureSign.Daemon.RadialMenu
 {
     internal sealed class RadialMenuHit
     {
-        public RadialMenuHit(bool outer, int index, IAction action)
+        public RadialMenuHit(int ring, int index, IAction action)
         {
-            Outer = outer;
+            Ring = ring;
             Index = index;
             Action = action;
         }
 
-        public bool Outer { get; }
+        /// <summary>0 = inner ring, 1 = outer ring, 2 = third ring.</summary>
+        public int Ring { get; }
         public int Index { get; }
         public IAction Action { get; }
     }
 
     internal sealed class RadialMenuLabel
     {
-        public bool Outer { get; set; }
+        public int Ring { get; set; }
         public int Index { get; set; }
         public string Text { get; set; }
         public Bitmap Icon { get; set; }
@@ -47,6 +48,7 @@ namespace GestureSign.Daemon.RadialMenu
         private const float DeadZone96 = 34f;
         private const float Inner96 = 110f;
         private const float Outer96 = 176f;
+        private const float Third96 = 242f;
         private const float Margin96 = 6f;
 
         private readonly Dictionary<string, IAction> _slots;
@@ -55,11 +57,12 @@ namespace GestureSign.Daemon.RadialMenu
         {
             _slots = slots;
             Scale = Math.Max(1f, DpiHelper.GetScreenDpi(origin) / 96f);
-            HasOuter = AppConfig.RadialMenuOuterRing;
+            RingCount = Math.Clamp(AppConfig.RadialMenuRingCount, 1, RadialMenuSlots.MaxRings);
             DeadZoneRadius = DeadZone96 * Scale;
             InnerRadius = Inner96 * Scale;
             OuterRadius = Outer96 * Scale;
-            var radius = (HasOuter ? OuterRadius : InnerRadius) + Margin96 * Scale;
+            ThirdRadius = Third96 * Scale;
+            var radius = RingOuterRadius(RingCount - 1) + Margin96 * Scale;
             WindowSize = (int)Math.Ceiling(radius * 2);
 
             // Keep the whole menu on the monitor. Selection is measured from the
@@ -75,7 +78,7 @@ namespace GestureSign.Daemon.RadialMenu
                 .Where(x2 => x2.Hit != null)
                 .Select(x2 => new RadialMenuLabel
                 {
-                    Outer = x2.Hit.Outer,
+                    Ring = x2.Hit.Ring,
                     Index = x2.Hit.Index,
                     Text = LabelOf(x2.Hit.Action),
                     Icon = RadialMenuIcons.FileIcon(x2.Hit.Action),
@@ -85,10 +88,17 @@ namespace GestureSign.Daemon.RadialMenu
         }
 
         public float Scale { get; }
-        public bool HasOuter { get; }
+        public int RingCount { get; }
         public float DeadZoneRadius { get; }
         public float InnerRadius { get; }
         public float OuterRadius { get; }
+        public float ThirdRadius { get; }
+
+        /// <summary>Inner edge of a ring: the dead zone for ring 0.</summary>
+        public float RingInnerRadius(int ring) => ring <= 0 ? DeadZoneRadius : ring == 1 ? InnerRadius : OuterRadius;
+
+        /// <summary>Outer edge of a ring.</summary>
+        public float RingOuterRadius(int ring) => ring <= 0 ? InnerRadius : ring == 1 ? OuterRadius : ThirdRadius;
         public int WindowSize { get; }
         public Point Center { get; }
         public List<RadialMenuLabel> Labels { get; }
@@ -112,18 +122,22 @@ namespace GestureSign.Daemon.RadialMenu
             if (angle < 0) angle += 2 * Math.PI;
             var index = (int)Math.Round(angle / (2 * Math.PI / Slots)) % Slots;
 
-            return Find(HasOuter && distance >= InnerRadius, index);
+            // Beyond the last ring still selects the last ring.
+            var ring = 0;
+            while (ring < RingCount - 1 && distance >= RingOuterRadius(ring))
+                ring++;
+            return Find(ring, index);
         }
 
-        private RadialMenuHit Find(bool outer, int index)
-            => _slots.TryGetValue(RadialMenuSlots.Name(outer, index), out var action) ? new RadialMenuHit(outer, index, action) : null;
+        private RadialMenuHit Find(int ring, int index)
+            => _slots.TryGetValue(RadialMenuSlots.Name(ring, index), out var action) ? new RadialMenuHit(ring, index, action) : null;
 
         private static RadialMenuHit Parse(string name, IAction action)
         {
-            foreach (var outer in new[] { false, true })
+            for (var ring = 0; ring < RadialMenuSlots.MaxRings; ring++)
                 for (var i = 0; i < Slots; i++)
-                    if (string.Equals(name, RadialMenuSlots.Name(outer, i), StringComparison.OrdinalIgnoreCase))
-                        return new RadialMenuHit(outer, i, action);
+                    if (string.Equals(name, RadialMenuSlots.Name(ring, i), StringComparison.OrdinalIgnoreCase))
+                        return new RadialMenuHit(ring, i, action);
             return null;
         }
 
@@ -251,7 +265,7 @@ namespace GestureSign.Daemon.RadialMenu
                     return;
                 _open = true;
                 _layout = new RadialMenuLayout(_slots, _origin);
-                Logging.LogMessage($"Radial menu opened. Center={_layout.Center.X},{_layout.Center.Y}, Outer={_layout.HasOuter}, Scale={_layout.Scale:0.##}");
+                Logging.LogMessage($"Radial menu opened. Center={_layout.Center.X},{_layout.Center.Y}, Rings={_layout.RingCount}, Scale={_layout.Scale:0.##}");
                 // Draw the first frame immediately instead of waiting for the next
                 // timer tick, so the menu appears the moment the drag starts.
                 _selected = _layout.HitTest(point);
@@ -290,7 +304,7 @@ namespace GestureSign.Daemon.RadialMenu
                 return;
             }
 
-            Logging.LogMessage($"Radial menu selected. Slot={RadialMenuSlots.Name(selected.Outer, selected.Index)}, Action={selected.Action.Name}");
+            Logging.LogMessage($"Radial menu selected. Slot={RadialMenuSlots.Name(selected.Ring, selected.Index)}, Action={selected.Action.Name}");
             var trigger = Trigger;
             // Let the hook return and the overlay disappear before commands run,
             // so screenshots and key sends see the real target window.

@@ -278,6 +278,12 @@ namespace GestureSign.Common.Configuration
         /// <summary>Show and use the outer ring of the radial menu (two rings when on, one when off).</summary>
         public static bool RadialMenuOuterRing => GetValue(nameof(RadialMenuOuterRing), true);
 
+        /// <summary>Show and use a third ring (only together with the outer ring).</summary>
+        public static bool RadialMenuThirdRing => GetValue(nameof(RadialMenuThirdRing), false);
+
+        /// <summary>Number of radial menu rings: 1, 2 or 3.</summary>
+        public static int RadialMenuRingCount => !RadialMenuOuterRing ? 1 : RadialMenuThirdRing ? 3 : 2;
+
         public static bool RegisterTouchPad
         {
             get

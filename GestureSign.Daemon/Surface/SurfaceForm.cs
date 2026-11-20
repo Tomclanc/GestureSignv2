@@ -197,9 +197,8 @@ namespace GestureSign.Daemon.Surface
             if (_bitmap == null && _lastStroke == null)
                 return;
             StopGestureHintTimers();
-            HideSurface();
-
             ClearSurfaces();
+            HideSurface();
         }
 
         public void DrawPoints(List<List<Point>> points, int captureGeneration)
@@ -493,8 +492,8 @@ namespace GestureSign.Daemon.Surface
 
             if (_gestureHintFadingOut)
             {
-                HideSurface();
                 ClearSurfaces();
+                HideSurface();
                 return;
             }
 
@@ -571,8 +570,19 @@ namespace GestureSign.Daemon.Surface
 
         private void EnsureSurfaceVisible()
         {
+            // A hidden layered window keeps the last frame it showed, and
+            // updates made while it was hidden are not reliably shown. Push the
+            // whole current surface (normally still empty here) before showing
+            // it, so the previous gesture and its action hint never flash back.
+            var wasHidden = !Visible;
+            if (wasHidden && _bitmap != null && _bitmap.HBitmap != IntPtr.Zero)
+                SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height));
             TopMost = true;
             Show();
+            // Push it once more right after showing, in the same UI pass, in
+            // case the update made while hidden was dropped.
+            if (wasHidden && _bitmap != null && _bitmap.HBitmap != IntPtr.Zero)
+                SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height));
             NativeMethods.SetWindowPos(
                 Handle,
                 new IntPtr(-1),

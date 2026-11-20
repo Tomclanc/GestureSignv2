@@ -731,5 +731,6 @@
   "Choose an action from the library": "选择动作库中的动作",
   "Create or edit the action": "新建或编辑动作",
   "Library action": "动作库动作",
-  "Reusable actions for the radial menu, gestures and edge swipes.": "可复用的动作，轮盘、手势和边缘交互都可以调用。"
+  "Reusable actions for the radial menu, gestures and edge swipes.": "可复用的动作，轮盘、手势和边缘交互都可以调用。",
+  "Third ring": "第三圈"
 }

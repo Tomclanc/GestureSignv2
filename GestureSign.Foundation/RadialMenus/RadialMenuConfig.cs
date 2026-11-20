@@ -18,6 +18,8 @@ public sealed class RadialMenuConfig
 {
     public const string FileName = "RadialMenus.json";
     public const int SlotsPerRing = 8;
+    public const int MaxRings = 3;
+    private static readonly string[] RingNames = { "Inner", "Outer", "Third" };
 
     public int Version { get; set; } = 1;
     public List<RadialMenuAction> Actions { get; set; } = new();
@@ -31,7 +33,23 @@ public sealed class RadialMenuConfig
     };
 
     /// <summary>Slot key such as "Inner.0" or "Outer.7"; slot 0 points up, clockwise.</summary>
-    public static string SlotKey(bool outer, int index) => (outer ? "Outer." : "Inner.") + index;
+    public static string SlotKey(bool outer, int index) => SlotKey(outer ? 1 : 0, index);
+
+    /// <summary>Slot key of ring 0 (inner), 1 (outer) or 2 (third): "Inner.0", "Outer.3", "Third.7".</summary>
+    public static string SlotKey(int ring, int index) => RingNames[Math.Clamp(ring, 0, MaxRings - 1)] + "." + index;
+
+    /// <summary>Parses a slot key; returns false for anything else.</summary>
+    public static bool TryParseSlotKey(string key, out int ring, out int index)
+    {
+        ring = -1;
+        index = -1;
+        var dot = key?.IndexOf('.') ?? -1;
+        if (dot <= 0)
+            return false;
+        ring = Array.FindIndex(RingNames, n => string.Equals(n, key.Substring(0, dot), StringComparison.OrdinalIgnoreCase));
+        return ring >= 0 && int.TryParse(key.Substring(dot + 1), System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture, out index)
+               && index >= 0 && index < SlotsPerRing;
+    }
 
     public static string PathIn(string dataFolder) => Path.Combine(dataFolder, FileName);
 
@@ -113,14 +131,18 @@ public sealed class RadialMenuConfig
 
     /// <summary>Effective slots of a menu: its own slots, with empty ones taken from the global menu.</summary>
     public Dictionary<string, RadialMenuAction> ResolveSlots(RadialMenuDefinition menu, bool includeOuterRing)
+        => ResolveSlots(menu, includeOuterRing ? 2 : 1);
+
+    /// <summary>Effective slots of the first <paramref name="ringCount"/> rings (1 to 3).</summary>
+    public Dictionary<string, RadialMenuAction> ResolveSlots(RadialMenuDefinition menu, int ringCount)
     {
         var result = new Dictionary<string, RadialMenuAction>(StringComparer.OrdinalIgnoreCase);
         var global = GlobalMenu;
-        foreach (var outer in includeOuterRing ? new[] { false, true } : new[] { false })
+        for (var ring = 0; ring < Math.Clamp(ringCount, 1, MaxRings); ring++)
         {
             for (var index = 0; index < SlotsPerRing; index++)
             {
-                var key = SlotKey(outer, index);
+                var key = SlotKey(ring, index);
                 var action = menu != null && menu.Slots.TryGetValue(key, out var own) ? FindAction(own) : null;
                 if (action == null && menu != global && global.Slots.TryGetValue(key, out var inherited))
                     action = FindAction(inherited);

@@ -259,6 +259,8 @@ public sealed partial class MainWindow
         };
         commandSettings.TextChanged += (_, _) => RefreshCommandPreview();
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);
@@ -391,6 +393,9 @@ public sealed partial class MainWindow
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
+    // ContentDialog's default maximum width (548) minus its 24 px side padding.
+    private const double ActionDialogContentWidth = 500;
+
     private async Task EditActionAsync(LegacyAction action)
     {
         var originalApp = FindApplicationForAction(action);
@@ -440,6 +445,8 @@ public sealed partial class MainWindow
             await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
         };
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);

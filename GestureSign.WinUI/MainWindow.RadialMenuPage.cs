@@ -25,10 +25,16 @@ namespace GestureSign.WinUI;
 /// </summary>
 public sealed partial class MainWindow
 {
-    private const double WheelSize = 420;
+    private const double WheelSize = 500;
     private const double WheelDeadZone = 36;
-    private const double WheelInner = 118;
-    private const double WheelOuter = 200;
+
+    /// <summary>Ring edges in the settings preview, from the dead zone outwards, for 1 to 3 rings.</summary>
+    private static double[] WheelRadii(int rings) => rings switch
+    {
+        <= 1 => new[] { WheelDeadZone, 140d },
+        2 => new[] { WheelDeadZone, 125d, 215d },
+        _ => new[] { WheelDeadZone, 112d, 180d, 244d }
+    };
 
     private RadialMenuConfig? _radialConfig;
     private string? _radialSelectedMenuId;
@@ -72,22 +78,33 @@ public sealed partial class MainWindow
         var options = _legacyData.Options;
         var enabledSwitch = NewRadialMenuToggle(options.RadialMenuEnabled);
         var outerSwitch = NewRadialMenuToggle(options.RadialMenuOuterRing);
+        var thirdSwitch = NewRadialMenuToggle(options.RadialMenuThirdRing);
+        thirdSwitch.IsEnabled = options.RadialMenuOuterRing;
         enabledSwitch.Toggled += (_, _) => UpdateOptionAndReload("RadialMenuEnabled", enabledSwitch.IsOn ? "True" : "False");
         outerSwitch.Toggled += (_, _) =>
         {
             UpdateOptionAndReload("RadialMenuOuterRing", outerSwitch.IsOn ? "True" : "False");
-            _radialOuterRingVisible = outerSwitch.IsOn;
+            thirdSwitch.IsEnabled = outerSwitch.IsOn;
+            _radialRingCount = !outerSwitch.IsOn ? 1 : thirdSwitch.IsOn ? 3 : 2;
             RefreshRadialWheel();
         };
-        _radialOuterRingVisible = options.RadialMenuOuterRing;
+        thirdSwitch.Toggled += (_, _) =>
+        {
+            UpdateOptionAndReload("RadialMenuThirdRing", thirdSwitch.IsOn ? "True" : "False");
+            _radialRingCount = !outerSwitch.IsOn ? 1 : thirdSwitch.IsOn ? 3 : 2;
+            RefreshRadialWheel();
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(thirdSwitch, T("第三圈", "Third ring"));
+        _radialRingCount = !options.RadialMenuOuterRing ? 1 : options.RadialMenuThirdRing ? 3 : 2;
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(enabledSwitch, L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴"));
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(outerSwitch, L("外圈", "Outer ring", "外圈", "바깥쪽 링"));
         panel.Children.Add(NewSettingRow(L("启用", "Enable", "啟用", "사용"), null, enabledSwitch));
         panel.Children.Add(NewSettingRow(L("外圈", "Outer ring", "外圈", "바깥쪽 링"), null, outerSwitch));
+        panel.Children.Add(NewSettingRow(T("第三圈", "Third ring"), null, thirdSwitch));
         return NewCard(panel);
     }
 
-    private bool _radialOuterRingVisible = true;
+    private int _radialRingCount = 2;
 
     private void RefreshRadialPage()
     {
@@ -130,6 +147,33 @@ public sealed partial class MainWindow
         catch (Exception ex)
         {
             _ = ShowInfoDialog(T("保存失败", "Save failed"), ex.Message);
+        }
+    }
+
+    /// <summary>
+    /// Once RadialMenus.json exists, the slots of the first radial menu version
+    /// (gesture actions named "RadialMenu.Inner.N"/"RadialMenu.Outer.N") have been
+    /// copied into it and are no longer used; remove them from the action list.
+    /// </summary>
+    private void RemoveMigratedRadialSlotActions()
+    {
+        try
+        {
+            if (!File.Exists(RadialConfigPath))
+                return;
+            var stale = _legacyData.Applications
+                .SelectMany(app => app.Actions.Where(action => RadialMenuIndex(action.GestureName) > 0).Select(action => (app, action)))
+                .ToList();
+            if (stale.Count == 0)
+                return;
+            foreach (var (app, action) in stale)
+                _legacyData.DeleteAction(app, action);
+            _legacyData = LegacyDataStore.Load();
+            _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex);
         }
     }
 

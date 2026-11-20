@@ -104,7 +104,7 @@ namespace GestureSign.Daemon.RadialMenu
             var dark = RadialMenuLayout.IsDarkTheme();
             var s = layout.Scale;
             var c = new PointF(layout.WindowSize / 2f, layout.WindowSize / 2f);
-            var outerRadius = layout.HasOuter ? layout.OuterRadius : layout.InnerRadius;
+            var outerRadius = layout.RingOuterRadius(layout.RingCount - 1);
 
             var background = dark ? Color.FromArgb(236, 44, 44, 44) : Color.FromArgb(240, 250, 250, 250);
             var center = dark ? Color.FromArgb(255, 56, 56, 56) : Color.FromArgb(255, 238, 238, 238);
@@ -121,8 +121,8 @@ namespace GestureSign.Daemon.RadialMenu
 
             if (selected != null)
             {
-                var r1 = selected.Outer ? layout.InnerRadius : layout.DeadZoneRadius;
-                var r2 = selected.Outer ? layout.OuterRadius : layout.InnerRadius;
+                var r1 = layout.RingInnerRadius(selected.Ring);
+                var r2 = layout.RingOuterRadius(selected.Ring);
                 using (var path = Sector(c, r1, r2, selected.Index))
                 using (var b = new SolidBrush(highlight))
                     g.FillPath(b, path);
@@ -135,8 +135,8 @@ namespace GestureSign.Daemon.RadialMenu
                     var a = RadialMenuLayout.SlotAngle(i) + Math.PI / RadialMenuLayout.Slots;
                     g.DrawLine(p, Polar(c, layout.DeadZoneRadius, a), Polar(c, outerRadius, a));
                 }
-                if (layout.HasOuter)
-                    g.DrawEllipse(p, Circle(c, layout.InnerRadius));
+                for (var ring = 0; ring < layout.RingCount - 1; ring++)
+                    g.DrawEllipse(p, Circle(c, layout.RingOuterRadius(ring)));
             }
 
             using (var b = new SolidBrush(center))
@@ -160,11 +160,13 @@ namespace GestureSign.Daemon.RadialMenu
             {
                 foreach (var slot in layout.Labels)
                 {
-                    var r1 = slot.Outer ? layout.InnerRadius : layout.DeadZoneRadius;
-                    var r2 = slot.Outer ? layout.OuterRadius : layout.InnerRadius;
+                    if (slot.Ring >= layout.RingCount)
+                        continue;
+                    var r1 = layout.RingInnerRadius(slot.Ring);
+                    var r2 = layout.RingOuterRadius(slot.Ring);
                     var mid = Polar(c, (r1 + r2) / 2f, RadialMenuLayout.SlotAngle(slot.Index));
-                    var width = (slot.Outer ? 84f : 72f) * s;
-                    var isSelected = selected != null && selected.Outer == slot.Outer && selected.Index == slot.Index;
+                    var width = (slot.Ring == 0 ? 72f : slot.Ring == 1 ? 84f : 96f) * s;
+                    var isSelected = selected != null && selected.Ring == slot.Ring && selected.Index == slot.Index;
                     var brush = isSelected ? accentBrush : textBrush;
                     var iconSize = 22f * s;
                     var hasIcon = slot.Icon != null || (glyphFont != null && !string.IsNullOrEmpty(slot.Glyph));

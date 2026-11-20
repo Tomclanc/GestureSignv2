@@ -175,6 +175,7 @@ public sealed partial class MainWindow : Window
             args.SetObserved();
         };
         _legacyData = LegacyDataStore.Load();
+        RemoveMigratedRadialSlotActions();
         _uiCultureName = _legacyData.Options.CultureName;
         ApplyUiCulture(_uiCultureName);
         ApplyUiFlowDirection();
@@ -5413,11 +5414,16 @@ public sealed partial class MainWindow : Window
 
         isTouchScreen = string.Equals(parts[0], "TouchScreenEdge", StringComparison.OrdinalIgnoreCase);
         isTouchPad = string.Equals(parts[0], "TouchPadEdge", StringComparison.OrdinalIgnoreCase);
-        if (!isTouchScreen && !isTouchPad)
+        // DesktopEdge.<edge>.WheelUp/WheelDown: mouse wheel at a screen edge,
+        // drawn as a monitor with an up/down arrow at that edge.
+        var isDesktop = string.Equals(parts[0], "DesktopEdge", StringComparison.OrdinalIgnoreCase);
+        if (!isTouchScreen && !isTouchPad && !isDesktop)
             return false;
 
         edge = parts[1];
         direction = parts.Length >= 3 ? parts[2] : "";
+        if (isDesktop)
+            direction = direction.Equals("WheelDown", StringComparison.OrdinalIgnoreCase) ? "Down" : "Up";
         return edge.Equals("Top", StringComparison.OrdinalIgnoreCase)
             || edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase)
             || edge.Equals("Left", StringComparison.OrdinalIgnoreCase)

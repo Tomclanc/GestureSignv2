@@ -731,5 +731,6 @@
   "Choose an action from the library": "เลือกการกระทำจากคลัง",
   "Create or edit the action": "สร้างหรือแก้ไขการกระทำ",
   "Library action": "การกระทำจากคลัง",
-  "Reusable actions for the radial menu, gestures and edge swipes.": "การกระทำที่ใช้ซ้ำได้สำหรับเมนูวงกลม ท่าทาง และการปัดขอบ"
+  "Reusable actions for the radial menu, gestures and edge swipes.": "การกระทำที่ใช้ซ้ำได้สำหรับเมนูวงกลม ท่าทาง และการปัดขอบ",
+  "Third ring": "วงที่สาม"
 }

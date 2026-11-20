@@ -697,12 +697,11 @@ namespace GestureSign.Common.Applications
             var globalActions = GetGlobalApplication()?.Actions?.Where(Usable).ToList() ?? new List<IAction>();
             var ignoredNames = GetIgnoredGestureNames();
 
-            var rings = AppConfig.RadialMenuOuterRing ? new[] { false, true } : new[] { false };
-            foreach (var outer in rings)
+            for (var ring = 0; ring < AppConfig.RadialMenuRingCount; ring++)
             {
                 for (var index = 0; index < RadialMenuSlots.SlotsPerRing; index++)
                 {
-                    var name = RadialMenuSlots.Name(outer, index);
+                    var name = RadialMenuSlots.Name(ring, index);
                     if (ignoredNames.Contains(name))
                         continue;
                     var action = appActions.FirstOrDefault(a => GestureNameEquals(a.GestureName, name)) ??
@@ -760,15 +759,15 @@ namespace GestureSign.Common.Applications
             }
 
             var result = new Dictionary<string, IAction>(StringComparer.OrdinalIgnoreCase);
-            foreach (var pair in config.ResolveSlots(menu, AppConfig.RadialMenuOuterRing))
+            foreach (var pair in config.ResolveSlots(menu, AppConfig.RadialMenuRingCount))
             {
-                var outer = pair.Key.StartsWith("Outer.", StringComparison.OrdinalIgnoreCase);
-                var index = int.Parse(pair.Key.Substring(pair.Key.IndexOf('.') + 1), System.Globalization.CultureInfo.InvariantCulture);
+                if (!GestureSign.Foundation.RadialMenus.RadialMenuConfig.TryParseSlotKey(pair.Key, out var ring, out var index))
+                    continue;
                 var source = pair.Value;
                 var action = new Action
                 {
                     Name = source.Name,
-                    GestureName = RadialMenuSlots.Name(outer, index),
+                    GestureName = RadialMenuSlots.Name(ring, index),
                     IsEnabled = true,
                     ActivateWindow = source.ActivateWindow,
                     Commands = source.Commands.Select(c => (ICommand)new Command

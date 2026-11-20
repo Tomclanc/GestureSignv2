@@ -47,19 +47,19 @@ public sealed partial class MainWindow
         var inheritedFill = new SolidColorBrush(IsDark ? Color.FromArgb(255, 58, 52, 40) : Color.FromArgb(255, 253, 248, 235));
         var emptyFill = SubtleBrush();
         var stroke = BorderBrush();
-        var rings = _radialOuterRingVisible ? new[] { false, true } : new[] { false };
+        var radii = WheelRadii(_radialRingCount);
 
-        foreach (var outer in rings)
+        for (var ring = 0; ring < radii.Length - 1; ring++)
         {
             for (var index = 0; index < RadialMenuConfig.SlotsPerRing; index++)
             {
-                var key = RadialMenuConfig.SlotKey(outer, index);
+                var key = RadialMenuConfig.SlotKey(ring, index);
                 var own = menu.Slots.TryGetValue(key, out var ownId) ? config.FindAction(ownId) : null;
                 var inherited = own is null && !isGlobal && config.GlobalMenu.Slots.TryGetValue(key, out var globalId)
                     ? config.FindAction(globalId)
                     : null;
-                var r1 = outer ? WheelInner : WheelDeadZone;
-                var r2 = outer ? WheelOuter : WheelInner;
+                var r1 = radii[ring];
+                var r2 = radii[ring + 1];
                 var sector = new Path
                 {
                     Data = WheelSectorGeometry(r1, r2, index),
@@ -94,7 +94,7 @@ public sealed partial class MainWindow
                 if (string.IsNullOrWhiteSpace(label))
                     continue;
                 var mid = WheelPolar((r1 + r2) / 2, index);
-                var width = outer ? 92 : 80;
+                var width = ring == 0 ? 76 : ring == 1 ? 88 : 100;
                 var text = new TextBlock
                 {
                     Text = label,
