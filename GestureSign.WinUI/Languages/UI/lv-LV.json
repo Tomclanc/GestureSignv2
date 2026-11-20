@@ -685,5 +685,13 @@
   "Inner ring": "Iekšējais gredzens",
   "Outer ring": "Ārējais gredzens",
   "Middle-button radial menu": "Vidējās pogas apļveida izvēlne",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Turiet nospiestu vidējo pogu un velciet, lai atvērtu apļveida izvēlni. Noklikšķiniet uz lauka, lai to iestatītu; komandas nosaukums tiek rādīts izvēlnē. Lietotņu izvēlnēm izmantojiet šos aktivizētājus lietotnes grupā."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Turiet nospiestu vidējo pogu un velciet, lai atvērtu apļveida izvēlni. Noklikšķiniet uz lauka, lai to iestatītu; komandas nosaukums tiek rādīts izvēlnē. Lietotņu izvēlnēm izmantojiet šos aktivizētājus lietotnes grupā.",
+  "Taskbar": "Uzdevumjosla",
+  "Desktop": "Darbvirsma",
+  "Disable the radial menu in this app": "Atspējot apļveida izvēlni šajā lietotnē",
+  "New action": "Jauna darbība",
+  "Action library": "Darbību bibliotēka",
+  "Filter": "Filtrs",
+  "Empty slots use the global wheel.": "Tukšie lauki izmanto vispārējo izvēlni.",
+  "Set middle-button radial menus per application.": "Iestatiet vidējās pogas apļveida izvēlnes katrai lietotnei."
 }

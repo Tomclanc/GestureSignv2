@@ -685,5 +685,13 @@
   "Inner ring": "Gelang dalam",
   "Outer ring": "Gelang luar",
   "Middle-button radial menu": "Menu jejari butang tengah",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Tahan butang tengah dan seret untuk membuka menu jejari. Klik slot untuk menetapkannya; nama arahan dipaparkan pada menu. Untuk menu mengikut aplikasi, gunakan pencetus ini dalam kumpulan aplikasi."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Tahan butang tengah dan seret untuk membuka menu jejari. Klik slot untuk menetapkannya; nama arahan dipaparkan pada menu. Untuk menu mengikut aplikasi, gunakan pencetus ini dalam kumpulan aplikasi.",
+  "Taskbar": "Bar tugas",
+  "Desktop": "Desktop",
+  "Disable the radial menu in this app": "Lumpuhkan menu jejari dalam aplikasi ini",
+  "New action": "Tindakan baharu",
+  "Action library": "Pustaka tindakan",
+  "Filter": "Tapis",
+  "Empty slots use the global wheel.": "Slot kosong menggunakan menu global.",
+  "Set middle-button radial menus per application.": "Tetapkan menu jejari butang tengah mengikut aplikasi."
 }

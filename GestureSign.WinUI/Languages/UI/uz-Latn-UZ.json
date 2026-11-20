@@ -685,5 +685,13 @@
   "Inner ring": "Ichki halqa",
   "Outer ring": "Tashqi halqa",
   "Middle-button radial menu": "O'rta tugmaning doira menyusi",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Doira menyusini ochish uchun o'rta tugmani bosib turing va torting. Sozlash uchun katakni bosing; buyruq nomi menyuda ko'rsatiladi. Har bir ilova uchun alohida menyu uchun bu triggerlarni ilova guruhida ishlating."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Doira menyusini ochish uchun o'rta tugmani bosib turing va torting. Sozlash uchun katakni bosing; buyruq nomi menyuda ko'rsatiladi. Har bir ilova uchun alohida menyu uchun bu triggerlarni ilova guruhida ishlating.",
+  "Taskbar": "Vazifalar paneli",
+  "Desktop": "Ish stoli",
+  "Disable the radial menu in this app": "Bu ilovada doira menyusini o'chirish",
+  "New action": "Yangi amal",
+  "Action library": "Amallar kutubxonasi",
+  "Filter": "Filtr",
+  "Empty slots use the global wheel.": "Bo'sh kataklar umumiy menyudan foydalanadi.",
+  "Set middle-button radial menus per application.": "Har bir ilova uchun o'rta tugma doira menyularini sozlang."
 }

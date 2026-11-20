@@ -1,0 +1,356 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using GestureSign.Foundation.RadialMenus;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Shapes;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.UI;
+
+namespace GestureSign.WinUI;
+
+public sealed partial class MainWindow
+{
+    // ----- wheel (center) -----------------------------------------------
+
+    private void RefreshRadialWheel()
+    {
+        if (_radialWheelHost is null || _radialConfig is null)
+            return;
+        var config = _radialConfig;
+        var menu = SelectedRadialMenu();
+        var isGlobal = menu.Scope == RadialMenuScope.Global;
+        var panel = new StackPanel { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
+
+        panel.Children.Add(new TextBlock { Text = RadialMenuTitle(menu), Style = BodyStrongTextBlockStyle, HorizontalAlignment = HorizontalAlignment.Center });
+        if (!isGlobal)
+        {
+            var disable = new CheckBox { Content = T("在此程序中禁用轮盘", "Disable the radial menu in this app"), IsChecked = menu.Disabled };
+            disable.Click += (_, _) =>
+            {
+                menu.Disabled = disable.IsChecked == true;
+                SaveRadialConfig();
+                RefreshRadialMenuList();
+                RefreshRadialWheel();
+            };
+            panel.Children.Add(disable);
+        }
+
+        var canvas = new Canvas { Width = WheelSize, Height = WheelSize, Opacity = menu.Disabled ? 0.4 : 1 };
+        var accent = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212));
+        var ownFill = new SolidColorBrush(IsDark ? Color.FromArgb(255, 45, 55, 70) : Color.FromArgb(255, 232, 241, 252));
+        var inheritedFill = new SolidColorBrush(IsDark ? Color.FromArgb(255, 58, 52, 40) : Color.FromArgb(255, 253, 248, 235));
+        var emptyFill = SubtleBrush();
+        var stroke = BorderBrush();
+        var rings = _radialOuterRingVisible ? new[] { false, true } : new[] { false };
+
+        foreach (var outer in rings)
+        {
+            for (var index = 0; index < RadialMenuConfig.SlotsPerRing; index++)
+            {
+                var key = RadialMenuConfig.SlotKey(outer, index);
+                var own = menu.Slots.TryGetValue(key, out var ownId) ? config.FindAction(ownId) : null;
+                var inherited = own is null && !isGlobal && config.GlobalMenu.Slots.TryGetValue(key, out var globalId)
+                    ? config.FindAction(globalId)
+                    : null;
+                var r1 = outer ? WheelInner : WheelDeadZone;
+                var r2 = outer ? WheelOuter : WheelInner;
+                var sector = new Path
+                {
+                    Data = WheelSectorGeometry(r1, r2, index),
+                    Fill = own is not null ? ownFill : inherited is not null ? inheritedFill : emptyFill,
+                    Stroke = stroke,
+                    StrokeThickness = 1,
+                    AllowDrop = true,
+                    Tag = key
+                };
+                var capturedKey = key;
+                sector.Tapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
+                sector.RightTapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
+                sector.PointerEntered += (_, _) => sector.Stroke = accent;
+                sector.PointerExited += (_, _) => sector.Stroke = stroke;
+                sector.DragOver += (_, e) =>
+                {
+                    if (e.DataView.Contains(StandardDataFormats.Text))
+                        e.AcceptedOperation = DataPackageOperation.Copy;
+                };
+                sector.Drop += async (_, e) =>
+                {
+                    if (!e.DataView.Contains(StandardDataFormats.Text)) return;
+                    var actionId = await e.DataView.GetTextAsync();
+                    if (config.FindAction(actionId) is null) return;
+                    menu.Slots[capturedKey] = actionId;
+                    SaveRadialConfig();
+                    RefreshRadialWheel();
+                };
+                canvas.Children.Add(sector);
+
+                var label = (own ?? inherited)?.Name;
+                if (string.IsNullOrWhiteSpace(label))
+                    continue;
+                var mid = WheelPolar((r1 + r2) / 2, index);
+                var width = outer ? 92 : 80;
+                var text = new TextBlock
+                {
+                    Text = label,
+                    Width = width,
+                    TextAlignment = TextAlignment.Center,
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    TextWrapping = TextWrapping.NoWrap,
+                    FontSize = 13,
+                    Opacity = own is not null ? 1 : 0.55,
+                    IsHitTestVisible = false
+                };
+                Canvas.SetLeft(text, mid.X - width / 2.0);
+                Canvas.SetTop(text, mid.Y - 10);
+                canvas.Children.Add(text);
+            }
+        }
+        var center = new Ellipse { Width = WheelDeadZone * 2, Height = WheelDeadZone * 2, Fill = SubtleBrush(), Stroke = stroke, StrokeThickness = 1, IsHitTestVisible = false };
+        Canvas.SetLeft(center, WheelSize / 2 - WheelDeadZone);
+        Canvas.SetTop(center, WheelSize / 2 - WheelDeadZone);
+        canvas.Children.Add(center);
+        panel.Children.Add(canvas);
+
+        if (!isGlobal)
+            panel.Children.Add(new TextBlock { Text = T("空格子沿用全局轮盘的动作。", "Empty slots use the global wheel."), Opacity = 0.6, HorizontalAlignment = HorizontalAlignment.Center });
+
+        var copy = NewPillButton(L("复制", "Copy", "複製", "복사"), false);
+        copy.Click += (_, _) => _radialCopiedSlots = new Dictionary<string, string>(menu.Slots, StringComparer.OrdinalIgnoreCase);
+        var paste = NewPillButton(L("粘贴", "Paste", "貼上", "붙여넣기"), false);
+        paste.Click += (_, _) =>
+        {
+            if (_radialCopiedSlots is null) return;
+            menu.Slots = new Dictionary<string, string>(_radialCopiedSlots, StringComparer.OrdinalIgnoreCase);
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        };
+        var clear = NewPillButton(L("清除", "Clear", "清除", "지우기"), false);
+        clear.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            if (menu.Slots.Count == 0) return;
+            if (!await ConfirmDialogAsync(L("清除", "Clear", "清除", "지우기"), RadialMenuTitle(menu), L("清除", "Clear", "清除", "지우기")))
+                return;
+            menu.Slots.Clear();
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        });
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, HorizontalAlignment = HorizontalAlignment.Center };
+        buttons.Children.Add(copy);
+        buttons.Children.Add(paste);
+        buttons.Children.Add(clear);
+        panel.Children.Add(buttons);
+
+        _radialWheelHost.Children.Clear();
+        _radialWheelHost.Children.Add(panel);
+    }
+
+    private static Point WheelPolar(double radius, int index, double angleOffset = 0)
+    {
+        var angle = index * 2 * Math.PI / RadialMenuConfig.SlotsPerRing + angleOffset;
+        return new Point(WheelSize / 2 + radius * Math.Sin(angle), WheelSize / 2 - radius * Math.Cos(angle));
+    }
+
+    private static Geometry WheelSectorGeometry(double r1, double r2, int index)
+    {
+        var half = Math.PI / RadialMenuConfig.SlotsPerRing;
+        var figure = new PathFigure { StartPoint = WheelPolar(r1, index, -half), IsClosed = true };
+        figure.Segments.Add(new LineSegment { Point = WheelPolar(r2, index, -half) });
+        figure.Segments.Add(new ArcSegment { Point = WheelPolar(r2, index, half), Size = new Size(r2, r2), SweepDirection = SweepDirection.Clockwise });
+        figure.Segments.Add(new LineSegment { Point = WheelPolar(r1, index, half) });
+        figure.Segments.Add(new ArcSegment { Point = WheelPolar(r1, index, -half), Size = new Size(r1, r1), SweepDirection = SweepDirection.Counterclockwise });
+        var geometry = new PathGeometry();
+        geometry.Figures.Add(figure);
+        return geometry;
+    }
+
+    private void ShowRadialSlotMenu(FrameworkElement target, string slotKey, Point position)
+    {
+        var config = _radialConfig!;
+        var menu = SelectedRadialMenu();
+        var own = menu.Slots.TryGetValue(slotKey, out var ownId) ? config.FindAction(ownId) : null;
+
+        var flyout = new MenuFlyout();
+        void Add(string text, Action onClick, bool enabled = true)
+        {
+            var item = new MenuFlyoutItem { Text = text, IsEnabled = enabled };
+            item.Click += (_, _) => onClick();
+            flyout.Items.Add(item);
+        }
+
+        Add(L("选择", "Select", "選擇", "선택"), () => _ = RunUiActionAsync(async () =>
+        {
+            var id = await PickRadialLibraryActionAsync();
+            if (id is null) return;
+            menu.Slots[slotKey] = id;
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        }), config.Actions.Count > 0);
+        Add(T("新建动作", "New action"), () => _ = RunUiActionAsync(async () =>
+        {
+            var created = await EditRadialActionAsync(null);
+            if (created is null) return;
+            menu.Slots[slotKey] = created.Id;
+            SaveRadialConfig();
+            RefreshRadialWheel();
+            RefreshRadialLibrary();
+        }));
+        Add(L("编辑", "Edit", "編輯", "편집"), () => _ = RunUiActionAsync(async () =>
+        {
+            if (own is null || await EditRadialActionAsync(own) is null) return;
+            SaveRadialConfig();
+            RefreshRadialWheel();
+            RefreshRadialLibrary();
+        }), own is not null);
+        flyout.Items.Add(new MenuFlyoutSeparator());
+        Add(L("复制", "Copy", "複製", "복사"), () => _radialCopiedActionId = own?.Id, own is not null);
+        Add(L("粘贴", "Paste", "貼上", "붙여넣기"), () =>
+        {
+            if (config.FindAction(_radialCopiedActionId ?? "") is null) return;
+            menu.Slots[slotKey] = _radialCopiedActionId!;
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        }, config.FindAction(_radialCopiedActionId ?? "") is not null);
+        Add(L("清除", "Clear", "清除", "지우기"), () =>
+        {
+            menu.Slots.Remove(slotKey);
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        }, own is not null);
+
+        flyout.ShowAt(target, new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Position = position });
+    }
+
+    // ----- action library (right) ---------------------------------------
+
+    private void RefreshRadialLibrary()
+    {
+        if (_radialLibraryHost is null || _radialConfig is null)
+            return;
+        var config = _radialConfig;
+        var filter = new TextBox { PlaceholderText = T("筛选", "Filter"), Text = _radialLibraryFilter };
+        var list = new ListView
+        {
+            SelectionMode = ListViewSelectionMode.Single,
+            CanDragItems = true,
+            MaxHeight = 460
+        };
+
+        void Fill()
+        {
+            list.Items.Clear();
+            var query = filter.Text.Trim();
+            foreach (var action in config.Actions
+                         .Where(a => query.Length == 0 || (a.Name ?? "").Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                         .OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase))
+            {
+                var row = new StackPanel { Tag = action.Id, Padding = new Thickness(0, 4, 0, 4), Opacity = action.IsEnabled ? 1 : 0.5 };
+                row.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, TextTrimming = TextTrimming.CharacterEllipsis });
+                var command = action.Commands.FirstOrDefault();
+                if (command is not null)
+                    row.Children.Add(new TextBlock { Text = PluginName(command.PluginClass ?? ""), FontSize = 12, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis });
+                row.DoubleTapped += async (_, _) => await RunUiActionAsync(async () =>
+                {
+                    if (await EditRadialActionAsync(action) is null) return;
+                    SaveRadialConfig();
+                    RefreshRadialWheel();
+                    RefreshRadialLibrary();
+                });
+                list.Items.Add(row);
+            }
+        }
+
+        filter.TextChanged += (_, _) =>
+        {
+            _radialLibraryFilter = filter.Text;
+            Fill();
+        };
+        list.DragItemsStarting += (_, e) =>
+        {
+            if (e.Items.FirstOrDefault() is FrameworkElement { Tag: string id })
+            {
+                e.Data.SetText(id);
+                e.Data.RequestedOperation = DataPackageOperation.Copy;
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        };
+        Fill();
+
+        string? SelectedActionId() => list.SelectedItem is FrameworkElement { Tag: string id } ? id : null;
+
+        var add = NewPillButton(L("添加", "Add", "新增", "추가"), false);
+        add.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            if (await EditRadialActionAsync(null) is null) return;
+            SaveRadialConfig();
+            RefreshRadialLibrary();
+        });
+        var edit = NewPillButton(L("编辑", "Edit", "編輯", "편집"), false);
+        edit.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            var action = config.FindAction(SelectedActionId() ?? "");
+            if (action is null || await EditRadialActionAsync(action) is null) return;
+            SaveRadialConfig();
+            RefreshRadialWheel();
+            RefreshRadialLibrary();
+        });
+        var delete = NewPillButton(L("删除", "Delete", "刪除", "삭제"), false);
+        delete.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            var action = config.FindAction(SelectedActionId() ?? "");
+            if (action is null) return;
+            if (!await ConfirmDialogAsync(DeleteConfirmationTitle(),
+                    F("确定删除动作 {0}？", "Delete action {0}?", action.Name), DeleteButtonText()))
+                return;
+            config.Actions.Remove(action);
+            config.Normalize(); // drops slot references to the deleted action
+            SaveRadialConfig();
+            RefreshRadialWheel();
+            RefreshRadialLibrary();
+        });
+        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        buttons.Children.Add(add);
+        buttons.Children.Add(edit);
+        buttons.Children.Add(delete);
+
+        var panel = new StackPanel { Spacing = 8 };
+        panel.Children.Add(new TextBlock { Text = T("动作库", "Action library"), Style = BodyStrongTextBlockStyle });
+        panel.Children.Add(filter);
+        panel.Children.Add(list);
+        panel.Children.Add(buttons);
+        _radialLibraryHost.Children.Clear();
+        _radialLibraryHost.Children.Add(panel);
+    }
+
+    private async Task<string?> PickRadialLibraryActionAsync()
+    {
+        var config = _radialConfig!;
+        var filter = new TextBox { PlaceholderText = T("筛选", "Filter") };
+        var list = new ListView { SelectionMode = ListViewSelectionMode.Single, MaxHeight = 360 };
+        void Fill()
+        {
+            list.Items.Clear();
+            var query = filter.Text.Trim();
+            foreach (var action in config.Actions
+                         .Where(a => query.Length == 0 || (a.Name ?? "").Contains(query, StringComparison.CurrentCultureIgnoreCase))
+                         .OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase))
+                list.Items.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, Tag = action.Id });
+        }
+        filter.TextChanged += (_, _) => Fill();
+        Fill();
+        var panel = new StackPanel { Spacing = 8 };
+        panel.Children.Add(filter);
+        panel.Children.Add(list);
+        if (!await ConfirmDialogAsync(L("选择", "Select", "選擇", "선택"), panel, L("确定", "OK", "確定", "확인"), () => list.SelectedItem is not null))
+            return null;
+        return list.SelectedItem is FrameworkElement { Tag: string id } ? id : null;
+    }
+}

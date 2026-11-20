@@ -685,5 +685,13 @@
   "Inner ring": "भीतरी वलय",
   "Outer ring": "बाहरी वलय",
   "Middle-button radial menu": "मध्य बटन का वृत्ताकार मेनू",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वृत्ताकार मेनू खोलने के लिए मध्य बटन दबाए रखें और खींचें। सेट करने के लिए किसी खाने पर क्लिक करें; कमांड का नाम मेनू पर दिखाया जाता है। हर ऐप के अलग मेनू के लिए ऐप समूह में इन ट्रिगर का उपयोग करें।"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वृत्ताकार मेनू खोलने के लिए मध्य बटन दबाए रखें और खींचें। सेट करने के लिए किसी खाने पर क्लिक करें; कमांड का नाम मेनू पर दिखाया जाता है। हर ऐप के अलग मेनू के लिए ऐप समूह में इन ट्रिगर का उपयोग करें।",
+  "Taskbar": "टास्कबार",
+  "Desktop": "डेस्कटॉप",
+  "Disable the radial menu in this app": "इस ऐप में वृत्ताकार मेनू बंद करें",
+  "New action": "नई क्रिया",
+  "Action library": "क्रिया लाइब्रेरी",
+  "Filter": "फ़िल्टर",
+  "Empty slots use the global wheel.": "खाली खाने वैश्विक मेनू का उपयोग करते हैं।",
+  "Set middle-button radial menus per application.": "हर ऐप के लिए मध्य बटन वृत्ताकार मेनू सेट करें।"
 }

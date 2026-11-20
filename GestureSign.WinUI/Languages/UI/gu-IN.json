@@ -685,5 +685,13 @@
   "Inner ring": "અંદરની રિંગ",
   "Outer ring": "બહારની રિંગ",
   "Middle-button radial menu": "મધ્ય બટનનું વર્તુળાકાર મેનૂ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "વર્તુળાકાર મેનૂ ખોલવા માટે મધ્ય બટન દબાવી રાખીને ખેંચો. સેટ કરવા માટે ખાના પર ક્લિક કરો; આદેશનું નામ મેનૂ પર બતાવવામાં આવે છે. દરેક ઍપ માટે અલગ મેનૂ માટે ઍપ જૂથમાં આ ટ્રિગરનો ઉપયોગ કરો."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "વર્તુળાકાર મેનૂ ખોલવા માટે મધ્ય બટન દબાવી રાખીને ખેંચો. સેટ કરવા માટે ખાના પર ક્લિક કરો; આદેશનું નામ મેનૂ પર બતાવવામાં આવે છે. દરેક ઍપ માટે અલગ મેનૂ માટે ઍપ જૂથમાં આ ટ્રિગરનો ઉપયોગ કરો.",
+  "Taskbar": "ટાસ્કબાર",
+  "Desktop": "ડેસ્કટૉપ",
+  "Disable the radial menu in this app": "આ ઍપમાં વર્તુળાકાર મેનૂ બંધ કરો",
+  "New action": "નવી ક્રિયા",
+  "Action library": "ક્રિયા લાઇબ્રેરી",
+  "Filter": "ફિલ્ટર",
+  "Empty slots use the global wheel.": "ખાલી ખાનાં વૈશ્વિક મેનૂનો ઉપયોગ કરે છે.",
+  "Set middle-button radial menus per application.": "દરેક ઍપ માટે મધ્ય બટન વર્તુળાકાર મેનૂ સેટ કરો."
 }

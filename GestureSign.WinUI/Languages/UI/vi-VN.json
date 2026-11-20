@@ -685,5 +685,13 @@
   "Inner ring": "Vòng trong",
   "Outer ring": "Vòng ngoài",
   "Middle-button radial menu": "Menu tròn của nút giữa",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Giữ nút giữa và kéo để mở menu tròn. Nhấp vào một ô để thiết lập; tên lệnh sẽ hiển thị trên menu. Để có menu riêng cho từng ứng dụng, hãy dùng các trình kích hoạt này trong nhóm ứng dụng."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Giữ nút giữa và kéo để mở menu tròn. Nhấp vào một ô để thiết lập; tên lệnh sẽ hiển thị trên menu. Để có menu riêng cho từng ứng dụng, hãy dùng các trình kích hoạt này trong nhóm ứng dụng.",
+  "Taskbar": "Thanh tác vụ",
+  "Desktop": "Màn hình nền",
+  "Disable the radial menu in this app": "Tắt menu tròn trong ứng dụng này",
+  "New action": "Hành động mới",
+  "Action library": "Thư viện hành động",
+  "Filter": "Lọc",
+  "Empty slots use the global wheel.": "Ô trống sẽ dùng menu chung.",
+  "Set middle-button radial menus per application.": "Thiết lập menu tròn nút giữa cho từng ứng dụng."
 }

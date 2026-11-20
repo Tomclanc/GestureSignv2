@@ -685,5 +685,13 @@
   "Inner ring": "Vidinis žiedas",
   "Outer ring": "Išorinis žiedas",
   "Middle-button radial menu": "Vidurinio mygtuko apskritasis meniu",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Laikykite nuspaudę vidurinį mygtuką ir vilkite, kad atidarytumėte apskritąjį meniu. Spustelėkite langelį, kad jį nustatytumėte; komandos pavadinimas rodomas meniu. Norėdami meniu pagal programą, naudokite šiuos paleidiklius programos grupėje."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Laikykite nuspaudę vidurinį mygtuką ir vilkite, kad atidarytumėte apskritąjį meniu. Spustelėkite langelį, kad jį nustatytumėte; komandos pavadinimas rodomas meniu. Norėdami meniu pagal programą, naudokite šiuos paleidiklius programos grupėje.",
+  "Taskbar": "Užduočių juosta",
+  "Desktop": "Darbalaukis",
+  "Disable the radial menu in this app": "Išjungti apskritąjį meniu šioje programoje",
+  "New action": "Naujas veiksmas",
+  "Action library": "Veiksmų biblioteka",
+  "Filter": "Filtruoti",
+  "Empty slots use the global wheel.": "Tušti langeliai naudoja bendrąjį meniu.",
+  "Set middle-button radial menus per application.": "Nustatykite vidurinio mygtuko apskrituosius meniu kiekvienai programai."
 }

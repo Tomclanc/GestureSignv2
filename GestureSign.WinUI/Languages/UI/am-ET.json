@@ -685,5 +685,13 @@
   "Inner ring": "ውስጣዊ ቀለበት",
   "Outer ring": "ውጫዊ ቀለበት",
   "Middle-button radial menu": "የመሃል አዝራር ክብ ምናሌ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "መንኮራኩሩን ለመክፈት የመሃል አዝራሩን ይያዙና ይጎትቱ። ለማዘጋጀት ቦታውን ጠቅ ያድርጉ፤ የትዕዛዙ ስም በመንኮራኩሩ ላይ ይታያል። ለእያንዳንዱ መተግበሪያ የተለየ መንኮራኩር እነዚህን ቀስቃሾች በመተግበሪያ ቡድን ውስጥ ይጠቀሙ።"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "መንኮራኩሩን ለመክፈት የመሃል አዝራሩን ይያዙና ይጎትቱ። ለማዘጋጀት ቦታውን ጠቅ ያድርጉ፤ የትዕዛዙ ስም በመንኮራኩሩ ላይ ይታያል። ለእያንዳንዱ መተግበሪያ የተለየ መንኮራኩር እነዚህን ቀስቃሾች በመተግበሪያ ቡድን ውስጥ ይጠቀሙ።",
+  "Taskbar": "የተግባር አሞሌ",
+  "Desktop": "ዴስክቶፕ",
+  "Disable the radial menu in this app": "በዚህ መተግበሪያ ውስጥ ክብ ምናሌውን አሰናክል",
+  "New action": "አዲስ እርምጃ",
+  "Action library": "የእርምጃ ቤተ-መጽሐፍት",
+  "Filter": "አጣራ",
+  "Empty slots use the global wheel.": "ባዶ ቦታዎች ዓለም አቀፉን መንኮራኩር ይጠቀማሉ።",
+  "Set middle-button radial menus per application.": "የመሃል አዝራር ክብ ምናሌዎችን በመተግበሪያ ያዘጋጁ።"
 }

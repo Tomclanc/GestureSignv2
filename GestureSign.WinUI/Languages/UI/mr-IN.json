@@ -685,5 +685,13 @@
   "Inner ring": "आतील वलय",
   "Outer ring": "बाहेरील वलय",
   "Middle-button radial menu": "मधल्या बटणाचा वर्तुळाकार मेनू",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वर्तुळाकार मेनू उघडण्यासाठी मधले बटण दाबून धरा आणि ओढा. सेट करण्यासाठी एखाद्या जागेवर क्लिक करा; आदेशाचे नाव मेनूवर दाखवले जाते. प्रत्येक ॲपसाठी वेगळ्या मेनूसाठी ॲप गटात हे ट्रिगर वापरा."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वर्तुळाकार मेनू उघडण्यासाठी मधले बटण दाबून धरा आणि ओढा. सेट करण्यासाठी एखाद्या जागेवर क्लिक करा; आदेशाचे नाव मेनूवर दाखवले जाते. प्रत्येक ॲपसाठी वेगळ्या मेनूसाठी ॲप गटात हे ट्रिगर वापरा.",
+  "Taskbar": "टास्कबार",
+  "Desktop": "डेस्कटॉप",
+  "Disable the radial menu in this app": "या ॲपमध्ये वर्तुळाकार मेनू बंद करा",
+  "New action": "नवीन क्रिया",
+  "Action library": "क्रिया लायब्ररी",
+  "Filter": "फिल्टर",
+  "Empty slots use the global wheel.": "रिकाम्या जागा सामायिक मेनू वापरतात.",
+  "Set middle-button radial menus per application.": "प्रत्येक ॲपसाठी मधल्या बटणाचे वर्तुळाकार मेनू सेट करा."
 }

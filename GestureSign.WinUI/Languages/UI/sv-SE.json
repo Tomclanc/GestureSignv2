@@ -685,5 +685,13 @@
   "Inner ring": "Inre ring",
   "Outer ring": "Yttre ring",
   "Middle-button radial menu": "Cirkelmeny för mittknappen",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Håll ned mittknappen och dra för att öppna cirkelmenyn. Klicka på en plats för att ställa in den; kommandonamnet visas i menyn. För menyer per app använder du dessa utlösare i en appgrupp."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Håll ned mittknappen och dra för att öppna cirkelmenyn. Klicka på en plats för att ställa in den; kommandonamnet visas i menyn. För menyer per app använder du dessa utlösare i en appgrupp.",
+  "Taskbar": "Aktivitetsfält",
+  "Desktop": "Skrivbord",
+  "Disable the radial menu in this app": "Inaktivera cirkelmenyn i den här appen",
+  "New action": "Ny åtgärd",
+  "Action library": "Åtgärdsbibliotek",
+  "Filter": "Filtrera",
+  "Empty slots use the global wheel.": "Tomma platser använder den globala menyn.",
+  "Set middle-button radial menus per application.": "Ställ in cirkelmenyer för mittknappen per app."
 }

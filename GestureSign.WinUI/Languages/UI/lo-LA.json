@@ -685,5 +685,13 @@
   "Inner ring": "ວົງໃນ",
   "Outer ring": "ວົງນອກ",
   "Middle-button radial menu": "ເມນູວົງມົນຂອງປຸ່ມກາງ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ກົດປຸ່ມກາງຄ້າງໄວ້ແລ້ວລາກເພື່ອເປີດເມນູວົງມົນ. ຄລິກຊ່ອງເພື່ອຕັ້ງຄ່າ; ຊື່ຄຳສັ່ງຈະສະແດງຢູ່ໃນເມນູ. ສຳລັບເມນູແຍກຕາມແອັບ, ໃຫ້ໃຊ້ຕົວກະຕຸ້ນເຫຼົ່ານີ້ໃນກຸ່ມແອັບ."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ກົດປຸ່ມກາງຄ້າງໄວ້ແລ້ວລາກເພື່ອເປີດເມນູວົງມົນ. ຄລິກຊ່ອງເພື່ອຕັ້ງຄ່າ; ຊື່ຄຳສັ່ງຈະສະແດງຢູ່ໃນເມນູ. ສຳລັບເມນູແຍກຕາມແອັບ, ໃຫ້ໃຊ້ຕົວກະຕຸ້ນເຫຼົ່ານີ້ໃນກຸ່ມແອັບ.",
+  "Taskbar": "ແຖບໜ້າວຽກ",
+  "Desktop": "ໜ້າຈໍຫຼັກ",
+  "Disable the radial menu in this app": "ປິດເມນູວົງມົນໃນແອັບນີ້",
+  "New action": "ການກະທຳໃໝ່",
+  "Action library": "ຄັງການກະທຳ",
+  "Filter": "ກັ່ນຕອງ",
+  "Empty slots use the global wheel.": "ຊ່ອງທີ່ວ່າງຈະໃຊ້ເມນູທົ່ວໄປ.",
+  "Set middle-button radial menus per application.": "ຕັ້ງເມນູວົງມົນຂອງປຸ່ມກາງຕາມແອັບ."
 }

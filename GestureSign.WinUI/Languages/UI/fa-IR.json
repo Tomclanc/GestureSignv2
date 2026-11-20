@@ -685,5 +685,13 @@
   "Inner ring": "حلقه داخلی",
   "Outer ring": "حلقه خارجی",
   "Middle-button radial menu": "منوی دایره‌ای دکمه وسط",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "دکمه وسط را نگه دارید و بکشید تا منوی دایره‌ای باز شود. برای تنظیم هر خانه روی آن کلیک کنید؛ نام فرمان روی منو نمایش داده می‌شود. برای منوهای جداگانه هر برنامه، از این محرک‌ها در گروه برنامه استفاده کنید."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "دکمه وسط را نگه دارید و بکشید تا منوی دایره‌ای باز شود. برای تنظیم هر خانه روی آن کلیک کنید؛ نام فرمان روی منو نمایش داده می‌شود. برای منوهای جداگانه هر برنامه، از این محرک‌ها در گروه برنامه استفاده کنید.",
+  "Taskbar": "نوار وظیفه",
+  "Desktop": "دسکتاپ",
+  "Disable the radial menu in this app": "غیرفعال کردن منوی دایره‌ای در این برنامه",
+  "New action": "کنش جدید",
+  "Action library": "کتابخانه کنش‌ها",
+  "Filter": "فیلتر",
+  "Empty slots use the global wheel.": "خانه‌های خالی از منوی سراسری استفاده می‌کنند.",
+  "Set middle-button radial menus per application.": "منوهای دایره‌ای دکمه وسط را برای هر برنامه تنظیم کنید."
 }

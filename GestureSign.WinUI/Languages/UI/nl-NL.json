@@ -685,5 +685,13 @@
   "Inner ring": "Binnenste ring",
   "Outer ring": "Buitenste ring",
   "Middle-button radial menu": "Radiaal menu van de middelste knop",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Houd de middelste knop ingedrukt en sleep om het radiale menu te openen. Klik op een vak om het in te stellen; de opdrachtnaam wordt in het menu getoond. Gebruik deze triggers in een app-groep voor menu's per app."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Houd de middelste knop ingedrukt en sleep om het radiale menu te openen. Klik op een vak om het in te stellen; de opdrachtnaam wordt in het menu getoond. Gebruik deze triggers in een app-groep voor menu's per app.",
+  "Taskbar": "Taakbalk",
+  "Desktop": "Bureaublad",
+  "Disable the radial menu in this app": "Radiaal menu uitschakelen in deze app",
+  "New action": "Nieuwe actie",
+  "Action library": "Actiebibliotheek",
+  "Filter": "Filteren",
+  "Empty slots use the global wheel.": "Lege vakken gebruiken het algemene menu.",
+  "Set middle-button radial menus per application.": "Stel radiale menu's van de middelste knop per app in."
 }

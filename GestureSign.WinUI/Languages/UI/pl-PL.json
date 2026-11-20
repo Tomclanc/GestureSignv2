@@ -685,5 +685,13 @@
   "Inner ring": "Pierścień wewnętrzny",
   "Outer ring": "Pierścień zewnętrzny",
   "Middle-button radial menu": "Menu kołowe środkowego przycisku",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Przytrzymaj środkowy przycisk i przeciągnij, aby otworzyć menu kołowe. Kliknij pole, aby je ustawić; nazwa polecenia jest wyświetlana w menu. Aby mieć osobne menu dla aplikacji, użyj tych wyzwalaczy w grupie aplikacji."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Przytrzymaj środkowy przycisk i przeciągnij, aby otworzyć menu kołowe. Kliknij pole, aby je ustawić; nazwa polecenia jest wyświetlana w menu. Aby mieć osobne menu dla aplikacji, użyj tych wyzwalaczy w grupie aplikacji.",
+  "Taskbar": "Pasek zadań",
+  "Desktop": "Pulpit",
+  "Disable the radial menu in this app": "Wyłącz menu kołowe w tej aplikacji",
+  "New action": "Nowa akcja",
+  "Action library": "Biblioteka akcji",
+  "Filter": "Filtruj",
+  "Empty slots use the global wheel.": "Puste pola używają menu globalnego.",
+  "Set middle-button radial menus per application.": "Ustaw menu kołowe środkowego przycisku dla każdej aplikacji."
 }

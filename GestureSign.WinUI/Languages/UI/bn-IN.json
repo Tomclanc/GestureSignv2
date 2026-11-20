@@ -685,5 +685,13 @@
   "Inner ring": "ভেতরের বলয়",
   "Outer ring": "বাইরের বলয়",
   "Middle-button radial menu": "মাঝের বোতামের বৃত্তাকার মেনু",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "চাকাটি খুলতে মাঝের বোতাম চেপে ধরে টানুন। সেট করতে একটি ঘরে ক্লিক করুন; কমান্ডের নাম চাকায় দেখানো হয়। প্রতিটি অ্যাপের আলাদা চাকার জন্য অ্যাপ গ্রুপে এই ট্রিগারগুলো ব্যবহার করুন।"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "চাকাটি খুলতে মাঝের বোতাম চেপে ধরে টানুন। সেট করতে একটি ঘরে ক্লিক করুন; কমান্ডের নাম চাকায় দেখানো হয়। প্রতিটি অ্যাপের আলাদা চাকার জন্য অ্যাপ গ্রুপে এই ট্রিগারগুলো ব্যবহার করুন।",
+  "Taskbar": "টাস্কবার",
+  "Desktop": "ডেস্কটপ",
+  "Disable the radial menu in this app": "এই অ্যাপে বৃত্তাকার মেনু বন্ধ করুন",
+  "New action": "নতুন অ্যাকশন",
+  "Action library": "অ্যাকশন লাইব্রেরি",
+  "Filter": "ফিল্টার",
+  "Empty slots use the global wheel.": "খালি ঘরগুলো সাধারণ চাকা ব্যবহার করে।",
+  "Set middle-button radial menus per application.": "প্রতিটি অ্যাপের জন্য মাঝের বোতামের বৃত্তাকার মেনু সেট করুন।"
 }

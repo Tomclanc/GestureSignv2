@@ -685,5 +685,13 @@
   "Inner ring": "Anillo interior",
   "Outer ring": "Anillo exterior",
   "Middle-button radial menu": "Menú radial del botón central",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Mantén presionado el botón central y arrastra para abrir el menú radial. Haz clic en una casilla para configurarla; el nombre del comando se muestra en el menú. Para menús por aplicación, usa estos desencadenadores en un grupo de aplicación."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Mantén presionado el botón central y arrastra para abrir el menú radial. Haz clic en una casilla para configurarla; el nombre del comando se muestra en el menú. Para menús por aplicación, usa estos desencadenadores en un grupo de aplicación.",
+  "Taskbar": "Barra de tareas",
+  "Desktop": "Escritorio",
+  "Disable the radial menu in this app": "Desactivar el menú radial en esta aplicación",
+  "New action": "Nueva acción",
+  "Action library": "Biblioteca de acciones",
+  "Filter": "Filtrar",
+  "Empty slots use the global wheel.": "Las casillas vacías usan el menú global.",
+  "Set middle-button radial menus per application.": "Configura menús radiales del botón central por aplicación."
 }

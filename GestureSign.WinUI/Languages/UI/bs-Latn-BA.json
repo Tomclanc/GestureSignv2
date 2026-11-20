@@ -685,5 +685,13 @@
   "Inner ring": "Unutrašnji prsten",
   "Outer ring": "Vanjski prsten",
   "Middle-button radial menu": "Kružni meni srednje tipke",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Držite srednju tipku i povucite da otvorite kružni meni. Kliknite polje da ga postavite; naziv komande prikazuje se u meniju. Za menije po aplikaciji koristite ove okidače u grupi aplikacije."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Držite srednju tipku i povucite da otvorite kružni meni. Kliknite polje da ga postavite; naziv komande prikazuje se u meniju. Za menije po aplikaciji koristite ove okidače u grupi aplikacije.",
+  "Taskbar": "Traka zadataka",
+  "Desktop": "Radna površina",
+  "Disable the radial menu in this app": "Onemogući kružni meni u ovoj aplikaciji",
+  "New action": "Nova radnja",
+  "Action library": "Biblioteka radnji",
+  "Filter": "Filter",
+  "Empty slots use the global wheel.": "Prazna polja koriste globalni meni.",
+  "Set middle-button radial menus per application.": "Postavite kružne menije srednje tipke po aplikaciji."
 }

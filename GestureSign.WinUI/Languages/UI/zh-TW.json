@@ -685,5 +685,13 @@
   "Inner ring": "內圈",
   "Outer ring": "外圈",
   "Middle-button radial menu": "中鍵輪盤",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "按住中鍵拖動彈出輪盤。點擊格子進行設定，命令名稱會顯示在輪盤上；要依程式區分，在程式分組中使用這些觸發方式。"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "按住中鍵拖動彈出輪盤。點擊格子進行設定，命令名稱會顯示在輪盤上；要依程式區分，在程式分組中使用這些觸發方式。",
+  "Taskbar": "工作列",
+  "Desktop": "桌面",
+  "Disable the radial menu in this app": "在此程式中停用輪盤",
+  "New action": "新增動作",
+  "Action library": "動作庫",
+  "Filter": "篩選",
+  "Empty slots use the global wheel.": "空格子沿用全域輪盤的動作。",
+  "Set middle-button radial menus per application.": "依程式設定中鍵輪盤。"
 }

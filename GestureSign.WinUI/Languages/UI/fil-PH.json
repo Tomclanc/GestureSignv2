@@ -685,5 +685,13 @@
   "Inner ring": "Panloob na singsing",
   "Outer ring": "Panlabas na singsing",
   "Middle-button radial menu": "Pabilog na menu ng gitnang button",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Pindutin nang matagal ang gitnang button at i-drag para buksan ang pabilog na menu. I-click ang isang puwesto para itakda ito; ipinapakita sa menu ang pangalan ng utos. Para sa menu bawat app, gamitin ang mga trigger na ito sa isang grupo ng app."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Pindutin nang matagal ang gitnang button at i-drag para buksan ang pabilog na menu. I-click ang isang puwesto para itakda ito; ipinapakita sa menu ang pangalan ng utos. Para sa menu bawat app, gamitin ang mga trigger na ito sa isang grupo ng app.",
+  "Taskbar": "Taskbar",
+  "Desktop": "Desktop",
+  "Disable the radial menu in this app": "I-disable ang pabilog na menu sa app na ito",
+  "New action": "Bagong aksyon",
+  "Action library": "Aklatan ng aksyon",
+  "Filter": "Salain",
+  "Empty slots use the global wheel.": "Ginagamit ng mga bakanteng puwesto ang global na menu.",
+  "Set middle-button radial menus per application.": "Itakda ang pabilog na menu ng gitnang button bawat app."
 }

@@ -679,6 +679,11 @@ namespace GestureSign.Common.Applications
                 return null;
             }
 
+            // Preferred model: RadialMenus.json (action library + per-app menus).
+            var config = LoadRadialMenuConfig();
+            if (config != null)
+                return PrepareRadialMenuFromConfig(config, target, apps);
+
             bool Usable(IAction a) => IsActionExecutable(a) &&
                                       RadialMenuSlots.IsRadialMenuGesture(a.GestureName) &&
                                       (a.IgnoredDevices & Devices.Mouse) == 0 &&
@@ -710,6 +715,78 @@ namespace GestureSign.Common.Applications
             CaptureWindow = target;
             _recognizedApplication = apps;
             Logging.LogMessage($"Radial menu lookup. Applications={DescribeApplications(apps.ToList())}, Slots={result.Count}");
+            return result;
+        }
+
+        private GestureSign.Foundation.RadialMenus.RadialMenuConfig _radialMenuConfig;
+        private DateTime _radialMenuConfigWriteTimeUtc;
+
+        /// <summary>Loads RadialMenus.json, re-reading it only when the file changed.</summary>
+        private GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
+        {
+            try
+            {
+                var path = GestureSign.Foundation.RadialMenus.RadialMenuConfig.PathIn(AppConfig.ApplicationDataPath);
+                if (!File.Exists(path))
+                {
+                    _radialMenuConfig = null;
+                    return null;
+                }
+                var writeTime = File.GetLastWriteTimeUtc(path);
+                if (_radialMenuConfig == null || writeTime != _radialMenuConfigWriteTimeUtc)
+                {
+                    _radialMenuConfig = GestureSign.Foundation.RadialMenus.RadialMenuConfig.Load(path);
+                    _radialMenuConfigWriteTimeUtc = writeTime;
+                    Logging.LogMessage($"Radial menu configuration loaded. Actions={_radialMenuConfig?.Actions.Count ?? 0}, Menus={_radialMenuConfig?.Menus.Count ?? 0}");
+                }
+                return _radialMenuConfig;
+            }
+            catch (Exception ex)
+            {
+                // A broken file must not take the middle button away; fall back to the legacy slots.
+                Logging.LogException(ex);
+                return null;
+            }
+        }
+
+        private Dictionary<string, IAction> PrepareRadialMenuFromConfig(GestureSign.Foundation.RadialMenus.RadialMenuConfig config, SystemWindow target, IApplication[] apps)
+        {
+            GetWindowInfo(target, out var className, out _, out var fileName);
+            var menu = config.FindMenu(Path.GetFileName(fileName ?? string.Empty), className);
+            if (menu.Disabled)
+            {
+                Logging.LogMessage($"Radial menu skipped. Reason=DisabledForApplication, Menu={menu.Name ?? menu.Scope.ToString()}");
+                return null;
+            }
+
+            var result = new Dictionary<string, IAction>(StringComparer.OrdinalIgnoreCase);
+            foreach (var pair in config.ResolveSlots(menu, AppConfig.RadialMenuOuterRing))
+            {
+                var outer = pair.Key.StartsWith("Outer.", StringComparison.OrdinalIgnoreCase);
+                var index = int.Parse(pair.Key.Substring(pair.Key.IndexOf('.') + 1), System.Globalization.CultureInfo.InvariantCulture);
+                var source = pair.Value;
+                var action = new Action
+                {
+                    Name = source.Name,
+                    GestureName = RadialMenuSlots.Name(outer, index),
+                    IsEnabled = true,
+                    ActivateWindow = source.ActivateWindow,
+                    Commands = source.Commands.Select(c => (ICommand)new Command
+                    {
+                        Name = c.Name,
+                        PluginClass = c.PluginClass,
+                        PluginFilename = c.PluginFilename,
+                        CommandSettings = c.CommandSettings,
+                        IsEnabled = c.IsEnabled
+                    }).ToList()
+                };
+                if (IsActionExecutable(action))
+                    result[action.GestureName] = action;
+            }
+
+            CaptureWindow = target;
+            _recognizedApplication = apps;
+            Logging.LogMessage($"Radial menu lookup. Menu={menu.Name ?? menu.Scope.ToString()}, Process={fileName}, Class={className}, Slots={result.Count}");
             return result;
         }
 

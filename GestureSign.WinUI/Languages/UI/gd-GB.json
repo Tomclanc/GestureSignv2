@@ -685,5 +685,13 @@
   "Inner ring": "Fàinne a-staigh",
   "Outer ring": "Fàinne a-muigh",
   "Middle-button radial menu": "Clàr-taice cearcallach a' phutain mheadhanaich",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Cùm sìos am putan meadhanach agus slaod gus an clàr-taice cearcallach fhosgladh. Briog air slot gus a shuidheachadh; thèid ainm na h-àithne a shealltainn air a' chlàr-taice. Airson clàran-taice a rèir aplacaid, cleachd na h-inneil-tòiseachaidh seo ann am buidheann aplacaid."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Cùm sìos am putan meadhanach agus slaod gus an clàr-taice cearcallach fhosgladh. Briog air slot gus a shuidheachadh; thèid ainm na h-àithne a shealltainn air a' chlàr-taice. Airson clàran-taice a rèir aplacaid, cleachd na h-inneil-tòiseachaidh seo ann am buidheann aplacaid.",
+  "Taskbar": "Bàr nan saothair",
+  "Desktop": "Deasg",
+  "Disable the radial menu in this app": "Cuir à comas an clàr-taice cearcallach san aplacaid seo",
+  "New action": "Gnìomh ùr",
+  "Action library": "Leabharlann ghnìomhan",
+  "Filter": "Criathraich",
+  "Empty slots use the global wheel.": "Cleachdaidh slotaichean falamh an clàr-taice uile-choitcheann.",
+  "Set middle-button radial menus per application.": "Suidhich clàran-taice cearcallach a' phutain mheadhanaich a rèir aplacaid."
 }

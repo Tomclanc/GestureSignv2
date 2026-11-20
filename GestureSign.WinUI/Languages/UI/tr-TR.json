@@ -685,5 +685,13 @@
   "Inner ring": "İç halka",
   "Outer ring": "Dış halka",
   "Middle-button radial menu": "Orta düğme dairesel menüsü",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Dairesel menüyü açmak için orta düğmeyi basılı tutup sürükleyin. Ayarlamak için bir yuvaya tıklayın; komut adı menüde gösterilir. Uygulamaya özel menüler için bu tetikleyicileri bir uygulama grubunda kullanın."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Dairesel menüyü açmak için orta düğmeyi basılı tutup sürükleyin. Ayarlamak için bir yuvaya tıklayın; komut adı menüde gösterilir. Uygulamaya özel menüler için bu tetikleyicileri bir uygulama grubunda kullanın.",
+  "Taskbar": "Görev çubuğu",
+  "Desktop": "Masaüstü",
+  "Disable the radial menu in this app": "Bu uygulamada dairesel menüyü devre dışı bırak",
+  "New action": "Yeni eylem",
+  "Action library": "Eylem kitaplığı",
+  "Filter": "Filtrele",
+  "Empty slots use the global wheel.": "Boş yuvalar genel menüyü kullanır.",
+  "Set middle-button radial menus per application.": "Orta düğme dairesel menülerini uygulamaya göre ayarlayın."
 }

@@ -685,5 +685,13 @@
   "Inner ring": "Belső gyűrű",
   "Outer ring": "Külső gyűrű",
   "Middle-button radial menu": "Középső gomb körmenüje",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "A körmenü megnyitásához tartsa lenyomva a középső gombot, és húzza el. Egy mezőre kattintva beállíthatja; a parancs neve megjelenik a menüben. Alkalmazásonkénti menükhöz használja ezeket az eseményindítókat egy alkalmazáscsoportban."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "A körmenü megnyitásához tartsa lenyomva a középső gombot, és húzza el. Egy mezőre kattintva beállíthatja; a parancs neve megjelenik a menüben. Alkalmazásonkénti menükhöz használja ezeket az eseményindítókat egy alkalmazáscsoportban.",
+  "Taskbar": "Tálca",
+  "Desktop": "Asztal",
+  "Disable the radial menu in this app": "Körmenü letiltása ebben az alkalmazásban",
+  "New action": "Új művelet",
+  "Action library": "Műveletkönyvtár",
+  "Filter": "Szűrés",
+  "Empty slots use the global wheel.": "Az üres mezők a globális menüt használják.",
+  "Set middle-button radial menus per application.": "Állítson be középső gombos körmenüket alkalmazásonként."
 }

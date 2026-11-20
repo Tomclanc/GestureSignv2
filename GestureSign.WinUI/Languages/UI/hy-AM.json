@@ -685,5 +685,13 @@
   "Inner ring": "Ներքին օղակ",
   "Outer ring": "Արտաքին օղակ",
   "Middle-button radial menu": "Միջին կոճակի շրջանաձև ընտրացանկ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Պահեք միջին կոճակը և քաշեք՝ շրջանաձև ընտրացանկը բացելու համար։ Սեղմեք վանդակի վրա՝ այն կարգավորելու համար, հրամանի անունը ցուցադրվում է ընտրացանկում։ Ըստ հավելվածի ընտրացանկերի համար օգտագործեք այս գործարկիչները հավելվածի խմբում։"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Պահեք միջին կոճակը և քաշեք՝ շրջանաձև ընտրացանկը բացելու համար։ Սեղմեք վանդակի վրա՝ այն կարգավորելու համար, հրամանի անունը ցուցադրվում է ընտրացանկում։ Ըստ հավելվածի ընտրացանկերի համար օգտագործեք այս գործարկիչները հավելվածի խմբում։",
+  "Taskbar": "Առաջադրանքների վահանակ",
+  "Desktop": "Աշխատասեղան",
+  "Disable the radial menu in this app": "Անջատել շրջանաձև ընտրացանկը այս հավելվածում",
+  "New action": "Նոր գործողություն",
+  "Action library": "Գործողությունների գրադարան",
+  "Filter": "Զտել",
+  "Empty slots use the global wheel.": "Դատարկ վանդակները օգտագործում են ընդհանուր ընտրացանկը։",
+  "Set middle-button radial menus per application.": "Կարգավորեք միջին կոճակի շրջանաձև ընտրացանկերը ըստ հավելվածի։"
 }

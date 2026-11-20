@@ -685,5 +685,13 @@
   "Inner ring": "טבעת פנימית",
   "Outer ring": "טבעת חיצונית",
   "Middle-button radial menu": "תפריט מעגלי של הלחצן האמצעי",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "החזק את הלחצן האמצעי וגרור כדי לפתוח את התפריט המעגלי. לחץ על משבצת כדי להגדיר אותה; שם הפקודה מוצג בתפריט. לתפריטים לפי יישום, השתמש בטריגרים האלה בקבוצת יישום."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "החזק את הלחצן האמצעי וגרור כדי לפתוח את התפריט המעגלי. לחץ על משבצת כדי להגדיר אותה; שם הפקודה מוצג בתפריט. לתפריטים לפי יישום, השתמש בטריגרים האלה בקבוצת יישום.",
+  "Taskbar": "שורת המשימות",
+  "Desktop": "שולחן העבודה",
+  "Disable the radial menu in this app": "השבת את התפריט המעגלי ביישום זה",
+  "New action": "פעולה חדשה",
+  "Action library": "ספריית פעולות",
+  "Filter": "סינון",
+  "Empty slots use the global wheel.": "משבצות ריקות משתמשות בתפריט הכללי.",
+  "Set middle-button radial menus per application.": "הגדר תפריטים מעגליים ללחצן האמצעי לכל יישום."
 }

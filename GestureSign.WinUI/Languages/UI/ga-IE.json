@@ -685,5 +685,13 @@
   "Inner ring": "Fáinne inmheánach",
   "Outer ring": "Fáinne seachtrach",
   "Middle-button radial menu": "Roghchlár ciorclach an chnaipe láir",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Coinnigh an cnaipe láir síos agus tarraing chun an roghchlár ciorclach a oscailt. Cliceáil ar shliotán chun é a shocrú; taispeántar ainm an ordaithe ar an roghchlár. Le haghaidh roghchláir in aghaidh an aipe, úsáid na truicear seo i ngrúpa aipe."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Coinnigh an cnaipe láir síos agus tarraing chun an roghchlár ciorclach a oscailt. Cliceáil ar shliotán chun é a shocrú; taispeántar ainm an ordaithe ar an roghchlár. Le haghaidh roghchláir in aghaidh an aipe, úsáid na truicear seo i ngrúpa aipe.",
+  "Taskbar": "Tascbharra",
+  "Desktop": "Deasc",
+  "Disable the radial menu in this app": "Díchumasaigh an roghchlár ciorclach san aip seo",
+  "New action": "Gníomh nua",
+  "Action library": "Leabharlann gníomhartha",
+  "Filter": "Scag",
+  "Empty slots use the global wheel.": "Úsáideann sliotáin fholmha an roghchlár domhanda.",
+  "Set middle-button radial menus per application.": "Socraigh roghchláir chiorclacha an chnaipe láir in aghaidh an aipe."
 }

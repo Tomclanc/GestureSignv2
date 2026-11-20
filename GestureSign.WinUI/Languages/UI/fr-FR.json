@@ -685,5 +685,13 @@
   "Inner ring": "Anneau intérieur",
   "Outer ring": "Anneau extérieur",
   "Middle-button radial menu": "Menu circulaire du bouton central",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Maintenez le bouton central enfoncé et faites glisser pour ouvrir le menu circulaire. Cliquez sur une case pour la configurer ; le nom de la commande s'affiche dans le menu. Pour des menus par application, utilisez ces déclencheurs dans un groupe d'application."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Maintenez le bouton central enfoncé et faites glisser pour ouvrir le menu circulaire. Cliquez sur une case pour la configurer ; le nom de la commande s'affiche dans le menu. Pour des menus par application, utilisez ces déclencheurs dans un groupe d'application.",
+  "Taskbar": "Barre des tâches",
+  "Desktop": "Bureau",
+  "Disable the radial menu in this app": "Désactiver le menu circulaire dans cette application",
+  "New action": "Nouvelle action",
+  "Action library": "Bibliothèque d'actions",
+  "Filter": "Filtrer",
+  "Empty slots use the global wheel.": "Les cases vides utilisent le menu global.",
+  "Set middle-button radial menus per application.": "Configurez les menus circulaires du bouton central par application."
 }

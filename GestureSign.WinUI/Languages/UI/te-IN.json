@@ -685,5 +685,13 @@
   "Inner ring": "లోపలి వలయం",
   "Outer ring": "బయటి వలయం",
   "Middle-button radial menu": "మధ్య బటన్ వృత్తాకార మెనూ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "వృత్తాకార మెనూను తెరవడానికి మధ్య బటన్‌ను నొక్కి పట్టి లాగండి. సెట్ చేయడానికి ఒక స్థానంపై క్లిక్ చేయండి; ఆదేశం పేరు మెనూలో చూపబడుతుంది. ప్రతి యాప్‌కు ప్రత్యేక మెనూ కోసం యాప్ సమూహంలో ఈ ట్రిగ్గర్‌లను ఉపయోగించండి."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "వృత్తాకార మెనూను తెరవడానికి మధ్య బటన్‌ను నొక్కి పట్టి లాగండి. సెట్ చేయడానికి ఒక స్థానంపై క్లిక్ చేయండి; ఆదేశం పేరు మెనూలో చూపబడుతుంది. ప్రతి యాప్‌కు ప్రత్యేక మెనూ కోసం యాప్ సమూహంలో ఈ ట్రిగ్గర్‌లను ఉపయోగించండి.",
+  "Taskbar": "టాస్క్‌బార్",
+  "Desktop": "డెస్క్‌టాప్",
+  "Disable the radial menu in this app": "ఈ యాప్‌లో వృత్తాకార మెనూను నిలిపివేయండి",
+  "New action": "కొత్త చర్య",
+  "Action library": "చర్యల లైబ్రరీ",
+  "Filter": "ఫిల్టర్",
+  "Empty slots use the global wheel.": "ఖాళీ స్థానాలు సాధారణ మెనూను ఉపయోగిస్తాయి.",
+  "Set middle-button radial menus per application.": "ప్రతి యాప్‌కు మధ్య బటన్ వృత్తాకార మెనూలను సెట్ చేయండి."
 }

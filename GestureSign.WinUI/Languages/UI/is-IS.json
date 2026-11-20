@@ -685,5 +685,13 @@
   "Inner ring": "Innri hringur",
   "Outer ring": "Ytri hringur",
   "Middle-button radial menu": "Hringvalmynd miðhnapps",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Haltu miðhnappinum niðri og dragðu til að opna hringvalmyndina. Smelltu á reit til að stilla hann; heiti skipunarinnar birtist í valmyndinni. Fyrir valmyndir eftir forritum skaltu nota þessa ræsa í forritshópi."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Haltu miðhnappinum niðri og dragðu til að opna hringvalmyndina. Smelltu á reit til að stilla hann; heiti skipunarinnar birtist í valmyndinni. Fyrir valmyndir eftir forritum skaltu nota þessa ræsa í forritshópi.",
+  "Taskbar": "Verkstika",
+  "Desktop": "Skjáborð",
+  "Disable the radial menu in this app": "Slökkva á hringvalmynd í þessu forriti",
+  "New action": "Ný aðgerð",
+  "Action library": "Aðgerðasafn",
+  "Filter": "Sía",
+  "Empty slots use the global wheel.": "Tómir reitir nota almennu valmyndina.",
+  "Set middle-button radial menus per application.": "Stilltu hringvalmyndir miðhnapps fyrir hvert forrit."
 }

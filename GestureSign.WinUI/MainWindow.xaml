@@ -87,6 +87,11 @@
                 <controls:NavigationViewItem Content="" Tag="actions" Icon="Play" />
                 <controls:NavigationViewItem Content="" Tag="ignored" Icon="BlockContact" />
                 <controls:NavigationViewItem Content="" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="" Tag="radialMenu">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7AD;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
                 <controls:NavigationViewItem Content="" Tag="quickActions" Icon="Keyboard" />
                 <controls:NavigationViewItem Content="" Tag="touchpad">
                     <controls:NavigationViewItem.Icon>

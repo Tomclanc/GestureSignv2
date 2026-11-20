@@ -685,5 +685,13 @@
   "Inner ring": "ভিতৰৰ বলয়",
   "Outer ring": "বাহিৰৰ বলয়",
   "Middle-button radial menu": "মাজৰ বুটামৰ বৃত্তাকাৰ মেনু",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "চকাটো খুলিবলৈ মাজৰ বুটামটো হেঁচি ধৰি টানক। ছেট কৰিবলৈ এটা ঠাইত ক্লিক কৰক; আদেশৰ নাম চকাটোত দেখুওৱা হয়। প্ৰতিটো এপৰ বাবে বেলেগ চকাৰ বাবে এপ গোটত এই ট্ৰিগাৰবোৰ ব্যৱহাৰ কৰক।"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "চকাটো খুলিবলৈ মাজৰ বুটামটো হেঁচি ধৰি টানক। ছেট কৰিবলৈ এটা ঠাইত ক্লিক কৰক; আদেশৰ নাম চকাটোত দেখুওৱা হয়। প্ৰতিটো এপৰ বাবে বেলেগ চকাৰ বাবে এপ গোটত এই ট্ৰিগাৰবোৰ ব্যৱহাৰ কৰক।",
+  "Taskbar": "কাৰ্যপট্টী",
+  "Desktop": "ডেস্কটপ",
+  "Disable the radial menu in this app": "এই এপত বৃত্তাকাৰ মেনু অক্ষম কৰক",
+  "New action": "নতুন কাৰ্য",
+  "Action library": "কাৰ্যৰ পুথিভঁৰাল",
+  "Filter": "ফিল্টাৰ",
+  "Empty slots use the global wheel.": "খালী ঠাইবোৰে গোলকীয় চকা ব্যৱহাৰ কৰে।",
+  "Set middle-button radial menus per application.": "প্ৰতিটো এপৰ বাবে মাজৰ বুটামৰ বৃত্তাকাৰ মেনু ছেট কৰক।"
 }

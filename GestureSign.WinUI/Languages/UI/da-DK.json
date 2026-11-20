@@ -685,5 +685,13 @@
   "Inner ring": "Indre ring",
   "Outer ring": "Ydre ring",
   "Middle-button radial menu": "Cirkelmenu for midterknappen",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hold midterknappen nede, og træk for at åbne cirkelmenuen. Klik på en plads for at indstille den; kommandonavnet vises i menuen. Brug disse udløsere i en appgruppe for at få menuer pr. app."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hold midterknappen nede, og træk for at åbne cirkelmenuen. Klik på en plads for at indstille den; kommandonavnet vises i menuen. Brug disse udløsere i en appgruppe for at få menuer pr. app.",
+  "Taskbar": "Proceslinje",
+  "Desktop": "Skrivebord",
+  "Disable the radial menu in this app": "Deaktiver cirkelmenuen i denne app",
+  "New action": "Ny handling",
+  "Action library": "Handlingsbibliotek",
+  "Filter": "Filtrer",
+  "Empty slots use the global wheel.": "Tomme pladser bruger den globale menu.",
+  "Set middle-button radial menus per application.": "Indstil cirkelmenuer for midterknappen pr. app."
 }

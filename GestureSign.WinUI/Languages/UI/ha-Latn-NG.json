@@ -685,5 +685,13 @@
   "Inner ring": "Zobe na ciki",
   "Outer ring": "Zobe na waje",
   "Middle-button radial menu": "Menu mai zagaye na maɓallin tsakiya",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Riƙe maɓallin tsakiya ka ja don buɗe menu mai zagaye. Danna wani wuri don saita shi; ana nuna sunan umarni a kan menu. Don menu na kowace manhaja, yi amfani da waɗannan masu kunnawa a cikin rukunin manhaja."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Riƙe maɓallin tsakiya ka ja don buɗe menu mai zagaye. Danna wani wuri don saita shi; ana nuna sunan umarni a kan menu. Don menu na kowace manhaja, yi amfani da waɗannan masu kunnawa a cikin rukunin manhaja.",
+  "Taskbar": "Sandar ayyuka",
+  "Desktop": "Tebur",
+  "Disable the radial menu in this app": "Kashe menu mai zagaye a wannan manhaja",
+  "New action": "Sabon aiki",
+  "Action library": "Ɗakin ayyuka",
+  "Filter": "Tace",
+  "Empty slots use the global wheel.": "Wuraren da babu komai suna amfani da menu na gaba ɗaya.",
+  "Set middle-button radial menus per application.": "Saita menu masu zagaye na maɓallin tsakiya ga kowace manhaja."
 }

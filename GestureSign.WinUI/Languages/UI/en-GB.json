@@ -685,5 +685,13 @@
   "Inner ring": "Inner ring",
   "Outer ring": "Outer ring",
   "Middle-button radial menu": "Middle-button radial menu",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.",
+  "Taskbar": "Taskbar",
+  "Desktop": "Desktop",
+  "Disable the radial menu in this app": "Disable the radial menu in this app",
+  "New action": "New action",
+  "Action library": "Action library",
+  "Filter": "Filter",
+  "Empty slots use the global wheel.": "Empty slots use the global wheel.",
+  "Set middle-button radial menus per application.": "Set middle-button radial menus per application."
 }

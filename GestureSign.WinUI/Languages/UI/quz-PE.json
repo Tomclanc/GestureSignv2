@@ -685,5 +685,13 @@
   "Inner ring": "Ukhu muyu",
   "Outer ring": "Hawa muyu",
   "Middle-button radial menu": "Chawpi butunpa muyu menun",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Muyu menuta kichanapaq chawpi butunta ñit'iykuspa aysay. Huk sitiota ñit'iy churanaykipaq; kamachiypa sutin menupi rikhurin. Sapa aplicacionpaq menukunapaq, kay qallarichiqkunata aplicacion huñupi llamk'achiy."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Muyu menuta kichanapaq chawpi butunta ñit'iykuspa aysay. Huk sitiota ñit'iy churanaykipaq; kamachiypa sutin menupi rikhurin. Sapa aplicacionpaq menukunapaq, kay qallarichiqkunata aplicacion huñupi llamk'achiy.",
+  "Taskbar": "Llamk'ana siq'i",
+  "Desktop": "Escritorio",
+  "Disable the radial menu in this app": "Kay aplicacionpi muyu menuta wañuchiy",
+  "New action": "Musuq ruray",
+  "Action library": "Ruraykunap huñun",
+  "Filter": "Ch'uyanchay",
+  "Empty slots use the global wheel.": "Ch'usaq sitiokuna llapanpaq menuta llamk'achinku.",
+  "Set middle-button radial menus per application.": "Sapa aplicacionpaq chawpi butunpa muyu menunkunata churay."
 }

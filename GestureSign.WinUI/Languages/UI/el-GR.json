@@ -685,5 +685,13 @@
   "Inner ring": "Εσωτερικός δακτύλιος",
   "Outer ring": "Εξωτερικός δακτύλιος",
   "Middle-button radial menu": "Κυκλικό μενού μεσαίου κουμπιού",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Κρατήστε πατημένο το μεσαίο κουμπί και σύρετε για να ανοίξει το κυκλικό μενού. Κάντε κλικ σε μια θέση για να τη ρυθμίσετε· το όνομα της εντολής εμφανίζεται στο μενού. Για μενού ανά εφαρμογή, χρησιμοποιήστε αυτά τα εναύσματα σε μια ομάδα εφαρμογής."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Κρατήστε πατημένο το μεσαίο κουμπί και σύρετε για να ανοίξει το κυκλικό μενού. Κάντε κλικ σε μια θέση για να τη ρυθμίσετε· το όνομα της εντολής εμφανίζεται στο μενού. Για μενού ανά εφαρμογή, χρησιμοποιήστε αυτά τα εναύσματα σε μια ομάδα εφαρμογής.",
+  "Taskbar": "Γραμμή εργασιών",
+  "Desktop": "Επιφάνεια εργασίας",
+  "Disable the radial menu in this app": "Απενεργοποίηση του κυκλικού μενού σε αυτή την εφαρμογή",
+  "New action": "Νέα ενέργεια",
+  "Action library": "Βιβλιοθήκη ενεργειών",
+  "Filter": "Φίλτρο",
+  "Empty slots use the global wheel.": "Οι κενές θέσεις χρησιμοποιούν το γενικό μενού.",
+  "Set middle-button radial menus per application.": "Ορίστε κυκλικά μενού μεσαίου κουμπιού ανά εφαρμογή."
 }

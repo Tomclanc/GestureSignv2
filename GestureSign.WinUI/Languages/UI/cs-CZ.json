@@ -685,5 +685,13 @@
   "Inner ring": "Vnitřní kruh",
   "Outer ring": "Vnější kruh",
   "Middle-button radial menu": "Kruhová nabídka prostředního tlačítka",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Podržením prostředního tlačítka a tažením otevřete kruhovou nabídku. Kliknutím na pole jej nastavíte; název příkazu se zobrazí v nabídce. Pro nabídky podle aplikace použijte tyto spouštěče ve skupině aplikace."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Podržením prostředního tlačítka a tažením otevřete kruhovou nabídku. Kliknutím na pole jej nastavíte; název příkazu se zobrazí v nabídce. Pro nabídky podle aplikace použijte tyto spouštěče ve skupině aplikace.",
+  "Taskbar": "Hlavní panel",
+  "Desktop": "Plocha",
+  "Disable the radial menu in this app": "Zakázat kruhovou nabídku v této aplikaci",
+  "New action": "Nová akce",
+  "Action library": "Knihovna akcí",
+  "Filter": "Filtr",
+  "Empty slots use the global wheel.": "Prázdná pole používají globální nabídku.",
+  "Set middle-button radial menus per application.": "Nastavte kruhové nabídky prostředního tlačítka pro jednotlivé aplikace."
 }

@@ -685,5 +685,13 @@
   "Inner ring": "Daxili halqa",
   "Outer ring": "Xarici halqa",
   "Middle-button radial menu": "Orta düymənin dairəvi menyusu",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Dairəni açmaq üçün orta düyməni basıb saxlayın və sürüşdürün. Xananı təyin etmək üçün üzərinə klikləyin; əmrin adı dairədə göstərilir. Tətbiqə görə dairələr üçün bu tətikləri tətbiq qrupunda istifadə edin."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Dairəni açmaq üçün orta düyməni basıb saxlayın və sürüşdürün. Xananı təyin etmək üçün üzərinə klikləyin; əmrin adı dairədə göstərilir. Tətbiqə görə dairələr üçün bu tətikləri tətbiq qrupunda istifadə edin.",
+  "Taskbar": "Tapşırıq paneli",
+  "Desktop": "İş masası",
+  "Disable the radial menu in this app": "Bu tətbiqdə dairəvi menyunu deaktiv et",
+  "New action": "Yeni əməliyyat",
+  "Action library": "Əməliyyat kitabxanası",
+  "Filter": "Filtr",
+  "Empty slots use the global wheel.": "Boş xanalar ümumi dairədən istifadə edir.",
+  "Set middle-button radial menus per application.": "Orta düymə dairəvi menyularını tətbiqə görə təyin edin."
 }

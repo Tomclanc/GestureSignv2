@@ -685,5 +685,13 @@
   "Inner ring": "உள் வளையம்",
   "Outer ring": "வெளி வளையம்",
   "Middle-button radial menu": "நடு பொத்தானின் வட்ட மெனு",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "வட்ட மெனுவைத் திறக்க நடு பொத்தானை அழுத்திப் பிடித்து இழுக்கவும். அமைக்க ஒரு இடத்தைக் கிளிக் செய்யவும்; கட்டளையின் பெயர் மெனுவில் காட்டப்படும். ஒவ்வொரு பயன்பாட்டுக்கும் தனி மெனுவுக்கு பயன்பாட்டுக் குழுவில் இந்தத் தூண்டிகளைப் பயன்படுத்தவும்."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "வட்ட மெனுவைத் திறக்க நடு பொத்தானை அழுத்திப் பிடித்து இழுக்கவும். அமைக்க ஒரு இடத்தைக் கிளிக் செய்யவும்; கட்டளையின் பெயர் மெனுவில் காட்டப்படும். ஒவ்வொரு பயன்பாட்டுக்கும் தனி மெனுவுக்கு பயன்பாட்டுக் குழுவில் இந்தத் தூண்டிகளைப் பயன்படுத்தவும்.",
+  "Taskbar": "பணிப்பட்டி",
+  "Desktop": "மேசைக்கணினி திரை",
+  "Disable the radial menu in this app": "இந்தப் பயன்பாட்டில் வட்ட மெனுவை முடக்கு",
+  "New action": "புதிய செயல்",
+  "Action library": "செயல் நூலகம்",
+  "Filter": "வடிகட்டு",
+  "Empty slots use the global wheel.": "காலியான இடங்கள் பொது மெனுவைப் பயன்படுத்தும்.",
+  "Set middle-button radial menus per application.": "ஒவ்வொரு பயன்பாட்டுக்கும் நடு பொத்தான் வட்ட மெனுக்களை அமைக்கவும்."
 }

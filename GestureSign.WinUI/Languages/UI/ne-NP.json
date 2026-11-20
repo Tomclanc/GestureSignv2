@@ -685,5 +685,13 @@
   "Inner ring": "भित्री घेरा",
   "Outer ring": "बाहिरी घेरा",
   "Middle-button radial menu": "बीचको बटनको वृत्ताकार मेनु",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वृत्ताकार मेनु खोल्न बीचको बटन थिचिराख्नुहोस् र तान्नुहोस्। सेट गर्न कुनै खानामा क्लिक गर्नुहोस्; आदेशको नाम मेनुमा देखाइन्छ। प्रत्येक एपको छुट्टै मेनुका लागि एप समूहमा यी ट्रिगरहरू प्रयोग गर्नुहोस्।"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वृत्ताकार मेनु खोल्न बीचको बटन थिचिराख्नुहोस् र तान्नुहोस्। सेट गर्न कुनै खानामा क्लिक गर्नुहोस्; आदेशको नाम मेनुमा देखाइन्छ। प्रत्येक एपको छुट्टै मेनुका लागि एप समूहमा यी ट्रिगरहरू प्रयोग गर्नुहोस्।",
+  "Taskbar": "कार्यपट्टी",
+  "Desktop": "डेस्कटप",
+  "Disable the radial menu in this app": "यो एपमा वृत्ताकार मेनु असक्षम पार्नुहोस्",
+  "New action": "नयाँ कार्य",
+  "Action library": "कार्य पुस्तकालय",
+  "Filter": "फिल्टर",
+  "Empty slots use the global wheel.": "खाली खानाहरूले साझा मेनु प्रयोग गर्छन्।",
+  "Set middle-button radial menus per application.": "प्रत्येक एपका लागि बीचको बटनको वृत्ताकार मेनु सेट गर्नुहोस्।"
 }

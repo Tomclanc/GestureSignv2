@@ -729,10 +729,12 @@ public sealed partial class MainWindow
 
     private ComboBox NewBuiltInGesturePicker(TextBox gesture, Action? onGestureSelected = null)
     {
-        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
-        for (var index = 0; index <= LastBuiltInGestureIndex; index++)
+        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
+        // Radial menu slots (37-52) are configured on the radial menu page.
+        for (var index = 0; index < FirstRadialMenuIndex; index++)
             combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
-        combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+        var currentIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+        combo.SelectedIndex = currentIndex < FirstRadialMenuIndex ? currentIndex : 0;
 
         combo.SelectionChanged += (_, _) =>
         {

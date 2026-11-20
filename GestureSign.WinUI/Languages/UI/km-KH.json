@@ -685,5 +685,13 @@
   "Inner ring": "រង្វង់ខាងក្នុង",
   "Outer ring": "រង្វង់ខាងក្រៅ",
   "Middle-button radial menu": "ម៉ឺនុយរង្វង់នៃប៊ូតុងកណ្ដាល",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ចុចប៊ូតុងកណ្ដាលឱ្យជាប់ ហើយអូសដើម្បីបើកម៉ឺនុយរង្វង់។ ចុចលើប្រអប់ដើម្បីកំណត់វា ឈ្មោះពាក្យបញ្ជានឹងបង្ហាញលើម៉ឺនុយ។ សម្រាប់ម៉ឺនុយតាមកម្មវិធី សូមប្រើកត្តាជំរុញទាំងនេះក្នុងក្រុមកម្មវិធី។"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ចុចប៊ូតុងកណ្ដាលឱ្យជាប់ ហើយអូសដើម្បីបើកម៉ឺនុយរង្វង់។ ចុចលើប្រអប់ដើម្បីកំណត់វា ឈ្មោះពាក្យបញ្ជានឹងបង្ហាញលើម៉ឺនុយ។ សម្រាប់ម៉ឺនុយតាមកម្មវិធី សូមប្រើកត្តាជំរុញទាំងនេះក្នុងក្រុមកម្មវិធី។",
+  "Taskbar": "របារភារកិច្ច",
+  "Desktop": "ផ្ទៃតុ",
+  "Disable the radial menu in this app": "បិទម៉ឺនុយរង្វង់ក្នុងកម្មវិធីនេះ",
+  "New action": "សកម្មភាពថ្មី",
+  "Action library": "បណ្ណាល័យសកម្មភាព",
+  "Filter": "តម្រង",
+  "Empty slots use the global wheel.": "ប្រអប់ទទេប្រើម៉ឺនុយទូទៅ។",
+  "Set middle-button radial menus per application.": "កំណត់ម៉ឺនុយរង្វង់ប៊ូតុងកណ្ដាលតាមកម្មវិធី។"
 }

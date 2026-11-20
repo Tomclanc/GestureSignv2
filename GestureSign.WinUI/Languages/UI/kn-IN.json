@@ -685,5 +685,13 @@
   "Inner ring": "ಒಳ ಉಂಗುರ",
   "Outer ring": "ಹೊರ ಉಂಗುರ",
   "Middle-button radial menu": "ಮಧ್ಯ ಬಟನ್‌ನ ವೃತ್ತಾಕಾರದ ಮೆನು",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ವೃತ್ತಾಕಾರದ ಮೆನು ತೆರೆಯಲು ಮಧ್ಯ ಬಟನ್ ಒತ್ತಿ ಹಿಡಿದು ಎಳೆಯಿರಿ. ಹೊಂದಿಸಲು ಒಂದು ಸ್ಥಾನದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ; ಆದೇಶದ ಹೆಸರು ಮೆನುವಿನಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತದೆ. ಪ್ರತಿ ಆ್ಯಪ್‌ಗೆ ಪ್ರತ್ಯೇಕ ಮೆನುವಿಗಾಗಿ ಆ್ಯಪ್ ಗುಂಪಿನಲ್ಲಿ ಈ ಟ್ರಿಗರ್‌ಗಳನ್ನು ಬಳಸಿ."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ವೃತ್ತಾಕಾರದ ಮೆನು ತೆರೆಯಲು ಮಧ್ಯ ಬಟನ್ ಒತ್ತಿ ಹಿಡಿದು ಎಳೆಯಿರಿ. ಹೊಂದಿಸಲು ಒಂದು ಸ್ಥಾನದ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ; ಆದೇಶದ ಹೆಸರು ಮೆನುವಿನಲ್ಲಿ ತೋರಿಸಲಾಗುತ್ತದೆ. ಪ್ರತಿ ಆ್ಯಪ್‌ಗೆ ಪ್ರತ್ಯೇಕ ಮೆನುವಿಗಾಗಿ ಆ್ಯಪ್ ಗುಂಪಿನಲ್ಲಿ ಈ ಟ್ರಿಗರ್‌ಗಳನ್ನು ಬಳಸಿ.",
+  "Taskbar": "ಕಾರ್ಯಪಟ್ಟಿ",
+  "Desktop": "ಡೆಸ್ಕ್‌ಟಾಪ್",
+  "Disable the radial menu in this app": "ಈ ಆ್ಯಪ್‌ನಲ್ಲಿ ವೃತ್ತಾಕಾರದ ಮೆನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ",
+  "New action": "ಹೊಸ ಕ್ರಿಯೆ",
+  "Action library": "ಕ್ರಿಯೆಗಳ ಗ್ರಂಥಾಲಯ",
+  "Filter": "ಫಿಲ್ಟರ್",
+  "Empty slots use the global wheel.": "ಖಾಲಿ ಸ್ಥಾನಗಳು ಜಾಗತಿಕ ಮೆನುವನ್ನು ಬಳಸುತ್ತವೆ.",
+  "Set middle-button radial menus per application.": "ಪ್ರತಿ ಆ್ಯಪ್‌ಗೆ ಮಧ್ಯ ಬಟನ್ ವೃತ್ತಾಕಾರದ ಮೆನು ಹೊಂದಿಸಿ."
 }

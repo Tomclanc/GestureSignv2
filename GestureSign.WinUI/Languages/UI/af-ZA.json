@@ -685,5 +685,13 @@
   "Inner ring": "Binneste ring",
   "Outer ring": "Buitenste ring",
   "Middle-button radial menu": "Middelknoppie-radiaalkieslys",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hou die middelste knoppie in en sleep om die wiel oop te maak. Klik op 'n gleuf om dit in te stel; die opdragnaam word op die wiel gewys. Gebruik hierdie snellers in 'n toepassingsgroep vir wiele per toepassing."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hou die middelste knoppie in en sleep om die wiel oop te maak. Klik op 'n gleuf om dit in te stel; die opdragnaam word op die wiel gewys. Gebruik hierdie snellers in 'n toepassingsgroep vir wiele per toepassing.",
+  "Taskbar": "Taakbalk",
+  "Desktop": "Werkskerm",
+  "Disable the radial menu in this app": "Deaktiveer die radiaalkieslys in hierdie toepassing",
+  "New action": "Nuwe aksie",
+  "Action library": "Aksiebiblioteek",
+  "Filter": "Filtreer",
+  "Empty slots use the global wheel.": "Leë gleuwe gebruik die globale wiel.",
+  "Set middle-button radial menus per application.": "Stel middelknoppie-radiaalkieslyste per toepassing in."
 }

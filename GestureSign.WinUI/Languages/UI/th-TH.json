@@ -685,5 +685,13 @@
   "Inner ring": "วงใน",
   "Outer ring": "วงนอก",
   "Middle-button radial menu": "เมนูวงกลมของปุ่มกลาง",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "กดปุ่มกลางค้างไว้แล้วลากเพื่อเปิดเมนูวงกลม คลิกช่องเพื่อตั้งค่า ชื่อคำสั่งจะแสดงบนเมนู สำหรับเมนูแยกตามแอป ให้ใช้ตัวทริกเกอร์เหล่านี้ในกลุ่มแอป"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "กดปุ่มกลางค้างไว้แล้วลากเพื่อเปิดเมนูวงกลม คลิกช่องเพื่อตั้งค่า ชื่อคำสั่งจะแสดงบนเมนู สำหรับเมนูแยกตามแอป ให้ใช้ตัวทริกเกอร์เหล่านี้ในกลุ่มแอป",
+  "Taskbar": "แถบงาน",
+  "Desktop": "เดสก์ท็อป",
+  "Disable the radial menu in this app": "ปิดเมนูวงกลมในแอปนี้",
+  "New action": "การกระทำใหม่",
+  "Action library": "คลังการกระทำ",
+  "Filter": "กรอง",
+  "Empty slots use the global wheel.": "ช่องว่างจะใช้เมนูส่วนกลาง",
+  "Set middle-button radial menus per application.": "ตั้งค่าเมนูวงกลมของปุ่มกลางแยกตามแอป"
 }

@@ -85,12 +85,15 @@
     "Training",
     "apps",
     "Backend",
-    "Label"
+    "Label",
+    "Taskbar",
+    "Desktop"
   ],
   "id-ID": [
     "Global",
     "Volume",
-    "Label"
+    "Label",
+    "Desktop"
   ],
   "tr-TR": [
     "Normal"
@@ -113,7 +116,8 @@
     "Touchscreen",
     "Version",
     "apps",
-    "Backend"
+    "Backend",
+    "Desktop"
   ],
   "it-IT": [
     "Backup",
@@ -121,7 +125,8 @@
     "No",
     "Touchpad",
     "Volume",
-    "Backend"
+    "Backend",
+    "Desktop"
   ],
   "nb-NO": [
     "1 finger",
@@ -145,7 +150,8 @@
   "sk-SK": [
     "Tip",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Filter"
   ],
   "el-GR": [
     "Touchpad",
@@ -198,7 +204,8 @@
     "Import",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Desktop"
   ],
   "nl-NL": [
     "Browser",
@@ -252,7 +259,8 @@
     "Import",
     "Pen",
     "apps",
-    "Label"
+    "Label",
+    "Desktop"
   ],
   "mt-MT": [
     "Backup",
@@ -262,6 +270,20 @@
     "Touchpad",
     "Touchscreen",
     "apps",
-    "Backend"
+    "Backend",
+    "Desktop"
+  ],
+  "bs-Latn-BA": [
+    "Filter"
+  ],
+  "fil-PH": [
+    "Taskbar",
+    "Desktop"
+  ],
+  "sl-SI": [
+    "Filter"
+  ],
+  "sr-Latn-RS": [
+    "Filter"
   ]
 }

@@ -685,5 +685,13 @@
   "Inner ring": "ଭିତର ବଳୟ",
   "Outer ring": "ବାହାର ବଳୟ",
   "Middle-button radial menu": "ମଝି ବଟନ୍‌ର ବୃତ୍ତାକାର ମେନୁ",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ବୃତ୍ତାକାର ମେନୁ ଖୋଲିବାକୁ ମଝି ବଟନ୍ ଦବାଇ ଧରି ଟାଣନ୍ତୁ। ସେଟ୍ କରିବାକୁ ଏକ ସ୍ଥାନରେ କ୍ଲିକ୍ କରନ୍ତୁ; କମାଣ୍ଡର ନାମ ମେନୁରେ ଦେଖାଯାଏ। ପ୍ରତି ଆପ୍ ପାଇଁ ଅଲଗା ମେନୁ ପାଇଁ ଆପ୍ ଗୋଷ୍ଠୀରେ ଏହି ଟ୍ରିଗରଗୁଡ଼ିକ ବ୍ୟବହାର କରନ୍ତୁ।"
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ବୃତ୍ତାକାର ମେନୁ ଖୋଲିବାକୁ ମଝି ବଟନ୍ ଦବାଇ ଧରି ଟାଣନ୍ତୁ। ସେଟ୍ କରିବାକୁ ଏକ ସ୍ଥାନରେ କ୍ଲିକ୍ କରନ୍ତୁ; କମାଣ୍ଡର ନାମ ମେନୁରେ ଦେଖାଯାଏ। ପ୍ରତି ଆପ୍ ପାଇଁ ଅଲଗା ମେନୁ ପାଇଁ ଆପ୍ ଗୋଷ୍ଠୀରେ ଏହି ଟ୍ରିଗରଗୁଡ଼ିକ ବ୍ୟବହାର କରନ୍ତୁ।",
+  "Taskbar": "ଟାସ୍କବାର୍",
+  "Desktop": "ଡେସ୍କଟପ୍",
+  "Disable the radial menu in this app": "ଏହି ଆପ୍‌ରେ ବୃତ୍ତାକାର ମେନୁ ଅକ୍ଷମ କରନ୍ତୁ",
+  "New action": "ନୂଆ କାର୍ଯ୍ୟ",
+  "Action library": "କାର୍ଯ୍ୟ ପାଠାଗାର",
+  "Filter": "ଫିଲ୍ଟର୍",
+  "Empty slots use the global wheel.": "ଖାଲି ସ୍ଥାନଗୁଡ଼ିକ ସାଧାରଣ ମେନୁ ବ୍ୟବହାର କରନ୍ତି।",
+  "Set middle-button radial menus per application.": "ପ୍ରତି ଆପ୍ ପାଇଁ ମଝି ବଟନ୍ ବୃତ୍ତାକାର ମେନୁ ସେଟ୍ କରନ୍ତୁ।"
 }

@@ -685,5 +685,13 @@
   "Inner ring": "Banneschte Rank",
   "Outer ring": "Baussechte Rank",
   "Middle-button radial menu": "Kreesmenü vum mëttlere Knäppchen",
-  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hält de mëttlere Knäppchen gedréckt an zitt, fir de Kreesmenü opzemaachen. Klickt op e Feld, fir et anzestellen; den Numm vum Befeel gëtt am Menü gewisen. Fir Menüen pro App benotzt dës Ausléiser an enger App-Grupp."
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hält de mëttlere Knäppchen gedréckt an zitt, fir de Kreesmenü opzemaachen. Klickt op e Feld, fir et anzestellen; den Numm vum Befeel gëtt am Menü gewisen. Fir Menüen pro App benotzt dës Ausléiser an enger App-Grupp.",
+  "Taskbar": "Taskbar",
+  "Desktop": "Desktop",
+  "Disable the radial menu in this app": "Kreesmenü an dëser App desaktivéieren",
+  "New action": "Nei Aktioun",
+  "Action library": "Aktiounsbibliothéik",
+  "Filter": "Filteren",
+  "Empty slots use the global wheel.": "Eidel Felder benotzen de globale Menü.",
+  "Set middle-button radial menus per application.": "Kreesmenüe vum mëttlere Knäppchen pro App astellen."
 }
