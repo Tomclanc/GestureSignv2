@@ -34,8 +34,12 @@ public interface IStepHost
     bool ShowMessageBox(string title, string text, string buttons);
     /// <summary>Asks for text; returns null when cancelled.</summary>
     string AskText(string prompt, string defaultValue, bool multiline);
-    /// <summary>Asks to pick one item; returns null when cancelled.</summary>
-    string AskChoice(string prompt, IReadOnlyList<string> items);
+    /// <summary>Asks to pick one item, or several when multiple is set; returns the picked indices, or null when cancelled.</summary>
+    IReadOnlyList<int> AskChoice(string prompt, IReadOnlyList<string> labels, bool multiple);
+    /// <summary>Shows a form; returns each field's value (text, double or bool) by name, or null when cancelled.</summary>
+    IReadOnlyDictionary<string, object> AskForm(string title, IReadOnlyList<StepFormField> fields);
+    /// <summary>Shows an open, save or folder dialog. mode: open, openMultiple, save, folder. Returns null when cancelled.</summary>
+    IReadOnlyList<string> PickFiles(string mode, string title, string filter, string initialPath);
     IReadOnlyList<string> GetClipboardFiles();
     /// <summary>Full paths of the files and folders selected in File Explorer, on the desktop or (via Ctrl+C) in other file managers.</summary>
     IReadOnlyList<string> GetSelectedFiles();
@@ -370,10 +374,36 @@ public sealed class StepRunner
                 break;
 
             case StepCatalog.UserSelect:
-                var choices = StepVariables.ToList(ResolveValue(step.Arg("Items"), v)).Select(StepVariables.ToText).ToList();
-                var choice = _host.AskChoice(Arg("Prompt"), choices);
-                if (choice == null) throw new StopSignal();
-                Output(choice);
+                var choices = StepVariables.ToList(ResolveValue(step.Arg("Items"), v))
+                    .Select(item => StepChoices.Split(StepVariables.ToText(item)))
+                    .Where(item => item.Label.Length > 0 || item.Value.Length > 0)
+                    .ToList();
+                var multiple = Flag("Multiple");
+                if (choices.Count == 0) throw new StopSignal();
+                var picked = _host.AskChoice(Arg("Prompt"), choices.Select(c => c.Label).ToList(), multiple);
+                if (picked == null) throw new StopSignal();
+                var values = picked.Where(i => i >= 0 && i < choices.Count).Select(i => (object)choices[i].Value).ToList();
+                if (multiple) Output(values);
+                else if (values.Count > 0) Output(values[0]);
+                else throw new StopSignal();
+                break;
+
+            case StepCatalog.UserForm:
+                var fields = StepFormField.ParseAll(Arg("Fields"));
+                if (fields.Count == 0) break;
+                var answers = _host.AskForm(Arg("Title"), fields);
+                if (answers == null) throw new StopSignal();
+                foreach (var field in fields)
+                    if (answers.TryGetValue(field.Name, out var fieldValue))
+                        v[field.Name] = fieldValue;
+                break;
+
+            case StepCatalog.ChooseFile:
+                var mode = step.Arg("Mode").Trim();
+                var paths = _host.PickFiles(mode, Arg("Title"), Arg("Filter").Trim(), Arg("InitialPath").Trim());
+                if (paths == null || paths.Count == 0) throw new StopSignal();
+                if (string.Equals(mode, "openMultiple", StringComparison.OrdinalIgnoreCase)) Output(paths.Cast<object>().ToList());
+                else Output(paths[0]);
                 break;
 
             case StepCatalog.ReplaceText:

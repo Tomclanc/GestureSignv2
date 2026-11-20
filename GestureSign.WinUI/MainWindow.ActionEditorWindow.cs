@@ -152,6 +152,9 @@ public sealed partial class MainWindow
                         if (info?.Parameters.Any(p => p.Key == key && p.Kind == StepParameterKind.Variable) == true)
                             names.Add(step.Arg(key).Trim());
                     }
+                    // A form writes one variable per field.
+                    if (step.Type == StepCatalog.UserForm)
+                        names.AddRange(StepFormField.ParseAll(step.Arg("Fields")).Select(field => field.Name));
                     Walk(step.Body);
                     Walk(step.Else);
                 }
@@ -307,6 +310,8 @@ public sealed partial class MainWindow
         var propertiesHost = new StackPanel { Spacing = 10 };
         var appearanceHost = new StackPanel { Spacing = 10 };
         var variablesList = new ListView { SelectionMode = ListViewSelectionMode.Single, MaxHeight = 220 };
+        // Declared before the local functions that use it (Undo/Redo refill the list and are bound earlier).
+        StepVariableDef? lastVariable = null;
         var tabProperties = new ToggleButton { Content = T("步骤属性", "Step properties"), IsChecked = true };
         var tabAppearance = new ToggleButton { Content = T("外观", "Appearance") };
         var tabContent = new ScrollViewer { Content = propertiesHost, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Padding = new Thickness(0, 0, 8, 0) };
@@ -782,8 +787,6 @@ public sealed partial class MainWindow
             "bool" => T("真假", "Yes/No"),
             _ => T("文本", "Text")
         };
-
-        StepVariableDef? lastVariable = null;
 
         void FillVariables()
         {

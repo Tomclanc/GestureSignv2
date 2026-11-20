@@ -39,10 +39,27 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid.Resources>
-            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            <ResourceDictionary>
+                <!--
+                    Docked pane (wide window): transparent over the window backdrop.
+                    Pane opened over the content (compact or minimal mode): it needs its own
+                    background, otherwise the page shows through the menu.
+                -->
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Default">
+                        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="AcrylicInAppFillColorDefaultBrush" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Light">
+                        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="AcrylicInAppFillColorDefaultBrush" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="HighContrast">
+                        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemColorWindowColorBrush" />
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            </ResourceDictionary>
         </Grid.Resources>
 
         <Grid.RowDefinitions>

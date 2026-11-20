@@ -35,7 +35,24 @@ internal static class ActionEngineTests
         public void Notify(string text) => Calls.Add("notify:" + text);
         public bool ShowMessageBox(string title, string text, string buttons) => true;
         public string AskText(string prompt, string defaultValue, bool multiline) => Answer;
-        public string AskChoice(string prompt, IReadOnlyList<string> items) => items.Count > 1 ? items[1] : null;
+        public IReadOnlyList<int> AskChoice(string prompt, IReadOnlyList<string> labels, bool multiple)
+        {
+            Calls.Add("choices:" + string.Join("|", labels));
+            if (multiple) return new[] { 0, labels.Count - 1 };
+            return labels.Count > 1 ? new[] { 1 } : null;
+        }
+        public Dictionary<string, object> FormAnswers;
+        public IReadOnlyDictionary<string, object> AskForm(string title, IReadOnlyList<StepFormField> fields)
+        {
+            Calls.Add("form:" + string.Join(",", fields.Select(f => f.Name + "/" + f.Kind)));
+            return FormAnswers;
+        }
+        public IReadOnlyList<string> Picked;
+        public IReadOnlyList<string> PickFiles(string mode, string title, string filter, string initialPath)
+        {
+            Calls.Add("pick:" + mode);
+            return Picked;
+        }
         public IReadOnlyList<string> GetClipboardFiles() => new[] { @"C:\a.txt", @"D:\b c.txt" };
         public IReadOnlyList<string> GetSelectedFiles() => new[] { @"C:\a.txt", @"D:\b c.txt" };
         public string GetExplorerFolder() => Folder;
@@ -108,6 +125,8 @@ internal static class ActionEngineTests
         Check(noFolder.Calls.Contains("run:wt.exe") && !noFolder.Calls.Any(c => c.StartsWith("args:")));
         Check(RunTemplate("open-folder-with", h => h.Folder = @"D:\Work").Calls.Contains(@"args:""D:\Work""||False"));
         Check(RunTemplate("system-tool").Calls.Contains("run:ms-settings:display"));
+        Check(RunTemplate("search-choose-engine", h => h.Selected = "a b").Calls.Contains("run:https://www.baidu.com/s?wd=a%20b"));
+        Check(RunTemplate("compose-email").Calls.Any(c => c.StartsWith("form:to/text")));
         Check(StepPresets.ForStep(StepCatalog.RunProgram).Count > 20 && StepPresets.ForStep(StepCatalog.Http).Count == 0);
         Check(StepPresets.ForStep(StepCatalog.LaunchOrActivate).Any(p => p.Path == "code" && p.ProcessName == "Code.exe"));
         Check(StepPresets.ForStep(StepCatalog.RunProgram).All(p => p.Path.Length > 0 && p.NameZh.Length > 0 && p.NameEn.Length > 0));
@@ -146,6 +165,32 @@ internal static class ActionEngineTests
         var host = new FakeHost();
         new StepRunner(host).Run(new StepProgram { Steps = { group, Step.Create(StepCatalog.Comment) } });
         Check(host.Calls.Contains("notify:in group"));
+
+        // Choices written as label|value: the label is shown, the value is kept.
+        var select = Step.Create(StepCatalog.UserSelect);
+        select.Args["Items"] = "Bing|https://bing.com/?q=\nPlain";
+        var chooser = new FakeHost();
+        var chosen = new StepRunner(chooser).Run(new StepProgram { Steps = { select } });
+        Check(chooser.Calls.Contains("choices:Bing|Plain") && chosen.Variables.Text("choice") == "Plain");
+        select.Args["Multiple"] = "true";
+        var many = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { select } });
+        Check(StepVariables.ToList(many.Variables["choice"]).Select(StepVariables.ToText).SequenceEqual(new[] { "https://bing.com/?q=", "Plain" }));
+
+        var fields = StepFormField.ParseAll("name|名称|text|x\nn|数|number|2\n\n# note\nbad name|x\nc|分类|choice|b|a, b ,c\nok|同意|check|true\nname|dup");
+        Check(fields.Count == 4 && fields[2].Options.SequenceEqual(new[] { "a", "b", "c" }) && fields[1].Kind == "number");
+        var form = Step.Create(StepCatalog.UserForm);
+        var formHost = new FakeHost { FormAnswers = new Dictionary<string, object> { ["name"] = "Ann", ["category"] = "生活", ["note"] = "", ["pinned"] = true } };
+        var filled = new StepRunner(formHost).Run(new StepProgram { Steps = { form } });
+        Check(filled.Variables.Text("name") == "Ann" && filled.Variables["pinned"] is true && formHost.Calls.Contains("form:name/text,category/choice,note/multiline,pinned/check"));
+        var cancelled = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { form, Step.Create(StepCatalog.Notify) } });
+        Check(cancelled.Error == null && cancelled.Variables["name"] == null);
+
+        var pick = Step.Create(StepCatalog.ChooseFile);
+        pick.Args["Mode"] = "openMultiple";
+        var picked = new StepRunner(new FakeHost { Picked = new[] { "a", "b" } }).Run(new StepProgram { Steps = { pick } });
+        Check(StepVariables.ToList(picked.Variables["path"]).Count == 2);
+        pick.Args["Mode"] = "folder";
+        Check(new StepRunner(new FakeHost { Picked = new[] { @"C:\x" } }).Run(new StepProgram { Steps = { pick } }).Variables.Text("path") == @"C:\x");
 
         var launch = Step.Create(StepCatalog.LaunchOrActivate);
         Check(launch.Arg("WhenActive") == "minimize");

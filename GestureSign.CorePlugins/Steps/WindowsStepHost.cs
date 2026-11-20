@@ -211,12 +211,26 @@ namespace GestureSign.CorePlugins.Steps
             return answer;
         }
 
-        public string AskChoice(string prompt, IReadOnlyList<string> items)
+        public IReadOnlyList<int> AskChoice(string prompt, IReadOnlyList<string> labels, bool multiple)
         {
-            if (items == null || items.Count == 0)
+            if (labels == null || labels.Count == 0)
                 return null;
-            string answer = null;
-            _pointInfo.Invoke(() => answer = StepPromptForm.AskChoice(prompt, items));
+            IReadOnlyList<int> answer = null;
+            _pointInfo.Invoke(() => answer = StepPromptForm.AskChoice(prompt, labels, multiple));
+            return answer;
+        }
+
+        public IReadOnlyDictionary<string, object> AskForm(string title, IReadOnlyList<StepFormField> fields)
+        {
+            IReadOnlyDictionary<string, object> answer = null;
+            _pointInfo.Invoke(() => answer = StepPromptForm.AskForm(title, fields));
+            return answer;
+        }
+
+        public IReadOnlyList<string> PickFiles(string mode, string title, string filter, string initialPath)
+        {
+            IReadOnlyList<string> answer = null;
+            _pointInfo.Invoke(() => answer = StepPromptForm.PickFiles(mode, title, filter, initialPath));
             return answer;
         }
 
@@ -619,16 +633,146 @@ namespace GestureSign.CorePlugins.Steps
             box.SelectionLength = 0;
         }
 
-        public static string AskChoice(string prompt, IReadOnlyList<string> items)
+        public static IReadOnlyList<int> AskChoice(string prompt, IReadOnlyList<string> items, bool multiple)
         {
+            var height = Math.Min(480, 120 + items.Count * 22);
+            if (multiple)
+            {
+                var checks = new CheckedListBox { IntegralHeight = false, CheckOnClick = true };
+                foreach (var item in items)
+                    checks.Items.Add(item);
+                using var multiForm = new StepPromptForm(prompt, checks, height);
+                multiForm.Shown += (_, __) => { multiForm.Activate(); checks.Focus(); };
+                return multiForm.ShowDialog() == DialogResult.OK ? checks.CheckedIndices.Cast<int>().ToList() : null;
+            }
             var list = new ListBox { IntegralHeight = false };
             foreach (var item in items)
                 list.Items.Add(item);
             list.SelectedIndex = 0;
-            using var form = new StepPromptForm(prompt, list, Math.Min(480, 120 + items.Count * 22));
+            using var form = new StepPromptForm(prompt, list, height);
             list.DoubleClick += (_, __) => { if (list.SelectedItem != null) form.DialogResult = DialogResult.OK; };
             form.Shown += (_, __) => { form.Activate(); list.Focus(); };
-            return form.ShowDialog() == DialogResult.OK ? list.SelectedItem as string : null;
+            return form.ShowDialog() == DialogResult.OK && list.SelectedIndex >= 0 ? new[] { list.SelectedIndex } : null;
+        }
+
+        /// <summary>One window with a labelled control per field; null when cancelled.</summary>
+        public static IReadOnlyDictionary<string, object> AskForm(string title, IReadOnlyList<StepFormField> fields)
+        {
+            var table = new TableLayoutPanel { ColumnCount = 2, AutoScroll = true, Padding = new Padding(0, 4, 8, 0) };
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 110));
+            table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100));
+            var readers = new List<(string Name, Func<object> Read)>();
+            var height = 90;
+            Control first = null;
+            foreach (var field in fields)
+            {
+                var label = new Label { Text = field.Label, AutoSize = false, Dock = DockStyle.Fill, TextAlign = ContentAlignment.MiddleLeft };
+                Control control;
+                switch (field.Kind)
+                {
+                    case "multiline":
+                        var area = new TextBox { Text = field.Default, Multiline = true, AcceptsReturn = true, ScrollBars = ScrollBars.Vertical, Height = 72, Dock = DockStyle.Fill };
+                        readers.Add((field.Name, () => area.Text));
+                        control = area;
+                        label.TextAlign = ContentAlignment.TopLeft;
+                        break;
+                    case "number":
+                        var number = new NumericUpDown { DecimalPlaces = 2, Minimum = decimal.MinValue / 2, Maximum = decimal.MaxValue / 2, Dock = DockStyle.Fill };
+                        if (decimal.TryParse(field.Default, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var start))
+                            number.Value = start;
+                        readers.Add((field.Name, () => (object)(double)number.Value));
+                        control = number;
+                        break;
+                    case "choice":
+                        var combo = new ComboBox { DropDownStyle = ComboBoxStyle.DropDownList, Dock = DockStyle.Fill };
+                        foreach (var option in field.Options)
+                            combo.Items.Add(option);
+                        combo.SelectedIndex = combo.Items.Count == 0 ? -1 : Math.Max(0, field.Options.ToList().IndexOf(field.Default));
+                        readers.Add((field.Name, () => combo.SelectedItem as string ?? ""));
+                        control = combo;
+                        break;
+                    case "check":
+                        var check = new CheckBox { Text = "", Checked = StepVariables.IsTruthy(field.Default), Dock = DockStyle.Fill };
+                        readers.Add((field.Name, () => (object)check.Checked));
+                        control = check;
+                        break;
+                    case "file":
+                    case "folder":
+                        var pathBox = new TextBox { Text = field.Default, Dock = DockStyle.Fill };
+                        var browse = new Button { Text = "…", Width = 32, Dock = DockStyle.Right };
+                        var kind = field.Kind;
+                        browse.Click += (_, __) =>
+                        {
+                            var picked = PickFiles(kind == "folder" ? "folder" : "open", field.Label, "", pathBox.Text);
+                            if (picked != null && picked.Count > 0) pathBox.Text = picked[0];
+                        };
+                        var holder = new Panel { Height = pathBox.PreferredHeight, Dock = DockStyle.Fill };
+                        holder.Controls.Add(pathBox);
+                        holder.Controls.Add(browse);
+                        readers.Add((field.Name, () => pathBox.Text));
+                        control = holder;
+                        first ??= pathBox;
+                        break;
+                    default:
+                        var text = new TextBox { Text = field.Default, Dock = DockStyle.Fill };
+                        readers.Add((field.Name, () => text.Text));
+                        control = text;
+                        break;
+                }
+                first ??= control;
+                var rowHeight = field.Kind == "multiline" ? 80 : 32;
+                table.RowStyles.Add(new RowStyle(SizeType.Absolute, rowHeight));
+                table.Controls.Add(label);
+                table.Controls.Add(control);
+                height += rowHeight;
+            }
+            using var form = new StepPromptForm(null, table, Math.Min(560, height));
+            if (!string.IsNullOrWhiteSpace(title))
+                form.Text = title;
+            form.Shown += (_, __) => { form.Activate(); first?.Focus(); };
+            if (form.ShowDialog() != DialogResult.OK)
+                return null;
+            return readers.ToDictionary(r => r.Name, r => r.Read(), StringComparer.Ordinal);
+        }
+
+        /// <summary>Windows open, save or folder dialog; null when cancelled.</summary>
+        public static IReadOnlyList<string> PickFiles(string mode, string title, string filter, string initialPath)
+        {
+            using var owner = NewTopmostOwner();
+            initialPath = Environment.ExpandEnvironmentVariables(initialPath ?? "").Trim().Trim('"');
+            var initialFolder = System.IO.Directory.Exists(initialPath) ? initialPath : System.IO.Path.GetDirectoryName(initialPath);
+            var initialName = System.IO.Directory.Exists(initialPath) ? "" : System.IO.Path.GetFileName(initialPath);
+            switch ((mode ?? "").Trim().ToLowerInvariant())
+            {
+                case "folder":
+                    using (var dialog = new FolderBrowserDialog { UseDescriptionForTitle = true, Description = title ?? "", ShowNewFolderButton = true })
+                    {
+                        if (!string.IsNullOrEmpty(initialPath) && System.IO.Directory.Exists(initialPath))
+                            dialog.SelectedPath = initialPath;
+                        return dialog.ShowDialog(owner) == DialogResult.OK ? new[] { dialog.SelectedPath } : null;
+                    }
+                case "save":
+                    using (var dialog = new SaveFileDialog { Title = title ?? "", FileName = initialName ?? "", OverwritePrompt = true })
+                    {
+                        if (!string.IsNullOrWhiteSpace(filter)) TrySetFilter(dialog, filter);
+                        if (!string.IsNullOrEmpty(initialFolder)) dialog.InitialDirectory = initialFolder;
+                        return dialog.ShowDialog(owner) == DialogResult.OK ? new[] { dialog.FileName } : null;
+                    }
+                default:
+                    using (var dialog = new OpenFileDialog { Title = title ?? "", Multiselect = string.Equals(mode, "openMultiple", StringComparison.OrdinalIgnoreCase), FileName = initialName ?? "" })
+                    {
+                        if (!string.IsNullOrWhiteSpace(filter)) TrySetFilter(dialog, filter);
+                        if (!string.IsNullOrEmpty(initialFolder)) dialog.InitialDirectory = initialFolder;
+                        return dialog.ShowDialog(owner) == DialogResult.OK ? dialog.FileNames : null;
+                    }
+            }
+        }
+
+        /// <summary>A malformed filter ("a|b|c") would throw; fall back to all files.</summary>
+        private static void TrySetFilter(FileDialog dialog, string filter)
+        {
+            try { dialog.Filter = filter; }
+            catch (ArgumentException) { dialog.Filter = ""; }
         }
     }
 

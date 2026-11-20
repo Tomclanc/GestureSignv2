@@ -52,29 +52,80 @@ public sealed partial class MainWindow
     {
         _radialConfig = LoadRadialConfigForEditing();
         var root = NewSection();
-        root.Children.Add(NewRadialMenuSwitchesCard());
+        var switches = NewRadialMenuSwitchesBar();
 
-        var columns = new Grid { ColumnSpacing = 16 };
-        columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(250) });
-        columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(280) });
+        var columns = new Grid { ColumnSpacing = 16, RowSpacing = 16 };
         _radialMenuListHost = new Grid();
         _radialWheelHost = new Grid();
         _radialLibraryHost = new Grid();
-        Grid.SetColumn(_radialWheelHost, 1);
-        Grid.SetColumn(_radialLibraryHost, 2);
         columns.Children.Add(_radialMenuListHost);
         columns.Children.Add(_radialWheelHost);
         columns.Children.Add(_radialLibraryHost);
-        root.Children.Add(NewCard(columns));
+        _radialLayoutMode = -1;
+        ApplyRadialPageLayout(columns, switches, double.PositiveInfinity);
+        // Wide: list | wheel | library. Medium: list | wheel, library below. Narrow: one column.
+        columns.SizeChanged += (_, e) => ApplyRadialPageLayout(columns, switches, e.NewSize.Width);
+
+        var content = new StackPanel { Spacing = 16 };
+        content.Children.Add(switches);
+        content.Children.Add(new Border { Height = 1, Background = SubtleBrush(), Opacity = 0.6 });
+        content.Children.Add(columns);
+        root.Children.Add(NewCard(content));
 
         RefreshRadialPage();
         return root;
     }
 
-    private FrameworkElement NewRadialMenuSwitchesCard()
+    private int _radialLayoutMode = -1;
+
+    private void ApplyRadialPageLayout(Grid columns, StackPanel switches, double width)
     {
-        var panel = NewCardPanel(8);
+        var mode = width >= 900 ? 2 : width >= 560 ? 1 : 0;
+        switches.Orientation = width >= 420 ? Orientation.Horizontal : Orientation.Vertical;
+        if (mode == _radialLayoutMode || _radialMenuListHost is null || _radialWheelHost is null || _radialLibraryHost is null)
+            return;
+        _radialLayoutMode = mode;
+        columns.ColumnDefinitions.Clear();
+        columns.RowDefinitions.Clear();
+        void Place(FrameworkElement element, int row, int column, int columnSpan = 1)
+        {
+            Grid.SetRow(element, row);
+            Grid.SetColumn(element, column);
+            Grid.SetColumnSpan(element, columnSpan);
+        }
+        switch (mode)
+        {
+            case 2:
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 320 });
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(260) });
+                Place(_radialMenuListHost, 0, 0);
+                Place(_radialWheelHost, 0, 1);
+                Place(_radialLibraryHost, 0, 2);
+                break;
+            case 1:
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(200) });
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Place(_radialMenuListHost, 0, 0);
+                Place(_radialWheelHost, 0, 1);
+                Place(_radialLibraryHost, 1, 0, 2);
+                break;
+            default:
+                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                for (var row = 0; row < 3; row++)
+                    columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                Place(_radialMenuListHost, 0, 0);
+                Place(_radialWheelHost, 1, 0);
+                Place(_radialLibraryHost, 2, 0);
+                break;
+        }
+    }
+
+    /// <summary>Enable / outer ring / third ring as one compact row (a column when very narrow).</summary>
+    private StackPanel NewRadialMenuSwitchesBar()
+    {
         var options = _legacyData.Options;
         var enabledSwitch = NewRadialMenuToggle(options.RadialMenuEnabled);
         var outerSwitch = NewRadialMenuToggle(options.RadialMenuOuterRing);
@@ -98,10 +149,22 @@ public sealed partial class MainWindow
         _radialRingCount = !options.RadialMenuOuterRing ? 1 : options.RadialMenuThirdRing ? 3 : 2;
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(enabledSwitch, L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴"));
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(outerSwitch, L("外圈", "Outer ring", "外圈", "바깥쪽 링"));
-        panel.Children.Add(NewSettingRow(L("启用", "Enable", "啟用", "사용"), null, enabledSwitch));
-        panel.Children.Add(NewSettingRow(L("外圈", "Outer ring", "外圈", "바깥쪽 링"), null, outerSwitch));
-        panel.Children.Add(NewSettingRow(T("第三圈", "Third ring"), null, thirdSwitch));
-        return NewCard(panel);
+        var bar = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 28 };
+        void Pair(string label, ToggleSwitch toggle)
+        {
+            // No On/Off text: the label sits beside the switch instead.
+            toggle.OnContent = string.Empty;
+            toggle.OffContent = string.Empty;
+            toggle.MinWidth = 0;
+            var pair = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10 };
+            pair.Children.Add(new TextBlock { Text = label, VerticalAlignment = VerticalAlignment.Center });
+            pair.Children.Add(toggle);
+            bar.Children.Add(pair);
+        }
+        Pair(L("启用", "Enable", "啟用", "사용"), enabledSwitch);
+        Pair(L("外圈", "Outer ring", "外圈", "바깥쪽 링"), outerSwitch);
+        Pair(T("第三圈", "Third ring"), thirdSwitch);
+        return bar;
     }
 
     private int _radialRingCount = 2;

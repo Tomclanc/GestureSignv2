@@ -46,6 +46,8 @@ public static class StepCatalog
     public const string MessageBox = "MessageBox";
     public const string UserInput = "UserInput";
     public const string UserSelect = "UserSelect";
+    public const string UserForm = "UserForm";
+    public const string ChooseFile = "ChooseFile";
     public const string GetSelectedText = "GetSelectedText";
     public const string GetClipboard = "GetClipboard";
     public const string GetClipboardFiles = "GetClipboardFiles";
@@ -141,9 +143,30 @@ public static class StepCatalog
             descriptionZh: "取消时停止动作。", descriptionEn: "Cancelling stops the action."),
         Type("interact", UserSelect, "用户选择", "Ask to choose", "",
             new[] { new StepParameter("Prompt", "提示", "Prompt", StepParameterKind.Text, ""),
-                    new StepParameter("Items", "选项（每行一项或列表变量）", "Choices (one per line or a list variable)", StepParameterKind.MultilineText, ""),
+                    new StepParameter("Items", "选项（每行一项或列表变量）", "Choices (one per line or a list variable)", StepParameterKind.MultilineText, "",
+                        HintZh: "写成「显示名|值」时，列表里显示前面的名字，结果是后面的值。例如：百度|https://www.baidu.com/s?wd=",
+                        HintEn: "Write \"label|value\" to show the label and get the value, e.g. Bing|https://www.bing.com/search?q="),
+                    new StepParameter("Multiple", "允许多选（结果是列表）", "Allow several (the result is a list)", StepParameterKind.Boolean, "false"),
                     Output("choice") },
-            descriptionZh: "取消时停止动作。", descriptionEn: "Cancelling stops the action."),
+            descriptionZh: "从列表中选一项或多项。取消时停止动作。", descriptionEn: "Pick one or more items from a list. Cancelling stops the action."),
+        Type("interact", UserForm, "表单（一次填多项）", "Form (several fields)", "\uE70F",
+            new[] { new StepParameter("Title", "标题", "Title", StepParameterKind.Text, ""),
+                    new StepParameter("Fields", "字段（每行一个）", "Fields (one per line)", StepParameterKind.MultilineText,
+                        "name|名称|text|\ncategory|分类|choice|工作|工作,生活,学习\nnote|备注|multiline|\npinned|置顶|check|false",
+                        HintZh: "每行：变量名|标签|类型|默认值|选项。类型：text 文本、multiline 多行、number 数字、choice 下拉（选项用逗号分隔）、check 勾选、file 文件、folder 文件夹。每个字段的结果存到同名变量。",
+                        HintEn: "Each line: variable|label|kind|default|options. Kinds: text, multiline, number, choice (comma-separated options), check, file, folder. Each field is saved to the variable of the same name.") },
+            descriptionZh: "在一个窗口里同时填写多项。取消时停止动作。", descriptionEn: "Fill in several fields in one window. Cancelling stops the action."),
+        Type("interact", ChooseFile, "选择文件或文件夹", "Choose a file or folder", "\uE8E5",
+            new[] { new StepParameter("Mode", "方式", "Mode", StepParameterKind.Choice, "open",
+                        new[] { "open", "openMultiple", "save", "folder" },
+                        ChoiceNamesZh: new[] { "打开一个文件", "打开多个文件（结果是列表）", "保存文件", "选择文件夹" },
+                        ChoiceNamesEn: new[] { "Open a file", "Open several files (a list)", "Save a file", "Choose a folder" }),
+                    new StepParameter("Title", "标题", "Title", StepParameterKind.Text, ""),
+                    new StepParameter("Filter", "文件类型（可留空）", "File types (optional)", StepParameterKind.Text, "",
+                        HintZh: "例如：图片|*.png;*.jpg;*.jpeg|所有文件|*.*", HintEn: "For example: Images|*.png;*.jpg;*.jpeg|All files|*.*"),
+                    new StepParameter("InitialPath", "起始文件夹或默认文件名（可留空）", "Start folder or default file name (optional)", StepParameterKind.Text, ""),
+                    Output("path") },
+            descriptionZh: "弹出系统的打开、保存或选择文件夹对话框。取消时停止动作。", descriptionEn: "Shows the Windows open, save or folder dialog. Cancelling stops the action."),
 
         // Text
         Type("text", ReplaceText, "替换文本", "Replace text", "",
