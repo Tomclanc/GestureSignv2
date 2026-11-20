@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "A GestureSign még mindig fut; a frissítést a fájlok cseréje előtt megszakították.",
   "Inner ring": "Belső gyűrű",
   "Outer ring": "Külső gyűrű",
-  "Middle-button radial menu": "Középső gomb körmenüje"
+  "Middle-button radial menu": "Középső gomb körmenüje",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "A körmenü megnyitásához tartsa lenyomva a középső gombot, és húzza el. Egy mezőre kattintva beállíthatja; a parancs neve megjelenik a menüben. Alkalmazásonkénti menükhöz használja ezeket az eseményindítókat egy alkalmazáscsoportban."
 }

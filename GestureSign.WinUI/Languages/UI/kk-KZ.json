@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign әлі жұмыс істейді; файлдарды ауыстырмас бұрын жаңарту тоқтатылды.",
   "Inner ring": "Ішкі сақина",
   "Outer ring": "Сыртқы сақина",
-  "Middle-button radial menu": "Ортаңғы түйменің дөңгелек мәзірі"
+  "Middle-button radial menu": "Ортаңғы түйменің дөңгелек мәзірі",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Дөңгелек мәзірді ашу үшін ортаңғы түймені басып тұрып сүйреңіз. Ұяшықты баптау үшін оны басыңыз; команда атауы мәзірде көрсетіледі. Әр қолданбаға бөлек мәзір үшін осы триггерлерді қолданба тобында пайдаланыңыз."
 }

@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign இன்னும் இயங்குகிறது; கோப்புகளை மாற்றுவதற்கு முன் புதுப்பிப்பு ரத்து செய்யப்பட்டது.",
   "Inner ring": "உள் வளையம்",
   "Outer ring": "வெளி வளையம்",
-  "Middle-button radial menu": "நடு பொத்தானின் வட்ட மெனு"
+  "Middle-button radial menu": "நடு பொத்தானின் வட்ட மெனு",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "வட்ட மெனுவைத் திறக்க நடு பொத்தானை அழுத்திப் பிடித்து இழுக்கவும். அமைக்க ஒரு இடத்தைக் கிளிக் செய்யவும்; கட்டளையின் பெயர் மெனுவில் காட்டப்படும். ஒவ்வொரு பயன்பாட்டுக்கும் தனி மெனுவுக்கு பயன்பாட்டுக் குழுவில் இந்தத் தூண்டிகளைப் பயன்படுத்தவும்."
 }

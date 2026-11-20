@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign এতিয়াও চলি আছে; ফাইলসমূহ সলনি কৰাৰ আগতে আপডেইট বাতিল কৰা হৈছিল।",
   "Inner ring": "ভিতৰৰ বলয়",
   "Outer ring": "বাহিৰৰ বলয়",
-  "Middle-button radial menu": "মাজৰ বুটামৰ বৃত্তাকাৰ মেনু"
+  "Middle-button radial menu": "মাজৰ বুটামৰ বৃত্তাকাৰ মেনু",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "চকাটো খুলিবলৈ মাজৰ বুটামটো হেঁচি ধৰি টানক। ছেট কৰিবলৈ এটা ঠাইত ক্লিক কৰক; আদেশৰ নাম চকাটোত দেখুওৱা হয়। প্ৰতিটো এপৰ বাবে বেলেগ চকাৰ বাবে এপ গোটত এই ট্ৰিগাৰবোৰ ব্যৱহাৰ কৰক।"
 }

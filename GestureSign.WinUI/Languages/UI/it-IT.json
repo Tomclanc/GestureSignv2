@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign è ancora in esecuzione; l'aggiornamento è stato annullato prima della sostituzione dei file.",
   "Inner ring": "Anello interno",
   "Outer ring": "Anello esterno",
-  "Middle-button radial menu": "Menu radiale del pulsante centrale"
+  "Middle-button radial menu": "Menu radiale del pulsante centrale",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Tieni premuto il pulsante centrale e trascina per aprire il menu radiale. Fai clic su una casella per impostarla; il nome del comando viene mostrato nel menu. Per menu specifici per app, usa questi trigger in un gruppo di app."
 }

@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign hala çalışıyor; dosyalar değiştirilmeden güncelleme iptal edildi.",
   "Inner ring": "İç halka",
   "Outer ring": "Dış halka",
-  "Middle-button radial menu": "Orta düğme dairesel menüsü"
+  "Middle-button radial menu": "Orta düğme dairesel menüsü",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Dairesel menüyü açmak için orta düğmeyi basılı tutup sürükleyin. Ayarlamak için bir yuvaya tıklayın; komut adı menüde gösterilir. Uygulamaya özel menüler için bu tetikleyicileri bir uygulama grubunda kullanın."
 }

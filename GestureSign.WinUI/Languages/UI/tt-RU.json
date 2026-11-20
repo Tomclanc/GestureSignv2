@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign әле дә эшли; файлларны алыштырганчы яңарту юкка чыгарылды.",
   "Inner ring": "Эчке боҗра",
   "Outer ring": "Тышкы боҗра",
-  "Middle-button radial menu": "Урта төймәнең түгәрәк менюсы"
+  "Middle-button radial menu": "Урта төймәнең түгәрәк менюсы",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Түгәрәк менюны ачу өчен урта төймәне басып тотыгыз һәм тартыгыз. Көйләү өчен урынга басыгыз; боерык исеме менюда күрсәтелә. Һәр кушымта өчен аерым меню булсын өчен бу триггерларны кушымта төркемендә кулланыгыз."
 }

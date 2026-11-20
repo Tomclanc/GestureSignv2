@@ -552,7 +552,19 @@ public sealed partial class MainWindow
 
         var panel = NewCardPanel(8);
         var advanced = NewCardPanel(8);
-        advanced.Children.Add(name);
+        // A radial menu slot shows its name on the wheel, so the name is the
+        // first visible field there instead of an advanced option.
+        var isRadialSlot = RadialMenuIndex(gestureName) > 0;
+        if (isRadialSlot)
+        {
+            if (existingAction is not null && !string.IsNullOrWhiteSpace(existingAction.Name))
+                name.Text = existingAction.Name;
+            panel.Children.Add(name);
+        }
+        else
+        {
+            advanced.Children.Add(name);
+        }
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
         advanced.Children.Add(pluginClass);
@@ -628,6 +640,15 @@ public sealed partial class MainWindow
         action = GetGlobalTouchPadAction(gestureName);
         if (action is not null)
             _legacyData.SetEnabled(action.Source, enabled.IsChecked ?? true);
+
+        // Radial menu slots show the action name on the wheel; keep it equal to
+        // the command name typed in this dialog instead of the slot title.
+        if (action is not null && RadialMenuIndex(gestureName) > 0 && !string.IsNullOrWhiteSpace(name.Text) &&
+            !string.Equals(action.Name, name.Text.Trim(), StringComparison.Ordinal))
+        {
+            action.Source["Name"] = name.Text.Trim();
+            _legacyData.SaveActions();
+        }
 
         ReloadActionDataOnly();
         await NotifyDaemonAsync(DaemonCommand.LoadApplications);

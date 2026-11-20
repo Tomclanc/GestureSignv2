@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ഇപ്പോഴും പ്രവർത്തിക്കുന്നു; ഫയലുകൾ മാറ്റിസ്ഥാപിക്കുന്നതിന് മുമ്പ് അപ്ഡേറ്റ് റദ്ദാക്കി.",
   "Inner ring": "അകത്തെ വലയം",
   "Outer ring": "പുറത്തെ വലയം",
-  "Middle-button radial menu": "മധ്യ ബട്ടണിന്റെ വൃത്താകൃതി മെനു"
+  "Middle-button radial menu": "മധ്യ ബട്ടണിന്റെ വൃത്താകൃതി മെനു",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "വൃത്താകൃതി മെനു തുറക്കാൻ മധ്യ ബട്ടൺ അമർത്തിപ്പിടിച്ച് വലിക്കുക. സജ്ജമാക്കാൻ ഒരു സ്ഥാനത്ത് ക്ലിക്ക് ചെയ്യുക; കമാൻഡിന്റെ പേര് മെനുവിൽ കാണിക്കും. ഓരോ ആപ്പിനും പ്രത്യേക മെനുവിന് ആപ്പ് ഗ്രൂപ്പിൽ ഈ ട്രിഗറുകൾ ഉപയോഗിക്കുക."
 }

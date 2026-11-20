@@ -833,9 +833,16 @@ public sealed partial class MainWindow
 
     private string RadialMenuDisplayName(int index)
     {
+        var outer = index - FirstRadialMenuIndex >= 8;
+        var direction = RadialMenuDirectionName(index);
+        var ring = outer ? L("外圈", "Outer ring", "外圈", "바깥쪽 링") : L("内圈", "Inner ring", "內圈", "안쪽 링");
+        return L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴") + " · " + ring + " · " + direction;
+    }
+
+    private string RadialMenuDirectionName(int index)
+    {
         var slot = index - FirstRadialMenuIndex;
-        var outer = slot >= 8;
-        var direction = (slot % 8) switch
+        return (slot % 8) switch
         {
             0 => L("上", "Up", "上", "위"),
             1 => L("右上", "Up-right", "右上", "오른쪽 위"),
@@ -846,8 +853,6 @@ public sealed partial class MainWindow
             6 => L("左", "Left", "左", "왼쪽"),
             _ => L("左上", "Up-left", "左上", "왼쪽 위")
         };
-        var ring = outer ? L("外圈", "Outer ring", "外圈", "바깥쪽 링") : L("内圈", "Inner ring", "內圈", "안쪽 링");
-        return L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴") + " · " + ring + " · " + direction;
     }
 
     private static int RadialMenuIndex(string gestureName)

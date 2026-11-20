@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "Tha GestureSign fhathast a 'ruith; chaidh ùrachadh a chuir dheth mus deach na faidhlichean a chuir nan àite.",
   "Inner ring": "Fàinne a-staigh",
   "Outer ring": "Fàinne a-muigh",
-  "Middle-button radial menu": "Clàr-taice cearcallach a' phutain mheadhanaich"
+  "Middle-button radial menu": "Clàr-taice cearcallach a' phutain mheadhanaich",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Cùm sìos am putan meadhanach agus slaod gus an clàr-taice cearcallach fhosgladh. Briog air slot gus a shuidheachadh; thèid ainm na h-àithne a shealltainn air a' chlàr-taice. Airson clàran-taice a rèir aplacaid, cleachd na h-inneil-tòiseachaidh seo ann am buidheann aplacaid."
 }

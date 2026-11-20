@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign vẫn đang chạy; bản cập nhật đã bị hủy trước khi thay thế tập tin.",
   "Inner ring": "Vòng trong",
   "Outer ring": "Vòng ngoài",
-  "Middle-button radial menu": "Menu tròn của nút giữa"
+  "Middle-button radial menu": "Menu tròn của nút giữa",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Giữ nút giữa và kéo để mở menu tròn. Nhấp vào một ô để thiết lập; tên lệnh sẽ hiển thị trên menu. Để có menu riêng cho từng ứng dụng, hãy dùng các trình kích hoạt này trong nhóm ứng dụng."
 }

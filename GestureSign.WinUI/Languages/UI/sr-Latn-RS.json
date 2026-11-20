@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign je još pokrenut; ažuriranje je otkazano pre zamene datoteka.",
   "Inner ring": "Unutrašnji prsten",
   "Outer ring": "Spoljašnji prsten",
-  "Middle-button radial menu": "Kružni meni srednjeg tastera"
+  "Middle-button radial menu": "Kružni meni srednjeg tastera",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Držite srednji taster i prevucite da otvorite kružni meni. Kliknite polje da ga podesite; naziv komande prikazuje se u meniju. Za menije po aplikaciji koristite ove okidače u grupi aplikacije."
 }

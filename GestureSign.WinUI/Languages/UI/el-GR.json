@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "Το GestureSign εξακολουθεί να εκτελείται. Η ενημέρωση ακυρώθηκε πριν από την αντικατάσταση των αρχείων.",
   "Inner ring": "Εσωτερικός δακτύλιος",
   "Outer ring": "Εξωτερικός δακτύλιος",
-  "Middle-button radial menu": "Κυκλικό μενού μεσαίου κουμπιού"
+  "Middle-button radial menu": "Κυκλικό μενού μεσαίου κουμπιού",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Κρατήστε πατημένο το μεσαίο κουμπί και σύρετε για να ανοίξει το κυκλικό μενού. Κάντε κλικ σε μια θέση για να τη ρυθμίσετε· το όνομα της εντολής εμφανίζεται στο μενού. Για μενού ανά εφαρμογή, χρησιμοποιήστε αυτά τα εναύσματα σε μια ομάδα εφαρμογής."
 }

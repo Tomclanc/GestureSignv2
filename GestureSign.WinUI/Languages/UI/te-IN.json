@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ఇప్పటికీ అమలవుతోంది; ఫైల్‌లను భర్తీ చేయడానికి ముందు నవీకరణ రద్దు చేయబడింది.",
   "Inner ring": "లోపలి వలయం",
   "Outer ring": "బయటి వలయం",
-  "Middle-button radial menu": "మధ్య బటన్ వృత్తాకార మెనూ"
+  "Middle-button radial menu": "మధ్య బటన్ వృత్తాకార మెనూ",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "వృత్తాకార మెనూను తెరవడానికి మధ్య బటన్‌ను నొక్కి పట్టి లాగండి. సెట్ చేయడానికి ఒక స్థానంపై క్లిక్ చేయండి; ఆదేశం పేరు మెనూలో చూపబడుతుంది. ప్రతి యాప్‌కు ప్రత్యేక మెనూ కోసం యాప్ సమూహంలో ఈ ట్రిగ్గర్‌లను ఉపయోగించండి."
 }

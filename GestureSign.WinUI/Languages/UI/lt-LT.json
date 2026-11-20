@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign vis dar veikia; atnaujinimas buvo atšauktas prieš pakeičiant failus.",
   "Inner ring": "Vidinis žiedas",
   "Outer ring": "Išorinis žiedas",
-  "Middle-button radial menu": "Vidurinio mygtuko apskritasis meniu"
+  "Middle-button radial menu": "Vidurinio mygtuko apskritasis meniu",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Laikykite nuspaudę vidurinį mygtuką ir vilkite, kad atidarytumėte apskritąjį meniu. Spustelėkite langelį, kad jį nustatytumėte; komandos pavadinimas rodomas meniu. Norėdami meniu pagal programą, naudokite šiuos paleidiklius programos grupėje."
 }

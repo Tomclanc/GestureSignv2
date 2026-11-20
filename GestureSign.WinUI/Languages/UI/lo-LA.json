@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ຍັງແລ່ນຢູ່; ການປັບປຸງໄດ້ຖືກຍົກເລີກກ່ອນທີ່ຈະປ່ຽນໄຟລ໌.",
   "Inner ring": "ວົງໃນ",
   "Outer ring": "ວົງນອກ",
-  "Middle-button radial menu": "ເມນູວົງມົນຂອງປຸ່ມກາງ"
+  "Middle-button radial menu": "ເມນູວົງມົນຂອງປຸ່ມກາງ",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ກົດປຸ່ມກາງຄ້າງໄວ້ແລ້ວລາກເພື່ອເປີດເມນູວົງມົນ. ຄລິກຊ່ອງເພື່ອຕັ້ງຄ່າ; ຊື່ຄຳສັ່ງຈະສະແດງຢູ່ໃນເມນູ. ສຳລັບເມນູແຍກຕາມແອັບ, ໃຫ້ໃຊ້ຕົວກະຕຸ້ນເຫຼົ່ານີ້ໃນກຸ່ມແອັບ."
 }

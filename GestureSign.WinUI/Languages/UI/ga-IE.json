@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "Tá GestureSign fós ar siúl; Cuireadh an nuashonrú ar ceal sular athsholáthraíodh comhaid.",
   "Inner ring": "Fáinne inmheánach",
   "Outer ring": "Fáinne seachtrach",
-  "Middle-button radial menu": "Roghchlár ciorclach an chnaipe láir"
+  "Middle-button radial menu": "Roghchlár ciorclach an chnaipe láir",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Coinnigh an cnaipe láir síos agus tarraing chun an roghchlár ciorclach a oscailt. Cliceáil ar shliotán chun é a shocrú; taispeántar ainm an ordaithe ar an roghchlár. Le haghaidh roghchláir in aghaidh an aipe, úsáid na truicear seo i ngrúpa aipe."
 }

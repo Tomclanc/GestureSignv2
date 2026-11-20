@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "لا يزال GestureSign قيد التشغيل؛ تم إلغاء التحديث قبل استبدال الملفات.",
   "Inner ring": "الحلقة الداخلية",
   "Outer ring": "الحلقة الخارجية",
-  "Middle-button radial menu": "القائمة الدائرية للزر الأوسط"
+  "Middle-button radial menu": "القائمة الدائرية للزر الأوسط",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "اضغط مع الاستمرار على الزر الأوسط واسحب لفتح القائمة الدائرية. انقر على خانة لتعيينها؛ يظهر اسم الأمر على القائمة. للحصول على قوائم خاصة بكل تطبيق، استخدم هذه المشغلات في مجموعة تطبيق."
 }

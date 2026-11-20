@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "የእጅ ምልክት አሁንም እየሰራ ነው; ፋይሎችን ከመተካት በፊት ማዘመን ተሰርዟል።",
   "Inner ring": "ውስጣዊ ቀለበት",
   "Outer ring": "ውጫዊ ቀለበት",
-  "Middle-button radial menu": "የመሃል አዝራር ክብ ምናሌ"
+  "Middle-button radial menu": "የመሃል አዝራር ክብ ምናሌ",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "መንኮራኩሩን ለመክፈት የመሃል አዝራሩን ይያዙና ይጎትቱ። ለማዘጋጀት ቦታውን ጠቅ ያድርጉ፤ የትዕዛዙ ስም በመንኮራኩሩ ላይ ይታያል። ለእያንዳንዱ መተግበሪያ የተለየ መንኮራኩር እነዚህን ቀስቃሾች በመተግበሪያ ቡድን ውስጥ ይጠቀሙ።"
 }

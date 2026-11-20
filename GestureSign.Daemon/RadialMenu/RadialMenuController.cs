@@ -35,6 +35,8 @@ namespace GestureSign.Daemon.RadialMenu
         public bool Outer { get; set; }
         public int Index { get; set; }
         public string Text { get; set; }
+        public Bitmap Icon { get; set; }
+        public string Glyph { get; set; }
     }
 
     /// <summary>Geometry of one opened radial menu, in physical screen pixels.</summary>
@@ -70,7 +72,14 @@ namespace GestureSign.Daemon.RadialMenu
             Labels = slots
                 .Select(pair => new { Hit = Parse(pair.Key, pair.Value) })
                 .Where(x2 => x2.Hit != null)
-                .Select(x2 => new RadialMenuLabel { Outer = x2.Hit.Outer, Index = x2.Hit.Index, Text = LabelOf(x2.Hit.Action) })
+                .Select(x2 => new RadialMenuLabel
+                {
+                    Outer = x2.Hit.Outer,
+                    Index = x2.Hit.Index,
+                    Text = LabelOf(x2.Hit.Action),
+                    Icon = RadialMenuIcons.FileIcon(x2.Hit.Action),
+                    Glyph = RadialMenuIcons.Glyph(x2.Hit.Action)
+                })
                 .ToList();
         }
 
@@ -282,7 +291,7 @@ namespace GestureSign.Daemon.RadialMenu
             var trigger = Trigger;
             // Let the hook return and the overlay disappear before commands run,
             // so screenshots and key sends see the real target window.
-            _form?.BeginInvoke(new Action(() => trigger?.Fire(selected.Action, origin)));
+            _form?.BeginInvoke(new global::System.Action(() => trigger?.Fire(selected.Action, origin)));
         }
 
         public void Cancel(string reason)

@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign läuft noch; Das Update wurde vor dem Ersetzen der Dateien abgebrochen.",
   "Inner ring": "Innerer Ring",
   "Outer ring": "Äußerer Ring",
-  "Middle-button radial menu": "Radialmenü der mittleren Taste"
+  "Middle-button radial menu": "Radialmenü der mittleren Taste",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Mittlere Taste gedrückt halten und ziehen, um das Radialmenü zu öffnen. Klicken Sie auf ein Feld, um es festzulegen; der Befehlsname wird im Menü angezeigt. Für App-spezifische Menüs verwenden Sie diese Auslöser in einer App-Gruppe."
 }

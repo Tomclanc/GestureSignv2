@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "હાવભાવ સાઇન હજુ ચાલુ છે; ફાઇલોને બદલતા પહેલા અપડેટ રદ કરવામાં આવ્યું હતું.",
   "Inner ring": "અંદરની રિંગ",
   "Outer ring": "બહારની રિંગ",
-  "Middle-button radial menu": "મધ્ય બટનનું વર્તુળાકાર મેનૂ"
+  "Middle-button radial menu": "મધ્ય બટનનું વર્તુળાકાર મેનૂ",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "વર્તુળાકાર મેનૂ ખોલવા માટે મધ્ય બટન દબાવી રાખીને ખેંચો. સેટ કરવા માટે ખાના પર ક્લિક કરો; આદેશનું નામ મેનૂ પર બતાવવામાં આવે છે. દરેક ઍપ માટે અલગ મેનૂ માટે ઍપ જૂથમાં આ ટ્રિગરનો ઉપયોગ કરો."
 }

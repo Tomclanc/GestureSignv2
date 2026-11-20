@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign er enn í gangi; Hætt var við uppfærslu áður en skipt var um skrár.",
   "Inner ring": "Innri hringur",
   "Outer ring": "Ytri hringur",
-  "Middle-button radial menu": "Hringvalmynd miðhnapps"
+  "Middle-button radial menu": "Hringvalmynd miðhnapps",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Haltu miðhnappinum niðri og dragðu til að opna hringvalmyndina. Smelltu á reit til að stilla hann; heiti skipunarinnar birtist í valmyndinni. Fyrir valmyndir eftir forritum skaltu nota þessa ræsa í forritshópi."
 }

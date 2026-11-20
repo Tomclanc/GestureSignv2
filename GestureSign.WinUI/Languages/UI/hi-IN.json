@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "जेस्चरसाइन अभी भी चल रहा है; फ़ाइलों को बदलने से पहले अद्यतन रद्द कर दिया गया था।",
   "Inner ring": "भीतरी वलय",
   "Outer ring": "बाहरी वलय",
-  "Middle-button radial menu": "मध्य बटन का वृत्ताकार मेनू"
+  "Middle-button radial menu": "मध्य बटन का वृत्ताकार मेनू",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "वृत्ताकार मेनू खोलने के लिए मध्य बटन दबाए रखें और खींचें। सेट करने के लिए किसी खाने पर क्लिक करें; कमांड का नाम मेनू पर दिखाया जाता है। हर ऐप के अलग मेनू के लिए ऐप समूह में इन ट्रिगर का उपयोग करें।"
 }

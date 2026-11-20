@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ishlayapti; fayllarni almashtirishdan oldin yangilanish bekor qilindi.",
   "Inner ring": "Ichki halqa",
   "Outer ring": "Tashqi halqa",
-  "Middle-button radial menu": "O'rta tugmaning doira menyusi"
+  "Middle-button radial menu": "O'rta tugmaning doira menyusi",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Doira menyusini ochish uchun o'rta tugmani bosib turing va torting. Sozlash uchun katakni bosing; buyruq nomi menyuda ko'rsatiladi. Har bir ilova uchun alohida menyu uchun bu triggerlarni ilova guruhida ishlating."
 }

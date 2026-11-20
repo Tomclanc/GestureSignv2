@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign stále beží; aktualizácia bola pred výmenou súborov zrušená.",
   "Inner ring": "Vnútorný kruh",
   "Outer ring": "Vonkajší kruh",
-  "Middle-button radial menu": "Kruhová ponuka prostredného tlačidla"
+  "Middle-button radial menu": "Kruhová ponuka prostredného tlačidla",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Podržaním prostredného tlačidla a potiahnutím otvoríte kruhovú ponuku. Kliknutím na pole ho nastavíte; názov príkazu sa zobrazí v ponuke. Pre ponuky podľa aplikácie použite tieto spúšťače v skupine aplikácie."
 }

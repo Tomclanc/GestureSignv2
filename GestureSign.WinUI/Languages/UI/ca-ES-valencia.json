@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign encara s'està executant; s'ha cancel·lat l'actualització abans de substituir els fitxers.",
   "Inner ring": "Anell interior",
   "Outer ring": "Anell exterior",
-  "Middle-button radial menu": "Menú radial del botó central"
+  "Middle-button radial menu": "Menú radial del botó central",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Manteniu premut el botó central i arrossegueu per obrir el menú radial. Feu clic en una casella per configurar-la; el nom de l'ordre es mostra al menú. Per a menús per aplicació, useu estos activadors en un grup d'aplicació."
 }

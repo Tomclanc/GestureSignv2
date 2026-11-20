@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "Kei te haere tonu a GetureSign; i whakakorehia te whakahou i mua i te whakakapi i nga konae.",
   "Inner ring": "Mōwhiti o roto",
   "Outer ring": "Mōwhiti o waho",
-  "Middle-button radial menu": "Tahua porowhita o te pātene waenga"
+  "Middle-button radial menu": "Tahua porowhita o te pātene waenga",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Pupuritia te pātene waenga, ka tō kia tuwhera ai te tahua porowhita. Pāwhiria tētahi wāhi hei tautuhi; ka whakaaturia te ingoa o te tono ki te tahua. Mō ngā tahua mō ia taupānga, whakamahia ēnei keu i tētahi rōpū taupānga."
 }

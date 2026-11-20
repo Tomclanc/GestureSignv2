@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ھازىرمۇ ئىجرا بولۇۋاتىدۇ. ھۆججەتلەرنى ئالماشتۇرۇشتىن بۇرۇن يېڭىلاش ئەمەلدىن قالدۇرۇلدى.",
   "Inner ring": "ئىچكى ھالقا",
   "Outer ring": "سىرتقى ھالقا",
-  "Middle-button radial menu": "ئوتتۇرا كۇنۇپكىنىڭ چەمبەر تىزىملىكى"
+  "Middle-button radial menu": "ئوتتۇرا كۇنۇپكىنىڭ چەمبەر تىزىملىكى",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "چەمبەر تىزىملىكنى ئېچىش ئۈچۈن ئوتتۇرا كۇنۇپكىنى بېسىپ تۇرۇپ سۆرەڭ. تەڭشەش ئۈچۈن بىر ئورۇننى چېكىڭ؛ بۇيرۇق نامى تىزىملىكتە كۆرسىتىلىدۇ. ھەر بىر ئەپ ئۈچۈن ئايرىم تىزىملىك قىلىش ئۈچۈن بۇ قوزغاتقۇچلارنى ئەپ گۇرۇپپىسىدا ئىشلىتىڭ."
 }

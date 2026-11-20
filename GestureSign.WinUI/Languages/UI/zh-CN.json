@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign 仍在运行；已取消更新，未替换文件。",
   "Inner ring": "内圈",
   "Outer ring": "外圈",
-  "Middle-button radial menu": "中键轮盘"
+  "Middle-button radial menu": "中键轮盘",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "按住中键拖动弹出轮盘。点击格子进行设置，命令名称会显示在轮盘上；要按程序区分，在程序分组里使用这些触发方式。"
 }

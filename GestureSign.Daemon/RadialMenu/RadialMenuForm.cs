@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using GestureSign.Common.Log;
 using GestureSign.Daemon.Native;
-using GestureSign.Daemon.Surface;
 using ManagedWinapi.Windows;
 
 namespace GestureSign.Daemon.RadialMenu
@@ -23,7 +23,13 @@ namespace GestureSign.Daemon.RadialMenu
         private const byte AC_SRC_OVER = 0x00;
         private const byte AC_SRC_ALPHA = 0x01;
 
-        private DiBitmap _bitmap;
+        // Drawing happens on a premultiplied managed canvas (correct alpha for
+        // text and icons) and is then copied into a top-down DIB section for
+        // UpdateLayeredWindow.
+        private Bitmap _canvas;
+        private IntPtr _hBitmap;
+        private IntPtr _bits;
+        private int _size;
         private Rectangle _bounds;
 
         public RadialMenuForm()
@@ -55,25 +61,18 @@ namespace GestureSign.Daemon.RadialMenu
             try
             {
                 var size = layout.WindowSize;
-                if (_bitmap == null || _bitmap.Size.Width != size || _bitmap.Size.Height != size)
-                {
-                    _bitmap?.Dispose();
-                    _bitmap = new DiBitmap(new Size(size, size));
-                }
+                EnsureSurface(size);
                 _bounds = new Rectangle(layout.Center.X - size / 2, layout.Center.Y - size / 2, size, size);
 
-                var g = _bitmap.BeginDraw();
-                try
+                using (var g = Graphics.FromImage(_canvas))
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
                     g.Clear(Color.Transparent);
                     Draw(g, layout, new Point(cursor.X - _bounds.X, cursor.Y - _bounds.Y), selected);
                 }
-                finally
-                {
-                    _bitmap.EndDraw();
-                }
+                CopyCanvasToDib();
 
                 if (!Visible)
                 {
@@ -145,6 +144,8 @@ namespace GestureSign.Daemon.RadialMenu
             using (var p = new Pen(line, Math.Max(1f, s)))
                 g.DrawEllipse(p, Circle(c, layout.DeadZoneRadius));
 
+            var glyphFontName = RadialMenuIcons.GlyphFontName;
+            using (var glyphFont = glyphFontName != null ? new Font(glyphFontName, 20f * s, FontStyle.Regular, GraphicsUnit.Pixel) : null)
             using (var font = new Font("Microsoft YaHei UI", 12f * s, FontStyle.Regular, GraphicsUnit.Pixel))
             using (var bold = new Font("Microsoft YaHei UI", 12f * s, FontStyle.Bold, GraphicsUnit.Pixel))
             using (var textBrush = new SolidBrush(text))
@@ -153,7 +154,8 @@ namespace GestureSign.Daemon.RadialMenu
             {
                 Alignment = StringAlignment.Center,
                 LineAlignment = StringAlignment.Center,
-                Trimming = StringTrimming.EllipsisCharacter
+                Trimming = StringTrimming.EllipsisCharacter,
+                FormatFlags = StringFormatFlags.NoWrap
             })
             {
                 foreach (var slot in layout.Labels)
@@ -162,10 +164,23 @@ namespace GestureSign.Daemon.RadialMenu
                     var r2 = slot.Outer ? layout.OuterRadius : layout.InnerRadius;
                     var mid = Polar(c, (r1 + r2) / 2f, RadialMenuLayout.SlotAngle(slot.Index));
                     var width = (slot.Outer ? 84f : 72f) * s;
-                    var height = 40f * s;
-                    var rect = new RectangleF(mid.X - width / 2f, mid.Y - height / 2f, width, height);
                     var isSelected = selected != null && selected.Outer == slot.Outer && selected.Index == slot.Index;
-                    g.DrawString(slot.Text, isSelected ? bold : font, isSelected ? accentBrush : textBrush, rect, format);
+                    var brush = isSelected ? accentBrush : textBrush;
+                    var iconSize = 22f * s;
+                    var hasIcon = slot.Icon != null || (glyphFont != null && !string.IsNullOrEmpty(slot.Glyph));
+                    // Icon above, label below; the pair is centered on the slot.
+                    var textHeight = 18f * s;
+                    var top = mid.Y - (hasIcon ? (iconSize + 2f * s + textHeight) / 2f : textHeight / 2f);
+                    if (slot.Icon != null)
+                    {
+                        g.DrawImage(slot.Icon, new RectangleF(mid.X - iconSize / 2f, top, iconSize, iconSize));
+                    }
+                    else if (hasIcon)
+                    {
+                        g.DrawString(slot.Glyph, glyphFont, brush, new RectangleF(mid.X - iconSize, top - 2f * s, iconSize * 2f, iconSize + 4f * s), format);
+                    }
+                    var textTop = hasIcon ? top + iconSize + 2f * s : top;
+                    g.DrawString(slot.Text, isSelected ? bold : font, brush, new RectangleF(mid.X - width / 2f, textTop, width, textHeight), format);
                 }
             }
 
@@ -197,13 +212,73 @@ namespace GestureSign.Daemon.RadialMenu
             return path;
         }
 
+        private void EnsureSurface(int size)
+        {
+            if (_canvas != null && _size == size)
+                return;
+            ReleaseSurface();
+            var info = new NativeMethods.BITMAPINFO
+            {
+                bmiHeader =
+                {
+                    biSize = Marshal.SizeOf(typeof(NativeMethods.BITMAPINFOHEADER)),
+                    biWidth = size,
+                    biHeight = -size, // top-down, same row order as the managed canvas
+                    biPlanes = 1,
+                    biBitCount = 32,
+                    biCompression = 0
+                }
+            };
+            _hBitmap = NativeMethods.CreateDIBSection(IntPtr.Zero, ref info, 0, out _bits, IntPtr.Zero, 0);
+            if (_hBitmap == IntPtr.Zero || _bits == IntPtr.Zero)
+                throw new InvalidOperationException("CreateDIBSection failed: " + Marshal.GetLastWin32Error());
+            _canvas = new Bitmap(size, size, PixelFormat.Format32bppPArgb);
+            _size = size;
+        }
+
+        private void CopyCanvasToDib()
+        {
+            var rect = new Rectangle(0, 0, _size, _size);
+            var data = _canvas.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppPArgb);
+            try
+            {
+                var rowBytes = _size * 4;
+                unsafe
+                {
+                    for (var y = 0; y < _size; y++)
+                    {
+                        var source = (byte*)data.Scan0 + (long)y * data.Stride;
+                        var target = (byte*)_bits + (long)y * rowBytes;
+                        Buffer.MemoryCopy(source, target, rowBytes, rowBytes);
+                    }
+                }
+            }
+            finally
+            {
+                _canvas.UnlockBits(data);
+            }
+        }
+
+        private void ReleaseSurface()
+        {
+            _canvas?.Dispose();
+            _canvas = null;
+            if (_hBitmap != IntPtr.Zero)
+            {
+                NativeMethods.DeleteObject(_hBitmap);
+                _hBitmap = IntPtr.Zero;
+            }
+            _bits = IntPtr.Zero;
+            _size = 0;
+        }
+
         private void Push()
         {
             var memDc = NativeMethods.CreateCompatibleDC(IntPtr.Zero);
             var old = IntPtr.Zero;
             try
             {
-                old = NativeMethods.SelectObject(memDc, _bitmap.HBitmap);
+                old = NativeMethods.SelectObject(memDc, _hBitmap);
                 var winSize = new NativeMethods.Size(_bounds.Width, _bounds.Height);
                 var winPos = new NativeMethods.Point(_bounds.X, _bounds.Y);
                 var src = new NativeMethods.Point(0, 0);
@@ -235,11 +310,7 @@ namespace GestureSign.Daemon.RadialMenu
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                _bitmap?.Dispose();
-                _bitmap = null;
-            }
+            ReleaseSurface();
             base.Dispose(disposing);
         }
     }

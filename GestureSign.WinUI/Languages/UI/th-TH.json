@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ยังคงทำงานอยู่ การอัปเดตถูกยกเลิกก่อนที่จะแทนที่ไฟล์",
   "Inner ring": "วงใน",
   "Outer ring": "วงนอก",
-  "Middle-button radial menu": "เมนูวงกลมของปุ่มกลาง"
+  "Middle-button radial menu": "เมนูวงกลมของปุ่มกลาง",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "กดปุ่มกลางค้างไว้แล้วลากเพื่อเปิดเมนูวงกลม คลิกช่องเพื่อตั้งค่า ชื่อคำสั่งจะแสดงบนเมนู สำหรับเมนูแยกตามแอป ให้ใช้ตัวทริกเกอร์เหล่านี้ในกลุ่มแอป"
 }

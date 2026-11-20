@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign joprojām darbojas; atjaunināšana tika atcelta pirms failu aizstāšanas.",
   "Inner ring": "Iekšējais gredzens",
   "Outer ring": "Ārējais gredzens",
-  "Middle-button radial menu": "Vidējās pogas apļveida izvēlne"
+  "Middle-button radial menu": "Vidējās pogas apļveida izvēlne",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Turiet nospiestu vidējo pogu un velciet, lai atvērtu apļveida izvēlni. Noklikšķiniet uz lauka, lai to iestatītu; komandas nosaukums tiek rādīts izvēlnē. Lietotņu izvēlnēm izmantojiet šos aktivizētājus lietotnes grupā."
 }

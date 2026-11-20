@@ -15,6 +15,7 @@ public sealed partial class MainWindow
         var root = NewSection();
         var options = _legacyData.Options;
         var installed = FindKandoExecutablePath(options.KandoExecutablePath) is not null;
+        root.Children.Add(NewRadialMenuCard());
         root.Children.Add(NewKandoComponentCard());
         root.Children.Add(NewKandoPowerToysPreviewCard());
         if (installed)

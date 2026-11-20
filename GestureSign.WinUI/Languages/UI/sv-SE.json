@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign körs fortfarande; uppdateringen avbröts innan filer ersattes.",
   "Inner ring": "Inre ring",
   "Outer ring": "Yttre ring",
-  "Middle-button radial menu": "Cirkelmeny för mittknappen"
+  "Middle-button radial menu": "Cirkelmeny för mittknappen",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Håll ned mittknappen och dra för att öppna cirkelmenyn. Klicka på en plats för att ställa in den; kommandonamnet visas i menyn. För menyer per app använder du dessa utlösare i en appgrupp."
 }

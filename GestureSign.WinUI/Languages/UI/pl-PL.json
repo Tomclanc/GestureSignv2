@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign nadal działa; aktualizacja została anulowana przed wymianą plików.",
   "Inner ring": "Pierścień wewnętrzny",
   "Outer ring": "Pierścień zewnętrzny",
-  "Middle-button radial menu": "Menu kołowe środkowego przycisku"
+  "Middle-button radial menu": "Menu kołowe środkowego przycisku",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Przytrzymaj środkowy przycisk i przeciągnij, aby otworzyć menu kołowe. Kliknij pole, aby je ustawić; nazwa polecenia jest wyświetlana w menu. Aby mieć osobne menu dla aplikacji, użyj tych wyzwalaczy w grupie aplikacji."
 }

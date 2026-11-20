@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign នៅតែដំណើរការ។ ការធ្វើបច្ចុប្បន្នភាពត្រូវបានលុបចោលមុនពេលជំនួសឯកសារ។",
   "Inner ring": "រង្វង់ខាងក្នុង",
   "Outer ring": "រង្វង់ខាងក្រៅ",
-  "Middle-button radial menu": "ម៉ឺនុយរង្វង់នៃប៊ូតុងកណ្ដាល"
+  "Middle-button radial menu": "ម៉ឺនុយរង្វង់នៃប៊ូតុងកណ្ដាល",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "ចុចប៊ូតុងកណ្ដាលឱ្យជាប់ ហើយអូសដើម្បីបើកម៉ឺនុយរង្វង់។ ចុចលើប្រអប់ដើម្បីកំណត់វា ឈ្មោះពាក្យបញ្ជានឹងបង្ហាញលើម៉ឺនុយ។ សម្រាប់ម៉ឺនុយតាមកម្មវិធី សូមប្រើកត្តាជំរុញទាំងនេះក្នុងក្រុមកម្មវិធី។"
 }

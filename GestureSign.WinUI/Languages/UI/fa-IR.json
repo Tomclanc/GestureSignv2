@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign هنوز در حال اجرا است. به روز رسانی قبل از جایگزینی فایل ها لغو شد.",
   "Inner ring": "حلقه داخلی",
   "Outer ring": "حلقه خارجی",
-  "Middle-button radial menu": "منوی دایره‌ای دکمه وسط"
+  "Middle-button radial menu": "منوی دایره‌ای دکمه وسط",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "دکمه وسط را نگه دارید و بکشید تا منوی دایره‌ای باز شود. برای تنظیم هر خانه روی آن کلیک کنید؛ نام فرمان روی منو نمایش داده می‌شود. برای منوهای جداگانه هر برنامه، از این محرک‌ها در گروه برنامه استفاده کنید."
 }

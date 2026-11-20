@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign masih berjalan; pembaruan dibatalkan sebelum mengganti file.",
   "Inner ring": "Cincin dalam",
   "Outer ring": "Cincin luar",
-  "Middle-button radial menu": "Menu radial tombol tengah"
+  "Middle-button radial menu": "Menu radial tombol tengah",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Tahan tombol tengah lalu seret untuk membuka menu radial. Klik slot untuk mengaturnya; nama perintah ditampilkan pada menu. Untuk menu per aplikasi, gunakan pemicu ini di grup aplikasi."
 }

@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "GestureSign loop steeds; opdatering is gekanselleer voordat lêers vervang is.",
   "Inner ring": "Binneste ring",
   "Outer ring": "Buitenste ring",
-  "Middle-button radial menu": "Middelknoppie-radiaalkieslys"
+  "Middle-button radial menu": "Middelknoppie-radiaalkieslys",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Hou die middelste knoppie in en sleep om die wiel oop te maak. Klik op 'n gleuf om dit in te stel; die opdragnaam word op die wiel gewys. Gebruik hierdie snellers in 'n toepassingsgroep vir wiele per toepassing."
 }

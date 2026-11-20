@@ -684,5 +684,6 @@
   "GestureSign is still running; update was cancelled before replacing files.": "Alamar motsin motsi har yanzu tana gudana; an soke sabuntawa kafin maye gurbin fayiloli.",
   "Inner ring": "Zobe na ciki",
   "Outer ring": "Zobe na waje",
-  "Middle-button radial menu": "Menu mai zagaye na maɓallin tsakiya"
+  "Middle-button radial menu": "Menu mai zagaye na maɓallin tsakiya",
+  "Hold the middle button and drag to open the wheel. Click a slot to set it; the command name is shown on the wheel. For per-app wheels, use these triggers in an app group.": "Riƙe maɓallin tsakiya ka ja don buɗe menu mai zagaye. Danna wani wuri don saita shi; ana nuna sunan umarni a kan menu. Don menu na kowace manhaja, yi amfani da waɗannan masu kunnawa a cikin rukunin manhaja."
 }
