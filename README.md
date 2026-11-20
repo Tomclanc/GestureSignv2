@@ -73,7 +73,7 @@ GestureSign V2 达到 **50 Stars** 了！感谢每一位点亮 Star、试用软�
 
 通过「快捷操作」按需下载环形菜单组件，并用独立快捷键唤起。下图是旧版交互演示。
 
-![旧版环形菜单交互演示](GestureSign.WinUI/Assets/kando-preview.gif)
+![旧版环形菜单交互演示](docs/assets/kando-preview.gif)
 
 以上截图来自 18.3.4 商店版；动图展示旧版环形菜单交互。具体布局和可用功能以安装版本为准。
 

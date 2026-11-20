@@ -143,11 +143,8 @@ public sealed partial class MainWindow : Window
     private RECT? _pickOutlineRect;
     private IntPtr _pickOutlineHwnd;
     private IntPtr _pickOutlineWindow;
-    private readonly DispatcherTimer _kandoMenuRefreshTimer = new();
     private readonly DispatcherTimer _windowModeRefreshTimer = new();
     private readonly DispatcherTimer _actionsScopeRefreshTimer = new();
-    private DateTime _lastKandoMenusWriteTimeUtc;
-    private Action? _refreshKandoMenuList;
     private bool? _lastXboxBigScreenMode;
     private string _uiCultureName = "";
     private StackPanel? _actionsPageActionsPanel;
@@ -183,8 +180,6 @@ public sealed partial class MainWindow : Window
         _trainingPipeServer = new TrainingPipeServer((points, device, button) => DispatcherQueue.TryEnqueue(async () => { if (_trainingPipeServer?.IsRunning != true) return; _pendingTrainingInput?.Invoke(device, button); await SaveTrainedGestureAsync(points); }));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
-        _kandoMenuRefreshTimer.Interval = TimeSpan.FromSeconds(1);
-        _kandoMenuRefreshTimer.Tick += KandoMenuRefreshTimer_Tick;
         _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
         _windowModeRefreshTimer.Tick += (_, _) => ApplyXboxBigScreenTitleBarMode();
         _actionsScopeRefreshTimer.Interval = TimeSpan.FromMilliseconds(16);
@@ -945,8 +940,6 @@ public sealed partial class MainWindow : Window
 
         if (!string.Equals(tag, "quickActions", StringComparison.Ordinal))
         {
-            _kandoMenuRefreshTimer.Stop();
-            _refreshKandoMenuList = null;
         }
 
         if (_pageService is not null)
@@ -1134,52 +1127,6 @@ public sealed partial class MainWindow : Window
         finally { _kandoComponentBusy = false; }
     }
 
-    private FrameworkElement NewKandoPowerToysPreviewCard()
-    {
-        var image = new Image
-        {
-            Source = new Microsoft.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/kando-preview.gif")),
-            Stretch = Stretch.UniformToFill,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-
-        var surfaceColor = IsDark
-            ? Color.FromArgb(255, 24, 26, 30)
-            : Color.FromArgb(255, 238, 244, 250);
-        var feather = new Border
-        {
-            Height = 180,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            Background = new LinearGradientBrush
-            {
-                StartPoint = new Point(0.5, 0),
-                EndPoint = new Point(0.5, 1),
-                GradientStops =
-                {
-                    new GradientStop { Color = Color.FromArgb(0, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0 },
-                    new GradientStop { Color = Color.FromArgb(28, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.28 },
-                    new GradientStop { Color = Color.FromArgb(96, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.55 },
-                    new GradientStop { Color = Color.FromArgb(190, surfaceColor.R, surfaceColor.G, surfaceColor.B), Offset = 0.82 },
-                    new GradientStop { Color = surfaceColor, Offset = 1 }
-                }
-            }
-        };
-
-        var preview = new Grid();
-        preview.Children.Add(image);
-        preview.Children.Add(feather);
-
-        var frame = new Border
-        {
-            Height = 320,
-            Background = new SolidColorBrush(surfaceColor),
-            Child = preview
-        };
-
-        return NewCard(frame, new Thickness(0));
-    }
-
     private FrameworkElement NewKandoPowerToysToggleRow(bool isEnabled)
         => NewPowerToysSettingCard("\uE945", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), null,
             NewKandoQuickActionsToggle(isEnabled));
@@ -1295,159 +1242,6 @@ public sealed partial class MainWindow : Window
         grid.Children.Add(control);
 
         return NewCard(grid, new Thickness(16, 12, 16, 12));
-    }
-
-    private FrameworkElement NewKandoMenuPicker(LegacyOptions options, TextBox hotKeySettings, TextBox hotKeyRecorder)
-    {
-        var grid = new Grid { ColumnSpacing = 16 };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        grid.Children.Add(new TextBlock
-        {
-            Text = T("环形菜单", "Radial menus"),
-            VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(0, 8, 0, 0),
-            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
-        });
-
-        var content = new StackPanel { Spacing = 8 };
-        Grid.SetColumn(content, 1);
-        grid.Children.Add(content);
-        var selectedMenuName = options.KandoMenuName;
-
-        void ApplyKandoShortcutIfAvailable(KandoMenuInfo selected, bool overwriteExisting)
-        {
-            if (!TryCreateHotKeySettingsFromKandoShortcut(selected.Shortcut, out var settings))
-                return;
-
-            if (!overwriteExisting && !string.IsNullOrWhiteSpace(hotKeySettings.Text))
-                return;
-
-            hotKeySettings.Text = settings;
-            hotKeyRecorder.Text = HotKeyDisplayText(settings);
-            UpdateOptionAndReloadNow("KandoHotKey", settings);
-        }
-
-        void SelectMenu(KandoMenuInfo selected)
-        {
-            selectedMenuName = selected.Name;
-            UpdateOptionAndReloadNow("KandoMenuName", selected.Name);
-            UpdateOptionAndReloadNow("KandoTrigger", "");
-            ApplyKandoShortcutIfAvailable(selected, overwriteExisting: true);
-            RenderMenuList(applyDefaultShortcut: false);
-        }
-
-        void RenderMenuList(bool applyDefaultShortcut)
-        {
-            var menus = ReadKandoMenus();
-            content.Children.Clear();
-            if (menus.Count == 0)
-            {
-                content.Children.Add(new TextBlock
-                {
-                    Text = T("没有读取到环形菜单。请先打开环形菜单设置创建菜单，或检查 %APPDATA%\\kando\\menus.json。", "No radial menus were found. Create a menu in the radial menu settings or check %APPDATA%\\kando\\menus.json."),
-                    TextWrapping = TextWrapping.Wrap,
-                    Opacity = 0.72
-                });
-                content.Children.Add(NewLightTextOption(T("菜单名称", "Menu name"), selectedMenuName, "KandoMenuName", T("例如: 示例菜单", "For example: Sample menu")));
-                return;
-            }
-
-            var selectedIndex = KandoMenuIndex(menus, selectedMenuName);
-            selectedMenuName = menus[selectedIndex].Name;
-
-            var list = new StackPanel { Spacing = 8 };
-            for (var index = 0; index < menus.Count; index++)
-            {
-                var menu = menus[index];
-                var isSelected = index == selectedIndex;
-                var shortcutText = F("快捷键: {0}", "Shortcut: {0}", DisplayFallback(menu.Shortcut));
-                var trailing = new TextBlock
-                {
-                    Text = isSelected ? T("已选择", "Selected") : T("选择", "Select"),
-                    Opacity = isSelected ? 0.9 : 0.62,
-                    VerticalAlignment = VerticalAlignment.Center
-                };
-                list.Children.Add(NewKandoMenuRow(menu.Name == "未命名菜单" ? T("未命名菜单", "Unnamed menu") : menu.Name, shortcutText, trailing, isSelected, () => SelectMenu(menu)));
-            }
-
-            content.Children.Add(list);
-            if (applyDefaultShortcut)
-                ApplyKandoShortcutIfAvailable(menus[selectedIndex], overwriteExisting: false);
-        }
-
-        _refreshKandoMenuList = () => RenderMenuList(applyDefaultShortcut: false);
-        _lastKandoMenusWriteTimeUtc = GetKandoMenusWriteTimeUtc();
-        _kandoMenuRefreshTimer.Start();
-        RenderMenuList(applyDefaultShortcut: true);
-        return grid;
-    }
-
-    private FrameworkElement NewKandoHotKeyOption(TextBox settings, out TextBox recorder)
-    {
-        var grid = new Grid { ColumnSpacing = 16 };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        grid.Children.Add(new TextBlock
-        {
-            Text = T("唤起快捷键", "Activation shortcut"),
-            VerticalAlignment = VerticalAlignment.Center,
-            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
-        });
-
-        var recorderBox = NewHotKeyRecorder(settings, settings.Text, onRecorded: value => UpdateOptionAndReloadNow("KandoHotKey", value));
-        recorderBox.Margin = new Thickness(0);
-        recorderBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-
-        var clear = NewPillButton(T("清除", "Clear"), false);
-        clear.Click += (_, _) =>
-        {
-            if (ReferenceEquals(_activeHotKeyRecorder, recorderBox))
-                StopHotKeyRecording();
-            settings.Text = "";
-            recorderBox.Text = "";
-            UpdateOptionAndReloadNow("KandoHotKey", "");
-        };
-
-        var panel = new Grid { ColumnSpacing = 8 };
-        panel.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        panel.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        panel.Children.Add(recorderBox);
-        Grid.SetColumn(clear, 1);
-        panel.Children.Add(clear);
-        Grid.SetColumn(panel, 1);
-        grid.Children.Add(panel);
-        recorder = recorderBox;
-        return grid;
-    }
-
-    private FrameworkElement NewLightTextOption(string title, string value, string configKey, string placeholder)
-    {
-        var grid = new Grid { ColumnSpacing = 16 };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(180) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        grid.Children.Add(new TextBlock
-        {
-            Text = title,
-            VerticalAlignment = VerticalAlignment.Center,
-            FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
-        });
-
-        var text = new TextBox
-        {
-            Text = value,
-            PlaceholderText = placeholder,
-            HorizontalAlignment = HorizontalAlignment.Stretch
-        };
-        text.LostFocus += (_, _) => UpdateOptionAndReloadNow(configKey, text.Text.Trim());
-        text.KeyDown += (_, args) =>
-        {
-            if (args.Key == VirtualKey.Enter)
-                UpdateOptionAndReloadNow(configKey, text.Text.Trim());
-        };
-        Grid.SetColumn(text, 1);
-        grid.Children.Add(text);
-        return grid;
     }
 
     private StackPanel NewSection() => new() { Spacing = 14 };
@@ -3819,21 +3613,6 @@ public sealed partial class MainWindow : Window
         await ShowInfoDialog(T("恢复完成", "Restore complete"), T("配置已恢复，后台服务会在重载后使用新配置。", "Configuration restored. The background service will use it after reloading."));
     }
 
-    private async Task TestKandoMenuAsync()
-    {
-        if (_kandoComponentBusy) return;
-        await FlushPendingOptionUpdatesAsync();
-        _legacyData = LegacyDataStore.Load();
-
-        if (!StartKando(_legacyData.Options, BuildKandoShowMenuArguments(_legacyData.Options)))
-        {
-            await ShowInfoDialog(T("环形菜单未启动", "Radial menu did not start"), T("没有找到兼容的 环形菜单可执行文件，或启动失败。请检查 环形菜单程序路径。", "The radial menu could not start. Check the path to the component executable."));
-            return;
-        }
-
-        await ShowInfoDialog(T("已发送唤起命令", "Activation command sent"), T("如果 环形菜单 已正确配置，圆环菜单会出现在当前鼠标位置。", "If the radial menu is configured correctly, it will appear at the current pointer position."));
-    }
-
     private async Task EnableKandoQuickActionsAsync()
     {
         if (_kandoComponentBusy) { ShowSelectedPage(); return; }
@@ -3866,9 +3645,6 @@ public sealed partial class MainWindow : Window
                                              KandoComponentService.HasPersistentUserData;
             await KandoComponentService.PreserveBundledInstallationAsync(preserveLegacyInstallation);
             _legacyData = LegacyDataStore.Load();
-            if (_legacyData.Options.KandoEnabled && !KandoComponentPaths.IsNativePieMenu(_legacyData.Options.KandoExecutablePath) &&
-                FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath) is null)
-                await KandoComponentService.DownloadAndInstallAsync();
             if (!wasDownloaded && KandoComponentService.IsDownloaded)
                 ShowSelectedPage();
         }
@@ -3896,12 +3672,6 @@ public sealed partial class MainWindow : Window
             await ShowInfoDialog(T("环形菜单未启动", "Radial menu did not start"), T("没有找到兼容的 环形菜单可执行文件，或启动失败。请检查 环形菜单程序路径。", "The radial menu could not start. Check the path to the component executable."));
     }
 
-    private static string BuildKandoShowMenuArguments(LegacyOptions options)
-    {
-        if (!string.IsNullOrWhiteSpace(options.KandoMenuName))
-            return "--menu " + QuoteArgument(options.KandoMenuName);
-        return string.Empty;
-    }
     private bool StartKando(LegacyOptions options, string arguments)
         => StartKandoProcess(options, arguments) is not null;
 
@@ -3931,7 +3701,6 @@ public sealed partial class MainWindow : Window
         _isExitingApplication = true;
         _daemonWatchdogTimer.Stop();
         _recognitionStateTimer.Stop();
-        _kandoMenuRefreshTimer.Stop();
         _windowModeRefreshTimer.Stop();
         StopKandoProcesses(_legacyData.Options);
 
@@ -3986,211 +3755,6 @@ public sealed partial class MainWindow : Window
             }
         }
     }
-
-    private static List<KandoMenuInfo> ReadKandoMenus()
-    {
-        var path = GetKandoMenusPath();
-        if (!File.Exists(path))
-            return [];
-
-        try
-        {
-            using var document = JsonDocument.Parse(File.ReadAllText(path));
-            if (!document.RootElement.TryGetProperty("menus", out var menusElement) || menusElement.ValueKind != JsonValueKind.Array)
-                return [];
-
-            var menus = new List<KandoMenuInfo>();
-            foreach (var menuElement in menusElement.EnumerateArray())
-            {
-                var shortcut = JsonString(menuElement, "shortcut");
-                var name = "";
-                if (menuElement.TryGetProperty("root", out var rootElement))
-                    name = JsonString(rootElement, "name");
-
-                if (string.IsNullOrWhiteSpace(name))
-                    name = "未命名菜单";
-
-                menus.Add(new KandoMenuInfo(name, shortcut));
-            }
-
-            return menus;
-        }
-        catch
-        {
-            return [];
-        }
-    }
-
-    private void KandoMenuRefreshTimer_Tick(object? sender, object e)
-    {
-        if (Navigation.SelectedItem is not NavigationViewItem { Tag: "quickActions" })
-        {
-            _kandoMenuRefreshTimer.Stop();
-            _refreshKandoMenuList = null;
-            return;
-        }
-
-        var writeTime = GetKandoMenusWriteTimeUtc();
-        if (writeTime == _lastKandoMenusWriteTimeUtc)
-            return;
-
-        _lastKandoMenusWriteTimeUtc = writeTime;
-        _refreshKandoMenuList?.Invoke();
-    }
-
-    private static string GetKandoMenusPath()
-        => Path.Combine(KandoComponentPaths.UserDataDirectory, "menus.json");
-
-    private static DateTime GetKandoMenusWriteTimeUtc()
-    {
-        try
-        {
-            var path = GetKandoMenusPath();
-            return File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MinValue;
-        }
-        catch
-        {
-            return DateTime.MinValue;
-        }
-    }
-
-    private static string JsonString(JsonElement element, string propertyName)
-        => element.TryGetProperty(propertyName, out var value) && value.ValueKind == JsonValueKind.String
-            ? value.GetString() ?? ""
-            : "";
-
-    private static int KandoMenuIndex(IReadOnlyList<KandoMenuInfo> menus, LegacyOptions options)
-        => KandoMenuIndex(menus, options.KandoMenuName);
-
-    private static int KandoMenuIndex(IReadOnlyList<KandoMenuInfo> menus, string selectedMenuName)
-    {
-        if (!string.IsNullOrWhiteSpace(selectedMenuName))
-        {
-            var nameIndex = menus.ToList().FindIndex(menu => string.Equals(menu.Name, selectedMenuName, StringComparison.OrdinalIgnoreCase));
-            if (nameIndex >= 0)
-                return nameIndex;
-        }
-
-        return 0;
-    }
-
-    private string DisplayFallback(string value)
-        => string.IsNullOrWhiteSpace(value) ? T("未设置", "Not set") : value;
-
-    private static bool TryCreateHotKeySettingsFromKandoShortcut(string shortcut, out string settings)
-    {
-        settings = "";
-        if (string.IsNullOrWhiteSpace(shortcut))
-            return false;
-
-        var windows = false;
-        var control = false;
-        var shift = false;
-        var alt = false;
-        int? keyCode = null;
-
-        foreach (var rawPart in shortcut.Split('+', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
-        {
-            var part = rawPart.Trim();
-            if (part.Length == 0)
-                continue;
-
-            var normalized = part.Replace("Left", "", StringComparison.OrdinalIgnoreCase)
-                .Replace("Right", "", StringComparison.OrdinalIgnoreCase);
-
-            if (normalized.Equals("Control", StringComparison.OrdinalIgnoreCase) || normalized.Equals("Ctrl", StringComparison.OrdinalIgnoreCase))
-            {
-                control = true;
-                continue;
-            }
-
-            if (normalized.Equals("Shift", StringComparison.OrdinalIgnoreCase))
-            {
-                shift = true;
-                continue;
-            }
-
-            if (normalized.Equals("Alt", StringComparison.OrdinalIgnoreCase) || normalized.Equals("Menu", StringComparison.OrdinalIgnoreCase))
-            {
-                alt = true;
-                continue;
-            }
-
-            if (normalized.Equals("Meta", StringComparison.OrdinalIgnoreCase)
-                || normalized.Equals("Win", StringComparison.OrdinalIgnoreCase)
-                || normalized.Equals("Windows", StringComparison.OrdinalIgnoreCase)
-                || normalized.Equals("Super", StringComparison.OrdinalIgnoreCase))
-            {
-                windows = true;
-                continue;
-            }
-
-            if (!TryKandoShortcutKeyCode(normalized, out var parsedKeyCode))
-                return false;
-
-            keyCode = parsedKeyCode;
-        }
-
-        if (keyCode is null)
-            return false;
-
-        settings = HotKeySettingsJson(windows, control, shift, alt, keyCode.Value);
-        return true;
-    }
-
-    private static bool TryKandoShortcutKeyCode(string key, out int keyCode)
-    {
-        keyCode = 0;
-        if (key.StartsWith("Key", StringComparison.OrdinalIgnoreCase) && key.Length == 4 && char.IsLetter(key[3]))
-        {
-            keyCode = char.ToUpperInvariant(key[3]);
-            return true;
-        }
-
-        if (key.StartsWith("Digit", StringComparison.OrdinalIgnoreCase) && key.Length == 6 && char.IsDigit(key[5]))
-        {
-            keyCode = key[5];
-            return true;
-        }
-
-        if (key.Length == 1 && char.IsLetterOrDigit(key[0]))
-        {
-            keyCode = char.ToUpperInvariant(key[0]);
-            return true;
-        }
-
-        if (key.StartsWith("F", StringComparison.OrdinalIgnoreCase)
-            && int.TryParse(key[1..], NumberStyles.None, CultureInfo.InvariantCulture, out var functionKey)
-            && functionKey is >= 1 and <= 24)
-        {
-            keyCode = 111 + functionKey;
-            return true;
-        }
-
-        keyCode = key.ToLowerInvariant() switch
-        {
-            "space" => 0x20,
-            "escape" or "esc" => 0x1B,
-            "tab" => 0x09,
-            "enter" or "return" => 0x0D,
-            "backspace" => 0x08,
-            "delete" or "del" => 0x2E,
-            "insert" or "ins" => 0x2D,
-            "home" => 0x24,
-            "end" => 0x23,
-            "pageup" => 0x21,
-            "pagedown" => 0x22,
-            "arrowleft" or "left" => 0x25,
-            "arrowup" or "up" => 0x26,
-            "arrowright" or "right" => 0x27,
-            "arrowdown" or "down" => 0x28,
-            _ => 0
-        };
-
-        return keyCode != 0;
-    }
-
-    private readonly record struct KandoMenuInfo(string Name, string Shortcut);
 
     private async Task DownloadSharedSettingsAsync()
     {
@@ -5019,51 +4583,6 @@ public sealed partial class MainWindow : Window
             border.PointerEntered += (_, _) => border.Opacity = 0.9;
             border.PointerExited += (_, _) => border.Opacity = 1;
         }
-        return border;
-    }
-
-    private FrameworkElement NewKandoMenuRow(string title, string subtitle, FrameworkElement trailing, bool isSelected, Action onClick)
-    {
-        var grid = new Grid
-        {
-            ColumnSpacing = 8
-        };
-        grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-        var text = NewCardPanel(2);
-        text.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle });
-        text.Children.Add(new TextBlock { Text = subtitle, Opacity = 0.62, FontSize = 12 });
-        grid.Children.Add(text);
-
-        Grid.SetColumn(trailing, 1);
-        grid.Children.Add(trailing);
-
-        var border = new Border
-        {
-            Background = isSelected ? SelectionBrush() : SubtleBrush(),
-            CornerRadius = new CornerRadius(8),
-            Padding = new Thickness(12, 10, 12, 10),
-            Child = grid
-        };
-        border.PointerReleased += (_, args) =>
-        {
-            var point = args.GetCurrentPoint(border);
-            if (point.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse || point.Properties.PointerUpdateKind != Microsoft.UI.Input.PointerUpdateKind.LeftButtonReleased)
-                return;
-
-            args.Handled = true;
-            onClick();
-        };
-        border.Tapped += (_, args) =>
-        {
-            if (args.PointerDeviceType == Microsoft.UI.Input.PointerDeviceType.Mouse)
-                return;
-
-            onClick();
-        };
-        border.PointerEntered += (_, _) => border.Opacity = 0.9;
-        border.PointerExited += (_, _) => border.Opacity = 1;
         return border;
     }
 
