@@ -98,13 +98,22 @@ namespace GestureSign.CorePlugins.Steps
             var byPath = new List<IntPtr>();
             var byName = new List<IntPtr>();
             var imagePaths = new Dictionary<uint, string>();
+            var processNames = new Dictionary<uint, string>();
             var title = new StringBuilder(512);
             var className = new StringBuilder(256);
             EnumWindows((hWnd, _) =>
             {
-                if (!IsWindowVisible(hWnd) || GetWindow(hWnd, GW_OWNER) != IntPtr.Zero)
+                if (!IsWindowVisible(hWnd))
                     return true;
-                if ((GetWindowLongPtr(hWnd, GWL_EXSTYLE).ToInt64() & WS_EX_TOOLWINDOW) != 0)
+                // Same rules as Alt+Tab: an owned window counts when its owner is hidden (Delphi, some
+                // Electron / Qt / WinForms apps put the real main window under an invisible owner)
+                // or when it asks for a taskbar button.
+                var exStyle = GetWindowLongPtr(hWnd, GWL_EXSTYLE).ToInt64();
+                var appWindow = (exStyle & WS_EX_APPWINDOW) != 0;
+                var owner = GetWindow(hWnd, GW_OWNER);
+                if (owner != IntPtr.Zero && IsWindowVisible(owner) && !appWindow)
+                    return true;
+                if ((exStyle & WS_EX_TOOLWINDOW) != 0 && !appWindow)
                     return true;
                 // The desktop belongs to explorer.exe but is not a window to switch to.
                 className.Clear();
@@ -122,11 +131,20 @@ namespace GestureSign.CorePlugins.Steps
                 GetWindowThreadProcessId(hWnd, out var pid);
                 if (!imagePaths.TryGetValue(pid, out var image))
                     imagePaths[pid] = image = ProcessImagePath(pid);
-                if (string.IsNullOrEmpty(image))
+                if (!string.IsNullOrEmpty(image))
+                {
+                    if (fullPath != null && string.Equals(image, fullPath, StringComparison.OrdinalIgnoreCase))
+                        byPath.Add(hWnd);
+                    else if (string.Equals(Path.GetFileName(image), exeName, StringComparison.OrdinalIgnoreCase))
+                        byName.Add(hWnd);
                     return true;
-                if (fullPath != null && string.Equals(image, fullPath, StringComparison.OrdinalIgnoreCase))
-                    byPath.Add(hWnd);
-                else if (string.Equals(Path.GetFileName(image), exeName, StringComparison.OrdinalIgnoreCase))
+                }
+                // The path of a process running as administrator (or another user) can't be read without
+                // elevation; its name still can, so match on the name alone.
+                if (!processNames.TryGetValue(pid, out var processName))
+                    processNames[pid] = processName = ProcessName(pid);
+                if (!string.IsNullOrEmpty(processName)
+                    && string.Equals(processName, Path.GetFileNameWithoutExtension(exeName), StringComparison.OrdinalIgnoreCase))
                     byName.Add(hWnd);
                 return true;
             }, IntPtr.Zero);
@@ -151,6 +169,19 @@ namespace GestureSign.CorePlugins.Steps
             }
         }
 
+        private static string ProcessName(uint pid)
+        {
+            try
+            {
+                using var process = Process.GetProcessById((int)pid);
+                return process.ProcessName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         private static string ResolveShortcut(string lnkPath)
         {
             try
@@ -171,6 +202,7 @@ namespace GestureSign.CorePlugins.Steps
         private const uint GW_OWNER = 4;
         private const int GWL_EXSTYLE = -20;
         private const long WS_EX_TOOLWINDOW = 0x80;
+        private const long WS_EX_APPWINDOW = 0x40000;
         private const int SW_MINIMIZE = 6;
         private const int SW_RESTORE = 9;
         private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
