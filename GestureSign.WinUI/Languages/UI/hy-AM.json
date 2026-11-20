@@ -681,5 +681,8 @@
   "Replacing application files…": "Հավելվածի ֆայլերի փոխարինում…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer-ը վերադարձրեց {0}: Մանրամասն մատյան՝ {1}",
   "The update package is missing a required file: {0}": "Թարմացման փաթեթում բացակայում է անհրաժեշտ ֆայլը՝ {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign-ը դեռ աշխատում է. թարմացումը չեղարկվել է նախքան ֆայլերը փոխարինելը:"
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign-ը դեռ աշխատում է. թարմացումը չեղարկվել է նախքան ֆայլերը փոխարինելը:",
+  "Inner ring": "Ներքին օղակ",
+  "Outer ring": "Արտաքին օղակ",
+  "Middle-button radial menu": "Միջին կոճակի շրջանաձև ընտրացանկ"
 }

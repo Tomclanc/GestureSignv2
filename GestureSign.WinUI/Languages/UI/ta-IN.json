@@ -681,5 +681,8 @@
   "Replacing application files…": "பயன்பாட்டுக் கோப்புகளை மாற்றுகிறது…",
   "Windows Installer returned {0}. Detailed log: {1}": "விண்டோஸ் நிறுவி {0} திரும்பியது. விரிவான பதிவு: {1}",
   "The update package is missing a required file: {0}": "புதுப்பிப்பு தொகுப்பில் தேவையான கோப்பு இல்லை: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign இன்னும் இயங்குகிறது; கோப்புகளை மாற்றுவதற்கு முன் புதுப்பிப்பு ரத்து செய்யப்பட்டது."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign இன்னும் இயங்குகிறது; கோப்புகளை மாற்றுவதற்கு முன் புதுப்பிப்பு ரத்து செய்யப்பட்டது.",
+  "Inner ring": "உள் வளையம்",
+  "Outer ring": "வெளி வளையம்",
+  "Middle-button radial menu": "நடு பொத்தானின் வட்ட மெனு"
 }

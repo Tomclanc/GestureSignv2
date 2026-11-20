@@ -681,5 +681,8 @@
   "Replacing application files…": "ପ୍ରୟୋଗ ଫାଇଲଗୁଡ଼ିକୁ ବଦଳାଇବା…",
   "Windows Installer returned {0}. Detailed log: {1}": "ୱିଣ୍ଡୋଜ୍ ସଂସ୍ଥାପକ {0} ଫେରସ୍ତ କଲା। ବିସ୍ତୃତ ଲଗ୍: {1}",
   "The update package is missing a required file: {0}": "ଅପଡେଟ୍ ପ୍ୟାକେଜ୍ ଏକ ଆବଶ୍ୟକୀୟ ଫାଇଲ୍ ହରାଉଛି: {0} |",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ତଥାପି ଚାଲୁଅଛି; ଫାଇଲଗୁଡ଼ିକୁ ବଦଳାଇବା ପୂର୍ବରୁ ଅଦ୍ୟତନ ବାତିଲ କରାଯାଇଥିଲା |"
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ତଥାପି ଚାଲୁଅଛି; ଫାଇଲଗୁଡ଼ିକୁ ବଦଳାଇବା ପୂର୍ବରୁ ଅଦ୍ୟତନ ବାତିଲ କରାଯାଇଥିଲା |",
+  "Inner ring": "ଭିତର ବଳୟ",
+  "Outer ring": "ବାହାର ବଳୟ",
+  "Middle-button radial menu": "ମଝି ବଟନ୍‌ର ବୃତ୍ତାକାର ମେନୁ"
 }

@@ -681,5 +681,8 @@
   "Replacing application files…": "در حال جایگزینی فایل های برنامه…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer {0} را برگرداند. گزارش تفصیلی: {1}",
   "The update package is missing a required file: {0}": "بسته به‌روزرسانی فاقد یک فایل ضروری است: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign هنوز در حال اجرا است. به روز رسانی قبل از جایگزینی فایل ها لغو شد."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign هنوز در حال اجرا است. به روز رسانی قبل از جایگزینی فایل ها لغو شد.",
+  "Inner ring": "حلقه داخلی",
+  "Outer ring": "حلقه خارجی",
+  "Middle-button radial menu": "منوی دایره‌ای دکمه وسط"
 }

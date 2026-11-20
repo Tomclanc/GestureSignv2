@@ -681,5 +681,8 @@
   "Replacing application files…": "Tətbiq faylları dəyişdirilir...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Quraşdırıcısı {0} qaytardı. Ətraflı jurnal: {1}",
   "The update package is missing a required file: {0}": "Güncəlləmə paketində tələb olunan fayl yoxdur: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign hələ də işləyir; faylları dəyişdirməzdən əvvəl yeniləmə ləğv edildi."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign hələ də işləyir; faylları dəyişdirməzdən əvvəl yeniləmə ləğv edildi.",
+  "Inner ring": "Daxili halqa",
+  "Outer ring": "Xarici halqa",
+  "Middle-button radial menu": "Orta düymənin dairəvi menyusu"
 }

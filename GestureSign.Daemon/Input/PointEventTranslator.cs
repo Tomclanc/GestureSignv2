@@ -5,6 +5,7 @@ using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
 using GestureSign.Common.Input;
 using GestureSign.Common.Log;
+using GestureSign.Daemon.RadialMenu;
 using ManagedWinapi.Hooks;
 using ManagedWinapi.Windows;
 using System.Runtime.InteropServices;
@@ -155,6 +156,13 @@ namespace GestureSign.Daemon.Input
                 return;
 
             var button = (MouseActions)mouseMessage.Button;
+            if (RadialMenuController.Instance.IsActive && button == MouseActions.Middle)
+            {
+                handled = true;
+                RadialMenuController.Instance.End(mouseMessage.Point);
+                return;
+            }
+
             if (ShouldPassThroughGestureSignUi(mouseMessage.Point) && !_pressedMouseButton.Contains(button))
                 return;
 
@@ -187,6 +195,12 @@ namespace GestureSign.Daemon.Input
             _lastMouseHookEventUtc = DateTime.UtcNow;
             if (IsInjectedMouseMessage(mouseMessage))
                 return;
+
+            if (RadialMenuController.Instance.IsActive)
+            {
+                RadialMenuController.Instance.Move(mouseMessage.Point);
+                return;
+            }
 
             if (_inputProvider.SuppressPointerMotion)
             {
@@ -247,6 +261,18 @@ namespace GestureSign.Daemon.Input
             {
                 if (IsDrawingButton((MouseActions)mouseMessage.Button))
                     Logging.LogMessage($"Mouse gesture passed through. Reason=GamingShell, Button={(MouseActions)mouseMessage.Button}, Point={mouseMessage.Point.X},{mouseMessage.Point.Y}");
+                return;
+            }
+
+            if (RadialMenuController.Instance.IsActive)
+            {
+                // Another button during a radial menu aborts it; that button keeps its normal behavior.
+                RadialMenuController.Instance.Cancel("OtherButton");
+            }
+            else if ((MouseActions)mouseMessage.Button == MouseActions.Middle && _pressedMouseButton.Count == 0 &&
+                     RadialMenuController.Instance.TryBegin(mouseMessage.Point))
+            {
+                handled = true;
                 return;
             }
 

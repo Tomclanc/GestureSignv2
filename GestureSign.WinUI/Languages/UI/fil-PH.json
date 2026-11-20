@@ -681,5 +681,8 @@
   "Replacing application files…": "Pinapalitan ang mga file ng application...",
   "Windows Installer returned {0}. Detailed log: {1}": "Ibinalik ng Windows Installer ang {0}. Detalyadong log: {1}",
   "The update package is missing a required file: {0}": "Kulang ng kinakailangang file ang package ng pag-update: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "Ang GestureSign ay tumatakbo pa rin; nakansela ang pag-update bago palitan ang mga file."
+  "GestureSign is still running; update was cancelled before replacing files.": "Ang GestureSign ay tumatakbo pa rin; nakansela ang pag-update bago palitan ang mga file.",
+  "Inner ring": "Panloob na singsing",
+  "Outer ring": "Panlabas na singsing",
+  "Middle-button radial menu": "Pabilog na menu ng gitnang button"
 }

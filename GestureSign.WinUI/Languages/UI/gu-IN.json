@@ -681,5 +681,8 @@
   "Replacing application files…": "એપ્લિકેશન ફાઇલો બદલી રહ્યાં છીએ...",
   "Windows Installer returned {0}. Detailed log: {1}": "વિન્ડોઝ ઇન્સ્ટોલરે {0} પરત કર્યું. વિગતવાર લોગ: {1}",
   "The update package is missing a required file: {0}": "અપડેટ પેકેજમાં આવશ્યક ફાઇલ ખૂટે છે: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "હાવભાવ સાઇન હજુ ચાલુ છે; ફાઇલોને બદલતા પહેલા અપડેટ રદ કરવામાં આવ્યું હતું."
+  "GestureSign is still running; update was cancelled before replacing files.": "હાવભાવ સાઇન હજુ ચાલુ છે; ફાઇલોને બદલતા પહેલા અપડેટ રદ કરવામાં આવ્યું હતું.",
+  "Inner ring": "અંદરની રિંગ",
+  "Outer ring": "બહારની રિંગ",
+  "Middle-button radial menu": "મધ્ય બટનનું વર્તુળાકાર મેનૂ"
 }

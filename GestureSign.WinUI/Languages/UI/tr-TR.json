@@ -681,5 +681,8 @@
   "Replacing application files…": "Uygulama dosyaları değiştiriliyor…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer {0} değerini döndürdü. Ayrıntılı günlük: {1}",
   "The update package is missing a required file: {0}": "Güncelleme paketinde gerekli bir dosya eksik: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign hala çalışıyor; dosyalar değiştirilmeden güncelleme iptal edildi."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign hala çalışıyor; dosyalar değiştirilmeden güncelleme iptal edildi.",
+  "Inner ring": "İç halka",
+  "Outer ring": "Dış halka",
+  "Middle-button radial menu": "Orta düğme dairesel menüsü"
 }

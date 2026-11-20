@@ -681,5 +681,8 @@
   "Replacing application files…": "កំពុងជំនួសឯកសារកម្មវិធី...",
   "Windows Installer returned {0}. Detailed log: {1}": "កម្មវិធីដំឡើងវីនដូបានត្រឡប់មកវិញ {0} ។ កំណត់ហេតុលម្អិត៖ {1}",
   "The update package is missing a required file: {0}": "កញ្ចប់អាប់ដេតបាត់ឯកសារដែលត្រូវការ៖ {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign នៅតែដំណើរការ។ ការធ្វើបច្ចុប្បន្នភាពត្រូវបានលុបចោលមុនពេលជំនួសឯកសារ។"
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign នៅតែដំណើរការ។ ការធ្វើបច្ចុប្បន្នភាពត្រូវបានលុបចោលមុនពេលជំនួសឯកសារ។",
+  "Inner ring": "រង្វង់ខាងក្នុង",
+  "Outer ring": "រង្វង់ខាងក្រៅ",
+  "Middle-button radial menu": "ម៉ឺនុយរង្វង់នៃប៊ូតុងកណ្ដាល"
 }

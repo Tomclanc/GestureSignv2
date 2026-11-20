@@ -681,5 +681,8 @@
   "Replacing application files…": "एप्लिकेशन फ़ाइलें प्रतिस्थापित की जा रही हैं…",
   "Windows Installer returned {0}. Detailed log: {1}": "विंडोज़ इंस्टालर ने {0} लौटाया। विस्तृत लॉग: {1}",
   "The update package is missing a required file: {0}": "अद्यतन पैकेज़ में एक आवश्यक फ़ाइल गुम है: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "जेस्चरसाइन अभी भी चल रहा है; फ़ाइलों को बदलने से पहले अद्यतन रद्द कर दिया गया था।"
+  "GestureSign is still running; update was cancelled before replacing files.": "जेस्चरसाइन अभी भी चल रहा है; फ़ाइलों को बदलने से पहले अद्यतन रद्द कर दिया गया था।",
+  "Inner ring": "भीतरी वलय",
+  "Outer ring": "बाहरी वलय",
+  "Middle-button radial menu": "मध्य बटन का वृत्ताकार मेनू"
 }

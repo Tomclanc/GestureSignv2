@@ -681,5 +681,8 @@
   "Replacing application files…": "ಅಪ್ಲಿಕೇಶನ್ ಫೈಲ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಲಾಗುತ್ತಿದೆ...",
   "Windows Installer returned {0}. Detailed log: {1}": "ವಿಂಡೋಸ್ ಸ್ಥಾಪಕವು {0} ಹಿಂತಿರುಗಿದೆ. ವಿವರವಾದ ಲಾಗ್: {1}",
   "The update package is missing a required file: {0}": "ಅಪ್‌ಡೇಟ್ ಪ್ಯಾಕೇಜ್‌ನಲ್ಲಿ ಅಗತ್ಯವಿರುವ ಫೈಲ್ ಕಾಣೆಯಾಗಿದೆ: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "ಗೆಸ್ಚರ್‌ಸೈನ್ ಇನ್ನೂ ಚಾಲನೆಯಲ್ಲಿದೆ; ಫೈಲ್‌ಗಳನ್ನು ಬದಲಿಸುವ ಮೊದಲು ನವೀಕರಣವನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ."
+  "GestureSign is still running; update was cancelled before replacing files.": "ಗೆಸ್ಚರ್‌ಸೈನ್ ಇನ್ನೂ ಚಾಲನೆಯಲ್ಲಿದೆ; ಫೈಲ್‌ಗಳನ್ನು ಬದಲಿಸುವ ಮೊದಲು ನವೀಕರಣವನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.",
+  "Inner ring": "ಒಳ ಉಂಗುರ",
+  "Outer ring": "ಹೊರ ಉಂಗುರ",
+  "Middle-button radial menu": "ಮಧ್ಯ ಬಟನ್‌ನ ವೃತ್ತಾಕಾರದ ಮೆನು"
 }

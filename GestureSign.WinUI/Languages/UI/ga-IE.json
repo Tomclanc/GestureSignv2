@@ -681,5 +681,8 @@
   "Replacing application files…": "Comhaid feidhmchláir á n-ionadú…",
   "Windows Installer returned {0}. Detailed log: {1}": "Chuir Windows Installer {0} ar ais. Loga mionsonraithe: {1}",
   "The update package is missing a required file: {0}": "Tá comhad riachtanach in easnamh sa phacáiste nuashonraithe: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "Tá GestureSign fós ar siúl; Cuireadh an nuashonrú ar ceal sular athsholáthraíodh comhaid."
+  "GestureSign is still running; update was cancelled before replacing files.": "Tá GestureSign fós ar siúl; Cuireadh an nuashonrú ar ceal sular athsholáthraíodh comhaid.",
+  "Inner ring": "Fáinne inmheánach",
+  "Outer ring": "Fáinne seachtrach",
+  "Middle-button radial menu": "Roghchlár ciorclach an chnaipe láir"
 }

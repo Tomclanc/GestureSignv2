@@ -681,5 +681,8 @@
   "Replacing application files…": "Erstatter programfiler...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer returnerede {0}. Detaljeret log: {1}",
   "The update package is missing a required file: {0}": "Opdateringspakken mangler en påkrævet fil: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign kører stadig; opdateringen blev annulleret, før filer blev erstattet."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign kører stadig; opdateringen blev annulleret, før filer blev erstattet.",
+  "Inner ring": "Indre ring",
+  "Outer ring": "Ydre ring",
+  "Middle-button radial menu": "Cirkelmenu for midterknappen"
 }

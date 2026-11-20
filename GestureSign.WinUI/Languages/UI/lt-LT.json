@@ -681,5 +681,8 @@
   "Replacing application files…": "Keičiami programos failai…",
   "Windows Installer returned {0}. Detailed log: {1}": "„Windows Installer“ grąžino {0}. Išsamus žurnalas: {1}",
   "The update package is missing a required file: {0}": "Atnaujinimo pakete trūksta reikalingo failo: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign vis dar veikia; atnaujinimas buvo atšauktas prieš pakeičiant failus."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign vis dar veikia; atnaujinimas buvo atšauktas prieš pakeičiant failus.",
+  "Inner ring": "Vidinis žiedas",
+  "Outer ring": "Išorinis žiedas",
+  "Middle-button radial menu": "Vidurinio mygtuko apskritasis meniu"
 }

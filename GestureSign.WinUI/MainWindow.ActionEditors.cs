@@ -600,7 +600,7 @@ public sealed partial class MainWindow
             if (tipTapPicker is not null)
             {
                 var index = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-                tipTapPicker.SelectedIndex = index >= 25 ? index - 24 : 0;
+                tipTapPicker.SelectedIndex = index >= 25 && index <= 36 ? index - 24 : 0;
             }
             onBuiltInGestureSelected?.Invoke();
         });
@@ -622,7 +622,7 @@ public sealed partial class MainWindow
         for (var index = 25; index <= 36; index++)
             tipTapPicker.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         var selectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-        tipTapPicker.SelectedIndex = selectedIndex >= 25 ? selectedIndex - 24 : 0;
+        tipTapPicker.SelectedIndex = selectedIndex >= 25 && selectedIndex <= 36 ? selectedIndex - 24 : 0;
         tipTapPicker.SelectionChanged += (_, _) =>
         {
             if (tipTapPicker.SelectedIndex <= 0) return;
@@ -730,7 +730,7 @@ public sealed partial class MainWindow
     private ComboBox NewBuiltInGesturePicker(TextBox gesture, Action? onGestureSelected = null)
     {
         var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
-        for (var index = 0; index <= 36; index++)
+        for (var index = 0; index <= LastBuiltInGestureIndex; index++)
             combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
 
@@ -757,7 +757,7 @@ public sealed partial class MainWindow
              string.Equals(text, BuiltInGestureDisplayName(tag), StringComparison.OrdinalIgnoreCase)))
             return tag;
 
-        for (var index = 1; index <= 36; index++)
+        for (var index = 1; index <= LastBuiltInGestureIndex; index++)
         {
             var gestureName = BuiltInGestureNameFromIndex(index);
             if (string.Equals(text, BuiltInGestureDisplayName(gestureName), StringComparison.OrdinalIgnoreCase))
@@ -819,8 +819,53 @@ public sealed partial class MainWindow
             34 => L("按住 3 指 · 右侧 TipTap", "Hold 3 · right TipTap", "按住 3 指 · 右侧 TipTap", "3개 유지 · right TipTap"),
             35 => L("按住 3 指 · 上方 TipTap", "Hold 3 · up TipTap", "按住 3 指 · 上方 TipTap", "3개 유지 · up TipTap"),
             36 => L("按住 3 指 · 下方 TipTap", "Hold 3 · down TipTap", "按住 3 指 · 下方 TipTap", "3개 유지 · down TipTap"),
+            >= FirstRadialMenuIndex and <= LastBuiltInGestureIndex => RadialMenuDisplayName(index),
             _ => fallback
         };
+
+    // Middle-button radial menu slots: 37-44 inner ring, 45-52 outer ring,
+    // each ring starting at the top and advancing clockwise. The daemon reads
+    // the same reserved names (GestureSign.Common.Applications.RadialMenuSlots).
+    private const int FirstRadialMenuIndex = 37;
+    private const int LastBuiltInGestureIndex = 52;
+    private const string RadialMenuInnerPrefix = "RadialMenu.Inner.";
+    private const string RadialMenuOuterPrefix = "RadialMenu.Outer.";
+
+    private string RadialMenuDisplayName(int index)
+    {
+        var slot = index - FirstRadialMenuIndex;
+        var outer = slot >= 8;
+        var direction = (slot % 8) switch
+        {
+            0 => L("上", "Up", "上", "위"),
+            1 => L("右上", "Up-right", "右上", "오른쪽 위"),
+            2 => L("右", "Right", "右", "오른쪽"),
+            3 => L("右下", "Down-right", "右下", "오른쪽 아래"),
+            4 => L("下", "Down", "下", "아래"),
+            5 => L("左下", "Down-left", "左下", "왼쪽 아래"),
+            6 => L("左", "Left", "左", "왼쪽"),
+            _ => L("左上", "Up-left", "左上", "왼쪽 위")
+        };
+        var ring = outer ? L("外圈", "Outer ring", "外圈", "바깥쪽 링") : L("内圈", "Inner ring", "內圈", "안쪽 링");
+        return L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴") + " · " + ring + " · " + direction;
+    }
+
+    private static int RadialMenuIndex(string gestureName)
+    {
+        if (string.IsNullOrEmpty(gestureName)) return 0;
+        var outer = gestureName.StartsWith(RadialMenuOuterPrefix, StringComparison.OrdinalIgnoreCase);
+        if (!outer && !gestureName.StartsWith(RadialMenuInnerPrefix, StringComparison.OrdinalIgnoreCase)) return 0;
+        var suffix = gestureName.Substring(outer ? RadialMenuOuterPrefix.Length : RadialMenuInnerPrefix.Length);
+        return int.TryParse(suffix, NumberStyles.None, CultureInfo.InvariantCulture, out var slot) && slot >= 0 && slot < 8
+            ? FirstRadialMenuIndex + (outer ? 8 : 0) + slot
+            : 0;
+    }
+
+    private static string RadialMenuGestureName(int index)
+    {
+        var slot = index - FirstRadialMenuIndex;
+        return (slot >= 8 ? RadialMenuOuterPrefix : RadialMenuInnerPrefix) + (slot % 8).ToString(CultureInfo.InvariantCulture);
+    }
 
     private static int BuiltInGestureIndex(string gestureName)
         => gestureName switch
@@ -861,7 +906,7 @@ public sealed partial class MainWindow
             "TouchPadTipTap.Hold3.Right" => 34,
             "TouchPadTipTap.Hold3.Up" => 35,
             "TouchPadTipTap.Hold3.Down" => 36,
-            _ => 0
+            _ => RadialMenuIndex(gestureName)
         };
 
     private static string BuiltInGestureNameFromIndex(int index)
@@ -903,6 +948,7 @@ public sealed partial class MainWindow
             34 => "TouchPadTipTap.Hold3.Right",
             35 => "TouchPadTipTap.Hold3.Up",
             36 => "TouchPadTipTap.Hold3.Down",
+            >= FirstRadialMenuIndex and <= LastBuiltInGestureIndex => RadialMenuGestureName(index),
             _ => string.Empty
         };
 

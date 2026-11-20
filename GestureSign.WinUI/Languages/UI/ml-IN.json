@@ -681,5 +681,8 @@
   "Replacing application files…": "ആപ്ലിക്കേഷൻ ഫയലുകൾ മാറ്റിസ്ഥാപിക്കുന്നു...",
   "Windows Installer returned {0}. Detailed log: {1}": "വിൻഡോസ് ഇൻസ്റ്റാളർ {0} തിരികെ നൽകി. വിശദമായ ലോഗ്: {1}",
   "The update package is missing a required file: {0}": "അപ്‌ഡേറ്റ് പാക്കേജിൽ ആവശ്യമായ ഒരു ഫയൽ നഷ്‌ടമായിരിക്കുന്നു: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ഇപ്പോഴും പ്രവർത്തിക്കുന്നു; ഫയലുകൾ മാറ്റിസ്ഥാപിക്കുന്നതിന് മുമ്പ് അപ്ഡേറ്റ് റദ്ദാക്കി."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ഇപ്പോഴും പ്രവർത്തിക്കുന്നു; ഫയലുകൾ മാറ്റിസ്ഥാപിക്കുന്നതിന് മുമ്പ് അപ്ഡേറ്റ് റദ്ദാക്കി.",
+  "Inner ring": "അകത്തെ വലയം",
+  "Outer ring": "പുറത്തെ വലയം",
+  "Middle-button radial menu": "മധ്യ ബട്ടണിന്റെ വൃത്താകൃതി മെനു"
 }

@@ -681,5 +681,8 @@
   "Replacing application files…": "Alkalmazásfájlok cseréje…",
   "Windows Installer returned {0}. Detailed log: {1}": "A Windows Installer a következőt adta vissza: {0}. Részletes napló: {1}",
   "The update package is missing a required file: {0}": "A frissítőcsomagból hiányzik egy szükséges fájl: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "A GestureSign még mindig fut; a frissítést a fájlok cseréje előtt megszakították."
+  "GestureSign is still running; update was cancelled before replacing files.": "A GestureSign még mindig fut; a frissítést a fájlok cseréje előtt megszakították.",
+  "Inner ring": "Belső gyűrű",
+  "Outer ring": "Külső gyűrű",
+  "Middle-button radial menu": "Középső gomb körmenüje"
 }

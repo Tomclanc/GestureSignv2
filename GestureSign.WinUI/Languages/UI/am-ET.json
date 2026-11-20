@@ -681,5 +681,8 @@
   "Replacing application files…": "የመተግበሪያ ፋይሎችን በመተካት ላይ…",
   "Windows Installer returned {0}. Detailed log: {1}": "ዊንዶውስ ጫኝ {0} ተመልሷል። ዝርዝር ማስታወሻ፡ {1}",
   "The update package is missing a required file: {0}": "የዝማኔ ጥቅሉ የሚፈለግ ፋይል ይጎድላል፡ {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "የእጅ ምልክት አሁንም እየሰራ ነው; ፋይሎችን ከመተካት በፊት ማዘመን ተሰርዟል።"
+  "GestureSign is still running; update was cancelled before replacing files.": "የእጅ ምልክት አሁንም እየሰራ ነው; ፋይሎችን ከመተካት በፊት ማዘመን ተሰርዟል።",
+  "Inner ring": "ውስጣዊ ቀለበት",
+  "Outer ring": "ውጫዊ ቀለበት",
+  "Middle-button radial menu": "የመሃል አዝራር ክብ ምናሌ"
 }

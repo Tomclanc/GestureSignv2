@@ -681,5 +681,8 @@
   "Replacing application files…": "ກຳລັງປ່ຽນໄຟລ໌ແອັບພລິເຄຊັນ...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer ສົ່ງຄືນ {0}. ບັນທຶກລາຍລະອຽດ: {1}",
   "The update package is missing a required file: {0}": "ຊຸດອັບເດດບໍ່ມີໄຟລ໌ທີ່ຕ້ອງການ: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ຍັງແລ່ນຢູ່; ການປັບປຸງໄດ້ຖືກຍົກເລີກກ່ອນທີ່ຈະປ່ຽນໄຟລ໌."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ຍັງແລ່ນຢູ່; ການປັບປຸງໄດ້ຖືກຍົກເລີກກ່ອນທີ່ຈະປ່ຽນໄຟລ໌.",
+  "Inner ring": "ວົງໃນ",
+  "Outer ring": "ວົງນອກ",
+  "Middle-button radial menu": "ເມນູວົງມົນຂອງປຸ່ມກາງ"
 }

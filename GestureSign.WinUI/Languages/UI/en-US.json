@@ -681,5 +681,8 @@
   "Replacing application files…": "Replacing application files…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer returned {0}. Detailed log: {1}",
   "The update package is missing a required file: {0}": "The update package is missing a required file: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign is still running; update was cancelled before replacing files."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign is still running; update was cancelled before replacing files.",
+  "Inner ring": "Inner ring",
+  "Outer ring": "Outer ring",
+  "Middle-button radial menu": "Middle-button radial menu"
 }

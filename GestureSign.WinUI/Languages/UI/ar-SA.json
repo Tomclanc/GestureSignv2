@@ -681,5 +681,8 @@
   "Replacing application files…": "جارٍ استبدال ملفات التطبيق...",
   "Windows Installer returned {0}. Detailed log: {1}": "قام Windows Installer بإرجاع {0}. السجل التفصيلي: {1}",
   "The update package is missing a required file: {0}": "تفتقد حزمة التحديث ملفًا مطلوبًا: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "لا يزال GestureSign قيد التشغيل؛ تم إلغاء التحديث قبل استبدال الملفات."
+  "GestureSign is still running; update was cancelled before replacing files.": "لا يزال GestureSign قيد التشغيل؛ تم إلغاء التحديث قبل استبدال الملفات.",
+  "Inner ring": "الحلقة الداخلية",
+  "Outer ring": "الحلقة الخارجية",
+  "Middle-button radial menu": "القائمة الدائرية للزر الأوسط"
 }

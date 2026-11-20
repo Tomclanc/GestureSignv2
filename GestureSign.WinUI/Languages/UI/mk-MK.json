@@ -681,5 +681,8 @@
   "Replacing application files…": "Се заменуваат датотеките со апликации…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer го врати {0}. Детален дневник: {1}",
   "The update package is missing a required file: {0}": "На пакетот за ажурирање му недостасува потребна датотека: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign сè уште работи; ажурирањето беше откажано пред да се заменат датотеките."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign сè уште работи; ажурирањето беше откажано пред да се заменат датотеките.",
+  "Inner ring": "Внатрешен прстен",
+  "Outer ring": "Надворешен прстен",
+  "Middle-button radial menu": "Кружно мени на средното копче"
 }

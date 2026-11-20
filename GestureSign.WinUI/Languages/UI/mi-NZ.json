@@ -681,5 +681,8 @@
   "Replacing application files…": "Kei te whakakapi i nga konae tono…",
   "Windows Installer returned {0}. Detailed log: {1}": "I hoki mai a Windows Installer {0}. Rangitaki Taipitopito: {1}",
   "The update package is missing a required file: {0}": "Kei te ngaro he kōnae e hiahiatia ana i te kete whakahōu: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "Kei te haere tonu a GetureSign; i whakakorehia te whakahou i mua i te whakakapi i nga konae."
+  "GestureSign is still running; update was cancelled before replacing files.": "Kei te haere tonu a GetureSign; i whakakorehia te whakahou i mua i te whakakapi i nga konae.",
+  "Inner ring": "Mōwhiti o roto",
+  "Outer ring": "Mōwhiti o waho",
+  "Middle-button radial menu": "Tahua porowhita o te pātene waenga"
 }

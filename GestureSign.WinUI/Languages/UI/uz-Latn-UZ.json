@@ -681,5 +681,8 @@
   "Replacing application files…": "Ilova fayllari almashtirilmoqda…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer {0} ni qaytardi. Batafsil jurnal: {1}",
   "The update package is missing a required file: {0}": "Yangilash paketida kerakli fayl yoʻq: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ishlayapti; fayllarni almashtirishdan oldin yangilanish bekor qilindi."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign ishlayapti; fayllarni almashtirishdan oldin yangilanish bekor qilindi.",
+  "Inner ring": "Ichki halqa",
+  "Outer ring": "Tashqi halqa",
+  "Middle-button radial menu": "O'rta tugmaning doira menyusi"
 }

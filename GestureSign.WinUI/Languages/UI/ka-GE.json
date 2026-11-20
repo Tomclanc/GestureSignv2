@@ -681,5 +681,8 @@
   "Replacing application files…": "მიმდინარეობს აპლიკაციის ფაილების ჩანაცვლება…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer-მა დააბრუნა {0}. დეტალური ჟურნალი: {1}",
   "The update package is missing a required file: {0}": "განახლების პაკეტს აკლია საჭირო ფაილი: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign კვლავ მუშაობს; განახლება გაუქმდა ფაილების ჩანაცვლებამდე."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign კვლავ მუშაობს; განახლება გაუქმდა ფაილების ჩანაცვლებამდე.",
+  "Inner ring": "შიდა რგოლი",
+  "Outer ring": "გარე რგოლი",
+  "Middle-button radial menu": "შუა ღილაკის წრიული მენიუ"
 }

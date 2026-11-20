@@ -681,5 +681,8 @@
   "Replacing application files…": "A’ dol an àite faidhlichean tagraidh…",
   "Windows Installer returned {0}. Detailed log: {1}": "Thill Windows Installer {0}. Loga mionaideach: {1}",
   "The update package is missing a required file: {0}": "Tha faidhle a tha a dhìth a dhìth sa phacaid ùrachaidh: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "Tha GestureSign fhathast a 'ruith; chaidh ùrachadh a chuir dheth mus deach na faidhlichean a chuir nan àite."
+  "GestureSign is still running; update was cancelled before replacing files.": "Tha GestureSign fhathast a 'ruith; chaidh ùrachadh a chuir dheth mus deach na faidhlichean a chuir nan àite.",
+  "Inner ring": "Fàinne a-staigh",
+  "Outer ring": "Fàinne a-muigh",
+  "Middle-button radial menu": "Clàr-taice cearcallach a' phutain mheadhanaich"
 }

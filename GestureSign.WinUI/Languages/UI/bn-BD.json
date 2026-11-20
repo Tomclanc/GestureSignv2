@@ -681,5 +681,8 @@
   "Replacing application files…": "অ্যাপ্লিকেশন ফাইলগুলি প্রতিস্থাপন করা হচ্ছে...",
   "Windows Installer returned {0}. Detailed log: {1}": "উইন্ডোজ ইনস্টলার {0} ফেরত দিয়েছে। বিস্তারিত লগ: {1}",
   "The update package is missing a required file: {0}": "আপডেট প্যাকেজ একটি প্রয়োজনীয় ফাইল অনুপস্থিত: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign এখনও চলছে; ফাইল প্রতিস্থাপন করার আগে আপডেট বাতিল করা হয়েছে।"
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign এখনও চলছে; ফাইল প্রতিস্থাপন করার আগে আপডেট বাতিল করা হয়েছে।",
+  "Inner ring": "ভেতরের বলয়",
+  "Outer ring": "বাইরের বলয়",
+  "Middle-button radial menu": "মাঝের বোতামের বৃত্তাকার মেনু"
 }

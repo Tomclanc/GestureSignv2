@@ -681,5 +681,8 @@
   "Replacing application files…": "Wrthi'n disodli ffeiliau cais…",
   "Windows Installer returned {0}. Detailed log: {1}": "Dychwelodd Windows Installer {0}. Log manwl: {1}",
   "The update package is missing a required file: {0}": "Mae ffeil ofynnol ar goll yn y pecyn diweddaru: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "Mae GestureSign yn dal i redeg; diweddariad wedi'i ganslo cyn amnewid ffeiliau."
+  "GestureSign is still running; update was cancelled before replacing files.": "Mae GestureSign yn dal i redeg; diweddariad wedi'i ganslo cyn amnewid ffeiliau.",
+  "Inner ring": "Cylch mewnol",
+  "Outer ring": "Cylch allanol",
+  "Middle-button radial menu": "Dewislen gylchol y botwm canol"
 }

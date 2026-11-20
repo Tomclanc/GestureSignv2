@@ -681,5 +681,8 @@
   "Replacing application files…": "Замена файлаў прыкладання…",
   "Windows Installer returned {0}. Detailed log: {1}": "Усталёўшчык Windows вярнуў {0}. Падрабязны журнал: {1}",
   "The update package is missing a required file: {0}": "У пакеце абнаўлення адсутнічае неабходны файл: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign усё яшчэ працуе; абнаўленне было адменена перад заменай файлаў."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign усё яшчэ працуе; абнаўленне было адменена перад заменай файлаў.",
+  "Inner ring": "Унутранае кальцо",
+  "Outer ring": "Вонкавае кальцо",
+  "Middle-button radial menu": "Кругавое меню сярэдняй кнопкі"
 }

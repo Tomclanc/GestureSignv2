@@ -681,5 +681,8 @@
   "Replacing application files…": "Po zëvendëson skedarët e aplikacionit…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer ktheu {0}. Regjistri i detajuar: {1}",
   "The update package is missing a required file: {0}": "Paketës së përditësimit i mungon një skedar i kërkuar: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign është ende në punë; përditësimi u anulua përpara se të zëvendësoheshin skedarët."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign është ende në punë; përditësimi u anulua përpara se të zëvendësoheshin skedarët.",
+  "Inner ring": "Unaza e brendshme",
+  "Outer ring": "Unaza e jashtme",
+  "Middle-button radial menu": "Menyja rrethore e butonit të mesit"
 }

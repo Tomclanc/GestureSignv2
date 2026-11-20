@@ -681,5 +681,8 @@
   "Replacing application files…": "Applicatiebestanden vervangen…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer heeft {0} geretourneerd. Gedetailleerd logboek: {1}",
   "The update package is missing a required file: {0}": "Er ontbreekt een vereist bestand in het updatepakket: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign is nog steeds actief; update werd geannuleerd voordat bestanden werden vervangen."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign is nog steeds actief; update werd geannuleerd voordat bestanden werden vervangen.",
+  "Inner ring": "Binnenste ring",
+  "Outer ring": "Buitenste ring",
+  "Middle-button radial menu": "Radiaal menu van de middelste knop"
 }

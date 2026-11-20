@@ -681,5 +681,8 @@
   "Replacing application files…": "Menggantikan fail aplikasi…",
   "Windows Installer returned {0}. Detailed log: {1}": "Pemasang Windows mengembalikan {0}. Log terperinci: {1}",
   "The update package is missing a required file: {0}": "Pakej kemas kini tiada fail yang diperlukan: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GesturesSign masih berjalan; kemas kini telah dibatalkan sebelum menggantikan fail."
+  "GestureSign is still running; update was cancelled before replacing files.": "GesturesSign masih berjalan; kemas kini telah dibatalkan sebelum menggantikan fail.",
+  "Inner ring": "Gelang dalam",
+  "Outer ring": "Gelang luar",
+  "Middle-button radial menu": "Menu jejari butang tengah"
 }

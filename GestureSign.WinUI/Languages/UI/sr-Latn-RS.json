@@ -681,5 +681,8 @@
   "Replacing application files…": "Zamena datoteka aplikacije…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer returned {0}. Detaljan dnevnik: {1}",
   "The update package is missing a required file: {0}": "U paketu za ažuriranje nedostaje obavezna datoteka: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign je još pokrenut; ažuriranje je otkazano pre zamene datoteka."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign je još pokrenut; ažuriranje je otkazano pre zamene datoteka.",
+  "Inner ring": "Unutrašnji prsten",
+  "Outer ring": "Spoljašnji prsten",
+  "Middle-button radial menu": "Kružni meni srednjeg tastera"
 }

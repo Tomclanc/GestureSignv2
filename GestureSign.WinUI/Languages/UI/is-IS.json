@@ -681,5 +681,8 @@
   "Replacing application files…": "Skiptir um forritaskrár...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer skilaði {0}. Ítarleg annál: {1}",
   "The update package is missing a required file: {0}": "Uppfærslupakkann vantar nauðsynlega skrá: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign er enn í gangi; Hætt var við uppfærslu áður en skipt var um skrár."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign er enn í gangi; Hætt var við uppfærslu áður en skipt var um skrár.",
+  "Inner ring": "Innri hringur",
+  "Outer ring": "Ytri hringur",
+  "Middle-button radial menu": "Hringvalmynd miðhnapps"
 }

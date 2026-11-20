@@ -681,5 +681,8 @@
   "Replacing application files…": "Yanapakuy willañiqikunata tikraspa...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer {0} kutichisqa. Detallada registro: {1}",
   "The update package is missing a required file: {0}": "Kunanchay paqueteqa faltan huk mañasqa willañiqi: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign kunankamapas purichkanraqmi; musuqyachiyqa manaraq willañiqikunata tikrachkaspa qullusqa karqan."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign kunankamapas purichkanraqmi; musuqyachiyqa manaraq willañiqikunata tikrachkaspa qullusqa karqan.",
+  "Inner ring": "Ukhu muyu",
+  "Outer ring": "Hawa muyu",
+  "Middle-button radial menu": "Chawpi butunpa muyu menun"
 }

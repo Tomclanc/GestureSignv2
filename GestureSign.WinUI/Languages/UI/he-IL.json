@@ -681,5 +681,8 @@
   "Replacing application files…": "מחליף קבצי אפליקציה...",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows Installer החזיר את {0}. יומן מפורט: {1}",
   "The update package is missing a required file: {0}": "בחבילת העדכון חסר קובץ נדרש: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign עדיין פועל; העדכון בוטל לפני החלפת הקבצים."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign עדיין פועל; העדכון בוטל לפני החלפת הקבצים.",
+  "Inner ring": "טבעת פנימית",
+  "Outer ring": "טבעת חיצונית",
+  "Middle-button radial menu": "תפריט מעגלי של הלחצן האמצעי"
 }

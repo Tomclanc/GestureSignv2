@@ -681,5 +681,8 @@
   "Replacing application files…": "アプリケーションファイルを置き換えています…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows インストーラーが {0} を返しました。詳細ログ: {1}",
   "The update package is missing a required file: {0}": "更新パッケージに必要なファイルがありません: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign はまだ実行中です。ファイルを置き換える前に更新がキャンセルされました。"
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign はまだ実行中です。ファイルを置き換える前に更新がキャンセルされました。",
+  "Inner ring": "内側の輪",
+  "Outer ring": "外側の輪",
+  "Middle-button radial menu": "中ボタンの円形メニュー"
 }

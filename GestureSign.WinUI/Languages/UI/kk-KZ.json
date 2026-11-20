@@ -681,5 +681,8 @@
   "Replacing application files…": "Қолданба файлдары ауыстырылуда…",
   "Windows Installer returned {0}. Detailed log: {1}": "Windows орнатушысы {0} қайтарды. Толық журнал: {1}",
   "The update package is missing a required file: {0}": "Жаңарту бумасында қажетті файл жоқ: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign әлі жұмыс істейді; файлдарды ауыстырмас бұрын жаңарту тоқтатылды."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign әлі жұмыс істейді; файлдарды ауыстырмас бұрын жаңарту тоқтатылды.",
+  "Inner ring": "Ішкі сақина",
+  "Outer ring": "Сыртқы сақина",
+  "Middle-button radial menu": "Ортаңғы түйменің дөңгелек мәзірі"
 }

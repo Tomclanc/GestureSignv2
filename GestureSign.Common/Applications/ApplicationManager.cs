@@ -645,6 +645,62 @@ namespace GestureSign.Common.Applications
             return actions;
         }
 
+        /// <summary>
+        /// Resolves the middle-button radial menu for the window under the pointer.
+        /// Each slot is looked up independently: an application group action wins,
+        /// otherwise the global action of that slot is used. Returns an empty map
+        /// when the target is ignored, fullscreen-excluded or has no slots, so the
+        /// caller can leave the native middle button untouched.
+        /// </summary>
+        public Dictionary<string, IAction> PrepareRadialMenu(Point point)
+        {
+            var result = new Dictionary<string, IAction>(StringComparer.OrdinalIgnoreCase);
+            var hit = GetWindowFromPoint(point);
+            var target = hit?.TopLevelWindow ?? hit;
+            if (target == null || target.HWnd == IntPtr.Zero || Applications == null)
+                return result;
+
+            var apps = GetApplicationFromWindow(target);
+            if (apps.Any(a => a is IgnoredApp && a.IsEnabled) ||
+                ((AppConfig.IgnoreFullScreen || AppConfig.IgnoreFullScreenVideo) && IsFullScreenWindow(target)))
+                return result;
+
+            bool Usable(IAction a) => IsActionExecutable(a) &&
+                                      RadialMenuSlots.IsRadialMenuGesture(a.GestureName) &&
+                                      (a.IgnoredDevices & Devices.Mouse) == 0 &&
+                                      MatchesGestureHotkey(a);
+
+            var appActions = apps
+                .Where(a => !(a is IgnoredApp) && !(a is GlobalApp) && a.Actions != null)
+                .SelectMany(a => a.Actions)
+                .Where(Usable)
+                .ToList();
+            var globalActions = GetGlobalApplication()?.Actions?.Where(Usable).ToList() ?? new List<IAction>();
+            var ignoredNames = GetIgnoredGestureNames();
+
+            foreach (var outer in new[] { false, true })
+            {
+                for (var index = 0; index < RadialMenuSlots.SlotsPerRing; index++)
+                {
+                    var name = RadialMenuSlots.Name(outer, index);
+                    if (ignoredNames.Contains(name))
+                        continue;
+                    var action = appActions.FirstOrDefault(a => GestureNameEquals(a.GestureName, name)) ??
+                                 globalActions.FirstOrDefault(a => GestureNameEquals(a.GestureName, name));
+                    if (action != null)
+                        result[name] = action;
+                }
+            }
+
+            if (result.Count > 0)
+            {
+                CaptureWindow = target;
+                _recognizedApplication = apps;
+            }
+            Logging.LogMessage($"Radial menu lookup. Applications={DescribeApplications(apps.ToList())}, Slots={result.Count}");
+            return result;
+        }
+
         public SystemWindow GetForegroundApplications()
         {
             CaptureWindow = SystemWindow.ForegroundWindow;

@@ -681,5 +681,8 @@
   "Replacing application files…": "Nahrazování souborů aplikace…",
   "Windows Installer returned {0}. Detailed log: {1}": "Instalační služba Windows Installer vrátila {0}. Podrobný protokol: {1}",
   "The update package is missing a required file: {0}": "V aktualizačním balíčku chybí požadovaný soubor: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign stále běží; aktualizace byla před nahrazením souborů zrušena."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign stále běží; aktualizace byla před nahrazením souborů zrušena.",
+  "Inner ring": "Vnitřní kruh",
+  "Outer ring": "Vnější kruh",
+  "Middle-button radial menu": "Kruhová nabídka prostředního tlačítka"
 }

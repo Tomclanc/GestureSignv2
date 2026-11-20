@@ -681,5 +681,8 @@
   "Replacing application files…": "Zastępowanie plików aplikacji…",
   "Windows Installer returned {0}. Detailed log: {1}": "Instalator Windows zwrócił {0}. Szczegółowy dziennik: {1}",
   "The update package is missing a required file: {0}": "W pakiecie aktualizacji brakuje wymaganego pliku: {0}",
-  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign nadal działa; aktualizacja została anulowana przed wymianą plików."
+  "GestureSign is still running; update was cancelled before replacing files.": "GestureSign nadal działa; aktualizacja została anulowana przed wymianą plików.",
+  "Inner ring": "Pierścień wewnętrzny",
+  "Outer ring": "Pierścień zewnętrzny",
+  "Middle-button radial menu": "Menu kołowe środkowego przycisku"
 }
