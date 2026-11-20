@@ -557,8 +557,11 @@ public sealed partial class MainWindow
         var isRadialSlot = RadialMenuIndex(gestureName) > 0;
         if (isRadialSlot)
         {
-            if (existingAction is not null && !string.IsNullOrWhiteSpace(existingAction.Name))
-                name.Text = existingAction.Name;
+            // Never prefill the generic "Send Hotkey" name: left empty, the
+            // label is derived from the command (hotkey text, file name, ...).
+            name.Text = existingAction is not null && !IsGenericRadialMenuLabel(existingAction.Name)
+                ? existingAction.Name
+                : "";
             panel.Children.Add(name);
         }
         else
@@ -613,6 +616,9 @@ public sealed partial class MainWindow
             await ShowInfoDialog(T("插件类名为空", "Missing plugin class name"), T("请选择一个操作，或填写自定义插件类名。", "Choose an operation or enter a custom plugin class name."));
             return;
         }
+
+        if (RadialMenuIndex(gestureName) > 0 && string.IsNullOrWhiteSpace(name.Text))
+            name.Text = RadialMenuAutoLabel(pluginClassValue, settings.Text);
 
         var globalApp = EnsureGlobalApplication();
         var action = globalApp.Actions.FirstOrDefault(item => string.Equals(item.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));

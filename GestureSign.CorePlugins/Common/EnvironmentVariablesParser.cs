@@ -7,15 +7,53 @@ namespace GestureSign.CorePlugins.Common
 {
     public class EnvironmentVariablesParser
     {
+        public const string SelectedTextVariable = "GS_SelectedText";
+        public const string SelectedTextUrlVariable = "GS_SelectedTextUrl";
+
         PointInfo _pointInfo;
+        private string _selectedText;
+
         public EnvironmentVariablesParser(PointInfo pointInfo)
         {
             _pointInfo = pointInfo;
         }
 
-        public string ExpandEnvironmentVariables(string command)
+        /// <summary>
+        /// The text selected in the target window, captured at most once per
+        /// command execution and only when one of the given texts asks for it
+        /// (%GS_SelectedText%, %GS_SelectedTextUrl% or $env:GS_SelectedText).
+        /// Returns null when no text references it.
+        /// </summary>
+        public string CaptureSelectedTextIfNeeded(params string[] texts)
+        {
+            if (_selectedText != null)
+                return _selectedText;
+            foreach (var text in texts)
+            {
+                if (!string.IsNullOrEmpty(text) && text.IndexOf(SelectedTextVariable, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    _selectedText = SelectedTextCapture.Capture(_pointInfo);
+                    return _selectedText;
+                }
+            }
+            return null;
+        }
+
+        public static string UrlEncode(string text) => Uri.EscapeDataString(text ?? string.Empty);
+
+        public string ExpandEnvironmentVariables(string command) => ExpandEnvironmentVariables(command, true);
+
+        public string ExpandEnvironmentVariables(string command, bool replaceSelectedText)
         {
             if (string.IsNullOrWhiteSpace(command)) return command;
+
+            if (replaceSelectedText && command.IndexOf(SelectedTextVariable, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                var selected = CaptureSelectedTextIfNeeded(command) ?? string.Empty;
+                // Replace the URL form first: it shares the plain name as a prefix.
+                command = ReplaceIgnoreCase(command, "%" + SelectedTextUrlVariable + "%", UrlEncode(selected));
+                command = ReplaceIgnoreCase(command, "%" + SelectedTextVariable + "%", selected);
+            }
 
             command = Environment.ExpandEnvironmentVariables(command);
 
@@ -53,5 +91,8 @@ namespace GestureSign.CorePlugins.Common
               Replace("%GS_EndPoint_Y%", _pointInfo.Points[0].Last().Y.ToString()).
               Replace("%GS_WindowHandle%", _pointInfo.WindowHandle.ToString());
         }
+
+        private static string ReplaceIgnoreCase(string text, string token, string value)
+            => text.Replace(token, value ?? string.Empty, StringComparison.OrdinalIgnoreCase);
     }
 }

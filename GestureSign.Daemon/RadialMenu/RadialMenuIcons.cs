@@ -107,6 +107,82 @@ namespace GestureSign.Daemon.RadialMenu
             };
         }
 
+        /// <summary>Names the editor used to prefill; they do not describe a slot.</summary>
+        public static bool IsGenericLabel(string name)
+            => string.IsNullOrWhiteSpace(name) ||
+               name.Trim() is "发送快捷键" or "Send Hotkey" or "發送快速鍵" or "단축키 보내기";
+
+        /// <summary>A label derived from the first command: hotkey text or referenced file name.</summary>
+        public static string AutoLabel(IAction action)
+        {
+            var command = Commands(action).FirstOrDefault();
+            if (command == null)
+                return null;
+            var hotKey = HotKeyText(command.CommandSettings);
+            if (!string.IsNullOrEmpty(hotKey))
+                return hotKey;
+            var path = CandidatePaths(command.CommandSettings).FirstOrDefault();
+            if (path != null)
+                return Path.GetFileNameWithoutExtension(path);
+            var plugin = command.PluginClass ?? string.Empty;
+            return plugin.Substring(plugin.LastIndexOf('.') + 1);
+        }
+
+        private static string HotKeyText(string settings)
+        {
+            if (string.IsNullOrWhiteSpace(settings))
+                return null;
+            try
+            {
+                using var document = JsonDocument.Parse(settings);
+                var root = document.RootElement;
+                if (root.ValueKind != JsonValueKind.Object ||
+                    !root.TryGetProperty("KeyCode", out var codes) || codes.ValueKind != JsonValueKind.Array)
+                    return null;
+                bool Flag(string name) => root.TryGetProperty(name, out var value) && value.ValueKind == JsonValueKind.True;
+                var parts = new List<string>();
+                if (Flag("Control")) parts.Add("Ctrl");
+                if (Flag("Shift")) parts.Add("Shift");
+                if (Flag("Alt")) parts.Add("Alt");
+                if (Flag("Windows")) parts.Add("Win");
+                foreach (var code in codes.EnumerateArray())
+                {
+                    if (code.ValueKind != JsonValueKind.Number || !code.TryGetInt32(out var value))
+                        continue;
+                    parts.Add(KeyName((System.Windows.Forms.Keys)value));
+                }
+                return parts.Count == 0 ? null : string.Join("+", parts.Distinct());
+            }
+            catch (JsonException)
+            {
+                return null;
+            }
+        }
+
+        private static string KeyName(System.Windows.Forms.Keys key)
+        {
+            if (key >= System.Windows.Forms.Keys.D0 && key <= System.Windows.Forms.Keys.D9)
+                return ((int)(key - System.Windows.Forms.Keys.D0)).ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return key switch
+            {
+                System.Windows.Forms.Keys.Left => "←",
+                System.Windows.Forms.Keys.Right => "→",
+                System.Windows.Forms.Keys.Up => "↑",
+                System.Windows.Forms.Keys.Down => "↓",
+                System.Windows.Forms.Keys.Return => "Enter",
+                System.Windows.Forms.Keys.Escape => "Esc",
+                System.Windows.Forms.Keys.Back => "Backspace",
+                System.Windows.Forms.Keys.Delete => "Del",
+                System.Windows.Forms.Keys.Next => "PageDown",
+                System.Windows.Forms.Keys.Prior => "PageUp",
+                System.Windows.Forms.Keys.LControlKey or System.Windows.Forms.Keys.RControlKey or System.Windows.Forms.Keys.ControlKey => "Ctrl",
+                System.Windows.Forms.Keys.LShiftKey or System.Windows.Forms.Keys.RShiftKey or System.Windows.Forms.Keys.ShiftKey => "Shift",
+                System.Windows.Forms.Keys.LMenu or System.Windows.Forms.Keys.RMenu or System.Windows.Forms.Keys.Menu => "Alt",
+                System.Windows.Forms.Keys.LWin or System.Windows.Forms.Keys.RWin => "Win",
+                _ => key.ToString()
+            };
+        }
+
         private static IEnumerable<ICommand> Commands(IAction action)
             => action?.Commands?.Where(c => c != null && c.IsEnabled) ?? Enumerable.Empty<ICommand>();
 

@@ -130,8 +130,10 @@ namespace GestureSign.Daemon.RadialMenu
         private static string LabelOf(IAction action)
         {
             var text = action?.Name;
-            if (string.IsNullOrWhiteSpace(text))
-                text = action?.Commands?.FirstOrDefault(c => c != null)?.Name;
+            if (RadialMenuIcons.IsGenericLabel(text))
+                text = action?.Commands?.FirstOrDefault(c => c != null && c.IsEnabled)?.Name;
+            if (RadialMenuIcons.IsGenericLabel(text))
+                text = RadialMenuIcons.AutoLabel(action);
             return string.IsNullOrWhiteSpace(text) ? "?" : text.Trim();
         }
 

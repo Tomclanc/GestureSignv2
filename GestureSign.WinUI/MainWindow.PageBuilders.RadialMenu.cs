@@ -69,6 +69,44 @@ public sealed partial class MainWindow
         return NewCard(panel);
     }
 
+    private string RadialMenuSlotLabel(LegacyAction action)
+    {
+        if (!IsGenericRadialMenuLabel(action.Name))
+            return action.Name;
+        var command = action.Commands.FirstOrDefault();
+        return command is null ? action.Name : RadialMenuAutoLabel(command.PluginClass, command.Settings);
+    }
+
+    // Names the command editor used to prefill; they say nothing about what a
+    // slot does, so they are treated as "no name" for wheel labels.
+    private static bool IsGenericRadialMenuLabel(string? name)
+        => string.IsNullOrWhiteSpace(name) ||
+           name.Trim() is "发送快捷键" or "Send Hotkey" or "發送快速鍵" or "단축키 보내기";
+
+    private string RadialMenuAutoLabel(string pluginClass, string settings)
+    {
+        var hotKey = HotKeyDisplayText(settings);
+        if (!string.IsNullOrWhiteSpace(hotKey))
+            return hotKey;
+        var file = RadialMenuFileLabel(settings);
+        return !string.IsNullOrWhiteSpace(file) ? file : PluginName(pluginClass);
+    }
+
+    private static string? RadialMenuFileLabel(string settings)
+    {
+        if (string.IsNullOrWhiteSpace(settings))
+            return null;
+        foreach (System.Text.RegularExpressions.Match match in
+                 System.Text.RegularExpressions.Regex.Matches(settings, @"[A-Za-z]:(?:\\\\|\\|/)[^""<>|*?\r\n]+"))
+        {
+            var path = match.Value.Replace(@"\\", @"\").Trim();
+            var name = System.IO.Path.GetFileNameWithoutExtension(path);
+            if (!string.IsNullOrWhiteSpace(name))
+                return name;
+        }
+        return null;
+    }
+
     private ToggleSwitch NewRadialMenuToggle(bool isOn) => new()
     {
         IsOn = isOn,
@@ -121,7 +159,7 @@ public sealed partial class MainWindow
         };
         var label = new TextBlock
         {
-            Text = action is null ? L("未设置", "Not set", "未設定", "설정 안 됨") : action.Name,
+            Text = action is null ? L("未设置", "Not set", "未設定", "설정 안 됨") : RadialMenuSlotLabel(action),
             Opacity = action is null || !action.IsEnabled ? 0.5 : 1,
             TextAlignment = TextAlignment.Center,
             TextTrimming = TextTrimming.CharacterEllipsis,

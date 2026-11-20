@@ -2402,6 +2402,26 @@ public sealed partial class MainWindow : Window
             runCommandText.Text = GestureSign.Shared.ScriptInvocation.PowerShellCommand(path);
         };
         runCommandPanel.Children.Add(chooseScript);
+        // Placeholders expanded by the RunCommand plugin. The selected-text
+        // variables are also exported as environment variables, so PowerShell
+        // scripts can read them safely as $env:GS_SelectedText.
+        var commandVariable = new ComboBox { Width = 220, SelectedIndex = 0 };
+        foreach (var item in new[] { "%GS_SelectedText%", "%GS_SelectedTextUrl%", "%GS_Clipboard%", "%GS_Title%", "%GS_ClassName%", "%GS_PID%", "%GS_WindowHandle%" })
+            commandVariable.Items.Add(item);
+        commandVariable.SelectedIndex = 0;
+        var insertCommandVariable = NewPillButton(T("插入变量", "Insert variable"), false);
+        insertCommandVariable.Click += (_, _) =>
+        {
+            var token = commandVariable.SelectedItem as string ?? string.Empty;
+            var index = Math.Clamp(runCommandText.SelectionStart, 0, runCommandText.Text.Length);
+            runCommandText.Text = runCommandText.Text.Insert(index, token);
+            runCommandText.SelectionStart = index + token.Length;
+            runCommandText.Focus(FocusState.Programmatic);
+        };
+        var commandVariableRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        commandVariableRow.Children.Add(commandVariable);
+        commandVariableRow.Children.Add(insertCommandVariable);
+        runCommandPanel.Children.Add(commandVariableRow);
         runCommandPanel.Children.Add(new TextBlock
         {
             Text = T("支持 PowerShell、CMD/BAT、Python 和 AutoHotkey；需安装相应解释器，可编辑命令添加参数。", "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments."),
