@@ -63,8 +63,8 @@ public sealed partial class MainWindow
         SelectionButton(L("重训", "Retrain", "重訓", "다시 훈련"), gesture => DrawGestureAsync(gesture));
         SelectionButton(L("改名", "Rename", "重新命名", "이름 변경"), gesture => RenameGestureAsync(gesture));
         SelectionButton(L("删除", "Delete", "刪除", "삭제"), gesture => DeleteGestureAsync(gesture), danger: true);
-        _gestureSelectionText = new TextBlock { FontSize = 12, Opacity = 0.72, VerticalAlignment = VerticalAlignment.Center, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 260 };
-        actions.Children.Add(_gestureSelectionText);
+        _gestureSelectionText = new TextBlock { FontSize = 12, Opacity = 0.72, VerticalAlignment = VerticalAlignment.Center, TextTrimming = TextTrimming.CharacterEllipsis };
+        var selectionText = _gestureSelectionText;
 
         // Finger filter as a segmented row of toggle buttons.
         var filter = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 4, VerticalAlignment = VerticalAlignment.Center };
@@ -86,7 +86,7 @@ public sealed partial class MainWindow
         FilterButton(2, CountText(2, L("指", "finger(s)", "指", "손가락")));
         FilterButton(3, T("3 指及以上", "3+ fingers"));
 
-        var search = new TextBox { PlaceholderText = T("搜索手势", "Search gestures"), Text = _gestureSearch, Width = 200, VerticalAlignment = VerticalAlignment.Center };
+        var search = new TextBox { PlaceholderText = T("搜索手势", "Search gestures"), Text = _gestureSearch, MinWidth = 140, VerticalAlignment = VerticalAlignment.Center };
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(search, T("搜索手势", "Search gestures"));
         search.TextChanged += (_, _) =>
         {
@@ -98,50 +98,63 @@ public sealed partial class MainWindow
         viewMode.VerticalAlignment = VerticalAlignment.Center;
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(viewMode, IntentText("显示方式", "View"));
 
-        var tools = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, VerticalAlignment = VerticalAlignment.Center };
-        tools.Children.Add(filter);
-        tools.Children.Add(search);
-        tools.Children.Add(viewMode);
-
-        // Wide: actions left, filters right. Narrow: two rows.
-        var bar = new Grid { ColumnSpacing = 16, RowSpacing = 10 };
-        bar.Children.Add(actions);
-        bar.Children.Add(tools);
-        bool? wide = null;
+        // The toolbar wraps instead of scrolling sideways: the parts move onto more
+        // rows as the window narrows.
+        //   wide   : buttons, selection text | filter | search | view
+        //   medium : buttons, selection text
+        //            filter | search | view
+        //   narrow : buttons
+        //            selection text
+        //            filter
+        //            search | view
+        var host = new StackPanel { Spacing = 10 };
+        static void Detach(FrameworkElement element)
+        {
+            if (element.Parent is Panel parent)
+                parent.Children.Remove(element);
+        }
+        Grid Row(params (FrameworkElement Element, GridLength Width)[] cells)
+        {
+            var row = new Grid { ColumnSpacing = 10 };
+            for (var i = 0; i < cells.Length; i++)
+            {
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = cells[i].Width });
+                Grid.SetColumn(cells[i].Element, i);
+                row.Children.Add(cells[i].Element);
+            }
+            return row;
+        }
+        var star = new GridLength(1, GridUnitType.Star);
+        var mode = -1;
         void Arrange(double width)
         {
-            var nextWide = width >= 900;
-            if (wide == nextWide) return;
-            wide = nextWide;
-            bar.ColumnDefinitions.Clear();
-            bar.RowDefinitions.Clear();
-            if (nextWide)
+            var nextMode = width >= 1100 ? 2 : width >= 620 ? 1 : 0;
+            if (nextMode == mode) return;
+            mode = nextMode;
+            foreach (var element in new FrameworkElement[] { actions, selectionText, filter, search, viewMode })
+                Detach(element);
+            host.Children.Clear();
+            switch (nextMode)
             {
-                bar.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                bar.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                case 2:
+                    host.Children.Add(Row((actions, GridLength.Auto), (selectionText, star), (filter, GridLength.Auto), (search, new GridLength(220)), (viewMode, GridLength.Auto)));
+                    break;
+                case 1:
+                    host.Children.Add(Row((actions, GridLength.Auto), (selectionText, star)));
+                    host.Children.Add(Row((filter, GridLength.Auto), (search, star), (viewMode, GridLength.Auto)));
+                    break;
+                default:
+                    host.Children.Add(actions);
+                    host.Children.Add(selectionText);
+                    host.Children.Add(filter);
+                    host.Children.Add(Row((search, star), (viewMode, GridLength.Auto)));
+                    break;
             }
-            else
-            {
-                bar.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                bar.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-            }
-            Grid.SetColumn(tools, nextWide ? 1 : 0);
-            Grid.SetRow(tools, nextWide ? 0 : 1);
-            tools.HorizontalAlignment = nextWide ? HorizontalAlignment.Right : HorizontalAlignment.Left;
         }
-        bar.SizeChanged += (_, e) => Arrange(e.NewSize.Width);
+        host.SizeChanged += (_, e) => Arrange(e.NewSize.Width);
         Arrange(double.PositiveInfinity);
-        // The filters may not fit a very narrow window: let them scroll sideways.
-        var scroller = new ScrollViewer
-        {
-            Content = bar,
-            HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-            VerticalScrollBarVisibility = ScrollBarVisibility.Disabled,
-            HorizontalScrollMode = ScrollMode.Auto,
-            VerticalScrollMode = ScrollMode.Disabled
-        };
         var card = NewCardPanel(0);
-        card.Children.Add(scroller);
+        card.Children.Add(host);
         return NewCard(card);
     }
 
