@@ -73,6 +73,13 @@ public sealed partial class MainWindow
         var columns = new Grid { ColumnSpacing = 16 };
         columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
         columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        // Narrow window: a slimmer category column leaves room for the action list.
+        columns.SizeChanged += (_, e) =>
+        {
+            var categoryWidth = e.NewSize.Width < 640 ? 150d : 220d;
+            if (columns.ColumnDefinitions[0].Width.Value != categoryWidth)
+                columns.ColumnDefinitions[0].Width = new GridLength(categoryWidth);
+        };
         _actionLibraryCategoryHost = new Grid();
         _actionLibraryListHost = new Grid();
         Grid.SetColumn(_actionLibraryListHost, 1);

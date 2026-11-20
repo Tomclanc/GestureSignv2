@@ -115,15 +115,40 @@ public sealed partial class MainWindow
         try { window.SystemBackdrop = new MicaBackdrop { Kind = MicaKind.Base }; } catch { }
         try
         {
-            window.AppWindow.Resize(ScaleLogicalSize(1320, 840));
+            // 1320x840 does not fit small or highly scaled screens: keep it inside the
+            // work area of the main window's display, centred, with a usable minimum size.
+            var wanted = ScaleLogicalSize(1320, 840);
+            var area = Microsoft.UI.Windowing.DisplayArea.GetFromWindowId(AppWindow.Id, Microsoft.UI.Windowing.DisplayAreaFallback.Nearest).WorkArea;
+            var width = Math.Min(wanted.Width, (int)(area.Width * 0.94));
+            var height = Math.Min(wanted.Height, (int)(area.Height * 0.94));
+            window.AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(area.X + (area.Width - width) / 2, area.Y + (area.Height - height) / 2, width, height));
+            if (window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.PreferredMinimumWidth = ScaleLogicalLength(760);
+                presenter.PreferredMinimumHeight = ScaleLogicalLength(480);
+            }
             window.AppWindow.SetIcon("Assets/logo.ico");
         }
         catch { }
 
         var root = new Grid { RequestedTheme = Root.ActualTheme, Padding = new Thickness(12), ColumnSpacing = 12, RowSpacing = 10 };
         root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(300) });
-        root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 220 });
         root.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(380) });
+        // Follow the main window when the app theme changes while the editor is open.
+        Windows.Foundation.TypedEventHandler<FrameworkElement, object> themeChanged = (_, _) => root.RequestedTheme = Root.ActualTheme;
+        Root.ActualThemeChanged += themeChanged;
+        window.Closed += (_, _) => Root.ActualThemeChanged -= themeChanged;
+        // Side panes give way first, so the step tree keeps room in a smaller window.
+        root.SizeChanged += (_, e) =>
+        {
+            var (paletteWidth, propertiesWidth) = e.NewSize.Width >= 1150 ? (300d, 380d) : e.NewSize.Width >= 900 ? (240d, 330d) : (190d, 290d);
+            if (root.ColumnDefinitions[0].Width.Value != paletteWidth)
+            {
+                root.ColumnDefinitions[0].Width = new GridLength(paletteWidth);
+                root.ColumnDefinitions[2].Width = new GridLength(propertiesWidth);
+            }
+        };
         root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
         root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 

@@ -1072,7 +1072,7 @@ public sealed partial class MainWindow
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
@@ -1134,7 +1134,7 @@ public sealed partial class MainWindow
         };
         var enabled = new CheckBox { Content = IntentText("启用", "Enabled"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
