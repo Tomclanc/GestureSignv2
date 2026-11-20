@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -168,6 +169,83 @@ namespace GestureSign.CorePlugins.Steps
 
         public void Notify(string text) => _pointInfo.Invoke(() => StepToast.ShowMessage(text));
 
+        public bool ShowMessageBox(string title, string text, string buttons)
+        {
+            var result = DialogResult.None;
+            var kind = buttons switch
+            {
+                "OKCancel" => MessageBoxButtons.OKCancel,
+                "YesNo" => MessageBoxButtons.YesNo,
+                _ => MessageBoxButtons.OK
+            };
+            _pointInfo.Invoke(() =>
+            {
+                using var owner = StepPromptForm.NewTopmostOwner();
+                result = System.Windows.Forms.MessageBox.Show(owner, text ?? "", string.IsNullOrWhiteSpace(title) ? "GestureSign" : title, kind);
+            });
+            return result == DialogResult.OK || result == DialogResult.Yes;
+        }
+
+        public string AskText(string prompt, string defaultValue, bool multiline)
+        {
+            string answer = null;
+            _pointInfo.Invoke(() => answer = StepPromptForm.AskText(prompt, defaultValue, multiline));
+            return answer;
+        }
+
+        public string AskChoice(string prompt, IReadOnlyList<string> items)
+        {
+            if (items == null || items.Count == 0)
+                return null;
+            string answer = null;
+            _pointInfo.Invoke(() => answer = StepPromptForm.AskChoice(prompt, items));
+            return answer;
+        }
+
+        public IReadOnlyList<string> GetClipboardFiles()
+        {
+            var files = new List<string>();
+            _pointInfo.Invoke(() =>
+            {
+                for (var attempt = 0; attempt < 5; attempt++)
+                {
+                    try
+                    {
+                        if (Clipboard.ContainsFileDropList())
+                            files.AddRange(Clipboard.GetFileDropList().Cast<string>());
+                        return;
+                    }
+                    catch (ExternalException)
+                    {
+                        Thread.Sleep(50);
+                    }
+                }
+            });
+            return files;
+        }
+
+        private const uint LCMAP_SIMPLIFIED_CHINESE = 0x02000000;
+        private const uint LCMAP_TRADITIONAL_CHINESE = 0x04000000;
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern int LCMapStringEx(string lpLocaleName, uint dwMapFlags, string lpSrcStr, int cchSrc,
+            [Out] char[] lpDestStr, int cchDest, IntPtr lpVersionInformation, IntPtr lpReserved, IntPtr sortHandle);
+
+        public string ConvertChinese(string text, bool toTraditional)
+        {
+            if (string.IsNullOrEmpty(text))
+                return text ?? "";
+            var flags = toTraditional ? LCMAP_TRADITIONAL_CHINESE : LCMAP_SIMPLIFIED_CHINESE;
+            var length = LCMapStringEx("zh-CN", flags, text, text.Length, null, 0, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            if (length <= 0)
+                throw new InvalidOperationException($"Chinese conversion failed ({Marshal.GetLastWin32Error()}).");
+            var buffer = new char[length];
+            length = LCMapStringEx("zh-CN", flags, text, text.Length, buffer, buffer.Length, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero);
+            if (length <= 0)
+                throw new InvalidOperationException($"Chinese conversion failed ({Marshal.GetLastWin32Error()}).");
+            return new string(buffer, 0, length);
+        }
+
         public void RunCommand(string pluginClass, string settings)
         {
             var plugin = GestureSign.Common.Plugins.PluginManager.Instance.FindPluginByClassAndFilename(pluginClass, null)
@@ -320,6 +398,81 @@ namespace GestureSign.CorePlugins.Steps
                 default:
                     return value.ToPrintString();
             }
+        }
+    }
+
+    /// <summary>Small topmost input and choice dialogs for step programs.</summary>
+    internal sealed class StepPromptForm : Form
+    {
+        public static Form NewTopmostOwner()
+        {
+            var owner = new Form
+            {
+                TopMost = true,
+                ShowInTaskbar = false,
+                FormBorderStyle = FormBorderStyle.None,
+                StartPosition = FormStartPosition.Manual,
+                Location = Cursor.Position,
+                Size = new Size(1, 1),
+                Opacity = 0
+            };
+            owner.Show();
+            owner.Activate();
+            return owner;
+        }
+
+        private StepPromptForm(string prompt, Control input, int height)
+        {
+            Text = "GestureSign";
+            TopMost = true;
+            ShowInTaskbar = false;
+            MinimizeBox = false;
+            MaximizeBox = false;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            StartPosition = FormStartPosition.Manual;
+            AutoScaleMode = AutoScaleMode.Dpi;
+            AutoScaleDimensions = new SizeF(96f, 96f);
+            Font = new Font("Microsoft YaHei UI", 9f);
+            ClientSize = new Size(420, height);
+            Padding = new Padding(12);
+
+            var label = new Label { Text = prompt ?? "", Dock = DockStyle.Top, AutoSize = false, Height = string.IsNullOrEmpty(prompt) ? 0 : 28 };
+            var ok = new Button { Text = "OK", DialogResult = DialogResult.OK, Width = 88, Height = 30 };
+            var cancel = new Button { Text = "Cancel", DialogResult = DialogResult.Cancel, Width = 88, Height = 30 };
+            var buttons = new FlowLayoutPanel { Dock = DockStyle.Bottom, FlowDirection = FlowDirection.RightToLeft, Height = 40, Padding = new Padding(0, 6, 0, 0) };
+            buttons.Controls.Add(cancel);
+            buttons.Controls.Add(ok);
+            input.Dock = DockStyle.Fill;
+            Controls.Add(input);
+            Controls.Add(buttons);
+            Controls.Add(label);
+            AcceptButton = input is TextBox { Multiline: true } ? null : ok;
+            CancelButton = cancel;
+
+            var area = Screen.FromPoint(Cursor.Position).WorkingArea;
+            Location = new Point(
+                Math.Max(area.Left, Math.Min(Cursor.Position.X - Width / 2, area.Right - Width)),
+                Math.Max(area.Top, Math.Min(Cursor.Position.Y - Height / 2, area.Bottom - Height)));
+        }
+
+        public static string AskText(string prompt, string defaultValue, bool multiline)
+        {
+            var box = new TextBox { Text = defaultValue ?? "", Multiline = multiline, ScrollBars = multiline ? ScrollBars.Vertical : ScrollBars.None, AcceptsReturn = multiline };
+            using var form = new StepPromptForm(prompt, box, multiline ? 240 : 120);
+            form.Shown += (_, __) => { form.Activate(); box.Focus(); box.SelectAll(); };
+            return form.ShowDialog() == DialogResult.OK ? box.Text : null;
+        }
+
+        public static string AskChoice(string prompt, IReadOnlyList<string> items)
+        {
+            var list = new ListBox { IntegralHeight = false };
+            foreach (var item in items)
+                list.Items.Add(item);
+            list.SelectedIndex = 0;
+            using var form = new StepPromptForm(prompt, list, Math.Min(480, 120 + items.Count * 22));
+            list.DoubleClick += (_, __) => { if (list.SelectedItem != null) form.DialogResult = DialogResult.OK; };
+            form.Shown += (_, __) => { form.Activate(); list.Focus(); };
+            return form.ShowDialog() == DialogResult.OK ? list.SelectedItem as string : null;
         }
     }
 

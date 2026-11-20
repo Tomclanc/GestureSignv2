@@ -21,6 +21,7 @@ namespace GestureSign.Daemon.Surface
         private Pen _dirtyMarkerPen;
         private float _penWidth;
         int[] _lastStroke;
+        bool _actionHintDrawn;
         Size _screenOffset = default(Size);
         DiBitmap _bitmap;
         private GraphicsPath _graphicsPath = new GraphicsPath();
@@ -732,6 +733,9 @@ namespace GestureSign.Daemon.Surface
 
         private void DrawActionHint(string text)
         {
+            // The hint box is not part of the stroke path, so the next clear
+            // must wipe the whole surface (see ClearSurfaces).
+            _actionHintDrawn = true;
             var graphics = _bitmap.BeginDraw();
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
@@ -840,6 +844,15 @@ namespace GestureSign.Daemon.Surface
         private void ClearSurfaces()
         {
             _lastStroke = null;
+            // An action hint lies outside the stroke path. Clearing only the path
+            // would leave the hint in the layered window, and it would reappear
+            // the next time the surface is shown (e.g. on the next right press).
+            if (_actionHintDrawn)
+            {
+                _actionHintDrawn = false;
+                _graphicsPath.Reset();
+                _dirtyGraphicsPath.Reset();
+            }
             if (_bitmap != null)
             {
                 using (_bitmap)

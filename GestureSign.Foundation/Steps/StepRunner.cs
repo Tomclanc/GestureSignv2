@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace GestureSign.Foundation.Steps;
@@ -24,6 +25,15 @@ public interface IStepHost
     string RunProgram(string path, string arguments, bool wait);
     string Http(string method, string url, string body, string contentType);
     void Notify(string text);
+    /// <summary>Shows a message box; buttons are "OK", "OKCancel" or "YesNo". Returns true for OK/Yes.</summary>
+    bool ShowMessageBox(string title, string text, string buttons);
+    /// <summary>Asks for text; returns null when cancelled.</summary>
+    string AskText(string prompt, string defaultValue, bool multiline);
+    /// <summary>Asks to pick one item; returns null when cancelled.</summary>
+    string AskChoice(string prompt, IReadOnlyList<string> items);
+    IReadOnlyList<string> GetClipboardFiles();
+    /// <summary>Converts between Simplified and Traditional Chinese.</summary>
+    string ConvertChinese(string text, bool toTraditional);
     void RunCommand(string pluginClass, string settings);
     /// <summary>Runs JavaScript. As an expression the code is evaluated; otherwise it is a function body.</summary>
     object RunJavaScript(string code, StepVariables variables, bool expression);
@@ -113,6 +123,20 @@ public sealed class StepRunner
         variables ??= new StepVariables();
         if (!variables.Contains("windowTitle")) variables["windowTitle"] = _host.WindowTitle ?? "";
         if (!variables.Contains("processName")) variables["processName"] = _host.ProcessName ?? "";
+        foreach (var definition in program?.Variables ?? new List<StepVariableDef>())
+        {
+            var name = definition?.Name?.Trim();
+            if (!IsVariableName(name) || variables.Contains(name))
+                continue;
+            var text = definition.Default ?? "";
+            variables[name] = (definition.Kind ?? "text").ToLowerInvariant() switch
+            {
+                "list" => StepVariables.ToList(text).ToList(),
+                "number" => double.TryParse(text.Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var number) ? number : 0d,
+                "bool" => StepVariables.IsTruthy(text.Trim()),
+                _ => text
+            };
+        }
         var result = new StepRunResult { Variables = variables };
         try
         {
@@ -202,9 +226,44 @@ public sealed class StepRunner
     public static bool IsVariableName(string name)
         => !string.IsNullOrEmpty(name) && (char.IsLetter(name[0]) || name[0] == '_') && name.All(ch => char.IsLetterOrDigit(ch) || ch == '_');
 
+    private static readonly TimeSpan RegexTimeout = TimeSpan.FromSeconds(2);
+
+    /// <summary>Unescapes \r, \n, \t and \\ in a separator typed by the user.</summary>
+    private static string Unescape(string text)
+        => (text ?? "").Replace("\\r", "\r").Replace("\\n", "\n").Replace("\\t", "\t").Replace("\\\\", "\\");
+
+    /// <summary>"{name}" alone yields the variable itself (a list stays a list); anything else is interpolated text.</summary>
+    private static object ResolveValue(string template, StepVariables v)
+    {
+        var arg = (template ?? "").Trim();
+        return arg.Length > 2 && arg[0] == '{' && arg[^1] == '}' && IsVariableName(arg[1..^1].Trim())
+            ? v[arg[1..^1].Trim()]
+            : Interpolate(template, v);
+    }
+
+    private static string Convert(string text, string mode, IStepHost host)
+    {
+        text ??= "";
+        switch ((mode ?? "").Trim())
+        {
+            case "upper": return text.ToUpperInvariant();
+            case "lower": return text.ToLowerInvariant();
+            case "title": return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(text.ToLower(CultureInfo.CurrentCulture));
+            case "trim": return text.Trim();
+            case "toSimplified": return host.ConvertChinese(text, toTraditional: false);
+            case "toTraditional": return host.ConvertChinese(text, toTraditional: true);
+            case "urlEncode": return Uri.EscapeDataString(text);
+            case "urlDecode": return Uri.UnescapeDataString(text.Replace('+', ' '));
+            case "base64Encode": return System.Convert.ToBase64String(Encoding.UTF8.GetBytes(text));
+            case "base64Decode": return Encoding.UTF8.GetString(System.Convert.FromBase64String(text.Trim()));
+            default: throw new InvalidOperationException($"Unknown text conversion: {mode}");
+        }
+    }
+
     private void RunStep(Step step, StepVariables v)
     {
         string Arg(string key) => Interpolate(step.Arg(key), v);
+        bool Flag(string key) => StepVariables.IsTruthy(Arg(key).Trim());
         void Output(object value)
         {
             var name = step.Arg("Output").Trim();
@@ -234,16 +293,20 @@ public sealed class StepRunner
             case StepCatalog.ForEach:
                 // "{name}" alone iterates the variable itself (a list stays a list);
                 // anything else is interpolated and split into lines.
-                var listArg = step.Arg("List").Trim();
-                object listValue = listArg.Length > 2 && listArg[0] == '{' && listArg[^1] == '}' && IsVariableName(listArg[1..^1].Trim())
-                    ? v[listArg[1..^1].Trim()]
-                    : Interpolate(listArg, v);
+                var listValue = ResolveValue(step.Arg("List"), v);
                 var itemName = step.Arg("Item").Trim();
                 foreach (var item in StepVariables.ToList(listValue).Take(MaxLoopCount))
                 {
                     if (IsVariableName(itemName)) v[itemName] = item;
                     RunList(step.Body, v);
                 }
+                break;
+
+            case StepCatalog.Group:
+                RunList(step.Body, v);
+                break;
+
+            case StepCatalog.Comment:
                 break;
 
             case StepCatalog.Stop:
@@ -262,8 +325,78 @@ public sealed class StepRunner
                 if (IsVariableName(name)) v[name] = Arg("Value");
                 break;
 
+            case StepCatalog.Compute:
+                Output(_host.RunJavaScript(step.Arg("Expression"), v, expression: true));
+                break;
+
             case StepCatalog.Notify:
                 _host.Notify(Arg("Text"));
+                break;
+
+            case StepCatalog.MessageBox:
+                Output(_host.ShowMessageBox(Arg("Title"), Arg("Text"), step.Arg("Buttons").Trim()));
+                break;
+
+            case StepCatalog.UserInput:
+                var answer = _host.AskText(Arg("Prompt"), Arg("Default"), Flag("Multiline"));
+                if (answer == null) throw new StopSignal();
+                Output(answer);
+                break;
+
+            case StepCatalog.UserSelect:
+                var choices = StepVariables.ToList(ResolveValue(step.Arg("Items"), v)).Select(StepVariables.ToText).ToList();
+                var choice = _host.AskChoice(Arg("Prompt"), choices);
+                if (choice == null) throw new StopSignal();
+                Output(choice);
+                break;
+
+            case StepCatalog.ReplaceText:
+                var source = Arg("Input");
+                var find = Arg("Find");
+                if (find.Length == 0)
+                    Output(source);
+                else if (Flag("Regex"))
+                    Output(Regex.Replace(source, find, Arg("Replace"), Flag("IgnoreCase") ? RegexOptions.IgnoreCase : RegexOptions.None, RegexTimeout));
+                else
+                    Output(source.Replace(find, Arg("Replace"), Flag("IgnoreCase") ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal));
+                break;
+
+            case StepCatalog.RegexExtract:
+                var regex = new Regex(Arg("Pattern"), RegexOptions.None, RegexTimeout);
+                static string Value(Match m) => m.Groups.Count > 1 ? m.Groups[1].Value : m.Value;
+                if (Flag("All"))
+                    Output(regex.Matches(Arg("Input")).Cast<Match>().Select(m => (object)Value(m)).ToList());
+                else
+                {
+                    var match = regex.Match(Arg("Input"));
+                    Output(match.Success ? Value(match) : "");
+                }
+                break;
+
+            case StepCatalog.ConvertText:
+                Output(Convert(Arg("Input"), step.Arg("Mode"), _host));
+                break;
+
+            case StepCatalog.SplitText:
+                var separator = Unescape(Arg("Separator"));
+                Output(separator.Length == 0
+                    ? StepVariables.ToList(Arg("Input")).ToList()
+                    : Arg("Input").Split(separator).Cast<object>().ToList());
+                break;
+
+            case StepCatalog.JoinList:
+                var joinSeparator = Unescape(Arg("Separator"));
+                Output(string.Join(joinSeparator.Length == 0 ? "\n" : joinSeparator,
+                    StepVariables.ToList(ResolveValue(step.Arg("List"), v)).Select(StepVariables.ToText)));
+                break;
+
+            case StepCatalog.GetDateTime:
+                var format = Arg("Format");
+                Output(DateTime.Now.ToString(string.IsNullOrWhiteSpace(format) ? "yyyy-MM-dd HH:mm:ss" : format, CultureInfo.CurrentCulture));
+                break;
+
+            case StepCatalog.OpenUrl:
+                _host.RunProgram(Arg("Url").Trim(), "", false);
                 break;
 
             case StepCatalog.GetSelectedText:
@@ -272,6 +405,10 @@ public sealed class StepRunner
 
             case StepCatalog.GetClipboard:
                 Output(_host.GetClipboardText() ?? "");
+                break;
+
+            case StepCatalog.GetClipboardFiles:
+                Output((_host.GetClipboardFiles() ?? Array.Empty<string>()).Cast<object>().ToList());
                 break;
 
             case StepCatalog.SetClipboard:

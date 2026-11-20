@@ -2157,19 +2157,76 @@ public sealed partial class MainWindow : Window
             ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
         };
 
-        var grid = new Grid
-        {
-            Margin = new Thickness(0, 8, 0, 0),
-            ColumnSpacing = 8,
-            // Retain the actual selector so save handlers can commit the
-            // visible selection even if SelectionChanged was delayed.
-            Tag = combo
-        };
+        var grid = new Grid { ColumnSpacing = 8 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         grid.Children.Add(combo);
         Grid.SetColumn(browse, 1);
         grid.Children.Add(browse);
+
+        return new StackPanel
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            // Retain the actual selector so save handlers can commit the
+            // visible selection even if SelectionChanged was delayed.
+            Tag = combo,
+            Children = { grid, NewLibraryActionPicker(settings) }
+        };
+    }
+
+    /// <summary>Chooser for the "Library action" command; writes {"ActionId":"..."} into the settings box.</summary>
+    private FrameworkElement NewLibraryActionPicker(TextBox settings)
+    {
+        EnsureRadialConfig();
+        var combo = new ComboBox
+        {
+            PlaceholderText = T("选择动作库中的动作", "Choose an action from the library"),
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        var actions = _radialConfig!.Actions.OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase).ToList();
+        foreach (var action in actions)
+            combo.Items.Add(string.IsNullOrWhiteSpace(action.Category) ? action.Name : $"{action.Name}  ·  {action.Category}");
+        var updating = false;
+        void SyncFromSettings()
+        {
+            updating = true;
+            var id = JsonStringValue(settings.Text, "ActionId", "");
+            combo.SelectedIndex = actions.FindIndex(a => string.Equals(a.Id, id, StringComparison.Ordinal));
+            updating = false;
+        }
+        combo.SelectionChanged += (_, _) =>
+        {
+            if (updating || combo.SelectedIndex < 0) return;
+            settings.Text = new JsonObject { ["ActionId"] = actions[combo.SelectedIndex].Id }.ToJsonString();
+        };
+        settings.TextChanged += (_, _) => { if (!updating) SyncFromSettings(); };
+        SyncFromSettings();
+        var open = NewPillButton(T("动作库", "Action library"), false);
+        open.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            var current = combo.SelectedIndex >= 0 ? actions[combo.SelectedIndex] : null;
+            // Opens the editor window directly: the gallery is a dialog, and this
+            // picker usually lives inside an open command dialog.
+            var edited = await OpenActionEditorAsync(current, null);
+            if (edited is null) return;
+            if (current is null)
+            {
+                actions.Add(edited);
+                combo.Items.Add(edited.Name);
+                combo.SelectedIndex = actions.Count - 1;
+            }
+            else
+            {
+                combo.Items[combo.SelectedIndex] = edited.Name;
+            }
+        });
+        ToolTipService.SetToolTip(open, T("新建或编辑动作", "Create or edit the action"));
+        var grid = new Grid { ColumnSpacing = 8 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        grid.Children.Add(combo);
+        Grid.SetColumn(open, 1);
+        grid.Children.Add(open);
         return grid;
     }
 
@@ -2180,6 +2237,10 @@ public sealed partial class MainWindow : Window
         TextBox settings)
     {
         if (appPicker.Tag is not ComboBox combo || combo.SelectedItem is not AppCommandChoice choice)
+            return false;
+        // Only commit the application choice while the application chooser is shown.
+        if (appPicker.Visibility != Visibility.Visible
+            || (appPicker is Panel { Children.Count: 2 } parts && parts.Children[0].Visibility != Visibility.Visible))
             return false;
 
         ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
@@ -3160,9 +3221,18 @@ public sealed partial class MainWindow : Window
         var isAppLauncher = pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase);
         pluginClassBox.Visibility = isCustom ? Visibility.Visible : Visibility.Collapsed;
         hotkeyBox.Visibility = isHotKey ? Visibility.Visible : Visibility.Collapsed;
-        settingsBox.Visibility = isHotKey || isSettingsFree || isAppLauncher || hasTypedSettings ? Visibility.Collapsed : Visibility.Visible;
+        var isLibraryAction = string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal);
+        settingsBox.Visibility = isHotKey || isSettingsFree || isAppLauncher || hasTypedSettings || isLibraryAction ? Visibility.Collapsed : Visibility.Visible;
         if (appPicker is not null)
-            appPicker.Visibility = isAppLauncher ? Visibility.Visible : Visibility.Collapsed;
+        {
+            appPicker.Visibility = isAppLauncher || isLibraryAction ? Visibility.Visible : Visibility.Collapsed;
+            // The picker holds the application chooser and the library action chooser.
+            if (appPicker is Panel { Children.Count: 2 } parts)
+            {
+                parts.Children[0].Visibility = isAppLauncher ? Visibility.Visible : Visibility.Collapsed;
+                parts.Children[1].Visibility = isLibraryAction ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
     }
 
     private static bool IsSettingsFreePlugin(string pluginClass)
@@ -6976,6 +7046,10 @@ public sealed partial class MainWindow : Window
     {
         if (string.IsNullOrWhiteSpace(pluginClass))
             return L("插件命令", "Plugin Command", "外掛命令", "플러그인 명령");
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return T("动作库动作", "Library action");
+        if (string.Equals(pluginClass, StepsPluginClass, StringComparison.Ordinal))
+            return T("步骤", "Steps");
 
         if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
             return pluginClass[(pluginClass.LastIndexOf('.') + 1)..] switch
@@ -7142,6 +7216,7 @@ public sealed partial class MainWindow : Window
         // Preserve existing indexes (including custom plugin = 17).
         for (var index = 18; index <= 24; index++)
             plugin.Items.Add(PluginName(PluginClassFromIndex(index)));
+        plugin.Items.Add(PluginName(PluginClassFromIndex(25)));
     }
 
     private static string PluginClassFromIndex(int index)
@@ -7171,11 +7246,14 @@ public sealed partial class MainWindow : Window
             22 => "GestureSign.CorePlugins.MediaControl.MediaNext",
             23 => "GestureSign.CorePlugins.MediaControl.MediaPrevious",
             24 => "GestureSign.CorePlugins.MediaControl.MediaPlayPause",
+            25 => LibraryActionPluginClass,
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return 25;
         for (var index = 18; index <= 24; index++)
             if (string.Equals(pluginClass, PluginClassFromIndex(index), StringComparison.Ordinal)) return index;
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
@@ -7223,6 +7301,8 @@ public sealed partial class MainWindow : Window
 
     private static string PluginSettingsTemplate(string pluginClass)
     {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return "{\"ActionId\":\"\"}";
         if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
             return "{\"Windows\":false,\"Control\":true,\"Shift\":false,\"Alt\":false,\"KeyCode\":[67],\"SendByKeybdEvent\":false}";
         if (pluginClass.Contains("Volume", StringComparison.OrdinalIgnoreCase))

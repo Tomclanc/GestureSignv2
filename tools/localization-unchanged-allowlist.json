@@ -32,7 +32,8 @@
     "Version",
     "apps",
     "Backend",
-    "Note"
+    "Note",
+    "Type"
   ],
   "uz-Latn-UZ": [
     "Global",
@@ -45,7 +46,8 @@
     "Global",
     "Normal",
     "Volume",
-    "Backend"
+    "Backend",
+    "Variables"
   ],
   "ca-ES": [
     "Editors",
@@ -54,7 +56,9 @@
     "No",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Text",
+    "Variables"
   ],
   "ca-ES-valencia": [
     "Editors",
@@ -63,7 +67,9 @@
     "No",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Text",
+    "Variables"
   ],
   "af-ZA": [
     "Later",
@@ -88,7 +94,9 @@
     "Backend",
     "Label",
     "Taskbar",
-    "Desktop"
+    "Desktop",
+    "All",
+    "Text"
   ],
   "id-ID": [
     "Global",
@@ -118,7 +126,8 @@
     "Version",
     "apps",
     "Backend",
-    "Desktop"
+    "Desktop",
+    "Text"
   ],
   "it-IT": [
     "Backup",
@@ -135,24 +144,28 @@
     "Normal",
     "Start",
     "System",
-    "Backend"
+    "Backend",
+    "Type"
   ],
   "nn-NO": [
     "1 finger",
     "Cyan",
     "Start",
-    "System"
+    "System",
+    "Type"
   ],
   "cs-CZ": [
     "Tip",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Text"
   ],
   "sk-SK": [
     "Tip",
     "Touchpad",
     "Backend",
-    "Filter"
+    "Filter",
+    "Text"
   ],
   "el-GR": [
     "Touchpad",
@@ -169,7 +182,10 @@
     "Version",
     "Volume",
     "actions",
-    "Note"
+    "Note",
+    "Type",
+    "Description",
+    "Variables"
   ],
   "fr-FR": [
     "10 minutes",
@@ -182,7 +198,10 @@
     "Version",
     "Volume",
     "actions",
-    "Note"
+    "Note",
+    "Type",
+    "Description",
+    "Variables"
   ],
   "pl-PL": [
     "System",
@@ -197,7 +216,8 @@
     "Orange",
     "System",
     "Version",
-    "Backend"
+    "Backend",
+    "Text"
   ],
   "ro-RO": [
     "Backup",
@@ -208,7 +228,8 @@
     "Normal",
     "Touchpad",
     "Backend",
-    "Desktop"
+    "Desktop",
+    "Text"
   ],
   "nl-NL": [
     "Browser",
@@ -218,7 +239,8 @@
     "Touchpad",
     "Volume",
     "apps",
-    "items"
+    "items",
+    "Type"
   ],
   "pt-BR": [
     "Backup",
@@ -239,12 +261,14 @@
     "Global",
     "No",
     "apps",
-    "Backend"
+    "Backend",
+    "Variables"
   ],
   "es-ES": [
     "Global",
     "No",
-    "Backend"
+    "Backend",
+    "Variables"
   ],
   "az-Latn-AZ": [
     "Normal"

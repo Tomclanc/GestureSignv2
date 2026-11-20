@@ -15,6 +15,9 @@ public sealed class StepProgram
     public int Version { get; set; } = 1;
     public List<Step> Steps { get; set; } = new();
 
+    /// <summary>Declared variables with default values; they are set before the first step runs.</summary>
+    public List<StepVariableDef> Variables { get; set; } = new();
+
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
         WriteIndented = false,
@@ -29,10 +32,25 @@ public sealed class StepProgram
             return new StepProgram();
         var program = JsonSerializer.Deserialize<StepProgram>(json, JsonOptions) ?? new StepProgram();
         program.Steps ??= new();
+        program.Variables ??= new();
         return program;
     }
 
     public StepProgram Clone() => FromJson(ToJson());
+}
+
+/// <summary>A declared variable, shown in the editor's variable list.</summary>
+public sealed class StepVariableDef
+{
+    public string Name { get; set; }
+
+    /// <summary>"text", "list", "number" or "bool".</summary>
+    public string Kind { get; set; } = "text";
+
+    /// <summary>Default value; for a list, one item per line.</summary>
+    public string Default { get; set; }
+
+    public string Description { get; set; }
 }
 
 public sealed class Step

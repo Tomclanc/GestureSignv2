@@ -722,7 +722,7 @@ namespace GestureSign.Common.Applications
         private DateTime _radialMenuConfigWriteTimeUtc;
 
         /// <summary>Loads RadialMenus.json, re-reading it only when the file changed.</summary>
-        private GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
+        public GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
         {
             try
             {

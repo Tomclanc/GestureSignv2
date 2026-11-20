@@ -182,6 +182,15 @@ public sealed class RadialMenuAction
     /// <summary>Optional description shown in the library.</summary>
     public string Description { get; set; }
 
+    /// <summary>Library category (free text, e.g. "文本"); empty means uncategorized.</summary>
+    public string Category { get; set; }
+
+    /// <summary>Icon: a Segoe Fluent Icons glyph (one character) or an image/exe path; empty uses the command's icon.</summary>
+    public string Icon { get; set; }
+
+    /// <summary>Id of the template this action was created from, if any.</summary>
+    public string TemplateId { get; set; }
+
     public bool IsEnabled { get; set; } = true;
 
     /// <summary>Activate the target window before running; null uses each command's default.</summary>
