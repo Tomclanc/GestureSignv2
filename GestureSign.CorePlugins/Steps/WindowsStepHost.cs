@@ -14,6 +14,7 @@ using GestureSign.Common.Log;
 using GestureSign.Common.Plugins;
 using GestureSign.CorePlugins.Common;
 using GestureSign.Foundation.Steps;
+using Jint;
 using WindowsInput;
 using WindowsInput.Native;
 
