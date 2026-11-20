@@ -314,17 +314,33 @@ public sealed partial class MainWindow
         var mode = _pendingOptionUpdates.TryGetValue("GestureLibraryViewMode", out var pendingMode)
             && int.TryParse(pendingMode, out var pendingIndex) ? Math.Clamp(pendingIndex, 0, 2) : _legacyData.Options.GestureLibraryViewMode;
         viewMode.SelectedIndex = mode;
-        header.Children.Add(viewMode);
+        // Selection toolbar, finger filter and search sit above the gesture groups.
+        // groups is assigned before the toolbar's callback captures RenderGroups (CS0165).
         var groups = NewSection();
+        var toolbar = NewGestureLibraryToolbar(viewMode, () => RenderGroups());
+        root.Children.Add(toolbar);
         void RenderGroups()
         {
             groups.Children.Clear();
-            var gestures = _legacyData.Gestures;
-            groups.Children.Add(NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), gestures.Where(g => g.FingerCount <= 2).ToArray(), viewMode.SelectedIndex));
-            groups.Children.Add(NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), gestures.Where(g => g.FingerCount == 3).ToArray(), viewMode.SelectedIndex));
+            _gestureTiles.Clear();
+            var gestures = _legacyData.Gestures.Where(GestureMatchesLibraryFilter).ToArray();
+            var filtered = _gestureFingerFilter != 0 || !string.IsNullOrWhiteSpace(_gestureSearch);
+            void Group(string title, LegacyGesture[] items)
+            {
+                // While filtering, empty groups are noise.
+                if (filtered && items.Length == 0) return;
+                groups.Children.Add(viewMode.SelectedIndex == 0
+                    ? NewGestureGroup(title, items, 0)
+                    : NewGestureTileGroup(title, items, viewMode.SelectedIndex));
+            }
+            Group(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), gestures.Where(g => g.FingerCount <= 2).ToArray());
+            Group(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), gestures.Where(g => g.FingerCount == 3).ToArray());
             var more = gestures.Where(g => g.FingerCount >= 4).ToArray();
             if (more.Length > 0)
-                groups.Children.Add(NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), more, viewMode.SelectedIndex));
+                Group(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), more);
+            if (filtered && groups.Children.Count == 0)
+                groups.Children.Add(new TextBlock { Text = T("没有符合条件的手势", "No matching gestures"), Opacity = 0.68, Margin = new Thickness(4, 8, 4, 8) });
+            UpdateGestureSelectionToolbar();
         }
         RenderGroups();
         viewMode.SelectionChanged += (_, _) =>

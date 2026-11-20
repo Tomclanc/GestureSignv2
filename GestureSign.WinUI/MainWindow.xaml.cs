@@ -3308,6 +3308,30 @@ public sealed partial class MainWindow : Window
 
         var sidedName = GestureSign.Shortcuts.ShortcutKeys.Name(keyCode);
         if (sidedName is not null) return sidedName;
+        // Media and browser keys are missing from VirtualKey and showed as bare numbers ("175").
+        var mediaName = keyCode switch
+        {
+            0xA6 => "Browser Back",
+            0xA7 => "Browser Forward",
+            0xA8 => "Browser Refresh",
+            0xA9 => "Browser Stop",
+            0xAA => "Browser Search",
+            0xAB => "Browser Favorites",
+            0xAC => "Browser Home",
+            0xAD => "Volume Mute",
+            0xAE => "Volume Down",
+            0xAF => "Volume Up",
+            0xB0 => "Next Track",
+            0xB1 => "Previous Track",
+            0xB2 => "Stop Media",
+            0xB3 => "Play/Pause",
+            0xB4 => "Mail",
+            0xB5 => "Media Select",
+            0xB6 => "Launch App 1",
+            0xB7 => "Launch App 2",
+            _ => null
+        };
+        if (mediaName is not null) return mediaName;
         var key = (VirtualKey)keyCode;
         return key switch
         {
