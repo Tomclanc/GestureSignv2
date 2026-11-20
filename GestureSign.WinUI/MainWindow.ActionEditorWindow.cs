@@ -581,8 +581,8 @@ public sealed partial class MainWindow
             return button;
         }
         rail.Children.Add(RailButton("", T("全部", "All"), null));
-        foreach (var category in StepCatalog.Categories)
-            rail.Children.Add(RailButton(category.Glyph, T(category.NameZh, category.NameEn), category.Id));
+        foreach (var stepCategory in StepCatalog.Categories)
+            rail.Children.Add(RailButton(stepCategory.Glyph, T(stepCategory.NameZh, stepCategory.NameEn), stepCategory.Id));
 
         palette.ItemClick += (_, e) =>
         {
