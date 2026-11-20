@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-post",
+      "file-browser": "Filutforskar",
+      "paint": "Paint",
+      "submenu": "Appar",
+      "terminal": "Terminal",
+      "web-browser": "Nettlesar"
+    },
+    "audio": {
+      "mute": "Demp lyden",
+      "next-track": "Neste spor",
+      "play-pause": "Spel av / pause",
+      "previous-track": "Førre spor",
+      "submenu": "Lyd"
+    },
+    "bookmarks": {
+      "desktop": "Skrivebord",
+      "documents": "Dokument",
+      "downloads": "Nedlastingar",
+      "home": "Heim",
+      "music": "Musikk",
+      "pictures": "Bilete",
+      "submenu": "Bokmerke",
+      "videos": "Videoar"
+    },
+    "clipboard": {
+      "copy": "Kopier",
+      "cut": "Klipp ut",
+      "paste": "Lim inn",
+      "submenu": "Utklippstavle"
+    },
+    "name": "Dømemeny",
+    "next-workspace": "Neste arbeidsområde",
+    "previous-workspace": "Førre arbeidsområde",
+    "web-links": {
+      "kando-on-discord": "Kando på Discord",
+      "kando-on-github": "Kando på GitHub",
+      "kando-on-kofi": "Kando på Ko-fi",
+      "kando-on-youtube": "Kando på YouTube",
+      "submenu": "Nettlenkjer"
+    },
+    "windows": {
+      "close-window": "Lukk vindauget",
+      "submenu": "Vindauge",
+      "tile-left": "Fest til venstre",
+      "tile-right": "Fest til høgre",
+      "toggle-maximize": "Veksle maksimering"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Lukk menyen"
+    },
+    "close-submenu": {
+      "name": "Lukk undermenyen"
+    },
+    "delay": {
+      "name": "Vent"
+    },
+    "execute-command": {
+      "name": "Køyr kommando"
+    },
+    "execute-macro": {
+      "name": "Køyr makro"
+    },
+    "focus-window": {
+      "name": "Gje vindauget fokus"
+    },
+    "inhibit-shortcuts": {
+      "name": "Stans snøggtastar mellombels"
+    },
+    "open-file": {
+      "name": "Opne fil"
+    },
+    "open-menu": {
+      "name": "Opne meny"
+    },
+    "open-settings": {
+      "name": "Opne innstillingar"
+    },
+    "open-uri": {
+      "name": "Opne nettadresse"
+    },
+    "send-tcp-message": {
+      "name": "Send TCP-melding"
+    },
+    "send-websocket-message": {
+      "name": "Send WebSocket-melding"
+    },
+    "set-clipboard": {
+      "name": "Set innhald på utklippstavla"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Snøggtast",
+      "name": "Simuler snøggtast",
+      "recording-placeholder": "Trykk ein snøggtast …"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Undermeny"
+    }
+  },
+  "native": {
+    "action": "Handling",
+    "action-value": "Snøggtast, filsti, nettadresse, tekst eller JSON",
+    "choose-icon": "Vel ikon",
+    "condition-invalid": "Skriv inn eit gyldig vilkår for vindauget eller appen, til dømes /notepad/i.",
+    "configuration": "Oppsett for sirkelmenyen",
+    "editor": "Redigering av sirkelmenyen",
+    "exported": "Eksportert til {0}",
+    "fixed-angle": "Fast vinkel (0° = opp)",
+    "fixed-x": "Fast X (0–1 frå venstre)",
+    "fixed-y": "Fast Y (0–1 frå toppen)",
+    "icon-invalid-image": "Vel eit PNG-, JPEG-, GIF-, WebP- eller ICO-bilete på høgst 192 KB.",
+    "icon-library": "Ikonbibliotek",
+    "icon-next": "Neste ikon",
+    "icon-no-results": "Fann ingen ikon.",
+    "icon-pick-file": "Vel bilete eller app",
+    "icon-previous": "Førre ikon",
+    "icon-use-image": "Bruk bilete",
+    "imported": "Importerte {0} menyar. Sjå gjennom dei importerte kommandoane før du brukar dei, og lagre deretter.",
+    "item-icon": "Ikon for menyelement",
+    "item-order": "Rekkjefølgje på menyelement",
+    "label": "Etikett",
+    "move-down": "Flytt ned",
+    "move-up": "Flytt opp",
+    "name": "Menynamn",
+    "new-menu": "Ny meny",
+    "off": "Av",
+    "on": "På",
+    "palette": "Fargepalett",
+    "preview": "Førehandsvis menyen",
+    "remove": "Fjern",
+    "save": "Lagre menyar",
+    "saved": "Menyoppsettet er lagra.",
+    "shortcut-clear": "Fjern snøggtasten",
+    "shortcut-cleared": "Snøggtasten er fjerna.",
+    "shortcut-config-changed": "Menyoppsettet på disken er endra. Lagre dei noverande menyane for å bruke snøggtasten.",
+    "shortcut-in-use": "Windows melder at denne snøggtasten alt er i bruk.",
+    "shortcut-invalid": "Skriv inn éin tast og eventuelle tillatne modifikatortastar.",
+    "shortcut-record": "Spel inn snøggtasten",
+    "shortcut-save-new-menu": "Lagre den nye menyen for å ta i bruk snøggtasten.",
+    "shortcut-saved": "Snøggtasten er lagra: {0}. Bruk han til å opne menyen når snøgghandlingar er aktiverte.",
+    "shortcut-stop": "Stopp innspelinga",
+    "shortcut-unavailable": "Windows kunne ikkje registrere snøggtasten."
+  },
+  "settings": {
+    "add-menu-items": "Legg til menyelement",
+    "all-menus": "Alle menyar",
+    "anchored-mode": "Forankra modus",
+    "app-condition": "Avgrens til bestemte appar",
+    "area-condition-bottom-placeholder": "Nedst",
+    "area-condition-left-placeholder": "Venstre",
+    "area-condition-right-placeholder": "Høgre",
+    "area-condition-top-placeholder": "Øvst",
+    "cancel": "Avbryt",
+    "create-menu-button": "Legg til meny",
+    "delete-menu": "Slett meny",
+    "delete-menu-item": "Slett menyelement",
+    "edit-submenu": "Rediger undermeny",
+    "export-menu": "Eksporter meny",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Aktiver teiknemodus",
+      "interaction-modes": "Samhandlingsmodusar",
+      "enable-marking-mode-info": "Vel element ved å dra peikaren over dei i teiknemodus.",
+      "enable-turbo-mode": "Aktiver turbomodus",
+      "enable-turbo-mode-info": "Utfør rørsler medan du held nede ein modifikatortast, til dømes Shift eller Ctrl.",
+      "require-click-for-hover-mode": "Krev klikk for å stadfeste val i peikemodus",
+      "require-click-for-hover-mode-info": "Når innstillinga er av, kan peikemodus velje element berre ved at du fører peikaren over dei.",
+      "trigger-center-click-on-key-release": "Lukk menyen når du slepper snøggtasten over midten",
+      "trigger-center-click-on-key-release-info": "Køyrer handlinga for klikk i midten når du slepper ein tast med peikaren over midten av menyen.",
+      "move-pointer-to-menu-center": "Flytt peikaren til midten av menyen",
+      "move-pointer-to-menu-center-info": "Flyttar peikaren til midten av menyen eller undermenyen ved behov.",
+      "right-mouse-button-behavior": "Høgre museknapp",
+      "right-mouse-button-behavior-info": "Vel kva høgre museknapp skal gjere medan menyen er open.",
+      "middle-mouse-button-behavior": "Midtre museknapp",
+      "middle-mouse-button-behavior-info": "Vel kva midtre museknapp skal gjere medan menyen er open.",
+      "select-item": "Vel element",
+      "do-nothing": "Gjer ingenting",
+      "close-menu": "Lukk menyen",
+      "select-parent": "Gå opp eitt nivå"
+    },
+    "hover-mode": "Peikemodus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Søk etter ikon …"
+    },
+    "import-menu": "Importer meny",
+    "menu-behavior": "Menymåte",
+    "menu-conditions": "Menyvilkår",
+    "menu-themes-dialog": {
+      "default-colors": "Standardfargar",
+      "enable-menu-animations": "Menyanimasjonar",
+      "title": "Menytema"
+    },
+    "no-matching-menus": "Fann ingen menyar.",
+    "no-menus": "Du har ingen menyar.",
+    "not-bound": "Ikkje tildelt",
+    "quick-select-key-label": "Snøggvalstast",
+    "quick-select-key-recording": "Vel tast …",
+    "shortcut-info": "Denne snøggtasten opnar menyen. Han må ha éin vanleg tast og kan ha modifikatortastar som Ctrl, Alt eller Shift. Når du spelar inn, kan du trykkje tastane etter kvarandre. Det er nyttig om snøggtasten alt er tildelt ein annan meny.",
+    "shortcut-label": "Snøggtast",
+    "shortcut-recording": "Trykk ein snøggtast …",
+    "window-condition": "Avgrens til bestemte vindaugstitlar",
+    "workflow-editor": {
+      "add-action": "Legg til handling",
+      "select-workflow-name": "Vel arbeidsflyt"
+    },
+    "fixed-position-picker": {
+      "confirm": "Bruk denne posisjonen",
+      "top-left-preset-tooltip": "Plasser øvst til venstre",
+      "top-right-preset-tooltip": "Plasser øvst til høgre",
+      "bottom-left-preset-tooltip": "Plasser nedst til venstre",
+      "bottom-right-preset-tooltip": "Plasser nedst til høgre",
+      "centered-preset-tooltip": "Plasser i midten"
+    },
+    "fixed-position-mode": "Fast posisjon",
+    "fixed-position-mode-info": "Opnar menyen på ein fast stad på skjermen.",
+    "fixed-position-tooltip": "Vel ein fast posisjon",
+    "anchored-mode-info": "Opnar undermenyar på same stad som hovudmenyen. Teiknemodus og turbomodus blir slått av.",
+    "hover-mode-info": "Vel menyelement ved å føre peikaren over dei."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Enkel sirkel",
+      "neon-lights": "Neonlys",
+      "purity": "Rein stil",
+      "rainbow-labels": "Regnbogeetikettar"
+    },
+    "presets": {
+      "Blue Glass": "Blått glas",
+      "Dark Night": "Mørk natt",
+      "Cotton Candy": "Sukkerspinn",
+      "Dark and Cozy": "Mørkt og lunt",
+      "Blue Glow": "Blå glød",
+      "Green Glow": "Grøn glød",
+      "Electric": "Elektrisk",
+      "Orange": "Oransje",
+      "Pink": "Rosa",
+      "Bright Prism": "Lyst prisme",
+      "Kando Default": "Standardfargar"
+    }
+  }
+}

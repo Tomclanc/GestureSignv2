@@ -27,7 +27,7 @@ if ($SampleArchive) {
 }
 & "$repo\tools\Test-BackendArchitecture.ps1" -PackagePath $payload -Architecture $platform
 & "$repo\tools\Test-PortablePackage.ps1" -PackagePath $payload
-if ($Architecture -eq 'x64') { & "$repo\tools\Test-DaemonStartup.ps1" -Executable "$payload\Backend\GestureSign.exe" -SampleArchive $SampleArchive }
+if ($Architecture -eq 'x64') { & "$repo\tools\Test-DaemonStartup.ps1" -Executable "$payload\Backend\GestureSignV2Daemon.exe" -SampleArchive $SampleArchive }
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $zip = Join-Path $output "GestureSign-V2-$Version-$Architecture-portable.zip"
 [IO.Compression.ZipFile]::CreateFromDirectory($payload,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)

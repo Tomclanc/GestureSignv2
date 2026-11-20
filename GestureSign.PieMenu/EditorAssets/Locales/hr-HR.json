@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-pošta",
+      "file-browser": "Preglednik datoteka",
+      "paint": "Boja",
+      "submenu": "aplikacije",
+      "terminal": "Terminal",
+      "web-browser": "Web preglednik"
+    },
+    "audio": {
+      "mute": "Isključi zvuk",
+      "next-track": "Sljedeća pjesma",
+      "play-pause": "Reproduciraj/pauziraj",
+      "previous-track": "Prethodna pjesma",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Radna površina",
+      "documents": "Dokumenti",
+      "downloads": "Preuzimanja",
+      "home": "Dom",
+      "music": "Glazba",
+      "pictures": "Slike",
+      "submenu": "Knjižne oznake",
+      "videos": "Video zapisi"
+    },
+    "clipboard": {
+      "copy": "Kopiraj",
+      "cut": "Izreži",
+      "paste": "Zalijepi",
+      "submenu": "Međuspremnik"
+    },
+    "name": "Primjer izbornika",
+    "next-workspace": "Sljedeći radni prostor",
+    "previous-workspace": "Prethodni radni prostor",
+    "web-links": {
+      "kando-on-discord": "Kando na Discordu",
+      "kando-on-github": "Kando na GitHubu",
+      "kando-on-kofi": "Kando na Ko-fi",
+      "kando-on-youtube": "Kando na YouTubeu",
+      "submenu": "Web veze"
+    },
+    "windows": {
+      "close-window": "Zatvori prozor",
+      "submenu": "Windows",
+      "tile-left": "Pločica lijevo",
+      "tile-right": "Pločica desno",
+      "toggle-maximize": "Uključi/isključi povećanje"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Zatvori izbornik"
+    },
+    "close-submenu": {
+      "name": "Zatvori podizbornik"
+    },
+    "delay": {
+      "name": "Kašnjenje"
+    },
+    "execute-command": {
+      "name": "Izvrši naredbu"
+    },
+    "execute-macro": {
+      "name": "Izvrši makro"
+    },
+    "focus-window": {
+      "name": "Prozor fokusa"
+    },
+    "inhibit-shortcuts": {
+      "name": "Zabrani prečace"
+    },
+    "open-file": {
+      "name": "Otvori datoteku"
+    },
+    "open-menu": {
+      "name": "Otvori izbornik"
+    },
+    "open-settings": {
+      "name": "Otvorite postavke"
+    },
+    "open-uri": {
+      "name": "Otvori URI"
+    },
+    "send-tcp-message": {
+      "name": "Pošalji TCP poruku"
+    },
+    "send-websocket-message": {
+      "name": "Pošalji WebSocket poruku"
+    },
+    "set-clipboard": {
+      "name": "Postavi međuspremnik"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Prečac na tipkovnici",
+      "name": "Simulirajte prečac",
+      "recording-placeholder": "Upišite prečac..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Podizbornik"
+    }
+  },
+  "native": {
+    "action": "Akcija",
+    "action-value": "Prečac, put, URL, tekst ili JSON",
+    "choose-icon": "Odaberite ikonu",
+    "condition-invalid": "Unesite važeći uvjet prozora ili aplikacije, na primjer /notepad/i.",
+    "configuration": "Konfiguracija Pie izbornika",
+    "editor": "Uređivač pita izbornika",
+    "exported": "Izvezeno u {0}",
+    "fixed-angle": "Fiksni kut (0° = gore)",
+    "fixed-x": "Fiksni X (0–1 preko monitora)",
+    "fixed-y": "Fiksno Y (0–1 dolje na monitoru)",
+    "icon-invalid-image": "Odaberite PNG, JPEG, GIF, WebP ili ICO sliku do 192 KB.",
+    "icon-library": "Knjižnica ikona",
+    "icon-next": "Sljedeće ikone",
+    "icon-no-results": "Nisu pronađene ikone.",
+    "icon-pick-file": "Odaberite sliku ili aplikaciju",
+    "icon-previous": "Prethodne ikone",
+    "icon-use-image": "Koristi sliku",
+    "imported": "Broj uvezenih izbornika: {0}. Pregledajte uvezene naredbe prije korištenja, a zatim ih spremite.",
+    "item-icon": "Ikona stavke",
+    "item-order": "Redoslijed predmeta",
+    "label": "Oznaka",
+    "move-down": "Pomakni se dolje",
+    "move-up": "Pomakni se gore",
+    "name": "Naziv izbornika",
+    "new-menu": "Novi izbornik",
+    "off": "Isključeno",
+    "on": "Uključeno",
+    "palette": "Paleta boja",
+    "preview": "Izbornik pregleda",
+    "remove": "Ukloniti",
+    "save": "Spremi izbornike",
+    "saved": "Konfiguracija izbornika spremljena.",
+    "shortcut-clear": "Obriši prečac",
+    "shortcut-cleared": "Prečac je izbrisan.",
+    "shortcut-config-changed": "Konfiguracija izbornika promijenjena je na disku. Spremite trenutne izbornike da biste primijenili ovaj prečac.",
+    "shortcut-in-use": "Windows javlja da se ovaj prečac već koristi.",
+    "shortcut-invalid": "Unesite jednu tipku, plus sve modifikatore dopuštene za ovaj prečac.",
+    "shortcut-record": "Prečac za snimanje",
+    "shortcut-save-new-menu": "Spremite ovaj novi izbornik da aktivirate njegov prečac.",
+    "shortcut-saved": "Prečac spremljen: {0}. Koristite ga za otvaranje izbornika kada su omogućene Brze radnje.",
+    "shortcut-stop": "Zaustavi snimanje",
+    "shortcut-unavailable": "Windows nije mogao registrirati ovaj prečac."
+  },
+  "settings": {
+    "add-menu-items": "Dodajte stavke jelovnika",
+    "all-menus": "Svi izbornici",
+    "anchored-mode": "Usidren način rada",
+    "app-condition": "Ograniči na određene aplikacije",
+    "area-condition-bottom-placeholder": "Dno",
+    "area-condition-left-placeholder": "Lijevo",
+    "area-condition-right-placeholder": "Desno",
+    "area-condition-top-placeholder": "Vrh",
+    "cancel": "Otkaži",
+    "create-menu-button": "Dodaj izbornik",
+    "delete-menu": "Brisanje izbornika",
+    "delete-menu-item": "Izbriši stavku izbornika",
+    "edit-submenu": "Uredi podizbornik",
+    "export-menu": "Izbornik za izvoz",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Omogući način označavanja",
+      "close-menu": "Zatvori izbornik",
+      "do-nothing": "Ne čini ništa",
+      "enable-marking-mode-info": "S uključenim načinom označavanja možete odabrati stavke povlačenjem miša preko njih.",
+      "enable-turbo-mode": "Omogućite Turbo način rada",
+      "enable-turbo-mode-info": "S omogućenim Turbo načinom, možete izvoditi geste sve dok držite modifikatorsku tipku kao što je Shift ili Ctrl.",
+      "interaction-modes": "Načini interakcije",
+      "middle-mouse-button-behavior": "Srednja tipka miša",
+      "middle-mouse-button-behavior-info": "Ovo određuje što se događa kada se pritisne srednja tipka miša dok je prikazan izbornik.",
+      "move-pointer-to-menu-center": "Pomaknite pokazivač na središte izbornika",
+      "move-pointer-to-menu-center-info": "Ako je označeno, pokazivač miša će se po potrebi pomaknuti u središte izbornika ili podizbornika. To može biti slučaj ako je izbornik otvoren preblizu ruba zaslona ili ako je izbornik otvoren u centriranom načinu rada.",
+      "require-click-for-hover-mode": "Zahtijeva klik za odabir načina lebdenja",
+      "require-click-for-hover-mode-info": "Ako nije označeno, stavke će biti odabrane odmah kada se mišem pomakne preko njih za izbornike pomoću načina lebdenja.",
+      "right-mouse-button-behavior": "Desna tipka miša",
+      "right-mouse-button-behavior-info": "Ovo određuje što se događa kada se pritisne desna tipka miša dok je prikazan izbornik.",
+      "select-item": "Odaberite stavku",
+      "select-parent": "Idite jednu razinu gore",
+      "trigger-center-click-on-key-release": "Zatvorite izbornik pri otpuštanju prečaca preko središta",
+      "trigger-center-click-on-key-release-info": "Ovo će pokrenuti tijek rada središnjeg klika kada se tipka otpusti dok lebdite iznad središta izbornika."
+    },
+    "hover-mode": "Način lebdenja",
+    "icon-picker-dialog": {
+      "search-placeholder": "Ikone pretraživanja…"
+    },
+    "import-menu": "Izbornik uvoza",
+    "menu-behavior": "Izbornik Ponašanje",
+    "menu-conditions": "Uvjeti izbornika",
+    "menu-themes-dialog": {
+      "default-colors": "Zadane boje",
+      "enable-menu-animations": "Animacije izbornika",
+      "title": "Teme izbornika"
+    },
+    "no-matching-menus": "Nema pronađenih jelovnika.",
+    "no-menus": "Nemate jelovnika.",
+    "not-bound": "Nije vezano",
+    "quick-select-key-label": "Tipka za brzi odabir",
+    "quick-select-key-recording": "Odaberite ključ…",
+    "shortcut-info": "Ovaj prečac otvara izbornik. Mora sadržavati jednu normalnu tipku i bilo koji broj modifikatora kao što su Ctrl, Alt ili Shift. Prilikom snimanja ne morate pritisnuti sve tipke odjednom, možete ih pritiskati i jednu za drugom. Ovo je korisno ako je prečac već povezan s drugim izbornikom!",
+    "shortcut-label": "Prečac",
+    "shortcut-recording": "Pritisnite prečac...",
+    "window-condition": "Ograničite na određene naslove prozora",
+    "workflow-editor": {
+      "add-action": "Dodaj radnju",
+      "select-workflow-name": "Odaberite tijek rada"
+    },
+    "anchored-mode-info": "Otvorite podizbornike na istoj poziciji kao i nadređeni izbornik. Ako ovo potvrdite, onemogućit ćete način označavanja i način rada Turbo.",
+    "fixed-position-mode": "Način fiksnog položaja",
+    "fixed-position-mode-info": "Otvorite izbornik na fiksnoj poziciji na zaslonu, umjesto na pokazivaču.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Postavite položaj dolje lijevo",
+      "bottom-right-preset-tooltip": "Postavite položaj dolje desno",
+      "centered-preset-tooltip": "Postavite položaj na sredinu",
+      "confirm": "Koristite ovaj položaj",
+      "top-left-preset-tooltip": "Postavite položaj gore lijevo",
+      "top-right-preset-tooltip": "Postavite položaj gore desno"
+    },
+    "fixed-position-tooltip": "Odaberite fiksni položaj",
+    "hover-mode-info": "Samo za napredne korisnike! Odaberite stavke tako da zadržite pokazivač iznad njih."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Zadano",
+      "clean-circle": "Čisti krug",
+      "neon-lights": "Neonska svjetla",
+      "purity": "Čistoća",
+      "rainbow-labels": "Rainbow naljepnice"
+    },
+    "presets": {
+      "Blue Glass": "Plavo staklo",
+      "Dark Night": "Tamna noć",
+      "Cotton Candy": "Šećerna vuna",
+      "Dark and Cozy": "Tamno i ugodno",
+      "Blue Glow": "Plavi sjaj",
+      "Green Glow": "Zeleni sjaj",
+      "Electric": "Električni",
+      "Orange": "Narančasta",
+      "Pink": "Roza",
+      "Bright Prism": "Svijetla prizma",
+      "Kando Default": "Zadane boje"
+    }
+  }
+}

@@ -61,11 +61,25 @@
                    Width="28"
                    Height="28"
                    VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1"
+            <TextBlock x:Name="AppTitleLabel"
+                       Grid.Column="1"
                        Text="GestureSign V2"
                        FontWeight="SemiBold"
                        VerticalAlignment="Center"
                        Margin="12,0,0,0" />
+            <AutoSuggestBox x:Name="GlobalSearchBox"
+                            Grid.ColumnSpan="2"
+                            MaxWidth="460"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            CornerRadius="16"
+                            DisplayMemberPath="DisplayText"
+                            TextMemberPath="Title"
+                            Visibility="Collapsed">
+                <AutoSuggestBox.QueryIcon>
+                    <SymbolIcon Symbol="Find" />
+                </AutoSuggestBox.QueryIcon>
+            </AutoSuggestBox>
         </Grid>
 
         <controls:NavigationView x:Name="Navigation"
@@ -91,6 +105,11 @@
                 <controls:NavigationViewItem Content="" Tag="touchpad">
                     <controls:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE815;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="" Tag="intentLearning">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE9D9;" />
                     </controls:NavigationViewItem.Icon>
                 </controls:NavigationViewItem>
                 <controls:NavigationViewItem Content="" Tag="options" Icon="Setting" />

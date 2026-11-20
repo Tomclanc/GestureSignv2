@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Accions ràpides</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Obre el menú radial amb dreceres dedicades</value>
+  </data>
+</root>

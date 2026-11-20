@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>കവിയിച്ചുള്ള പ്രവർത്തനങ്ങൾ</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>സമർപ്പിത ഷോർട്ട്കട്ടുകൾ ഉപയോഗിച്ച് റേഡിയൽ മെനു തുറക്കുക.</value>
+  </data>
+</root>

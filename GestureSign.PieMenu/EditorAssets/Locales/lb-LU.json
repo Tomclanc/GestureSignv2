@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Datei Browser",
+      "paint": "Faarwen",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Web Browser"
+    },
+    "audio": {
+      "mute": "Mutéieren",
+      "next-track": "Nächst Lidd",
+      "play-pause": "Spillen / Pausen",
+      "previous-track": "Virdrun Lidd",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Dokumenter",
+      "downloads": "Downloads",
+      "home": "Doheem",
+      "music": "Musek",
+      "pictures": "Biller",
+      "submenu": "Lieszeeche",
+      "videos": "Videoen"
+    },
+    "clipboard": {
+      "copy": "Kopéieren",
+      "cut": "Ausschneiden",
+      "paste": "Ewechsetzen",
+      "submenu": "Clipboard"
+    },
+    "name": "Beispill Menu",
+    "next-workspace": "Nächste Workspace",
+    "previous-workspace": "Virdrun Aarbechtsberäich",
+    "web-links": {
+      "kando-on-discord": "Kando op Discord",
+      "kando-on-github": "Kando op GitHub",
+      "kando-on-kofi": "Kando op Ko-fi",
+      "kando-on-youtube": "Kando op YouTube",
+      "submenu": "Web Linken"
+    },
+    "windows": {
+      "close-window": "Fënster zoumaachen",
+      "submenu": "Windows",
+      "tile-left": "Fliesen lénks",
+      "tile-right": "Fliesen Recht",
+      "toggle-maximize": "Toggle Maximaliséierung"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Zoumaachen Menu"
+    },
+    "close-submenu": {
+      "name": "Zoumaachen Ënnermenü"
+    },
+    "delay": {
+      "name": "Verzögerung"
+    },
+    "execute-command": {
+      "name": "Kommando ausféieren"
+    },
+    "execute-macro": {
+      "name": "Macro ausféieren"
+    },
+    "focus-window": {
+      "name": "Focus Fënster"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibit Ofkiirzungen"
+    },
+    "open-file": {
+      "name": "Datei oppen"
+    },
+    "open-menu": {
+      "name": "Open Menu"
+    },
+    "open-settings": {
+      "name": "Open Settings"
+    },
+    "open-uri": {
+      "name": "Open URI"
+    },
+    "send-tcp-message": {
+      "name": "Schécken TCP Message"
+    },
+    "send-websocket-message": {
+      "name": "Schécken WebSocket Message"
+    },
+    "set-clipboard": {
+      "name": "Set Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hotkey",
+      "name": "Simulatioun Hotkey",
+      "recording-placeholder": "Gitt eng Hotkey ..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Ënnermenü"
+    }
+  },
+  "native": {
+    "action": "Aktioun",
+    "action-value": "Ofkiirzung, Wee, URL, Text oder JSON",
+    "choose-icon": "Wielt Ikon",
+    "condition-invalid": "Gitt eng valabel Fënster oder App Conditioun, zum Beispill /Notepad/i.",
+    "configuration": "Pie Menu Configuratioun",
+    "editor": "Pie Menu Editor",
+    "exported": "Exportéiert op {0}",
+    "fixed-angle": "Fixe Wénkel (0° = erop)",
+    "fixed-x": "Fixed X (0–1 iwwer de Monitor)",
+    "fixed-y": "Fixéiert Y (0–1 erof um Monitor)",
+    "icon-invalid-image": "Wielt e PNG, JPEG, GIF, WebP oder ICO Bild bis zu 192 KB.",
+    "icon-library": "Ikon Bibliothéik",
+    "icon-next": "Nächst Symboler",
+    "icon-no-results": "Keng Ikonen fonnt.",
+    "icon-pick-file": "Wielt Bild oder App",
+    "icon-previous": "Virdrun Symboler",
+    "icon-use-image": "Benotzt Bild",
+    "imported": "Importéiert {0} Menü(en). Iwwerpréift importéiert Kommandoen ier Dir se benotzt, späichert dann.",
+    "item-icon": "Element Ikon",
+    "item-order": "Artikel Uerdnung",
+    "label": "Label",
+    "move-down": "Beweegt erof",
+    "move-up": "Beweegt erop",
+    "name": "Menu Numm",
+    "new-menu": "Neie Menü",
+    "off": "Aus",
+    "on": "Um",
+    "palette": "Faarfpalette",
+    "preview": "Preview Menu",
+    "remove": "Ewechzehuelen",
+    "save": "Spuert Menüen",
+    "saved": "Menu Configuratioun gespäichert.",
+    "shortcut-clear": "Kloer Ofkiirzung",
+    "shortcut-cleared": "Ofkiirzung geläscht.",
+    "shortcut-config-changed": "D'Menükonfiguratioun geännert op der Disk. Späichert déi aktuell Menüe fir dës Ofkiirzung z'applizéieren.",
+    "shortcut-in-use": "Windows bericht datt dës Ofkiirzung scho benotzt gëtt.",
+    "shortcut-invalid": "Gitt ee Schlëssel, plus all Modifikateur erlaabt fir dës Ofkiirzung.",
+    "shortcut-record": "Rekord Ofkiirzung",
+    "shortcut-save-new-menu": "Späichert dësen neie Menü fir seng Ofkiirzung ze aktivéieren.",
+    "shortcut-saved": "Ofkiirzung gespäichert: {0}. Benotzt et fir de Menü opzemaachen wann Quick Actions aktivéiert ass.",
+    "shortcut-stop": "Stop opzehuelen",
+    "shortcut-unavailable": "Windows konnt dës Ofkiirzung net registréieren."
+  },
+  "settings": {
+    "add-menu-items": "Füügt Menu Elementer",
+    "all-menus": "All Menue",
+    "anchored-mode": "Verankert Modus",
+    "app-condition": "Limitéiert op spezifesch Apps",
+    "area-condition-bottom-placeholder": "Buedem",
+    "area-condition-left-placeholder": "Lénks",
+    "area-condition-right-placeholder": "Riets",
+    "area-condition-top-placeholder": "Uewen",
+    "cancel": "Ofbriechen",
+    "create-menu-button": "Menu dobäisetzen",
+    "delete-menu": "Menu läschen",
+    "delete-menu-item": "Läschen Menü Element",
+    "edit-submenu": "Ënnermenü änneren",
+    "export-menu": "Export Menü",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Markéierungsmodus aktivéieren",
+      "close-menu": "Menu zoumaachen",
+      "do-nothing": "Näischt maachen",
+      "enable-marking-mode-info": "Mat Markéierungsmodus aktivéiert, kënnt Dir Elementer auswielen andeems Dir d'Maus driwwer zitt.",
+      "enable-turbo-mode": "Aktivéiert Turbo Modus",
+      "enable-turbo-mode-info": "Mat Turbo Modus aktivéiert, kënnt Dir Gesten ausféieren soulaang Dir e Modifikateur Schlëssel wéi Shift oder Ctrl hält.",
+      "interaction-modes": "Interaktiounsmodi",
+      "middle-mouse-button-behavior": "Mëtt Maus Knäppchen",
+      "middle-mouse-button-behavior-info": "Dëst bestëmmt wat geschitt wann d'Mëtt Maus Knäppchen gedréckt gëtt iwwerdeems e Menü gewisen.",
+      "move-pointer-to-menu-center": "Beweegt de Pointer an de Menüzentrum",
+      "move-pointer-to-menu-center-info": "Wann ugekuckt, gëtt de Mauszeiger an d'Mëtt vun engem Menü oder Ënnermenü geréckelt wann néideg. Dëst kéint de Fall sinn, wann e Menü ze no um Rand vum Écran opgemaach ass oder wann e Menü am Zentralmodus opgemaach gëtt.",
+      "require-click-for-hover-mode": "Verlaangt Klick fir Hover Mode Auswiel",
+      "require-click-for-hover-mode-info": "Wann net ugekuckt gëtt, ginn d'Elementer direkt ausgewielt wann d'Maus iwwer si bewegt gëtt fir Menue mam Hover Mode.",
+      "right-mouse-button-behavior": "Riets Maus Knäppchen",
+      "right-mouse-button-behavior-info": "Dëst bestëmmt wat geschitt wann de rietse Maustast gedréckt gëtt während e Menü gewisen.",
+      "select-item": "Wielt Element",
+      "select-parent": "Navigate up one level",
+      "trigger-center-click-on-key-release": "Zoumaachen Menu op Ofkiirzung Fräisetzung iwwer Zentrum",
+      "trigger-center-click-on-key-release-info": "Dëst wäert den Zentrum-Klick-Workflow ausléisen wann e Schlëssel fräigelooss gëtt wärend iwwer d'Mëtt vun engem Menü."
+    },
+    "hover-mode": "Hover Modus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Sich Symboler…"
+    },
+    "import-menu": "Import Menü",
+    "menu-behavior": "Menü Behuelen",
+    "menu-conditions": "Menu Konditiounen",
+    "menu-themes-dialog": {
+      "default-colors": "Standard Faarwen",
+      "enable-menu-animations": "Menu Animatiounen",
+      "title": "Menu Themen"
+    },
+    "no-matching-menus": "Keng Menue fonnt.",
+    "no-menus": "Dir hutt keng Menüen.",
+    "not-bound": "Net gebonnen",
+    "quick-select-key-label": "Quick-auswielen Schlëssel",
+    "quick-select-key-recording": "Wielt Schlëssel ...",
+    "shortcut-info": "Dës Ofkiirzung mécht de Menü op. Et muss een normale Schlëssel an all Zuel vun Modifikateure wéi Ctrl, Alt oder Shift enthalen. Beim Opnam musst Dir net all Schlësselen gläichzäiteg drécken, Dir kënnt se och een nom aneren drécken. Dëst ass nëtzlech wann eng Ofkiirzung schonn un en anere Menü gebonnen ass!",
+    "shortcut-label": "Ofkiirzung",
+    "shortcut-recording": "Press eng Ofkiirzung ...",
+    "window-condition": "Limitéiert op spezifesch Fënstertitelen",
+    "workflow-editor": {
+      "add-action": "Add Action",
+      "select-workflow-name": "Wielt Workflow"
+    },
+    "anchored-mode-info": "Open Submenus op der selwechter Positioun wéi den Elterendeel. Wann Dir dëst iwwerpréift, deaktivéiert Marking Mode an Turbo Mode.",
+    "fixed-position-mode": "Fix Positioun Modus",
+    "fixed-position-mode-info": "Öffnen de Menü op enger fixer Positioun um Écran, anstatt um Cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Setzt d'Positioun no ënnen lénks",
+      "bottom-right-preset-tooltip": "Setzt d'Positioun op ënnen riets",
+      "centered-preset-tooltip": "Setzt d'Positioun an d'Mëtt",
+      "confirm": "Benotzt dës Positioun",
+      "top-left-preset-tooltip": "Setzt d'Positioun uewe lénks",
+      "top-right-preset-tooltip": "Setzt d'Positioun uewe riets"
+    },
+    "fixed-position-tooltip": "Wielt eng fix Positioun",
+    "hover-mode-info": "For power users only! Wielt Elementer andeems Dir driwwer beweegt."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Clean Circle",
+      "neon-lights": "Neon Luuchten",
+      "purity": "Rengheet",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Blue Glass": "Blo Glas",
+      "Dark Night": "Däischter Nuecht",
+      "Cotton Candy": "Cotton Candy",
+      "Dark and Cozy": "Däischter a gemittlech",
+      "Blue Glow": "Blo Glanz",
+      "Green Glow": "Gréng Glanz",
+      "Electric": "Elektresch",
+      "Orange": "Orangen",
+      "Pink": "Rosa",
+      "Bright Prism": "Hell Prisma",
+      "Kando Default": "Standard Faarwen"
+    }
+  }
+}

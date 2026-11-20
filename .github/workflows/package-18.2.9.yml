@@ -26,7 +26,7 @@ jobs:
           ./installer/Build-IntentDlc.ps1 -OutputDirectory ./publish/IntentDlc
           $entry = Get-Content ./publish/GestureSign-IntentDlc-18.2.9-win-x64.zip.catalog.json -Raw | ConvertFrom-Json
           ConvertTo-Json -InputObject @($entry) -Depth 5 | Set-Content ./GestureSign.WinUI/Assets/intent-dlc.catalog.json
-          $test = Start-Process ./publish/IntentDlc/Runtime/GestureSign.IntentDlc.exe -ArgumentList @("--self-test", "$env:RUNNER_TEMP/intent-runtime-test.json") -Wait -PassThru -WindowStyle Hidden
+          $test = Start-Process ./publish/IntentDlc/Runtime/GestureSignV2.IntentDlc.exe -ArgumentList @("--self-test", "$env:RUNNER_TEMP/intent-runtime-test.json") -Wait -PassThru -WindowStyle Hidden
           if ($test.ExitCode -ne 0) { Get-Content "$env:RUNNER_TEMP/intent-runtime-test.json"; throw 'Runtime test failed' }
       - name: Build main portable payload
         shell: pwsh

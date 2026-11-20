@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>দ্রুত ক্রিয়াকলাপ</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>নির্দিষ্ট শর্টকাট দিয়ে রেডিয়াল মেনু খুলুন।</value>
+  </data>
+</root>

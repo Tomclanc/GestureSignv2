@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-poçt",
+      "file-browser": "Fayl brauzeri",
+      "paint": "Boya",
+      "submenu": "Proqramlar",
+      "terminal": "Terminal",
+      "web-browser": "Veb Brauzer"
+    },
+    "audio": {
+      "mute": "Səssiz",
+      "next-track": "Növbəti Trek",
+      "play-pause": "Oynat / Pause",
+      "previous-track": "Əvvəlki trek",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "İş masası",
+      "documents": "Sənədlər",
+      "downloads": "Yükləmələr",
+      "home": "Ev",
+      "music": "Musiqi",
+      "pictures": "Şəkillər",
+      "submenu": "Əlfəcinlər",
+      "videos": "Videolar"
+    },
+    "clipboard": {
+      "copy": "Kopyala",
+      "cut": "Kəs",
+      "paste": "Yapışdır",
+      "submenu": "Bufer"
+    },
+    "name": "Nümunə Menyu",
+    "next-workspace": "Növbəti İş sahəsi",
+    "previous-workspace": "Əvvəlki İş sahəsi",
+    "web-links": {
+      "kando-on-discord": "Discord-da Kando",
+      "kando-on-github": "GitHub-da Kando",
+      "kando-on-kofi": "Ko-fi-də Kando",
+      "kando-on-youtube": "YouTube-da Kando",
+      "submenu": "Veb Bağlantıları"
+    },
+    "windows": {
+      "close-window": "Pəncərəni Bağla",
+      "submenu": "Windows",
+      "tile-left": "Kafel Sol",
+      "tile-right": "Sağ kafel",
+      "toggle-maximize": "Maksimumlaşdırın"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menyunu bağlayın"
+    },
+    "close-submenu": {
+      "name": "Alt menyunu bağlayın"
+    },
+    "delay": {
+      "name": "Gecikmə"
+    },
+    "execute-command": {
+      "name": "Komandanı icra edin"
+    },
+    "execute-macro": {
+      "name": "Makronu icra edin"
+    },
+    "focus-window": {
+      "name": "Fokus pəncərəsi"
+    },
+    "inhibit-shortcuts": {
+      "name": "Qısayolları qadağan edin"
+    },
+    "open-file": {
+      "name": "Faylı aç"
+    },
+    "open-menu": {
+      "name": "Menyu açın"
+    },
+    "open-settings": {
+      "name": "Parametrləri açın"
+    },
+    "open-uri": {
+      "name": "URI-ni açın"
+    },
+    "send-tcp-message": {
+      "name": "TCP mesajı göndərin"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket Mesajını göndərin"
+    },
+    "set-clipboard": {
+      "name": "Buferi təyin edin"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Qısayol düyməsi",
+      "name": "İsti düyməni simulyasiya edin",
+      "recording-placeholder": "İsti düyməni yazın..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Alt menyu"
+    }
+  },
+  "native": {
+    "action": "Fəaliyyət",
+    "action-value": "Qısayol, yol, URL, mətn və ya JSON",
+    "choose-icon": "Simge seçin",
+    "condition-invalid": "Etibarlı pəncərə və ya proqram vəziyyəti daxil edin, məsələn /notepad/i.",
+    "configuration": "Pie Menyu konfiqurasiyası",
+    "editor": "Pasta menyu redaktoru",
+    "exported": "{0} ünvanına eksport edildi",
+    "fixed-angle": "Sabit bucaq (0° = yuxarı)",
+    "fixed-x": "Sabit X (monitorda 0-1)",
+    "fixed-y": "Sabit Y (monitordan 0-1 aşağı)",
+    "icon-invalid-image": "PNG, JPEG, GIF, WebP və ya 192 KB-a qədər ICO şəkli seçin.",
+    "icon-library": "İkon kitabxanası",
+    "icon-next": "Növbəti nişanlar",
+    "icon-no-results": "Heç bir ikona tapılmadı.",
+    "icon-pick-file": "Şəkil və ya proqram seçin",
+    "icon-previous": "Əvvəlki nişanlar",
+    "icon-use-image": "Şəkildən istifadə edin",
+    "imported": "Import edilmiş {0} menyu(lar). Import edilmiş əmrləri istifadə etməzdən əvvəl nəzərdən keçirin, sonra yadda saxlayın.",
+    "item-icon": "Element simvolu",
+    "item-order": "Maddə sifarişi",
+    "label": "Etiket",
+    "move-down": "Aşağı hərəkət edin",
+    "move-up": "Yuxarı hərəkət edin",
+    "name": "Menyu adı",
+    "new-menu": "Yeni menyu",
+    "off": "Söndür",
+    "on": "Aktiv",
+    "palette": "Rəng palitrası",
+    "preview": "Önizləmə menyusu",
+    "remove": "Sil",
+    "save": "Menyuları yadda saxlayın",
+    "saved": "Menyu konfiqurasiyası saxlanıldı.",
+    "shortcut-clear": "Qısayolu təmizləyin",
+    "shortcut-cleared": "Qısayol təmizləndi.",
+    "shortcut-config-changed": "Diskdə menyu konfiqurasiyası dəyişdirildi. Bu qısayolu tətbiq etmək üçün cari menyuları yadda saxlayın.",
+    "shortcut-in-use": "Windows bu qısayolun artıq istifadə edildiyini bildirir.",
+    "shortcut-invalid": "Bir düymə, üstəgəl bu qısayol üçün icazə verilən hər hansı dəyişdirici daxil edin.",
+    "shortcut-record": "Qısayolu qeyd edin",
+    "shortcut-save-new-menu": "Qısayolunu aktivləşdirmək üçün bu yeni menyunu yadda saxlayın.",
+    "shortcut-saved": "Qısayol yadda saxlandı: {0}. Tez Fəaliyyətlər aktiv olduqda menyunu açmaq üçün ondan istifadə edin.",
+    "shortcut-stop": "Yazmağı dayandırın",
+    "shortcut-unavailable": "Windows bu qısayolu qeyd edə bilmədi."
+  },
+  "settings": {
+    "add-menu-items": "Menyu maddələri əlavə edin",
+    "all-menus": "Bütün Menyular",
+    "anchored-mode": "Ankraj rejimi",
+    "app-condition": "Xüsusi Proqramlarla məhdudlaşdırın",
+    "area-condition-bottom-placeholder": "Aşağı",
+    "area-condition-left-placeholder": "Sol",
+    "area-condition-right-placeholder": "Sağ",
+    "area-condition-top-placeholder": "Üst",
+    "cancel": "Ləğv et",
+    "create-menu-button": "Menyu əlavə et",
+    "delete-menu": "Menyu silin",
+    "delete-menu-item": "Menyu elementini silin",
+    "edit-submenu": "Alt menyunu redaktə edin",
+    "export-menu": "İxrac menyusu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "İşarələmə rejimini aktivləşdirin",
+      "close-menu": "Menyunu bağlayın",
+      "do-nothing": "Heç nə etmə",
+      "enable-marking-mode-info": "İşarələmə rejimi aktiv olduqda, siçanı onların üzərinə çəkərək elementləri seçə bilərsiniz.",
+      "enable-turbo-mode": "Turbo rejimini aktivləşdirin",
+      "enable-turbo-mode-info": "Turbo Rejimi aktiv olduqda, Shift və ya Ctrl kimi dəyişdirici düyməsini basıb saxladığınız müddətcə jestləri yerinə yetirə bilərsiniz.",
+      "interaction-modes": "Qarşılıqlı əlaqə rejimləri",
+      "middle-mouse-button-behavior": "Orta siçan düyməsi",
+      "middle-mouse-button-behavior-info": "Bu, menyu göstərilərkən siçanın orta düyməsini basdıqda nə baş verdiyini müəyyənləşdirir.",
+      "move-pointer-to-menu-center": "Göstəricini menyu mərkəzinə köçürün",
+      "move-pointer-to-menu-center-info": "Əgər işarələnərsə, lazım olduqda siçan göstəricisi menyunun və ya alt menyunun mərkəzinə köçürüləcək. Bu, menyu ekranın kənarına çox yaxın açıldıqda və ya mərkəzləşdirilmiş rejimdə menyu açıldıqda baş verə bilər.",
+      "require-click-for-hover-mode": "Hover rejimi seçimləri üçün klik tələb edir",
+      "require-click-for-hover-mode-info": "İşarə qoyulmazsa, Hover rejimindən istifadə edərək menyular üçün siçan onların üzərinə aparıldıqda elementlər dərhal seçiləcək.",
+      "right-mouse-button-behavior": "Sağ siçan düyməsi",
+      "right-mouse-button-behavior-info": "Bu, menyu göstərilərkən siçan sağ düyməsini basdıqda nə baş verdiyini müəyyən edir.",
+      "select-item": "Element seçin",
+      "select-parent": "Bir səviyyə yuxarı gedin",
+      "trigger-center-click-on-key-release": "Mərkəz üzərində qısayol buraxma menyusunu bağlayın",
+      "trigger-center-click-on-key-release-info": "Bu, menyunun mərkəzi üzərində hərəkət edərkən düymə sərbəst buraxıldıqda mərkəzi klik iş prosesini işə salacaq."
+    },
+    "hover-mode": "Hover rejimi",
+    "icon-picker-dialog": {
+      "search-placeholder": "Axtarış nişanları..."
+    },
+    "import-menu": "İdxal menyusu",
+    "menu-behavior": "Menyu Davranışı",
+    "menu-conditions": "Menyu şərtləri",
+    "menu-themes-dialog": {
+      "default-colors": "Defolt rənglər",
+      "enable-menu-animations": "Menyu Animasiyalar",
+      "title": "Menyu Mövzuları"
+    },
+    "no-matching-menus": "Menyu tapılmadı.",
+    "no-menus": "Menyularınız yoxdur.",
+    "not-bound": "Bağlı deyil",
+    "quick-select-key-label": "Tez seçim düyməsi",
+    "quick-select-key-recording": "Açarı seçin...",
+    "shortcut-info": "Bu qısayol menyunu açır. O, bir normal düymə və Ctrl, Alt və ya Shift kimi istənilən sayda dəyişdiricidən ibarət olmalıdır. Yazarkən bütün düymələri birdən basmaq lazım deyil, onları bir-birinin ardınca da basa bilərsiniz. Qısayol artıq başqa menyuya bağlıdırsa, bu faydalıdır!",
+    "shortcut-label": "Qısayol",
+    "shortcut-recording": "Qısa yola basın...",
+    "window-condition": "Xüsusi Pəncərə Başlıqları ilə məhdudlaşdırın",
+    "workflow-editor": {
+      "add-action": "Fəaliyyət əlavə edin",
+      "select-workflow-name": "İş axını seçin"
+    },
+    "anchored-mode-info": "Alt menyuları ana menyu ilə eyni mövqedə açın. Bunun yoxlanılması İşarələmə rejimi və Turbo rejimini söndürəcək.",
+    "fixed-position-mode": "Sabit Mövqe Rejimi",
+    "fixed-position-mode-info": "Menyunu kursorda deyil, ekranda sabit bir mövqedə açın.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Mövqeyi sol aşağıya təyin edin",
+      "bottom-right-preset-tooltip": "Mövqeyi aşağı sağa təyin edin",
+      "centered-preset-tooltip": "Mövqeyi mərkəzə qoyun",
+      "confirm": "Bu mövqedən istifadə edin",
+      "top-left-preset-tooltip": "Mövqeyi yuxarı sola təyin edin",
+      "top-right-preset-tooltip": "Mövqeyi yuxarı sağa təyin edin"
+    },
+    "fixed-position-tooltip": "Sabit bir mövqe seçin",
+    "hover-mode-info": "Yalnız güclü istifadəçilər üçün! Elementləri onların üzərinə sürərək seçin."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Defolt",
+      "clean-circle": "Təmiz dairə",
+      "neon-lights": "Neon İşıqlar",
+      "purity": "Saflıq",
+      "rainbow-labels": "Göy qurşağı etiketləri"
+    },
+    "presets": {
+      "Blue Glass": "Mavi şüşə",
+      "Dark Night": "Qaranlıq Gecə",
+      "Cotton Candy": "Pambıq konfet",
+      "Dark and Cozy": "Qaranlıq və Rahat",
+      "Blue Glow": "Mavi Parıltı",
+      "Green Glow": "Yaşıl parıltı",
+      "Electric": "Elektrik",
+      "Orange": "Narıncı",
+      "Pink": "Çəhrayı",
+      "Bright Prism": "Parlaq prizma",
+      "Kando Default": "Defolt rənglər"
+    }
+  }
+}

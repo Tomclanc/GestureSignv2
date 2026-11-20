@@ -20,7 +20,24 @@ public sealed partial class MainWindow
     {
         if (!DefaultGestureNames.Contains(name)) return null;
         var gesture = _legacyData?.Gestures.FirstOrDefault(g => g.Name == name);
-        if (gesture == null || gesture.PointPatterns.Count == 0) return null;
+        return gesture is null ? null : DescribeGesture(gesture);
+    }
+
+    private string GestureDisplayName(LegacyGesture gesture)
+    {
+        if (DefaultGestureNames.Contains(gesture.Name) || IsLegacyGeneratedGestureName(gesture.Name))
+            return DescribeGesture(gesture) ?? DisplayName(gesture.Name);
+        return DisplayName(gesture.Name);
+    }
+
+    private static bool IsLegacyGeneratedGestureName(string name)
+        => name.Length == 6 &&
+           name.All(character => character is >= 'a' and <= 'z' or >= '0' and <= '9') &&
+           name.Any(char.IsAsciiDigit) && name.Any(char.IsAsciiLetter);
+
+    private string? DescribeGesture(LegacyGesture gesture)
+    {
+        if (gesture.PointPatterns.Count == 0) return null;
         var paths = gesture.PointPatterns;
         double Extent(IReadOnlyList<(double X, double Y)> p) => p.Count == 0 ? 0 : Math.Max(p.Max(v => v.X) - p.Min(v => v.X), p.Max(v => v.Y) - p.Min(v => v.Y));
         double size = paths.Max(Extent);
@@ -31,14 +48,23 @@ public sealed partial class MainWindow
         int fixedCount = paths.Count - moving.Length;
         var directions = moving.Select(p => GesturePathDirections(p, size * .12)).ToArray();
         bool held = fixedCount == 1 && moving.Length == 1;
-        string Caption(string suffix) => held
-            ? IntentFormat("Hold one finger; other finger " + suffix.Replace("{1}", "{0}"), directions[0])
-            : IntentFormat("{0}-finger " + suffix, gesture.FingerCount, directions[0]);
+        string Caption(string suffix)
+        {
+            if (held)
+                return IntentFormat("Hold one finger; other finger " + suffix.Replace("{1}", "{0}"), directions[0]);
+            var movement = IntentFormat("{0}-finger " + suffix, moving.Length, directions[0]);
+            return WithHeldFingers(movement);
+        }
+        string WithHeldFingers(string movement) => fixedCount == 0 ? movement
+            : F("{0}指固定，{1}", "Hold {0} finger(s) · {1}", fixedCount, movement);
+
         if (directions.Distinct().Count() != 1) return Caption("combined paths");
         string dir = directions[0];
-        if (dir.Length == 1)
-            return Caption(dir switch { "←" => "swipe left", "→" => "swipe right", "↑" => "swipe up", _ => "swipe down" });
-        if (name == "S形手势" && dir.Length > 2) return Caption("draw S");
+        var swipe = dir switch { "←" => "swipe left", "→" => "swipe right", "↑" => "swipe up", "↓" => "swipe down", _ => null };
+        if (swipe is not null) return Caption(swipe);
+        if (dir is "↘" or "↗" or "↙" or "↖")
+            return WithHeldFingers(F("{0}指斜滑（{1}）", "{0}-finger diagonal swipe ({1})", moving.Length, dir));
+        if (gesture.Name == "S形手势" && dir.Length > 2) return Caption("draw S");
         if (dir.Length == 2 && dir[0] != dir[1]) return Caption("turn ({1})");
         return Caption("curved path");
     }
@@ -64,7 +90,11 @@ public sealed partial class MainWindow
         {
             double dx = simplified[i].X-simplified[i-1].X, dy = simplified[i].Y-simplified[i-1].Y;
             if (Math.Sqrt(dx*dx+dy*dy) < tolerance) continue;
-            string next = Math.Abs(dx) > Math.Abs(dy) ? (dx > 0 ? "→" : "←") : (dy > 0 ? "↓" : "↑");
+            var x = Math.Abs(dx);
+            var y = Math.Abs(dy);
+            string next = Math.Min(x, y) >= Math.Max(x, y) * .6
+                ? (dx > 0 ? (dy > 0 ? "↘" : "↗") : (dy > 0 ? "↙" : "↖"))
+                : x > y ? (dx > 0 ? "→" : "←") : (dy > 0 ? "↓" : "↑");
             if (!result.EndsWith(next, StringComparison.Ordinal)) result += next;
         }
         return result;

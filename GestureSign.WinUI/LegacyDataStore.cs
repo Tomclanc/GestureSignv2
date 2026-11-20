@@ -991,7 +991,13 @@ internal sealed class LegacyDataStore
 
     private static bool EnsureSettingsWindowIgnored(JsonArray root)
     {
-        if (File.Exists(SettingsWindowIgnoreRemovalMarkerPath()) || root.OfType<JsonObject>().Any(IsSettingsWindowIgnore))
+        var existing = root.OfType<JsonObject>().FirstOrDefault(IsSettingsWindowIgnore);
+        if (existing is not null && !string.Equals(existing.StringValue("MatchString", ""), "GestureSignV2.WinUI.exe", StringComparison.OrdinalIgnoreCase))
+        {
+            existing["MatchString"] = "GestureSignV2.WinUI.exe";
+            return true;
+        }
+        if (File.Exists(SettingsWindowIgnoreRemovalMarkerPath()) || existing is not null)
             return false;
 
         root.Add(new JsonObject
@@ -999,7 +1005,7 @@ internal sealed class LegacyDataStore
             ["$type"] = "GestureSign.Common.Applications.IgnoredApp, GestureSign.Common",
             ["Name"] = "GestureSign V2",
             ["MatchUsing"] = 2,
-            ["MatchString"] = "GestureSign.WinUI.exe",
+            ["MatchString"] = "GestureSignV2.WinUI.exe",
             ["IsRegEx"] = false,
             ["IsEnabled"] = true
         });
@@ -1009,7 +1015,9 @@ internal sealed class LegacyDataStore
     private static bool IsSettingsWindowIgnore(JsonObject app)
         => app.StringValue("$type", "").Contains("IgnoredApp", StringComparison.Ordinal)
            && string.IsNullOrWhiteSpace(app.StringValue("IgnoredGesture", ""))
-           && string.Equals(app.StringValue("MatchString", ""), "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase);
+           && (string.Equals(app.StringValue("MatchString", ""), "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase)
+               || string.Equals(app.StringValue("MatchString", ""), "GestureSignV2.exe", StringComparison.OrdinalIgnoreCase)
+               || string.Equals(app.StringValue("MatchString", ""), "GestureSignV2.WinUI.exe", StringComparison.OrdinalIgnoreCase));
 
     private static string SettingsWindowIgnoreRemovalMarkerPath()
         => Path.Combine(LocalApplicationDataPath(), "SettingsWindowIgnoreRemoved.marker");
@@ -1165,6 +1173,7 @@ internal sealed class LegacyDataStore
                 MinimumPointDistance = settings.IntValue("MinimumPointDistance", 20),
                 Opacity = settings.DoubleValue("Opacity", 0.35),
                 ShowTrayIcon = settings.BoolValue("ShowTrayIcon", true),
+                ShowGlobalSearch = settings.BoolValue("ShowGlobalSearch", true),
                 SendErrorReport = settings.BoolValue("SendErrorReport", true),
                 RegisterTouchPad = settings.BoolValue("RegisterTouchPad", true),
                 PreferWindowsTouchPadGestures = settings.BoolValue("PreferWindowsTouchPadGestures", false),
@@ -1377,6 +1386,7 @@ internal sealed record LegacyOptions
     public int MinimumPointDistance { get; init; } = 20;
     public double Opacity { get; init; } = 0.35;
     public bool ShowTrayIcon { get; init; } = true;
+    public bool ShowGlobalSearch { get; init; } = true;
     public bool SendErrorReport { get; init; } = true;
     public bool RegisterTouchPad { get; init; } = true;
     public bool PreferWindowsTouchPadGestures { get; init; }

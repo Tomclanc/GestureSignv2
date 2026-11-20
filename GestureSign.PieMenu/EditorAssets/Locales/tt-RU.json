@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Электрон почта",
+      "file-browser": "Файл браузеры",
+      "paint": "Буяу",
+      "submenu": "Кушымталар",
+      "terminal": "Терминал",
+      "web-browser": "Веб-браузер"
+    },
+    "audio": {
+      "mute": "Тыю",
+      "next-track": "Киләсе трек",
+      "play-pause": "Уйна / Пауза",
+      "previous-track": "Алдагы трек",
+      "submenu": "Аудио"
+    },
+    "bookmarks": {
+      "desktop": "Эш өстәле",
+      "documents": "Документлар",
+      "downloads": "Йөкләүләр",
+      "home": "Өй",
+      "music": "Музыка",
+      "pictures": "Рәсемнәр",
+      "submenu": "Кыстармалар",
+      "videos": "Видео"
+    },
+    "clipboard": {
+      "copy": "Копия",
+      "cut": "Киселгән",
+      "paste": "Язма урнаштыру",
+      "submenu": "Такта"
+    },
+    "name": "Мисал менюсы",
+    "next-workspace": "Киләсе эш урыны",
+    "previous-workspace": "Алдагы эш урыны",
+    "web-links": {
+      "kando-on-discord": "Кандо",
+      "kando-on-github": "GandHub",
+      "kando-on-kofi": "Ко-фида Кандо",
+      "kando-on-youtube": "Кандо YouTube",
+      "submenu": "Веб сылтамалар"
+    },
+    "windows": {
+      "close-window": "Тәрәзәне ябу",
+      "submenu": "Windows",
+      "tile-left": "Плитка Сул",
+      "tile-right": "Плитка уң",
+      "toggle-maximize": "Максимизацияне алыштырыгыз"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Ябык меню"
+    },
+    "close-submenu": {
+      "name": "Субмену ябу"
+    },
+    "delay": {
+      "name": "Тоткарлау"
+    },
+    "execute-command": {
+      "name": "Команда үтәү"
+    },
+    "execute-macro": {
+      "name": "Макроны башкар"
+    },
+    "focus-window": {
+      "name": "Фокус тәрәзәсе"
+    },
+    "inhibit-shortcuts": {
+      "name": "Кыска юлларны тыю"
+    },
+    "open-file": {
+      "name": "Файлны ачу"
+    },
+    "open-menu": {
+      "name": "Ачык меню"
+    },
+    "open-settings": {
+      "name": "Ачык көйләүләр"
+    },
+    "open-uri": {
+      "name": "URI ачыгыз"
+    },
+    "send-tcp-message": {
+      "name": "TCP хәбәр җибәр"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket хәбәрен җибәрегез"
+    },
+    "set-clipboard": {
+      "name": "Такта урнаштырыгыз"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Техника төймәсе",
+      "name": "Хоткийны охшату",
+      "recording-placeholder": "Хотки языгыз…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Субмену"
+    }
+  },
+  "native": {
+    "action": "Эш",
+    "action-value": "Кыска юл, юл, URL, текст яки JSON",
+    "choose-icon": "Икона сайлагыз",
+    "condition-invalid": "Дөрес тәрәзә яки кушымта шартын кертегез, мәсәлән / блокнот / i.",
+    "configuration": "Пирог меню конфигурациясе",
+    "editor": "Пирог меню редакторы",
+    "exported": "{0} файлына экспортланды",
+    "fixed-angle": "Туры почмак (0 ° = өскә)",
+    "fixed-x": "Тикшерелгән X (монитор аша 0–1)",
+    "fixed-y": "Тикшерелгән Y (монитордан 0–1)",
+    "icon-invalid-image": "192 КБ га кадәр PNG, JPEG, GIF, WebP яки ICO рәсемен сайлагыз.",
+    "icon-library": "Икона китапханәсе",
+    "icon-next": "Киләсе иконалар",
+    "icon-no-results": "Икона табылмады.",
+    "icon-pick-file": "Рәсем яки кушымтаны сайлагыз",
+    "icon-previous": "Алдагы иконалар",
+    "icon-use-image": "Рәсем кулланыгыз",
+    "imported": "Импортланган {0} меню (лар). Импортланган боерыкларны кулланганчы карагыз, аннары саклагыз.",
+    "item-icon": "Предмет иконасы",
+    "item-order": "Предмет тәртибе",
+    "label": "Ярлык",
+    "move-down": "Түбәнгә күчегез",
+    "move-up": "Күчерегез",
+    "name": "Меню исеме",
+    "new-menu": "Яңа меню",
+    "off": "Сүндерелгән",
+    "on": "Кабызылган",
+    "palette": "Төсләр палитрасы",
+    "preview": "Алдан карау менюсы",
+    "remove": "Чыгар",
+    "save": "Менюларны саклагыз",
+    "saved": "Меню конфигурациясе сакланган.",
+    "shortcut-clear": "Чистарту",
+    "shortcut-cleared": "Кыска юл чистартылды.",
+    "shortcut-config-changed": "Меню конфигурациясе дискта үзгәрде. Бу кыска юлны куллану өчен хәзерге менюларны саклагыз.",
+    "shortcut-in-use": "Windows хәбәр итә, бу кыска юл инде кулланыла.",
+    "shortcut-invalid": "Бер ачкычны кертегез, һәм бу кыска юл өчен рөхсәт ителгән үзгәртүчеләр.",
+    "shortcut-record": "Язу кыска юл",
+    "shortcut-save-new-menu": "Аның кыска юлын активлаштыру өчен бу яңа менюны саклагыз.",
+    "shortcut-saved": "Кыска юл сакланган: {0}. Тиз хәрәкәтләр кушылганда менюны ачу өчен кулланыгыз.",
+    "shortcut-stop": "Язуны туктатыгыз",
+    "shortcut-unavailable": "Windows бу кыска юлны теркәлтә алмады."
+  },
+  "settings": {
+    "add-menu-items": "Меню әйберләрен өстәгез",
+    "all-menus": "Барлык менюлар",
+    "anchored-mode": "Анкор режимы",
+    "app-condition": "Конкрет кушымталар белән чикләнегез",
+    "area-condition-bottom-placeholder": "Төб",
+    "area-condition-left-placeholder": "Сул",
+    "area-condition-right-placeholder": "Уң",
+    "area-condition-top-placeholder": "Өске",
+    "cancel": "Тәмамлау",
+    "create-menu-button": "Меню өстәргә",
+    "delete-menu": "Менюны бетерегез",
+    "delete-menu-item": "Меню пунктын бетерегез",
+    "edit-submenu": "Субменюны үзгәртү",
+    "export-menu": "Экспорт менюсы",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Маркировка режимын кушу",
+      "close-menu": "Ябык меню",
+      "do-nothing": "Бернәрсә дә эшләмә",
+      "enable-marking-mode-info": "Маркировка режимы кушылган очракта, сез тычканны өстенә сузып әйберләрне сайлый аласыз.",
+      "enable-turbo-mode": "Turbo режимын эшләгез",
+      "enable-turbo-mode-info": "Turbo Mode кушылган очракта, сез Shift яки Ctrl кебек үзгәртүче ачкычны тотып торсагыз, ишарәләр ясый аласыз.",
+      "interaction-modes": "Interзара бәйләнеш режимнары",
+      "middle-mouse-button-behavior": "Тычканның урта төймәсе",
+      "middle-mouse-button-behavior-info": "Бу меню күрсәтелгәндә тычканның урта төймәсе басылганда нәрсә булачагын билгели.",
+      "move-pointer-to-menu-center": "Күрсәткечне меню үзәгенә күчерегез",
+      "move-pointer-to-menu-center-info": "Тикшерелсә, тычкан күрсәткече кирәк булганда меню яки субменю үзәгенә күчереләчәк. Бу меню экран читенә бик якын ачылса яки үзәкләштерелгән режимда меню ачылса, бу булырга мөмкин.",
+      "require-click-for-hover-mode": "Hover Mode сайлау өчен басыгыз",
+      "require-click-for-hover-mode-info": "Тикшерелмәсә, Hover Mode ярдәмендә менюлар өчен тычкан алар өстенә күчерелгәч, әйберләр шунда ук сайланачак.",
+      "right-mouse-button-behavior": "Тычканның уң төймәсе",
+      "right-mouse-button-behavior-info": "Бу меню күрсәтелгәндә тычканның уң төймәсе басылганда нәрсә булачагын билгели.",
+      "select-item": "Предметны сайлагыз",
+      "select-parent": "Бер дәрәҗәгә күтәрелү",
+      "trigger-center-click-on-key-release": "Centerзәк өстендә кыска юл чыгару менюсын ябу",
+      "trigger-center-click-on-key-release-info": "Бу меню үзәгендә йөргәндә ачкыч чыкканда үзәккә басу эш процессына этәргеч бирәчәк."
+    },
+    "hover-mode": "Говер режимы",
+    "icon-picker-dialog": {
+      "search-placeholder": "Эзләү иконалары…"
+    },
+    "import-menu": "Импорт менюсы",
+    "menu-behavior": "Меню тәртибе",
+    "menu-conditions": "Меню шартлары",
+    "menu-themes-dialog": {
+      "default-colors": "Килешү төсләр",
+      "enable-menu-animations": "Меню анимацияләре",
+      "title": "Меню темалары"
+    },
+    "no-matching-menus": "Минюлар табылмады.",
+    "no-menus": "Сездә менюлар юк.",
+    "not-bound": "Чик түгел",
+    "quick-select-key-label": "Тиз сайлау ачкычы",
+    "quick-select-key-recording": "Ачкычны сайлагыз ...",
+    "shortcut-info": "Бу кыска юл менюны ача. Анда бер нормаль ачкыч һәм Ctrl, Alt, яки Shift кебек үзгәртүчеләр булырга тиеш. Язганда, сез барлык төймәләрне берьюлы басарга тиеш түгел, сез аларны бер-бер артлы баса аласыз. Әгәр дә кыска юл башка менюга бәйләнгән булса, бу файдалы!",
+    "shortcut-label": "Кыска юл",
+    "shortcut-recording": "Кыска юлны басыгыз…",
+    "window-condition": "Аерым тәрәзә исемнәре белән чикләнегез",
+    "workflow-editor": {
+      "add-action": "Эш өстәү",
+      "select-workflow-name": "Эш процессын сайлагыз"
+    },
+    "anchored-mode-info": "Субменусларны ата-аналар менюсы белән бер үк урында ачыгыз. Моны тикшерү, Марклау режимын һәм Турбо режимын сүндерәчәк.",
+    "fixed-position-mode": "Тикшерелгән позиция режимы",
+    "fixed-position-mode-info": "Менюны курсор урынына экрандагы тотрыклы урында ачыгыз.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Сулдан аска позиция куегыз",
+      "bottom-right-preset-tooltip": "Позицияне уңнан аска куегыз",
+      "centered-preset-tooltip": "Positionзәккә позиция куегыз",
+      "confirm": "Бу позицияне кулланыгыз",
+      "top-left-preset-tooltip": "Сулга өскә позиция куегыз",
+      "top-right-preset-tooltip": "Позицияне уңга куегыз"
+    },
+    "fixed-position-tooltip": "Туры позицияне сайлагыз",
+    "hover-mode-info": "Электр кулланучылары өчен генә! Алар өстендә йөреп әйберләрне сайлагыз."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Килешү",
+      "clean-circle": "Чиста түгәрәк",
+      "neon-lights": "Неон утлары",
+      "purity": "Чисталык",
+      "rainbow-labels": "Салават күпере"
+    },
+    "presets": {
+      "Blue Glass": "Зәңгәр пыяла",
+      "Dark Night": "Караңгы төн",
+      "Cotton Candy": "Пахта конфеты",
+      "Dark and Cozy": "Караңгы һәм уңайлы",
+      "Blue Glow": "Зәңгәр ялтыравык",
+      "Green Glow": "Яшел ялтыравык",
+      "Electric": "Электр",
+      "Orange": "Алтынсары",
+      "Pink": "Алсу",
+      "Bright Prism": "Якты призма",
+      "Kando Default": "Килешү төсләр"
+    }
+  }
+}

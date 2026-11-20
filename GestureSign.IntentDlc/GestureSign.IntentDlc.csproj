@@ -1,6 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Version>18.4.7</Version><OutputType>WinExe</OutputType>
+    <AssemblyName>GestureSignV2.IntentDlc</AssemblyName>
+    <AssemblyTitle>GestureSignV2.IntentDlc</AssemblyTitle>
+    <Description>GestureSignV2.IntentDlc</Description>
     <IntentBackend Condition="'$(IntentBackend)' == ''">Cpu</IntentBackend>
     <TargetFramework>net10.0</TargetFramework>
     <TargetFramework Condition="'$(IntentBackend)' == 'Hardware'">net10.0-windows10.0.26100.0</TargetFramework>
@@ -8,6 +11,7 @@
     <DefineConstants Condition="'$(IntentBackend)' == 'Hardware'">$(DefineConstants);INTENT_HARDWARE</DefineConstants>
     <ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable>
     <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <ApplicationIcon>..\GestureSign.WinUI\Assets\logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest><NoWarn>$(NoWarn);WFO1000</NoWarn>
   </PropertyGroup>
   <ItemGroup>

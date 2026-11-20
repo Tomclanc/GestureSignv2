@@ -45,3 +45,17 @@ Check(!TemplateTurnEvidence.StrongMatch([l,l,l], [l,l,l], 99, 60), "Three-finger
 Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], double.NaN, 60), "NaN similarity was trusted.");
 Check(!TemplateTurnEvidence.StrongMatch([l,l], [l,l], 99, double.NaN), "NaN runner-up was trusted.");
 Console.WriteLine("PASS: strong-template thresholds, ambiguity, contact count and scrolling safeguards.");
+
+var lowerE = new Point[]
+{
+    new(0, 45), new(90, 45), new(95, 30), new(84, 14), new(64, 8), new(45, 14),
+    new(29, 33), new(25, 55), new(33, 73), new(53, 80), new(82, 80), new(142, 80)
+};
+var secondFinger = lowerE.Select(p => new Point(p.X + 30, p.Y + 35)).ToArray();
+var resized = new[] { lowerE, secondFinger }.Select(path => path.Select(p => new Point(p.X * 2, p.Y * 2)).ToArray()).ToArray();
+Check(TemplateTurnEvidence.Turn(lowerE) < 45, "The e fixture no longer exercises the interior-turn fallback.");
+Check(TemplateTurnEvidence.StrongMatch(resized, [lowerE, secondFinger], 94, 76), "A deliberate two-finger e with aligned ends was rejected.");
+Check(!TemplateTurnEvidence.StrongMatch([line, line], [lowerE, secondFinger], 94, 76), "Straight scrolling gained the looping-template exemption.");
+Check(!TemplateTurnEvidence.StrongMatch([lowerE, line], [lowerE, secondFinger], 94, 76), "A single curved finger gained the two-finger exemption.");
+Check(!TemplateTurnEvidence.StrongMatch(resized, [lowerE, secondFinger], 94, 89), "An ambiguous e gained the strong-template exemption.");
+Console.WriteLine("PASS: two-finger e with aligned ends, straight scrolling and ambiguous candidates.");

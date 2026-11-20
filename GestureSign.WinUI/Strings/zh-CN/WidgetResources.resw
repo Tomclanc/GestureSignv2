@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>快捷操作</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>用独立快捷键唤起环形菜单。</value>
+  </data>
+</root>

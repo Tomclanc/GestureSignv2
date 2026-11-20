@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ელ.ფოსტა",
+      "file-browser": "ფაილების ბრაუზერი",
+      "paint": "ხატვა",
+      "submenu": "აპები",
+      "terminal": "ტერმინალი",
+      "web-browser": "ვებ ბრაუზერი"
+    },
+    "audio": {
+      "mute": "ხმა ჩააქრე",
+      "next-track": "შემდეგი ტრეკი",
+      "play-pause": "თამაში / პაუზა",
+      "previous-track": "წინა სიმღერა",
+      "submenu": "აუდიო"
+    },
+    "bookmarks": {
+      "desktop": "დესკტოპი",
+      "documents": "დოკუმენტები",
+      "downloads": "ჩამოტვირთვები",
+      "home": "მთავარი",
+      "music": "მუსიკა",
+      "pictures": "სურათები",
+      "submenu": "სანიშნეები",
+      "videos": "ვიდეოები"
+    },
+    "clipboard": {
+      "copy": "ნაკრები",
+      "cut": "ჭრა",
+      "paste": "ჩასმა",
+      "submenu": "ბუფერში"
+    },
+    "name": "მაგალითი მენიუ",
+    "next-workspace": "შემდეგი სამუშაო სივრცე",
+    "previous-workspace": "წინა სამუშაო სივრცე",
+    "web-links": {
+      "kando-on-discord": "კანდო უთანხმოებაზე",
+      "kando-on-github": "კანდო GitHub-ზე",
+      "kando-on-kofi": "კანდო კო-ფიზე",
+      "kando-on-youtube": "კანდო YouTube-ზე",
+      "submenu": "ვებ ბმულები"
+    },
+    "windows": {
+      "close-window": "ფანჯრის დახურვა",
+      "submenu": "ფანჯრები",
+      "tile-left": "ფილა მარცხნივ",
+      "tile-right": "კრამიტი მარჯვნივ",
+      "toggle-maximize": "გადართეთ მაქსიმიზაცია"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "მენიუს დახურვა"
+    },
+    "close-submenu": {
+      "name": "დახურეთ ქვემენიუ"
+    },
+    "delay": {
+      "name": "დაგვიანება"
+    },
+    "execute-command": {
+      "name": "შეასრულეთ ბრძანება"
+    },
+    "execute-macro": {
+      "name": "შეასრულეთ მაკრო"
+    },
+    "focus-window": {
+      "name": "ფოკუსის ფანჯარა"
+    },
+    "inhibit-shortcuts": {
+      "name": "მალსახმობების დათრგუნვა"
+    },
+    "open-file": {
+      "name": "ფაილის გახსნა"
+    },
+    "open-menu": {
+      "name": "გახსენით მენიუ"
+    },
+    "open-settings": {
+      "name": "გახსენით პარამეტრები"
+    },
+    "open-uri": {
+      "name": "გახსენით URI"
+    },
+    "send-tcp-message": {
+      "name": "TCP შეტყობინების გაგზავნა"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket შეტყობინების გაგზავნა"
+    },
+    "set-clipboard": {
+      "name": "ბუფერის დაყენება"
+    },
+    "simulate-hotkey": {
+      "hotkey": "სწრაფი კლავიატურა",
+      "name": "Hotkey-ის სიმულაცია",
+      "recording-placeholder": "აკრიფეთ ცხელი გასაღები…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ქვემენიუ"
+    }
+  },
+  "native": {
+    "action": "მოქმედება",
+    "action-value": "მალსახმობი, ბილიკი, URL, ტექსტი ან JSON",
+    "choose-icon": "აირჩიეთ ხატი",
+    "condition-invalid": "შეიყვანეთ სწორი ფანჯარა ან აპის მდგომარეობა, მაგალითად /notepad/i.",
+    "configuration": "Pie მენიუს კონფიგურაცია",
+    "editor": "Pie მენიუს რედაქტორი",
+    "exported": "ექსპორტირებულია {0}-ში",
+    "fixed-angle": "ფიქსირებული კუთხე (0° = ზემოთ)",
+    "fixed-x": "დაფიქსირდა X (0–1 მონიტორზე)",
+    "fixed-y": "დაფიქსირდა Y (0–1 მონიტორის ქვემოთ)",
+    "icon-invalid-image": "აირჩიეთ PNG, JPEG, GIF, WebP ან ICO სურათი 192 კბ-მდე.",
+    "icon-library": "ხატების ბიბლიოთეკა",
+    "icon-next": "შემდეგი ხატები",
+    "icon-no-results": "ხატები ვერ მოიძებნა.",
+    "icon-pick-file": "აირჩიეთ სურათი ან აპლიკაცია",
+    "icon-previous": "წინა ხატები",
+    "icon-use-image": "გამოიყენეთ სურათი",
+    "imported": "იმპორტირებულია {0} მენიუ(ები). გადახედეთ იმპორტირებულ ბრძანებებს მათ გამოყენებამდე, შემდეგ შეინახეთ.",
+    "item-icon": "ელემენტის ხატულა",
+    "item-order": "ნივთის შეკვეთა",
+    "label": "ლეიბლი",
+    "move-down": "ქვევით გადაადგილება",
+    "move-up": "ზევით გადაადგილება",
+    "name": "მენიუს სახელი",
+    "new-menu": "ახალი მენიუ",
+    "off": "გამორთული",
+    "on": "ჩართული",
+    "palette": "ფერების პალიტრა",
+    "preview": "გადახედვის მენიუ",
+    "remove": "ამოღება",
+    "save": "მენიუების შენახვა",
+    "saved": "მენიუს კონფიგურაცია შენახულია.",
+    "shortcut-clear": "მალსახმობის გასუფთავება",
+    "shortcut-cleared": "მალსახმობი გასუფთავდა.",
+    "shortcut-config-changed": "მენიუს კონფიგურაცია შეიცვალა დისკზე. შეინახეთ მიმდინარე მენიუები ამ მალსახმობის გამოსაყენებლად.",
+    "shortcut-in-use": "Windows იტყობინება, რომ ეს მალსახმობი უკვე გამოიყენება.",
+    "shortcut-invalid": "შეიყვანეთ ერთი გასაღები, პლუს ნებისმიერი მოდიფიკატორი, რომელიც დაშვებულია ამ მალსახმობისთვის.",
+    "shortcut-record": "ჩანაწერის მალსახმობი",
+    "shortcut-save-new-menu": "შეინახეთ ეს ახალი მენიუ მისი მალსახმობის გასააქტიურებლად.",
+    "shortcut-saved": "მალსახმობი შენახულია: {0}. გამოიყენეთ ის მენიუს გასახსნელად, როდესაც ჩართულია სწრაფი ქმედებები.",
+    "shortcut-stop": "შეაჩერე ჩაწერა",
+    "shortcut-unavailable": "Windows-მა ვერ დაარეგისტრირა ეს მალსახმობი."
+  },
+  "settings": {
+    "add-menu-items": "მენიუს ელემენტების დამატება",
+    "all-menus": "ყველა მენიუ",
+    "anchored-mode": "ანკორირებული რეჟიმი",
+    "app-condition": "შეზღუდვა კონკრეტული აპებით",
+    "area-condition-bottom-placeholder": "ქვედა",
+    "area-condition-left-placeholder": "მარცხენა",
+    "area-condition-right-placeholder": "მარჯვნივ",
+    "area-condition-top-placeholder": "ზედა",
+    "cancel": "გაუქმება",
+    "create-menu-button": "მენიუს დამატება",
+    "delete-menu": "მენიუს წაშლა",
+    "delete-menu-item": "მენიუს ელემენტის წაშლა",
+    "edit-submenu": "ქვემენიუს რედაქტირება",
+    "export-menu": "ექსპორტის მენიუ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "მარკირების რეჟიმის ჩართვა",
+      "close-menu": "მენიუს დახურვა",
+      "do-nothing": "არაფერი გააკეთო",
+      "enable-marking-mode-info": "მარკირების რეჟიმის ჩართვის შემთხვევაში, შეგიძლიათ აირჩიოთ ელემენტები მათზე მაუსის გადატანით.",
+      "enable-turbo-mode": "ჩართეთ ტურბო რეჟიმი",
+      "enable-turbo-mode-info": "თუ ჩართულია Turbo Mode, შეგიძლიათ შეასრულოთ ჟესტები მანამ, სანამ არ გეჭიროთ მოდიფიკატორის გასაღები, როგორიცაა Shift ან Ctrl.",
+      "interaction-modes": "ურთიერთქმედების რეჟიმები",
+      "middle-mouse-button-behavior": "მაუსის შუა ღილაკი",
+      "middle-mouse-button-behavior-info": "ეს განსაზღვრავს რა მოხდება მაუსის შუა ღილაკზე დაჭერისას მენიუს ჩვენებისას.",
+      "move-pointer-to-menu-center": "გადაიტანეთ მაჩვენებელი მენიუს ცენტრში",
+      "move-pointer-to-menu-center-info": "თუ მონიშნულია, საჭიროების შემთხვევაში მაუსის მაჩვენებელი გადაინაცვლებს მენიუს ან ქვემენიუს ცენტრში. ეს შეიძლება მოხდეს, თუ მენიუ იხსნება ეკრანის კიდესთან ძალიან ახლოს ან თუ მენიუ იხსნება ცენტრალურ რეჟიმში.",
+      "require-click-for-hover-mode": "მოითხოვეთ დაწკაპუნება Hover Mode არჩევისთვის",
+      "require-click-for-hover-mode-info": "მონიშვნის მოხსნის შემთხვევაში, ერთეულები შეირჩევა დაუყოვნებლივ, როდესაც მაუსი გადაადგილდება მათზე მენიუსთვის Hover Mode-ის გამოყენებით.",
+      "right-mouse-button-behavior": "მაუსის მარჯვენა ღილაკი",
+      "right-mouse-button-behavior-info": "ეს განსაზღვრავს რა მოხდება მაუსის მარჯვენა ღილაკზე დაჭერისას მენიუს ჩვენებისას.",
+      "select-item": "აირჩიეთ ელემენტი",
+      "select-parent": "ნავიგაცია ერთი დონის ზემოთ",
+      "trigger-center-click-on-key-release": "დახურეთ მენიუ მალსახმობის გამოშვების ცენტრში",
+      "trigger-center-click-on-key-release-info": "ეს გამოიწვევს ცენტრალური დაწკაპუნების სამუშაო პროცესს, როდესაც კლავიატურა გათავისუფლდება მენიუს ცენტრში."
+    },
+    "hover-mode": "Hover რეჟიმი",
+    "icon-picker-dialog": {
+      "search-placeholder": "ძებნის ხატები…"
+    },
+    "import-menu": "იმპორტის მენიუ",
+    "menu-behavior": "მენიუს ქცევა",
+    "menu-conditions": "მენიუს პირობები",
+    "menu-themes-dialog": {
+      "default-colors": "ნაგულისხმევი ფერები",
+      "enable-menu-animations": "მენიუს ანიმაციები",
+      "title": "მენიუს თემები"
+    },
+    "no-matching-menus": "მენიუები ვერ მოიძებნა.",
+    "no-menus": "მენიუ არ გაქვთ.",
+    "not-bound": "არ არის შეკრული",
+    "quick-select-key-label": "სწრაფი არჩევის გასაღები",
+    "quick-select-key-recording": "აირჩიეთ გასაღები…",
+    "shortcut-info": "ეს მალსახმობი ხსნის მენიუს. ის უნდა შეიცავდეს ერთ ნორმალურ კლავიშს და ნებისმიერი რაოდენობის მოდიფიკატორებს, როგორიცაა Ctrl, Alt ან Shift. ჩაწერისას თქვენ არ გჭირდებათ ყველა კლავიშის ერთდროულად დაჭერა, ასევე შეგიძლიათ დააჭიროთ მათ ერთმანეთის მიყოლებით. ეს სასარგებლოა, თუ მალსახმობი უკვე დაკავშირებულია სხვა მენიუში!",
+    "shortcut-label": "მალსახმობი",
+    "shortcut-recording": "დააჭირეთ მალსახმობას…",
+    "window-condition": "შეზღუდვა კონკრეტული ფანჯრის სათაურებით",
+    "workflow-editor": {
+      "add-action": "მოქმედების დამატება",
+      "select-workflow-name": "აირჩიეთ სამუშაო პროცესი"
+    },
+    "anchored-mode-info": "გახსენით ქვემენიუები იმავე პოზიციაზე, როგორც მშობელი მენიუ. ამის შემოწმებით გაითიშება მარკირების რეჟიმი და ტურბო რეჟიმი.",
+    "fixed-position-mode": "ფიქსირებული პოზიციის რეჟიმი",
+    "fixed-position-mode-info": "გახსენით მენიუ ეკრანზე ფიქსირებულ პოზიციაზე, კურსორის ნაცვლად.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "დააყენეთ პოზიცია ქვედა მარცხნივ",
+      "bottom-right-preset-tooltip": "დააყენეთ პოზიცია ქვედა მარჯვნივ",
+      "centered-preset-tooltip": "დააყენეთ პოზიცია ცენტრში",
+      "confirm": "გამოიყენეთ ეს პოზიცია",
+      "top-left-preset-tooltip": "დააყენეთ პოზიცია ზედა მარცხნივ",
+      "top-right-preset-tooltip": "დააყენეთ პოზიცია ზედა მარჯვნივ"
+    },
+    "fixed-position-tooltip": "აირჩიეთ ფიქსირებული პოზიცია",
+    "hover-mode-info": "მხოლოდ ძლიერი მომხმარებლებისთვის! აირჩიეთ ერთეულები მათზე დაჭერით."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ნაგულისხმევი",
+      "clean-circle": "სუფთა წრე",
+      "neon-lights": "ნეონის ნათურები",
+      "purity": "სიწმინდე",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Blue Glass": "ლურჯი მინა",
+      "Dark Night": "ბნელი ღამე",
+      "Cotton Candy": "ბამბის კანფეტი",
+      "Dark and Cozy": "ბნელი და მყუდრო",
+      "Blue Glow": "ლურჯი ბზინვარება",
+      "Green Glow": "მწვანე ბზინვარება",
+      "Electric": "ელექტრო",
+      "Orange": "ნარინჯისფერი",
+      "Pink": "ვარდისფერი",
+      "Bright Prism": "ნათელი პრიზმა",
+      "Kando Default": "ნაგულისხმევი ფერები"
+    }
+  }
+}

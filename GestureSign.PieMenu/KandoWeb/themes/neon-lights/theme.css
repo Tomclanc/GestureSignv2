@@ -1,0 +1,320 @@
+/*//////////////////////////////////////////////////////////////////////////////////////*/
+/*   _  _ ____ _  _ ___  ____                                                           */
+/*   |_/  |__| |\ | |  \ |  |    This file belongs to Kando, the cross-platform         */
+/*   | \_ |  | | \| |__/ |__|    pie menu. Read more on github.com/kando-menu/kando     */
+/*                                                                                      */
+/*//////////////////////////////////////////////////////////////////////////////////////*/
+
+/* SPDX-FileCopyrightText: Simon Schneegans <code@simonschneegans.de> */
+/* SPDX-License-Identifier: CC0-1.0 */
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.menu-node {
+  --child-distance: 100px;
+  --grandchild-distance: 16px;
+  --grandchild-size: 15px;
+  --center-size: 100px;
+  --child-size: 50px;
+  --connector-width: 5px;
+  --quick-key-distance: 38px;
+  --menu-transition: all 250ms cubic-bezier(0.775, 1.325, 0.535, 1);
+  --opacity-transition: opacity 250ms ease;
+
+  transition: var(--menu-transition);
+
+  /* Positioning ---------------------------------------------------------------------- */
+
+  /* This theme does not render grandchild items. Children are displayed around the
+     active node. */
+  &.child {
+    transform: translate(calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-x)),
+        calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-y)));
+  }
+
+  /* If there is a hovered child node, we scale all children up a bit to create a cool
+     zoom effect. The hovered child itself is scaled up even more. */
+  &.active:has(>.hovered)>.child {
+    transform: scale(calc(1.5 - pow(var(--angle-diff) / 180, 0.25) * 0.5)) translate(calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-x)),
+        calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-y)));
+
+    &.hovered {
+      transform: scale(1.5) translate(calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-x)),
+          calc(max(var(--child-distance), 10px * var(--sibling-count)) * var(--dir-y)));
+    }
+
+    /* Grandchild items are hidden with this theme, but we have to position them
+     nevertheless to allow for smooth transitions when showing or hiding them. */
+    &.grandchild {
+      transform: translate(calc(var(--grandchild-distance) * var(--dir-x)),
+          calc(var(--grandchild-distance) * var(--dir-y)));
+    }
+  }
+
+
+  /* Theme Layers --------------------------------------------------------------------- */
+
+  /* We hide all icons by default. They will be shown further down in this file for the
+       center item and the child items. */
+  .icon-container {
+    opacity: 0;
+    color: white;
+    transition: var(--opacity-transition);
+    filter: drop-shadow(0 0 3px white) drop-shadow(0 0 10px var(--glow-color));
+  }
+
+  .arrow-layer,
+  .ring-slow-layer,
+  .ring-slow-layer::before,
+  .ring-fast-layer,
+  .ring-fast-layer::before,
+  .icon-layer {
+    position: absolute;
+    transition: var(--menu-transition);
+  }
+
+  /* The active menu item is the center of the menu. */
+  &.active>.arrow-layer,
+  &.active>.ring-slow-layer,
+  &.active>.ring-fast-layer,
+  &.active>.icon-layer {
+    top: calc(-1 * var(--center-size) / 2);
+    left: calc(-1 * var(--center-size) / 2);
+    width: var(--center-size);
+    height: var(--center-size);
+  }
+
+  &.active>.ring-slow-layer::before,
+  &.active>.ring-fast-layer::before {
+    top: 0;
+    left: 0;
+    width: var(--center-size);
+    height: var(--center-size);
+  }
+
+  .icon-layer::before {
+    content: '';
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.2), transparent 75%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .arrow-layer {
+    background: url(assets/arrow.svg) no-repeat center;
+    transform: scale(1.0) rotate(var(--hovered-child-angle));
+    opacity: 0;
+  }
+
+  &:has(.dragged)>.arrow-layer {
+    transform: scale(1.6) rotate(var(--pointer-angle));
+    transition: none;
+  }
+
+  .ring-slow-layer {
+    animation: rotate 10s linear infinite;
+    opacity: 0;
+
+    &::before {
+      content: '';
+      mask-image: url(assets/ring-mask.svg);
+      background-image: radial-gradient(circle,
+          transparent 20%,
+          rgba(120, 120, 120, 0.1) 27%,
+          rgba(120, 120, 120, 0.2) 30%,
+          rgba(120, 120, 120, 0.6) 33%,
+          rgb(120, 120, 120) 34%,
+          rgb(120, 120, 120) 36%,
+          rgba(120, 120, 120, 0.6) 37%,
+          rgba(120, 120, 120, 0.2) 40%,
+          rgba(120, 120, 120, 0.1) 47%,
+          transparent 60%)
+    }
+  }
+
+  .ring-fast-layer {
+    animation: rotate 2s linear infinite;
+    opacity: 0;
+    background-image: radial-gradient(circle, rgba(0, 0, 0, 0.3) 60%, transparent 70%);
+
+    &::before {
+      content: '';
+      mask-image: url(assets/ring-mask.svg);
+      background-image: radial-gradient(circle,
+          transparent 20%,
+          color-mix(in srgb, var(--glow-color) 10%, transparent) 27%,
+          color-mix(in srgb, var(--glow-color) 20%, transparent) 30%,
+          color-mix(in srgb, var(--glow-color) 60%, transparent) 33%,
+          white 34%,
+          white 36%,
+          color-mix(in srgb, var(--glow-color) 60%, transparent) 37%,
+          color-mix(in srgb, var(--glow-color) 20%, transparent) 40%,
+          color-mix(in srgb, var(--glow-color) 10%, transparent) 47%,
+          transparent 60%)
+    }
+  }
+
+  /* If the center item has a hovered child node, we scale it up and hide its icon. */
+  &.active:has(>.hovered)>.ring-fast-layer {
+    opacity: 1;
+
+    &::before {
+      transform: scale(2.0);
+    }
+  }
+
+  &.active:not(:has(>.hovered))>.ring-slow-layer {
+    opacity: 1;
+
+    &::before {
+      transform: scale(1.0);
+    }
+  }
+
+  &.active:has(.hovered)>.arrow-layer {
+    opacity: 1;
+    transform: scale(1.6) rotate(var(--hovered-child-angle));
+  }
+
+  &.active:has(.hovered.dragged)>.arrow-layer {
+    transform: scale(1.6) rotate(var(--pointer-angle));
+  }
+
+  /* If the parent or a child node is clicked, we scale it down to normal size. */
+  &.parent.hovered.clicked>.icon-layer,
+  &.child.hovered.clicked>.icon-layer {
+    transform: scale(0.8);
+  }
+
+    /* Center click effect */
+  &.active.clicked > .ring-slow-layer::before {
+    transform: scale(1.5) !important;
+    background-image: radial-gradient(circle,
+        transparent 20%,
+        color-mix(in srgb, var(--glow-color) 10%, transparent) 27%,
+        color-mix(in srgb, var(--glow-color) 20%, transparent) 30%,
+        color-mix(in srgb, var(--glow-color) 60%, transparent) 33%,
+        white 34%,
+        white 36%,
+        color-mix(in srgb, var(--glow-color) 60%, transparent) 37%,
+        color-mix(in srgb, var(--glow-color) 20%, transparent) 40%,
+        color-mix(in srgb, var(--glow-color) 10%, transparent) 47%,
+        transparent 60%) !important;
+  }
+
+  /* Show the icons of the center, parent and child items. */
+  &.parent>.icon-layer>.icon-container,
+  &.child>.icon-layer>.icon-container {
+    opacity: 1;
+  }
+
+  /* Child items are displayed around the active node. The parent node of the active
+       node is displayed in a similar style. */
+  &.parent>.icon-layer,
+  &.child>.icon-layer {
+    top: calc(-1 * var(--child-size) / 2);
+    left: calc(-1 * var(--child-size) / 2);
+    width: var(--child-size);
+    height: var(--child-size);
+  }
+
+  /* Grandchild items are invisible. The sizing is required for transitions from and to
+     this state. */
+  &.grandchild>.icon-layer {
+    top: calc(-1 * var(--grandchild-size) / 2);
+    left: calc(-1 * var(--grandchild-size) / 2);
+    width: var(--grandchild-size);
+    height: var(--grandchild-size);
+    opacity: 0;
+  }
+
+  /* We disable any transition for dragged items. */
+  &.dragged {
+    transition: none;
+  }
+
+/* Quick-Key Indicator -------------------------------------------------------------- */
+
+  .quick-key {
+    position: absolute;
+    top: calc(var(--dir-y, 0) * -36px);
+    left: calc(var(--dir-x, 0) * -36px);
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.1), transparent 75%);
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 0 0 5px #fff, 0 0 10px var(--glow-color), 0 0 20px var(--glow-color), 0 0 40px var(--glow-color) !important;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+    transition: var(--opacity-transition), var(--menu-transition);
+  }
+
+  &.child:not(.dragged) > .quick-key:not(:empty) {
+    opacity: 1;
+  }
+
+/* Connectors ----------------------------------------------------------------------- */
+
+  .connector {
+    height: 10px;
+    top: -5px;
+    background: radial-gradient(circle, #fff 2px, transparent 2.5px) repeat-x center / 14px 100%;
+    filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 6px var(--glow-color));
+    mask-image: linear-gradient(to right, transparent 80px, #000 50%, transparent calc(100% - 80px));
+    transition: var(--menu-transition);
+  }
+
+  &:has(.dragged) > .connector {
+    transition: none;
+  }
+}
+
+/* Center Text ------------------------------------------------------------------------ */
+
+.center-text {
+  color: white;
+  transition: var(--opacity-transition);
+  text-shadow: 0 0 10px var(--glow-color);
+  font-size: 16px;
+  line-height: 22px;
+  overflow: visible;
+}
+
+/* Selection Wedges ------------------------------------------------------------------- */
+
+.selection-wedges {
+  mask: radial-gradient(circle at var(--center-x) var(--center-y),
+      transparent 0%,
+      transparent 100px,
+      black 150px,
+      transparent 500px);
+
+  &.hovered {
+    background: conic-gradient(from calc(var(--start-angle)) at var(--center-x) var(--center-y),
+        var(--wedge-color) calc(var(--end-angle) - var(--start-angle)),
+        transparent calc(var(--end-angle) - var(--start-angle)));
+  }
+}
+
+.wedge-separators {
+  .separator {
+    background: linear-gradient(to right, transparent 50px, var(--separator-color) 100px, transparent 300px);
+  }
+}

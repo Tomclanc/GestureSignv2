@@ -1,0 +1,404 @@
+{
+    "settings": {
+        "general-settings-dialog": {
+            "hidden": "Skjult",
+            "color": "Farge",
+            "black": "Mørk",
+            "menu-sounds": "Menylyder",
+            "reload-sound-theme": "Last inn lydtemaet på nytt",
+            "advanced-menu-options-note": "Vanligvis, kan du levne disse innstillingene på standardverdiene.",
+            "reload-note": "Når du laster inn menytemaet, vil CSS-endringer bli tatt i bruk selv om en meny vises for øyeblikket. For endringer gjort i theme.json-filen, må du åpne menyen på nytt igjen.",
+            "settings-window-flavor": "Innstillinger-vindu fargevariant",
+            "sound-theme-info": "Et lydtema er en samling av lyder som spilles når du bruker menyen.",
+            "center-click-zone-radius-info": "Størrelsen på området i midten av menyen som kan brukes for å lukke eller navigere oppover. Standarden er 50 piksler.",
+            "minimum-gesture-length-info": "Rette bevegelser må være minst så lang for å velge et menyalternativ. Standarden er 150 piksler.",
+            "movement-threshold": "Bevegelsesterkel",
+            "minimum-submenu-distance-info": "Hvis en undermeny åpnes for nærme en overmenu, vil overmenyen flyttes vekk med denne distansen. Standarden er 150 piksler.",
+            "movement-threshold-info": "Mindre musebevegelser vil ikke bli tatt hensyn til i Markerings- eller Turbomodus. Standarden er 15 piksler.",
+            "minimum-gesture-length": "Minimumslengde for Bevegelse",
+            "minimum-gesture-angle": "Minimumsvinkel for Bevegelse",
+            "fixed-stroke-length-info": "Vanligvis, blir menyalternativer valgt når du stopper bevegelsen eller snur. Hvis du setter dette til en verdi over 0, vil dette endres: Nå vil menyalternativer bare velges hvis du dro det så langt vekk fra midten. Standarden er 0 piksler.",
+            "none": "Ingen",
+            "title": "Generelle innstillinger",
+            "message": "Alle innstillingene i Kando er lagret i en JSON-fil som du kan redigere, dele eller sikkerhetskopiere. Klikk [her] ({{link}}) for å åpne mappen hvor config.json filen er lagret.",
+            "check-for-new-versions": "Se etter nye versjoner",
+            "app-behavior": "Appens Oppførsel",
+            "check-for-new-versions-info": "Hvis dette er slått på, vil Kando vil vise en varsling når en ny versjon er tilgjengelig.",
+            "invisible-settings-button": "Usynlig innstillinger-knapp",
+            "invisible-settings-button-info": "Du kan fortsatt bruke knappen, den dukker opp når du holder musepekeren over den.",
+            "settings-button-position": "Innstillinger-knapp posisjon",
+            "top-left": "Topp Venstre",
+            "top-right": "Topp Høyre",
+            "bottom-left": "Bunn Venstre",
+            "bottom-right": "Bunn Høyre",
+            "settings-window-color-scheme": "Innstillinger-vindu fargetema",
+            "system": "System",
+            "transparent-light": "Gjennomsiktig Lyst",
+            "transparent-dark": "Gjennomsiktig Mørkt",
+            "transparent-system": "Gjennomsiktig System",
+            "sakura-light": "Sakura Lyst",
+            "sakura-dark": "Sakura Mørkt",
+            "sakura-system": "Sakura System",
+            "tray-icon-flavor": "Variant av systemstatusfeltikonet",
+            "white": "Hvit",
+            "enable-marking-mode": "Bruk Markeringsmodus",
+            "enable-marking-mode-info": "Når Markeringsmodus er påslått, kan du velge menyalternativer ved å dra musepekeren over dem.",
+            "menu-behavior": "Menyens Virkemåte",
+            "lazy-initialization": "Lat oppstart",
+            "move-pointer-to-menu-center": "Flytt musepekeren til midten av menyen",
+            "require-click-for-hover-mode": "Krev klikk for Hover-modusvalg",
+            "require-click-for-hover-mode-info": "Hvis ikke avkrysset, vil menyalternativer bli valgt umiddelbart når musepekeren flyttes over dem for menyer som bruker Hover-Modus.",
+            "enable-gamepad-support-info": "Hvis avkrysset, kan du bruke en tilkoblet kontroller for å styre menyen.",
+            "enable-gamepad-support": "Slå på kontrollerstøtte",
+            "sound-theme": "Lydtema",
+            "volume": "Volum",
+            "advanced-menu-options": "Avanserte Menyalternativer",
+            "center-click-zone-radius": "Senterklikksonens radius",
+            "minimum-submenu-distance": "Minimumsdistanse mellom under- og overmenyer",
+            "minimum-gesture-angle-info": "Mindre avvik fra rette bevegelser vil ikke velge menyalternativer. Standarden er 20°.",
+            "gesture-jitter-threshold": "Terskel for Bevegelsesjitter",
+            "gesture-jitter-threshold-info": "Mindre bevegelser vil ikke brukes i bevegelsesdeteksjonen. Standarden er 10 piksler.",
+            "developer-options": "Utviklerinnstillinger",
+            "reload-menu-theme": "Last inn menytemaet på nytt",
+            "gesture-pause-timeout": "Tidsavbrudd for Bevegelsespause",
+            "gesture-pause-timeout-info": "Stop bevegelsen så lenge for å utløse et valg. Standarden er 100ms.",
+            "fixed-stroke-length": "Satt Strøklengde",
+            "dev-tools-note": "Kando bruker to vinduer: Én for menyen og én for innstillingene. Du kan åpne utviklerverktøyene for å inspisere begge vinduene separat.",
+            "menu-window-dev-tools": "Inspiser meny",
+            "settings-window-dev-tools": "Inspiser innstillinger",
+            "light": "Lyst",
+            "dark": "Mørkt",
+            "lazy-initialization-info": "Hvis dette er slått på, vil menyvinduet bare lages mår menyen åpnes for første gang. Det gjør første åpning av menyen litt tregere, men det kan hjelpe med å unngå problemer når Kando startes for raskt under innlogging. Standard er av.",
+            "right-mouse-button-selects-parent": "Høyre museknapp velger overmenyen",
+            "volume-info": "Hovedvolumet til lydtemaet. Standaren er 0.5.",
+            "settings-button-position-info": "Velg skjermhjørnet hvor innstillinger-knappen skal vises.",
+            "settings-window-flavor-info": "Hvis du velger en gjennomsiktig variant, må du starte innstillinger-vinduet på nytt for å se endringen.",
+            "tray-icon-flavor-info": "Du kan også skjule ikonet i systemstatusfeltet.",
+            "settings-window-color-scheme-info": "Hvis du velger 'system', vil innstillinger-vinduet bruke samme fargetema som systemet ditt.",
+            "enable-turbo-mode": "Slå På Turbomodus",
+            "enable-turbo-mode-info": "Med Turbomodus påslått, kan du gjøre musebevegelser så lenge du holder inne en modifikatortast slik som Skift eller CTRL.",
+            "move-pointer-to-menu-center-info": "Hvis påslått, vil musepekeren flytter sil midten av an meny eller undermeny når nødvendig. Dette kan være tilfellet hvis en meny åpnes for nærme kanten av skjermen, eller hvis en meny åpnes i Sentermodus.",
+            "right-mouse-button-selects-parent-info": "Hvis ikke avkrysset, vil høyre museknapp lukke menyen umiddelbart i stedet.",
+            "learn-how-to-add-sound-themes": "Finn ut hvordan du kan legge til nye lydtemaer til Kando [her]({{link}})!"
+        },
+        "introduction-dialog": {
+            "chapter2": "Markeringsmodus",
+            "slide13-text": "Hvis du trenger hjelp med noe, kan du bli med i [Discord Serveren]({{link1}}) vår eller sjekke ut [Dokumentasjonen]({{link2}})!",
+            "slide1-title": "Kando gir deg en unik og effektiv måte å bruke datamaskinen på.",
+            "slide1-text": "Bla gjennom disse lysbildene for å finne ut hva Kando kan gjøre for deg! Du kan bruke kapittelmerkene til venstre for å raskt gå til en spesifikk del av introduksjonen.",
+            "show-again": "Vis denne dialogen igjen",
+            "slide4-text": "en undermeny vil **alltid** åpnes på musepekeren. Du **trenger ikke å vente på at animasjonen skal fullføres**. Stol på muskelhukommelsen og fortsett med valget!",
+            "slide8-text": "**Menyen reagerer på musebevegelsene dine!** En undermeny åpnes når du vil at den skal åpnes. Med litt øvelse, kan du velge menyalternativer uten å se på menyen i det hele tatt.",
+            "slide9-text": "Hvis du **holder en knapp trykt ned** (slik som _CTRL_, _Skift_, eller _Alt_) etter at du åpner menyen, kan du velge menyalternativer bare med å flytte musepekeren. Ingen klikking eller draging nødvendig.",
+            "chapter4": "Stegene Videre",
+            "title": "Velkommen til Kando!",
+            "slide2-text-standard": "Hvis du startet Kando for første gang, kan du bruke eksempelmenyen med CTRL+Mellomrom. Lukk den igjen med Escape-tasten eller med høyre museknapp hvor som helst på skjermen.",
+            "slide3-text": "I Kando, er **hele skjermen din et område du kan klikke på**! Du trenger ikke å sikte etter ikonene, du kan klikke hvor som helst i et menyalternativ's område. Dette gjør det mye mer effektivt å velge menyalternativer.",
+            "slide5-text": "For å **navigere tilbake**, trykk enten i overmenyen's område eller i midten av menyen.",
+            "slide7-text": "Klikk og dra over et menyalternativ for å bruke Markeringsmodus. **Hvis du stopper musebevegelsen eller snur retning på bevegelsen, vil den valgte undeermenyen åpnes!** Husk stien til et menyalternativ og tegn veien dit med tydelige sikksakk bevegelser.",
+            "slide2-title": "Åpne menyen!",
+            "slide2-text-no-shortcuts": "Hvis du startet Kando for første gang må du kanskje [gjøre noen ekstra steg på Linux for å få globale hurtigtaster til å virke]({{link}}). Når dette virker, kan du lukke en menu med Escape-tasten eller med høyre museknapp.",
+            "slide3-hint1": "Du kan også klikke her for å lukke menyen.",
+            "slide3-hint2": "Klikk hvor som helst for å velge menyalternativet.",
+            "slide5-hint": "Klikk hvor som helst her for å gå opp et nivå.",
+            "slide6-text": "På denne måten kan du raskt utforske menystrukturen.",
+            "slide7-title": "Bli raskere: Markeringsmodus",
+            "slide9-title": "Vær lynrask: Turbomodus",
+            "slide11-text": "**Ikke vær redd for feilvalg!** Valgene kjøres bare så snart du slipper museknappen i Markeringsmodus eller en tastaturtast i Turbomodus. Bruk dette for å utforske menyen!",
+            "slide12-title": "Det er mer!",
+            "slide12-text": "Kando har mange tilpasningsmuligheter. Du kan bruke det til å åpne apper, filer, kjøre tastaturmakroer og mange andre ting. Du kan [endre menystilen]({{link1}}), [legge til ikontemaer]({{link2}}) og til og med [bruke lyder]({{link3}}) i menyene dine!",
+            "chapter1": "Kom i gang",
+            "chapter5": "Få Hjelp",
+            "slide10-text": "**Ikke vent på at animasjonene skal fullføres!**. Bare tegn deg et sikksakk mønster gjennom menyen. Dette er den raskeste måten å velge menyaternativer!",
+            "chapter3": "Turbomodus"
+        },
+        "undo": "Angre",
+        "menu-themes-dialog": {
+            "light-dark-mode-info": "Hvis dette er slått på, kan du velge et ulikt tema og ulike farger ettersom systemet er i lys eller mørk modus.",
+            "open-theme-directory": "Åpne temamappen",
+            "menu-scale-info": "Bruk dette for å øke eller redusere størrelsen på menyene dine. Standarden er 1.0.",
+            "accent-colors": "Aksentfarger",
+            "dark": "Mørk Modus",
+            "light": "Lys Modus",
+            "accent-colors-info": "Hvert tema kan ha en ulik samling av aksentfarger.",
+            "no-accent-colors": "Dette temaet støtter ikke aksentfarger.",
+            "title": "Menytemaer",
+            "fade-in-time": "Ton-in tid",
+            "fade-in-time-info": "Tiden det tar for menyen å tones inn. Standarden er 150ms.",
+            "fade-out-time": "Ton-ut tid",
+            "fade-out-time-info": "Tiden det tar for menyen å tones ut. Standarden er 200ms.",
+            "menu-scale": "Menystørrelse",
+            "light-dark-mode": "Slå på lys/mørk modus",
+            "get-themes-online": "Få temaer fra internettet",
+            "create-your-own-themes": "Lag dine egne temaer",
+            "author": "av {{author}}",
+            "reset-color-picker": "Tilbakestill til standard"
+        },
+        "empty-collection-note": "Rediger tagger over eller legg til en helt ny meny til denne samlingen med knappen under.",
+        "menu-behavior-info": "Før du endrer disse innstillingene, anbefaler vi at du lærer hvorfor vi liker Kando's standardinnstillinger [her] ({{link}})!",
+        "icon-picker-dialog": {
+            "base64-hint": "Base64 enkodede ikoner gir deg en enkel måte å inkludere hvilken som helst type ikon i menyene dine. du kan bruke en tjeneste som [www.base64-image.de]({{link}}) for å konvertere et bilde til en base64-enkodet tekst. Dette virker også for animerte gif-er!",
+            "base64-example": "Base64 eksempel:",
+            "search-placeholder": "Søk ikoner…",
+            "hint": "Finn ut [her] ({{link}}) hvordan du kan legge til eller lage dine egne ikontemaer.",
+            "file-example": "file: URI eksempel:",
+            "url-example": "URL eksempel:"
+        },
+        "anchored-mode": "Forankret Modus",
+        "add-collection-tooltip": "Lag en ny menysamling. Bruk samlinger for å gruppere menyene dine etter tagger!",
+        "menu-behavior": "Menyoppførsel",
+        "anchored-mode-info": "Åpne undermenyer på samme posisjon som overmenyen. Hvis du slår dette på slås Markeringsmodus og Turbomodus av.",
+        "window-condition": "Begrens til Spesifikke Vindutitler",
+        "screen-area-picker": {
+            "invalid": "Pass på at det øverste venstre hjørnet er over og til venstre for det nederste høyre hjørnet.",
+            "bottom-right": "Dra denne til det nederste høyre hjørnet av skjermområdet ditt.",
+            "title": "Velg et Skjermområde",
+            "top-left-value": "Venstre: {{x}}, Topp: {{y}}",
+            "top-left": "Dra denne til øverste venstre hjørne av skjermområdet ditt.",
+            "bottom-right-value": "Høyre: {{x}}, Bunn: {{y}}",
+            "valid": "Flott! Du har valgt et godkjent skjermområde.",
+            "confirm": "Bruk dette området"
+        },
+        "window-picker-dialog": {
+            "result": "Du valgte \"{{name}}\".",
+            "start-countdown": "Start nedtllingen",
+            "instructions": "Trykk på knappen under og klikk inn i målvinduet innen de neste fem sekundene.",
+            "restart-countdown": "Start nedtellingen på nytt",
+            "countdown_one": "Velger om {{count}} sekund…",
+            "countdown_other": "Velger om {{count}} sekunder…",
+            "pick-app-name-title": "Velg et Appnavn",
+            "pick-window-title-title": "Velg en Vindustittel",
+            "confirm": "Bruk denne verdien"
+        },
+        "window-condition-info": "Bare vis menyen hvis det fokuserte vinduet's tittel inneholder en valgt tekst. Dette støtter regulære uttrykk slik som /youtube|vimeo/i.",
+        "duplicate-menu-item": "Dupliser menyalternativ",
+        "invalid-dropdown-selection": "Velg en…",
+        "not-bound": "Ikke Satt",
+        "file-picker": {
+            "select-file": "Velg en fil eller mappe",
+            "select-directory": "Veld en mappe"
+        },
+        "about-dialog": {
+            "title": "Om Kando",
+            "message": "Jeg lager Kando av ren lidenskap. Om du liker å bruke det like mye som jeg liker å lage det kan du [kjøpe meg en kaffe]({{link}})!\n\n💖 Simon",
+            "kando-version": "Kando Versjon",
+            "kando-backend": "Kando Backend",
+            "electron-version": "Electron Versjon",
+            "chrome-version": "Chrome Versjon",
+            "check-latest-release": "Sjekk nyeste utgivelse",
+            "read-release-notes": "Les utgivelsesnotatene"
+        },
+        "add-tags-placeholder": "Legg til tagger…",
+        "all-menus": "Alle Menyer",
+        "search-menus-placeholder": "Søk menyer…",
+        "no-menus": "Du har ingen menyer.",
+        "no-menus-note": "Hvis du slettet den siste med et uhell, kan du gjenopprette den med angre knappen.",
+        "no-matching-menus": "Fant ingen menyer.",
+        "no-matching-menus-note": "Kanskje du kan prøve et annet søkeord?",
+        "empty-collection": "Denne samlingen er tom.",
+        "create-menu-button": "Ny meny",
+        "duplicate-menu": "Dupliser meny",
+        "delete-menu": "Slett meny",
+        "add-menu-items": "Legg til menyalternativer",
+        "redo": "Gjør om",
+        "centered-mode": "Sentrert modus",
+        "centered-mode-info": "Åpne menyen i midten av skjermen istedet for på musepekeren.",
+        "hover-mode": "Hover-modus",
+        "hover-mode-info": "Kun for eksperter! Velg menyalternativer ved å hovere over dem.",
+        "menu-conditions": "menybetingelser",
+        "menu-conditions-info": "Du kan sette flere menyer til samme hurtigtast og velge ved hvilke betingelser hver meny skal vises.",
+        "app-condition": "Begrens til Spesifikke Apper",
+        "app-condition-info": "Vis menyen bare hvis en spesifikk app er i fokus. Du kan bruke regulære uttrykk slik som /firefox|chrome/i.",
+        "app-condition-placeholder": "Appnavn",
+        "app-condition-tooltip": "Velg en app",
+        "window-condition-placeholder": "Vindustittel",
+        "window-condition-tooltip": "Velg et vindu",
+        "area-condition": "Begrens til et Spesifikt Skjermområde",
+        "area-condition-info": "Bare vis menyen hvis musepekeren er i en gitt sone på skjermen. Området er gitt i piksler relativt til øverste venstre hjørne på hovedskjermen din. hvis du lar et felt stå tomt, er området ubegrenset i den retningen.",
+        "area-condition-top-placeholder": "Topp",
+        "area-condition-left-placeholder": "Venstre",
+        "area-condition-bottom-placeholder": "Bunn",
+        "area-condition-right-placeholder": "Høyre",
+        "area-condition-tooltip": "Velg et skjermområde",
+        "shortcut-label": "Hurtigtast",
+        "shortcut-info": "Denne hurtigtasten åpner menyen. Den må inneholde én normal tast og minst én modifikatortast slik som CTRL, Alt, eller Skift. Når du tar opp hurtigtasten, trenger du ikke å holde alle tastene samtidig, du kan også trykke på dem en etter en. Dette er nyttig hvis en hurtigtest er allerede satt til en annen meny!",
+        "shortcut-recording": "Trykk en hurtigtast…",
+        "shortcut-id-label": "Snarvei ID",
+        "tags": "Tagger",
+        "tags-info": "Tagger kan brukes. til å gruppere menyer i menysamlinger.",
+        "delete-menu-item": "Slett menyalternativ",
+        "cancel": "Avbryt"
+    },
+    "menu-items": {
+        "macro": {
+            "tip-1": "Per standard, legger Kando til 10 millisekunder ventetid før hvert tastetrykk. Du kan endre dette med \"delay\" egenskapen.",
+            "tip-2": "Du kan også redigere makroen for hånd. Dette er nyttig hvis du vil justere timingen av tastene."
+        },
+        "settings": {
+            "tip-1": "Dette menyalternativet åpner Kando-innstillingene."
+        },
+        "text": {
+            "placeholder": "Skriv inn en tekst…",
+            "tip-1": "Dette menyalternativet bruker utklippstavlen din for å lime inn teksten. Etter det er kjørt, vil utklippstavlen inneholde teksten."
+        },
+        "hotkey": {
+            "tip-1": "Når du tar opp en hurtigtast, trenger du ikke å trykke på alle tastene samtidig. Du kan trykke på dem en etter en.",
+            "tip-2": "Hvis du ikke kan ta opp en tast fordi den brukes av systemet, prøv å skriv navnet på tasten direkte.",
+            "tip-3": "Klikk [denne linken]({{link}}) for å se alle godkjente tastenavn."
+        },
+        "uri": {
+            "tip-2": "Du kan bruke dette menyalternativet for egendefinerte URI-skjemaer slik som slack:// eller zopmmtg://.",
+            "tip-1": "Du kan bruke URI-menyalternativet for å åpne en nettside med http:// protokollen.",
+            "tip-3": "Du kan bruke URI-menyalternativet for å åpne en mailto: link.",
+            "tip-4": "Bruk {{app_name}} for å sette inn navnet på appen som var i fokus når du åpnet menyen.",
+            "tip-5": "Bruk {{window_name}} for å sette inn navner på vinduet som var i fokus når du åpnet menyen.",
+            "tip-6": "Bruk {{pointer_x}} og {{pointer_y}} for å sette inn musepekerposisjonen hvor menyen ble åpnet."
+        },
+        "command": {
+            "tip-5": "Bruk {{pointer_x}} og {{pointer_y}} for å sette inn posisjonen på musepekeren hvor menyen ble åpnet.",
+            "tip-1": "Du kan bruke Kommando menyalternativet for å starte apper eller skripter.",
+            "tip-2": "Hvis banen til en kjørbar fil inneholder mellomrom, burde du \"sette den i anførselstegn\".",
+            "tip-3": "Bruk {{app_name}} for å sette inn navnet på appen som var i fokus når du åpnet menyen.",
+            "tip-4": "Bruk {{window_name}} for å sette inn navnet på vinduet som var i fokus når du åpnet menyen.",
+            "tip-6": "Klikk [her]({{link}}) for å finne kommandoene du kan bruke for å starte appene dine."
+        },
+        "file": {
+            "tip-1": "Du kan bruke dette menyalternativet for å åpne filer eller mapper."
+        },
+        "submenu": {
+            "tip-2": "Du kan også legge undermenyer i undermenyer.",
+            "name": "Undermeny",
+            "description": "Inneholder andre menyalternativer.",
+            "tip-1": "Undermenyer kan brukes for å gruppere menyalternativer.",
+            "tip-3": "Undermenyer kan brukes for å lage komplekse menystrukturer.",
+            "tip-4": "Du burde unngå å legge til flere enn tolv menyalternativer i en undermeny. Åtte er en grei mengde.",
+            "tip-5": "Du kan bruke de små lås-ikonene i forhåndvisningen for å låse et menyalternativ's posisjon i menyen.",
+            "tip-6": "Du kan ordne menyalternativer med å dra dem rundt i forhåndsvisningen.",
+            "tip-7": "Du kan slette en meny eller et menyalternativ med søppelikonet under."
+        },
+        "common": {
+            "delayed-option": "Vent på ton-ut animasjonen",
+            "delayed-option-info": "Nyttig hvis menyalternativet bruker et vindu som må være i fokus."
+        }
+    },
+    "example-menu": {
+        "apps": {
+            "terminal": "Terminal",
+            "submenu": "Apper",
+            "safari": "Safari",
+            "web-browser": "Nettleser",
+            "email": "E-Post",
+            "apple-music": "Musikk",
+            "gimp": "GIMP",
+            "paint": "Paint",
+            "finder": "Finder",
+            "file-browser": "Filutforsker"
+        },
+        "web-links": {
+            "google": "Google",
+            "kando-on-youtube": "Kando på YouTube",
+            "kando-on-kofi": "Kando på Ko-fi",
+            "submenu": "Weblenker",
+            "kando-on-github": "Kando på GitHub",
+            "kando-on-discord": "Kando på Discord"
+        },
+        "windows": {
+            "mission-control": "Mission Control",
+            "submenu": "Vinduer",
+            "toggle-maximize": "Maksimer",
+            "tile-right": "Plasser Til Høyre",
+            "close-window": "Lukk Vindu",
+            "tile-left": "Plasser til Venstre"
+        },
+        "clipboard": {
+            "copy": "Kopier",
+            "submenu": "Utklippstavle",
+            "paste": "Lim inn",
+            "cut": "Klipp Ut"
+        },
+        "audio": {
+            "submenu": "Audio",
+            "next-track": "Spill neste",
+            "play-pause": "Spill / Pause",
+            "mute": "Demp",
+            "previous-track": "Spill Forrige"
+        },
+        "name": "Eksempelmeny",
+        "next-workspace": "Neste Arbeidsområde",
+        "previous-workspace": "Forrige Arbeidsområde",
+        "bookmarks": {
+            "submenu": "Bokmerker",
+            "downloads": "Nedlastinger",
+            "videos": "Videoer",
+            "pictures": "Bilder",
+            "documents": "Dokumenter",
+            "desktop": "Skrivebord",
+            "home": "Hjem",
+            "music": "Musikk"
+        }
+    },
+    "main": {
+        "new-version-notification-header": "En ny versjon av Kando er tilgjengelig!",
+        "new-version-notification-body": "Få den på {{link}}.",
+        "show-settings": "Vis innstillinger",
+        "un-inhibit-shortcuts": "Slå på hurtigtaster",
+        "inhibit-shortcuts": "Midlertidig slå av alle hurtigtaster",
+        "quit": "Lukk",
+        "invalid-link-header": "Ugyldig lenke",
+        "invalid-link-message": "Den dype lenken kunne ikke leses.",
+        "failed-to-start-header": "Kando kunne ikke starte"
+    },
+    "backends": {
+        "gnome": {
+            "error": "Kunne ikke koble til Kando Integrasjon GNOME Shell utvidelse. Du kan få den her: {{link}}"
+        },
+        "hyprland": {
+            "shortcut-info": "Kando kan ikke koble globale hurtigtaster i Hyprland. I stedet, spesifiser en shortcut ID her og koble sammen en snarvei i din hyprland.conf med noe slik som \"bind = CTRL, Space, global, kando:eksempelmeny\". Bytt ut eksempelmeny med ID-en valgt her."
+        },
+        "kde-wayland": {
+            "shortcut-info": "Kando kan ikke koble globale hurtigtaster i KDE/Wayland. I stedet, spesifiser en shortcut ID her og søk etter den i KWin delen av de globale snarveiene i KDE's systeminnstillinger. Der kan du sette hurtigtasten som åpner denne menyen."
+        }
+    },
+    "menu-actions": {
+        "open-file": {
+            "name": "Åpne Fil",
+            "description": "Åpner en fil eller mappe.",
+            "placeholder": "Velg en fil eller mappe…"
+        },
+        "execute-command": {
+            "name": "Kjør Commando",
+            "description": "Kjør apper eller skripter.",
+            "placeholder": "Skriv en kommando…",
+            "isolated": "Kjør isolert",
+            "isolated-info": "Dette vil kjøre kommandoen i et rent miljø, det betyr at den ikke vil få noen miljøvariabler fra Kando. Dette kan hjelpe med kommandoer som ikke starter ordentlig.",
+            "detached-info": "Dette vil koble kommandoen fra Kando. Dette lar den kjøre selv om Kando lukkes. Slå dette av hvis kommandoer ikke starter ordentlig.",
+            "detached": "Kjør utenom Kando"
+        },
+        "open-menu": {
+            "name": "Omdirigering",
+            "description": "Åpner en annen meny."
+        },
+        "open-settings": {
+            "name": "Åpne innstillinger",
+            "description": "Åpner Kando-innstillingene."
+        },
+        "open-uri": {
+            "name": "Åpne URI",
+            "description": "Åpner nettsider og mer.",
+            "placeholder": "Skriv inn en URI…"
+        },
+        "simulate-hotkey": {
+            "name": "Simuler Hurtigtast",
+            "description": "Trykker en tastekombinasjon.",
+            "recording-placeholder": "Skriv en hurtigtast…",
+            "hotkey": "Hurtigtast",
+            "hotkey-info": "Denne hurtigtasten trykkes på når menyalternativet velges. Når du tar opp hurtigtasten, trenger du ikke å trykke på alle tastene samtidig, du kan også trykke på dem en etter en. Dette er nyttig hvis hurtigtasten allerede er knyttet til en global handling!"
+        },
+        "execute-macro": {
+            "name": "Kjør Makro",
+            "description": "Trykker en tastaturmakro.",
+            "placeholder": "Trykk på opptaksknappen for å starte opptak!",
+            "recording-placeholder": "Trykk noen taster…"
+        }
+    }
+}

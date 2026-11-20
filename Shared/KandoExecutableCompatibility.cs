@@ -36,7 +36,7 @@ namespace GestureSign.Shared
             }
         }
 
-        private static ushort ReadMachine(string executablePath)
+        internal static ushort ReadMachine(string executablePath)
         {
             using var stream = File.OpenRead(executablePath);
             using var reader = new BinaryReader(stream);

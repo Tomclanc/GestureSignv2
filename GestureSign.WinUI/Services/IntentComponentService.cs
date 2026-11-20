@@ -22,7 +22,7 @@ internal sealed class IntentComponentService
     private readonly SemaphoreSlim _requests = new(1, 1);
     private Process? _host;
     public static string InstallDirectory => IntentComponentLocation.Resolve(AppContext.BaseDirectory);
-    public static string Executable => Path.Combine(InstallDirectory, "Runtime", "GestureSign.IntentDlc.exe");
+    public static string Executable => IntentComponentPackage.RuntimeExecutable(InstallDirectory);
     public string Backend { get; set; } = "Cpu";
     public bool HardwareInstalled
     {
@@ -90,7 +90,7 @@ internal sealed class IntentComponentService
                 if (!Installed) throw new InvalidOperationException("请先下载或导入学习组件。");
                 void StartHost()
                 {
-                    using var daemon = Process.GetProcessesByName("GestureSign").FirstOrDefault(p => p.SessionId == Process.GetCurrentProcess().SessionId)
+                    using var daemon = MainWindow.FindRunningDaemon()
                         ?? throw new InvalidOperationException("请先启动 GestureSign 手势后台。");
                     var info = new ProcessStartInfo(Executable) { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden, WorkingDirectory = Path.GetDirectoryName(Executable)! };
                     info.Environment["DOTNET_DISABLE_GUI_ERRORS"] = "1";

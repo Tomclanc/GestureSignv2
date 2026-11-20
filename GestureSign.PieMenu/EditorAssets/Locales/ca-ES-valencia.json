@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Correu electrònic",
+      "file-browser": "Navegador de fitxers",
+      "paint": "Pintar",
+      "submenu": "Aplicacions",
+      "terminal": "Terminal",
+      "web-browser": "Navegador web"
+    },
+    "audio": {
+      "mute": "Silencia",
+      "next-track": "Pista següent",
+      "play-pause": "Reproduir / Pausa",
+      "previous-track": "Pista anterior",
+      "submenu": "Àudio"
+    },
+    "bookmarks": {
+      "desktop": "Escriptori",
+      "documents": "Documents",
+      "downloads": "Descàrregues",
+      "home": "Casa",
+      "music": "Música",
+      "pictures": "Imatges",
+      "submenu": "Adreces d'interès",
+      "videos": "Vídeos"
+    },
+    "clipboard": {
+      "copy": "Copiar",
+      "cut": "Tallar",
+      "paste": "Enganxa",
+      "submenu": "Porta-retalls"
+    },
+    "name": "Menú d'exemple",
+    "next-workspace": "Següent espai de treball",
+    "previous-workspace": "Espai de treball anterior",
+    "web-links": {
+      "kando-on-discord": "Kando a Discord",
+      "kando-on-github": "Kando a GitHub",
+      "kando-on-kofi": "Kando a Ko-fi",
+      "kando-on-youtube": "Kando a YouTube",
+      "submenu": "Enllaços web"
+    },
+    "windows": {
+      "close-window": "Tancar finestra",
+      "submenu": "Windows",
+      "tile-left": "Rajola esquerra",
+      "tile-right": "Rajola dreta",
+      "toggle-maximize": "Activa o desactiva Maximitza"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Tanca el menú"
+    },
+    "close-submenu": {
+      "name": "Tanca el submenú"
+    },
+    "delay": {
+      "name": "Retard"
+    },
+    "execute-command": {
+      "name": "Executeu l'ordre"
+    },
+    "execute-macro": {
+      "name": "Executar macro"
+    },
+    "focus-window": {
+      "name": "Finestra de focus"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibició de dreceres"
+    },
+    "open-file": {
+      "name": "Obre fitxer"
+    },
+    "open-menu": {
+      "name": "Obre el menú"
+    },
+    "open-settings": {
+      "name": "Obriu Configuració"
+    },
+    "open-uri": {
+      "name": "Obriu l'URI"
+    },
+    "send-tcp-message": {
+      "name": "Envia un missatge TCP"
+    },
+    "send-websocket-message": {
+      "name": "Envia un missatge de WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Estableix el porta-retalls"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Tecla d'accés ràpid",
+      "name": "Simula la tecla d'accés ràpid",
+      "recording-placeholder": "Escriviu una tecla d'accés ràpid..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenú"
+    }
+  },
+  "native": {
+    "action": "Acció",
+    "action-value": "Drecera, camí, URL, text o JSON",
+    "choose-icon": "Tria la icona",
+    "condition-invalid": "Introduïu una condició de finestra o d'aplicació vàlida, per exemple /notepad/i.",
+    "configuration": "Configuració del menú circular",
+    "editor": "Editor de menús",
+    "exported": "Exportat a {0}",
+    "fixed-angle": "Angle fix (0° = cap amunt)",
+    "fixed-x": "S'ha corregit X (0–1 al monitor)",
+    "fixed-y": "S'ha corregit Y (0–1 avall el monitor)",
+    "icon-invalid-image": "Trieu una imatge PNG, JPEG, GIF, WebP o ICO de fins a 192 KB.",
+    "icon-library": "Biblioteca d'icones",
+    "icon-next": "Següents icones",
+    "icon-no-results": "No s'ha trobat cap icona.",
+    "icon-pick-file": "Trieu una imatge o una aplicació",
+    "icon-previous": "Icones anteriors",
+    "icon-use-image": "Utilitza la imatge",
+    "imported": "S'han importat {0} menús. Reviseu les ordres importades abans d'utilitzar-les i després deseu-les.",
+    "item-icon": "Icona d'element",
+    "item-order": "Ordre de l'article",
+    "label": "Etiqueta",
+    "move-down": "Mou cap avall",
+    "move-up": "Mou cap amunt",
+    "name": "Nom del menú",
+    "new-menu": "Nou menú",
+    "off": "Apagat",
+    "on": "Encès",
+    "palette": "Paleta de colors",
+    "preview": "Menú de vista prèvia",
+    "remove": "Eliminar",
+    "save": "Guardar menús",
+    "saved": "S'ha desat la configuració del menú.",
+    "shortcut-clear": "Esborra la drecera",
+    "shortcut-cleared": "S'ha esborrat la drecera.",
+    "shortcut-config-changed": "La configuració del menú ha canviat al disc. Deseu els menús actuals per aplicar aquesta drecera.",
+    "shortcut-in-use": "Windows informa que aquesta drecera ja està en ús.",
+    "shortcut-invalid": "Introduïu una tecla, més els modificadors permesos per a aquesta drecera.",
+    "shortcut-record": "Drecera de gravació",
+    "shortcut-save-new-menu": "Desa aquest nou menú per activar la seva drecera.",
+    "shortcut-saved": "S'ha desat la drecera: {0}. Utilitzeu-lo per obrir el menú quan les accions ràpides estiguin activades.",
+    "shortcut-stop": "Atura la gravació",
+    "shortcut-unavailable": "Windows no ha pogut registrar aquesta drecera."
+  },
+  "settings": {
+    "add-menu-items": "Afegeix elements de menú",
+    "all-menus": "Tots els menús",
+    "anchored-mode": "Mode ancorat",
+    "app-condition": "Limiteu-vos a aplicacions específiques",
+    "area-condition-bottom-placeholder": "Part inferior",
+    "area-condition-left-placeholder": "Esquerra",
+    "area-condition-right-placeholder": "Dret",
+    "area-condition-top-placeholder": "Superior",
+    "cancel": "Cancel·lar",
+    "create-menu-button": "Afegeix menú",
+    "delete-menu": "Esborra el menú",
+    "delete-menu-item": "Suprimeix l'element del menú",
+    "edit-submenu": "Edita el submenú",
+    "export-menu": "Menú d'exportació",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Activa el mode de marcatge",
+      "close-menu": "Tanca el menú",
+      "do-nothing": "No feu res",
+      "enable-marking-mode-info": "Amb el mode de marcatge activat, podeu seleccionar elements arrossegant el ratolí per sobre d'ells.",
+      "enable-turbo-mode": "Activa el mode Turbo",
+      "enable-turbo-mode-info": "Amb el mode Turbo activat, podeu fer gestos sempre que mantingueu premuda una tecla modificadora com ara Maj o Ctrl.",
+      "interaction-modes": "Modes d'interacció",
+      "middle-mouse-button-behavior": "Botó mitjà del ratolí",
+      "middle-mouse-button-behavior-info": "Això determina què passa quan es prem el botó central del ratolí mentre es mostra un menú.",
+      "move-pointer-to-menu-center": "Mou el punter al centre del menú",
+      "move-pointer-to-menu-center-info": "Si està marcat, el punter del ratolí es mourà al centre d'un menú o submenú quan sigui necessari. Aquest podria ser el cas si s'obre un menú massa a prop de la vora de la pantalla o si s'obre un menú en mode centrat.",
+      "require-click-for-hover-mode": "Requereix el clic per a les seleccions del mode Hover",
+      "require-click-for-hover-mode-info": "Si no està marcat, els elements es seleccionaran immediatament quan es mogui el ratolí per sobre d'ells per als menús amb el mode Hover.",
+      "right-mouse-button-behavior": "Botó dret del ratolí",
+      "right-mouse-button-behavior-info": "Això determina què passa quan es prem el botó dret del ratolí mentre es mostra un menú.",
+      "select-item": "Seleccioneu l'element",
+      "select-parent": "Navegueu un nivell amunt",
+      "trigger-center-click-on-key-release": "Tanqueu el menú al llançar la drecera al centre",
+      "trigger-center-click-on-key-release-info": "Això activarà el flux de treball del clic central quan es deixa anar una tecla mentre es passa el cursor per sobre del centre d'un menú."
+    },
+    "hover-mode": "Mode Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Icones de cerca..."
+    },
+    "import-menu": "Menú d'importació",
+    "menu-behavior": "Comportament del menú",
+    "menu-conditions": "Condicions del menú",
+    "menu-themes-dialog": {
+      "default-colors": "Colors per defecte",
+      "enable-menu-animations": "Animacions del menú",
+      "title": "Temes del menú"
+    },
+    "no-matching-menus": "No s'han trobat menús.",
+    "no-menus": "No tens menús.",
+    "not-bound": "No Lligat",
+    "quick-select-key-label": "Tecla de selecció ràpida",
+    "quick-select-key-recording": "Selecciona la clau...",
+    "shortcut-info": "Aquesta drecera obre el menú. Ha de contenir una tecla normal i qualsevol nombre de modificadors com ara Ctrl, Alt o Maj. Quan enregistreu, no cal que premeu totes les tecles alhora, també les podeu prémer una darrere l'altra. Això és útil si una drecera ja està vinculada a un altre menú!",
+    "shortcut-label": "Drecera",
+    "shortcut-recording": "Premeu una drecera...",
+    "window-condition": "Limiteu els títols de finestres específics",
+    "workflow-editor": {
+      "add-action": "Afegeix acció",
+      "select-workflow-name": "Seleccioneu Flux de treball"
+    },
+    "anchored-mode-info": "Obriu els submenús a la mateixa posició que el menú principal. Si marqueu això, es desactivarà el mode de marcatge i el mode turbo.",
+    "fixed-position-mode": "Mode de posició fixa",
+    "fixed-position-mode-info": "Obriu el menú en una posició fixa a la pantalla, en comptes de fer-ho al cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Estableix la posició a la part inferior esquerra",
+      "bottom-right-preset-tooltip": "Estableix la posició a la part inferior dreta",
+      "centered-preset-tooltip": "Estableix la posició al centre",
+      "confirm": "Utilitzeu aquesta posició",
+      "top-left-preset-tooltip": "Estableix la posició a la part superior esquerra",
+      "top-right-preset-tooltip": "Estableix la posició a la part superior dreta"
+    },
+    "fixed-position-tooltip": "Seleccioneu una posició fixa",
+    "hover-mode-info": "Només per a usuaris avançats! Seleccioneu els elements passant el cursor per sobre d'ells."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Per defecte",
+      "clean-circle": "Cercle net",
+      "neon-lights": "Llums de neó",
+      "purity": "Puresa",
+      "rainbow-labels": "Etiquetes de l'arc de Sant Martí"
+    },
+    "presets": {
+      "Blue Glass": "Vidre blau",
+      "Dark Night": "Nit fosca",
+      "Cotton Candy": "Cotó de caramel",
+      "Dark and Cozy": "Fosc i Acollidor",
+      "Blue Glow": "resplendor blau",
+      "Green Glow": "resplendor verd",
+      "Electric": "Elèctric",
+      "Orange": "Taronja",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma brillant",
+      "Kando Default": "Colors per defecte"
+    }
+  }
+}

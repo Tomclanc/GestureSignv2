@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Электронная пошта",
+      "file-browser": "Файлавы браўзер",
+      "paint": "Фарба",
+      "submenu": "Праграмы",
+      "terminal": "Тэрмінал",
+      "web-browser": "Вэб-браўзер"
+    },
+    "audio": {
+      "mute": "Бясшумны",
+      "next-track": "Наступны трэк",
+      "play-pause": "Прайграванне / Паўза",
+      "previous-track": "Папярэдні трэк",
+      "submenu": "Аўдыё"
+    },
+    "bookmarks": {
+      "desktop": "Працоўны стол",
+      "documents": "Дакументы",
+      "downloads": "Загрузкі",
+      "home": "дадому",
+      "music": "Музыка",
+      "pictures": "Малюнкі",
+      "submenu": "Закладкі",
+      "videos": "Відэа"
+    },
+    "clipboard": {
+      "copy": "Скапіяваць",
+      "cut": "Рэзаць",
+      "paste": "Уставіць",
+      "submenu": "Буфер абмену"
+    },
+    "name": "Прыклад меню",
+    "next-workspace": "Наступная працоўная вобласць",
+    "previous-workspace": "Папярэдняя працоўная вобласць",
+    "web-links": {
+      "kando-on-discord": "Кандо на Discord",
+      "kando-on-github": "Kando на GitHub",
+      "kando-on-kofi": "Кандо на ко-фі",
+      "kando-on-youtube": "Кандо на YouTube",
+      "submenu": "Вэб-спасылкі"
+    },
+    "windows": {
+      "close-window": "Закрыць акно",
+      "submenu": "вокны",
+      "tile-left": "Плітка злева",
+      "tile-right": "Плітка справа",
+      "toggle-maximize": "Пераключыце \"Максімізаваць\"."
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Зачыніць меню"
+    },
+    "close-submenu": {
+      "name": "Зачыніць падменю"
+    },
+    "delay": {
+      "name": "Затрымка"
+    },
+    "execute-command": {
+      "name": "Выканаць каманду"
+    },
+    "execute-macro": {
+      "name": "Выканаць макрас"
+    },
+    "focus-window": {
+      "name": "Акно факусіроўкі"
+    },
+    "inhibit-shortcuts": {
+      "name": "Забараніць цэтлікі"
+    },
+    "open-file": {
+      "name": "Адкрыць файл"
+    },
+    "open-menu": {
+      "name": "Адкрыйце меню"
+    },
+    "open-settings": {
+      "name": "Адкрыйце Налады"
+    },
+    "open-uri": {
+      "name": "Адкрыць URI"
+    },
+    "send-tcp-message": {
+      "name": "Адправіць паведамленне TCP"
+    },
+    "send-websocket-message": {
+      "name": "Адправіць паведамленне WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Усталяваць буфер абмену"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Гарачая клавіша",
+      "name": "Імітаваць гарачую клавішу",
+      "recording-placeholder": "Увядзіце гарачую клавішу..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Падменю"
+    }
+  },
+  "native": {
+    "action": "Дзеянне",
+    "action-value": "Ярлык, шлях, URL, тэкст або JSON",
+    "choose-icon": "Выберыце значок",
+    "condition-invalid": "Увядзіце сапраўднае акно або ўмова праграмы, напрыклад /notepad/i.",
+    "configuration": "Канфігурацыя Pie Menu",
+    "editor": "Рэдактар піраговага меню",
+    "exported": "Экспартавана ў {0}",
+    "fixed-angle": "Фіксаваны кут (0° = уверх)",
+    "fixed-x": "Фіксаваны X (0–1 на маніторы)",
+    "fixed-y": "Фіксаваны Y (0–1 на маніторы)",
+    "icon-invalid-image": "Выберыце выяву PNG, JPEG, GIF, WebP або ICO памерам да 192 КБ.",
+    "icon-library": "Бібліятэка значкоў",
+    "icon-next": "Наступныя значкі",
+    "icon-no-results": "Значкі не знойдзены.",
+    "icon-pick-file": "Выберыце выяву або праграму",
+    "icon-previous": "Папярэднія значкі",
+    "icon-use-image": "Выкарыстоўвайце малюнак",
+    "imported": "Імпартавана {0} меню(я). Праглядзіце імпартаваныя каманды перад іх выкарыстаннем і захавайце.",
+    "item-icon": "Значок прадмета",
+    "item-order": "Парадак прадметаў",
+    "label": "Этыкетка",
+    "move-down": "Рухайцеся ўніз",
+    "move-up": "Рухайцеся ўверх",
+    "name": "Назва меню",
+    "new-menu": "Новае меню",
+    "off": "Выключана",
+    "on": "Уключана",
+    "palette": "Каляровая палітра",
+    "preview": "Меню папярэдняга прагляду",
+    "remove": "Выдаліць",
+    "save": "Захаваць меню",
+    "saved": "Канфігурацыя меню захавана.",
+    "shortcut-clear": "Ачысціць ярлык",
+    "shortcut-cleared": "Ярлык выдалены.",
+    "shortcut-config-changed": "На дыску змянілася канфігурацыя меню. Захавайце бягучыя меню, каб прымяніць гэты ярлык.",
+    "shortcut-in-use": "Windows паведамляе, што гэты ярлык ужо выкарыстоўваецца.",
+    "shortcut-invalid": "Увядзіце адну клавішу, а таксама любыя мадыфікатары, дазволеныя для гэтага спалучэння клавіш.",
+    "shortcut-record": "Ярлык запісу",
+    "shortcut-save-new-menu": "Захавайце гэта новае меню, каб актываваць яго ярлык.",
+    "shortcut-saved": "Ярлык захаваны: {0}. Выкарыстоўвайце яго, каб адкрыць меню, калі ўключаны хуткія дзеянні.",
+    "shortcut-stop": "Спыніць запіс",
+    "shortcut-unavailable": "Windows не ўдалося зарэгістраваць гэты ярлык."
+  },
+  "settings": {
+    "add-menu-items": "Дадаць пункты меню",
+    "all-menus": "Усе меню",
+    "anchored-mode": "Прывязаны рэжым",
+    "app-condition": "Абмежаванне да пэўных праграм",
+    "area-condition-bottom-placeholder": "Ніжні",
+    "area-condition-left-placeholder": "Лева",
+    "area-condition-right-placeholder": "Справа",
+    "area-condition-top-placeholder": "Верх",
+    "cancel": "Адмяніць",
+    "create-menu-button": "Дадаць меню",
+    "delete-menu": "Выдаліць меню",
+    "delete-menu-item": "Выдаліць пункт меню",
+    "edit-submenu": "Падменю рэдагавання",
+    "export-menu": "Экспарт меню",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Уключыць рэжым разметкі",
+      "close-menu": "Зачыніць меню",
+      "do-nothing": "Нічога не рабіць",
+      "enable-marking-mode-info": "Калі рэжым маркіроўкі ўключаны, вы можаце выбіраць элементы, перацягваючы іх мышкай.",
+      "enable-turbo-mode": "Уключыць рэжым Turbo",
+      "enable-turbo-mode-info": "Калі рэжым Turbo уключаны, вы можаце выконваць жэсты, пакуль утрымліваеце націснутай клавішу-мадыфікатар, напрыклад Shift або Ctrl.",
+      "interaction-modes": "Рэжымы ўзаемадзеяння",
+      "middle-mouse-button-behavior": "Сярэдняя кнопка мышы",
+      "middle-mouse-button-behavior-info": "Гэта вызначае, што адбываецца пры націсканні сярэдняй кнопкі мышы падчас паказу меню.",
+      "move-pointer-to-menu-center": "Перамясціць курсор у цэнтр меню",
+      "move-pointer-to-menu-center-info": "Калі пазначана, паказальнік мышы пры неабходнасці будзе перамешчаны ў цэнтр меню або падменю. Гэта можа быць у выпадку, калі меню адкрыта занадта блізка да краю экрана або калі меню адкрыта ў Цэнтраваным рэжыме.",
+      "require-click-for-hover-mode": "Патрабаваць націск для выбару рэжыму навядзення",
+      "require-click-for-hover-mode-info": "Калі не пазначыць, элементы будуць выбраны неадкладна пры навядзенні на іх мышы для меню ў рэжыме навядзення.",
+      "right-mouse-button-behavior": "Правая кнопка мышкі",
+      "right-mouse-button-behavior-info": "Гэта вызначае, што адбываецца пры націсканні правай кнопкі мышы падчас паказу меню.",
+      "select-item": "Выберыце прадмет",
+      "select-parent": "Перайсці на адзін узровень уверх",
+      "trigger-center-click-on-key-release": "Зачыніце меню пры націсканні хуткага доступу па цэнтры",
+      "trigger-center-click-on-key-release-info": "Гэта запусціць працоўны працэс пстрычкі па цэнтры, калі адпусціць клавішу пры навядзенні курсора на цэнтр меню."
+    },
+    "hover-mode": "Рэжым навядзення",
+    "icon-picker-dialog": {
+      "search-placeholder": "Значкі пошуку…"
+    },
+    "import-menu": "Меню імпарту",
+    "menu-behavior": "Меню Паводзіны",
+    "menu-conditions": "Умовы меню",
+    "menu-themes-dialog": {
+      "default-colors": "Колеры па змаўчанні",
+      "enable-menu-animations": "Анімацыя меню",
+      "title": "Тэмы меню"
+    },
+    "no-matching-menus": "Меню не знойдзена.",
+    "no-menus": "У вас няма меню.",
+    "not-bound": "Не звязаны",
+    "quick-select-key-label": "Клавіша хуткага выбару",
+    "quick-select-key-recording": "Выберыце ключ…",
+    "shortcut-info": "Гэты ярлык адкрывае меню. Ён павінен утрымліваць адну звычайную клавішу і любую колькасць мадыфікатараў, такіх як Ctrl, Alt або Shift. Пры запісе неабавязкова націскаць усе клавішы адначасова, можна націскаць іх па чарзе. Гэта карысна, калі ярлык ужо прывязаны да іншага меню!",
+    "shortcut-label": "Ярлык",
+    "shortcut-recording": "Націсніце ярлык…",
+    "window-condition": "Абмежаванне да пэўных загалоўкаў вокнаў",
+    "workflow-editor": {
+      "add-action": "Дадаць дзеянне",
+      "select-workflow-name": "Выберыце Рабочы працэс"
+    },
+    "anchored-mode-info": "Адкрывайце падменю ў той жа пазіцыі, што і бацькоўскае меню. Пазначыўшы гэта, вы адключыце рэжым разметкі і рэжым Turbo.",
+    "fixed-position-mode": "Рэжым фіксаванага становішча",
+    "fixed-position-mode-info": "Адкрыйце меню ў фіксаваным месцы на экране, а не пад курсорам.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Задайце пазіцыю ўнізе злева",
+      "bottom-right-preset-tooltip": "Задайце пазіцыю ўнізе справа",
+      "centered-preset-tooltip": "Усталюйце пазіцыю па цэнтры",
+      "confirm": "Выкарыстоўвайце гэтую пазіцыю",
+      "top-left-preset-tooltip": "Задайце пазіцыю ўверсе злева",
+      "top-right-preset-tooltip": "Задайце пазіцыю ўверсе справа"
+    },
+    "fixed-position-tooltip": "Выберыце фіксаванае становішча",
+    "hover-mode-info": "Толькі для вопытных карыстальнікаў! Выбірайце элементы, наводзячы на ​​іх курсор."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Па змаўчанні",
+      "clean-circle": "Чысты круг",
+      "neon-lights": "Неонавыя агні",
+      "purity": "Чысціня",
+      "rainbow-labels": "Вясёлкавыя этыкеткі"
+    },
+    "presets": {
+      "Blue Glass": "Сіняе шкло",
+      "Dark Night": "Цёмная ноч",
+      "Cotton Candy": "Салодкая вата",
+      "Dark and Cozy": "Цёмна і ўтульна",
+      "Blue Glow": "Сіняе ззянне",
+      "Green Glow": "Зялёнае ззянне",
+      "Electric": "Электрычны",
+      "Orange": "Аранжавы",
+      "Pink": "Ружовы",
+      "Bright Prism": "Яркая прызма",
+      "Kando Default": "Колеры па змаўчанні"
+    }
+  }
+}

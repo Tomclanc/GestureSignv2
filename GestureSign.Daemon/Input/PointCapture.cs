@@ -1153,7 +1153,10 @@ namespace GestureSign.Daemon.Input
             }
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
-            var recognizedGestureName = ResolveActionGestureName(GestureManager.Instance.GestureName, pointsInformation.Points);
+            var initialCandidate = GestureManager.Instance.GestureName;
+            var recognizedGestureName = ResolveActionGestureName(initialCandidate, pointsInformation.Points);
+            var resolvedCandidate = recognizedGestureName;
+            bool suppressed = false;
             string templateEvidence = null;
             bool missingTemplateTurn = false, strongTemplateMatch = false;
             if (SourceDevice == Devices.TouchPad && Mode == CaptureMode.Normal && !string.IsNullOrEmpty(recognizedGestureName))
@@ -1166,7 +1169,16 @@ namespace GestureSign.Daemon.Input
                 if (_intentDlc.LastAiVetoReason != null) TrayManager.Instance.ShowAiVeto(_intentDlc.LastAiVetoReason);
                 Logging.LogMessage($"Intent DLC suppressed traced action. Gesture={recognizedGestureName ?? "(none)"}");
                 recognizedGestureName = null;
+                suppressed = true;
             }
+            if (Mode == CaptureMode.Normal)
+                DaemonDiagnostics.RecordGesture(SourceDevice, pointsInformation.Points.Count, initialCandidate,
+                    resolvedCandidate, suppressed ? GestureSign.Foundation.Diagnostics.GestureOutcome.Suppressed
+                    : recognizedGestureName != null ? GestureSign.Foundation.Diagnostics.GestureOutcome.Matched
+                    : GestureSign.Foundation.Diagnostics.GestureOutcome.NoMatch,
+                    recognizedGestureName == null ? []
+                        : ApplicationManager.Instance.GetRecognizedDefinedAction(recognizedGestureName)
+                            ?.Where(action => action != null).Take(8).Select(action => action.Name).ToArray() ?? []);
             if (recognizedGestureName != null)
             {
                 List<Point> capturedPoints = SourceDevice == Devices.TouchPad ? new List<Point>() { _touchPadStartPoint } : pointsInformation.FirstCapturedPoints;

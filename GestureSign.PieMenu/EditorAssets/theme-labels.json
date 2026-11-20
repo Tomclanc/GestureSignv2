@@ -1,0 +1,662 @@
+{
+  "ar": {
+    "themes": {
+      "default": "افتراضي",
+      "clean-circle": "دائرة بسيطة",
+      "neon-lights": "أضواء النيون",
+      "purity": "نقاء",
+      "rainbow-labels": "تسميات بألوان الطيف"
+    },
+    "presets": {
+      "Kando Default": "الألوان الافتراضية",
+      "Blue Glass": "زجاج أزرق",
+      "Dark Night": "ليل داكن",
+      "Cotton Candy": "غزل البنات",
+      "Dark and Cozy": "داكن ودافئ",
+      "Blue Glow": "توهج أزرق",
+      "Green Glow": "توهج أخضر",
+      "Electric": "كهربائي",
+      "Orange": "برتقالي",
+      "Pink": "وردي",
+      "Bright Prism": "منشور ساطع"
+    }
+  },
+  "cs": {
+    "themes": {
+      "default": "Výchozí",
+      "clean-circle": "Jednoduchý kruh",
+      "neon-lights": "Neonová světla",
+      "purity": "Čistota",
+      "rainbow-labels": "Duhové popisky"
+    },
+    "presets": {
+      "Kando Default": "Výchozí barvy",
+      "Blue Glass": "Modré sklo",
+      "Dark Night": "Temná noc",
+      "Cotton Candy": "Cukrová vata",
+      "Dark and Cozy": "Tmavé a útulné",
+      "Blue Glow": "Modrá záře",
+      "Green Glow": "Zelená záře",
+      "Electric": "Elektrická",
+      "Orange": "Oranžová",
+      "Pink": "Růžová",
+      "Bright Prism": "Zářivý hranol"
+    }
+  },
+  "da": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Enkel cirkel",
+      "neon-lights": "Neonlys",
+      "purity": "Renhed",
+      "rainbow-labels": "Regnbueetiketter"
+    },
+    "presets": {
+      "Kando Default": "Standardfarver",
+      "Blue Glass": "Blåt glas",
+      "Dark Night": "Mørk nat",
+      "Cotton Candy": "Candyfloss",
+      "Dark and Cozy": "Mørk og hyggelig",
+      "Blue Glow": "Blåt skær",
+      "Green Glow": "Grønt skær",
+      "Electric": "Elektrisk",
+      "Orange": "Orange",
+      "Pink": "Lyserød",
+      "Bright Prism": "Lysende prisme"
+    }
+  },
+  "de": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Schlichter Kreis",
+      "neon-lights": "Neonlichter",
+      "purity": "Reinheit",
+      "rainbow-labels": "Regenbogenbeschriftungen"
+    },
+    "presets": {
+      "Kando Default": "Standardfarben",
+      "Blue Glass": "Blaues Glas",
+      "Dark Night": "Dunkle Nacht",
+      "Cotton Candy": "Zuckerwatte",
+      "Dark and Cozy": "Dunkel und gemütlich",
+      "Blue Glow": "Blaues Leuchten",
+      "Green Glow": "Grünes Leuchten",
+      "Electric": "Elektrisch",
+      "Orange": "Orange",
+      "Pink": "Rosa",
+      "Bright Prism": "Leuchtendes Prisma"
+    }
+  },
+  "el": {
+    "themes": {
+      "default": "Προεπιλογή",
+      "clean-circle": "Απλός κύκλος",
+      "neon-lights": "Φώτα νέον",
+      "purity": "Καθαρότητα",
+      "rainbow-labels": "Ετικέτες ουράνιου τόξου"
+    },
+    "presets": {
+      "Kando Default": "Προεπιλεγμένα χρώματα",
+      "Blue Glass": "Μπλε γυαλί",
+      "Dark Night": "Σκοτεινή νύχτα",
+      "Cotton Candy": "Μαλλί της γριάς",
+      "Dark and Cozy": "Σκοτεινό και ζεστό",
+      "Blue Glow": "Μπλε λάμψη",
+      "Green Glow": "Πράσινη λάμψη",
+      "Electric": "Ηλεκτρικό",
+      "Orange": "Πορτοκαλί",
+      "Pink": "Ροζ",
+      "Bright Prism": "Φωτεινό πρίσμα"
+    }
+  },
+  "en": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Clean Circle",
+      "neon-lights": "Neon Lights",
+      "purity": "Purity",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Kando Default": "Default colors",
+      "Blue Glass": "Blue Glass",
+      "Dark Night": "Dark Night",
+      "Cotton Candy": "Cotton Candy",
+      "Dark and Cozy": "Dark and Cozy",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Green Glow",
+      "Electric": "Electric",
+      "Orange": "Orange",
+      "Pink": "Pink",
+      "Bright Prism": "Bright Prism"
+    }
+  },
+  "es": {
+    "themes": {
+      "default": "Predeterminado",
+      "clean-circle": "Círculo sencillo",
+      "neon-lights": "Luces de neón",
+      "purity": "Pureza",
+      "rainbow-labels": "Etiquetas arcoíris"
+    },
+    "presets": {
+      "Kando Default": "Colores predeterminados",
+      "Blue Glass": "Cristal azul",
+      "Dark Night": "Noche oscura",
+      "Cotton Candy": "Algodón de azúcar",
+      "Dark and Cozy": "Oscuro y acogedor",
+      "Blue Glow": "Resplandor azul",
+      "Green Glow": "Resplandor verde",
+      "Electric": "Eléctrico",
+      "Orange": "Naranja",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma brillante"
+    }
+  },
+  "fa": {
+    "themes": {
+      "default": "پیش‌فرض",
+      "clean-circle": "دایرهٔ ساده",
+      "neon-lights": "چراغ‌های نئون",
+      "purity": "خلوص",
+      "rainbow-labels": "برچسب‌های رنگین‌کمانی"
+    },
+    "presets": {
+      "Kando Default": "رنگ‌های پیش‌فرض",
+      "Blue Glass": "شیشهٔ آبی",
+      "Dark Night": "شب تاریک",
+      "Cotton Candy": "پشمک",
+      "Dark and Cozy": "تیره و دلنشین",
+      "Blue Glow": "درخشش آبی",
+      "Green Glow": "درخشش سبز",
+      "Electric": "الکتریکی",
+      "Orange": "نارنجی",
+      "Pink": "صورتی",
+      "Bright Prism": "منشور درخشان"
+    }
+  },
+  "fi": {
+    "themes": {
+      "default": "Oletus",
+      "clean-circle": "Selkeä ympyrä",
+      "neon-lights": "Neonvalot",
+      "purity": "Puhtaus",
+      "rainbow-labels": "Sateenkaaritekstit"
+    },
+    "presets": {
+      "Kando Default": "Oletusvärit",
+      "Blue Glass": "Sininen lasi",
+      "Dark Night": "Pimeä yö",
+      "Cotton Candy": "Hattara",
+      "Dark and Cozy": "Tumma ja kodikas",
+      "Blue Glow": "Sininen hohde",
+      "Green Glow": "Vihreä hohde",
+      "Electric": "Sähköinen",
+      "Orange": "Oranssi",
+      "Pink": "Vaaleanpunainen",
+      "Bright Prism": "Kirkas prisma"
+    }
+  },
+  "fr": {
+    "themes": {
+      "default": "Par défaut",
+      "clean-circle": "Cercle épuré",
+      "neon-lights": "Lumières néon",
+      "purity": "Pureté",
+      "rainbow-labels": "Libellés arc-en-ciel"
+    },
+    "presets": {
+      "Kando Default": "Couleurs par défaut",
+      "Blue Glass": "Verre bleu",
+      "Dark Night": "Nuit sombre",
+      "Cotton Candy": "Barbe à papa",
+      "Dark and Cozy": "Sombre et chaleureux",
+      "Blue Glow": "Lueur bleue",
+      "Green Glow": "Lueur verte",
+      "Electric": "Électrique",
+      "Orange": "Orange",
+      "Pink": "Rose",
+      "Bright Prism": "Prisme lumineux"
+    }
+  },
+  "hi": {
+    "themes": {
+      "default": "डिफ़ॉल्ट",
+      "clean-circle": "सादा वृत्त",
+      "neon-lights": "नियॉन रोशनी",
+      "purity": "शुद्धता",
+      "rainbow-labels": "इंद्रधनुषी लेबल"
+    },
+    "presets": {
+      "Kando Default": "डिफ़ॉल्ट रंग",
+      "Blue Glass": "नीला काँच",
+      "Dark Night": "अँधेरी रात",
+      "Cotton Candy": "बुढ़िया के बाल",
+      "Dark and Cozy": "अँधेरा और सुकूनभरा",
+      "Blue Glow": "नीली चमक",
+      "Green Glow": "हरी चमक",
+      "Electric": "विद्युत",
+      "Orange": "नारंगी",
+      "Pink": "गुलाबी",
+      "Bright Prism": "चमकीला प्रिज़्म"
+    }
+  },
+  "ia": {
+    "themes": {
+      "default": "Predefinite",
+      "clean-circle": "Circulo simple",
+      "neon-lights": "Lumines de neon",
+      "purity": "Puritate",
+      "rainbow-labels": "Etiquettas de iris"
+    },
+    "presets": {
+      "Kando Default": "Colores predefinite",
+      "Blue Glass": "Vitro blau",
+      "Dark Night": "Nocte obscur",
+      "Cotton Candy": "Cotton de sucro",
+      "Dark and Cozy": "Obscur e confortabile",
+      "Blue Glow": "Splendor blau",
+      "Green Glow": "Splendor verde",
+      "Electric": "Electric",
+      "Orange": "Orangiate",
+      "Pink": "Rosee",
+      "Bright Prism": "Prisma brillante"
+    }
+  },
+  "it": {
+    "themes": {
+      "default": "Predefinito",
+      "clean-circle": "Cerchio essenziale",
+      "neon-lights": "Luci al neon",
+      "purity": "Purezza",
+      "rainbow-labels": "Etichette arcobaleno"
+    },
+    "presets": {
+      "Kando Default": "Colori predefiniti",
+      "Blue Glass": "Vetro blu",
+      "Dark Night": "Notte buia",
+      "Cotton Candy": "Zucchero filato",
+      "Dark and Cozy": "Scuro e accogliente",
+      "Blue Glow": "Bagliore blu",
+      "Green Glow": "Bagliore verde",
+      "Electric": "Elettrico",
+      "Orange": "Arancione",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma luminoso"
+    }
+  },
+  "ja": {
+    "themes": {
+      "default": "既定",
+      "clean-circle": "シンプルな円",
+      "neon-lights": "ネオンライト",
+      "purity": "ピュア",
+      "rainbow-labels": "虹色ラベル"
+    },
+    "presets": {
+      "Kando Default": "既定の色",
+      "Blue Glass": "青いガラス",
+      "Dark Night": "深い夜",
+      "Cotton Candy": "綿あめ",
+      "Dark and Cozy": "暗く落ち着いた色",
+      "Blue Glow": "青い輝き",
+      "Green Glow": "緑の輝き",
+      "Electric": "エレクトリック",
+      "Orange": "オレンジ",
+      "Pink": "ピンク",
+      "Bright Prism": "明るいプリズム"
+    }
+  },
+  "kab": {
+    "themes": {
+      "default": "Amezwer",
+      "clean-circle": "Tawinest taḥerfit",
+      "neon-lights": "Tifawin n niyun",
+      "purity": "Tazdegt",
+      "rainbow-labels": "Tibzimin n teslit n unẓar"
+    },
+    "presets": {
+      "Kando Default": "Initen imezwura",
+      "Blue Glass": "Ajaji azegzaw",
+      "Dark Night": "Iḍ aberkan",
+      "Cotton Candy": "Aqṭun n ssker",
+      "Dark and Cozy": "Aberkan yerna iḥma",
+      "Blue Glow": "Tifawt tazegzawt",
+      "Green Glow": "Tifawt tadalt",
+      "Electric": "Ttrisiti",
+      "Orange": "Ačinawi",
+      "Pink": "Awerdi",
+      "Bright Prism": "Aprizm yettifriren"
+    }
+  },
+  "ko": {
+    "themes": {
+      "default": "기본",
+      "clean-circle": "깔끔한 원",
+      "neon-lights": "네온 조명",
+      "purity": "순수",
+      "rainbow-labels": "무지개 레이블"
+    },
+    "presets": {
+      "Kando Default": "기본 색상",
+      "Blue Glass": "푸른 유리",
+      "Dark Night": "어두운 밤",
+      "Cotton Candy": "솜사탕",
+      "Dark and Cozy": "어둡고 아늑함",
+      "Blue Glow": "파란 빛",
+      "Green Glow": "초록 빛",
+      "Electric": "전기빛",
+      "Orange": "주황색",
+      "Pink": "분홍색",
+      "Bright Prism": "밝은 프리즘"
+    }
+  },
+  "lt": {
+    "themes": {
+      "default": "Numatytoji",
+      "clean-circle": "Paprastas apskritimas",
+      "neon-lights": "Neono šviesos",
+      "purity": "Grynumas",
+      "rainbow-labels": "Vaivorykštės etiketės"
+    },
+    "presets": {
+      "Kando Default": "Numatytosios spalvos",
+      "Blue Glass": "Mėlynas stiklas",
+      "Dark Night": "Tamsi naktis",
+      "Cotton Candy": "Cukraus vata",
+      "Dark and Cozy": "Tamsu ir jauku",
+      "Blue Glow": "Mėlynas švytėjimas",
+      "Green Glow": "Žalias švytėjimas",
+      "Electric": "Elektrinė",
+      "Orange": "Oranžinė",
+      "Pink": "Rožinė",
+      "Bright Prism": "Ryški prizmė"
+    }
+  },
+  "nb-NO": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Enkel sirkel",
+      "neon-lights": "Neonlys",
+      "purity": "Renhet",
+      "rainbow-labels": "Regnbueetiketter"
+    },
+    "presets": {
+      "Kando Default": "Standardfarger",
+      "Blue Glass": "Blått glass",
+      "Dark Night": "Mørk natt",
+      "Cotton Candy": "Sukkerspinn",
+      "Dark and Cozy": "Mørkt og koselig",
+      "Blue Glow": "Blå glød",
+      "Green Glow": "Grønn glød",
+      "Electric": "Elektrisk",
+      "Orange": "Oransje",
+      "Pink": "Rosa",
+      "Bright Prism": "Lysende prisme"
+    }
+  },
+  "nl": {
+    "themes": {
+      "default": "Standaard",
+      "clean-circle": "Eenvoudige cirkel",
+      "neon-lights": "Neonlichten",
+      "purity": "Zuiverheid",
+      "rainbow-labels": "Regenbooglabels"
+    },
+    "presets": {
+      "Kando Default": "Standaardkleuren",
+      "Blue Glass": "Blauw glas",
+      "Dark Night": "Donkere nacht",
+      "Cotton Candy": "Suikerspin",
+      "Dark and Cozy": "Donker en gezellig",
+      "Blue Glow": "Blauwe gloed",
+      "Green Glow": "Groene gloed",
+      "Electric": "Elektrisch",
+      "Orange": "Oranje",
+      "Pink": "Roze",
+      "Bright Prism": "Helder prisma"
+    }
+  },
+  "pl": {
+    "themes": {
+      "default": "Domyślny",
+      "clean-circle": "Prosty okrąg",
+      "neon-lights": "Neonowe światła",
+      "purity": "Czystość",
+      "rainbow-labels": "Tęczowe etykiety"
+    },
+    "presets": {
+      "Kando Default": "Kolory domyślne",
+      "Blue Glass": "Niebieskie szkło",
+      "Dark Night": "Ciemna noc",
+      "Cotton Candy": "Wata cukrowa",
+      "Dark and Cozy": "Ciemno i przytulnie",
+      "Blue Glow": "Niebieska poświata",
+      "Green Glow": "Zielona poświata",
+      "Electric": "Elektryczny",
+      "Orange": "Pomarańczowy",
+      "Pink": "Różowy",
+      "Bright Prism": "Jasny pryzmat"
+    }
+  },
+  "pt": {
+    "themes": {
+      "default": "Predefinido",
+      "clean-circle": "Círculo simples",
+      "neon-lights": "Luzes de néon",
+      "purity": "Pureza",
+      "rainbow-labels": "Etiquetas arco-íris"
+    },
+    "presets": {
+      "Kando Default": "Cores predefinidas",
+      "Blue Glass": "Vidro azul",
+      "Dark Night": "Noite escura",
+      "Cotton Candy": "Algodão-doce",
+      "Dark and Cozy": "Escuro e acolhedor",
+      "Blue Glow": "Brilho azul",
+      "Green Glow": "Brilho verde",
+      "Electric": "Elétrico",
+      "Orange": "Laranja",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma brilhante"
+    }
+  },
+  "pt-BR": {
+    "themes": {
+      "default": "Padrão",
+      "clean-circle": "Círculo simples",
+      "neon-lights": "Luzes de neon",
+      "purity": "Pureza",
+      "rainbow-labels": "Rótulos arco-íris"
+    },
+    "presets": {
+      "Kando Default": "Cores padrão",
+      "Blue Glass": "Vidro azul",
+      "Dark Night": "Noite escura",
+      "Cotton Candy": "Algodão-doce",
+      "Dark and Cozy": "Escuro e aconchegante",
+      "Blue Glow": "Brilho azul",
+      "Green Glow": "Brilho verde",
+      "Electric": "Elétrico",
+      "Orange": "Laranja",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma brilhante"
+    }
+  },
+  "ru": {
+    "themes": {
+      "default": "По умолчанию",
+      "clean-circle": "Простой круг",
+      "neon-lights": "Неоновые огни",
+      "purity": "Чистота",
+      "rainbow-labels": "Радужные подписи"
+    },
+    "presets": {
+      "Kando Default": "Цвета по умолчанию",
+      "Blue Glass": "Синее стекло",
+      "Dark Night": "Тёмная ночь",
+      "Cotton Candy": "Сахарная вата",
+      "Dark and Cozy": "Темно и уютно",
+      "Blue Glow": "Синее свечение",
+      "Green Glow": "Зелёное свечение",
+      "Electric": "Электрический",
+      "Orange": "Оранжевый",
+      "Pink": "Розовый",
+      "Bright Prism": "Яркая призма"
+    }
+  },
+  "sr": {
+    "themes": {
+      "default": "Подразумевано",
+      "clean-circle": "Једноставан круг",
+      "neon-lights": "Неонска светла",
+      "purity": "Чистоћа",
+      "rainbow-labels": "Ознаке дугиних боја"
+    },
+    "presets": {
+      "Kando Default": "Подразумеване боје",
+      "Blue Glass": "Плаво стакло",
+      "Dark Night": "Тамна ноћ",
+      "Cotton Candy": "Шећерна вуна",
+      "Dark and Cozy": "Тамно и пријатно",
+      "Blue Glow": "Плави сјај",
+      "Green Glow": "Зелени сјај",
+      "Electric": "Електрично",
+      "Orange": "Наранџаста",
+      "Pink": "Ружичаста",
+      "Bright Prism": "Сјајна призма"
+    }
+  },
+  "ta": {
+    "themes": {
+      "default": "இயல்புநிலை",
+      "clean-circle": "எளிய வட்டம்",
+      "neon-lights": "நியான் விளக்குகள்",
+      "purity": "தூய்மை",
+      "rainbow-labels": "வானவில் பெயர்ச்சீட்டுகள்"
+    },
+    "presets": {
+      "Kando Default": "இயல்புநிலை நிறங்கள்",
+      "Blue Glass": "நீலக் கண்ணாடி",
+      "Dark Night": "இருண்ட இரவு",
+      "Cotton Candy": "பஞ்சுமிட்டாய்",
+      "Dark and Cozy": "இருண்ட இதம்",
+      "Blue Glow": "நீல ஒளிர்வு",
+      "Green Glow": "பச்சை ஒளிர்வு",
+      "Electric": "மின்சாரம்",
+      "Orange": "ஆரஞ்சு",
+      "Pink": "இளஞ்சிவப்பு",
+      "Bright Prism": "ஒளிரும் முப்பட்டகம்"
+    }
+  },
+  "tr": {
+    "themes": {
+      "default": "Varsayılan",
+      "clean-circle": "Sade Daire",
+      "neon-lights": "Neon Işıklar",
+      "purity": "Saflık",
+      "rainbow-labels": "Gökkuşağı Etiketleri"
+    },
+    "presets": {
+      "Kando Default": "Varsayılan renkler",
+      "Blue Glass": "Mavi Cam",
+      "Dark Night": "Karanlık Gece",
+      "Cotton Candy": "Pamuk Şeker",
+      "Dark and Cozy": "Karanlık ve Sıcak",
+      "Blue Glow": "Mavi Parıltı",
+      "Green Glow": "Yeşil Parıltı",
+      "Electric": "Elektrik",
+      "Orange": "Turuncu",
+      "Pink": "Pembe",
+      "Bright Prism": "Parlak Prizma"
+    }
+  },
+  "uk": {
+    "themes": {
+      "default": "Типова",
+      "clean-circle": "Просте коло",
+      "neon-lights": "Неонові вогні",
+      "purity": "Чистота",
+      "rainbow-labels": "Веселкові підписи"
+    },
+    "presets": {
+      "Kando Default": "Типові кольори",
+      "Blue Glass": "Синє скло",
+      "Dark Night": "Темна ніч",
+      "Cotton Candy": "Цукрова вата",
+      "Dark and Cozy": "Темно й затишно",
+      "Blue Glow": "Синє сяйво",
+      "Green Glow": "Зелене сяйво",
+      "Electric": "Електрична",
+      "Orange": "Помаранчева",
+      "Pink": "Рожева",
+      "Bright Prism": "Яскрава призма"
+    }
+  },
+  "vi": {
+    "themes": {
+      "default": "Mặc định",
+      "clean-circle": "Vòng tròn đơn giản",
+      "neon-lights": "Đèn neon",
+      "purity": "Tinh khiết",
+      "rainbow-labels": "Nhãn cầu vồng"
+    },
+    "presets": {
+      "Kando Default": "Màu mặc định",
+      "Blue Glass": "Kính xanh lam",
+      "Dark Night": "Đêm tối",
+      "Cotton Candy": "Kẹo bông",
+      "Dark and Cozy": "Tối và ấm cúng",
+      "Blue Glow": "Ánh sáng xanh lam",
+      "Green Glow": "Ánh sáng xanh lá",
+      "Electric": "Ánh điện",
+      "Orange": "Cam",
+      "Pink": "Hồng",
+      "Bright Prism": "Lăng kính rực sáng"
+    }
+  },
+  "zh-Hans": {
+    "themes": {
+      "default": "默认",
+      "clean-circle": "简洁圆环",
+      "neon-lights": "霓虹灯",
+      "purity": "纯净",
+      "rainbow-labels": "彩虹标签"
+    },
+    "presets": {
+      "Kando Default": "默认色彩",
+      "Blue Glass": "蓝色玻璃",
+      "Dark Night": "深夜",
+      "Cotton Candy": "棉花糖",
+      "Dark and Cozy": "暗色暖调",
+      "Blue Glow": "蓝色辉光",
+      "Green Glow": "绿色辉光",
+      "Electric": "电光",
+      "Orange": "橙色",
+      "Pink": "粉色",
+      "Bright Prism": "明亮棱镜"
+    }
+  },
+  "zh-Hant": {
+    "themes": {
+      "default": "預設",
+      "clean-circle": "簡潔圓環",
+      "neon-lights": "霓虹燈",
+      "purity": "純淨",
+      "rainbow-labels": "彩虹標籤"
+    },
+    "presets": {
+      "Kando Default": "預設色彩",
+      "Blue Glass": "藍色玻璃",
+      "Dark Night": "深夜",
+      "Cotton Candy": "棉花糖",
+      "Dark and Cozy": "深色暖調",
+      "Blue Glow": "藍色輝光",
+      "Green Glow": "綠色輝光",
+      "Electric": "電光",
+      "Orange": "橙色",
+      "Pink": "粉紅色",
+      "Bright Prism": "明亮稜鏡"
+    }
+  }
+}

@@ -42,7 +42,7 @@ public sealed partial class MainWindow
         ]));
         var diagnostics = NewPillButton(T("导出诊断包", "Export diagnostics"), false);
         diagnostics.Click += async (_, _) => await ExportDiagnosticsAsync();
-        content.Children.Add(diagnostics);
+        content.Children.Add(MarkSearchTarget(diagnostics, "export-diagnostics"));
         root.Children.Add(NewCard(content));
         root.Children.Add(NewProjectLinksCard(
             L("项目页面", "Project Pages", "專案頁面", "프로젝트 페이지"),

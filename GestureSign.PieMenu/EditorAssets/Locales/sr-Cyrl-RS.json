@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Имејл",
+      "file-browser": "Прегледач датотека",
+      "paint": "Paint",
+      "submenu": "Апликације",
+      "terminal": "Терминал",
+      "web-browser": "Прегледач"
+    },
+    "audio": {
+      "mute": "Утишај",
+      "next-track": "Следећа песма",
+      "play-pause": "Пусти / Пауза",
+      "previous-track": "Претходна песма",
+      "submenu": "Аудио"
+    },
+    "bookmarks": {
+      "desktop": "Радна површина",
+      "documents": "Документи",
+      "downloads": "Преузимања",
+      "home": "Почетна страница",
+      "music": "Музика",
+      "pictures": "Слике",
+      "submenu": "Омиљени",
+      "videos": "Видеа"
+    },
+    "clipboard": {
+      "copy": "Копирај",
+      "cut": "Исеци",
+      "paste": "Прилепи",
+      "submenu": "Клипборд"
+    },
+    "name": "Пример менија",
+    "next-workspace": "Следећи радиони простор",
+    "previous-workspace": "Претходни радни простор",
+    "web-links": {
+      "kando-on-discord": "Kando на Discord",
+      "kando-on-github": "Kando на GitHub",
+      "kando-on-kofi": "Kando на Ko-fi",
+      "kando-on-youtube": "Kando на YouTube",
+      "submenu": "Интернет линк"
+    },
+    "windows": {
+      "close-window": "Затвори прозор",
+      "submenu": "Прозори",
+      "tile-left": "Плоча лево",
+      "tile-right": "Плоча десно",
+      "toggle-maximize": "Увећај прозор"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Затвори мени"
+    },
+    "close-submenu": {
+      "name": "Затворите подмени"
+    },
+    "delay": {
+      "name": "Каснити"
+    },
+    "execute-command": {
+      "name": "Покрени команду"
+    },
+    "execute-macro": {
+      "name": "Покрени макро"
+    },
+    "focus-window": {
+      "name": "Фокус прозор"
+    },
+    "inhibit-shortcuts": {
+      "name": "Инхиб Схортцутс"
+    },
+    "open-file": {
+      "name": "Отвори датотеку"
+    },
+    "open-menu": {
+      "name": "Усмери"
+    },
+    "open-settings": {
+      "name": "Отвори подешавања"
+    },
+    "open-uri": {
+      "name": "Отвори URI"
+    },
+    "send-tcp-message": {
+      "name": "Пошаљите ТЦП поруку"
+    },
+    "send-websocket-message": {
+      "name": "Пошаљите ВебСоцкет поруку"
+    },
+    "set-clipboard": {
+      "name": "Поставите међуспремник"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Пречица (Hotkey)",
+      "name": "Симулирај пречицу (Hotkey)",
+      "recording-placeholder": "Унети пречицу…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Подмени"
+    }
+  },
+  "native": {
+    "action": "Акција",
+    "action-value": "Пречица, путања, УРЛ, текст или ЈСОН",
+    "choose-icon": "Изаберите икону",
+    "condition-invalid": "Унесите важећи прозор или услов апликације, на пример /нотепад/и.",
+    "configuration": "Конфигурација менија пита",
+    "editor": "Пие Мену Едитор",
+    "exported": "Извезено у {0}",
+    "fixed-angle": "Фиксни угао (0° = горе)",
+    "fixed-x": "Фиксно Кс (0–1 преко монитора)",
+    "fixed-y": "Фиксно И (0–1 низ монитор)",
+    "icon-invalid-image": "Одаберите ПНГ, ЈПЕГ, ГИФ, ВебП или ИЦО слику до 192 КБ.",
+    "icon-library": "Библиотека икона",
+    "icon-next": "Следеће иконе",
+    "icon-no-results": "Није пронађена ниједна икона.",
+    "icon-pick-file": "Изаберите слику или апликацију",
+    "icon-previous": "Претходне иконе",
+    "icon-use-image": "Користи слику",
+    "imported": "Увезено менија ({0}). Прегледајте увезене команде пре него што их употребите, а затим их сачувајте.",
+    "item-icon": "Икона ставке",
+    "item-order": "Редослед предмета",
+    "label": "Лабел",
+    "move-down": "Помери се доле",
+    "move-up": "Помери се горе",
+    "name": "Име менија",
+    "new-menu": "Нови мени",
+    "off": "Isključeno",
+    "on": "Uključeno",
+    "palette": "Палета боја",
+    "preview": "Мени за преглед",
+    "remove": "Уклони",
+    "save": "Сачувајте меније",
+    "saved": "Конфигурација менија је сачувана.",
+    "shortcut-clear": "Обриши пречицу",
+    "shortcut-cleared": "Пречица је обрисана.",
+    "shortcut-config-changed": "Конфигурација менија је промењена на диску. Сачувајте тренутне меније да бисте применили ову пречицу.",
+    "shortcut-in-use": "Виндовс извештава да је ова пречица већ у употреби.",
+    "shortcut-invalid": "Унесите један тастер, плус све модификаторе дозвољене за ову пречицу.",
+    "shortcut-record": "Пречица за снимање",
+    "shortcut-save-new-menu": "Сачувајте овај нови мени да бисте активирали његову пречицу.",
+    "shortcut-saved": "Пречица је сачувана: {0}. Користите га да отворите мени када је омогућено Брзе радње.",
+    "shortcut-stop": "Заустави снимање",
+    "shortcut-unavailable": "Виндовс није могао да региструје ову пречицу."
+  },
+  "settings": {
+    "add-menu-items": "Додај ставке менију",
+    "all-menus": "Сви менији",
+    "anchored-mode": "Фиксно",
+    "app-condition": "Ограничи на одређене апликације",
+    "area-condition-bottom-placeholder": "Дно",
+    "area-condition-left-placeholder": "Лево",
+    "area-condition-right-placeholder": "Десно",
+    "area-condition-top-placeholder": "Горе",
+    "cancel": "Откажи",
+    "create-menu-button": "Нови мени",
+    "delete-menu": "Обриши мени",
+    "delete-menu-item": "Избриши ставку менија",
+    "edit-submenu": "Уреди подмени",
+    "export-menu": "Извоз мени",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Омогући режим обележавања",
+      "close-menu": "Затвори мени",
+      "do-nothing": "Не ради ништа",
+      "enable-marking-mode-info": "Када је режим обележавања омогућен, можете одабирати ставке превлачењем миша преко њих.",
+      "enable-turbo-mode": "Омогући Турбо режим",
+      "enable-turbo-mode-info": "Када је Турбо режим омогућен, можете изводити гестове док држите притиснуту модификаторску тастерску комбинацију, као што су Shift или Ctrl.",
+      "interaction-modes": "Режими интеракције",
+      "middle-mouse-button-behavior": "Средње дугме миша",
+      "middle-mouse-button-behavior-info": "Ово одређује шта се дешава када се притисне средњи тастер миша док је приказан мени.",
+      "move-pointer-to-menu-center": "Помери курсор у центар менија",
+      "move-pointer-to-menu-center-info": "Ако је означено, курсор миша ће бити померен у центар менија или подменија када је то потребно. То се може десити ако је мени отворен преблизу ивици екрана или ако је мени отворен у центрираном режиму.",
+      "require-click-for-hover-mode": "Захтевај клик за селекцију у режиму преласка мишем",
+      "require-click-for-hover-mode-info": "Ако није означено, ставке ће бити аутоматски изабране чим пређете преко њих мишем у менијима који користе режим преласка.",
+      "right-mouse-button-behavior": "Десно дугме миша",
+      "right-mouse-button-behavior-info": "Ово одређује шта се дешава када се притисне десни тастер миша док је приказан мени.",
+      "select-item": "Изаберите ставку",
+      "select-parent": "Крећите се за један ниво горе",
+      "trigger-center-click-on-key-release": "Затворите мени на пуштању пречице изнад центра",
+      "trigger-center-click-on-key-release-info": "Ово ће покренути ток рада са централним кликом када се отпусти тастер док се лебди изнад центра менија."
+    },
+    "hover-mode": "Прелазак",
+    "icon-picker-dialog": {
+      "search-placeholder": "Претражи иконе…"
+    },
+    "import-menu": "Увоз мени",
+    "menu-behavior": "Понашање менија",
+    "menu-conditions": "Услови приказивање менија",
+    "menu-themes-dialog": {
+      "default-colors": "Подразумеване боје",
+      "enable-menu-animations": "Анимације менија",
+      "title": "Теме менија"
+    },
+    "no-matching-menus": "Ни један мени није нађен.",
+    "no-menus": "Нема ни један мени.",
+    "not-bound": "Није повезано",
+    "quick-select-key-label": "Тастер за брзи избор",
+    "quick-select-key-recording": "Изаберите кључ…",
+    "shortcut-info": "Пречица за отварање менија. Мора садржати једно нормално дугме и било који број модификатора (Ctrl, Alt, Shift итд.). При снимању пречице не мораш притискати све тастере одједном, можеш их унети један за другим. Корисно ако је пречица већ заузета за други мени!",
+    "shortcut-label": "Пречица",
+    "shortcut-recording": "Стисни пречицу…",
+    "window-condition": "Ограничи на одређене наслове прозора",
+    "workflow-editor": {
+      "add-action": "Додај акцију",
+      "select-workflow-name": "Изаберите Ток рада"
+    },
+    "anchored-mode-info": "Отварај подменије на истој позицији као и главни мени. Ако одабереш опцију, режими „Обележавање“ и „Турбо“ ће бити онемогућени.",
+    "fixed-position-mode": "Режим фиксне позиције",
+    "fixed-position-mode-info": "Отворите мени на фиксној позицији на екрану, уместо на курсору.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Поставите положај доле лево",
+      "bottom-right-preset-tooltip": "Поставите положај доле десно",
+      "centered-preset-tooltip": "Поставите положај на центар",
+      "confirm": "Користите ову позицију",
+      "top-left-preset-tooltip": "Поставите положај у горњем левом углу",
+      "top-right-preset-tooltip": "Поставите положај горе десно"
+    },
+    "fixed-position-tooltip": "Изаберите фиксну позицију",
+    "hover-mode-info": "Само за напредне кориснике! Изабери ставке преласком миша преко њих."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Подразумевано",
+      "clean-circle": "Једноставан круг",
+      "neon-lights": "Неонска светла",
+      "purity": "Чистоћа",
+      "rainbow-labels": "Ознаке дугиних боја"
+    },
+    "presets": {
+      "Blue Glass": "Плаво стакло",
+      "Dark Night": "Тамна ноћ",
+      "Cotton Candy": "Шећерна вуна",
+      "Dark and Cozy": "Тамно и пријатно",
+      "Blue Glow": "Плави сјај",
+      "Green Glow": "Зелени сјај",
+      "Electric": "Електрично",
+      "Orange": "Наранџаста",
+      "Pink": "Ружичаста",
+      "Bright Prism": "Сјајна призма",
+      "Kando Default": "Подразумеване боје"
+    }
+  }
+}

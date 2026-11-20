@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-post",
+      "file-browser": "Filläsare",
+      "paint": "Måla",
+      "submenu": "Appar",
+      "terminal": "Terminal",
+      "web-browser": "Webbläsare"
+    },
+    "audio": {
+      "mute": "Tyst",
+      "next-track": "Nästa spår",
+      "play-pause": "Spela / Pausa",
+      "previous-track": "Föregående spår",
+      "submenu": "Ljud"
+    },
+    "bookmarks": {
+      "desktop": "Skrivbord",
+      "documents": "Dokument",
+      "downloads": "Nedladdningar",
+      "home": "Hem",
+      "music": "Musik",
+      "pictures": "Bilder",
+      "submenu": "Bokmärken",
+      "videos": "Videor"
+    },
+    "clipboard": {
+      "copy": "Kopiera",
+      "cut": "Klipp ut",
+      "paste": "Klistra in",
+      "submenu": "Urklipp"
+    },
+    "name": "Exempelmeny",
+    "next-workspace": "Nästa arbetsyta",
+    "previous-workspace": "Tidigare Workspace",
+    "web-links": {
+      "kando-on-discord": "Kando på Discord",
+      "kando-on-github": "Kando på GitHub",
+      "kando-on-kofi": "Kando på Ko-fi",
+      "kando-on-youtube": "Kando på YouTube",
+      "submenu": "Webblänkar"
+    },
+    "windows": {
+      "close-window": "Stäng fönster",
+      "submenu": "Windows",
+      "tile-left": "Kakel vänster",
+      "tile-right": "Kakel Höger",
+      "toggle-maximize": "Växla Maximera"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Stäng menyn"
+    },
+    "close-submenu": {
+      "name": "Stäng undermenyn"
+    },
+    "delay": {
+      "name": "Fördröjning"
+    },
+    "execute-command": {
+      "name": "Utför kommando"
+    },
+    "execute-macro": {
+      "name": "Kör makro"
+    },
+    "focus-window": {
+      "name": "Fokusfönster"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibera genvägar"
+    },
+    "open-file": {
+      "name": "Öppna fil"
+    },
+    "open-menu": {
+      "name": "Öppna menyn"
+    },
+    "open-settings": {
+      "name": "Öppna Inställningar"
+    },
+    "open-uri": {
+      "name": "Öppna URI"
+    },
+    "send-tcp-message": {
+      "name": "Skicka TCP-meddelande"
+    },
+    "send-websocket-message": {
+      "name": "Skicka WebSocket-meddelande"
+    },
+    "set-clipboard": {
+      "name": "Ställ in Urklipp"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Snabbtangent",
+      "name": "Simulera snabbtangent",
+      "recording-placeholder": "Skriv en snabbtangent..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Undermeny"
+    }
+  },
+  "native": {
+    "action": "Åtgärd",
+    "action-value": "Genväg, sökväg, URL, text eller JSON",
+    "choose-icon": "Välj ikon",
+    "condition-invalid": "Ange ett giltigt fönster eller appvillkor, till exempel /notepad/i.",
+    "configuration": "Konfiguration av pajmeny",
+    "editor": "Pajmenyredigerare",
+    "exported": "Exporterad till {0}",
+    "fixed-angle": "Fast vinkel (0° = upp)",
+    "fixed-x": "Fast X (0–1 över skärmen)",
+    "fixed-y": "Fast Y (0–1 ner på skärmen)",
+    "icon-invalid-image": "Välj en PNG-, JPEG-, GIF-, WebP- eller ICO-bild upp till 192 KB.",
+    "icon-library": "Ikon bibliotek",
+    "icon-next": "Nästa ikoner",
+    "icon-no-results": "Inga ikoner hittades.",
+    "icon-pick-file": "Välj bild eller app",
+    "icon-previous": "Tidigare ikoner",
+    "icon-use-image": "Använd bild",
+    "imported": "Importerade {0} meny(er). Granska importerade kommandon innan du använder dem och spara sedan.",
+    "item-icon": "Objekt ikon",
+    "item-order": "Beställning av föremål",
+    "label": "Etikett",
+    "move-down": "Flytta ner",
+    "move-up": "Flytta uppåt",
+    "name": "Menynamn",
+    "new-menu": "Ny meny",
+    "off": "Av",
+    "on": "På",
+    "palette": "Färgpalett",
+    "preview": "Förhandsvisningsmeny",
+    "remove": "Ta bort",
+    "save": "Spara menyer",
+    "saved": "Menykonfigurationen sparad.",
+    "shortcut-clear": "Rensa genväg",
+    "shortcut-cleared": "Genväg rensad.",
+    "shortcut-config-changed": "Menykonfigurationen har ändrats på disken. Spara de aktuella menyerna för att använda denna genväg.",
+    "shortcut-in-use": "Windows rapporterar att den här genvägen redan används.",
+    "shortcut-invalid": "Ange en nyckel, plus eventuella modifierare som är tillåtna för denna genväg.",
+    "shortcut-record": "Spela in genväg",
+    "shortcut-save-new-menu": "Spara den här nya menyn för att aktivera dess genväg.",
+    "shortcut-saved": "Genväg sparad: {0}. Använd den för att öppna menyn när Snabbåtgärder är aktiverat.",
+    "shortcut-stop": "Sluta spela in",
+    "shortcut-unavailable": "Windows kunde inte registrera denna genväg."
+  },
+  "settings": {
+    "add-menu-items": "Lägg till menyalternativ",
+    "all-menus": "Alla menyer",
+    "anchored-mode": "Förankrat läge",
+    "app-condition": "Begränsa till specifika appar",
+    "area-condition-bottom-placeholder": "Botten",
+    "area-condition-left-placeholder": "Vänster",
+    "area-condition-right-placeholder": "Höger",
+    "area-condition-top-placeholder": "Överst",
+    "cancel": "Avbryt",
+    "create-menu-button": "Lägg till meny",
+    "delete-menu": "Ta bort meny",
+    "delete-menu-item": "Ta bort menyalternativ",
+    "edit-submenu": "Redigera undermeny",
+    "export-menu": "Exportmenyn",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Aktivera Markeringsläge",
+      "close-menu": "Stäng menyn",
+      "do-nothing": "Gör ingenting",
+      "enable-marking-mode-info": "Med Markeringsläge aktiverat kan du välja objekt genom att dra musen över dem.",
+      "enable-turbo-mode": "Aktivera turboläge",
+      "enable-turbo-mode-info": "Med Turbo-läge aktiverat kan du utföra gester så länge du håller ned en modifieringstangent som Shift eller Ctrl.",
+      "interaction-modes": "Interaktionslägen",
+      "middle-mouse-button-behavior": "Mellersta musknappen",
+      "middle-mouse-button-behavior-info": "Detta avgör vad som händer när den mellersta musknappen trycks ned medan en meny visas.",
+      "move-pointer-to-menu-center": "Flytta pekaren till menycentrum",
+      "move-pointer-to-menu-center-info": "Om markerad kommer muspekaren att flyttas till mitten av en meny eller undermeny vid behov. Detta kan vara fallet om en meny öppnas för nära kanten av skärmen eller om en meny öppnas i centrerat läge.",
+      "require-click-for-hover-mode": "Kräv klick för val av hovringsläge",
+      "require-click-for-hover-mode-info": "Om avmarkerat kommer objekt att väljas omedelbart när musen förs över dem för menyer som använder svävningsläge.",
+      "right-mouse-button-behavior": "Höger musknapp",
+      "right-mouse-button-behavior-info": "Detta avgör vad som händer när höger musknapp trycks ned medan en meny visas.",
+      "select-item": "Välj objekt",
+      "select-parent": "Navigera upp en nivå",
+      "trigger-center-click-on-key-release": "Stäng menyn på genvägssläpp över mitten",
+      "trigger-center-click-on-key-release-info": "Detta kommer att utlösa arbetsflödet för mittklick när en tangent släpps medan du håller muspekaren över mitten av en meny."
+    },
+    "hover-mode": "Hover Mode",
+    "icon-picker-dialog": {
+      "search-placeholder": "Sökikoner..."
+    },
+    "import-menu": "Importera meny",
+    "menu-behavior": "Menybeteende",
+    "menu-conditions": "Menyvillkor",
+    "menu-themes-dialog": {
+      "default-colors": "Standardfärger",
+      "enable-menu-animations": "Menyanimationer",
+      "title": "Menyteman"
+    },
+    "no-matching-menus": "Inga menyer hittades.",
+    "no-menus": "Du har inga menyer.",
+    "not-bound": "Ej bunden",
+    "quick-select-key-label": "Snabbvalsknapp",
+    "quick-select-key-recording": "Välj nyckel...",
+    "shortcut-info": "Denna genväg öppnar menyn. Den måste innehålla en normal tangent och valfritt antal modifierare som Ctrl, Alt eller Shift. Vid inspelning behöver du inte trycka på alla tangenter samtidigt, du kan även trycka på dem en efter en. Detta är användbart om en genväg redan är bunden till en annan meny!",
+    "shortcut-label": "Genväg",
+    "shortcut-recording": "Tryck på en genväg...",
+    "window-condition": "Begränsa till specifika fönstertitlar",
+    "workflow-editor": {
+      "add-action": "Lägg till åtgärd",
+      "select-workflow-name": "Välj Arbetsflöde"
+    },
+    "anchored-mode-info": "Öppna undermenyer på samma plats som den överordnade menyn. Om du markerar detta inaktiveras Markeringsläge och Turboläge.",
+    "fixed-position-mode": "Fast positionsläge",
+    "fixed-position-mode-info": "Öppna menyn på en fast plats på skärmen, istället för vid markören.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Ställ in position längst ner till vänster",
+      "bottom-right-preset-tooltip": "Ställ in positionen längst ner till höger",
+      "centered-preset-tooltip": "Ställ in läget i mitten",
+      "confirm": "Använd denna position",
+      "top-left-preset-tooltip": "Ställ in positionen uppe till vänster",
+      "top-right-preset-tooltip": "Ställ in positionen uppe till höger"
+    },
+    "fixed-position-tooltip": "Välj en fast position",
+    "hover-mode-info": "Endast för avancerade användare! Välj objekt genom att hålla muspekaren över dem."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Rengör cirkel",
+      "neon-lights": "Neonljus",
+      "purity": "Renhet",
+      "rainbow-labels": "Regnbågsetiketter"
+    },
+    "presets": {
+      "Blue Glass": "Blått glas",
+      "Dark Night": "Mörk natt",
+      "Cotton Candy": "Sockervadd",
+      "Dark and Cozy": "Mörkt och mysigt",
+      "Blue Glow": "Blått sken",
+      "Green Glow": "Grönt sken",
+      "Electric": "Elektrisk",
+      "Orange": "Orange",
+      "Pink": "Rosa",
+      "Bright Prism": "Ljus Prisma",
+      "Kando Default": "Standardfärger"
+    }
+  }
+}

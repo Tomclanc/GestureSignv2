@@ -46,9 +46,21 @@ public sealed partial class MainWindow
     private void ShowPage(string tag, bool recordHistory = true)
     {
         ShowPageCore(tag, recordHistory);
+        if (tag == "quickActions" && _nativeQuickActionsPage is { View: var quickActions })
+        {
+            quickActions.Loaded -= QuickActionsAccessibilityLoaded;
+            quickActions.Loaded += QuickActionsAccessibilityLoaded;
+            if (quickActions.IsLoaded) ApplyAccessibleTree(quickActions);
+            return;
+        }
         foreach (var page in PageHost.Children.OfType<FrameworkElement>()) page.Loaded += (_, _) => ApplyAccessibleTree(Root);
         DispatcherQueue.TryEnqueue(() => ApplyAccessibleTree(Root));
     }
+    private void QuickActionsAccessibilityLoaded(object sender, RoutedEventArgs args)
+    {
+        if (sender is FrameworkElement page) ApplyAccessibleTree(page);
+    }
+
     private void ApplyAccessibleTree(DependencyObject root)
     {
         // Capture sizes before changing inherited font values; toggling never compounds scaling.
@@ -77,6 +89,7 @@ public sealed partial class MainWindow
         Capture(root);
         Apply(root);
         Navigation.OpenPaneLength = _accessibility.LargeControls ? 280 : 248;
+        UpdateGlobalSearchLayout();
     }
     private FrameworkElement NewAccessibilitySettings()
     {

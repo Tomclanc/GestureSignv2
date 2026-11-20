@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "بريد إلكتروني",
+      "file-browser": "متصفح الملفات",
+      "paint": "الرسام",
+      "submenu": "تطبيقات",
+      "terminal": "الطرفية",
+      "web-browser": "متصفح الويب"
+    },
+    "audio": {
+      "mute": "صامت",
+      "next-track": "المسار التالي",
+      "play-pause": "تشغيل / إيقاف مؤقت",
+      "previous-track": "المسار السابق",
+      "submenu": "صوت"
+    },
+    "bookmarks": {
+      "desktop": "سطح المكتب",
+      "documents": "المستندات",
+      "downloads": "التنزيلات",
+      "home": "البيت",
+      "music": "موسيقى",
+      "pictures": "صور",
+      "submenu": "العلامات المرجعية",
+      "videos": "مقاطع الفيديو"
+    },
+    "clipboard": {
+      "copy": "نسخ",
+      "cut": "قص",
+      "paste": "لصق",
+      "submenu": "الحافظة"
+    },
+    "name": "قائمة المثال",
+    "next-workspace": "مساحة العمل التالية",
+    "previous-workspace": "مساحة العمل السابقة",
+    "web-links": {
+      "kando-on-discord": "كاندو علي الديسكورد",
+      "kando-on-github": "كاندو على جيتهب",
+      "kando-on-kofi": "كاندو علي كو-في",
+      "kando-on-youtube": "كاندو علي اليوتيوب",
+      "submenu": "روابط الويب"
+    },
+    "windows": {
+      "close-window": "إغلاق النافذة",
+      "submenu": "نوافذ",
+      "tile-left": "ازاحة الى اليسار",
+      "tile-right": "ازاحة الى اليمين",
+      "toggle-maximize": "تبديل التكبير"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "إغلاق القائمة"
+    },
+    "close-submenu": {
+      "name": "إغلاق القائمة الفرعية"
+    },
+    "delay": {
+      "name": "تأخير"
+    },
+    "execute-command": {
+      "name": "تشغيل امر"
+    },
+    "execute-macro": {
+      "name": "تنفيذ ماكرو"
+    },
+    "focus-window": {
+      "name": "نافذة التركيز"
+    },
+    "inhibit-shortcuts": {
+      "name": "منع الاختصارات"
+    },
+    "open-file": {
+      "name": "افتح ملف"
+    },
+    "open-menu": {
+      "name": "إعادة توجيه"
+    },
+    "open-settings": {
+      "name": "افتح الإعدادات"
+    },
+    "open-uri": {
+      "name": "فتح عنوان URI"
+    },
+    "send-tcp-message": {
+      "name": "إرسال رسالة TCP"
+    },
+    "send-websocket-message": {
+      "name": "إرسال رسالة WebSocket"
+    },
+    "set-clipboard": {
+      "name": "تعيين الحافظة"
+    },
+    "simulate-hotkey": {
+      "hotkey": "مفتاح الاختصار",
+      "name": "محاكاة مفتاح اختصار",
+      "recording-placeholder": "اكتب اختصار…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "القائمة الفرعية"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "سير عمل النقر في الوسط",
+      "center-workflow-description": "انقر في وسط القائمة الرئيسية لتنفيذ هذه الإجراءات بالترتيب.",
+      "appearance": "المظهر والحركة",
+      "menu-size": "حجم القائمة",
+      "fade-in": "ظهور تدريجي (مللي ثانية)",
+      "fade-out": "اختفاء تدريجي (مللي ثانية)",
+      "dark-palette": "لوحة ألوان داكنة",
+      "dark-theme": "نسق داكن",
+      "pointer-shortcuts": "المؤشر والاختصارات",
+      "theme-credits": "مصادر النُسق وتراخيصها",
+      "back-up-menus": "نسخ القوائم احتياطيًا",
+      "restore-menus": "استعادة القوائم",
+      "back-up-settings": "نسخ الإعدادات احتياطيًا",
+      "restore-settings": "استعادة الإعدادات",
+      "open-config-folder": "فتح مجلد التكوين",
+      "restored": "تمت الاستعادة في المحرر. احفظ لتطبيق التغييرات.",
+      "collapse": "طيّ الإعدادات"
+    },
+    "action": "العمل",
+    "action-value": "الاختصار أو المسار أو عنوان URL أو النص أو JSON",
+    "choose-icon": "اختر أيقونة",
+    "condition-invalid": "أدخل شرط نافذة أو تطبيق صالح، على سبيل المثال /notepad/i.",
+    "configuration": "تكوين القائمة الدائرية",
+    "editor": "محرر القائمة الفطيرة",
+    "exported": "تم التصدير إلى {0}",
+    "fixed-angle": "زاوية ثابتة (0° = لأعلى)",
+    "fixed-x": "X ثابت (0–1 عبر الشاشة)",
+    "fixed-y": "ثابت Y (0–1 أسفل الشاشة)",
+    "icon-invalid-image": "اختر صورة PNG أو JPEG أو GIF أو WebP أو ICO بحجم يصل إلى 192 كيلو بايت.",
+    "icon-library": "مكتبة الأيقونات",
+    "icon-next": "الرموز التالية",
+    "icon-no-results": "لم يتم العثور على أي أيقونات.",
+    "icon-pick-file": "اختر الصورة أو التطبيق",
+    "icon-previous": "الرموز السابقة",
+    "icon-use-image": "استخدم الصورة",
+    "imported": "قائمة (قوائم) {0} التي تم استيرادها. قم بمراجعة الأوامر المستوردة قبل استخدامها، ثم احفظها.",
+    "item-icon": "رمز العنصر",
+    "item-order": "ترتيب السلعة",
+    "label": "التسمية",
+    "move-down": "تحرك للأسفل",
+    "move-up": "تحرك للأعلى",
+    "name": "اسم القائمة",
+    "new-menu": "قائمة جديدة",
+    "off": "إيقاف",
+    "on": "تشغيل",
+    "palette": "لوحة الألوان",
+    "preview": "قائمة المعاينة",
+    "remove": "إزالة",
+    "save": "حفظ القوائم",
+    "saved": "تم حفظ تكوين القائمة.",
+    "shortcut-clear": "مسح الاختصار",
+    "shortcut-cleared": "تم مسح الاختصار.",
+    "shortcut-config-changed": "تم تغيير تكوين القائمة على القرص. احفظ القوائم الحالية لتطبيق هذا الاختصار.",
+    "shortcut-in-use": "يُبلغ Windows أن هذا الاختصار قيد الاستخدام بالفعل.",
+    "shortcut-invalid": "أدخل مفتاحًا واحدًا، بالإضافة إلى أية معدلات مسموح بها لهذا الاختصار.",
+    "shortcut-record": "سجل الاختصار",
+    "shortcut-save-new-menu": "احفظ هذه القائمة الجديدة لتفعيل اختصارها.",
+    "shortcut-saved": "تم حفظ الاختصار: {0}. استخدمه لفتح القائمة عند تمكين الإجراءات السريعة.",
+    "shortcut-stop": "توقف عن التسجيل",
+    "shortcut-unavailable": "تعذر على Windows تسجيل هذا الاختصار."
+  },
+  "settings": {
+    "add-menu-items": "إضافة عناصر القائمة",
+    "all-menus": "جميع القوائم",
+    "anchored-mode": "وضع المرساة",
+    "app-condition": "التقييد للتطبيقات محددة",
+    "area-condition-bottom-placeholder": "اسفل",
+    "area-condition-left-placeholder": "يسار",
+    "area-condition-right-placeholder": "يمين",
+    "area-condition-top-placeholder": "اعلي",
+    "cancel": "إلغاء",
+    "create-menu-button": "إضافة قائمة",
+    "delete-menu": "حذف القائمة",
+    "delete-menu-item": "حذف عنصر القائمة",
+    "edit-submenu": "تحرير القائمة الفرعية",
+    "export-menu": "تصدير القائمة",
+    "general-settings-dialog": {
+      "enable-marking-mode": "تمكين وضع العلامات",
+      "close-menu": "إغلاق القائمة",
+      "do-nothing": "لا تفعل شيئء",
+      "enable-marking-mode-info": "مع تمكين وضع العلامات ، يمكنك تحديد العناصر عن طريق سحب الماوس فوقها.",
+      "enable-turbo-mode": "تمكين وضع توربو",
+      "enable-turbo-mode-info": "مع تمكين وضع توربو ، يمكنك تنفيذ الإيماءات طالما كنت مستمرار بضغط مفتاح التعديل مثل ctrl أو shift.",
+      "interaction-modes": "أوضاع التفاعل",
+      "middle-mouse-button-behavior": "زر الماوس الأوسط",
+      "middle-mouse-button-behavior-info": "يحدد هذا ما يحدث عند الضغط على زر الماوس الأوسط أثناء عرض القائمة.",
+      "move-pointer-to-menu-center": "نقل مؤشر الماوس إلى مركز القائمة",
+      "move-pointer-to-menu-center-info": "إذا تم تحديده ، فسيتم نقل مؤشر الماوس إلى وسط القائمة أو القائمة الفرعية عند الضرورة. قد يكون هذا هو الحال إذا تم فتح قائمة قريبة جدا من حافة الشاشة أو إذا تم فتح قائمة في الوضع المركزي.",
+      "require-click-for-hover-mode": "مطلوب انقر لتحديد وضع التمرير",
+      "require-click-for-hover-mode-info": "إذا لم يتم تحديد العنصر ، فسيتم تحديد العنصر فورا عند تحريك الماوس فوقه للقوائم التي تستخدم وضع التمرير.",
+      "right-mouse-button-behavior": "زر الفأرة الأيمن",
+      "right-mouse-button-behavior-info": "يحدد هذا ما يحدث عند الضغط على زر الفأرة الأيمن أثناء عرض القائمة.",
+      "select-item": "حدد العنصر",
+      "select-parent": "انتقل لأعلى مستوى واحد",
+      "trigger-center-click-on-key-release": "إغلاق القائمة عند تحرير الاختصار فوق المركز",
+      "trigger-center-click-on-key-release-info": "سيؤدي هذا إلى تشغيل سير عمل النقر الأوسط عند تحرير المفتاح أثناء التمرير فوق وسط القائمة."
+    },
+    "hover-mode": "وضع التحويم",
+    "icon-picker-dialog": {
+      "search-placeholder": "البحث عن ايقونة…"
+    },
+    "import-menu": "استيراد القائمة",
+    "menu-behavior": "سلوك القائمة",
+    "menu-conditions": "شروط القائمة",
+    "menu-themes-dialog": {
+      "default-colors": "الألوان الافتراضية",
+      "enable-menu-animations": "الرسوم المتحركة للقائمة",
+      "title": "قائمة المظهر"
+    },
+    "no-matching-menus": "لم يتم العثور على القوائم.",
+    "no-menus": "ليس لديك قوائم.",
+    "not-bound": "الاختصار غير معين",
+    "quick-select-key-label": "مفتاح التحديد السريع",
+    "quick-select-key-recording": "حدد المفتاح…",
+    "shortcut-info": "يفتح هذا الاختصار القائمة. يجب أن يحتوي على مفتاح عادي واحد وأي عدد من مفاتيح التعديل مثل Ctrl أو Alt أو Shift. عند التسجيل، ليس عليك الضغط على جميع المفاتيح دفعة واحدة، بل يمكنك الضغط عليها واحدًا تلو الآخر. هذا مفيد إذا كان الاختصار مرتبطًا بقائمة أخرى!",
+    "shortcut-label": "الاختصار",
+    "shortcut-recording": "اضغط علي الاختصار…",
+    "window-condition": "التقييد الي عناوين نوافذ محددة",
+    "workflow-editor": {
+      "add-action": "إضافة إجراء",
+      "select-workflow-name": "حدد سير العمل"
+    },
+    "anchored-mode-info": "افتح القوائم الفرعية في نفس موضع القائمة الرئيسية. سيؤدي تحديد هذا الخيار إلى تعطيل وضعي التحديد والتوربو.",
+    "fixed-position-mode": "وضع الموقف الثابت",
+    "fixed-position-mode-info": "افتح القائمة في موضع ثابت على الشاشة، بدلاً من فتح المؤشر.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "اضبط الموضع على أسفل اليسار",
+      "bottom-right-preset-tooltip": "اضبط الموضع على أسفل اليمين",
+      "centered-preset-tooltip": "اضبط الموضع على المركز",
+      "confirm": "استخدم هذا الموقف",
+      "top-left-preset-tooltip": "اضبط الموضع على أعلى اليسار",
+      "top-right-preset-tooltip": "اضبط الموضع على أعلى اليمين"
+    },
+    "fixed-position-tooltip": "حدد موضعًا ثابتًا",
+    "hover-mode-info": "للمستخدمين المحترفين فقط! حدد العناصر بتمرير المؤشر فوقها."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "افتراضي",
+      "clean-circle": "دائرة بسيطة",
+      "neon-lights": "أضواء النيون",
+      "purity": "نقاء",
+      "rainbow-labels": "تسميات بألوان الطيف"
+    },
+    "presets": {
+      "Blue Glass": "زجاج أزرق",
+      "Dark Night": "ليل داكن",
+      "Cotton Candy": "غزل البنات",
+      "Dark and Cozy": "داكن ودافئ",
+      "Blue Glow": "توهج أزرق",
+      "Green Glow": "توهج أخضر",
+      "Electric": "كهربائي",
+      "Orange": "برتقالي",
+      "Pink": "وردي",
+      "Bright Prism": "منشور ساطع",
+      "Kando Default": "الألوان الافتراضية"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Γρήγορες Ενέργειες</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Άνοιγμα του κυκλικού μενού με ειδικές συντομεύσεις.</value>
+  </data>
+</root>

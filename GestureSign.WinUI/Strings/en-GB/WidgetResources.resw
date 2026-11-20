@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Open the radial menu with dedicated shortcuts.</value>
+  </data>
+</root>

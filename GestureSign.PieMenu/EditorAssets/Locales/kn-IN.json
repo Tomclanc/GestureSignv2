@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ಇ-ಮೇಲ್",
+      "file-browser": "ಫೈಲ್ ಬ್ರೌಸರ್",
+      "paint": "ಬಣ್ಣ",
+      "submenu": "ಅಪ್ಲಿಕೇಶನ್ಗಳು",
+      "terminal": "ಟರ್ಮಿನಲ್",
+      "web-browser": "ವೆಬ್ ಬ್ರೌಸರ್"
+    },
+    "audio": {
+      "mute": "ಮೊಚ್ಚು",
+      "next-track": "ಮುಂದಿನ ಟ್ರಾಕ್",
+      "play-pause": "ಪ್ಲೇ / ವಿರಾಮ",
+      "previous-track": "ಹಿಂದಿನ ಟ್ರ್ಯಾಕ್",
+      "submenu": "ಆಡಿಯೋ"
+    },
+    "bookmarks": {
+      "desktop": "ಡೆಸ್ಕ್‌ಟಾಪ್",
+      "documents": "ದಾಖಲೆಗಳು",
+      "downloads": "ಡೌನ್‌ಲೋಡ್‌ಗಳು",
+      "home": "ಮನೆ",
+      "music": "ಸಂಗೀತ",
+      "pictures": "ಚಿತ್ರಗಳು",
+      "submenu": "ಬುಕ್‌ಮಾರ್ಕ್‌ಗಳು",
+      "videos": "ವೀಡಿಯೊಗಳು"
+    },
+    "clipboard": {
+      "copy": "ನಕಲು ಮಾಡಿ",
+      "cut": "ಕಡಿತ ಮಾಡಿ",
+      "paste": "ಅಂಟಿಸಿ",
+      "submenu": "ಕ್ಲಿಪ್ಬೋರ್ಡ್"
+    },
+    "name": "ಉದಾಹರಣೆ ಮೆನು",
+    "next-workspace": "ಮುಂದಿನ ಕಾರ್ಯಕ್ಷೇತ್ರ",
+    "previous-workspace": "ಹಿಂದಿನ ಕಾರ್ಯಕ್ಷೇತ್ರ",
+    "web-links": {
+      "kando-on-discord": "ಅಪಶ್ರುತಿಯ ಮೇಲೆ ಕಂಡೋ",
+      "kando-on-github": "GitHub ನಲ್ಲಿ ಕಂಡೋ",
+      "kando-on-kofi": "Ko-fi ನಲ್ಲಿ ಕಂಡೋ",
+      "kando-on-youtube": "YouTube ನಲ್ಲಿ ಕಂಡೋ",
+      "submenu": "ವೆಬ್ ಲಿಂಕ್‌ಗಳು"
+    },
+    "windows": {
+      "close-window": "ವಿಂಡೋ ಮುಚ್ಚಿ",
+      "submenu": "ವಿಂಡೋಸ್",
+      "tile-left": "ಟೈಲ್ ಎಡ",
+      "tile-right": "ಟೈಲ್ ಬಲ",
+      "toggle-maximize": "ಗರಿಷ್ಠಗೊಳಿಸು ಟಾಗಲ್ ಮಾಡಿ"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ಮೆನುವನ್ನು ಮುಚ್ಚಿ"
+    },
+    "close-submenu": {
+      "name": "ಉಪಮೆನುವನ್ನು ಮುಚ್ಚಿ"
+    },
+    "delay": {
+      "name": "ವಿಳಂಬ"
+    },
+    "execute-command": {
+      "name": "ಆಜ್ಞೆಯನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸಿ"
+    },
+    "execute-macro": {
+      "name": "ಮ್ಯಾಕ್ರೋವನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸಿ"
+    },
+    "focus-window": {
+      "name": "ಫೋಕಸ್ ವಿಂಡೋ"
+    },
+    "inhibit-shortcuts": {
+      "name": "ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ತಡೆಯಿರಿ"
+    },
+    "open-file": {
+      "name": "ಫೈಲ್ ತೆರೆಯಿರಿ"
+    },
+    "open-menu": {
+      "name": "ಮೆನು ತೆರೆಯಿರಿ"
+    },
+    "open-settings": {
+      "name": "ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ"
+    },
+    "open-uri": {
+      "name": "URI ತೆರೆಯಿರಿ"
+    },
+    "send-tcp-message": {
+      "name": "TCP ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ"
+    },
+    "set-clipboard": {
+      "name": "ಕ್ಲಿಪ್ಬೋರ್ಡ್ ಹೊಂದಿಸಿ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ಹಾಟ್ ಕೀ",
+      "name": "ಹಾಟ್‌ಕೀಯನ್ನು ಅನುಕರಿಸಿ",
+      "recording-placeholder": "ಹಾಟ್‌ಕೀ ಟೈಪ್ ಮಾಡಿ..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ಉಪಮೆನು"
+    }
+  },
+  "native": {
+    "action": "ಕ್ರಿಯೆ",
+    "action-value": "ಶಾರ್ಟ್‌ಕಟ್, ಮಾರ್ಗ, URL, ಪಠ್ಯ ಅಥವಾ JSON",
+    "choose-icon": "ಐಕಾನ್ ಆಯ್ಕೆಮಾಡಿ",
+    "condition-invalid": "ಮಾನ್ಯವಾದ ವಿಂಡೋ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್ ಸ್ಥಿತಿಯನ್ನು ನಮೂದಿಸಿ, ಉದಾಹರಣೆಗೆ /notepad/i.",
+    "configuration": "ಪೈ ಮೆನು ಕಾನ್ಫಿಗರೇಶನ್",
+    "editor": "ಪೈ ಮೆನು ಸಂಪಾದಕ",
+    "exported": "{0} ಗೆ ರಫ್ತು ಮಾಡಲಾಗಿದೆ",
+    "fixed-angle": "ಸ್ಥಿರ ಕೋನ (0° = ಮೇಲಕ್ಕೆ)",
+    "fixed-x": "ಸ್ಥಿರ X (ಮಾನಿಟರ್‌ನಾದ್ಯಂತ 0–1)",
+    "fixed-y": "ಸ್ಥಿರ Y (0-1 ಮಾನಿಟರ್ ಕೆಳಗೆ)",
+    "icon-invalid-image": "192 KB ವರೆಗೆ PNG, JPEG, GIF, WebP, ಅಥವಾ ICO ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
+    "icon-library": "ಐಕಾನ್ ಲೈಬ್ರರಿ",
+    "icon-next": "ಮುಂದಿನ ಐಕಾನ್‌ಗಳು",
+    "icon-no-results": "ಯಾವುದೇ ಐಕಾನ್‌ಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+    "icon-pick-file": "ಚಿತ್ರ ಅಥವಾ ಅಪ್ಲಿಕೇಶನ್ ಆಯ್ಕೆಮಾಡಿ",
+    "icon-previous": "ಹಿಂದಿನ ಐಕಾನ್‌ಗಳು",
+    "icon-use-image": "ಚಿತ್ರವನ್ನು ಬಳಸಿ",
+    "imported": "{0} ಮೆನು(ಗಳು) ಆಮದು ಮಾಡಲಾಗಿದೆ. ಅವುಗಳನ್ನು ಬಳಸುವ ಮೊದಲು ಆಮದು ಮಾಡಿದ ಆಜ್ಞೆಗಳನ್ನು ಪರಿಶೀಲಿಸಿ, ನಂತರ ಉಳಿಸಿ.",
+    "item-icon": "ಐಟಂ ಐಕಾನ್",
+    "item-order": "ಐಟಂ ಆದೇಶ",
+    "label": "ಲೇಬಲ್",
+    "move-down": "ಕೆಳಗೆ ಸರಿಸಿ",
+    "move-up": "ಮೇಲಕ್ಕೆ ಸರಿಸಿ",
+    "name": "ಮೆನು ಹೆಸರು",
+    "new-menu": "ಹೊಸ ಮೆನು",
+    "off": "ನಿಷ್ಕ್ರಿಯ",
+    "on": "ಸಕ್ರಿಯ",
+    "palette": "ಬಣ್ಣದ ಪ್ಯಾಲೆಟ್",
+    "preview": "ಪೂರ್ವವೀಕ್ಷಣೆ ಮೆನು",
+    "remove": "ತೆಗೆದುಹಾಕಿ",
+    "save": "ಮೆನುಗಳನ್ನು ಉಳಿಸಿ",
+    "saved": "ಮೆನು ಕಾನ್ಫಿಗರೇಶನ್ ಉಳಿಸಲಾಗಿದೆ.",
+    "shortcut-clear": "ಶಾರ್ಟ್‌ಕಟ್ ತೆರವುಗೊಳಿಸಿ",
+    "shortcut-cleared": "ಶಾರ್ಟ್‌ಕಟ್ ತೆರವುಗೊಳಿಸಲಾಗಿದೆ.",
+    "shortcut-config-changed": "ಡಿಸ್ಕ್ನಲ್ಲಿ ಮೆನು ಕಾನ್ಫಿಗರೇಶನ್ ಬದಲಾಗಿದೆ. ಈ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಅನ್ವಯಿಸಲು ಪ್ರಸ್ತುತ ಮೆನುಗಳನ್ನು ಉಳಿಸಿ.",
+    "shortcut-in-use": "ಈ ಶಾರ್ಟ್‌ಕಟ್ ಈಗಾಗಲೇ ಬಳಕೆಯಲ್ಲಿದೆ ಎಂದು ವಿಂಡೋಸ್ ವರದಿ ಮಾಡಿದೆ.",
+    "shortcut-invalid": "ಒಂದು ಕೀಯನ್ನು ನಮೂದಿಸಿ, ಜೊತೆಗೆ ಈ ಶಾರ್ಟ್‌ಕಟ್‌ಗೆ ಅನುಮತಿಸಲಾದ ಯಾವುದೇ ಮಾರ್ಪಾಡುಗಳನ್ನು ನಮೂದಿಸಿ.",
+    "shortcut-record": "ರೆಕಾರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್",
+    "shortcut-save-new-menu": "ಅದರ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಈ ಹೊಸ ಮೆನುವನ್ನು ಉಳಿಸಿ.",
+    "shortcut-saved": "ಶಾರ್ಟ್‌ಕಟ್ ಉಳಿಸಲಾಗಿದೆ: {0}. ತ್ವರಿತ ಕ್ರಿಯೆಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿದಾಗ ಮೆನು ತೆರೆಯಲು ಇದನ್ನು ಬಳಸಿ.",
+    "shortcut-stop": "ರೆಕಾರ್ಡಿಂಗ್ ನಿಲ್ಲಿಸಿ",
+    "shortcut-unavailable": "ವಿಂಡೋಸ್ ಈ ಶಾರ್ಟ್‌ಕಟ್ ಅನ್ನು ನೋಂದಾಯಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
+  },
+  "settings": {
+    "add-menu-items": "ಮೆನು ಐಟಂಗಳನ್ನು ಸೇರಿಸಿ",
+    "all-menus": "ಎಲ್ಲಾ ಮೆನುಗಳು",
+    "anchored-mode": "ಆಂಕರ್ಡ್ ಮೋಡ್",
+    "app-condition": "ನಿರ್ದಿಷ್ಟ ಅಪ್ಲಿಕೇಶನ್‌ಗಳಿಗೆ ಮಿತಿಗೊಳಿಸಿ",
+    "area-condition-bottom-placeholder": "ಕೆಳಭಾಗ",
+    "area-condition-left-placeholder": "ಎಡ",
+    "area-condition-right-placeholder": "ಬಲ",
+    "area-condition-top-placeholder": "ಮೇಲಿನ ಭಾಗ",
+    "cancel": "ರದ್ದುಮಾಡಿ",
+    "create-menu-button": "ಮೆನು ಸೇರಿಸಿ",
+    "delete-menu": "ಮೆನು ಅಳಿಸಿ",
+    "delete-menu-item": "ಮೆನು ಐಟಂ ಅಳಿಸಿ",
+    "edit-submenu": "ಉಪಮೆನುವನ್ನು ಸಂಪಾದಿಸಿ",
+    "export-menu": "ರಫ್ತು ಮೆನು",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ಮಾರ್ಕಿಂಗ್ ಮೋಡ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ",
+      "close-menu": "ಮೆನುವನ್ನು ಮುಚ್ಚಿ",
+      "do-nothing": "ಏನನ್ನೂ ಮಾಡಬೇಡಿ",
+      "enable-marking-mode-info": "ಮಾರ್ಕಿಂಗ್ ಮೋಡ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿದಾಗ, ನೀವು ಮೌಸ್ ಅನ್ನು ಅವುಗಳ ಮೇಲೆ ಎಳೆಯುವ ಮೂಲಕ ಐಟಂಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಬಹುದು.",
+      "enable-turbo-mode": "ಟರ್ಬೊ ಮೋಡ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ",
+      "enable-turbo-mode-info": "ಟರ್ಬೊ ಮೋಡ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿದಲ್ಲಿ, ನೀವು Shift ಅಥವಾ Ctrl ನಂತಹ ಮಾರ್ಪಡಿಸುವ ಕೀಲಿಯನ್ನು ಹಿಡಿದಿಟ್ಟುಕೊಳ್ಳುವವರೆಗೆ ನೀವು ಸನ್ನೆಗಳನ್ನು ನಿರ್ವಹಿಸಬಹುದು.",
+      "interaction-modes": "ಸಂವಹನ ವಿಧಾನಗಳು",
+      "middle-mouse-button-behavior": "ಮಧ್ಯದ ಮೌಸ್ ಬಟನ್",
+      "middle-mouse-button-behavior-info": "ಮೆನುವನ್ನು ತೋರಿಸುವಾಗ ಮಧ್ಯದ ಮೌಸ್ ಬಟನ್ ಅನ್ನು ಒತ್ತಿದಾಗ ಏನಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ಇದು ನಿರ್ಧರಿಸುತ್ತದೆ.",
+      "move-pointer-to-menu-center": "ಪಾಯಿಂಟರ್ ಅನ್ನು ಮೆನು ಕೇಂದ್ರಕ್ಕೆ ಸರಿಸಿ",
+      "move-pointer-to-menu-center-info": "ಪರಿಶೀಲಿಸಿದರೆ, ಅಗತ್ಯವಿದ್ದಾಗ ಮೌಸ್ ಪಾಯಿಂಟರ್ ಅನ್ನು ಮೆನು ಅಥವಾ ಉಪಮೆನುವಿನ ಮಧ್ಯಭಾಗಕ್ಕೆ ಸರಿಸಲಾಗುತ್ತದೆ. ಪರದೆಯ ಅಂಚಿಗೆ ತುಂಬಾ ಹತ್ತಿರದಲ್ಲಿ ಮೆನು ತೆರೆದರೆ ಅಥವಾ ಕೇಂದ್ರೀಕೃತ ಮೋಡ್‌ನಲ್ಲಿ ಮೆನು ತೆರೆದರೆ ಇದು ಸಂಭವಿಸುತ್ತದೆ.",
+      "require-click-for-hover-mode": "ಹೋವರ್ ಮೋಡ್ ಆಯ್ಕೆಗಳಿಗಾಗಿ ಕ್ಲಿಕ್ ಮಾಡುವ ಅಗತ್ಯವಿದೆ",
+      "require-click-for-hover-mode-info": "ಗುರುತಿಸದಿದ್ದರೆ, ಹೋವರ್ ಮೋಡ್ ಅನ್ನು ಬಳಸಿಕೊಂಡು ಮೆನುಗಳಿಗಾಗಿ ಮೌಸ್ ಅನ್ನು ಅವುಗಳ ಮೇಲೆ ಚಲಿಸಿದಾಗ ತಕ್ಷಣವೇ ಐಟಂಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗುತ್ತದೆ.",
+      "right-mouse-button-behavior": "ಬಲ ಮೌಸ್ ಬಟನ್",
+      "right-mouse-button-behavior-info": "ಮೆನುವನ್ನು ತೋರಿಸುವಾಗ ಬಲ ಮೌಸ್ ಬಟನ್ ಒತ್ತಿದಾಗ ಏನಾಗುತ್ತದೆ ಎಂಬುದನ್ನು ಇದು ನಿರ್ಧರಿಸುತ್ತದೆ.",
+      "select-item": "ಐಟಂ ಆಯ್ಕೆಮಾಡಿ",
+      "select-parent": "ಒಂದು ಹಂತಕ್ಕೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ",
+      "trigger-center-click-on-key-release": "ಶಾರ್ಟ್‌ಕಟ್ ಬಿಡುಗಡೆಯ ಮಧ್ಯದಲ್ಲಿ ಮೆನುವನ್ನು ಮುಚ್ಚಿ",
+      "trigger-center-click-on-key-release-info": "ಮೆನುವಿನ ಮಧ್ಯಭಾಗದಲ್ಲಿ ತೂಗಾಡುತ್ತಿರುವಾಗ ಕೀಲಿಯನ್ನು ಬಿಡುಗಡೆ ಮಾಡಿದಾಗ ಇದು ಸೆಂಟರ್-ಕ್ಲಿಕ್ ವರ್ಕ್‌ಫ್ಲೋ ಅನ್ನು ಪ್ರಚೋದಿಸುತ್ತದೆ."
+    },
+    "hover-mode": "ಹೋವರ್ ಮೋಡ್",
+    "icon-picker-dialog": {
+      "search-placeholder": "ಐಕಾನ್‌ಗಳನ್ನು ಹುಡುಕಿ..."
+    },
+    "import-menu": "ಆಮದು ಮೆನು",
+    "menu-behavior": "ಮೆನು ನಡವಳಿಕೆ",
+    "menu-conditions": "ಮೆನು ಷರತ್ತುಗಳು",
+    "menu-themes-dialog": {
+      "default-colors": "ಡೀಫಾಲ್ಟ್ ಬಣ್ಣಗಳು",
+      "enable-menu-animations": "ಮೆನು ಅನಿಮೇಷನ್‌ಗಳು",
+      "title": "ಮೆನು ಥೀಮ್ಗಳು"
+    },
+    "no-matching-menus": "ಯಾವುದೇ ಮೆನುಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+    "no-menus": "ನೀವು ಯಾವುದೇ ಮೆನುಗಳನ್ನು ಹೊಂದಿಲ್ಲ.",
+    "not-bound": "ಬೌಂಡ್ ಅಲ್ಲ",
+    "quick-select-key-label": "ತ್ವರಿತ-ಆಯ್ಕೆ ಕೀ",
+    "quick-select-key-recording": "ಕೀಲಿಯನ್ನು ಆಯ್ಕೆಮಾಡಿ...",
+    "shortcut-info": "ಈ ಶಾರ್ಟ್‌ಕಟ್ ಮೆನು ತೆರೆಯುತ್ತದೆ. ಇದು ಒಂದು ಸಾಮಾನ್ಯ ಕೀ ಮತ್ತು Ctrl, Alt, ಅಥವಾ Shift ನಂತಹ ಯಾವುದೇ ಸಂಖ್ಯೆಯ ಮಾರ್ಪಾಡುಗಳನ್ನು ಹೊಂದಿರಬೇಕು. ರೆಕಾರ್ಡಿಂಗ್ ಮಾಡುವಾಗ, ನೀವು ಎಲ್ಲಾ ಕೀಗಳನ್ನು ಒಂದೇ ಬಾರಿಗೆ ಒತ್ತಬೇಕಾಗಿಲ್ಲ, ನೀವು ಅವುಗಳನ್ನು ಒಂದರ ನಂತರ ಒಂದರಂತೆ ಒತ್ತಬಹುದು. ಶಾರ್ಟ್‌ಕಟ್ ಈಗಾಗಲೇ ಮತ್ತೊಂದು ಮೆನುಗೆ ಬದ್ಧವಾಗಿದ್ದರೆ ಇದು ಉಪಯುಕ್ತವಾಗಿದೆ!",
+    "shortcut-label": "ಶಾರ್ಟ್‌ಕಟ್",
+    "shortcut-recording": "ಶಾರ್ಟ್‌ಕಟ್ ಒತ್ತಿ...",
+    "window-condition": "ನಿರ್ದಿಷ್ಟ ವಿಂಡೋ ಶೀರ್ಷಿಕೆಗಳಿಗೆ ಮಿತಿ",
+    "workflow-editor": {
+      "add-action": "ಕ್ರಿಯೆಯನ್ನು ಸೇರಿಸಿ",
+      "select-workflow-name": "ವರ್ಕ್‌ಫ್ಲೋ ಆಯ್ಕೆಮಾಡಿ"
+    },
+    "anchored-mode-info": "ಪೋಷಕ ಮೆನುವಿನಂತೆಯೇ ಉಪಮೆನುಗಳನ್ನು ತೆರೆಯಿರಿ. ಇದನ್ನು ಪರಿಶೀಲಿಸುವುದರಿಂದ, ಮಾರ್ಕಿಂಗ್ ಮೋಡ್ ಮತ್ತು ಟರ್ಬೊ ಮೋಡ್ ಅನ್ನು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸುತ್ತದೆ.",
+    "fixed-position-mode": "ಸ್ಥಿರ ಸ್ಥಾನದ ಮೋಡ್",
+    "fixed-position-mode-info": "ಕರ್ಸರ್ ಬದಲಿಗೆ ಪರದೆಯ ಮೇಲೆ ಸ್ಥಿರ ಸ್ಥಾನದಲ್ಲಿ ಮೆನು ತೆರೆಯಿರಿ.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "ಕೆಳಗಿನ ಎಡಕ್ಕೆ ಸ್ಥಾನವನ್ನು ಹೊಂದಿಸಿ",
+      "bottom-right-preset-tooltip": "ಕೆಳಗಿನ ಬಲಕ್ಕೆ ಸ್ಥಾನವನ್ನು ಹೊಂದಿಸಿ",
+      "centered-preset-tooltip": "ಸ್ಥಾನವನ್ನು ಕೇಂದ್ರಕ್ಕೆ ಹೊಂದಿಸಿ",
+      "confirm": "ಈ ಸ್ಥಾನವನ್ನು ಬಳಸಿ",
+      "top-left-preset-tooltip": "ಮೇಲಿನ ಎಡಕ್ಕೆ ಸ್ಥಾನವನ್ನು ಹೊಂದಿಸಿ",
+      "top-right-preset-tooltip": "ಮೇಲಿನ ಬಲಕ್ಕೆ ಸ್ಥಾನವನ್ನು ಹೊಂದಿಸಿ"
+    },
+    "fixed-position-tooltip": "ಸ್ಥಿರ ಸ್ಥಾನವನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+    "hover-mode-info": "ವಿದ್ಯುತ್ ಬಳಕೆದಾರರಿಗೆ ಮಾತ್ರ! ಅವುಗಳ ಮೇಲೆ ಸುಳಿದಾಡುವ ಮೂಲಕ ಐಟಂಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ಡೀಫಾಲ್ಟ್",
+      "clean-circle": "ಕ್ಲೀನ್ ಸರ್ಕಲ್",
+      "neon-lights": "ನಿಯಾನ್ ದೀಪಗಳು",
+      "purity": "ಶುದ್ಧತೆ",
+      "rainbow-labels": "ಮಳೆಬಿಲ್ಲು ಲೇಬಲ್‌ಗಳು"
+    },
+    "presets": {
+      "Blue Glass": "ನೀಲಿ ಗಾಜು",
+      "Dark Night": "ಡಾರ್ಕ್ ನೈಟ್",
+      "Cotton Candy": "ಹತ್ತಿ ಕ್ಯಾಂಡಿ",
+      "Dark and Cozy": "ಗಾಢ ಮತ್ತು ಸ್ನೇಹಶೀಲ",
+      "Blue Glow": "ನೀಲಿ ಗ್ಲೋ",
+      "Green Glow": "ಹಸಿರು ಹೊಳಪು",
+      "Electric": "ಎಲೆಕ್ಟ್ರಿಕ್",
+      "Orange": "ನಾರಂಜು",
+      "Pink": "ಗುಲಾಬಿ",
+      "Bright Prism": "ಬ್ರೈಟ್ ಪ್ರಿಸ್ಮ್",
+      "Kando Default": "ಡೀಫಾಲ್ಟ್ ಬಣ್ಣಗಳು"
+    }
+  }
+}

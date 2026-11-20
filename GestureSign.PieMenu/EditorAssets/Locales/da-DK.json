@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-mail",
+      "file-browser": "Filbrowser",
+      "paint": "Paint",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Webbrowser"
+    },
+    "audio": {
+      "mute": "Slå lyd fra",
+      "next-track": "Næste spor",
+      "play-pause": "Afspil / Pause",
+      "previous-track": "Forrige spor",
+      "submenu": "Lyd"
+    },
+    "bookmarks": {
+      "desktop": "Skrivebord",
+      "documents": "Dokumenter",
+      "downloads": "Overførsler",
+      "home": "Hjem",
+      "music": "Musik",
+      "pictures": "Billeder",
+      "submenu": "Bogmærker",
+      "videos": "Videoer"
+    },
+    "clipboard": {
+      "copy": "Kopier",
+      "cut": "Klip",
+      "paste": "Indsæt",
+      "submenu": "Udklipsholder"
+    },
+    "name": "Eksempel Menu",
+    "next-workspace": "Næste arbejdsområde",
+    "previous-workspace": "Tidligere Workspace",
+    "web-links": {
+      "kando-on-discord": "Kando på Discord",
+      "kando-on-github": "Kando på GitHub",
+      "kando-on-kofi": "Kando på Ko-fi",
+      "kando-on-youtube": "Kando på YouTube",
+      "submenu": "Weblinks"
+    },
+    "windows": {
+      "close-window": "Luk vindue",
+      "submenu": "Vinduer",
+      "tile-left": "Flise til venstre",
+      "tile-right": "Flise højre",
+      "toggle-maximize": "Slå Maksimer til/fra"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Luk menuen"
+    },
+    "close-submenu": {
+      "name": "Luk undermenu"
+    },
+    "delay": {
+      "name": "Forsinkelse"
+    },
+    "execute-command": {
+      "name": "Udfør kommando"
+    },
+    "execute-macro": {
+      "name": "Udfør makro"
+    },
+    "focus-window": {
+      "name": "Fokus vindue"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhiber genveje"
+    },
+    "open-file": {
+      "name": "Åbn fil"
+    },
+    "open-menu": {
+      "name": "Åbn Menu"
+    },
+    "open-settings": {
+      "name": "Åbn Indstillinger"
+    },
+    "open-uri": {
+      "name": "Åben URI"
+    },
+    "send-tcp-message": {
+      "name": "Send TCP-meddelelse"
+    },
+    "send-websocket-message": {
+      "name": "Send WebSocket-besked"
+    },
+    "set-clipboard": {
+      "name": "Indstil udklipsholder"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Genvejstast",
+      "name": "Simuler genvejstast",
+      "recording-placeholder": "Indtast en genvejstast..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Undermenu"
+    }
+  },
+  "native": {
+    "action": "Handling",
+    "action-value": "Genvej, sti, URL, tekst eller JSON",
+    "choose-icon": "Vælg ikon",
+    "condition-invalid": "Indtast et gyldigt vindue eller en app-tilstand, for eksempel /notepad/i.",
+    "configuration": "Konfiguration af kagemenu",
+    "editor": "Kagemenueditor",
+    "exported": "Eksporteret til {0}",
+    "fixed-angle": "Fast vinkel (0° = op)",
+    "fixed-x": "Fast X (0–1 på tværs af skærmen)",
+    "fixed-y": "Fast Y (0–1 nede på skærmen)",
+    "icon-invalid-image": "Vælg et PNG-, JPEG-, GIF-, WebP- eller ICO-billede på op til 192 KB.",
+    "icon-library": "Ikon bibliotek",
+    "icon-next": "Næste ikoner",
+    "icon-no-results": "Ingen ikoner fundet.",
+    "icon-pick-file": "Vælg billede eller app",
+    "icon-previous": "Tidligere ikoner",
+    "icon-use-image": "Brug billede",
+    "imported": "Importerede {0} menu(er). Gennemgå importerede kommandoer, før du bruger dem, og gem dem derefter.",
+    "item-icon": "Vareikon",
+    "item-order": "Varebestilling",
+    "label": "Etiket",
+    "move-down": "Flyt ned",
+    "move-up": "Flyt op",
+    "name": "Menunavn",
+    "new-menu": "Ny menu",
+    "off": "Fra",
+    "on": "Til",
+    "palette": "Farvepalet",
+    "preview": "Eksempelmenu",
+    "remove": "Fjern",
+    "save": "Gem menuer",
+    "saved": "Menukonfiguration gemt.",
+    "shortcut-clear": "Ryd genvej",
+    "shortcut-cleared": "Genvej ryddet.",
+    "shortcut-config-changed": "Menukonfigurationen ændret på disken. Gem de aktuelle menuer for at anvende denne genvej.",
+    "shortcut-in-use": "Windows rapporterer, at denne genvej allerede er i brug.",
+    "shortcut-invalid": "Indtast én tast plus eventuelle modifikatorer, der er tilladt for denne genvej.",
+    "shortcut-record": "Optag genvej",
+    "shortcut-save-new-menu": "Gem denne nye menu for at aktivere dens genvej.",
+    "shortcut-saved": "Genvej gemt: {0}. Brug den til at åbne menuen, når Hurtige handlinger er aktiveret.",
+    "shortcut-stop": "Stop optagelsen",
+    "shortcut-unavailable": "Windows kunne ikke registrere denne genvej."
+  },
+  "settings": {
+    "add-menu-items": "Tilføj menupunkter",
+    "all-menus": "Alle Menuer",
+    "anchored-mode": "Anchored Mode",
+    "app-condition": "Begræns til specifikke apps",
+    "area-condition-bottom-placeholder": "Bund",
+    "area-condition-left-placeholder": "Venstre",
+    "area-condition-right-placeholder": "Højre",
+    "area-condition-top-placeholder": "Top",
+    "cancel": "Afbryd",
+    "create-menu-button": "Ny menu",
+    "delete-menu": "Slet menuen",
+    "delete-menu-item": "Slet menupunkt",
+    "edit-submenu": "Rediger undermenu",
+    "export-menu": "Eksportmenu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Aktiver Marking Mode",
+      "close-menu": "Luk menuen",
+      "do-nothing": "Gør ingenting",
+      "enable-marking-mode-info": "Når Marking Mode er aktiveret, kan du vælge elementer ved at trække musen hen over dem.",
+      "enable-turbo-mode": "Aktiver Turbo Mode",
+      "enable-turbo-mode-info": "Når Turbo Mode er aktiveret, kan du udføre bevægelser, så længe du holder en modifikationstast som Shift eller Ctrl nede.",
+      "interaction-modes": "Interaktionstilstande",
+      "middle-mouse-button-behavior": "Midterste museknap",
+      "middle-mouse-button-behavior-info": "Dette bestemmer, hvad der sker, når den midterste museknap trykkes ned, mens en menu vises.",
+      "move-pointer-to-menu-center": "Flyt markøren til midten af menuen",
+      "move-pointer-to-menu-center-info": "Hvis aktiviteret, vil musemarkøren blive flyttet til midten af en menu eller undermenu, når det er nødvendigt. Det kan være tilfældet, hvis en menu er åbnet for tæt på skærmens kant, eller hvis en menu er åbnet i Centered Mode.",
+      "require-click-for-hover-mode": "Kræver klik for valg af Hover Mode",
+      "require-click-for-hover-mode-info": "Hvis det ikke er markeret, vil elementer blive valgt med det samme, når musen flyttes hen over dem for menuer, der bruger Hover Mode.",
+      "right-mouse-button-behavior": "Højre museknap",
+      "right-mouse-button-behavior-info": "Dette bestemmer, hvad der sker, når der trykkes på højre museknap, mens en menu vises.",
+      "select-item": "Vælg element",
+      "select-parent": "Naviger et niveau op",
+      "trigger-center-click-on-key-release": "Luk menuen ved genvejsfrigivelse over midten",
+      "trigger-center-click-on-key-release-info": "Dette vil udløse center-klik-workflowet, når en tast slippes, mens du svæver over midten af en menu."
+    },
+    "hover-mode": "Hover Mode",
+    "icon-picker-dialog": {
+      "search-placeholder": "Søg efter ikoner…"
+    },
+    "import-menu": "Import menu",
+    "menu-behavior": "Menuadfærd",
+    "menu-conditions": "Menu-betingelser",
+    "menu-themes-dialog": {
+      "default-colors": "Standardfarver",
+      "enable-menu-animations": "Menu animationer",
+      "title": "Menu-temaer"
+    },
+    "no-matching-menus": "Ingen menuer fundet.",
+    "no-menus": "Du har ingen menuer.",
+    "not-bound": "Ikke Bundet",
+    "quick-select-key-label": "Hurtigvalgstast",
+    "quick-select-key-recording": "Vælg nøgle...",
+    "shortcut-info": "Denne genvej åbner menuen. Den skal indeholde en normal tast og et vilkårligt antal modifikatorer såsom Ctrl, Alt eller Shift. Når du optager, behøver du ikke trykke på alle taster på én gang, du kan også trykke på dem en efter en. Dette er nyttigt, hvis en genvej allerede er bundet til en anden menu!",
+    "shortcut-label": "Genvej",
+    "shortcut-recording": "Tryk på en genvej...",
+    "window-condition": "Begræns til specifikke vinduestitler",
+    "workflow-editor": {
+      "add-action": "Tilføj handling",
+      "select-workflow-name": "Vælg Workflow"
+    },
+    "anchored-mode-info": "Åbn undermenuer på samme position som den overordnede menu. Hvis du markerer dette, deaktiveres Marking Mode og Turbo Mode.",
+    "fixed-position-mode": "Fixed Position Mode",
+    "fixed-position-mode-info": "Åbn menuen på en fast position på skærmen i stedet for ved markøren.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Indstil positionen nederst til venstre",
+      "bottom-right-preset-tooltip": "Indstil positionen nederst til højre",
+      "centered-preset-tooltip": "Indstil positionen til midten",
+      "confirm": "Brug denne position",
+      "top-left-preset-tooltip": "Indstil position øverst til venstre",
+      "top-right-preset-tooltip": "Indstil position øverst til højre"
+    },
+    "fixed-position-tooltip": "Vælg en fast position",
+    "hover-mode-info": "Kun for power-brugere! Vælg elementer ved at holde musen over dem."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Enkel cirkel",
+      "neon-lights": "Neonlys",
+      "purity": "Renhed",
+      "rainbow-labels": "Regnbueetiketter"
+    },
+    "presets": {
+      "Blue Glass": "Blåt glas",
+      "Dark Night": "Mørk nat",
+      "Cotton Candy": "Candyfloss",
+      "Dark and Cozy": "Mørk og hyggelig",
+      "Blue Glow": "Blåt skær",
+      "Green Glow": "Grønt skær",
+      "Electric": "Elektrisk",
+      "Orange": "Orange",
+      "Pink": "Lyserød",
+      "Bright Prism": "Lysende prisme",
+      "Kando Default": "Standardfarver"
+    }
+  }
+}

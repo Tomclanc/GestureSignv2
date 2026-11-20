@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Rýchle akcie</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Otvoriť kruhové menu s vyhradenými skratkami.</value>
+  </data>
+</root>

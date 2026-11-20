@@ -1,0 +1,597 @@
+{
+    "settings": {
+        "icon-picker-dialog": {
+            "base64-hint": "Các biểu tượng được mã hóa Base64 cung cấp một cách dễ dàng để đưa bất kỳ loại biểu tượng nào vào menu của bạn. Bạn có thể sử dụng dịch vụ như [www.base64-image.de]({{link}}) để chuyển đổi bất kỳ hình ảnh nào thành chuỗi được mã hóa base64. Điều này thậm chí còn có tác dụng với ảnh gif động!",
+            "base64-example": "Ví dụ Base64:",
+            "file-example": "tệp: Ví dụ về URI:",
+            "url-example": "Ví dụ về URL:",
+            "reload-button-tooltip": "Tải lại tất cả các chủ đề biểu tượng",
+            "search-placeholder": "Biểu tượng tìm kiếm…",
+            "hint": "Tìm hiểu [tại đây]({{link}}) cách thêm hoặc tạo chủ đề biểu tượng của riêng bạn."
+        },
+        "backup-general-settings-title": "Sao lưu cài đặt chung…",
+        "cancel": "Hủy",
+        "restore-backup": "KhôI phục bản sao lưu…",
+        "restore-general-settings-warning-title": "Bạn có thực sự muốn khôi phục cài đặt chung không?",
+        "restore-general-settings-warning-message": "Thao tác này sẽ ghi đè cài đặt ứng dụng hiện tại của bạn bằng nội dung của tệp sao lưu đã chọn! Menu và bộ sưu tập menu của bạn sẽ không bị ảnh hưởng.",
+        "restore-general-settings-error-title": "Không tải được bản sao lưu cài đặt chung!",
+        "restore-general-settings-success-title": "Thành công!",
+        "restore-general-settings-success-message": "Cài đặt chung của bạn đã được khôi phục từ tệp sao lưu.",
+        "restore-menu-settings-warning-title": "Bạn có thực sự muốn khôi phục cài đặt menu không?",
+        "restore-menu-settings-warning-message": "Thao tác này sẽ ghi đè các menu và bộ sưu tập menu hiện tại của bạn bằng nội dung của tệp sao lưu đã chọn!",
+        "restore-menu-settings-error-title": "Không tải được bản sao lưu menu!",
+        "restore-menu-settings-success-title": "Thành công!",
+        "restore-menu-settings-success-message": "Các menu và bộ sưu tập menu của bạn đã được khôi phục từ tệp sao lưu.",
+        "not-bound": "Không ràng buộc",
+        "invalid-dropdown-selection": "Chọn một tùy chọn…",
+        "file-picker": {
+            "select-file": "Chọn một tệp",
+            "select-directory": "Chọn một thư mục"
+        },
+        "add-tags-placeholder": "Thêm thẻ…",
+        "about-dialog": {
+            "title": "Giới thiệu về Kando",
+            "message": "Tôi đang tạo Kando vì niềm đam mê tuyệt đối. Nếu bạn thích sử dụng nó nhiều như tôi yêu thích việc tạo ra nó, bạn có thể [mua cho tôi một ly cà phê]({{link}})!\n\n💖 Simon",
+            "kando-version": "Phiên bản Kando",
+            "kando-backend": "Kando Backend",
+            "electron-version": "Phiên bản Electron",
+            "chrome-version": "Phiên bản Chrome",
+            "check-latest-release": "Kiểm tra bản phát hành mới nhất",
+            "read-release-notes": "Đọc ghi chú phát hành"
+        },
+        "general-settings-dialog": {
+            "none": "Không có",
+            "auto-language": "Sử dụng ngôn ngữ hệ thống",
+            "title": "Cài đặt chung",
+            "localization-info": "Khởi động lại Kando để áp dụng ngôn ngữ mới.",
+            "localization-label": "Ngôn ngữ",
+            "hardware-acceleration-info": "Tùy chọn này có thể tăng hiệu suất của ứng dụng nhưng cũng có thể dẫn đến một số lỗi hiển thị. Bạn phải khởi động lại Kando để áp dụng cài đặt này.",
+            "hardware-acceleration": "Kích hoạt tính năng tăng tốc phần cứng",
+            "check-for-new-versions-info": "Nếu được bật, Kando sẽ hiển thị thông báo khi có phiên bản mới.",
+            "check-for-new-versions": "Kiểm tra các phiên bản mới",
+            "invisible-settings-button-info": "Bạn vẫn có thể sử dụng nút này, nó sẽ xuất hiện khi bạn di chuột qua nó.",
+            "invisible-settings-button": "Nút cài đặt vô hình",
+            "settings-button-position-info": "Chọn góc màn hình nơi nút cài đặt sẽ được hiển thị.",
+            "settings-button-position": "Vị trí nút cài đặt",
+            "top-left": "Trên cùng bên trái",
+            "top-right": "Trên cùng bên phải",
+            "bottom-left": "Dưới cùng bên trái",
+            "bottom-right": "Dưới cùng bên phải",
+            "settings-window-color-scheme-info": "Nếu bạn chọn 'hệ thống', cửa sổ cài đặt sẽ sử dụng bảng màu giống như hệ điều hành của bạn.",
+            "settings-window-color-scheme": "Bảng màu cửa sổ cài đặt",
+            "system": "Hệ thống",
+            "light": "Sáng",
+            "dark": "Tối",
+            "settings-window-flavor-info": "Nếu chọn hương vị trong suốt, bạn sẽ phải khởi động lại cửa sổ cài đặt để áp dụng hiệu ứng.",
+            "settings-window-flavor": "Hương vị cửa sổ cài đặt",
+            "transparent-light": "Sáng trong suốt",
+            "transparent-dark": "Tối trong suốt",
+            "transparent-system": "Hệ thống trong suốt",
+            "sakura-light": "Sáng Sakura",
+            "sakura-dark": "Tối Sakura",
+            "sakura-system": "Hệ thống Sakura",
+            "tray-icon-flavor-info": "Bạn cũng có thể chọn ẩn hoàn toàn biểu tượng khay.",
+            "tray-icon-flavor": "Hương vị biểu tượng khay",
+            "hidden": "Ẩn",
+            "color": "Màu sắc",
+            "white": "Trắng",
+            "black": "Tối",
+            "lazy-initialization-info": "Nếu được bật, cửa sổ menu sẽ chỉ được tạo khi menu được mở lần đầu tiên. Điều này sẽ làm cho lần mở menu đầu tiên chậm hơn một chút, nhưng nó có thể ngăn ngừa sự cố khi Kando được khởi động quá sớm trong quá trình đăng nhập. Mặc định bị vô hiệu hóa.",
+            "lazy-initialization": "Khởi tạo lười biếng",
+            "menu-behavior": "Hành vi menu",
+            "keep-input-focus-info": "Nếu được bật, menu sẽ không nhận được tiêu điểm nhập bằng bàn phím khi mở. Thao tác này sẽ tắt Chế độ turbo nhưng có thể hữu ích nếu bạn yêu cầu các ứng dụng khác vẫn được tập trung trong khi menu đang mở.",
+            "keep-input-focus": "Giữ ứng dụng đang hoạt động tập trung",
+            "enable-marking-mode-info": "Khi bật Chế độ đánh dấu, bạn có thể chọn các mục bằng cách kéo chuột qua chúng.",
+            "enable-marking-mode": "Bật Chế độ đánh dấu",
+            "enable-turbo-mode-info": "Khi bật Chế độ turbo, bạn có thể thực hiện cử chỉ miễn là bạn giữ phím bổ trợ như Shift hoặc Ctrl.",
+            "enable-turbo-mode": "Bật Chế độ turbo",
+            "move-pointer-to-menu-center-info": "Nếu được chọn, con trỏ chuột sẽ được di chuyển đến giữa menu hoặc menu con khi cần thiết. Điều này có thể xảy ra nếu một menu được mở quá gần mép màn hình hoặc nếu một menu được mở ở Chế Độ Trung Tâm.",
+            "move-pointer-to-menu-center": "Di chuyển con trỏ đến giữa menu",
+            "require-click-for-hover-mode-info": "Nếu bỏ chọn, các mục sẽ được chọn ngay lập tức khi di chuột qua chúng cho các menu sử dụng Chế độ di chuột.",
+            "require-click-for-hover-mode": "Yêu cầu nhấp chuột để lựa chọn Chế độ di chuột",
+            "right-mouse-button-selects-parent-info": "Nếu không được chọn, nút chuột phải sẽ đóng menu thay thế.",
+            "right-mouse-button-selects-parent": "Nút chuột phải chọn cha mẹ",
+            "enable-gamepad-support-info": "Nếu được chọn, bạn có thể sử dụng gamepad được kết nối để điều khiển menu.",
+            "enable-gamepad-support": "Bật hỗ trợ gamepad",
+            "press-again-behavior-info": "Điều này xác định điều gì sẽ xảy ra khi phím tắt được nhấn lại trong khi menu được hiển thị. Nếu nhiều menu được gán cho cùng một phím tắt, bạn có thể sử dụng phím tắt này để duyệt qua tất cả các menu phù hợp. Đảm bảo chỉ giữ phím bổ trợ nếu bạn muốn sử dụng Chế độ turbo cùng với tùy chọn khác ngoài 'Không làm gì'.",
+            "press-again-behavior": "Hành vi nhấn lại phím tắt",
+            "do-nothing": "Không làm gì cả",
+            "cycle-from-first": "Hiển thị menu tiếp theo (bắt đầu lúc đầu)",
+            "cycle-from-recent": "Hiển thị menu tiếp theo (tiếp tục từ cuối)",
+            "close-menu": "Đóng menu",
+            "menu-sounds": "Menu âm thanh",
+            "learn-how-to-add-sound-themes": "Tìm hiểu cách thêm chủ đề âm thanh mới vào Kando [tại đây]({{link}})!",
+            "sound-theme-info": "Chủ đề âm thanh là tập hợp các âm thanh được phát khi bạn tương tác với menu.",
+            "sound-theme": "Chủ đề âm thanh",
+            "volume-info": "Âm lượng tổng thể của chủ đề âm thanh. Mặc định là 0.5.",
+            "volume": "Âm lượng",
+            "advanced-menu-options": "Tùy chọn menu nâng cao",
+            "advanced-menu-options-note": "Thông thường, bạn có thể để các cài đặt này ở giá trị mặc định.",
+            "center-click-zone-radius-info": "Kích thước của khu vực ở giữa menu sẽ đóng hoặc điều hướng lên cấp khi được nhấp vào. Mặc định là 50px.",
+            "center-click-zone-radius": "Bán kính vùng nhấp chuột ở giữa",
+            "minimum-submenu-distance-info": "Nếu một menu con được mở gần menu gốc, menu gốc sẽ được di chuyển ra xa khoảng cách này. Mặc định là 150px.",
+            "minimum-submenu-distance": "Khoảng cách menu con tối thiểu",
+            "movement-threshold-info": "Chuyển động chuột nhỏ hơn sẽ không được xem xét ở Chế độ đánh dấu hoặc turbo. Mặc định là 15px.",
+            "movement-threshold": "Ngưỡng chuyển động",
+            "minimum-gesture-length-info": "Chuyển động thẳng ít nhất phải dài như vậy để kích hoạt lựa chọn. Mặc định là 150px.",
+            "minimum-gesture-length": "Độ dài cử chỉ tối thiểu",
+            "minimum-gesture-angle-info": "Những sai lệch nhỏ hơn so với chuyển động thẳng sẽ không kích hoạt các lựa chọn. Mặc định là 20°.",
+            "minimum-gesture-angle": "Góc Cử Chỉ Tối Thiểu",
+            "gesture-jitter-threshold-info": "Những chuyển động nhỏ hơn sẽ không được xem xét khi phát hiện cử chỉ. Mặc định là 10px.",
+            "gesture-jitter-threshold": "Ngưỡng rung chuyển cử chỉ",
+            "gesture-pause-timeout-info": "Dừng cử chỉ của bạn trong thời gian dài để kích hoạt lựa chọn. Mặc định là 100ms.",
+            "gesture-pause-timeout": "Hết thời gian tạm dừng cử chỉ",
+            "fixed-stroke-length-info": "Thông thường, các vật phẩm được chọn khi bạn dừng chuyển động hoặc rẽ. Nếu bạn đặt giá trị này thành giá trị lớn hơn 0, hành vi này sẽ thay đổi: Bây giờ các mục sẽ chỉ được chọn nếu bạn kéo một mục ra xa tâm. Mặc định là 0px.",
+            "fixed-stroke-length": "Chiều dài hành trình cố định",
+            "backup-and-restore": "Sao lưu & Khôi phục",
+            "message": "Tất cả các menu và cài đặt Kando của bạn được lưu trữ trong hai tệp JSON mà bạn cũng có thể chỉnh sửa, chia sẻ hoặc sao lưu. Nhấp vào [đây]({{link}}) để mở thư mục lưu trữ các tập tin.",
+            "backup-menus": "Sao lưu menu.json…",
+            "backup-settings": "Sao lưu config.json…",
+            "restore-menus": "Khôi phục menu.json…",
+            "restore-settings": "Khôi phục config.json…",
+            "developer-options": "Tùy chọn nhà phát triển",
+            "reload-note": "Khi bạn tải lại chủ đề menu, các thay đổi CSS sẽ được áp dụng ngay cả khi menu hiện đang được hiển thị. Đối với những thay đổi được thực hiện đối với tệp theme.json, bạn cần mở lại menu.",
+            "reload-menu-theme": "Tải lại chủ đề menu",
+            "reload-sound-theme": "Tải lại chủ đề âm thanh",
+            "dev-tools-note": "Kando sử dụng hai cửa sổ: Một cho menu và một cho cài đặt. Bạn có thể mở các công cụ phát triển để kiểm tra cả hai cửa sổ một cách riêng biệt.",
+            "menu-window-dev-tools": "Kiểm tra menu",
+            "settings-window-dev-tools": "Kiểm tra cài đặt",
+            "enable-achievements-info": "Nếu đã bật, Kando sẽ theo dõi tiến trình hướng tới thành tích của bạn.",
+            "enable-achievements": "Theo dõi thành tích",
+            "enable-achievement-notifications-info": "Nếu được bật, thông báo sẽ hiển thị khi thành tích được mở khóa.",
+            "enable-achievement-notifications": "Hiển thị thông báo thành tích",
+            "wlroots-specific-options": "Tùy chọn cho wlroots-based Backends",
+            "options-that-will-only-affect-the-wlroots-backend": "Các tùy chọn này chỉ ảnh hưởng đến wlroots-based backends và không ảnh hưởng đến backends khác.",
+            "wlroots-pointer-get-timeout-mouse-info": "Thời gian tối đa tính bằng mili giây để chờ vị trí con trỏ chuột từ wlroots-based backends. Nếu đạt đến thời gian chờ, vị trí dự phòng sẽ được sử dụng. Mặc định là 500ms.",
+            "wlroots-pointer-get-timeout-mouse": "Hết thời gian nhận vị trí con trỏ",
+            "wlroots-pointer-get-timeout-touch-info": "Thời gian tối đa tính bằng mili giây để chờ vị trí con trỏ cảm ứng từ wlroots-based backends. Nếu đạt đến thời gian chờ, vị trí dự phòng sẽ được sử dụng. Mặc định là 1500ms.",
+            "wlroots-pointer-get-timeout-touch": "Hết thời gian chờ nhận vị trí",
+            "wlroots-pointer-get-timeout-default-behavior-info": "Xác định vị trí của con trỏ nếu không thể lấy được vị trí nào từ wlroots-based backends trong thời gian chờ đã định cấu hình.",
+            "wlroots-pointer-get-timeout-default-behavior": "Vị trí dự phòng con trỏ",
+            "center": "Trung tâm",
+            "previously-reported": "Đã báo cáo trước đây",
+            "windows-ink-workaround-info": "Điều này mang lại giải pháp thay thế cho sự cố không thể nhận được vị trí bút cảm ứng khi bật Windows Ink. Điều này gây ra độ trễ 100 mili giây trước khi mở menu, vì vậy nếu không sử dụng bút cảm ứng, bạn có thể tắt nó để mở menu nhanh hơn.",
+            "windows-ink-workaround": "Cách giải quyết của Windows-Ink",
+            "max-selection-radius-info": "Nếu được đặt thành giá trị lớn hơn 0, các nhấp chuột nằm ngoài bán kính này sẽ đóng menu. Mặc định là 0, nghĩa là không có bán kính lựa chọn tối đa.",
+            "max-selection-radius": "Bán kính lựa chọn tối đa",
+            "app-settings": "Cài đặt ứng dụng",
+            "interaction-modes": "Chế độ tương tác",
+            "input-options": "Tùy chọn đầu vào",
+            "learn-interaction-mode": "Tìm hiểu thêm về các chế độ tương tác của Kando [tại đây]({{link}})!",
+            "backup-menus-note": "Điều này sẽ sao lưu hoặc khôi phục tất cả các menu của bạn cùng một lúc. Điều này bao gồm tất cả các phím tắt, bố cục menu và bộ sưu tập menu đã định cấu hình của bạn.",
+            "backup-settings-note": "Thao tác này sẽ sao lưu hoặc khôi phục cài đặt của Kando, bao gồm tất cả cài đặt chung và cấu hình chủ đề menu của bạn."
+        },
+        "introduction-dialog": {
+            "slide1-title": "Kando cung cấp một cách độc đáo và hiệu quả để tương tác với máy tính của bạn.",
+            "slide1-text": "Hãy lướt qua các trang trình bày này để tìm hiểu Kando có thể làm gì cho bạn! Bạn có thể sử dụng các dấu chương ở bên trái để nhanh chóng chuyển đến phần giới thiệu cụ thể.",
+            "slide2-title": "Mở menu!",
+            "slide2-text-standard": "Nếu bạn khởi chạy Kando lần đầu tiên, bạn có thể mở menu ví dụ bằng Ctrl+Space. Đóng lại bằng phím Escape hoặc bằng nút chuột phải ở bất cứ đâu trên màn hình.",
+            "slide2-text-no-shortcuts": "Nếu khởi chạy Kando lần đầu tiên, bạn [có thể cần thực hiện một số bước bổ sung trên Linux để các phím tắt toàn cục hoạt động]({{link}}). Sau khi đã thiết lập xong, bạn có thể đóng menu bằng phím Escape hoặc bằng nút chuột phải.",
+            "slide3-hint1": "Bạn cũng có thể bấm vào đây để đóng menu.",
+            "slide3-hint2": "Bấm vào bất cứ nơi nào ở đây để chọn mục.",
+            "slide3-text": "Trong Kando, toàn bộ màn hình của bạn đều có thể nhấp chuột được! Bạn không cần phải ngắm bấm vào biểu tượng, mà có thể nhấp vào bất kỳ đâu trong nêm của mục đó. Điều này giúp việc chọn các mục trở nên hiệu quả hơn rất nhiều.",
+            "slide4-text": "Một menu con sẽ **luôn** mở ở con trỏ chuột của bạn. Bạn **không cần đợi hoạt ảnh kết thúc**. Hãy tin tưởng vào trí nhớ cơ bắp của bạn và tiến hành lựa chọn của bạn!",
+            "slide5-hint": "Bấm vào bất kỳ đâu ở đây để lên một cấp.",
+            "slide5-text": "Để **điều hướng quay lại**, hãy nhấp vào nêm của menu cha hoặc nhấp vào trung tâm của menu hiện tại.",
+            "slide6-text": "Bằng cách này, bạn có thể nhanh chóng khám phá cấu trúc menu.",
+            "slide7-title": "Trở nên nhanh hơn: Chế độ đánh dấu",
+            "slide7-text": "Nhấp và kéo qua một mục để vào Chế độ đánh dấu. **Nếu bạn tạm dừng chuyển động của con trỏ hoặc rẽ, menu con hiện đang được kéo sẽ mở ra!** Ghi nhớ đường dẫn đến một mục và vẽ nó bằng các chuyển động zig-zag biểu cảm.",
+            "slide8-text": "**Menu phản ứng với chuyển động chuột của bạn!** Một menu con sẽ mở ra khi bạn muốn nó mở. Với một số thực hành, bạn sẽ có thể chọn các mục mà không cần nhìn vào menu.",
+            "slide9-title": "Nhanh như chớp: Chế độ turbo",
+            "slide9-text": "Nếu bạn **giữ một phím được nhấn** (chẳng hạn như _Ctrl_, _Shift_ hoặc _Alt_) sau khi mở menu, bạn có thể thực hiện các lựa chọn chỉ bằng cách di chuyển con trỏ. Không cần nhấp hoặc kéo.",
+            "slide10-text": "**Đừng đợi hoạt ảnh kết thúc!** Chỉ cần di chuyển theo đường zigzag để qua menu. Đây là cách nhanh nhất để chọn các mục!",
+            "slide11-text": "**Đừng ngại việc chọn nhầm!** Các hành động chỉ được thực hiện ngay khi bạn nhả nút chuột ở Chế độ đánh dấu hoặc phím bàn phím ở Chế độ turbo. Sử dụng điều này để khám phá menu!",
+            "slide12-title": "Còn nhiều hơn nữa!",
+            "slide12-text": "Kando có khả năng tùy biến cao. Bạn có thể sử dụng nó để mở ứng dụng, tệp, thực thi macro bàn phím và nhiều thứ khác. Bạn có thể [thay đổi kiểu menu]({{link1}}), [thêm chủ đề biểu tượng]({{link2}}) và thậm chí [sử dụng âm thanh]({{link3}}) trong menu của mình!",
+            "slide13-text": "Nếu bạn cần trợ giúp bất cứ lúc nào, vui lòng tham gia [Máy chủ Discord]({{link1}}) của chúng tôi hoặc xem [tài liệu]({{link2}})!",
+            "chapter1": "Bắt đầu",
+            "chapter2": "Chế độ đánh dấu",
+            "chapter3": "Chế độ turbo",
+            "chapter4": "Các bước tiếp theo",
+            "chapter5": "Nhận trợ giúp",
+            "title": "Chào mừng đến với Kando!",
+            "show-again": "Hiển thị lại hộp thoại này"
+        },
+        "menu-themes-dialog": {
+            "accent-colors": "Màu nhấn",
+            "dark": "Chế độ tối",
+            "light": "Chế độ sáng",
+            "accent-colors-info": "Mỗi chủ đề có thể có một bộ màu nhấn khác nhau.",
+            "reset-color-picker": "Đặt lại về mặc định",
+            "no-accent-colors": "Chủ đề này không hỗ trợ màu nhấn.",
+            "title": "Chủ đề menu",
+            "fade-in-time-info": "Thời gian để menu mờ dần. Mặc định là 150ms.",
+            "fade-in-time": "Thời gian phai nhạt",
+            "fade-out-time-info": "Thời gian để menu mờ dần. Mặc định là 200ms.",
+            "fade-out-time": "Thời gian tắt dần",
+            "menu-scale-info": "Sử dụng tính năng này để tăng hoặc giảm kích thước menu của bạn. Mặc định là 1.0.",
+            "menu-scale": "Tỉ lệ menu",
+            "selection-wedges-info": "Nếu chủ đề đã chọn được bật và hỗ trợ, vùng có thể chọn của các mục menu sẽ được đánh dấu.",
+            "selection-wedges": "Vẽ nêm mục",
+            "light-dark-mode-info": "Nếu được bật, bạn có thể chọn chủ đề và bộ màu khác nếu hệ thống của bạn ở chế độ sáng hoặc tối.",
+            "light-dark-mode": "Bật chế độ sáng/tối",
+            "get-themes-online": "Tải chủ đề trực tuyến",
+            "create-your-own-themes": "Tạo chủ đề của riêng bạn",
+            "open-theme-directory": "Mở thư mục chủ đề",
+            "author": "bởi {{author}}",
+            "save-preset-error-title": "Không lưu được giá trị đặt trước",
+            "save-preset-error-message": "Không lưu được màu đặt trước. Vui lòng kiểm tra xem thư mục có thể ghi được không. Lỗi: {{error}}",
+            "default-colors": "Màu mặc định",
+            "enable-menu-animations-info": "Nếu bị tắt, tất cả các chuyển đổi và hầu hết hoạt ảnh của chủ đề menu sẽ bị ngăn chặn.",
+            "enable-menu-animations": "Menu ảnh động",
+            "enable-pointer-reactive-effects-info": "Nếu bị tắt, một số hiệu ứng thu phóng hoặc chia tỷ lệ của chủ đề menu dựa trên vị trí con trỏ hiện tại sẽ bị ngăn chặn.",
+            "enable-pointer-reactive-effects": "Hiệu ứng phản ứng con trỏ",
+            "choose-preset": "Chọn cài đặt trước…",
+            "reload-presets": "Tải lại cài đặt trước",
+            "save-preset": "Lưu giá trị đặt trước",
+            "open-presets-directory": "Mở thư mục cài sẵn",
+            "preset-name-empty": "Tên đặt trước không được để trống!",
+            "preset-name-invalid": "Tên đặt trước chỉ có thể chứa các chữ cái, số, dấu gạch nối, dấu gạch dưới và dấu cách!",
+            "preset-name-exists": "Giá trị cài đặt trước có tên này đã tồn tại.",
+            "preset-name-placeholder": "ví dụ. Màu sắc tùy chỉnh của tôi"
+        },
+        "all-menus": "Tất cả menu",
+        "search-menus-placeholder": "Tìm kiếm menu…",
+        "add-collection-tooltip": "Tạo một bộ sưu tập menu mới. Sử dụng bộ sưu tập để nhóm các menu của bạn theo thẻ!",
+        "no-menus": "Bạn không có menu nào.",
+        "no-menus-note": "Nếu bạn vô tình xóa cái cuối cùng, bạn có thể khôi phục nó bằng nút hoàn tác.",
+        "no-matching-menus": "Không tìm thấy menu nào.",
+        "no-matching-menus-note": "Có thể thử một cụm từ tìm kiếm khác?",
+        "empty-collection": "Bộ sưu tập này trống.",
+        "empty-collection-note": "Chỉnh sửa các thẻ ở trên hoặc thêm menu hoàn toàn mới vào bộ sưu tập này bằng nút bên dưới.",
+        "create-menu-button": "Menu mới",
+        "duplicate-menu": "Nhân bản menu",
+        "delete-menu": "Xóa menu",
+        "add-menu-item-hint": "Kéo mục này để thêm vào menu trên!",
+        "add-menu-items": "Thêm Các Mục Menu",
+        "undo": "Hoàn tác",
+        "redo": "Làm lại",
+        "app-picker": {
+            "hint": "Bạn cũng có thể kéo và thả ứng dụng từ menu bắt đầu vào trình chỉnh sửa menu của Kando!",
+            "search-placeholder": "Tìm kiếm ứng dụng…",
+            "use-selected": "Sử dụng đã chọn"
+        },
+        "menu-behavior": "Hành vi menu",
+        "menu-behavior-info": "Trước khi bật các tùy chọn này, chúng tôi khuyên bạn nên tìm hiểu lý do tại sao chúng tôi thích hành vi mặc định của Kando [tại đây]({{link}})!",
+        "centered-mode-info": "Mở menu ở giữa màn hình thay vì ở con trỏ.",
+        "centered-mode": "Chế độ căn giữa",
+        "anchored-mode-info": "Mở các menu con ở cùng vị trí với menu chính. Việc kiểm tra điều này sẽ tắt Chế độ đánh dấu và Chế độ turbo.",
+        "anchored-mode": "Chế độ neo",
+        "hover-mode-info": "Dành riêng cho người dùng chuyên nghiệp! Chọn mục bằng cách di chuột qua chúng.",
+        "hover-mode": "Chế độ di chuột",
+        "menu-conditions": "Điều kiện menu",
+        "menu-conditions-info": "Bạn có thể liên kết nhiều menu với cùng một phím tắt và sau đó chọn mỗi menu sẽ được hiển thị trong điều kiện nào.",
+        "app-condition-info": "Chỉ hiển thị menu nếu một ứng dụng cụ thể được tập trung. Điều này hỗ trợ các biểu thức thông thường như /firefox|chrome/i.",
+        "app-condition": "GiớI hạn ở các ứng dụng cụ thể",
+        "app-condition-placeholder": "Tên ứng dụng",
+        "app-condition-tooltip": "Chọn một ứng dụng",
+        "window-condition-info": "Chỉ hiển thị menu nếu tiêu đề của cửa sổ tập trung chứa văn bản nhất định. Điều này hỗ trợ các biểu thức thông thường như /youtube|vimeo/i.",
+        "window-condition": "Giới Hạn Tiêu Đề Cửa Sổ Cụ Thể",
+        "window-condition-placeholder": "Tiêu đề cửa sổ",
+        "window-condition-tooltip": "Chọn một cửa sổ",
+        "area-condition-info": "Chỉ hiển thị menu nếu con trỏ ở trong một khu vực nhất định trên màn hình. Khu vực được tính bằng pixel so với góc trên cùng bên trái của màn hình chính của bạn. Nếu bạn để trống một trường, khu vực đó sẽ không bị giới hạn theo hướng đó.",
+        "area-condition": "Giới hạn ở khu vực màn hình cụ thể",
+        "area-condition-top-placeholder": "Trên",
+        "area-condition-left-placeholder": "Trái",
+        "area-condition-bottom-placeholder": "Dưới",
+        "area-condition-right-placeholder": "Phải",
+        "area-condition-tooltip": "Chọn vùng màn hình",
+        "shortcut-info": "Phím tắt này sẽ mở menu. Nó phải chứa một phím thông thường và bất kỳ số lượng sửa đổi nào như Ctrl, Alt hoặc Shift. Khi ghi âm, bạn không nhất thiết phải nhấn tất cả các phím cùng một lúc mà có thể nhấn lần lượt từng phím. Điều này rất hữu ích nếu một phím tắt đã được liên kết với một menu khác!",
+        "shortcut-label": "Phím tắt",
+        "shortcut-recording": "Nhấn phím tắt…",
+        "shortcut-id-label": "ID phím tắt",
+        "tags-info": "Thẻ có thể được sử dụng để nhóm các menu trong bộ sưu tập menu.",
+        "tags": "Thẻ",
+        "duplicate-menu-item": "Mục menu trùng lặp",
+        "delete-menu-item": "Xóa mục menu",
+        "screen-area-picker": {
+            "top-left-value": "Trái: {{x}}, Trên: {{y}}",
+            "top-left": "Kéo cái này vào góc trên cùng bên trái của khu vực của bạn.",
+            "bottom-right-value": "Phải: {{x}}, Dưới: {{y}}",
+            "bottom-right": "Kéo cái này vào góc dưới bên phải của khu vực của bạn.",
+            "valid": "Tuyệt vời! Bạn đã chọn một khu vực hợp lệ.",
+            "invalid": "Đảm bảo góc trên cùng bên trái ở phía trên và bên trái của góc dưới cùng bên phải.",
+            "confirm": "Sử dụng khu vực này"
+        },
+        "window-picker-dialog": {
+            "result": "Bạn đã chọn \"{{name}}\".",
+            "instructions": "Nhấn nút bên dưới và tập trung vào cửa sổ mục tiêu trong vòng năm giây tiếp theo.",
+            "restart-countdown": "Bắt đầu đếm ngược lần nữa",
+            "start-countdown": "Bắt đầu đếm ngược",
+            "countdown_other": "Đang chọn trong {{count}} giây…",
+            "confirm": "Sử dụng giá trị này"
+        },
+        "achievements-dialog": {
+            "reset-button": "Đặt lại tiến độ",
+            "reset-confirmation-title": "Bạn có thực sự muốn thiết lập lại tất cả tiến trình không?",
+            "reset-confirmation-message": "Tất cả thành tích và tiến bộ cấp độ sẽ bị mất. Không thể hoàn tác hành động này.",
+            "title": "Thành tích",
+            "xp": "XP",
+            "in-progress-button": "Đang tiến hành",
+            "completed-button": "Đã hoàn thành",
+            "reset-button-tooltip": "Đặt lại tất cả thành tích và tiến độ cấp độ",
+            "no-in-progress-achievements": "Chúc mừng! Bạn đã hoàn thành tất cả các thành tựu.",
+            "no-completed-achievements": "Bạn chưa hoàn thành bất kỳ thành tựu nào."
+        },
+        "export-menu-error-title": "Không xuất được menu",
+        "import-menu-error-title": "Không thể nhập menu",
+        "import-menu-error-message": "Không thể nhập tệp đã chọn. Nó không chứa menu xuất Kando hợp lệ.",
+        "export-menu": "Xuất menu",
+        "import-menu": "Nhập menu",
+        "quick-select-key-info": "Phím này cho phép bạn chọn nhanh mục menu.",
+        "quick-select-key-label": "Phím chọn nhanh",
+        "quick-select-key-recording": "Chọn phím…"
+    },
+    "menu-items": {
+        "command": {
+            "tip-1": "Bạn có thể sử dụng loại mục Lệnh để khởi chạy ứng dụng hoặc kịch bản.",
+            "tip-2": "Nếu đường dẫn đến tệp thực thi chứa khoảng trắng, bạn nên \"bọc nó trong dấu ngoặc kép\".",
+            "tip-3": "Sử dụng {{app_name}} để chèn tên ứng dụng được chú ý khi bạn mở menu.",
+            "tip-4": "Sử dụng {{window_name}} để chèn tên cửa sổ được tập trung khi bạn mở menu.",
+            "tip-5": "Sử dụng {{pointer_x}} và {{pointer_y}} để chèn vị trí con trỏ nơi menu được mở.",
+            "tip-6": "Nhấp vào [đây]({{link}}) để tìm hiểu cách tìm các lệnh khởi chạy ứng dụng của bạn."
+        },
+        "file": {
+            "tip-1": "Bạn có thể sử dụng loại mục này để mở tập tin hoặc thư mục."
+        },
+        "hotkey": {
+            "tip-1": "Khi ghi phím tắt, bạn không cần phải nhấn tất cả các phím cùng một lúc. Bạn có thể nhấn chúng lần lượt.",
+            "tip-2": "Nếu bạn không thể ghi lại một khóa vì nó được hệ thống sử dụng, hãy thử nhập trực tiếp tên của nó.",
+            "tip-3": "Nhấp vào [liên kết này]({{link}}) để xem tất cả các tên khóa hợp lệ."
+        },
+        "macro": {
+            "tip-1": "Theo mặc định, Kando thêm độ trễ 10 mili giây trước mỗi sự kiện quan trọng. Bạn có thể thay đổi điều này bằng thuộc tính \"độ trễ\".",
+            "tip-2": "Bạn cũng có thể chỉnh sửa macro bằng tay. Điều này rất hữu ích nếu bạn muốn điều chỉnh thời gian của các phím."
+        },
+        "settings": {
+            "tip-1": "Loại mục này sẽ mở cửa sổ cài đặt Kando."
+        },
+        "submenu": {
+            "name": "Menu con",
+            "description": "Chứa các mục menu khác.",
+            "tip-1": "Menu con có thể được sử dụng để nhóm các mục.",
+            "tip-2": "Bạn cũng có thể lồng các menu con vào bên trong các menu con.",
+            "tip-3": "Menu con có thể được sử dụng để tạo các cấu trúc menu phức tạp.",
+            "tip-4": "Bạn nên tránh thêm hơn 12 mục vào một menu con. Tám là một con số tốt.",
+            "tip-5": "Bạn có thể sử dụng các biểu tượng khóa nhỏ trong bản xem trước để cố định vị trí của một mục trong menu.",
+            "tip-6": "Bạn có thể sắp xếp lại các mục bằng cách kéo chúng vào bản xem trước.",
+            "tip-7": "Bạn có thể xóa một menu hoặc một mục menu có biểu tượng thùng rác bên dưới."
+        },
+        "text": {
+            "placeholder": "Chèn bất kỳ văn bản nào…",
+            "tip-1": "Hành động này sử dụng bộ nhớ tạm của bạn để dán văn bản. Sau khi sử dụng tác vụ, bộ nhớ tạm sẽ chứa văn bản."
+        },
+        "uri": {
+            "tip-1": "Bạn có thể sử dụng loại mục URI để mở một trang web bằng giao thức http://.",
+            "tip-2": "Bạn có thể sử dụng điều này để gọi các lược đồ URI tùy chỉnh như Slack:// hoặc zoommtg://.",
+            "tip-3": "Bạn có thể sử dụng loại mục URI để mở liên kết mailto:.",
+            "tip-4": "Sử dụng {{app_name}} để chèn tên ứng dụng được chú ý khi bạn mở menu.",
+            "tip-5": "Sử dụng {{window_name}} để chèn tên cửa sổ được tập trung khi bạn mở menu.",
+            "tip-6": "Sử dụng {{pointer_x}} và {{pointer_y}} để chèn vị trí con trỏ nơi menu được mở."
+        },
+        "common": {
+            "delayed-option-info": "Hữu ích nếu hành động nhắm vào một cửa sổ cần được tập trung.",
+            "delayed-option": "Đợi hoạt ảnh mờ dần",
+            "inhibit-shortcuts-info": "Tắt tất cả các phím tắt Kando trong khi phím nóng hoặc macro đang được mô phỏng. Điều này ngăn chặn đầu vào mô phỏng vô tình kích hoạt các phím tắt menu khác.",
+            "inhibit-shortcuts": "Tắt phím tắt"
+        }
+    },
+    "main": {
+        "new-version-notification-header": "Đã có phiên bản mới của Kando!",
+        "new-version-notification-body": "Lấy nó từ {{link}}.",
+        "show-settings": "Hiển thị cài đặt",
+        "un-inhibit-shortcuts": "Kích hoạt lại phím tắt",
+        "inhibit-shortcuts": "Tạm thời vô hiệu hóa tất cả các phím tắt",
+        "quit": "Thoát",
+        "invalid-link-header": "Liên kết không hợp lệ",
+        "invalid-link-message": "Không thể phân tích cú pháp liên kết sâu."
+    },
+    "example-menu": {
+        "name": "Menu mẫu",
+        "apps": {
+            "submenu": "Ứng dụng",
+            "safari": "Safari",
+            "web-browser": "Trình duyệt web",
+            "email": "E-Mail",
+            "apple-music": "Âm nhạc",
+            "gimp": "GIMP",
+            "paint": "Paint",
+            "finder": "Finder",
+            "file-browser": "Trình duyệt tệp",
+            "terminal": "Terminal"
+        },
+        "web-links": {
+            "submenu": "Liên Kết Web",
+            "google": "Google",
+            "kando-on-github": "Kando trên GitHub",
+            "kando-on-kofi": "Kando trên Ko-fi",
+            "kando-on-youtube": "Kando trên YouTube",
+            "kando-on-discord": "Kando trên Discord"
+        },
+        "next-workspace": "Không gian làm việc tiếp theo",
+        "clipboard": {
+            "submenu": "Bộ nhớ tạm",
+            "paste": "Dán",
+            "copy": "Sao chép",
+            "cut": "Cắt"
+        },
+        "audio": {
+            "submenu": "Âm thanh",
+            "next-track": "Bài nhạc tiếp theo",
+            "play-pause": "Phát / Tạm dừng",
+            "mute": "Tắt tiếng",
+            "previous-track": "Bản nhạc trước"
+        },
+        "windows": {
+            "toggle-maximize": "Bật/Tắt toàn màn hình",
+            "tile-right": "Xếp phải",
+            "close-window": "Đóng cửa sổ",
+            "tile-left": "Xếp trái",
+            "submenu": "Cửa sổ",
+            "mission-control": "Kiểm soát nhiệm vụ"
+        },
+        "previous-workspace": "Không gian làm việc trước đó",
+        "bookmarks": {
+            "submenu": "Dấu trang",
+            "downloads": "Tải xuống",
+            "videos": "Video",
+            "pictures": "Hình ảnh",
+            "documents": "Tài liệu",
+            "desktop": "Desktop",
+            "home": "Nhà",
+            "music": "Âm nhạc"
+        }
+    },
+    "backends": {
+        "gnome": {
+            "error": "Không thể kết nối với tiện ích mở rộng Gnome Shell tích hợp Kando. Bạn có thể lấy nó từ đây: {{link}}"
+        },
+        "hyprland": {
+            "shortcut-info": "Kando không thể liên kết trực tiếp các lối tắt toàn cầu trên Hyprland. Thay vào đó, hãy chỉ định ID lối tắt tại đây và liên kết lối tắt trong hyprland.conf của bạn bằng nội dung như \"bind = CTRL, Space, toàn cầu, kando:example-menu\". Thay thế menu ví dụ bằng ID được chọn ở đây."
+        },
+        "kde-wayland": {
+            "shortcut-info": "Kando không thể liên kết trực tiếp các phím tắt chung trên KDE/Wayland. Thay vào đó, hãy chỉ định ID lối tắt tại đây rồi tìm kiếm nó trong phần KWin của lối tắt chung trong cài đặt hệ thống KDE của bạn. Ở đó bạn có thể chỉ định phím tắt sẽ mở menu này."
+        },
+        "niri": {
+            "shortcut-info": "Niri chưa hỗ trợ các phím tắt toàn cục. Nhưng bạn có thể mở menu này bằng cách sử dụng 'kando --menu \"Tên menu\"' từ dòng lệnh hoặc từ cấu hình niri của bạn."
+        }
+    },
+    "achievements": {
+        "attributes": {
+            "novice": "Người mới",
+            "capable": "Có khả năng",
+            "skilled": "Có tay nghề",
+            "expert": "Chuyên gia",
+            "master": "Bậc thầy"
+        },
+        "tier": {
+            "I": "I",
+            "II": "II",
+            "III": "III",
+            "IV": "IV",
+            "V": "V"
+        },
+        "cancelor": {
+            "name": "Con Đường Tánh Không {{tier}}",
+            "description": "Hủy bỏ lựa chọn {{n}} lần."
+        },
+        "selector": {
+            "name": "{{attribute}} Samurai",
+            "description": "Chọn {{n}} mục."
+        },
+        "depth-selector": {
+            "name1": "{{attribute}} Máy cắt lát",
+            "name2": "{{attribute}} Máy cắt hai lớp",
+            "name3": "{{attribute}} Máy cắt sâu",
+            "description": "Chọn {{n}} mục ở độ sâu {{depth}} trong chưa đầy {{time}} mili giây."
+        },
+        "click-selector": {
+            "name": "{{attribute}} Nhà vô địch về nhấp chuột",
+            "description": "Chọn các mục {{n}} bằng cách nhấp chuột."
+        },
+        "keyboard-selector": {
+            "name": "{{attribute}} Anh hùng phím nóng",
+            "description": "Chọn {{n}} mục bằng bàn phím của bạn."
+        },
+        "gamepad-selector": {
+            "name": "{{attribute}} Chiến binh tay cầm chơi game",
+            "description": "Chọn {{n}} mục bằng gamepad."
+        },
+        "gesture-selector": {
+            "name": "{{attribute}} Ninja nguồn",
+            "description": "Chọn các mục {{n}} bằng chế độ turbo hoặc đánh dấu."
+        },
+        "settings-opened": {
+            "name": "Hành trình là phần thưởng {{tier}}",
+            "description": "Mở hộp thoại cài đặt {{n}} lần."
+        },
+        "backup": {
+            "name": "Con đường tiên tri {{tier}}",
+            "description": "Sao lưu menu hoặc cài đặt của bạn {{n}} lần."
+        },
+        "restore": {
+            "name": "Cơ hội thứ hai {{tier}}",
+            "description": "Khôi phục bản sao lưu {{n}} lần."
+        },
+        "added-items": {
+            "name": "Con đường Kando {{tier}}",
+            "description": "Tạo các mục {{n}} trong trình chỉnh sửa menu."
+        },
+        "deleted-all-menus": {
+            "name": "Xóa Dojo",
+            "description": "Xóa tất cả các menu của bạn."
+        },
+        "full-menu": {
+            "name": "Chiều rộng hơn chiều sâu",
+            "description": "Tạo một menu với hơn 12 món."
+        },
+        "deep-menu": {
+            "name": "Bậc thầy về chiều sâu",
+            "description": "Thêm một mục menu vào menu con sâu bốn cấp."
+        },
+        "sponsors-viewed": {
+            "name": "Người bảo vệ Kando",
+            "description": "Hãy cân nhắc việc trở thành nhà tài trợ của Kando."
+        },
+        "menu-themes-selected": {
+            "name": "Con đường thẩm mỹ",
+            "description": "Chuyển chủ đề menu {{n}} lần."
+        },
+        "tutorial-viewed": {
+            "name": "Cuộc hành trình bắt đầu",
+            "description": "Hoàn thành phần hướng dẫn giới thiệu Kando."
+        },
+        "completed-title": "Đã mở khóa thành tích!",
+        "many-selections-streak": {
+            "name": "Bàn tay sấm sét {{tier}}",
+            "description": "Chọn {{n}} mục trong vòng {{time}} giây."
+        },
+        "speedy-selections-streak": {
+            "name": "Nhanh hơn suy nghĩ {{tier}}",
+            "description": "Thực hiện trung bình {{n}} lựa chọn liên tiếp nhanh hơn {{time}} ms."
+        }
+    },
+    "menu-actions": {
+        "open-file": {
+            "name": "Mở tệp",
+            "description": "Mở một tệp hoặc thư mục.",
+            "placeholder": "Chọn một tập tin hoặc thư mục…"
+        },
+        "execute-command": {
+            "name": "Chạy lệnh",
+            "description": "Khởi chạy ứng dụng hoặc kịch bản.",
+            "choose-app": "Chọn một ứng dụng…",
+            "placeholder": "Chèn bất kỳ lệnh nào…",
+            "isolated": "Chạy cô lập",
+            "isolated-info": "Lệnh này sẽ chạy lệnh trong môi trường sạch, nghĩa là nó sẽ không kế thừa bất kỳ biến môi trường nào từ Kando. Điều này có thể trợ giúp với các lệnh không khởi động đúng cách.",
+            "detached-info": "Thao tác này sẽ ngắt kết nối lệnh khỏi Kando nên nó sẽ tiếp tục chạy ngay cả khi Kando bị đóng. Việc tắt tính năng này có thể giải quyết được sự cố với các lệnh không khởi động đúng cách.",
+            "detached": "Chạy tách rời"
+        },
+        "open-menu": {
+            "name": "Chuyển hướng",
+            "description": "Mở một menu khác."
+        },
+        "open-settings": {
+            "name": "Mở Cài đặt",
+            "description": "Mở cửa sổ cài đặt Kando."
+        },
+        "open-uri": {
+            "name": "Mở URI",
+            "description": "Mở các trang web và hơn thế nữa.",
+            "placeholder": "Chèn bất kỳ URI nào…"
+        },
+        "simulate-hotkey": {
+            "name": "Mô phỏng phím tắt",
+            "description": "Nhấn tổ hợp phím.",
+            "recording-placeholder": "Nhập phím tắt…",
+            "hotkey": "Phím tắt",
+            "hotkey-info": "Phím tắt này sẽ được kích hoạt khi mục được chọn. Khi ghi phím tắt, bạn không nhất thiết phải nhấn tất cả các phím cùng một lúc mà có thể nhấn lần lượt từng phím. Điều này rất hữu ích nếu một phím tắt đã được liên kết với một số hành động chung!"
+        },
+        "execute-macro": {
+            "name": "Thực thi macro",
+            "description": "Nhập macro bàn phím.",
+            "placeholder": "Nhấn nút ghi để bắt đầu ghi!",
+            "recording-placeholder": "Nhấn phím bất kỳ…"
+        }
+    }
+}

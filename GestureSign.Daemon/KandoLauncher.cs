@@ -36,7 +36,7 @@ namespace GestureSign.Daemon
                 return;
             }
 
-            Logging.LogMessage(StartKando(executablePath, string.Empty)
+            Logging.LogMessage(StartKando(executablePath, KandoComponentPaths.IsNativePieMenu(executablePath) ? "--background" : string.Empty)
                 ? $"Kando auto-start requested. Executable={executablePath}"
                 : $"Kando auto-start failed. Executable={executablePath}");
         }
@@ -52,6 +52,9 @@ namespace GestureSign.Daemon
             }
 
             var menuName = AppConfig.KandoMenuName;
+            if (KandoComponentPaths.IsNativePieMenu(executablePath))
+                return StartKando(executablePath, string.IsNullOrWhiteSpace(menuName) ? "--show" : BuildShowMenuArguments());
+
             if (!string.IsNullOrWhiteSpace(menuName) && IsRunning(executablePath))
             {
                 // Kando is an Electron application. Starting kando.exe for every
@@ -154,6 +157,11 @@ namespace GestureSign.Daemon
         public static void Stop()
         {
             var executablePath = FindExecutablePath();
+            if (executablePath is not null && KandoComponentPaths.IsNativePieMenu(executablePath))
+            {
+                StartKando(executablePath, "--quit");
+                return;
+            }
             var expectedPath = string.IsNullOrWhiteSpace(executablePath)
                 ? null
                 : Path.GetFullPath(executablePath);
@@ -222,6 +230,19 @@ namespace GestureSign.Daemon
                     return false;
                 }
 
+                var native = KandoComponentPaths.IsNativePieMenu(executablePath);
+                if (native)
+                {
+                    var location = AppContext.BaseDirectory;
+                    var host = new[]
+                    {
+                        Path.GetFullPath(Path.Combine(location, "..", "GestureSignV2.WinUI.exe")),
+                        Path.GetFullPath(Path.Combine(location, "..", "GestureSignV2.exe")),
+                        Path.Combine(location, "GestureSign.WinUI.exe"),
+                        Path.GetFullPath(Path.Combine(location, "..", "GestureSign.WinUI.exe"))
+                    }.FirstOrDefault(File.Exists);
+                    arguments = KandoComponentPaths.NativeArguments(arguments, host, AppConfig.ConfigPath);
+                }
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = executablePath,
@@ -230,7 +251,8 @@ namespace GestureSign.Daemon
                     UseShellExecute = false,
                     CreateNoWindow = true
                 });
-                KandoTaskbarIdentity.ApplyWhenWindowAvailable(executablePath);
+                if (!native)
+                    KandoTaskbarIdentity.ApplyWhenWindowAvailable(executablePath);
                 return true;
             }
             catch (Exception ex)
@@ -243,10 +265,7 @@ namespace GestureSign.Daemon
         private static bool IsRunning(string executablePath)
         {
             var expectedPath = Path.GetFullPath(executablePath);
-            foreach (var process in Process.GetProcessesByName("kando")
-                         .Concat(Process.GetProcessesByName("Kando"))
-                         .GroupBy(process => process.Id)
-                         .Select(group => group.First()))
+            foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(executablePath)))
             {
                 try
                 {

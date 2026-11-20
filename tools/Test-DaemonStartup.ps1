@@ -5,7 +5,7 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 $exe = (Resolve-Path -LiteralPath $Executable).Path
-if (Get-Process GestureSign -ErrorAction SilentlyContinue) { throw 'Exit existing GestureSign daemons before running the startup test.' }
+if (Get-Process GestureSign,GestureSignV2,GestureSignV2Daemon -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @("GestureSign", "GestureSignV2Daemon") -or $_.Path -eq $exe -or $_.Path -like "*\Backend\GestureSignV2.exe" }) { throw 'Exit existing GestureSign daemons before running the startup test.' }
 $report = Join-Path ([IO.Path]::GetTempPath()) ("GestureSign-startup-" + [Guid]::NewGuid().ToString('N') + '.txt')
 $data = $report + '.data'
 New-Item -ItemType Directory -Path $data | Out-Null

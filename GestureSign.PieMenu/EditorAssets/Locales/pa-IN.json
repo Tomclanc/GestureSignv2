@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ਈ-ਮੇਲ",
+      "file-browser": "ਫਾਈਲ ਬਰਾਊਜ਼ਰ",
+      "paint": "ਪੇਂਟ",
+      "submenu": "ਐਪਸ",
+      "terminal": "ਟਰਮੀਨਲ",
+      "web-browser": "ਵੈੱਬ ਬਰਾਊਜ਼ਰ"
+    },
+    "audio": {
+      "mute": "ਮਿਊਟ ਕਰੋ",
+      "next-track": "ਅਗਲੀ ਟਰੈਕ",
+      "play-pause": "ਚਲਾਓ/ਰੋਕੋ",
+      "previous-track": "ਪਿਛਲਾ ਟ੍ਰੈਕ",
+      "submenu": "ਆਡੀਓ"
+    },
+    "bookmarks": {
+      "desktop": "ਡੈਸਕਟਾਪ",
+      "documents": "ਦਸਤਾਵੇਜ਼",
+      "downloads": "ਡਾਊਨਲੋਡ",
+      "home": "ਘਰ",
+      "music": "ਸੰਗੀਤ",
+      "pictures": "ਤਸਵੀਰਾਂ",
+      "submenu": "ਬੁੱਕਮਾਰਕਸ",
+      "videos": "ਵੀਡੀਓਜ਼"
+    },
+    "clipboard": {
+      "copy": "ਨਕਲ ਕਰੋ",
+      "cut": "ਕੱਟੋ",
+      "paste": "ਪੇਸਟ ਕਰੋ",
+      "submenu": "ਕਲਿੱਪਬੋਰਡ"
+    },
+    "name": "ਉਦਾਹਰਨ ਮੀਨੂ",
+    "next-workspace": "ਅਗਲਾ ਵਰਕਸਪੇਸ",
+    "previous-workspace": "ਪਿਛਲਾ ਵਰਕਸਪੇਸ",
+    "web-links": {
+      "kando-on-discord": "ਡਿਸਕਾਰਡ 'ਤੇ ਕੰਡੋ",
+      "kando-on-github": "GitHub 'ਤੇ ਕੰਡੋ",
+      "kando-on-kofi": "ਕੋ-ਫਾਈ 'ਤੇ ਕੰਡੋ",
+      "kando-on-youtube": "ਯੂਟਿਊਬ 'ਤੇ ਕੰਡੋ",
+      "submenu": "ਵੈੱਬ ਲਿੰਕ"
+    },
+    "windows": {
+      "close-window": "ਵਿੰਡੋ ਬੰਦ ਕਰੋ",
+      "submenu": "ਵਿੰਡੋਜ਼",
+      "tile-left": "ਖੱਬੇ ਟਾਇਲ",
+      "tile-right": "ਟਾਇਲ ਸੱਜੇ",
+      "toggle-maximize": "ਵੱਧ ਤੋਂ ਵੱਧ ਟੌਗਲ ਕਰੋ"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ਮੀਨੂ ਬੰਦ ਕਰੋ"
+    },
+    "close-submenu": {
+      "name": "ਸਬਮੇਨੂ ਬੰਦ ਕਰੋ"
+    },
+    "delay": {
+      "name": "ਦੇਰੀ"
+    },
+    "execute-command": {
+      "name": "ਕਮਾਂਡ ਚਲਾਓ"
+    },
+    "execute-macro": {
+      "name": "ਮੈਕਰੋ ਚਲਾਓ"
+    },
+    "focus-window": {
+      "name": "ਫੋਕਸ ਵਿੰਡੋ"
+    },
+    "inhibit-shortcuts": {
+      "name": "ਸ਼ਾਰਟਕੱਟਾਂ ਨੂੰ ਰੋਕੋ"
+    },
+    "open-file": {
+      "name": "ਫ਼ਾਈਲ ਖੋਲ੍ਹੋ"
+    },
+    "open-menu": {
+      "name": "ਮੀਨੂ ਖੋਲ੍ਹੋ"
+    },
+    "open-settings": {
+      "name": "ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ"
+    },
+    "open-uri": {
+      "name": "URI ਖੋਲ੍ਹੋ"
+    },
+    "send-tcp-message": {
+      "name": "TCP ਸੁਨੇਹਾ ਭੇਜੋ"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket ਸੁਨੇਹਾ ਭੇਜੋ"
+    },
+    "set-clipboard": {
+      "name": "ਕਲਿੱਪਬੋਰਡ ਸੈੱਟ ਕਰੋ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ਹੌਟਕੀ",
+      "name": "ਹੌਟਕੀ ਦੀ ਨਕਲ ਕਰੋ",
+      "recording-placeholder": "ਇੱਕ ਹੌਟਕੀ ਟਾਈਪ ਕਰੋ..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ਸਬਮੇਨੂ"
+    }
+  },
+  "native": {
+    "action": "ਕਾਰਵਾਈ",
+    "action-value": "ਸ਼ਾਰਟਕੱਟ, ਮਾਰਗ, URL, ਟੈਕਸਟ, ਜਾਂ JSON",
+    "choose-icon": "ਆਈਕਨ ਚੁਣੋ",
+    "condition-invalid": "ਇੱਕ ਵੈਧ ਵਿੰਡੋ ਜਾਂ ਐਪ ਸ਼ਰਤ ਦਰਜ ਕਰੋ, ਉਦਾਹਰਨ ਲਈ /notepad/i।",
+    "configuration": "ਪਾਈ ਮੀਨੂ ਕੌਂਫਿਗਰੇਸ਼ਨ",
+    "editor": "ਪਾਈ ਮੀਨੂ ਸੰਪਾਦਕ",
+    "exported": "{0} ਨੂੰ ਨਿਰਯਾਤ ਕੀਤਾ ਗਿਆ",
+    "fixed-angle": "ਸਥਿਰ ਕੋਣ (0° = ਉੱਪਰ)",
+    "fixed-x": "ਸਥਿਰ X (ਮਾਨੀਟਰ ਵਿੱਚ 0-1)",
+    "fixed-y": "ਸਥਿਰ Y (0-1 ਮਾਨੀਟਰ ਹੇਠਾਂ)",
+    "icon-invalid-image": "192 KB ਤੱਕ ਇੱਕ PNG, JPEG, GIF, WebP, ਜਾਂ ICO ਚਿੱਤਰ ਚੁਣੋ।",
+    "icon-library": "ਆਈਕਨ ਲਾਇਬ੍ਰੇਰੀ",
+    "icon-next": "ਅਗਲੇ ਆਈਕਾਨ",
+    "icon-no-results": "ਕੋਈ ਆਈਕਨ ਨਹੀਂ ਮਿਲੇ।",
+    "icon-pick-file": "ਚਿੱਤਰ ਜਾਂ ਐਪ ਚੁਣੋ",
+    "icon-previous": "ਪਿਛਲੇ ਆਈਕਾਨ",
+    "icon-use-image": "ਚਿੱਤਰ ਦੀ ਵਰਤੋਂ ਕਰੋ",
+    "imported": "ਆਯਾਤ ਕੀਤਾ {0} ਮੀਨੂ(ਆਂ)। ਆਯਾਤ ਕੀਤੀਆਂ ਕਮਾਂਡਾਂ ਦੀ ਵਰਤੋਂ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਉਹਨਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ, ਫਿਰ ਸੁਰੱਖਿਅਤ ਕਰੋ।",
+    "item-icon": "ਆਈਟਮ ਪ੍ਰਤੀਕ",
+    "item-order": "ਆਈਟਮ ਆਰਡਰ",
+    "label": "ਲੇਬਲ",
+    "move-down": "ਹੇਠਾਂ ਚਲੇ ਜਾਓ",
+    "move-up": "ਉੱਪਰ ਜਾਓ",
+    "name": "ਮੀਨੂ ਦਾ ਨਾਮ",
+    "new-menu": "ਨਵਾਂ ਮੀਨੂ",
+    "off": "ਬੰਦ",
+    "on": "ਚਾਲੂ",
+    "palette": "ਰੰਗ ਪੈਲਅਟ",
+    "preview": "ਪ੍ਰੀਵਿਊ ਮੀਨੂ",
+    "remove": "ਹਟਾਓ",
+    "save": "ਮੇਨੂ ਸੁਰੱਖਿਅਤ ਕਰੋ",
+    "saved": "ਮੀਨੂ ਕੌਂਫਿਗਰੇਸ਼ਨ ਸੁਰੱਖਿਅਤ ਕੀਤੀ ਗਈ।",
+    "shortcut-clear": "ਸ਼ਾਰਟਕੱਟ ਸਾਫ਼ ਕਰੋ",
+    "shortcut-cleared": "ਸ਼ਾਰਟਕੱਟ ਕਲੀਅਰ ਕੀਤਾ ਗਿਆ।",
+    "shortcut-config-changed": "ਡਿਸਕ 'ਤੇ ਮੇਨੂ ਸੰਰਚਨਾ ਬਦਲ ਗਈ ਹੈ। ਇਸ ਸ਼ਾਰਟਕੱਟ ਨੂੰ ਲਾਗੂ ਕਰਨ ਲਈ ਮੌਜੂਦਾ ਮੀਨੂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ।",
+    "shortcut-in-use": "ਵਿੰਡੋਜ਼ ਰਿਪੋਰਟ ਕਰਦੀ ਹੈ ਕਿ ਇਹ ਸ਼ਾਰਟਕੱਟ ਪਹਿਲਾਂ ਹੀ ਵਰਤੋਂ ਵਿੱਚ ਹੈ।",
+    "shortcut-invalid": "ਇੱਕ ਕੁੰਜੀ ਦਰਜ ਕਰੋ, ਨਾਲ ਹੀ ਇਸ ਸ਼ਾਰਟਕੱਟ ਲਈ ਕਿਸੇ ਵੀ ਸੋਧਕ ਦੀ ਇਜਾਜ਼ਤ ਹੈ।",
+    "shortcut-record": "ਰਿਕਾਰਡ ਸ਼ਾਰਟਕੱਟ",
+    "shortcut-save-new-menu": "ਇਸ ਦੇ ਸ਼ਾਰਟਕੱਟ ਨੂੰ ਸਰਗਰਮ ਕਰਨ ਲਈ ਇਸ ਨਵੇਂ ਮੀਨੂ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ।",
+    "shortcut-saved": "ਸ਼ਾਰਟਕੱਟ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਗਿਆ: {0}। ਜਦੋਂ ਤਤਕਾਲ ਕਾਰਵਾਈਆਂ ਚਾਲੂ ਹੁੰਦੀਆਂ ਹਨ ਤਾਂ ਮੀਨੂ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਇਸਦੀ ਵਰਤੋਂ ਕਰੋ।",
+    "shortcut-stop": "ਰਿਕਾਰਡਿੰਗ ਬੰਦ ਕਰੋ",
+    "shortcut-unavailable": "ਵਿੰਡੋਜ਼ ਇਸ ਸ਼ਾਰਟਕੱਟ ਨੂੰ ਰਜਿਸਟਰ ਨਹੀਂ ਕਰ ਸਕਿਆ।"
+  },
+  "settings": {
+    "add-menu-items": "ਮੀਨੂ ਆਈਟਮਾਂ ਸ਼ਾਮਲ ਕਰੋ",
+    "all-menus": "ਸਾਰੇ ਮੇਨੂ",
+    "anchored-mode": "ਐਂਕਰਡ ਮੋਡ",
+    "app-condition": "ਖਾਸ ਐਪਾਂ ਤੱਕ ਸੀਮਤ",
+    "area-condition-bottom-placeholder": "ਹੇਠਾਂ",
+    "area-condition-left-placeholder": "ਖੱਬੇ",
+    "area-condition-right-placeholder": "ਸੱਜਾ",
+    "area-condition-top-placeholder": "ਉੱਪਰ",
+    "cancel": "ਰੱਦ ਕਰੋ",
+    "create-menu-button": "ਮੀਨੂ ਸ਼ਾਮਲ ਕਰੋ",
+    "delete-menu": "ਮੀਨੂ ਮਿਟਾਓ",
+    "delete-menu-item": "ਮੀਨੂ ਆਈਟਮ ਮਿਟਾਓ",
+    "edit-submenu": "ਸਬਮੇਨੂ ਦਾ ਸੰਪਾਦਨ ਕਰੋ",
+    "export-menu": "ਨਿਰਯਾਤ ਮੀਨੂ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ਮਾਰਕਿੰਗ ਮੋਡ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ",
+      "close-menu": "ਮੀਨੂ ਬੰਦ ਕਰੋ",
+      "do-nothing": "ਕੁਝ ਨਾ ਕਰੋ",
+      "enable-marking-mode-info": "ਮਾਰਕਿੰਗ ਮੋਡ ਸਮਰੱਥ ਹੋਣ ਦੇ ਨਾਲ, ਤੁਸੀਂ ਮਾਊਸ ਨੂੰ ਉਹਨਾਂ ਉੱਤੇ ਖਿੱਚ ਕੇ ਆਈਟਮਾਂ ਦੀ ਚੋਣ ਕਰ ਸਕਦੇ ਹੋ।",
+      "enable-turbo-mode": "ਟਰਬੋ ਮੋਡ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ",
+      "enable-turbo-mode-info": "ਟਰਬੋ ਮੋਡ ਸਮਰਥਿਤ ਹੋਣ ਦੇ ਨਾਲ, ਤੁਸੀਂ ਉਦੋਂ ਤੱਕ ਇਸ਼ਾਰੇ ਕਰ ਸਕਦੇ ਹੋ ਜਦੋਂ ਤੱਕ ਤੁਸੀਂ ਇੱਕ ਮੋਡੀਫਾਇਰ ਕੁੰਜੀ ਜਿਵੇਂ ਕਿ Shift ਜਾਂ Ctrl ਨੂੰ ਦਬਾ ਕੇ ਰੱਖਦੇ ਹੋ।",
+      "interaction-modes": "ਇੰਟਰਐਕਸ਼ਨ ਮੋਡਸ",
+      "middle-mouse-button-behavior": "ਮੱਧ ਮਾਊਸ ਬਟਨ",
+      "middle-mouse-button-behavior-info": "ਇਹ ਨਿਰਧਾਰਿਤ ਕਰਦਾ ਹੈ ਕਿ ਕੀ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਮੀਨੂ ਵਿਖਾਏ ਜਾਣ ਦੇ ਦੌਰਾਨ ਮੱਧ ਮਾਊਸ ਬਟਨ ਨੂੰ ਦਬਾਇਆ ਜਾਂਦਾ ਹੈ।",
+      "move-pointer-to-menu-center": "ਪੁਆਇੰਟਰ ਨੂੰ ਮੀਨੂ ਕੇਂਦਰ ਵਿੱਚ ਲੈ ਜਾਓ",
+      "move-pointer-to-menu-center-info": "ਜੇਕਰ ਜਾਂਚ ਕੀਤੀ ਜਾਂਦੀ ਹੈ, ਤਾਂ ਲੋੜ ਪੈਣ 'ਤੇ ਮਾਊਸ ਪੁਆਇੰਟਰ ਨੂੰ ਮੀਨੂ ਜਾਂ ਉਪ-ਮੇਨੂ ਦੇ ਕੇਂਦਰ ਵਿੱਚ ਭੇਜਿਆ ਜਾਵੇਗਾ। ਇਹ ਮਾਮਲਾ ਹੋ ਸਕਦਾ ਹੈ ਜੇਕਰ ਕੋਈ ਮੀਨੂ ਸਕ੍ਰੀਨ ਦੇ ਕਿਨਾਰੇ ਦੇ ਬਹੁਤ ਨੇੜੇ ਖੋਲ੍ਹਿਆ ਜਾਂਦਾ ਹੈ ਜਾਂ ਜੇਕਰ ਕੋਈ ਮੀਨੂ ਸੈਂਟਰਡ ਮੋਡ ਵਿੱਚ ਖੋਲ੍ਹਿਆ ਜਾਂਦਾ ਹੈ।",
+      "require-click-for-hover-mode": "ਹੋਵਰ ਮੋਡ ਚੋਣ ਲਈ ਕਲਿੱਕ ਦੀ ਲੋੜ ਹੈ",
+      "require-click-for-hover-mode-info": "ਜੇਕਰ ਅਣਚੈਕ ਕੀਤਾ ਗਿਆ ਹੈ, ਤਾਂ ਆਈਟਮਾਂ ਨੂੰ ਤੁਰੰਤ ਚੁਣਿਆ ਜਾਵੇਗਾ ਜਦੋਂ ਹੋਵਰ ਮੋਡ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋਏ ਮੀਨੂ ਲਈ ਮਾਊਸ ਨੂੰ ਉਹਨਾਂ 'ਤੇ ਲਿਜਾਇਆ ਜਾਵੇਗਾ।",
+      "right-mouse-button-behavior": "ਸੱਜਾ ਮਾਊਸ ਬਟਨ",
+      "right-mouse-button-behavior-info": "ਇਹ ਨਿਰਧਾਰਿਤ ਕਰਦਾ ਹੈ ਕਿ ਕੀ ਹੁੰਦਾ ਹੈ ਜਦੋਂ ਇੱਕ ਮੀਨੂ ਦਿਖਾਇਆ ਜਾਂਦਾ ਹੈ ਜਦੋਂ ਸੱਜਾ ਮਾਊਸ ਬਟਨ ਦਬਾਇਆ ਜਾਂਦਾ ਹੈ।",
+      "select-item": "ਆਈਟਮ ਚੁਣੋ",
+      "select-parent": "ਇੱਕ ਪੱਧਰ ਉੱਪਰ ਨੈਵੀਗੇਟ ਕਰੋ",
+      "trigger-center-click-on-key-release": "ਕੇਂਦਰ ਉੱਤੇ ਸ਼ਾਰਟਕੱਟ ਰੀਲੀਜ਼ 'ਤੇ ਮੀਨੂ ਨੂੰ ਬੰਦ ਕਰੋ",
+      "trigger-center-click-on-key-release-info": "ਇਹ ਸੈਂਟਰ-ਕਲਿੱਕ ਵਰਕਫਲੋ ਨੂੰ ਟਰਿੱਗਰ ਕਰੇਗਾ ਜਦੋਂ ਇੱਕ ਮੀਨੂ ਦੇ ਕੇਂਦਰ ਉੱਤੇ ਹੋਵਰ ਕਰਦੇ ਸਮੇਂ ਇੱਕ ਕੁੰਜੀ ਜਾਰੀ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।"
+    },
+    "hover-mode": "ਹੋਵਰ ਮੋਡ",
+    "icon-picker-dialog": {
+      "search-placeholder": "ਖੋਜ ਪ੍ਰਤੀਕ…"
+    },
+    "import-menu": "ਆਯਾਤ ਮੀਨੂ",
+    "menu-behavior": "ਮੀਨੂ ਵਿਵਹਾਰ",
+    "menu-conditions": "ਮੀਨੂ ਸ਼ਰਤਾਂ",
+    "menu-themes-dialog": {
+      "default-colors": "ਡਿਫੌਲਟ ਰੰਗ",
+      "enable-menu-animations": "ਮੀਨੂ ਐਨੀਮੇਸ਼ਨ",
+      "title": "ਮੀਨੂ ਥੀਮ"
+    },
+    "no-matching-menus": "ਕੋਈ ਮੀਨੂ ਨਹੀਂ ਮਿਲਿਆ।",
+    "no-menus": "ਤੁਹਾਡੇ ਕੋਲ ਕੋਈ ਮੀਨੂ ਨਹੀਂ ਹੈ।",
+    "not-bound": "ਬੰਨ੍ਹਿਆ ਨਹੀਂ",
+    "quick-select-key-label": "ਤੁਰੰਤ-ਚੋਣ ਕੁੰਜੀ",
+    "quick-select-key-recording": "ਕੁੰਜੀ ਚੁਣੋ...",
+    "shortcut-info": "ਇਹ ਸ਼ਾਰਟਕੱਟ ਮੀਨੂ ਨੂੰ ਖੋਲ੍ਹਦਾ ਹੈ। ਇਸ ਵਿੱਚ ਇੱਕ ਸਧਾਰਨ ਕੁੰਜੀ ਅਤੇ Ctrl, Alt, ਜਾਂ Shift ਵਰਗੇ ਸੰਸ਼ੋਧਕਾਂ ਦੀ ਗਿਣਤੀ ਹੋਣੀ ਚਾਹੀਦੀ ਹੈ। ਰਿਕਾਰਡਿੰਗ ਕਰਦੇ ਸਮੇਂ, ਤੁਹਾਨੂੰ ਸਾਰੀਆਂ ਕੁੰਜੀਆਂ ਨੂੰ ਇੱਕੋ ਵਾਰ ਦਬਾਉਣ ਦੀ ਲੋੜ ਨਹੀਂ ਹੈ, ਤੁਸੀਂ ਉਹਨਾਂ ਨੂੰ ਇੱਕ ਤੋਂ ਬਾਅਦ ਇੱਕ ਦਬਾ ਸਕਦੇ ਹੋ। ਇਹ ਲਾਭਦਾਇਕ ਹੈ ਜੇਕਰ ਇੱਕ ਸ਼ਾਰਟਕੱਟ ਪਹਿਲਾਂ ਹੀ ਕਿਸੇ ਹੋਰ ਮੀਨੂ ਨਾਲ ਬੰਨ੍ਹਿਆ ਹੋਇਆ ਹੈ!",
+    "shortcut-label": "ਸ਼ਾਰਟਕੱਟ",
+    "shortcut-recording": "ਇੱਕ ਸ਼ਾਰਟਕੱਟ ਦਬਾਓ...",
+    "window-condition": "ਖਾਸ ਵਿੰਡੋ ਟਾਈਟਲ ਤੱਕ ਸੀਮਾ",
+    "workflow-editor": {
+      "add-action": "ਐਕਸ਼ਨ ਸ਼ਾਮਲ ਕਰੋ",
+      "select-workflow-name": "ਵਰਕਫਲੋ ਚੁਣੋ"
+    },
+    "anchored-mode-info": "ਪੇਰੈਂਟ ਮੀਨੂ ਦੇ ਸਮਾਨ ਸਥਿਤੀ 'ਤੇ ਸਬਮੇਨੂ ਖੋਲ੍ਹੋ। ਇਸ ਦੀ ਜਾਂਚ ਕਰਨਾ, ਮਾਰਕਿੰਗ ਮੋਡ ਅਤੇ ਟਰਬੋ ਮੋਡ ਨੂੰ ਅਸਮਰੱਥ ਬਣਾ ਦੇਵੇਗਾ।",
+    "fixed-position-mode": "ਸਥਿਰ ਸਥਿਤੀ ਮੋਡ",
+    "fixed-position-mode-info": "ਕਰਸਰ ਦੀ ਬਜਾਏ, ਸਕ੍ਰੀਨ 'ਤੇ ਇੱਕ ਸਥਿਰ ਸਥਿਤੀ 'ਤੇ ਮੀਨੂ ਨੂੰ ਖੋਲ੍ਹੋ।",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "ਹੇਠਾਂ ਖੱਬੇ ਪਾਸੇ ਸਥਿਤੀ ਸੈਟ ਕਰੋ",
+      "bottom-right-preset-tooltip": "ਹੇਠਾਂ ਸੱਜੇ ਪਾਸੇ ਸਥਿਤੀ ਸੈੱਟ ਕਰੋ",
+      "centered-preset-tooltip": "ਕੇਂਦਰ ਵਿੱਚ ਸਥਿਤੀ ਸੈਟ ਕਰੋ",
+      "confirm": "ਇਸ ਸਥਿਤੀ ਦੀ ਵਰਤੋਂ ਕਰੋ",
+      "top-left-preset-tooltip": "ਉੱਪਰ ਖੱਬੇ ਪਾਸੇ ਸਥਿਤੀ ਸੈੱਟ ਕਰੋ",
+      "top-right-preset-tooltip": "ਉੱਪਰ ਸੱਜੇ ਪਾਸੇ ਸਥਿਤੀ ਸੈੱਟ ਕਰੋ"
+    },
+    "fixed-position-tooltip": "ਇੱਕ ਸਥਿਰ ਸਥਿਤੀ ਚੁਣੋ",
+    "hover-mode-info": "ਸਿਰਫ ਪਾਵਰ ਉਪਭੋਗਤਾਵਾਂ ਲਈ! ਉਹਨਾਂ ਉੱਤੇ ਹੋਵਰ ਕਰਕੇ ਆਈਟਮਾਂ ਦੀ ਚੋਣ ਕਰੋ।"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ਡਿਫਾਲਟ",
+      "clean-circle": "ਸਾਫ਼ ਸਰਕਲ",
+      "neon-lights": "ਨਿਓਨ ਲਾਈਟਾਂ",
+      "purity": "ਸ਼ੁੱਧਤਾ",
+      "rainbow-labels": "ਰੇਨਬੋ ਲੇਬਲ"
+    },
+    "presets": {
+      "Blue Glass": "ਨੀਲਾ ਗਲਾਸ",
+      "Dark Night": "ਹਨੇਰੀ ਰਾਤ",
+      "Cotton Candy": "ਕਪਾਹ ਕੈਂਡੀ",
+      "Dark and Cozy": "ਹਨੇਰਾ ਅਤੇ ਆਰਾਮਦਾਇਕ",
+      "Blue Glow": "ਬਲੂ ਗਲੋ",
+      "Green Glow": "ਹਰੀ ਚਮਕ",
+      "Electric": "ਇਲੈਕਟ੍ਰਿਕ",
+      "Orange": "ਸੰਤਰੀ",
+      "Pink": "ਗੁਲਾਬੀ",
+      "Bright Prism": "ਚਮਕਦਾਰ ਪ੍ਰਿਜ਼ਮ",
+      "Kando Default": "ਡਿਫੌਲਟ ਰੰਗ"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>ತ್ವರಿತ ಕ್ರಿಯೆಗಳು</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>ನಿಷ್ಟಿತ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳೊಂದಿಗೆ ರೇಡಿಯಲ್ ಮೆನು ತೆರೆಯಿರಿ.</value>
+  </data>
+</root>

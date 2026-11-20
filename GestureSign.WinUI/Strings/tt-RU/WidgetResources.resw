@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Тиз эшләр</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Билгеле кыска юллар белән радиаль менюсын ачу</value>
+  </data>
+</root>

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Gníomhartha Tapa</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Oscail an roghchlár gathach le haicearraí tiomnaithe.</value>
+  </data>
+</root>

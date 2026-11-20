@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "邮件",
+      "file-browser": "文件管理器",
+      "paint": "画图",
+      "submenu": "应用",
+      "terminal": "终端",
+      "web-browser": "浏览器"
+    },
+    "audio": {
+      "mute": "静音",
+      "next-track": "下一首",
+      "play-pause": "暂停 / 播放",
+      "previous-track": "上一首",
+      "submenu": "媒体"
+    },
+    "bookmarks": {
+      "desktop": "桌面",
+      "documents": "文档",
+      "downloads": "下载",
+      "home": "个人文件夹",
+      "music": "音乐",
+      "pictures": "图片",
+      "submenu": "收藏夹",
+      "videos": "视频"
+    },
+    "clipboard": {
+      "copy": "复制",
+      "cut": "剪切",
+      "paste": "粘贴",
+      "submenu": "剪贴板"
+    },
+    "name": "示例菜单",
+    "next-workspace": "后一个桌面",
+    "previous-workspace": "前一个桌面",
+    "web-links": {
+      "kando-on-discord": "Kando 的 Discord",
+      "kando-on-github": "Kando 的 GitHub",
+      "kando-on-kofi": "Kando 的 Ko-fi",
+      "kando-on-youtube": "Kando 的 YouTube",
+      "submenu": "网页链接"
+    },
+    "windows": {
+      "close-window": "关闭窗口",
+      "submenu": "窗口管理",
+      "tile-left": "向左贴靠",
+      "tile-right": "向右贴靠",
+      "toggle-maximize": "最大化 / 还原"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "关闭菜单"
+    },
+    "close-submenu": {
+      "name": "返回上一级菜单"
+    },
+    "delay": {
+      "name": "延迟等待"
+    },
+    "execute-command": {
+      "name": "运行命令"
+    },
+    "execute-macro": {
+      "name": "模拟宏"
+    },
+    "focus-window": {
+      "name": "激活窗口"
+    },
+    "inhibit-shortcuts": {
+      "name": "禁止快捷方式"
+    },
+    "open-file": {
+      "name": "打开文件"
+    },
+    "open-menu": {
+      "name": "重定向"
+    },
+    "open-settings": {
+      "name": "打开设置"
+    },
+    "open-uri": {
+      "name": "打开 URI"
+    },
+    "send-tcp-message": {
+      "name": "发送 TCP 消息"
+    },
+    "send-websocket-message": {
+      "name": "发送 WebSocket 消息"
+    },
+    "set-clipboard": {
+      "name": "写入剪贴板"
+    },
+    "simulate-hotkey": {
+      "hotkey": "按键",
+      "name": "模拟按键",
+      "recording-placeholder": "请按下按键…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "子菜单"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "中心点击工作流",
+      "center-workflow-description": "点击根菜单中心后，按顺序执行下列动作。",
+      "appearance": "外观与动画",
+      "menu-size": "菜单尺寸",
+      "fade-in": "渐入时间（毫秒）",
+      "fade-out": "渐出时间（毫秒）",
+      "dark-palette": "暗色预设",
+      "dark-theme": "暗色主题",
+      "pointer-shortcuts": "指针与快捷键",
+      "theme-credits": "主题来源与许可",
+      "back-up-menus": "备份菜单",
+      "restore-menus": "恢复菜单",
+      "back-up-settings": "备份设置",
+      "restore-settings": "恢复设置",
+      "open-config-folder": "打开配置目录",
+      "restored": "已恢复到编辑器，保存后生效。",
+      "collapse": "收起设置"
+    },
+    "action": "动作",
+    "action-value": "快捷键、路径、URL、文本或 JSON",
+    "choose-icon": "选择图标",
+    "condition-invalid": "请输入有效的窗口或应用条件，例如 /notepad/i。",
+    "configuration": "环形菜单配置",
+    "editor": "环形菜单编辑器",
+    "exported": "已导出到 {0}",
+    "fixed-angle": "固定角度（0° 朝上）",
+    "fixed-x": "固定 X（屏幕横向 0–1）",
+    "fixed-y": "固定 Y（屏幕纵向 0–1）",
+    "icon-invalid-image": "请选择不超过 192 KB 的 PNG、JPEG、GIF、WebP 或 ICO 图片。",
+    "icon-library": "图标库",
+    "icon-next": "下一页图标",
+    "icon-no-results": "没有找到图标。",
+    "icon-pick-file": "选择图片或程序",
+    "icon-previous": "上一页图标",
+    "icon-use-image": "使用图片",
+    "imported": "已导入 {0} 个菜单。请在使用前检查其中的命令，然后保存。",
+    "item-icon": "菜单项图标",
+    "item-order": "菜单项顺序",
+    "label": "名称",
+    "move-down": "下移",
+    "move-up": "上移",
+    "name": "菜单名称",
+    "new-menu": "新菜单",
+    "off": "关",
+    "on": "开",
+    "palette": "配色方案",
+    "preview": "预览菜单",
+    "remove": "移除",
+    "save": "保存菜单",
+    "saved": "已保存菜单配置。",
+    "shortcut-clear": "清除快捷键",
+    "shortcut-cleared": "已清除快捷键。",
+    "shortcut-config-changed": "磁盘上的菜单配置已变更。请保存当前菜单以应用快捷键。",
+    "shortcut-in-use": "Windows 报告此快捷键已被占用。",
+    "shortcut-invalid": "请输入一个主键，可加上此快捷键支持的修饰键。",
+    "shortcut-record": "录制快捷键",
+    "shortcut-save-new-menu": "请先保存这个新菜单，快捷键才会生效。",
+    "shortcut-saved": "已保存快捷键 {0}。开启快捷操作后即可使用。",
+    "shortcut-stop": "停止录制",
+    "shortcut-unavailable": "Windows 无法注册此快捷键。"
+  },
+  "settings": {
+    "add-menu-items": "添加菜单项",
+    "all-menus": "所有菜单",
+    "anchored-mode": "锚定模式",
+    "app-condition": "限定应用",
+    "area-condition-bottom-placeholder": "下",
+    "area-condition-left-placeholder": "左",
+    "area-condition-right-placeholder": "右",
+    "area-condition-top-placeholder": "上",
+    "cancel": "取消",
+    "create-menu-button": "新建菜单",
+    "delete-menu": "删除菜单",
+    "delete-menu-item": "删除菜单项",
+    "edit-submenu": "编辑子菜单",
+    "export-menu": "导出菜单",
+    "general-settings-dialog": {
+      "enable-marking-mode": "启用画笔模式",
+      "close-menu": "关闭菜单",
+      "do-nothing": "无动作",
+      "enable-marking-mode-info": "启用画笔模式后，您可以通过拖动鼠标来选择项目。",
+      "enable-turbo-mode": "启用极速模式",
+      "enable-turbo-mode-info": "启用极速模式后，只要按住 Shift 或 Ctrl 等修饰键，就可以触发轮盘切换手势。",
+      "interaction-modes": "交互模式",
+      "middle-mouse-button-behavior": "鼠标中键",
+      "middle-mouse-button-behavior-info": "这决定了在显示菜单时按下鼠标中键时会发生什么。",
+      "move-pointer-to-menu-center": "将鼠标光标移动至菜单中央",
+      "move-pointer-to-menu-center-info": "如果勾选，鼠标指针将在需要时移动到菜单或子菜单的中心。这可以用在菜单打开得太靠近屏幕边缘或在居中模式下打开菜单时。",
+      "require-click-for-hover-mode": "悬停模式下需要点击以确认选择",
+      "require-click-for-hover-mode-info": "如果不勾选，当鼠标移动到菜单项上时，菜单项将立即被选中，这适用于开启悬停模式的菜单。",
+      "right-mouse-button-behavior": "鼠标右键",
+      "right-mouse-button-behavior-info": "这决定了在显示菜单时按下鼠标右键时会发生什么。",
+      "select-item": "选择项目",
+      "select-parent": "向上导航一级",
+      "trigger-center-click-on-key-release": "按键释放时触发菜单中心的工作流",
+      "trigger-center-click-on-key-release-info": "当按键释放且光标位于菜单中心区域内时，将启动菜单中心的工作流。"
+    },
+    "hover-mode": "悬停模式",
+    "icon-picker-dialog": {
+      "search-placeholder": "搜索图标…"
+    },
+    "import-menu": "导入菜单",
+    "menu-behavior": "菜单行为",
+    "menu-conditions": "菜单条件",
+    "menu-themes-dialog": {
+      "default-colors": "默认色彩",
+      "enable-menu-animations": "菜单动画",
+      "title": "菜单主题"
+    },
+    "no-matching-menus": "暂无菜单。",
+    "no-menus": "暂无可以展示的菜单.",
+    "not-bound": "未绑定快捷键",
+    "quick-select-key-label": "快速选择键",
+    "quick-select-key-recording": "按下按键…",
+    "shortcut-info": "此快捷键将打开菜单。它必须包含一个普通按键和任意数量的修饰键，如 Ctrl、Alt 或 Shift。在录制时，您不必一次按下所有按键，也可以一个接一个地按。如果一个快捷方式已经绑定到另一个菜单，这会很有用！",
+    "shortcut-label": "快捷键",
+    "shortcut-recording": "请按下按键…",
+    "window-condition": "限定窗口标题",
+    "workflow-editor": {
+      "add-action": "新增动作",
+      "select-workflow-name": "选中时的工作流"
+    },
+    "anchored-mode-info": "在与父菜单相同的位置打开子菜单。勾选此项将禁用画笔模式和极速模式。",
+    "fixed-position-mode": "固定位置模式",
+    "fixed-position-mode-info": "让菜单在一个固定的点位打开，而非基于鼠标光标。",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "定位到左下角",
+      "bottom-right-preset-tooltip": "定位到右下角",
+      "centered-preset-tooltip": "定位到中心",
+      "confirm": "使用此位置",
+      "top-left-preset-tooltip": "定位到左上角",
+      "top-right-preset-tooltip": "定位到右上角"
+    },
+    "fixed-position-tooltip": "选择固定点",
+    "hover-mode-info": "仅限高级用户使用！将鼠标悬停在项目上以选择项目。"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "默认",
+      "clean-circle": "简洁圆环",
+      "neon-lights": "霓虹灯",
+      "purity": "纯净",
+      "rainbow-labels": "彩虹标签"
+    },
+    "presets": {
+      "Blue Glass": "蓝色玻璃",
+      "Dark Night": "深夜",
+      "Cotton Candy": "棉花糖",
+      "Dark and Cozy": "暗色暖调",
+      "Blue Glow": "蓝色辉光",
+      "Green Glow": "绿色辉光",
+      "Electric": "电光",
+      "Orange": "橙色",
+      "Pink": "粉色",
+      "Bright Prism": "明亮棱镜",
+      "Kando Default": "默认色彩"
+    }
+  }
+}

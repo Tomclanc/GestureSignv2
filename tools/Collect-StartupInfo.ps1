@@ -6,7 +6,7 @@ $report = [ordered]@{
     CollectedAt = (Get-Date).ToString('o')
     Windows = [Environment]::OSVersion.VersionString
     IsAdministrator = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-    Processes = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @('GestureSign','GestureSign.WinUI') } | ForEach-Object {
+    Processes = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @('GestureSignV2.WinUI','GestureSignV2Daemon','GestureSignV2.PieMenu','GestureSignV2.IntentDlc','GestureSignV2','GestureSign','GestureSign.WinUI') } | ForEach-Object {
         [ordered]@{ Name=$_.ProcessName; Id=$_.Id; Path=$_.Path }
     })
 }

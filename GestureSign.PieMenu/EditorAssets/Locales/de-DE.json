@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Datei-Browser",
+      "paint": "Paint",
+      "submenu": "Programme",
+      "terminal": "Konsole",
+      "web-browser": "Web-Browser"
+    },
+    "audio": {
+      "mute": "Stummschalten",
+      "next-track": "Nächster Titel",
+      "play-pause": "Play / Pause",
+      "previous-track": "Vorheriger Titel",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Dokumente",
+      "downloads": "Downloads",
+      "home": "Persönlicher Ordner",
+      "music": "Musik",
+      "pictures": "Bilder",
+      "submenu": "Lesezeichen",
+      "videos": "Videos"
+    },
+    "clipboard": {
+      "copy": "Kopieren",
+      "cut": "Ausschneiden",
+      "paste": "Einfügen",
+      "submenu": "Zwischenablage"
+    },
+    "name": "Beispiel-Menü",
+    "next-workspace": "Nächste Arbeitsfläche",
+    "previous-workspace": "Vorherige Arbeitsfläche",
+    "web-links": {
+      "kando-on-discord": "Kando auf Discord",
+      "kando-on-github": "Kando auf GitHub",
+      "kando-on-kofi": "Kando auf Ko-fi",
+      "kando-on-youtube": "Kando auf YouTube",
+      "submenu": "Internetverknüpfungen"
+    },
+    "windows": {
+      "close-window": "Fenster Schließen",
+      "submenu": "Fenster",
+      "tile-left": "Links Andocken",
+      "tile-right": "Rechts Andocken",
+      "toggle-maximize": "Maximieren"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menü schließen"
+    },
+    "close-submenu": {
+      "name": "Untermenü schließen"
+    },
+    "delay": {
+      "name": "Verzögerung"
+    },
+    "execute-command": {
+      "name": "Befehl Ausführen"
+    },
+    "execute-macro": {
+      "name": "Makro Ausführen"
+    },
+    "focus-window": {
+      "name": "Fokusfenster"
+    },
+    "inhibit-shortcuts": {
+      "name": "Verknüpfungen sperren"
+    },
+    "open-file": {
+      "name": "Datei Öffnen"
+    },
+    "open-menu": {
+      "name": "Verknüpfung"
+    },
+    "open-settings": {
+      "name": "Einstellungen Öffnen"
+    },
+    "open-uri": {
+      "name": "URI Öffnen"
+    },
+    "send-tcp-message": {
+      "name": "TCP-Nachricht senden"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket-Nachricht senden"
+    },
+    "set-clipboard": {
+      "name": "Zwischenablage festlegen"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hotkey",
+      "name": "Hotkey Simulieren",
+      "recording-placeholder": "Drücken Sie einen Hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Untermenü"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Ablauf beim Klick in die Mitte",
+      "center-workflow-description": "Klicken Sie in die Mitte des Hauptmenüs, um diese Aktionen der Reihe nach auszuführen.",
+      "appearance": "Darstellung und Animation",
+      "menu-size": "Menügröße",
+      "fade-in": "Einblenden (ms)",
+      "fade-out": "Ausblenden (ms)",
+      "dark-palette": "Dunkle Farbpalette",
+      "dark-theme": "Dunkles Design",
+      "pointer-shortcuts": "Zeiger und Tastenkürzel",
+      "theme-credits": "Urheber und Lizenzen der Designs",
+      "back-up-menus": "Menüs sichern",
+      "restore-menus": "Menüs wiederherstellen",
+      "back-up-settings": "Einstellungen sichern",
+      "restore-settings": "Einstellungen wiederherstellen",
+      "open-config-folder": "Konfigurationsordner öffnen",
+      "restored": "Im Editor wiederhergestellt. Zum Anwenden speichern.",
+      "collapse": "Einstellungen einklappen"
+    },
+    "action": "Aktion",
+    "action-value": "Verknüpfung, Pfad, URL, Text oder JSON",
+    "choose-icon": "Symbol auswählen",
+    "condition-invalid": "Geben Sie eine gültige Fenster- oder App-Bedingung ein, zum Beispiel /notepad/i.",
+    "configuration": "Konfiguration des Kuchenmenüs",
+    "editor": "Kuchenmenü-Editor",
+    "exported": "Exportiert nach {0}",
+    "fixed-angle": "Fester Winkel (0° = nach oben)",
+    "fixed-x": "Festes X (0–1 auf dem Monitor)",
+    "fixed-y": "Festes Y (0–1 auf dem Monitor)",
+    "icon-invalid-image": "Wählen Sie ein PNG-, JPEG-, GIF-, WebP- oder ICO-Bild mit bis zu 192 KB.",
+    "icon-library": "Symbolbibliothek",
+    "icon-next": "Nächste Symbole",
+    "icon-no-results": "Keine Symbole gefunden.",
+    "icon-pick-file": "Wählen Sie ein Bild oder eine App",
+    "icon-previous": "Vorherige Symbole",
+    "icon-use-image": "Bild verwenden",
+    "imported": "{0} Menü(s) importiert. Überprüfen Sie importierte Befehle, bevor Sie sie verwenden, und speichern Sie sie dann.",
+    "item-icon": "Artikelsymbol",
+    "item-order": "Artikelbestellung",
+    "label": "Etikett",
+    "move-down": "Bewegen Sie sich nach unten",
+    "move-up": "Bewegen Sie sich nach oben",
+    "name": "Menüname",
+    "new-menu": "Neue Speisekarte",
+    "off": "Aus",
+    "on": "An",
+    "palette": "Farbpalette",
+    "preview": "Vorschaumenü",
+    "remove": "Entfernen",
+    "save": "Menüs speichern",
+    "saved": "Menükonfiguration gespeichert.",
+    "shortcut-clear": "Verknüpfung löschen",
+    "shortcut-cleared": "Verknüpfung gelöscht.",
+    "shortcut-config-changed": "Die Menükonfiguration wurde auf der Festplatte geändert. Speichern Sie die aktuellen Menüs, um diese Verknüpfung anzuwenden.",
+    "shortcut-in-use": "Windows meldet, dass diese Verknüpfung bereits verwendet wird.",
+    "shortcut-invalid": "Geben Sie eine Taste sowie alle für diese Tastenkombination zulässigen Modifikatoren ein.",
+    "shortcut-record": "Verknüpfung aufzeichnen",
+    "shortcut-save-new-menu": "Speichern Sie dieses neue Menü, um seine Verknüpfung zu aktivieren.",
+    "shortcut-saved": "Verknüpfung gespeichert: {0}. Verwenden Sie es, um das Menü zu öffnen, wenn Schnellaktionen aktiviert ist.",
+    "shortcut-stop": "Stoppen Sie die Aufnahme",
+    "shortcut-unavailable": "Windows konnte diese Verknüpfung nicht registrieren."
+  },
+  "settings": {
+    "add-menu-items": "Menüelemente hinzufügen",
+    "all-menus": "Alle Menüs",
+    "anchored-mode": "Verankerter Modus",
+    "app-condition": "Auf Anwendung beschränken",
+    "area-condition-bottom-placeholder": "Unten",
+    "area-condition-left-placeholder": "Links",
+    "area-condition-right-placeholder": "Rechts",
+    "area-condition-top-placeholder": "Oben",
+    "cancel": "Abbrechen",
+    "create-menu-button": "Neues Menü",
+    "delete-menu": "Menü löschen",
+    "delete-menu-item": "Menüelement löschen",
+    "edit-submenu": "Untermenü bearbeiten",
+    "export-menu": "Menü „Exportieren“.",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Markierungsmodus aktivieren",
+      "close-menu": "Menü schließen",
+      "do-nothing": "Nichts tun",
+      "enable-marking-mode-info": "Mit aktiviertem Markierungsmodus können Sie Elemente auswählen, indem Sie die Maus darüber ziehen.",
+      "enable-turbo-mode": "Turbo-Modus aktivieren",
+      "enable-turbo-mode-info": "Mit aktiviertem Turbo-Modus können Sie Gesten ausführen, solange Sie eine Modifikatortaste wie Shift oder Strg gedrückt halten.",
+      "interaction-modes": "Interaktionsmodi",
+      "middle-mouse-button-behavior": "Mittlere Maustaste",
+      "middle-mouse-button-behavior-info": "Dies bestimmt, was passiert, wenn die mittlere Maustaste gedrückt wird, während ein Menü angezeigt wird.",
+      "move-pointer-to-menu-center": "Zeiger in die Mitte des Menüs bewegen",
+      "move-pointer-to-menu-center-info": "Wenn aktiviert, wird der Mauszeiger bei Bedarf in die Mitte eines Menüs oder Untermenüs bewegt. Dies kann der Fall sein, wenn ein Menü zu nah am Bildschirmrand geöffnet wird oder wenn ein Menü im zentrierten Modus geöffnet wird.",
+      "require-click-for-hover-mode": "Klick für Hover-Modus-Auswahl erforderlich",
+      "require-click-for-hover-mode-info": "Wenn deaktiviert, werden Elemente sofort ausgewählt, wenn die Maus über sie bewegt wird, für Menüs, die den Hover-Modus verwenden.",
+      "right-mouse-button-behavior": "Rechte Maustaste",
+      "right-mouse-button-behavior-info": "Dies bestimmt, was passiert, wenn die rechte Maustaste gedrückt wird, während ein Menü angezeigt wird.",
+      "select-item": "Element auswählen",
+      "select-parent": "Navigieren Sie eine Ebene nach oben",
+      "trigger-center-click-on-key-release": "Schließen Sie das Menü, indem Sie die Tastenkombination über der Mitte loslassen",
+      "trigger-center-click-on-key-release-info": "Dadurch wird der Center-Click-Workflow ausgelöst, wenn eine Taste losgelassen wird, während Sie mit der Maus über die Mitte eines Menüs fahren."
+    },
+    "hover-mode": "Hover-Modus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Symbole suchen…"
+    },
+    "import-menu": "Menü importieren",
+    "menu-behavior": "Menüverhalten",
+    "menu-conditions": "Menübedingungen",
+    "menu-themes-dialog": {
+      "default-colors": "Standardfarben",
+      "enable-menu-animations": "Menü-Animationen",
+      "title": "Menü-Designs"
+    },
+    "no-matching-menus": "Keine Menüs gefunden.",
+    "no-menus": "Sie haben keine Menüs.",
+    "not-bound": "Nicht gebunden",
+    "quick-select-key-label": "Schnellwahltaste",
+    "quick-select-key-recording": "Taste wählen…",
+    "shortcut-info": "Diese Verknüpfung öffnet das Menü. Sie muss eine normale Taste und beliebig viele Modifikatoren wie Strg, Alt oder Umschalt enthalten. Beim Aufzeichnen müssen Sie nicht alle Tasten gleichzeitig drücken, sondern können sie nacheinander drücken. Dies ist nützlich, wenn eine Verknüpfung bereits einem anderen Menü zugewiesen ist!",
+    "shortcut-label": "Tastenkombo",
+    "shortcut-recording": "Drücken Sie eine Kombo…",
+    "window-condition": "Auf Fenstertitel beschränken",
+    "workflow-editor": {
+      "add-action": "Aktion hinzufügen",
+      "select-workflow-name": "Wählen Sie Workflow aus"
+    },
+    "anchored-mode-info": "Öffne Untermenüs an derselben Position wie das Elternmenü. Diese Option deaktiviert den Markierungsmodus und den Turbomodus.",
+    "fixed-position-mode": "Modus mit fester Position",
+    "fixed-position-mode-info": "Öffnen Sie das Menü an einer festen Position auf dem Bildschirm und nicht am Cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Stellen Sie die Position auf unten links ein",
+      "bottom-right-preset-tooltip": "Stellen Sie die Position auf rechts unten ein",
+      "centered-preset-tooltip": "Position auf Mitte einstellen",
+      "confirm": "Nutzen Sie diese Position",
+      "top-left-preset-tooltip": "Position auf links oben einstellen",
+      "top-right-preset-tooltip": "Position auf rechts oben einstellen"
+    },
+    "fixed-position-tooltip": "Wählen Sie eine feste Position",
+    "hover-mode-info": "Nur für Power User! Wählen Sie Elemente, indem Sie sie mit der Maus berühren."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Schlichter Kreis",
+      "neon-lights": "Neonlichter",
+      "purity": "Reinheit",
+      "rainbow-labels": "Regenbogenbeschriftungen"
+    },
+    "presets": {
+      "Blue Glass": "Blaues Glas",
+      "Dark Night": "Dunkle Nacht",
+      "Cotton Candy": "Zuckerwatte",
+      "Dark and Cozy": "Dunkel und gemütlich",
+      "Blue Glow": "Blaues Leuchten",
+      "Green Glow": "Grünes Leuchten",
+      "Electric": "Elektrisch",
+      "Orange": "Orange",
+      "Pink": "Rosa",
+      "Bright Prism": "Leuchtendes Prisma",
+      "Kando Default": "Standardfarben"
+    }
+  }
+}

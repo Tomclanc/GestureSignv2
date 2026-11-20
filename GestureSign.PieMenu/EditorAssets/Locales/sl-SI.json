@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-pošta",
+      "file-browser": "Brskalnik datotek",
+      "paint": "Barva",
+      "submenu": "Aplikacije",
+      "terminal": "Terminal",
+      "web-browser": "Spletni brskalnik"
+    },
+    "audio": {
+      "mute": "Izklopi zvok",
+      "next-track": "Naslednja skladba",
+      "play-pause": "Predvajaj / Premor",
+      "previous-track": "Prejšnja skladba",
+      "submenu": "Avdio"
+    },
+    "bookmarks": {
+      "desktop": "Namizje",
+      "documents": "Dokumenti",
+      "downloads": "Prenosi",
+      "home": "domov",
+      "music": "Glasba",
+      "pictures": "Slike",
+      "submenu": "Zaznamki",
+      "videos": "Videoposnetki"
+    },
+    "clipboard": {
+      "copy": "Kopiraj",
+      "cut": "Izreži",
+      "paste": "Prilepi",
+      "submenu": "Odložišče"
+    },
+    "name": "Primer menija",
+    "next-workspace": "Naslednji delovni prostor",
+    "previous-workspace": "Prejšnji delovni prostor",
+    "web-links": {
+      "kando-on-discord": "Kando na Discordu",
+      "kando-on-github": "Kando na GitHubu",
+      "kando-on-kofi": "Kando na Ko-fi",
+      "kando-on-youtube": "Kando na YouTubu",
+      "submenu": "Spletne povezave"
+    },
+    "windows": {
+      "close-window": "Zapri okno",
+      "submenu": "Windows",
+      "tile-left": "Ploščica levo",
+      "tile-right": "Tile Desno",
+      "toggle-maximize": "Preklopi na povečaj"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Zapri meni"
+    },
+    "close-submenu": {
+      "name": "Zapri podmeni"
+    },
+    "delay": {
+      "name": "Zamuda"
+    },
+    "execute-command": {
+      "name": "Izvedi ukaz"
+    },
+    "execute-macro": {
+      "name": "Izvedi makro"
+    },
+    "focus-window": {
+      "name": "Okno fokusa"
+    },
+    "inhibit-shortcuts": {
+      "name": "Prepreči bližnjice"
+    },
+    "open-file": {
+      "name": "Odpri datoteko"
+    },
+    "open-menu": {
+      "name": "Odpri meni"
+    },
+    "open-settings": {
+      "name": "Odprite nastavitve"
+    },
+    "open-uri": {
+      "name": "Odpri URI"
+    },
+    "send-tcp-message": {
+      "name": "Pošlji sporočilo TCP"
+    },
+    "send-websocket-message": {
+      "name": "Pošlji sporočilo WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Nastavi odložišče"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hitro tipko",
+      "name": "Simulacija hitre tipke",
+      "recording-placeholder": "Vnesite bližnjico ..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Podmeni"
+    }
+  },
+  "native": {
+    "action": "Akcija",
+    "action-value": "Bližnjica, pot, URL, besedilo ali JSON",
+    "choose-icon": "Izberite ikono",
+    "condition-invalid": "Vnesite veljavno okno ali pogoj aplikacije, na primer /notepad/i.",
+    "configuration": "Konfiguracija Pie Menu",
+    "editor": "Urejevalnik tortnega menija",
+    "exported": "Izvoženo v {0}",
+    "fixed-angle": "Fiksni kot (0° = navzgor)",
+    "fixed-x": "Fiksni X (0–1 po monitorju)",
+    "fixed-y": "Fiksno Y (0–1 navzdol po monitorju)",
+    "icon-invalid-image": "Izberite sliko PNG, JPEG, GIF, WebP ali ICO do 192 KB.",
+    "icon-library": "Knjižnica ikon",
+    "icon-next": "Naslednje ikone",
+    "icon-no-results": "Ni ikon.",
+    "icon-pick-file": "Izberite sliko ali aplikacijo",
+    "icon-previous": "Prejšnje ikone",
+    "icon-use-image": "Uporabi sliko",
+    "imported": "Uvoženih {0} menijev. Preglejte uvožene ukaze, preden jih uporabite, nato shranite.",
+    "item-icon": "Ikona predmeta",
+    "item-order": "Vrstni red artikla",
+    "label": "Oznaka",
+    "move-down": "Premakni se navzdol",
+    "move-up": "Premakni se navzgor",
+    "name": "Ime menija",
+    "new-menu": "Nov meni",
+    "off": "Izklopljeno",
+    "on": "Vklopljeno",
+    "palette": "Barvna paleta",
+    "preview": "Meni za predogled",
+    "remove": "Odstrani",
+    "save": "Shrani menije",
+    "saved": "Konfiguracija menija je shranjena.",
+    "shortcut-clear": "Počisti bližnjico",
+    "shortcut-cleared": "Bližnjica je izbrisana.",
+    "shortcut-config-changed": "Na disku se je spremenila konfiguracija menija. Shranite trenutne menije, da uporabite to bližnjico.",
+    "shortcut-in-use": "Windows poroča, da je ta bližnjica že v uporabi.",
+    "shortcut-invalid": "Vnesite eno tipko in morebitne modifikatorje, dovoljene za to bližnjico.",
+    "shortcut-record": "Bližnjica za snemanje",
+    "shortcut-save-new-menu": "Shranite ta novi meni, da aktivirate njegovo bližnjico.",
+    "shortcut-saved": "Bližnjica shranjena: {0}. Uporabite ga za odpiranje menija, ko so omogočena hitra dejanja.",
+    "shortcut-stop": "Ustavi snemanje",
+    "shortcut-unavailable": "Windows ni mogel registrirati te bližnjice."
+  },
+  "settings": {
+    "add-menu-items": "Dodajte elemente menija",
+    "all-menus": "Vsi meniji",
+    "anchored-mode": "Zasidran način",
+    "app-condition": "Omejitev na določene aplikacije",
+    "area-condition-bottom-placeholder": "Dno",
+    "area-condition-left-placeholder": "Levo",
+    "area-condition-right-placeholder": "Desno",
+    "area-condition-top-placeholder": "Vrh",
+    "cancel": "Prekliči",
+    "create-menu-button": "Dodaj meni",
+    "delete-menu": "Izbriši meni",
+    "delete-menu-item": "Izbriši element menija",
+    "edit-submenu": "Uredi podmeni",
+    "export-menu": "Izvozi meni",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Omogoči način označevanja",
+      "close-menu": "Zapri meni",
+      "do-nothing": "storiti ničesar",
+      "enable-marking-mode-info": "Ko je omogočen način označevanja, lahko izberete elemente tako, da povlečete miško nad njimi.",
+      "enable-turbo-mode": "Omogoči način Turbo",
+      "enable-turbo-mode-info": "Ko je Turbo način omogočen, lahko izvajate kretnje, dokler držite modifikacijsko tipko, kot sta Shift ali Ctrl.",
+      "interaction-modes": "Načini interakcije",
+      "middle-mouse-button-behavior": "Srednji gumb miške",
+      "middle-mouse-button-behavior-info": "To določa, kaj se zgodi, ko pritisnete srednji gumb miške, ko je prikazan meni.",
+      "move-pointer-to-menu-center": "Premaknite kazalec na sredino menija",
+      "move-pointer-to-menu-center-info": "Če je označeno, bo kazalec miške po potrebi premaknjen na sredino menija ali podmenija. To se lahko zgodi, če je meni odprt preblizu roba zaslona ali če je meni odprt v osrednjem načinu.",
+      "require-click-for-hover-mode": "Zahtevaj klik za izbiro načina lebdenja",
+      "require-click-for-hover-mode-info": "Če ni označeno, bodo elementi izbrani takoj, ko premaknete miško nadnje za menije v načinu lebdenja.",
+      "right-mouse-button-behavior": "Desni gumb miške",
+      "right-mouse-button-behavior-info": "To določa, kaj se zgodi, ko pritisnete desni gumb miške, ko je prikazan meni.",
+      "select-item": "Izberite predmet",
+      "select-parent": "Pomaknite se eno raven navzgor",
+      "trigger-center-click-on-key-release": "Zaprite meni ob sprostitvi bližnjice preko sredine",
+      "trigger-center-click-on-key-release-info": "To bo sprožilo potek dela s sredinskim klikom, ko spustite tipko, medtem ko miškin kazalec premaknete nad sredino menija."
+    },
+    "hover-mode": "Način lebdenja",
+    "icon-picker-dialog": {
+      "search-placeholder": "Ikone za iskanje ..."
+    },
+    "import-menu": "Meni za uvoz",
+    "menu-behavior": "Obnašanje menija",
+    "menu-conditions": "Meni Pogoji",
+    "menu-themes-dialog": {
+      "default-colors": "Privzete barve",
+      "enable-menu-animations": "Animacije menijev",
+      "title": "Teme menija"
+    },
+    "no-matching-menus": "Ni menijev.",
+    "no-menus": "Nimate menijev.",
+    "not-bound": "Ni vezano",
+    "quick-select-key-label": "Tipka za hitro izbiro",
+    "quick-select-key-recording": "Izberite ključ ...",
+    "shortcut-info": "Ta bližnjica odpre meni. Vsebovati mora eno običajno tipko in poljubno število modifikatorjev, kot so Ctrl, Alt ali Shift. Pri snemanju vam ni treba pritisniti vseh tipk hkrati, lahko jih pritisnete tudi eno za drugo. To je uporabno, če je bližnjica že vezana na drug meni!",
+    "shortcut-label": "Bližnjica",
+    "shortcut-recording": "Pritisnite bližnjico ...",
+    "window-condition": "Omejitev na določene naslove oken",
+    "workflow-editor": {
+      "add-action": "Dodaj dejanje",
+      "select-workflow-name": "Izberite Potek dela"
+    },
+    "anchored-mode-info": "Odpri podmenije na istem mestu kot nadrejeni meni. Če to potrdite, boste onemogočili način označevanja in način Turbo.",
+    "fixed-position-mode": "Način fiksnega položaja",
+    "fixed-position-mode-info": "Odprite meni na fiksnem mestu na zaslonu, namesto na kazalcu.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Nastavite položaj spodaj levo",
+      "bottom-right-preset-tooltip": "Nastavite položaj spodaj desno",
+      "centered-preset-tooltip": "Nastavite položaj na sredino",
+      "confirm": "Uporabite ta položaj",
+      "top-left-preset-tooltip": "Nastavite položaj zgoraj levo",
+      "top-right-preset-tooltip": "Nastavite položaj zgoraj desno"
+    },
+    "fixed-position-tooltip": "Izberite fiksni položaj",
+    "hover-mode-info": "Samo za napredne uporabnike! Izberite elemente tako, da premaknete miškin kazalec nadnje."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Privzeto",
+      "clean-circle": "Čisti krog",
+      "neon-lights": "Neonske luči",
+      "purity": "Čistost",
+      "rainbow-labels": "Mavrične nalepke"
+    },
+    "presets": {
+      "Blue Glass": "Modro steklo",
+      "Dark Night": "Temna noč",
+      "Cotton Candy": "Cotton Candy",
+      "Dark and Cozy": "Temno in udobno",
+      "Blue Glow": "Modri sij",
+      "Green Glow": "Zeleni sij",
+      "Electric": "Električni",
+      "Orange": "Oranžna",
+      "Pink": "Roza",
+      "Bright Prism": "Svetla prizma",
+      "Kando Default": "Privzete barve"
+    }
+  }
+}

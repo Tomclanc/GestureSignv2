@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Почта",
+      "file-browser": "Проводник",
+      "paint": "Paint",
+      "submenu": "Приложения",
+      "terminal": "Терминал",
+      "web-browser": "Веб-браузер"
+    },
+    "audio": {
+      "mute": "Беззвучный режим",
+      "next-track": "Следующий трек",
+      "play-pause": "Пуск / Пауза",
+      "previous-track": "Предыдущий трек",
+      "submenu": "Аудио"
+    },
+    "bookmarks": {
+      "desktop": "Рабочий стол",
+      "documents": "Документы",
+      "downloads": "Загрузки",
+      "home": "Домашняя папка",
+      "music": "Музыка",
+      "pictures": "Фото",
+      "submenu": "Папки",
+      "videos": "Видео"
+    },
+    "clipboard": {
+      "copy": "Скопировать",
+      "cut": "Вырезать",
+      "paste": "Вставить",
+      "submenu": "Буфер обмена"
+    },
+    "name": "Пример меню",
+    "next-workspace": "Следующий рабочий стол",
+    "previous-workspace": "Предыдущий рабочий стол",
+    "web-links": {
+      "kando-on-discord": "Discord - сервер Kando",
+      "kando-on-github": "Kando на GitHub",
+      "kando-on-kofi": "Ko-fi проекта",
+      "kando-on-youtube": "Kando на YouTube",
+      "submenu": "Веб-ссылки"
+    },
+    "windows": {
+      "close-window": "Закрыть окно",
+      "submenu": "Окна",
+      "tile-left": "Окно влево",
+      "tile-right": "Окно вправо",
+      "toggle-maximize": "Развернуть"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Закрыть меню"
+    },
+    "close-submenu": {
+      "name": "Закрыть подменю"
+    },
+    "delay": {
+      "name": "Задержка"
+    },
+    "execute-command": {
+      "name": "Запустить команду"
+    },
+    "execute-macro": {
+      "name": "Имитировать макрос"
+    },
+    "focus-window": {
+      "name": "Выбрать окно"
+    },
+    "inhibit-shortcuts": {
+      "name": "Игнорировать горячие клавиши"
+    },
+    "open-file": {
+      "name": "Открыть файл"
+    },
+    "open-menu": {
+      "name": "Перенаправить"
+    },
+    "open-settings": {
+      "name": "Открыть настройки"
+    },
+    "open-uri": {
+      "name": "Открыть URI"
+    },
+    "send-tcp-message": {
+      "name": "Отправить TCP-сообщение"
+    },
+    "send-websocket-message": {
+      "name": "Отправить Websocket-сообщение"
+    },
+    "set-clipboard": {
+      "name": "Запись в буфер обмена"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Горячие клавиши",
+      "name": "Имитировать горячую клавишу",
+      "recording-placeholder": "Нажмите горячую клавишу…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Подменю"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Действия при нажатии в центре",
+      "center-workflow-description": "Нажмите в центре главного меню, чтобы выполнить эти действия по порядку.",
+      "appearance": "Оформление и анимация",
+      "menu-size": "Размер меню",
+      "fade-in": "Появление (мс)",
+      "fade-out": "Затухание (мс)",
+      "dark-palette": "Тёмная палитра",
+      "dark-theme": "Тёмная тема",
+      "pointer-shortcuts": "Указатель и сочетания клавиш",
+      "theme-credits": "Авторы и лицензии тем",
+      "back-up-menus": "Создать копию меню",
+      "restore-menus": "Восстановить меню",
+      "back-up-settings": "Создать копию настроек",
+      "restore-settings": "Восстановить настройки",
+      "open-config-folder": "Открыть папку конфигурации",
+      "restored": "Восстановлено в редакторе. Сохраните, чтобы применить.",
+      "collapse": "Свернуть настройки"
+    },
+    "action": "Действие",
+    "action-value": "Ярлык, путь, URL-адрес, текст или JSON",
+    "choose-icon": "Выберите значок",
+    "condition-invalid": "Введите допустимое условие окна или приложения, например /notepad/i.",
+    "configuration": "Конфигурация кругового меню",
+    "editor": "Редактор пирогового меню",
+    "exported": "Экспортировано в {0}",
+    "fixed-angle": "Фиксированный угол (0° = вверх)",
+    "fixed-x": "Фиксированный X (0–1 по монитору)",
+    "fixed-y": "Фиксированный Y (0–1 на мониторе)",
+    "icon-invalid-image": "Выберите изображение PNG, JPEG, GIF, WebP или ICO размером до 192 КБ.",
+    "icon-library": "Библиотека иконок",
+    "icon-next": "Следующие значки",
+    "icon-no-results": "Значки не найдены.",
+    "icon-pick-file": "Выберите изображение или приложение",
+    "icon-previous": "Предыдущие значки",
+    "icon-use-image": "Использовать изображение",
+    "imported": "Импортировано меню ({0}). Просмотрите импортированные команды перед их использованием, а затем сохраните.",
+    "item-icon": "Значок предмета",
+    "item-order": "Порядок товаров",
+    "label": "Этикетка",
+    "move-down": "Двигаться вниз",
+    "move-up": "Вверх",
+    "name": "Название меню",
+    "new-menu": "Новое меню",
+    "off": "Выкл",
+    "on": "Вкл",
+    "palette": "Цветовая палитра",
+    "preview": "Меню предварительного просмотра",
+    "remove": "Удалить",
+    "save": "Сохранение меню",
+    "saved": "Конфигурация меню сохранена.",
+    "shortcut-clear": "Очистить ярлык",
+    "shortcut-cleared": "Ярлык удален.",
+    "shortcut-config-changed": "Конфигурация меню изменилась на диске. Сохраните текущие меню, чтобы применить этот ярлык.",
+    "shortcut-in-use": "Windows сообщает, что этот ярлык уже используется.",
+    "shortcut-invalid": "Введите один ключ плюс любые модификаторы, разрешенные для этого сочетания клавиш.",
+    "shortcut-record": "Ярлык записи",
+    "shortcut-save-new-menu": "Сохраните это новое меню, чтобы активировать его ярлык.",
+    "shortcut-saved": "Ярлык сохранен: {0}. Используйте его, чтобы открыть меню, когда включены быстрые действия.",
+    "shortcut-stop": "Остановить запись",
+    "shortcut-unavailable": "Windows не удалось зарегистрировать этот ярлык."
+  },
+  "settings": {
+    "add-menu-items": "Добавить элементы меню",
+    "all-menus": "Все Меню",
+    "anchored-mode": "Режим Якоря",
+    "app-condition": "Лимит по отдельным приложениям",
+    "area-condition-bottom-placeholder": "Вниз",
+    "area-condition-left-placeholder": "Влево",
+    "area-condition-right-placeholder": "Вправо",
+    "area-condition-top-placeholder": "Вверх",
+    "cancel": "Отмена",
+    "create-menu-button": "Создать меню",
+    "delete-menu": "Удалить меню",
+    "delete-menu-item": "Удалить элемент меню",
+    "edit-submenu": "Редактироване подменю",
+    "export-menu": "Экспортировать меню",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Включить Режим Разметки",
+      "close-menu": "Закрыть меню",
+      "do-nothing": "Ничего не делать",
+      "enable-marking-mode-info": "Если включен Режим Разметки, вы можете выбирать элементы, наводя на них курсор мыши.",
+      "enable-turbo-mode": "Включить Турбо-Режим",
+      "enable-turbo-mode-info": "При включенном Турбо-Режиме вы можете выполнять действия, удерживая нажатой клавишу-модификатор, такую как Shift или Ctrl.",
+      "interaction-modes": "Режимы навигации",
+      "middle-mouse-button-behavior": "Средняя кнопка мыши",
+      "middle-mouse-button-behavior-info": "Определяет, что происходит при нажатии средней кнопки мыши во время отображения меню.",
+      "move-pointer-to-menu-center": "Ставить курсор в центр меню",
+      "move-pointer-to-menu-center-info": "Если этот флажок установлен, при необходимости указатель мыши будет перемещен в центр меню или подменю. Это может произойти, если меню открыто слишком близко к краю экрана или если меню открыто в Режиме По Центру.",
+      "require-click-for-hover-mode": "Необходимость щелчка для выбора в Режиме Наведения",
+      "require-click-for-hover-mode-info": "Если флажок снят, элементы будут выбираться сразу же при наведении на них курсора мыши для меню в Режиме Наведения.",
+      "right-mouse-button-behavior": "Правая кнопка мыши",
+      "right-mouse-button-behavior-info": "Определяет, что происходит при нажатии правой кнопки мыши во время отображения меню.",
+      "select-item": "Выбрать элемент",
+      "select-parent": "Перейти на один уровень выше",
+      "trigger-center-click-on-key-release": "Закрывать меню при отпускании сочетания клавиш в центре",
+      "trigger-center-click-on-key-release-info": "Это запустит действие щелчка по центру при отпускании клавиши при нахождении курсора мыши на центр меню."
+    },
+    "hover-mode": "Режим Наведения",
+    "icon-picker-dialog": {
+      "search-placeholder": "Поиск иконок…"
+    },
+    "import-menu": "Импортировать меню",
+    "menu-behavior": "Поведение меню",
+    "menu-conditions": "Условия открытия",
+    "menu-themes-dialog": {
+      "default-colors": "Цвета по умолчанию",
+      "enable-menu-animations": "Анимации в меню",
+      "title": "Темы меню"
+    },
+    "no-matching-menus": "Меню не найдено.",
+    "no-menus": "У вас нет меню.",
+    "not-bound": "Не назначено",
+    "quick-select-key-label": "Клавиша быстрого выбора",
+    "quick-select-key-recording": "Нажмите клавишу…",
+    "shortcut-info": "Это сочетание клавиш открывает меню. Оно должно содержать одну обычную клавишу и любое количество модификаторов, таких как Ctrl, Alt или Shift. При записи вам не обязательно нажимать все клавиши одновременно, вы также можете нажимать их последовательно. Это полезно, если сочетание клавиш уже привязано к другому меню!",
+    "shortcut-label": "Сочетание клавиш",
+    "shortcut-recording": "Нажмите сочетание клавиш…",
+    "window-condition": "Лимит по отдельным названиям окон",
+    "workflow-editor": {
+      "add-action": "Добавить действие",
+      "select-workflow-name": "Действия при выборе"
+    },
+    "anchored-mode-info": "Открывать подменю в том же месте, что и родительское меню. Установив этот флажок, вы отключите Режим Разметки и Турбо-Режим.",
+    "fixed-position-mode": "Режим фиксированной позиции",
+    "fixed-position-mode-info": "Открывать меню на фиксированной позиции экрана, а не на позиции курсора.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Установить позицию в левый нижний угол",
+      "bottom-right-preset-tooltip": "Установить позицию в правый нижний угол",
+      "centered-preset-tooltip": "Установить позицию по центру",
+      "confirm": "Установить позицию",
+      "top-left-preset-tooltip": "Установить позицию в левый верхний угол",
+      "top-right-preset-tooltip": "Установить позицию в правый верхний угол"
+    },
+    "fixed-position-tooltip": "Выбрать фиксированную позицию",
+    "hover-mode-info": "Только для продвинутых пользователей! Выбор элементов меню наведением курсора."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "По умолчанию",
+      "clean-circle": "Простой круг",
+      "neon-lights": "Неоновые огни",
+      "purity": "Чистота",
+      "rainbow-labels": "Радужные подписи"
+    },
+    "presets": {
+      "Blue Glass": "Синее стекло",
+      "Dark Night": "Тёмная ночь",
+      "Cotton Candy": "Сахарная вата",
+      "Dark and Cozy": "Темно и уютно",
+      "Blue Glow": "Синее свечение",
+      "Green Glow": "Зелёное свечение",
+      "Electric": "Электрический",
+      "Orange": "Оранжевый",
+      "Pink": "Розовый",
+      "Bright Prism": "Яркая призма",
+      "Kando Default": "Цвета по умолчанию"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>სწრაფი მოქმედებები</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>რადალური მენიუს გახსნა სპეციალურიshortcut-ებით</value>
+  </data>
+</root>

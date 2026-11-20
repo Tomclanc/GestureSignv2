@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "ھۆججەت توركۆرگۈ",
+      "paint": "Paint",
+      "submenu": "ئەپلەر",
+      "terminal": "تېرمىنال",
+      "web-browser": "توركۆرگۈ"
+    },
+    "audio": {
+      "mute": "ئاۋازسىز",
+      "next-track": "كېيىنكى ناخشا",
+      "play-pause": "ئويناش / توختىتىش",
+      "previous-track": "ئالدىنقى قۇر",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "ئۈستەليۈزى",
+      "documents": "ھۆججەتلەر",
+      "downloads": "چۈشۈرۈش",
+      "home": "ئۆي",
+      "music": "مۇزىكا",
+      "pictures": "رەسىملەر",
+      "submenu": "خەتكۈچلەر",
+      "videos": "سىنلار"
+    },
+    "clipboard": {
+      "copy": "Көчүрүң",
+      "cut": "Kesish",
+      "paste": "چاپلاش",
+      "submenu": "چاپلاش تاختىسى"
+    },
+    "name": "مىسال تىزىملىكى",
+    "next-workspace": "كېيىنكى خىزمەت بوشلۇقى",
+    "previous-workspace": "ئالدىنقى خىزمەت بوشلۇقى",
+    "web-links": {
+      "kando-on-discord": "قالايمىقانچىلىقتىكى كاندو",
+      "kando-on-github": "GandHub دىكى كاندو",
+      "kando-on-kofi": "Kando on K-fi",
+      "kando-on-youtube": "YouTube دىكى كاندو",
+      "submenu": "تور ئۇلىنىشى"
+    },
+    "windows": {
+      "close-window": "ئۆيىنى يېپىش",
+      "submenu": "Windows",
+      "tile-left": "Tile Left",
+      "tile-right": "Tile Right",
+      "toggle-maximize": "Toggle Maximize"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "تىزىملىكنى تاقاش"
+    },
+    "close-submenu": {
+      "name": "Submenu نى تاقاڭ"
+    },
+    "delay": {
+      "name": "Кичикләштуруш"
+    },
+    "execute-command": {
+      "name": "بۇيرۇقنى ئىجرا قىلىڭ"
+    },
+    "execute-macro": {
+      "name": "ماكرونى ئىجرا قىلىڭ"
+    },
+    "focus-window": {
+      "name": "فوكۇس كۆزنىكى"
+    },
+    "inhibit-shortcuts": {
+      "name": "تېزلەتمىلەرنى چەكلەڭ"
+    },
+    "open-file": {
+      "name": "ھۆججەتنى ئاچىش"
+    },
+    "open-menu": {
+      "name": "تىزىملىكنى ئېچىڭ"
+    },
+    "open-settings": {
+      "name": "تەڭشەكلەرنى ئېچىڭ"
+    },
+    "open-uri": {
+      "name": "URI نى ئېچىڭ"
+    },
+    "send-tcp-message": {
+      "name": "TCP ئۇچۇرىنى ئەۋەتىڭ"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket ئۇچۇرى ئەۋەتىڭ"
+    },
+    "set-clipboard": {
+      "name": "چاپلاش تاختىسى ئورنىتىڭ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "قىسقا كۇنۇپكا",
+      "name": "Hotkey نى تەقلىد قىلىڭ",
+      "recording-placeholder": "Hotkey نى كىرگۈزۈڭ…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "ھەرىكەت",
+    "action-value": "تېزلەتمە ، يول ، URL ، تېكىست ياكى JSON",
+    "choose-icon": "سىنبەلگە تاللاڭ",
+    "condition-invalid": "ئىناۋەتلىك كۆزنەك ياكى ئەپ ھالىتىنى كىرگۈزۈڭ ، مەسىلەن / خاتىرە دەپتەر / i.",
+    "configuration": "Pie تىزىملىك سەپلىمىسى",
+    "editor": "Pie تىزىملىك تەھرىرلىگۈچى",
+    "exported": "{0} غا چىقىرىلدى",
+    "fixed-angle": "مۇقىم بۇلۇڭ (0 ° = up)",
+    "fixed-x": "مۇقىم X (ئېكراندا 0–1)",
+    "fixed-y": "مۇقىم Y (ئېكراندىن 0-1)",
+    "icon-invalid-image": "192 KB غىچە PNG ، JPEG ، GIF ، WebP ياكى ICO رەسىمىنى تاللاڭ.",
+    "icon-library": "سىنبەلگە كۇتۇپخانىسى",
+    "icon-next": "كېيىنكى سىنبەلگىلەر",
+    "icon-no-results": "سىنبەلگە تېپىلمىدى.",
+    "icon-pick-file": "رەسىم ياكى ئەپنى تاللاڭ",
+    "icon-previous": "ئالدىنقى سىنبەلگىلەر",
+    "icon-use-image": "رەسىم ئىشلىتىڭ",
+    "imported": "ئىمپورت قىلىنغان {0} تىزىملىك (لار). ئىمپورت قىلىنغان بۇيرۇقلارنى ئىشلىتىشتىن بۇرۇن قايتا تەكشۈرۈڭ ، ئاندىن ساقلاڭ.",
+    "item-icon": "تۈر سىنبەلگىسى",
+    "item-order": "تۈر تەرتىپى",
+    "label": "بەلگە",
+    "move-down": "تۆۋەنگە يۆتكەڭ",
+    "move-up": "يۆتكەڭ",
+    "name": "تىزىملىك ئىسمى",
+    "new-menu": "يېڭى تىزىملىك",
+    "off": "ئۆچۈرۈش",
+    "on": "ئوچۇق",
+    "palette": "رەڭلىك پالتا",
+    "preview": "ئالدىن كۆرۈش تىزىملىكى",
+    "remove": "ئۆچۈرۈڭ",
+    "save": "تىزىملىكلەرنى ساقلاڭ",
+    "saved": "تىزىملىك سەپلىمىسى ساقلاندى.",
+    "shortcut-clear": "تېزلەتمە يولنى تازىلاش",
+    "shortcut-cleared": "تېزلەتمە تازىلىۋېتىلدى.",
+    "shortcut-config-changed": "تىزىملىك ​​سەپلىمىسى دىسكىدا ئۆزگەردى. بۇ تېزلەتمىنى ئىشلىتىش ئۈچۈن نۆۋەتتىكى تىزىملىكلەرنى ساقلاڭ.",
+    "shortcut-in-use": "Windows بۇ تېزلەتمە ئاللىبۇرۇن ئىشلىتىلىۋاتقانلىقىنى خەۋەر قىلدى.",
+    "shortcut-invalid": "بىر كۇنۇپكىنى كىرگۈزۈڭ ، بۇ تېزلەتمە ئۈچۈن رۇخسەت قىلىنغان ھەر قانداق ئۆزگەرتكۈچ قوشۇلىدۇ.",
+    "shortcut-record": "تېزلەتمە خاتىرىلەش",
+    "shortcut-save-new-menu": "ئۇنىڭ تېزلەتمىسىنى قوزغىتىش ئۈچۈن بۇ يېڭى تىزىملىكنى ساقلاڭ.",
+    "shortcut-saved": "تېزلەتمە ساقلاندى: {0}. تېز ھەرىكەت قوزغىتىلغاندا تىزىملىكنى ئېچىڭ.",
+    "shortcut-stop": "خاتىرىلەشنى توختىتىڭ",
+    "shortcut-unavailable": "Windows بۇ تېزلەتمىنى تىزىملىيالمىدى."
+  },
+  "settings": {
+    "add-menu-items": "تىزىملىك تۈرلىرىنى قوشۇڭ",
+    "all-menus": "بارلىق تىزىملىكلەر",
+    "anchored-mode": "Anchored Mode",
+    "app-condition": "كونكرېت پروگراممىلارغا چەك قويۇڭ",
+    "area-condition-bottom-placeholder": "ئاستى",
+    "area-condition-left-placeholder": "سول",
+    "area-condition-right-placeholder": "ئوڭ كۇنۇپكا",
+    "area-condition-top-placeholder": "ئۈستى",
+    "cancel": "ئىمبرەكتىش",
+    "create-menu-button": "تىزىملىك قوشۇڭ",
+    "delete-menu": "تىزىملىكنى ئۆچۈرۈڭ",
+    "delete-menu-item": "تىزىملىك تۈرىنى ئۆچۈرۈڭ",
+    "edit-submenu": "تارماق تىزىملىكنى تەھرىرلەڭ",
+    "export-menu": "ئېكسپورت تىزىملىكى",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ماركا ھالىتىنى قوزغىتىڭ",
+      "close-menu": "تىزىملىكنى تاقاش",
+      "do-nothing": "ھېچ ئىش قىلماڭ",
+      "enable-marking-mode-info": "Marking Mode قوزغىتىلغاندىن كېيىن ، چاشقىنەكنى سۆرەپ تۈرلەرنى تاللىيالايسىز.",
+      "enable-turbo-mode": "Turbo ھالىتىنى قوزغىتىڭ",
+      "enable-turbo-mode-info": "Turbo Mode قوزغىتىلغاندىن كېيىن ، Shift ياكى Ctrl غا ئوخشاش ئۆزگەرتكۈچ كۇنۇپكىسىنى باسسىڭىزلا ئىشارەت قىلالايسىز.",
+      "interaction-modes": "ئۆز-ئارا تەسىر كۆرسىتىش شەكلى",
+      "middle-mouse-button-behavior": "چاشقىنەكنىڭ ئوتتۇرا كۇنۇپكىسى",
+      "middle-mouse-button-behavior-info": "تىزىملىك كۆرۈنگەندە چاشقىنەكنىڭ ئوتتۇرا كۇنۇپكىسى بېسىلغاندا نېمە ئىشلارنىڭ يۈز بېرىدىغانلىقىنى بەلگىلەيدۇ.",
+      "move-pointer-to-menu-center": "كۆرسەتكۈچنى تىزىملىك مەركىزىگە يۆتكەڭ",
+      "move-pointer-to-menu-center-info": "تەكشۈرۈلسە ، چاشقىنەك كۆرسەتكۈچى زۆرۈر تېپىلغاندا تىزىملىك ياكى تارماق تىزىملىكنىڭ مەركىزىگە يۆتكىلىدۇ. ئەگەر ئېكران ئېكراننىڭ چېتىگە بەك يېقىن ئېچىلسا ياكى مەركەزلىك ھالەتتە تىزىملىك ​​ئېچىلسا ، بۇ ئەھۋال بولۇشى مۇمكىن.",
+      "require-click-for-hover-mode": "Hover Mode نى تاللاشنى چېكىڭ",
+      "require-click-for-hover-mode-info": "ئەگەر تەكشۈرۈلمىسە ، Hover Mode ئارقىلىق تىزىملىكلەر ئۈچۈن مائۇس يۆتكىلىپ كەتسە ، تۈرلەر دەرھال تاللىنىدۇ.",
+      "right-mouse-button-behavior": "چاشقىنەكنىڭ ئوڭ كۇنۇپكىسى",
+      "right-mouse-button-behavior-info": "تىزىملىك كۆرسىتىلگەندە مائۇسنىڭ ئوڭ كۇنۇپكىسى بېسىلغاندا نېمە ئىشلارنىڭ يۈز بېرىدىغانلىقىنى بەلگىلەيدۇ.",
+      "select-item": "تۈرنى تاللاڭ",
+      "select-parent": "بىر دەرىجىگە قاراپ مېڭىڭ",
+      "trigger-center-click-on-key-release": "مەركىزىدىن تېزلەتمە قويۇپ بېرىش تىزىملىكى",
+      "trigger-center-click-on-key-release-info": "بۇ تىزىملىكنىڭ ئوتتۇرىسىغا يۆتكەلگەندە ئاچقۇچ قويۇپ بېرىلگەندە بۇ مەركەزنى چېكىش خىزمەت ئېقىمىنى قوزغىتىدۇ."
+    },
+    "hover-mode": "Hover Mode",
+    "icon-picker-dialog": {
+      "search-placeholder": "سىنبەلگە ئىزدەش…"
+    },
+    "import-menu": "تىزىملىك ئەكىرىش",
+    "menu-behavior": "تىزىملىك ھەرىكىتى",
+    "menu-conditions": "تىزىملىك شەرتلىرى",
+    "menu-themes-dialog": {
+      "default-colors": "سۈكۈتتىكى رەڭلەر",
+      "enable-menu-animations": "تىزىملىك كارتونلىرى",
+      "title": "تىزىملىك باشتېمىلىرى"
+    },
+    "no-matching-menus": "تىزىملىك تېپىلمىدى.",
+    "no-menus": "تىزىملىك ​​يوق.",
+    "not-bound": "چەكلەنمەيدۇ",
+    "quick-select-key-label": "تېز تاللاش كۇنۇپكىسى",
+    "quick-select-key-recording": "كۇنۇپكىنى تاللاڭ…",
+    "shortcut-info": "بۇ تېزلەتمە تىزىملىكنى ئاچىدۇ. ئۇنىڭدا چوقۇم بىر نورمال ئاچقۇچ ۋە Ctrl ، Alt ياكى Shift غا ئوخشاش ھەر قانداق ئۆزگەرتكۈچ بولۇشى كېرەك. خاتىرىلىگەندە ، بارلىق كۇنۇپكىلارنى بىراقلا بېسىشىڭىزنىڭ ھاجىتى يوق ، ئۇلارنى كەينى-كەينىدىن باسسىڭىزمۇ بولىدۇ. ئەگەر تېزلەتمە باشقا تىزىملىككە باغلانغان بولسا بۇ پايدىلىق!",
+    "shortcut-label": "تېزلەتمە",
+    "shortcut-recording": "تېزلەتمە كۇنۇپكىنى بېسىڭ…",
+    "window-condition": "كونكرېت كۆزنەك ماۋزۇلىرى بىلەنلا چەكلىنىدۇ",
+    "workflow-editor": {
+      "add-action": "ھەرىكەت قوشۇش",
+      "select-workflow-name": "خىزمەت ئېقىمىنى تاللاڭ"
+    },
+    "anchored-mode-info": "تارماق تىزىملىكنى ئانا تىزىملىك ​​بىلەن ئوخشاش ئورۇنغا ئېچىڭ. بۇنى تەكشۈرگەندە ، ماركا ھالىتى ۋە Turbo ھالىتىنى چەكلەيدۇ.",
+    "fixed-position-mode": "مۇقىم ئورۇن ھالىتى",
+    "fixed-position-mode-info": "تىزىملىكنى نۇر بەلگىسىنىڭ ئورنىغا ئېكراننىڭ مۇقىم ئورنىدا ئېچىڭ.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "سولدىن سولغا ئورۇن بەلگىلەڭ",
+      "bottom-right-preset-tooltip": "ئوڭدىن ئوڭغا ئورۇن بەلگىلەڭ",
+      "centered-preset-tooltip": "ئورۇن بەلگىلەڭ",
+      "confirm": "بۇ ئورۇننى ئىشلىتىڭ",
+      "top-left-preset-tooltip": "ئورۇننى سولغا توغرىلاڭ",
+      "top-right-preset-tooltip": "ئورۇننى ئوڭغا توغرىلاڭ"
+    },
+    "fixed-position-tooltip": "مۇقىم ئورۇننى تاللاڭ",
+    "hover-mode-info": "پەقەت توك ئىشلەتكۈچىلەر ئۈچۈن! نەرسىلەرنى ئۈستىدىن يۆتكەش ئارقىلىق تاللاڭ."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "سۈكۈتتىكى",
+      "clean-circle": "پاكىز چەمبىرەك",
+      "neon-lights": "Neon Lights",
+      "purity": "ساپلىق",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Blue Glass": "كۆك ئەينەك",
+      "Dark Night": "قاراڭغۇ كېچە",
+      "Cotton Candy": "پاختا كەمپۈت",
+      "Dark and Cozy": "Dark and Cozy",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Green Glow",
+      "Electric": "Electric",
+      "Orange": "ئاۋۋاز رەڭ",
+      "Pink": "كۆك رەڭ",
+      "Bright Prism": "Bright Prism",
+      "Kando Default": "سۈكۈتتىكى رەڭلەر"
+    }
+  }
+}

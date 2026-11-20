@@ -1,0 +1,14 @@
+Editor artwork from Kando, revision 6df468a66695ac504afebfff2c581a42296511b4:
+https://github.com/kando-menu/kando/tree/6df468a66695ac504afebfff2c581a42296511b4/assets
+
+settings-sakura-dark.png: converted from settings-sakura-dark.webp.
+Copyright Simon Schneegans. Licensed CC BY 4.0.
+logo-medium.svg: copyright Simon Schneegans and Bingies24. Licensed CC BY 4.0.
+The remaining SVG icons are MIT or CC0, as indicated by the SPDX notices retained in each SVG.
+Applicable copyright holders include Simon Schneegans and Pawel Kuna (Tabler Icons).
+The SVGs replace CSS currentColor with white when drawing on dark backgrounds.
+PieMenu.ico and PieMenu.png are copies of assets/icons/icon.ico and icon.png.
+Copyright Simon Schneegans and Bingies24. Licensed CC BY 4.0.
+example-windows.json is from src/main/example-menus/windows.json (CC0).
+Its names are resolved from the packaged Kando locales at runtime.
+These images are used in an independently maintained local preview.

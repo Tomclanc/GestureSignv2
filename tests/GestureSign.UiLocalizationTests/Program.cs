@@ -36,6 +36,26 @@ Check(UiTranslationCatalog.ResolveCultureName("sr-Cyrl-ME") == "sr-Cyrl-RS", "Re
 Check(UiTranslationCatalog.ResolveCultureName("sr-Latn-BA") == "sr-Latn-RS", "Regional fallback preserves Latin script");
 Check(UiTranslationCatalog.ResolveCultureName(" sr_Cyrl_ME ") == "sr-Cyrl-RS", "Normalize culture separators and whitespace");
 Check(UiTranslationCatalog.ResolveCultureName("zh-HK") == "zh-TW", "Hong Kong uses Traditional Chinese");
+foreach (var culture in UiTranslationCatalog.SupportedCultureNames)
+{
+    var korean = culture == "ko-KR";
+    Check(ApplicationProductNames.DisplayName(culture, "밀리의 서재", "millie-desktop.exe") ==
+        (korean ? "밀리의 서재" : "Millie's Library"), $"Imported Millie product label: {culture}");
+    Check(ApplicationProductNames.DisplayName(culture, "카카오톡", "KakaoTalk.exe") ==
+        (korean ? "카카오톡" : "KakaoTalk"), $"Imported KakaoTalk product label: {culture}");
+}
+Check(ApplicationProductNames.DisplayName("ko-KR", "KakaoTalk", "KakaoTalk.exe") == "카카오톡",
+    "A newly captured application follows the Korean UI");
+Check(ApplicationProductNames.DisplayName("zh-CN", "내 채팅 규칙", "KakaoTalk.exe") == "내 채팅 규칙",
+    "A custom rule name is preserved even for a known executable");
+Check(ApplicationProductNames.DisplayName("zh-CN", "카카오톡", "unknown.exe") == "카카오톡",
+    "An identical caption on an unrelated executable is preserved");
+Check(ApplicationProductNames.DisplayName("zh-CN", "Microsoft\u200B Edge", "msedge.exe") == "Microsoft Edge",
+    "Known product names discard invisible Shell formatting");
+Check(ApplicationProductNames.DisplayName("zh-CN", "Apple\u00A0TV", "AppleTV.exe") == "Apple TV",
+    "Known product names normalize nonbreaking spaces");
+Check(ApplicationProductNames.SuggestedName("millie-desktop.exe") == "Millie's Library",
+    "Executable capture suggests the stable product name");
 foreach (var culture in new[] { "ar-SA", "fa-IR", "he-IL", "ur-PK", "ug-CN" })
     Check(UiTranslationCatalog.IsRightToLeft(culture), $"Right-to-left language: {culture}");
 Check(!UiTranslationCatalog.IsRightToLeft("de-DE"), "Left-to-right language");
@@ -118,6 +138,22 @@ var catalogs = UiTranslationCatalog.SupportedCultureNames.ToDictionary(culture =
     return entries.ToDictionary(e => e.Name, e => e.Value.GetString()!, StringComparer.Ordinal);
 });
 foreach (var catalog in catalogs.Values) requiredUiKeys.UnionWith(catalog.Keys);
+var iconLibraries = GestureSign.PieMenu.MenuIcons.Themes;
+foreach (var (culture, catalog) in catalogs)
+{
+    var names = iconLibraries.Select(library => UiTranslationCatalog.TranslateComponent(culture, library.Name)).ToArray();
+    Check(iconLibraries.All(library => catalog.ContainsKey(library.Name)), $"All icon libraries have captions: {culture}");
+    Check(names.Distinct(StringComparer.Ordinal).Count() == iconLibraries.Length, $"Icon library captions are distinct: {culture}");
+}
+var iconLanguageSwitch = new[] { "zh-CN", "en-US", "zh-TW", "ja-JP", "ko-KR", "zh-CN" };
+foreach (var culture in iconLanguageSwitch.Where(culture => culture != "en-US"))
+{
+    foreach (var library in iconLibraries.Take(4))
+        Check(!Regex.IsMatch(UiTranslationCatalog.TranslateComponent(culture, library.Name), "[A-Za-z]"),
+            $"Icon library caption uses the active language: {culture}: {library.Id}");
+}
+Check(UiTranslationCatalog.TranslateComponent("en-US", iconLibraries[0].Name) == "Built-in menu icons",
+    "English icon library caption remains the library name");
 // These workflows previously passed key/format checks while their values were
 // English copies. Guard the actual translations as well as their presence.
 foreach (var (culture, catalog) in catalogs.Where(entry => !entry.Key.StartsWith("en-")))

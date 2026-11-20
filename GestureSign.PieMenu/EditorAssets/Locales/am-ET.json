@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ኢ-ሜይል",
+      "file-browser": "የፋይል አሳሽ",
+      "paint": "ቀለም መቀባት",
+      "submenu": "መተግበሪያዎች",
+      "terminal": "ተርሚናል",
+      "web-browser": "የድር አሳሽ"
+    },
+    "audio": {
+      "mute": "ድምጸ-ከል አድርግ",
+      "next-track": "ቀጣይ ትራክ",
+      "play-pause": "አጫውት/ ለአፍታ አቁም",
+      "previous-track": "ቀዳሚ ትራክ",
+      "submenu": "ኦዲዮ"
+    },
+    "bookmarks": {
+      "desktop": "ዴስክቶፕ",
+      "documents": "ሰነዶች",
+      "downloads": "ውርዶች",
+      "home": "ቤት",
+      "music": "ሙዚቃ",
+      "pictures": "ስዕሎች",
+      "submenu": "ዕልባቶች",
+      "videos": "ቪዲዮዎች"
+    },
+    "clipboard": {
+      "copy": "ቅጂ",
+      "cut": "ቁረጥ",
+      "paste": "ለጥፍ",
+      "submenu": "ክሊፕቦርድ"
+    },
+    "name": "ምሳሌ ምናሌ",
+    "next-workspace": "ቀጣይ የስራ ቦታ",
+    "previous-workspace": "ቀዳሚ የስራ ቦታ",
+    "web-links": {
+      "kando-on-discord": "ካንዶ በ Discord ላይ",
+      "kando-on-github": "ካንዶ በ GitHub ላይ",
+      "kando-on-kofi": "ካንዶ በኮ-ፊ ላይ",
+      "kando-on-youtube": "ካንዶ በዩቲዩብ ላይ",
+      "submenu": "የድር ማገናኛዎች"
+    },
+    "windows": {
+      "close-window": "መስኮት ዝጋ",
+      "submenu": "ዊንዶውስ",
+      "tile-left": "ሰድር ግራ",
+      "tile-right": "ሰድር ትክክል",
+      "toggle-maximize": "ከፍተኛውን ቀያይር"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ምናሌን ዝጋ"
+    },
+    "close-submenu": {
+      "name": "ንዑስ ምናሌን ዝጋ"
+    },
+    "delay": {
+      "name": "መዘግየት"
+    },
+    "execute-command": {
+      "name": "ትዕዛዙን ያስፈጽም"
+    },
+    "execute-macro": {
+      "name": "ማክሮን ያስፈጽም"
+    },
+    "focus-window": {
+      "name": "የትኩረት መስኮት"
+    },
+    "inhibit-shortcuts": {
+      "name": "አቋራጮችን አግድ"
+    },
+    "open-file": {
+      "name": "ፋይል ክፈት"
+    },
+    "open-menu": {
+      "name": "ምናሌን ይክፈቱ"
+    },
+    "open-settings": {
+      "name": "ቅንብሮችን ይክፈቱ"
+    },
+    "open-uri": {
+      "name": "URI ን ይክፈቱ"
+    },
+    "send-tcp-message": {
+      "name": "የTCP መልእክት ይላኩ።"
+    },
+    "send-websocket-message": {
+      "name": "የዌብሶኬት መልእክት ይላኩ።"
+    },
+    "set-clipboard": {
+      "name": "ቅንጥብ ሰሌዳ አዘጋጅ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ሆትኪ",
+      "name": "Hotkey አስመስሎ",
+      "recording-placeholder": "መገናኛ ቁልፍ ይተይቡ…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ንዑስ ምናሌ"
+    }
+  },
+  "native": {
+    "action": "ድርጊት",
+    "action-value": "አቋራጭ፣ ዱካ፣ URL፣ ጽሑፍ ወይም JSON",
+    "choose-icon": "አዶ ይምረጡ",
+    "condition-invalid": "ልክ የሆነ መስኮት ወይም የመተግበሪያ ሁኔታ ያስገቡ፣ ለምሳሌ /notepad/i።",
+    "configuration": "የፓይ ሜኑ ውቅር",
+    "editor": "Pie Menu Editor",
+    "exported": "ወደ {0} ተልኳል",
+    "fixed-angle": "ቋሚ አንግል (0° = ወደ ላይ)",
+    "fixed-x": "ቋሚ X (0-1 በማሳያው ላይ)",
+    "fixed-y": "ቋሚ Y (0-1 ከተቆጣጣሪው በታች)",
+    "icon-invalid-image": "እስከ 192 ኪባ የሚደርስ PNG፣ JPEG፣ GIF፣ WebP ወይም ICO ምስል ይምረጡ።",
+    "icon-library": "ቤተ-መጽሐፍት አዶ",
+    "icon-next": "ቀጣይ አዶዎች",
+    "icon-no-results": "ምንም አዶዎች አልተገኙም።",
+    "icon-pick-file": "ምስል ወይም መተግበሪያ ይምረጡ",
+    "icon-previous": "ቀዳሚ አዶዎች",
+    "icon-use-image": "ምስል ተጠቀም",
+    "imported": "{0} ምናሌ(ዎች) መጥቷል። ከውጭ የመጡ ትዕዛዞችን ከመጠቀምዎ በፊት ይገምግሙ፣ ከዚያ ያስቀምጡ።",
+    "item-icon": "የንጥል አዶ",
+    "item-order": "የንጥል ቅደም ተከተል",
+    "label": "መለያ",
+    "move-down": "ወደ ታች ውሰድ",
+    "move-up": "ወደ ላይ ተንቀሳቀስ",
+    "name": "የምናሌ ስም",
+    "new-menu": "አዲስ ምናሌ",
+    "off": "ጠፍቷል",
+    "on": "በርቷል",
+    "palette": "የቀለም ቤተ-ስዕል",
+    "preview": "ቅድመ እይታ ምናሌ",
+    "remove": "አስወግድ",
+    "save": "ምናሌዎችን ያስቀምጡ",
+    "saved": "የምናሌ ውቅር ተቀምጧል።",
+    "shortcut-clear": "አቋራጭ አጽዳ",
+    "shortcut-cleared": "አቋራጭ ጸድቷል።",
+    "shortcut-config-changed": "የማውጫው ውቅር በዲስክ ላይ ተቀይሯል። ይህን አቋራጭ ለመተግበር አሁን ያሉትን ምናሌዎች ያስቀምጡ።",
+    "shortcut-in-use": "ዊንዶውስ ይህ አቋራጭ አስቀድሞ ጥቅም ላይ እንደዋለ ዘግቧል።",
+    "shortcut-invalid": "አንድ ቁልፍ አስገባ እና ለዚህ አቋራጭ የተፈቀደላቸው ማናቸውንም ማሻሻያዎች።",
+    "shortcut-record": "አቋራጭ ይቅረጹ",
+    "shortcut-save-new-menu": "አቋራጩን ለማግበር ይህን አዲስ ምናሌ ያስቀምጡ።",
+    "shortcut-saved": "አቋራጭ ተቀምጧል፡ {0} ፈጣን እርምጃዎች ሲነቃ ምናሌውን ለመክፈት ይጠቀሙበት።",
+    "shortcut-stop": "መቅዳት አቁም",
+    "shortcut-unavailable": "ዊንዶውስ ይህንን አቋራጭ መመዝገብ አልቻለም።"
+  },
+  "settings": {
+    "add-menu-items": "የምናሌ ዕቃዎችን ያክሉ",
+    "all-menus": "ሁሉም ምናሌዎች",
+    "anchored-mode": "መልህቅ ሁነታ",
+    "app-condition": "ለተወሰኑ መተግበሪያዎች ገደብ",
+    "area-condition-bottom-placeholder": "ግርጌ",
+    "area-condition-left-placeholder": "ግራ",
+    "area-condition-right-placeholder": "ትክክል",
+    "area-condition-top-placeholder": "ከሁሉም ምርጥ",
+    "cancel": "ሰርዝ",
+    "create-menu-button": "ምናሌን ያክሉ",
+    "delete-menu": "ምናሌን ሰርዝ",
+    "delete-menu-item": "የምናሌ ንጥል ነገርን ሰርዝ",
+    "edit-submenu": "ንዑስ ምናሌን ያርትዑ",
+    "export-menu": "ምናሌ ወደ ውጪ ላክ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ምልክት ማድረጊያ ሁነታን አንቃ",
+      "close-menu": "ምናሌን ዝጋ",
+      "do-nothing": "ምንም አታድርግ",
+      "enable-marking-mode-info": "ምልክት ማድረጊያ ሁነታን በነቃ፣ አይጤውን በላያቸው በመጎተት ንጥሎችን መምረጥ ይችላሉ።",
+      "enable-turbo-mode": "የቱርቦ ሁነታን አንቃ",
+      "enable-turbo-mode-info": "በ Turbo Mode የነቃ እንደ Shift ወይም Ctrl ያለ የመቀየሪያ ቁልፍ እስከያዝክ ድረስ የእጅ ምልክቶችን ማከናወን ትችላለህ።",
+      "interaction-modes": "መስተጋብር ሁነታዎች",
+      "middle-mouse-button-behavior": "የመሃል መዳፊት ቁልፍ",
+      "middle-mouse-button-behavior-info": "ይህ ምናሌ በሚታይበት ጊዜ የመሃከለኛ መዳፊት ቁልፍ ሲጫን ምን እንደሚሆን ይወስናል.",
+      "move-pointer-to-menu-center": "ጠቋሚውን ወደ ምናሌው ማእከል ያንቀሳቅሱ",
+      "move-pointer-to-menu-center-info": "ከተፈተሸ የመዳፊት ጠቋሚው አስፈላጊ ሆኖ ሲገኝ ወደ ምናሌው መሃል ወይም ንዑስ ሜኑ ይንቀሳቀሳል። ምናሌው ከማያ ገጹ ጠርዝ አጠገብ በጣም ከተከፈተ ወይም ሜኑ በማእከላዊ ሁነታ ከተከፈተ ይህ ሊሆን ይችላል።",
+      "require-click-for-hover-mode": "ለማንዣበብ ሁነታ ምርጫዎች ጠቅ ያድርጉ",
+      "require-click-for-hover-mode-info": "ምልክት ካልተደረገበት፣ ማንዣበብ ሁነታን ተጠቅመው መዳፊት በላያቸው ላይ ሲንቀሳቀስ ንጥሎቹ ወዲያውኑ ይመረጣሉ።",
+      "right-mouse-button-behavior": "የቀኝ መዳፊት ቁልፍ",
+      "right-mouse-button-behavior-info": "ይህ ምናሌ በሚታይበት ጊዜ የቀኝ መዳፊት ቁልፍ ሲጫን ምን እንደሚሆን ይወስናል.",
+      "select-item": "ንጥል ይምረጡ",
+      "select-parent": "ወደ አንድ ደረጃ ይሂዱ",
+      "trigger-center-click-on-key-release": "በመሃል ላይ በአቋራጭ መልቀቂያ ላይ ምናሌን ዝጋ",
+      "trigger-center-click-on-key-release-info": "ይህ በምናሌው መሃል ላይ በሚያንዣብብበት ጊዜ ቁልፍ ሲወጣ የመሃል ጠቅታ የስራ ፍሰትን ያስነሳል።"
+    },
+    "hover-mode": "ማንዣበብ ሁነታ",
+    "icon-picker-dialog": {
+      "search-placeholder": "አዶዎችን ፈልግ…"
+    },
+    "import-menu": "ምናሌ አስመጣ",
+    "menu-behavior": "የምናሌ ባህሪ",
+    "menu-conditions": "የምናሌ ሁኔታዎች",
+    "menu-themes-dialog": {
+      "default-colors": "ነባሪ ቀለሞች",
+      "enable-menu-animations": "የምናሌ እነማዎች",
+      "title": "የምናሌ ገጽታዎች"
+    },
+    "no-matching-menus": "ምንም ምናሌዎች አልተገኙም።",
+    "no-menus": "ምንም ምናሌዎች የሉዎትም።",
+    "not-bound": "የማይታሰር",
+    "quick-select-key-label": "በፍጥነት ምረጥ ቁልፍ",
+    "quick-select-key-recording": "ቁልፍ ምረጥ…",
+    "shortcut-info": "ይህ አቋራጭ ምናሌውን ይከፍታል። አንድ መደበኛ ቁልፍ እና እንደ Ctrl፣ Alt ወይም Shift ያሉ ማናቸውንም መቀየሪያዎች መያዝ አለበት። በሚቀረጹበት ጊዜ ሁሉንም ቁልፎችን በአንድ ጊዜ መጫን የለብዎትም ፣ እንዲሁም አንድ በአንድ መጫን ይችላሉ። አቋራጭ አስቀድሞ ከሌላ ምናሌ ጋር ከተያያዘ ይህ ጠቃሚ ነው!",
+    "shortcut-label": "አቋራጭ",
+    "shortcut-recording": "አቋራጭ ተጫን…",
+    "window-condition": "ለተወሰኑ የመስኮቶች ርዕሶች ገደብ",
+    "workflow-editor": {
+      "add-action": "እርምጃ ጨምር",
+      "select-workflow-name": "የስራ ፍሰትን ይምረጡ"
+    },
+    "anchored-mode-info": "ንዑስ ምናሌዎችን ከወላጅ ምናሌ ጋር በተመሳሳይ ቦታ ይክፈቱ። ይህንን መፈተሽ የማርክ ማድረጊያ ሁነታን እና ቱርቦ ሁነታን ያሰናክላል።",
+    "fixed-position-mode": "የቋሚ አቀማመጥ ሁነታ",
+    "fixed-position-mode-info": "በጠቋሚው ምትክ ምናሌውን በስክሪኑ ላይ ባለው ቋሚ ቦታ ይክፈቱ።",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "ቦታን ወደ ግራ ግራ ያቀናብሩ",
+      "bottom-right-preset-tooltip": "ቦታውን ወደ ታችኛው ቀኝ ያዘጋጁ",
+      "centered-preset-tooltip": "ቦታን ወደ መሃል ያቀናብሩ",
+      "confirm": "ይህንን አቀማመጥ ይጠቀሙ",
+      "top-left-preset-tooltip": "አቀማመጥን ወደ ላይኛው ግራ ያቀናብሩ",
+      "top-right-preset-tooltip": "ቦታውን ወደ ላይኛው ቀኝ ያቀናብሩ"
+    },
+    "fixed-position-tooltip": "ቋሚ ቦታ ይምረጡ",
+    "hover-mode-info": "ለኃይል ተጠቃሚዎች ብቻ! በላያቸው ላይ በማንዣበብ እቃዎችን ይምረጡ።"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ነባሪ",
+      "clean-circle": "ንጹህ ክበብ",
+      "neon-lights": "ኒዮን መብራቶች",
+      "purity": "ንጽህና",
+      "rainbow-labels": "የቀስተ ደመና መለያዎች"
+    },
+    "presets": {
+      "Blue Glass": "ሰማያዊ ብርጭቆ",
+      "Dark Night": "ጨለማ ምሽት",
+      "Cotton Candy": "የጥጥ ከረሜላ",
+      "Dark and Cozy": "ጨለማ እና ምቹ",
+      "Blue Glow": "ሰማያዊ ፍካት",
+      "Green Glow": "አረንጓዴ ፍካት",
+      "Electric": "ኤሌክትሪክ",
+      "Orange": "ብርቱካናማ",
+      "Pink": "ሮዝ",
+      "Bright Prism": "ብሩህ ፕሪዝም",
+      "Kando Default": "ነባሪ ቀለሞች"
+    }
+  }
+}

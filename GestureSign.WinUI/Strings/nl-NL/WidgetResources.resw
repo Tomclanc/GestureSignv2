@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Snelle acties</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Het radiaalmenu openen met speciale sneltoetsen.</value>
+  </data>
+</root>

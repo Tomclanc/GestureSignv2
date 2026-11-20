@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Mahi Tere</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Tuwherahia te tahua porotīni me ngā pokatata whai motuhake.</value>
+  </data>
+</root>

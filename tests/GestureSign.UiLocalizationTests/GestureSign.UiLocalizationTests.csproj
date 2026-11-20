@@ -7,6 +7,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../GestureSign.WinUI/UiTranslationCatalog.cs" Link="UiTranslationCatalog.cs" />
+    <Compile Include="../../GestureSign.PieMenu/MenuIcons.cs" Link="MenuIcons.cs" />
+    <Compile Include="../../GestureSign.WinUI/ApplicationProductNames.cs" Link="ApplicationProductNames.cs" />
     <Compile Include="../../GestureSign.WinUI/GestureTemplateDirection.cs" Link="GestureTemplateDirection.cs" />
     <Content Include="../../GestureSign.WinUI/Languages/UI/*.json" Link="Languages/UI/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Reference Include="Microsoft.CodeAnalysis">

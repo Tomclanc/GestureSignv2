@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Жылдам әрекеттер</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Арнаулы пернелер арқылы радиалды мәзірін ашу</value>
+  </data>
+</root>

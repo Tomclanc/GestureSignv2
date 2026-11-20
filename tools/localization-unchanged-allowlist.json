@@ -31,20 +31,24 @@
     "Touchpad",
     "Version",
     "apps",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "uz-Latn-UZ": [
     "Global",
-    "Import"
+    "Import",
+    "Emoji"
   ],
   "hr-HR": [
-    "Start"
+    "Start",
+    "Emoji"
   ],
   "gl-ES": [
     "Global",
     "Normal",
     "Volume",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "ca-ES": [
     "Editors",
@@ -53,7 +57,8 @@
     "No",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "ca-ES-valencia": [
     "Editors",
@@ -62,13 +67,15 @@
     "No",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "af-ZA": [
     "Later",
     "Pen",
     "Volume",
-    "items"
+    "items",
+    "Emoji"
   ],
   "lb-LU": [
     "Browser",
@@ -85,20 +92,24 @@
     "Training",
     "apps",
     "Backend",
-    "Label"
+    "Label",
+    "Emoji"
   ],
   "id-ID": [
     "Global",
     "Volume",
-    "Label"
+    "Label",
+    "Emoji"
   ],
   "tr-TR": [
-    "Normal"
+    "Normal",
+    "Emoji"
   ],
   "cy-GB": [
     "Pen",
     "System",
-    "Grid"
+    "Grid",
+    "Emoji"
   ],
   "de-DE": [
     "1 finger",
@@ -113,7 +124,8 @@
     "Touchscreen",
     "Version",
     "apps",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "it-IT": [
     "Backup",
@@ -121,7 +133,8 @@
     "No",
     "Touchpad",
     "Volume",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "nb-NO": [
     "1 finger",
@@ -129,23 +142,27 @@
     "Normal",
     "Start",
     "System",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "nn-NO": [
     "1 finger",
     "Cyan",
     "Start",
-    "System"
+    "System",
+    "Emoji"
   ],
   "cs-CZ": [
     "Tip",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "sk-SK": [
     "Tip",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "el-GR": [
     "Touchpad",
@@ -177,7 +194,8 @@
   ],
   "pl-PL": [
     "System",
-    "Touchpad"
+    "Touchpad",
+    "Emoji"
   ],
   "sv-SE": [
     "1 finger",
@@ -188,7 +206,8 @@
     "Orange",
     "System",
     "Version",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "ro-RO": [
     "Backup",
@@ -198,7 +217,8 @@
     "Import",
     "Normal",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "nl-NL": [
     "Browser",
@@ -208,7 +228,8 @@
     "Touchpad",
     "Volume",
     "apps",
-    "items"
+    "items",
+    "Emoji"
   ],
   "pt-BR": [
     "Backup",
@@ -216,14 +237,16 @@
     "Mouse",
     "Touchpad",
     "Volume",
-    "apps"
+    "apps",
+    "Emoji"
   ],
   "pt-PT": [
     "Backup",
     "Global",
     "Touchpad",
     "Volume",
-    "apps"
+    "apps",
+    "Emoji"
   ],
   "es-MX": [
     "Global",
@@ -237,13 +260,15 @@
     "Backend"
   ],
   "az-Latn-AZ": [
-    "Normal"
+    "Normal",
+    "Emoji"
   ],
   "sq-AL": [
     "Feedback",
     "Global",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "ms-MY": [
     "Edit",
@@ -252,7 +277,8 @@
     "Import",
     "Pen",
     "apps",
-    "Label"
+    "Label",
+    "Emoji"
   ],
   "mt-MT": [
     "Backup",
@@ -262,6 +288,43 @@
     "Touchpad",
     "Touchscreen",
     "apps",
-    "Backend"
+    "Backend",
+    "Emoji"
+  ],
+  "is-IS": [
+    "Emoji"
+  ],
+  "hu-HU": [
+    "Emoji"
+  ],
+  "sr-Latn-RS": [
+    "Emoji"
+  ],
+  "sl-SI": [
+    "Emoji"
+  ],
+  "sw-KE": [
+    "Emoji"
+  ],
+  "mi-NZ": [
+    "Emoji"
+  ],
+  "bs-Latn-BA": [
+    "Emoji"
+  ],
+  "ga-IE": [
+    "Emoji"
+  ],
+  "fi-FI": [
+    "Emoji"
+  ],
+  "gd-GB": [
+    "Emoji"
+  ],
+  "fil-PH": [
+    "Emoji"
+  ],
+  "ha-Latn-NG": [
+    "Emoji"
   ]
 }

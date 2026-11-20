@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>빠른 작업</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>전용 단축키로 원형 메뉴를 엽니다.</value>
+  </data>
+</root>

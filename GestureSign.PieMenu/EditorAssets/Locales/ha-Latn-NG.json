@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Imel",
+      "file-browser": "Mai Binciken Fayil",
+      "paint": "Fenti",
+      "submenu": "Aikace-aikace",
+      "terminal": "Tasha",
+      "web-browser": "Mai Binciken Yanar Gizo"
+    },
+    "audio": {
+      "mute": "Tozarta sauti",
+      "next-track": "Wakar gaba",
+      "play-pause": "Kunna / Dakata",
+      "previous-track": "Waɗannan waƙa na baya",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Teburin aiki",
+      "documents": "Takardu",
+      "downloads": "Zazzagewa",
+      "home": "Gida",
+      "music": "Kiɗa",
+      "pictures": "Hotuna",
+      "submenu": "Alamomi",
+      "videos": "Bidiyo"
+    },
+    "clipboard": {
+      "copy": "Kwafi",
+      "cut": "Yanke",
+      "paste": "Manna",
+      "submenu": "Allon allo"
+    },
+    "name": "Misali Menu",
+    "next-workspace": "Wurin Aiki na gaba",
+    "previous-workspace": "Wurin Aiki na baya",
+    "web-links": {
+      "kando-on-discord": "Kando on Discord",
+      "kando-on-github": "Kando na GitHub",
+      "kando-on-kofi": "Kando on Ko-fi",
+      "kando-on-youtube": "Kano na YouTube",
+      "submenu": "Hanyoyin Yanar Gizo"
+    },
+    "windows": {
+      "close-window": "Rufe Window",
+      "submenu": "Windows",
+      "tile-left": "Tile Hagu",
+      "tile-right": "Tile Dama",
+      "toggle-maximize": "Juyawa Maximize"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Rufe Menu"
+    },
+    "close-submenu": {
+      "name": "Rufe Babban Menu"
+    },
+    "delay": {
+      "name": "Jinkiri"
+    },
+    "execute-command": {
+      "name": "Yi Umarni"
+    },
+    "execute-macro": {
+      "name": "Kashe Macro"
+    },
+    "focus-window": {
+      "name": "Tagan mai da hankali"
+    },
+    "inhibit-shortcuts": {
+      "name": "Hana Gajerun hanyoyi"
+    },
+    "open-file": {
+      "name": "Bude Fayil"
+    },
+    "open-menu": {
+      "name": "Buɗe Menu"
+    },
+    "open-settings": {
+      "name": "Bude Saituna"
+    },
+    "open-uri": {
+      "name": "Bude URI"
+    },
+    "send-tcp-message": {
+      "name": "Aika Saƙon TCP"
+    },
+    "send-websocket-message": {
+      "name": "Aika saƙon WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Saita Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Maballin gajerun hanya",
+      "name": "Simulate Hotkey",
+      "recording-placeholder": "Buga hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "Aiki",
+    "action-value": "Gajerar hanya, hanya, URL, rubutu, ko JSON",
+    "choose-icon": "Zaɓi gunki",
+    "condition-invalid": "Shigar da ingantaccen taga ko yanayin app, misali /notepad/i.",
+    "configuration": "Tsarin Menu na Pie",
+    "editor": "Editan Menu na Pie",
+    "exported": "Ana fitarwa zuwa {0}",
+    "fixed-angle": "Kafaffen kusurwa (0° = sama)",
+    "fixed-x": "Kafaffen X (0-1 a fadin duba)",
+    "fixed-y": "Kafaffen Y (0-1 ƙasa mai duba)",
+    "icon-invalid-image": "Zaɓi hoto PNG, JPEG, GIF, WebP, ko ICO har zuwa 192 KB.",
+    "icon-library": "Ikon ɗakin karatu",
+    "icon-next": "Gumaka na gaba",
+    "icon-no-results": "Ba a sami gumaka ba.",
+    "icon-pick-file": "Zaɓi hoto ko app",
+    "icon-previous": "Gumakan da suka gabata",
+    "icon-use-image": "Yi amfani da hoto",
+    "imported": "An shigo da menu(s) {0} Yi bitar umarnin da aka shigo da su kafin amfani da su, sannan ajiye.",
+    "item-icon": "Ikon abu",
+    "item-order": "odar abu",
+    "label": "Lakabi",
+    "move-down": "Matsa ƙasa",
+    "move-up": "Matsa sama",
+    "name": "Sunan menu",
+    "new-menu": "Sabon menu",
+    "off": "Kashe",
+    "on": "Kunna",
+    "palette": "Launi mai launi",
+    "preview": "Menu na samfoti",
+    "remove": "Cire",
+    "save": "Ajiye menus",
+    "saved": "Ajiye saitin menu.",
+    "shortcut-clear": "Share gajeriyar hanya",
+    "shortcut-cleared": "An share gajeriyar hanya.",
+    "shortcut-config-changed": "Tsarin menu ya canza akan faifai. Ajiye menu na yanzu don amfani da wannan gajeriyar hanyar.",
+    "shortcut-in-use": "Windows ya ba da rahoton cewa an riga an fara amfani da wannan gajeriyar hanya.",
+    "shortcut-invalid": "Shigar da maɓalli ɗaya, da kowane masu gyara da aka yarda don wannan gajeriyar hanyar.",
+    "shortcut-record": "Yi rikodin gajeriyar hanya",
+    "shortcut-save-new-menu": "Ajiye wannan sabon menu don kunna gajeriyar hanyarsa.",
+    "shortcut-saved": "An adana gajeriyar hanya: {0}. Yi amfani da shi don buɗe menu lokacin da aka kunna Ayyukan gaggawa.",
+    "shortcut-stop": "Dakatar da rikodi",
+    "shortcut-unavailable": "Windows ba zai iya yin rajistar wannan gajeriyar hanyar ba."
+  },
+  "settings": {
+    "add-menu-items": "Ƙara Abubuwan Menu",
+    "all-menus": "Duk Menu",
+    "anchored-mode": "Yanayin Anchored",
+    "app-condition": "Iyaka zuwa takamaiman Apps",
+    "area-condition-bottom-placeholder": "Kasa",
+    "area-condition-left-placeholder": "Hagu",
+    "area-condition-right-placeholder": "Dama",
+    "area-condition-top-placeholder": "Sama",
+    "cancel": "Soke",
+    "create-menu-button": "Ƙara Menu",
+    "delete-menu": "Share menu",
+    "delete-menu-item": "Share abun menu",
+    "edit-submenu": "Shirya ƙaramin menu",
+    "export-menu": "Menu na fitarwa",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Kunna Yanayin Alama",
+      "close-menu": "Rufe menu",
+      "do-nothing": "Kada ku yi komai",
+      "enable-marking-mode-info": "Tare da kunna Yanayin Alama, zaku iya zaɓar abubuwa ta jan linzamin kwamfuta akan su.",
+      "enable-turbo-mode": "Kunna Yanayin Turbo",
+      "enable-turbo-mode-info": "Tare da kunna yanayin Turbo, kuna iya yin motsin motsi muddin kun riƙe maɓallin gyara kamar Shift ko Ctrl.",
+      "interaction-modes": "Hanyoyin hulɗa",
+      "middle-mouse-button-behavior": "Maɓallin linzamin kwamfuta na tsakiya",
+      "middle-mouse-button-behavior-info": "Wannan yana ƙayyade abin da zai faru lokacin da aka danna maɓallin linzamin kwamfuta na tsakiya yayin da aka nuna menu.",
+      "move-pointer-to-menu-center": "Matsar da mai nuni zuwa cibiyar menu",
+      "move-pointer-to-menu-center-info": "Idan an duba, za a matsar da mai nuna linzamin kwamfuta zuwa tsakiyar menu ko ƙaramin menu idan ya cancanta. Wannan na iya zama yanayin idan an buɗe menu kusa da gefen allon ko kuma idan an buɗe menu a Yanayin Ciki.",
+      "require-click-for-hover-mode": "Bukatar danna don zaɓin Yanayin Hover",
+      "require-click-for-hover-mode-info": "Idan ba a bincika ba, za a zaɓi abubuwa nan da nan lokacin da aka motsa linzamin kwamfuta akan su don menus ta amfani da Hover Mode.",
+      "right-mouse-button-behavior": "Maɓallin linzamin kwamfuta na dama",
+      "right-mouse-button-behavior-info": "Wannan yana ƙayyade abin da zai faru lokacin da aka danna maɓallin linzamin kwamfuta na dama yayin da aka nuna menu.",
+      "select-item": "Zaɓi abu",
+      "select-parent": "Kewaya sama da matakin ɗaya",
+      "trigger-center-click-on-key-release": "Rufe menu akan sakin gajeriyar hanya akan tsakiya",
+      "trigger-center-click-on-key-release-info": "Wannan zai haifar da aikin danna maɓallin tsakiya lokacin da aka saki maɓalli yayin shawagi akan tsakiyar menu."
+    },
+    "hover-mode": "Yanayin Tsayawa",
+    "icon-picker-dialog": {
+      "search-placeholder": "Bincika gumaka…"
+    },
+    "import-menu": "Shigo da menu",
+    "menu-behavior": "Halayen Menu",
+    "menu-conditions": "Yanayin Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Tsoffin launuka",
+      "enable-menu-animations": "Menu Animations",
+      "title": "Jigogi Menu"
+    },
+    "no-matching-menus": "Ba a sami menus ba.",
+    "no-menus": "Ba ku da menus.",
+    "not-bound": "Ba a daure ba",
+    "quick-select-key-label": "Maɓalli mai sauri-zaɓi",
+    "quick-select-key-recording": "Zaɓi maɓallin…",
+    "shortcut-info": "Wannan gajeriyar hanya tana buɗe menu. Dole ne ya ƙunshi maɓallin al'ada ɗaya da kowane adadin masu gyara kamar Ctrl, Alt, ko Shift. Lokacin yin rikodi, ba dole ba ne ka danna duk maɓallan lokaci ɗaya, zaka iya danna su ɗaya bayan ɗaya. Wannan yana da amfani idan an riga an ɗaure gajeriyar hanya zuwa wani menu!",
+    "shortcut-label": "Gajerar hanya",
+    "shortcut-recording": "Latsa gajeriyar hanya…",
+    "window-condition": "Iyaka zuwa takamaiman taken Taga",
+    "workflow-editor": {
+      "add-action": "Ƙara Aiki",
+      "select-workflow-name": "Zaɓi Gudun Aiki"
+    },
+    "anchored-mode-info": "Buɗe menu na ƙasa a wuri ɗaya da menu na iyaye. Duba wannan, zai kashe Yanayin Alama da Yanayin Turbo.",
+    "fixed-position-mode": "Kafaffen Matsayin Matsayi",
+    "fixed-position-mode-info": "Buɗe menu a kafaffen matsayi akan allon, maimakon a siginan kwamfuta.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Saita matsayi zuwa ƙasa hagu",
+      "bottom-right-preset-tooltip": "Saita matsayi zuwa ƙasa dama",
+      "centered-preset-tooltip": "Saita matsayi zuwa tsakiya",
+      "confirm": "Yi amfani da wannan matsayi",
+      "top-left-preset-tooltip": "Saita matsayi zuwa saman hagu",
+      "top-right-preset-tooltip": "Saita matsayi zuwa sama dama"
+    },
+    "fixed-position-tooltip": "Zaɓi kafaffen matsayi",
+    "hover-mode-info": "Don masu amfani da wutar lantarki kawai! Zaɓi abubuwa ta shawagi bisa su."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Da'irar Tsabtace",
+      "neon-lights": "Hasken Neon",
+      "purity": "Tsafta",
+      "rainbow-labels": "Lakabin Bakan gizo"
+    },
+    "presets": {
+      "Blue Glass": "Gilashin Blue",
+      "Dark Night": "Duhun Dare",
+      "Cotton Candy": "Auduga Candy",
+      "Dark and Cozy": "Dark da Jin dadi",
+      "Blue Glow": "Haske mai shuɗi",
+      "Green Glow": "Koren Haske",
+      "Electric": "Lantarki",
+      "Orange": "Lemu",
+      "Pink": "Ruwar Fure",
+      "Bright Prism": "Hasken Prism",
+      "Kando Default": "Tsoffin launuka"
+    }
+  }
+}

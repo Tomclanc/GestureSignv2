@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Esplora Risorse",
+      "paint": "Paint",
+      "submenu": "Applicazioni",
+      "terminal": "Terminale",
+      "web-browser": "Navigatore Web"
+    },
+    "audio": {
+      "mute": "Silenzia",
+      "next-track": "Traccia Successiva",
+      "play-pause": "Riproduci / Pausa",
+      "previous-track": "Traccia Precedente",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Scrivania",
+      "documents": "Documenti",
+      "downloads": "Downloads",
+      "home": "Home",
+      "music": "Musica",
+      "pictures": "Immagini",
+      "submenu": "Segnalibri",
+      "videos": "Video"
+    },
+    "clipboard": {
+      "copy": "Copia",
+      "cut": "Taglia",
+      "paste": "Incolla",
+      "submenu": "Clipboard"
+    },
+    "name": "Menu di Esempio",
+    "next-workspace": "Spazio di Lavoro Successivo",
+    "previous-workspace": "Spazio di Lavoro Precedente",
+    "web-links": {
+      "kando-on-discord": "Kando su Discord",
+      "kando-on-github": "Kando su GitHub",
+      "kando-on-kofi": "Kando su Ko-fi",
+      "kando-on-youtube": "Kando su YouTube",
+      "submenu": "Segnalibri Web"
+    },
+    "windows": {
+      "close-window": "Chiudi Finestra",
+      "submenu": "Finestre",
+      "tile-left": "Disponi a Sinistra",
+      "tile-right": "Disponi a Destra",
+      "toggle-maximize": "Massimizza"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Chiudi Menù"
+    },
+    "close-submenu": {
+      "name": "Chiudi sottomenu"
+    },
+    "delay": {
+      "name": "Ritardo"
+    },
+    "execute-command": {
+      "name": "Esegui Comando"
+    },
+    "execute-macro": {
+      "name": "Simula una Macro"
+    },
+    "focus-window": {
+      "name": "Finestra di messa a fuoco"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inibisci scorciatoie"
+    },
+    "open-file": {
+      "name": "Apri File"
+    },
+    "open-menu": {
+      "name": "Ridireziona"
+    },
+    "open-settings": {
+      "name": "Apri Impostazioni"
+    },
+    "open-uri": {
+      "name": "Apri URI"
+    },
+    "send-tcp-message": {
+      "name": "Invia messaggio TCP"
+    },
+    "send-websocket-message": {
+      "name": "Invia messaggio WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Imposta Appunti"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Scorciatoia di Tastiera",
+      "name": "Simula una scorciatoia da tastiera",
+      "recording-placeholder": "Premi una combinazione di tasti…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Sottomenu"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Flusso di lavoro al clic al centro",
+      "center-workflow-description": "Fai clic al centro del menu principale per eseguire queste azioni in ordine.",
+      "appearance": "Aspetto e animazione",
+      "menu-size": "Dimensione del menu",
+      "fade-in": "Dissolvenza in entrata (ms)",
+      "fade-out": "Dissolvenza in uscita (ms)",
+      "dark-palette": "Tavolozza scura",
+      "dark-theme": "Tema scuro",
+      "pointer-shortcuts": "Puntatore e scorciatoie",
+      "theme-credits": "Crediti e licenze dei temi",
+      "back-up-menus": "Esegui il backup dei menu",
+      "restore-menus": "Ripristina i menu",
+      "back-up-settings": "Esegui il backup delle impostazioni",
+      "restore-settings": "Ripristina le impostazioni",
+      "open-config-folder": "Apri la cartella di configurazione",
+      "restored": "Ripristinato nell’editor. Salva per applicare.",
+      "collapse": "Comprimi le impostazioni"
+    },
+    "action": "Azione",
+    "action-value": "Collegamento, percorso, URL, testo o JSON",
+    "choose-icon": "Scegli l'icona",
+    "condition-invalid": "Inserisci una condizione valida per la finestra o l'app, ad esempio /notepad/i.",
+    "configuration": "Configurazione del menu a torta",
+    "editor": "Editor del menu a torta",
+    "exported": "Esportato in {0}",
+    "fixed-angle": "Angolo fisso (0° = su)",
+    "fixed-x": "X fissa (0–1 sul monitor)",
+    "fixed-y": "Fisso Y (0–1 sul monitor)",
+    "icon-invalid-image": "Scegli un'immagine PNG, JPEG, GIF, WebP o ICO fino a 192 KB.",
+    "icon-library": "Libreria di icone",
+    "icon-next": "Icone successive",
+    "icon-no-results": "Nessuna icona trovata.",
+    "icon-pick-file": "Scegli immagine o app",
+    "icon-previous": "Icone precedenti",
+    "icon-use-image": "Usa l'immagine",
+    "imported": "Menù {0} importati. Rivedi i comandi importati prima di utilizzarli, quindi salva.",
+    "item-icon": "Icona dell'articolo",
+    "item-order": "Ordine dell'articolo",
+    "label": "Etichetta",
+    "move-down": "Spostati giù",
+    "move-up": "Vai su",
+    "name": "Nome del menù",
+    "new-menu": "Nuovo menù",
+    "off": "Spento",
+    "on": "Acceso",
+    "palette": "Tavolozza dei colori",
+    "preview": "Menù di anteprima",
+    "remove": "Rimuovi",
+    "save": "Salva menu",
+    "saved": "Configurazione del menu salvata.",
+    "shortcut-clear": "Cancella scorciatoia",
+    "shortcut-cleared": "Scorciatoia cancellata.",
+    "shortcut-config-changed": "La configurazione del menu è cambiata sul disco. Salva i menu correnti per applicare questa scorciatoia.",
+    "shortcut-in-use": "Windows segnala che questo collegamento è già in uso.",
+    "shortcut-invalid": "Inserisci una chiave, più eventuali modificatori consentiti per questa scorciatoia.",
+    "shortcut-record": "Registra la scorciatoia",
+    "shortcut-save-new-menu": "Salva questo nuovo menu per attivare la sua scorciatoia.",
+    "shortcut-saved": "Scorciatoia salvata: {0}. Usalo per aprire il menu quando Azioni rapide è abilitato.",
+    "shortcut-stop": "Interrompi la registrazione",
+    "shortcut-unavailable": "Windows non è riuscito a registrare questo collegamento."
+  },
+  "settings": {
+    "add-menu-items": "Aggiungi elementi del menu",
+    "all-menus": "Tutti i Menu",
+    "anchored-mode": "Modalità Ancorata",
+    "app-condition": "Limitare ad Applicazioni Specifiche",
+    "area-condition-bottom-placeholder": "In Basso",
+    "area-condition-left-placeholder": "Sinistra",
+    "area-condition-right-placeholder": "Destra",
+    "area-condition-top-placeholder": "In Alto",
+    "cancel": "Annulla",
+    "create-menu-button": "Nuovo menu",
+    "delete-menu": "Elimina menu",
+    "delete-menu-item": "Elimina elemento di menu",
+    "edit-submenu": "Modifica sottomenu",
+    "export-menu": "Menù Esporta",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Abilitare Modalità Marcatura",
+      "close-menu": "Chiudi menu",
+      "do-nothing": "Non fare nulla",
+      "enable-marking-mode-info": "Con la modalità marcatura abilitata, può selezionare gli elementi trascinando il mouse su di essi.",
+      "enable-turbo-mode": "Abilita Modalità Turbo",
+      "enable-turbo-mode-info": "Con Modalità Turbo abilitata, puoi eseguire gesti fintanto che tieni premuto un tasto modificatore come Shift o Ctrl.",
+      "interaction-modes": "Modalità di interazione",
+      "middle-mouse-button-behavior": "Pulsante centrale del mouse",
+      "middle-mouse-button-behavior-info": "Determina cosa succede quando viene premuto il pulsante centrale del mouse mentre viene visualizzato un menu.",
+      "move-pointer-to-menu-center": "Muove il puntatore al centro del menu",
+      "move-pointer-to-menu-center-info": "Se abilitato, il puntatore del mouse sarà spostato al centro di un menu o sottomenu quando è necessario. Come ad esempio quando un menu viene aperto troppo vicino al bordo dello schermo o se un menu viene aperto in Modalità Centrata.",
+      "require-click-for-hover-mode": "Richiedi un clic per le selezioni in Modalità Al Passaggio del Mouse",
+      "require-click-for-hover-mode-info": "Se deselezionato, gli elementi saranno selezionati immediatamente quando il mouse è mosso sopra di loro nei menu che utilizzano la Modalità Al Passaggio del Mouse.",
+      "right-mouse-button-behavior": "Tasto destro del mouse",
+      "right-mouse-button-behavior-info": "Determina cosa succede quando viene premuto il pulsante destro del mouse mentre viene visualizzato un menu.",
+      "select-item": "Seleziona elemento",
+      "select-parent": "Salire di un livello",
+      "trigger-center-click-on-key-release": "Chiudi il menu al rilascio della scorciatoia al centro",
+      "trigger-center-click-on-key-release-info": "Ciò attiverà il flusso di lavoro del clic centrale quando un tasto viene rilasciato mentre si passa con il mouse al centro di un menu."
+    },
+    "hover-mode": "Modalità Al Passaggio del Mouse",
+    "icon-picker-dialog": {
+      "search-placeholder": "Cerca icone…"
+    },
+    "import-menu": "Menù Importa",
+    "menu-behavior": "Comportamento del Menu",
+    "menu-conditions": "Condizione per il Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Colori di default",
+      "enable-menu-animations": "Animazioni del menu",
+      "title": "Temi di Menu"
+    },
+    "no-matching-menus": "Nessun menu trovato.",
+    "no-menus": "Non hai nessun menu.",
+    "not-bound": "Non Assegnato",
+    "quick-select-key-label": "Tasto di selezione rapida",
+    "quick-select-key-recording": "Seleziona chiave...",
+    "shortcut-info": "Questa scorciatoia apre il menu. Deve contenere un tasto normale e un numero qualunque di modificatori come Ctrl, Alt o Shift. Quando registri, non devi premere tutti i tasti insieme, puoi anche premerli uno dopo l'altro. Questo è utile se una scorciatoia è già assegnata a un altro menu!",
+    "shortcut-label": "Scorciatoia di tastiera",
+    "shortcut-recording": "Premi una scorciatoia…",
+    "window-condition": "Limita a Specifici Titoli della Finestra",
+    "workflow-editor": {
+      "add-action": "Aggiungi azione",
+      "select-workflow-name": "Seleziona Flusso di lavoro"
+    },
+    "anchored-mode-info": "Apri il sottomenu nella stessa posizione del menu parent. Attivare questo, disabiliterà la Modalità Marcatura e la Modalità Turbo.",
+    "fixed-position-mode": "Modalità posizione fissa",
+    "fixed-position-mode-info": "Apre il menu in una posizione fissa sullo schermo, anziché in corrispondenza del cursore.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Imposta la posizione in basso a sinistra",
+      "bottom-right-preset-tooltip": "Imposta la posizione in basso a destra",
+      "centered-preset-tooltip": "Imposta la posizione al centro",
+      "confirm": "Usa questa posizione",
+      "top-left-preset-tooltip": "Imposta la posizione in alto a sinistra",
+      "top-right-preset-tooltip": "Imposta la posizione in alto a destra"
+    },
+    "fixed-position-tooltip": "Seleziona una posizione fissa",
+    "hover-mode-info": "Solo per utenti esperti! Seleziona gli elementi semplicemente passandoci sopra."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Predefinito",
+      "clean-circle": "Cerchio essenziale",
+      "neon-lights": "Luci al neon",
+      "purity": "Purezza",
+      "rainbow-labels": "Etichette arcobaleno"
+    },
+    "presets": {
+      "Blue Glass": "Vetro blu",
+      "Dark Night": "Notte buia",
+      "Cotton Candy": "Zucchero filato",
+      "Dark and Cozy": "Scuro e accogliente",
+      "Blue Glow": "Bagliore blu",
+      "Green Glow": "Bagliore verde",
+      "Electric": "Elettrico",
+      "Orange": "Arancione",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma luminoso",
+      "Kando Default": "Colori predefiniti"
+    }
+  }
+}

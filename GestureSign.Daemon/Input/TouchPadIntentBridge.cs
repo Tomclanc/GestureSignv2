@@ -132,7 +132,7 @@ internal sealed class TouchPadIntentBridge : IDisposable
         // A live host holds this lock. Launch only when the previous process has exited.
         try { using var lease = new FileStream(Path.Combine(_dataRoot, "host.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None); }
         catch (IOException) { return; }
-        var executable = Path.Combine(component, "Runtime", "GestureSign.IntentDlc.exe");
+        var executable = IntentComponentPackage.RuntimeExecutable(component);
         if (!File.Exists(executable)) return;
         var info = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = Path.GetDirectoryName(executable) };
         info.Environment["DOTNET_DISABLE_GUI_ERRORS"] = "1";

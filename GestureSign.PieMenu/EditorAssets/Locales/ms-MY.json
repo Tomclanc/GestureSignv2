@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-mel",
+      "file-browser": "Pelayar Fail",
+      "paint": "Cat",
+      "submenu": "Apl",
+      "terminal": "Terminal",
+      "web-browser": "Pelayar Web"
+    },
+    "audio": {
+      "mute": "Senyap",
+      "next-track": "Trek Seterusnya",
+      "play-pause": "Main / Jeda",
+      "previous-track": "Trek Sebelumnya",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Dokumen",
+      "downloads": "Muat turun",
+      "home": "Rumah",
+      "music": "Muzik",
+      "pictures": "Gambar",
+      "submenu": "Penanda buku",
+      "videos": "Video"
+    },
+    "clipboard": {
+      "copy": "Salin",
+      "cut": "Potong",
+      "paste": "Tampal",
+      "submenu": "Papan klip"
+    },
+    "name": "Contoh Menu",
+    "next-workspace": "Ruang Kerja Seterusnya",
+    "previous-workspace": "Ruang Kerja Sebelumnya",
+    "web-links": {
+      "kando-on-discord": "Kando di Discord",
+      "kando-on-github": "Kando pada GitHub",
+      "kando-on-kofi": "Kando di Ko-fi",
+      "kando-on-youtube": "Kando di YouTube",
+      "submenu": "Pautan Web"
+    },
+    "windows": {
+      "close-window": "Tutup Tingkap",
+      "submenu": "Windows",
+      "tile-left": "Jubin Kiri",
+      "tile-right": "Jubin Kanan",
+      "toggle-maximize": "Togol Maksimumkan"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Tutup Menu"
+    },
+    "close-submenu": {
+      "name": "Tutup Submenu"
+    },
+    "delay": {
+      "name": "Kelewatan"
+    },
+    "execute-command": {
+      "name": "Laksanakan Perintah"
+    },
+    "execute-macro": {
+      "name": "Laksanakan Makro"
+    },
+    "focus-window": {
+      "name": "Tetingkap Fokus"
+    },
+    "inhibit-shortcuts": {
+      "name": "Menghalang Pintasan"
+    },
+    "open-file": {
+      "name": "Buka Fail"
+    },
+    "open-menu": {
+      "name": "Buka Menu"
+    },
+    "open-settings": {
+      "name": "Buka Tetapan"
+    },
+    "open-uri": {
+      "name": "Buka URI"
+    },
+    "send-tcp-message": {
+      "name": "Hantar Mesej TCP"
+    },
+    "send-websocket-message": {
+      "name": "Hantar Mesej WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Tetapkan Papan Klip"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Kekunci Pintas",
+      "name": "Simulasikan Hotkey",
+      "recording-placeholder": "Taip kekunci pintas…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "Tindakan",
+    "action-value": "Pintasan, laluan, URL, teks atau JSON",
+    "choose-icon": "Pilih ikon",
+    "condition-invalid": "Masukkan tetingkap atau syarat apl yang sah, contohnya /notepad/i.",
+    "configuration": "Konfigurasi Menu Pai",
+    "editor": "Editor Menu Pai",
+    "exported": "Dieksport ke {0}",
+    "fixed-angle": "Sudut tetap (0° = atas)",
+    "fixed-x": "X tetap (0–1 merentasi monitor)",
+    "fixed-y": "Y tetap (0–1 ke bawah monitor)",
+    "icon-invalid-image": "Pilih imej PNG, JPEG, GIF, WebP atau ICO sehingga 192 KB.",
+    "icon-library": "Perpustakaan ikon",
+    "icon-next": "Ikon seterusnya",
+    "icon-no-results": "Tiada ikon ditemui.",
+    "icon-pick-file": "Pilih imej atau apl",
+    "icon-previous": "Ikon sebelumnya",
+    "icon-use-image": "Gunakan imej",
+    "imported": "{0} menu yang diimport. Semak arahan yang diimport sebelum menggunakannya, kemudian simpan.",
+    "item-icon": "ikon item",
+    "item-order": "Pesanan barang",
+    "label": "Label",
+    "move-down": "Bergerak ke bawah",
+    "move-up": "Bergerak ke atas",
+    "name": "Nama menu",
+    "new-menu": "Menu baru",
+    "off": "Mati",
+    "on": "Hidup",
+    "palette": "Palet warna",
+    "preview": "Menu pratonton",
+    "remove": "Alih keluar",
+    "save": "Simpan menu",
+    "saved": "Konfigurasi menu disimpan.",
+    "shortcut-clear": "Kosongkan jalan pintas",
+    "shortcut-cleared": "Pintasan dikosongkan.",
+    "shortcut-config-changed": "Konfigurasi menu berubah pada cakera. Simpan menu semasa untuk menggunakan pintasan ini.",
+    "shortcut-in-use": "Windows melaporkan bahawa pintasan ini sudah digunakan.",
+    "shortcut-invalid": "Masukkan satu kekunci, serta mana-mana pengubah suai yang dibenarkan untuk pintasan ini.",
+    "shortcut-record": "Rakam jalan pintas",
+    "shortcut-save-new-menu": "Simpan menu baharu ini untuk mengaktifkan pintasannya.",
+    "shortcut-saved": "Pintasan disimpan: {0}. Gunakannya untuk membuka menu apabila Tindakan Pantas didayakan.",
+    "shortcut-stop": "Hentikan rakaman",
+    "shortcut-unavailable": "Windows tidak dapat mendaftarkan pintasan ini."
+  },
+  "settings": {
+    "add-menu-items": "Tambah Item Menu",
+    "all-menus": "Semua Menu",
+    "anchored-mode": "Mod Berlabuh",
+    "app-condition": "Had kepada Apl Tertentu",
+    "area-condition-bottom-placeholder": "Bawah",
+    "area-condition-left-placeholder": "Kiri",
+    "area-condition-right-placeholder": "Kanan",
+    "area-condition-top-placeholder": "Atas",
+    "cancel": "Batal",
+    "create-menu-button": "Tambah Menu",
+    "delete-menu": "Padam menu",
+    "delete-menu-item": "Padamkan item menu",
+    "edit-submenu": "Edit submenu",
+    "export-menu": "Menu eksport",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Dayakan Mod Penandaan",
+      "close-menu": "Tutup menu",
+      "do-nothing": "tak buat apa-apa",
+      "enable-marking-mode-info": "Dengan Mod Penandaan didayakan, anda boleh memilih item dengan menyeret tetikus ke atasnya.",
+      "enable-turbo-mode": "Dayakan Mod Turbo",
+      "enable-turbo-mode-info": "Dengan Mod Turbo didayakan, anda boleh melakukan gerak isyarat selagi anda menahan kekunci pengubah suai seperti Shift atau Ctrl.",
+      "interaction-modes": "Mod Interaksi",
+      "middle-mouse-button-behavior": "Butang tetikus tengah",
+      "middle-mouse-button-behavior-info": "Ini menentukan apa yang berlaku apabila butang tengah tetikus ditekan semasa menu ditunjukkan.",
+      "move-pointer-to-menu-center": "Alihkan penunjuk ke pusat menu",
+      "move-pointer-to-menu-center-info": "Jika ditanda, penunjuk tetikus akan dialihkan ke tengah menu atau submenu apabila perlu. Ini mungkin berlaku jika menu dibuka terlalu dekat dengan tepi skrin atau jika menu dibuka dalam Mod Berpusat.",
+      "require-click-for-hover-mode": "Memerlukan klik untuk pilihan Mod Hover",
+      "require-click-for-hover-mode-info": "Jika dinyahtandai, item akan dipilih serta-merta apabila tetikus dialihkan ke atasnya untuk menu menggunakan Mod Hover.",
+      "right-mouse-button-behavior": "Butang tetikus kanan",
+      "right-mouse-button-behavior-info": "Ini menentukan apa yang berlaku apabila butang kanan tetikus ditekan semasa menu ditunjukkan.",
+      "select-item": "Pilih item",
+      "select-parent": "Navigasi ke atas satu tahap",
+      "trigger-center-click-on-key-release": "Tutup menu pada keluaran pintasan di atas tengah",
+      "trigger-center-click-on-key-release-info": "Ini akan mencetuskan aliran kerja klik tengah apabila kunci dilepaskan sambil melayang di bahagian tengah menu."
+    },
+    "hover-mode": "Mod Tuding",
+    "icon-picker-dialog": {
+      "search-placeholder": "Cari ikon…"
+    },
+    "import-menu": "Import menu",
+    "menu-behavior": "Gelagat Menu",
+    "menu-conditions": "Syarat Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Warna lalai",
+      "enable-menu-animations": "Menu Animasi",
+      "title": "Tema Menu"
+    },
+    "no-matching-menus": "Tiada menu ditemui.",
+    "no-menus": "Anda tiada menu.",
+    "not-bound": "Tidak Terikat",
+    "quick-select-key-label": "Kekunci pilih cepat",
+    "quick-select-key-recording": "Pilih kekunci…",
+    "shortcut-info": "Pintasan ini membuka menu. Ia mesti mengandungi satu kunci biasa dan sebarang bilangan pengubah seperti Ctrl, Alt atau Shift. Semasa merakam, anda tidak perlu menekan semua kekunci serentak, anda juga boleh menekannya satu demi satu. Ini berguna jika pintasan sudah terikat ke menu lain!",
+    "shortcut-label": "Jalan pintas",
+    "shortcut-recording": "Tekan pintasan…",
+    "window-condition": "Had kepada Tajuk Tetingkap Tertentu",
+    "workflow-editor": {
+      "add-action": "Tambah Tindakan",
+      "select-workflow-name": "Pilih Aliran Kerja"
+    },
+    "anchored-mode-info": "Buka submenu pada kedudukan yang sama dengan menu induk. Menyemak ini, akan melumpuhkan Mod Penandaan dan Mod Turbo.",
+    "fixed-position-mode": "Mod Kedudukan Tetap",
+    "fixed-position-mode-info": "Buka menu pada kedudukan tetap pada skrin, bukannya pada kursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Tetapkan kedudukan ke kiri bawah",
+      "bottom-right-preset-tooltip": "Tetapkan kedudukan ke kanan bawah",
+      "centered-preset-tooltip": "Tetapkan kedudukan ke tengah",
+      "confirm": "Gunakan kedudukan ini",
+      "top-left-preset-tooltip": "Tetapkan kedudukan ke kiri atas",
+      "top-right-preset-tooltip": "Tetapkan kedudukan ke kanan atas"
+    },
+    "fixed-position-tooltip": "Pilih kedudukan tetap",
+    "hover-mode-info": "Untuk pengguna berkuasa sahaja! Pilih item dengan melayang di atasnya."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Lalai",
+      "clean-circle": "Bulatan Bersih",
+      "neon-lights": "Lampu Neon",
+      "purity": "Kesucian",
+      "rainbow-labels": "Label Pelangi"
+    },
+    "presets": {
+      "Blue Glass": "Kaca Biru",
+      "Dark Night": "Malam Gelap",
+      "Cotton Candy": "Gula-gula Kapas",
+      "Dark and Cozy": "Gelap dan Nyaman",
+      "Blue Glow": "Cahaya Biru",
+      "Green Glow": "Cahaya Hijau",
+      "Electric": "Elektrik",
+      "Orange": "Jingga",
+      "Pink": "Merah jambu",
+      "Bright Prism": "Prisma Terang",
+      "Kando Default": "Warna lalai"
+    }
+  }
+}

@@ -1,0 +1,692 @@
+{
+    "backends": {
+        "gnome": {
+            "error": "Não foi possível se conectar a extensão do GNOME Shell \"Kando Integration\". Você pode obtê-la a partir daqui: {{link}}"
+        },
+        "hyprland": {
+            "shortcut-info": "Kando não pode atribuir atalhos globais diretamente no Hyprland. Ao invés disso, especifique um ID de atalho aqui e atribua um atalho em seu hyprland.conf com algo como \"bind = CTRL, Space, global, kando:example-menu\". Substitua example-menu pelo ID escolhido aqui."
+        },
+        "kde-wayland": {
+            "shortcut-info": "Kando não pode atribuir atalhos globais diretamente no KDE/Wayland. Ao invés disso, especifique um ID de atalho aqui e procure por ele na seção de atalhos globais do KWin nas configurações de sistema do seu KDE. Lá você pode atribuir um atalho que irá abrir esse menu."
+        },
+        "niri": {
+            "shortcut-info": "O Niri ainda não suporta atalhos globais. Mas você pode abrir este menu usando 'kando --menu \"Nome do Menu\"' na linha de comando ou na configuração do Niri."
+        },
+        "kde": {
+            "error": "Não foi possível conectar ao plugin KWin Kando. Você pode obtê-lo aqui: {{link}}"
+        }
+    },
+    "example-menu": {
+        "apps": {
+            "apple-music": "Música",
+            "email": "E-Mail",
+            "file-browser": "Navegador de Arquivos",
+            "finder": "Finder",
+            "gimp": "GIMP",
+            "paint": "Paint",
+            "safari": "Safari",
+            "submenu": "Aplicativos",
+            "terminal": "Terminal",
+            "web-browser": "Navegador de Web"
+        },
+        "audio": {
+            "mute": "Mutar",
+            "next-track": "Próxima Faixa",
+            "play-pause": "Tocar / Pausar",
+            "previous-track": "Trilha Anterior",
+            "submenu": "Áudio"
+        },
+        "bookmarks": {
+            "desktop": "Área de trabalho",
+            "documents": "Documentos",
+            "downloads": "Downloads",
+            "home": "Home",
+            "music": "Música",
+            "pictures": "Imagens",
+            "submenu": "Favoritos",
+            "videos": "Vídeos"
+        },
+        "clipboard": {
+            "copy": "Copiar",
+            "cut": "Recortar",
+            "paste": "Colar",
+            "submenu": "Área de Transferência"
+        },
+        "name": "Exemplo de Menu",
+        "next-workspace": "Próximo Espaço de Trabalho",
+        "previous-workspace": "Espaço de Trabalho Anterior",
+        "web-links": {
+            "google": "Google",
+            "kando-on-discord": "Kando em Discord",
+            "kando-on-github": "Kando em GitHub",
+            "kando-on-kofi": "Kando em Ko-fi",
+            "kando-on-youtube": "Kando no YouTube",
+            "submenu": "Links da Web"
+        },
+        "windows": {
+            "close-window": "Fechar Janela",
+            "mission-control": "Mission Control",
+            "submenu": "Janelas",
+            "tile-left": "Ajustar para Esquerda",
+            "tile-right": "Ajustar para Direita",
+            "toggle-maximize": "Alternar Maximizado"
+        }
+    },
+    "main": {
+        "failed-to-start-header": "Kando não conseguiu se iniciar",
+        "inhibit-shortcuts": "Desabilitar os atalhos temporariamente",
+        "new-version-notification-header": "Uma nova versão do Kando está disponível!",
+        "quit": "Sair",
+        "show-settings": "Mostrar configurações",
+        "un-inhibit-shortcuts": "Reativar atalhos",
+        "invalid-link-message": "O link não pôde ser interpretado corretamente.",
+        "new-version-notification-body": "Obtenha de {{link}}.",
+        "invalid-link-header": "Link inválido",
+        "no-backend-found": "Nenhum backend adequado foi encontrado."
+    },
+    "menu-items": {
+        "command": {
+            "command": "Comando",
+            "command-info": "Isso será executado.",
+            "tip-1": "Você pode usar o item do tipo Comando para iniciar aplicativos ou scripts.",
+            "tip-2": "Se o caminho para um executável contem espaços, você deve \"colocar entre aspas\".",
+            "tip-3": "Use {{app_name}} para inserir o nome do aplicativo que estava focado quando abriu o menu.",
+            "tip-4": "Use {{window_name}} para inserir o nome da janela que estava focada quando abriu o menu.",
+            "tip-5": "Use {{pointer_x}} e {{pointer_y}} para inserir a posição do ponteiro onde o menu foi aberto.",
+            "tip-6": "Clique [aqui]({{link}}) para descobrir como encontrar os comandos para iniciar seus aplicativos."
+        },
+        "file": {
+            "file": "Caminho do Arquivo",
+            "tip-1": "Você pode usar esse tipo de item para abrir arquivos ou pastas."
+        },
+        "hotkey": {
+            "tip-1": "Ao gravar uma tecla de atalho, você não precisa pressionar todas as teclas ao mesmo tempo. Você pode pressionar uma após a outra.",
+            "tip-2": "Se você não consegue gravar uma tecla porque ela é usada pelo sistema, tente digitar o nome da tecla diretamente.",
+            "tip-3": "Clique [nesse link]({{link}}) para ver todos os nomes de chave válidos."
+        },
+        "macro": {
+            "tip-1": "Por padrão, Kando adiciona 10ms de delay antes de cada evento de tecla. Você pode mudar isso com a propriedade \"delay\".",
+            "tip-2": "Você pode editar esse macro manualmente. Isso é útil se você quer ajustar o tempo das teclas."
+        },
+        "settings": {
+            "tip-1": "Está ação abrirá a janela de configurações Kando."
+        },
+        "submenu": {
+            "description": "Contém outros itens de menu.",
+            "detailed-description_one": "",
+            "detailed-description_many": "Contém {{count}} itens de menu.",
+            "detailed-description_other": "",
+            "name": "Submenu",
+            "tip-1": "Submenus podem ser usados para agrupar itens.",
+            "tip-2": "Você também pode aninhar submenus dentro de submenus.",
+            "tip-3": "Submenus podem ser usados para criar estruturas de menu complexas.",
+            "tip-4": "Você deve evitar usar mais que doze itens em um submenu. Oito é um bom número.",
+            "tip-5": "Você pode usar os pequenos ícones de cadeado na pré-visualização para fixar a posição de um item no menu.",
+            "tip-6": "Você pode reordenar os items arrastando-os na pré-visualização.",
+            "tip-7": "Você pode excluir um menu ou item do menu pelo ícone de lixeira abaixo."
+        },
+        "text": {
+            "placeholder": "Insira qualquer texto…",
+            "tip-1": "Esta ação usa sua área de transferência para colar o texto. Depois de usar a ação, a área de transferência conterá o texto."
+        },
+        "uri": {
+            "tip-1": "Você pode usar o item URI para abrir um site usando o protocolo http://.",
+            "tip-2": "Você pode usar o item URI para abrir um arquivo ou pasta usando o protocolo file://.",
+            "tip-3": "Você pode usar o item URI para abrir um link do tipo mailto: .",
+            "tip-4": "Use {{app_name}} para inserir o nome do aplicativo que estava focado quando abriu o menu.",
+            "tip-5": "Use {{window_name}} para inserir o nome da janela que estava focada quando abriu o menu.",
+            "tip-6": "Use {{pointer_x}} e {{pointer_y}} para inserir a posição do ponteiro onde o menu foi aberto.",
+            "uri": "URI"
+        },
+        "common": {
+            "delayed-option": "Esperar pela animação de fade-out",
+            "delayed-option-info": "Útil se o alvo da ação é uma janela que precisa estar focada."
+        }
+    },
+    "settings": {
+        "about-dialog": {
+            "chrome-version": "Versão Chrome",
+            "electron-version": "Versão Electron",
+            "kando-backend": "Back-end do Kando",
+            "kando-version": "Versão do Kando",
+            "message": "Eu estou criando o Kando por pura paixão. Se você gostar de usá-lo tanto quanto eu adoro criá-lo, você pode [me pagar um café]({{link}})!\n\n💖 Simon",
+            "title": "Sobre o Kando",
+            "check-latest-release": "Ver a versão mais recente",
+            "read-release-notes": "Ler notas da versão"
+        },
+        "anchored-mode": "Modo Ancorado",
+        "app-condition": "Limitar a Aplicativos Específicos",
+        "area-condition": "Limite à Área Específica da Tela",
+        "area-condition-bottom-placeholder": "Baixo",
+        "area-condition-left-placeholder": "Esquerda",
+        "area-condition-right-placeholder": "Direita",
+        "area-condition-top-placeholder": "Topo",
+        "cancel": "Cancelar",
+        "centered-mode": "Modo Centralizado",
+        "centered-mode-info": "Abra o menu no centro da tela em vez de onde o cursor está.",
+        "general-settings-dialog": {
+            "reload-menu-theme": "Recarregar Tema Atual do Menu",
+            "reload-menu-theme-tooltip": "As alterações CSS serão aplicadas imediatamente. Para alterações feitas no arquivo theme.json, você precisa reabrir o menu.",
+            "reload-sound-theme": "Recarregar tema de som atual",
+            "reload-note": "Quando você recarregar o tema do menu, mudanças no CSS serão aplicadas mesmo se um menu está sendo exibido. Para mudanças feitas no arquivo theme.json, você precisa reabrir o menu.",
+            "dev-tools-note": "Kando utiliza duas janelas: Uma para o menu e outra para as configurações. Você pode abrir as ferramentas de desenvolvedor para inspecionar ambas as janelas separadamente.",
+            "settings-button-position": "Posição do botão de configurações",
+            "invisible-settings-button-info": "Você ainda pode usar o botão, ele irá aparecer quando você mover o mouse sobre ele.",
+            "settings-button-position-info": "Escolhe o canto da tela onde o botão de configurações será exibido.",
+            "bottom-left": "Inferior esquerdo",
+            "bottom-right": "Inferior direito",
+            "hidden": "Oculto",
+            "transparent-system": "Transparente sistema",
+            "black": "Preto",
+            "color": "Cor",
+            "white": "Branco",
+            "lazy-initialization-info": "Se ativado, a janela de menu irá ser criada quando o menu for aberto pela primeira vez. Isso fará com que a primeira abertura do menu seja um pouco lenta, mas pode evitar problemas quando o Kando é iniciado muito rápido durante o login. Padrão é desabilitado.",
+            "enable-turbo-mode": "Ativar Modo Turbo",
+            "move-pointer-to-menu-center": "Move o ponteiro para o centro do menu",
+            "enable-gamepad-support": "Ativar suporte à controles",
+            "enable-gamepad-support-info": "Se marcado, você poderá utilizar um controle conectado para controlar o menu.",
+            "learn-how-to-add-sound-themes": "Veja como adicionar novos temas de sons ao Kando [aqui]({{link}})!",
+            "sound-theme": "Tema de som",
+            "volume-info": "O volume geral do tema de som. Padrão é 0,5.",
+            "advanced-menu-options": "Opções de menu avançadas",
+            "advanced-menu-options-note": "Normalmente, você pode deixar essas configurações nos valores padrões.",
+            "center-click-zone-radius-info": "O tamanho da área no meio do menu que irá fechar ou navegar um nível acima quando clicado. Padrão é 50px.",
+            "minimum-gesture-length": "Comprimento mínimo do gesto",
+            "movement-threshold-info": "Pequenos movimentos do mouse não serão considerados no Modo de Marcação ou Modo Turbo. Padrão é 15px.",
+            "minimum-gesture-angle": "Ângulo mínimo do gesto",
+            "minimum-gesture-angle-info": "Pequenos desvios em movimentos retos não ativarão seleções. Padrão é 20°.",
+            "gesture-jitter-threshold": "Limite de oscilação do gesto",
+            "fixed-stroke-length": "Comprimento de traço fixo",
+            "gesture-pause-timeout-info": "Pare o gesto por esse tempo para ativar a seleção. Padrão é 100ms.",
+            "menu-window-dev-tools": "Inspecionar menu",
+            "settings-window-dev-tools": "Inspecionar configurações",
+            "message": "Todas as configurações do Kando são armazenadas em um arquivo JSON que você pode editar, compartilhar, ou fazer backup. Clique [aqui]({{link}}) para abrir o local do arquivo config.json.",
+            "sakura-system": "Sakura sistema",
+            "sakura-dark": "Sakura escuro",
+            "enable-marking-mode-info": "Com o Modo de Marcação ativado, você pode selecionar os itens arrastando o mouse sobre eles.",
+            "gesture-pause-timeout": "Tempo de pausa dos gestos",
+            "fixed-stroke-length-info": "Normalmente, itens serão selecionados quando você parar o movimento ou fazer uma curva. Se você configurar este valor como maior que 0, o comportamento deste mudará: Agora itens serão selecionados apenas de você arrastar longe assim do centro. Padrão é 0px.",
+            "title": "Configurações Gerais",
+            "none": "Nenhum",
+            "check-for-new-versions": "Verificar novas versões",
+            "app-behavior": "Comportamento do aplicativo",
+            "check-for-new-versions-info": "Se ativado, o Kando mostrará uma notificação quando uma nova versão estiver disponível.",
+            "invisible-settings-button": "Botão de configurações invisível",
+            "top-left": "Superior esquerdo",
+            "top-right": "Superior direito",
+            "settings-window-color-scheme-info": "Se você escolher 'sistema', a janela de configurações utilizará o mesmo esquema de cores do seu sistema operacional.",
+            "settings-window-color-scheme": "Esquema de cores da janela de configurações",
+            "system": "Sistema",
+            "light": "Claro",
+            "dark": "Escuro",
+            "settings-window-flavor": "Estilo da janela de configurações",
+            "settings-window-flavor-info": "Se você escolher um estilo transparente, você terá que reiniciar a janela de configurações para que o efeito seja aplicado.",
+            "transparent-light": "Transparente claro",
+            "transparent-dark": "Transparente escuro",
+            "sakura-light": "Sakura claro",
+            "tray-icon-flavor": "Estilo do ícone de atalho",
+            "tray-icon-flavor-info": "Você também pode escolher esconder o ícone de atalho completamente.",
+            "menu-behavior": "Comportamento do menu",
+            "enable-marking-mode": "Ativar Modo de Marcação",
+            "enable-turbo-mode-info": "Com o Modo Turbo ativado, você pode fazer gestos segurando uma tecla modificadora como Shift ou Ctrl.",
+            "require-click-for-hover-mode": "Exigir clique para seleções no Modo de Sobreposição",
+            "move-pointer-to-menu-center-info": "Se marcado, o ponteiro do mouse se moverá para o centro do menu ou submenu quando necessário. Isso pode ser o caso se um menu for aberto muito perto da borda da tela ou se um menu for aberto no Modo Centralizado.",
+            "require-click-for-hover-mode-info": "Se não marcado, itens vão ser selecionados imediatamente quando o mouse se mover sobre eles em menus em Modo de Sobreposição.",
+            "right-mouse-button-selects-parent": "Botão direito do mouse seleciona o item pai",
+            "right-mouse-button-selects-parent-info": "Se não marcado, o botão direito do mouse irá fechar o menu.",
+            "menu-sounds": "Sons do menu",
+            "lazy-initialization": "Inicialização lenta",
+            "sound-theme-info": "Um tema de som é uma coleção de sons que tocam quando você interage com o menu.",
+            "volume": "Volume",
+            "center-click-zone-radius": "Raio da zona do clique central",
+            "minimum-submenu-distance": "Distância mínima do submenu",
+            "minimum-submenu-distance-info": "Se um submenu é aberto próximo ao menu pai, o menu pai irá ser movido para longe a essa distância. Padrão é 150px.",
+            "movement-threshold": "Limite de movimento",
+            "minimum-gesture-length-info": "Movimentos retos devem ser pelo menos longos assim para ativar uma seleção. Padrão é 150px.",
+            "gesture-jitter-threshold-info": "Pequenos movimentos não serão considerados na detecção de gestos. Padrão é 10px.",
+            "developer-options": "Opções de desenvolvedor",
+            "auto-language": "Usar linguagem do sistema",
+            "app-settings": "Configurações do aplicativo",
+            "localization-label": "Linguagem",
+            "localization-info": "Reinicie o Kando para aplicar o novo idioma.",
+            "hardware-acceleration": "Habilitar aceleração de hardware",
+            "hardware-acceleration-info": "Esta opção pode melhorar o desempenho do aplicativo, mas também pode causar alguns artefatos de renderização. Você precisa reiniciar o Kando para aplicar esta configuração.",
+            "keep-input-focus": "Mantenha o aplicativo ativo focado",
+            "keep-input-focus-info": "Se ativado, o menu não receberá o foco da entrada do teclado ao ser aberto. Isso desativa o Modo Turbo, mas pode ser útil se você precisar que outros aplicativos permaneçam em foco enquanto o menu estiver aberto.",
+            "press-again-behavior": "Comportamento de pressionar atalho novamente",
+            "press-again-behavior-info": "Isso determina o que acontece quando o atalho é pressionado novamente enquanto um menu é exibido. Se vários menus estiverem atribuídos ao mesmo atalho , você pode usar isso para percorrer todos os menus correspondentes. Certifique-se de manter pressionada uma tecla modificadora apenas se quiser usar o Modo Turbo junto com uma opção diferente de \"Não fazer nada\".",
+            "do-nothing": "Não faça nada",
+            "cycle-from-first": "Mostrar próximo menu (começar do início)",
+            "cycle-from-recent": "Mostrar próximo menu (continuar do último)",
+            "close-menu": "Fechar menu",
+            "enable-achievements-info": "Se ativado, o Kando acompanhará seu progresso em direção às conquistas.",
+            "enable-achievements": "Acompanhar conquistas",
+            "enable-achievement-notifications-info": "Se ativado, as notificações são exibidas quando as conquistas são desbloqueadas.",
+            "enable-achievement-notifications": "Mostrar notificações de conquista",
+            "windows-ink-workaround-info": "Isso permite uma solução alternativa para o problema em que a obtenção da posição da caneta não é possível com o Windows Ink ativado. Isso introduz um atraso de 100ms antes de abrir o menu, portanto, se você não usa uma caneta, pode desativá-lo para fazer o menu abrir mais rápido.",
+            "windows-ink-workaround": "Solução alternativa para Windows Ink",
+            "keep-input-focus-warning": "Isso desativa alguns recursos, como o Modo Turbo e a capacidade de usar o teclado para selecionar itens. Ative isto apenas se souber o que está fazendo!",
+            "enable-turbo-mode-warning": "Desativado devido à opção 'Manter o aplicativo ativo em foco' estar ativada.",
+            "return-pointer-after-selection-info": "Após fazer uma seleção, o ponteiro do mouse voltará para onde estava quando o menu foi aberto.",
+            "return-pointer-after-selection": "Retornar ponteiro após a seleção",
+            "max-selection-radius-info": "Se definido para um valor maior que 0, cliques fora deste raio fecharão o menu. O padrão é 0, o que significa que não há raio máximo de seleção.",
+            "max-selection-radius": "Raio máximo de seleção",
+            "wlroots-specific-options": "Opções para backends baseados em wlroots",
+            "options-that-will-only-affect-the-wlroots-backend": "Estas opções afetam apenas os backends baseados em wlroots e não têm efeito sobre outros backends.",
+            "wlroots-pointer-get-timeout-mouse-info": "O tempo máximo em milissegundos para aguardar a posição do ponteiro do mouse de backends baseados em wlroots. Se o tempo limite for atingido, uma posição alternativa será usada. O padrão é 500ms.",
+            "wlroots-pointer-get-timeout-mouse": "Tempo limite da posição do ponteiro",
+            "wlroots-pointer-get-timeout-touch-info": "O tempo máximo em milissegundos para aguardar a posição do ponteiro de toque de backends baseados em wlroots. Se o tempo limite for atingido, uma posição de fallback será usada. O padrão é 1500ms.",
+            "wlroots-pointer-get-timeout-touch": "Tempo limite de obtenção da posição de toque",
+            "wlroots-pointer-get-timeout-default-behavior-info": "Determina onde deve-se presumir que o ponteiro está se nenhuma posição puder ser obtida a partir dos backends baseados em wlroots dentro do tempo limite configurado.",
+            "wlroots-pointer-get-timeout-default-behavior": "Posição de fallback do ponteiro",
+            "center": "Centro",
+            "backup-and-restore": "Backup e Restauração",
+            "backup-menus": "Fazer backup do menus.json…",
+            "backup-settings": "Fazer backup do config.json…",
+            "restore-menus": "Restaurar o menus.json…",
+            "restore-settings": "Restaurar o config.json…",
+            "interaction-modes": "Modos de Interação",
+            "input-options": "Opções de Entrada",
+            "learn-interaction-mode": "Saiba mais sobre os modos de interação do Kando [aqui]({{link}})!",
+            "backup-menus-note": "Isso fará o backup ou a restauração de todos os seus menus de uma só vez. Isso inclui todos os seus atalhos configurados, layouts de menu e suas coleções de menus.",
+            "backup-settings-note": "Isso fará o backup ou a restauração das configurações do Kando, que incluem todas as suas configurações gerais e a configuração do tema do menu.",
+            "settings-dialog-and-tray-icon": "Caixa de diálogo de configurações e ícone da bandeja",
+            "achievements": "Conquistas",
+            "trigger-center-click-on-key-release-info": "Isso acionará o fluxo de trabalho de clique central quando uma tecla for solta ao passar o mouse sobre o centro de um menu.",
+            "trigger-center-click-on-key-release": "Acionar o fluxo de trabalho de clique com o botão central ao soltar a tecla",
+            "trigger-center-click-on-key-release-warning": "Esta opção fechará o menu instantaneamente quando você soltar o atalho. Ative isto apenas se souber o que está fazendo!",
+            "previously-reported": "Anteriormente relatado"
+        },
+        "hover-mode-info": "Para usuários avançados apenas! Selecione itens flutuando sobre eles.",
+        "icon-picker-dialog": {
+            "base64-example": "Exemplo em Base64:",
+            "search-placeholder": "Pesquisar ícones…",
+            "url-example": "URL de exemplo:",
+            "file-example": "arquivo: URI de exemplo:",
+            "hint": "Veja [aqui]({{link}}) como adicionar ou criar seus próprios temas de ícones.",
+            "base64-hint": "Ícones codificados em base64 são uma forma fácil de incluir qualquer tipo de ícone em seus menus. Você pode usar um serviço como [www.base64-image.de]({{link}}) para converter qualquer imagem em um texto codificado em base64. Funciona até para gifs animados!",
+            "reload-button-tooltip": "Recarregar todos os temas de ícones"
+        },
+        "introduction-dialog": {
+            "title": "Bem-vindo ao Kando!",
+            "slide5-text": "Para **navegar de volta**, você pode clicar na borda do item pai ou no centro do menu.",
+            "slide6-text": "Desse jeito, você pode explorar a estrutura do menu rapidamente.",
+            "slide7-text": "Clique e arraste sobre um item para entrar no Modo de Marcação. **Se você parar o movimento do ponteiro ou fizer uma curva, o submenu atual irá abrir!** Lembre o caminho para um item e desenhe ele com um movimentos expressivos de zig-zag.",
+            "slide8-text": "**O menu reage aos movimentos do seu mouse!** Um submenu abre quando você quiser que ele abra. Com um pouco de prática, você será capaz de selecionar itens sem sequer olhar para o menu.",
+            "slide10-text": "**Não espere as animações acabarem!** Apenas faça seu zigzag pelo menu. Este é o método mais rápido de selecionar itens!",
+            "chapter1": "Começando",
+            "chapter2": "Modo de Marcação",
+            "chapter3": "Modo Turbo",
+            "chapter4": "Próximos passos",
+            "chapter5": "Obtendo ajuda",
+            "slide12-text": "Kando é altamente customizável. Você pode abrir aplicações, arquivos, executar macros de teclado, e muitas outras coisas. Você pode [mudar o estilo do menu]({{link1}}), [adicionar temas de ícones]({{link2}}) e até [utilizar sons]({{link3}}) nos seus menus!",
+            "slide13-text": "Se você precisar de ajuda em algum momento, fique à vontade para entrar no nosso [Servidor do Discord]({{link1}}) ou veja a [documentação]({{link2}})!",
+            "show-again": "Mostrar esta janela novamente",
+            "slide1-text": "Passe por esses slides para ver o que o Kando pode oferecer a você! Você pode utilizar as marcações de capítulo na esquerda para pular para uma parte específica da introdução.",
+            "slide2-text-standard": "Se você iniciou o Kando pela primeira vez, você pode abrir o menu de exemplo utilizando Ctrl+Espaço. Feche com a tecla Esc ou com o botão direito do seu mouse em qualquer lugar da tela.",
+            "slide1-title": "Kando oferece uma forma única e eficiente de interagir com o seu computador.",
+            "slide2-title": "Abra o menu!",
+            "slide3-hint1": "Você também pode clicar aqui para fechar o menu.",
+            "slide3-hint2": "Clique em qualquer lugar aqui para selecionar o item.",
+            "slide3-text": "No Kando, **toda sua tela é um alvo clicável**! Você não precisa apontar para os ícones, você pode clicar em qualquer lugar dentro da borda de um item. Isso torna a seleção de itens muito mais eficiente.",
+            "slide4-text": "Um submenu irá **sempre** abrir no ponteiro do seu mouse. Você **não precisa esperar que a animação acabe**. Confie na sua memória muscular e continue com sua seleção!",
+            "slide5-hint": "Clique em qualquer lugar aqui para ir um nível acima.",
+            "slide11-text": "**Não tenha medo de seleções acidentais!** Ações apenas são executadas assim que você soltar o botão do mouse no Modo de Marcação ou com uma tecla do teclado no Modo Turbo. Use isto para explorar o menu!",
+            "slide2-text-no-shortcuts": "Se você iniciou o Kando pela primeira vez, você [talvez precise realizar alguns passos extras no Linux para garantir o funcionamento das teclas globalmente]({{link}}). Uma vez que esteja funcionando, você pode fechar o menu com a tecla Esc ou com o botão direito do seu mouse.",
+            "slide9-text": "Se você **manter uma tecla pressionada** (como _Ctrl_,_Shift_, ou _Alt_) após abrir o menu, você poderá realizar seleções apenas movendo o ponteiro. Nenhum clique ou arrastar é necessário.",
+            "slide7-title": "Se torne rápido: Modo de Marcação",
+            "slide9-title": "Seja incrivelmente rápido: Modo Turbo",
+            "slide12-title": "Tem mais!"
+        },
+        "menu-behavior": "Comportamento de menu",
+        "menu-conditions": "Condições do menu",
+        "menu-conditions-info": "Você pode atribuir vários menus ao mesmo atalho de teclado e, em seguida, escolher em que condições cada menu deve ser mostrado.",
+        "menu-themes-dialog": {
+            "author": "por {{author}}",
+            "light-dark-mode-info": "Se ativado, você pode escolher um tema e cor diferente dependendo se o seu sistema estiver no modo de cor clara ou escura.",
+            "reset-color-picker": "Resetar todas as cores aos seus padrões",
+            "title": "Temas do Menu",
+            "light": "Modo Claro",
+            "accent-colors-info": "Cada tema pode ter diferentes cores de destaque.",
+            "light-dark-mode": "Ativar modo escuro/claro",
+            "accent-colors": "Cores de destaque",
+            "dark": "Modo Escuro",
+            "fade-out-time-info": "O tempo que leva para que o menu desapareça. Padrão é 200ms.",
+            "menu-scale": "Escala do menu",
+            "open-theme-directory": "Abrir pasta de temas",
+            "get-themes-online": "Obter temas online",
+            "create-your-own-themes": "Crie seus próprios temas",
+            "menu-scale-info": "Use isto para aumentar ou diminuir o tamanho dos seus menus. Padrão é 1.0.",
+            "fade-in-time-info": "O tempo que leva para que o menu apareça. Padrão é 150ms.",
+            "fade-out-time": "Tempo de Fade-out",
+            "no-accent-colors": "Esse tema não suporta cores de destaque.",
+            "fade-in-time": "Tempo de Fade-in",
+            "save-preset-error-title": "Falha ao salvar a predefinição",
+            "save-preset-error-message": "Falha ao salvar a predefinição de cor. Verifique se o diretório tem permissão de escrita. Erro: {{error}}",
+            "default-colors": "Cores padrão",
+            "enable-menu-animations-info": "Se desativado, todas as transições e a maioria das animações do tema do menu são evitadas.",
+            "enable-menu-animations": "Animações de Menu",
+            "enable-pointer-reactive-effects-info": "Se desativado, alguns efeitos de zoom ou escala do tema do menu que se baseiam na posição atual do ponteiro são evitados.",
+            "enable-pointer-reactive-effects": "Efeitos reativos ao ponteiro",
+            "choose-preset": "Escolher predefinição…",
+            "reload-presets": "Recarregar predefinições",
+            "save-preset": "Salvar predefinição",
+            "open-presets-directory": "Abrir diretório de predefinições",
+            "selection-wedges-info": "Se ativado e suportado pelo tema selecionado, a área selecionável dos itens do menu será destacada.",
+            "selection-wedges": "Desenhar cunhas dos itens",
+            "preset-name-empty": "O nome da predefinição não pode estar vazio!",
+            "preset-name-invalid": "O nome predefinido só pode conter letras, números, hífens, sublinhados e espaços!",
+            "preset-name-exists": "Já existe uma predefinição com este nome.",
+            "preset-name-placeholder": "por exemplo, Minhas Cores Personalizadas"
+        },
+        "not-bound": "Não Vinculado",
+        "shortcut-id-label": "ID de Atalho de Teclado",
+        "shortcut-label": "Atalho de Teclado",
+        "shortcut-recording": "Pressione um atalho de teclado…",
+        "window-condition": "Limitar para Títulos de Janelas Especificas",
+        "search-menus-placeholder": "Procurar menus…",
+        "add-collection-tooltip": "Criar uma nova coleção de menus. Use essas coleções para grupar seus menus por marcadores!",
+        "window-condition-tooltip": "Selecionar uma janela",
+        "delete-menu-item": "Excluir item do menu",
+        "window-condition-info": "Exibir o menu apenas se o título da janela em foco contém o texto especificado. Suporta expressões regulares como /youtube|vimeo/i.",
+        "screen-area-picker": {
+            "title": "Escolher uma área da tela",
+            "valid": "Ótimo! Você selecionou uma área válida.",
+            "top-left": "Arraste isto até o canto superior esquerdo de sua área.",
+            "bottom-right-value": "Direita: {{x}}, Inferior: {{y}}",
+            "top-left-value": "Esquerdo: {{x}}, Superior: {{y}}",
+            "invalid": "Tenha certeza de que o canto superior esquerdo esteja acima e à esquerda do canto inferior direito.",
+            "bottom-right": "Arraste isto até o canto inferior direito de sua área.",
+            "confirm": "Usar esta área"
+        },
+        "no-menus": "Você não possui menus.",
+        "no-menus-note": "Se você deletou o último por acidente, você pode restaurá-lo usando o botão de desfazer.",
+        "no-matching-menus": "Nenhum menu encontrado.",
+        "app-condition-info": "Exibir o menu apenas se um aplicativo específico estiver em foco. Suporta expressões regulares como /firefox|chrome/i.",
+        "no-matching-menus-note": "Talvez tentando um termo de pesquisa diferente?",
+        "empty-collection": "Essa coleção está vazia.",
+        "empty-collection-note": "Edite os marcadores acima ou adicione um menu completamente novo à essa coleção com o botão abaixo.",
+        "invalid-dropdown-selection": "Selecione uma opção…",
+        "add-tags-placeholder": "Adicionar marcadores…",
+        "redo": "Refazer",
+        "anchored-mode-info": "Abrir submenus na mesma posição do item pai. Marcando isto, Modo de Marcação e Modo Turbo serão desativados.",
+        "area-condition-tooltip": "Selecionar uma área da tela",
+        "delete-menu": "Excluir menu",
+        "window-picker-dialog": {
+            "pick-window-title-title": "Selecionar um título de janela",
+            "confirm": "Usar este valor",
+            "instructions": "Clique no botão abaixo e foque na janela alvo dentro dos próximos cinco segundos.",
+            "restart-countdown": "Reiniciar contador",
+            "pick-app-name-title": "Selecionar um nome de aplicação",
+            "start-countdown": "Iniciar contador",
+            "countdown_one": "Selecionando em {{count}} segundo…",
+            "countdown_many": "Selecionando em {{count}} segundos…",
+            "countdown_other": "Selecionando em {{count}} segundos…",
+            "result": "Você selecionou \"{{name}}\"."
+        },
+        "all-menus": "Todos os menus",
+        "create-menu-button": "Adicionar menu",
+        "add-menu-items": "Adicionar itens do menu",
+        "undo": "Desfazer",
+        "hover-mode": "Modo Hover",
+        "area-condition-info": "Exibe o menu apenas se o ponteiro está em uma certa área da tela. A área é dada em pixels relativo ao canto superior esquerdo do seu monitor principal. Se você deixar esse campo vazio, a área não é atribuída nessa direção.",
+        "menu-behavior-info": "Antes de habilitar essas opções, nós recomendamos entender porque nós gostamos do comportamento padrão do Kando [aqui]({{link}})!",
+        "app-condition-placeholder": "Nome do aplicativo",
+        "app-condition-tooltip": "Selecionar um aplicativo",
+        "window-condition-placeholder": "Título da janela",
+        "shortcut-info": "Esse atalho abre o menu. Ele deve conter uma tecla normal e algum número de modificadores como Ctrl, Alt ou Shift. Quando gravando, você não precisa pressionar todas as teclas de uma vez, você também pode pressionar uma após a outra. Isto é útil se um atalho já está atribuído a outro menu!",
+        "tags": "Marcadores",
+        "duplicate-menu-item": "Duplicar item do menu",
+        "tags-info": "Marcadores podem ser usados para agrupar menus em coleções de menus.",
+        "file-picker": {
+            "select-file": "Selecionar arquivo",
+            "select-directory": "Selecionar pasta"
+        },
+        "duplicate-menu": "Duplicar menu",
+        "add-menu-item-hint": "Arraste este item para adicioná-lo ao menu acima!",
+        "app-picker": {
+            "hint": "Você também pode arrastar e soltar um aplicativo do seu menu Iniciar para o editor de menu do Kando!",
+            "search-placeholder": "Pesquisar um aplicativo…",
+            "use-selected": "Usar selecionado"
+        },
+        "achievements-dialog": {
+            "reset-confirmation-message": "Todas as conquistas e o progresso no nível serão perdidos. Essa ação não pode ser desfeita.",
+            "title": "Conquistas",
+            "xp": "XP",
+            "no-in-progress-achievements": "Parabéns! Você completou todas as conquistas.",
+            "no-completed-achievements": "Você ainda não completou nenhuma conquista.",
+            "in-progress-button": "Em Progresso",
+            "completed-button": "Completas",
+            "reset-button": "redefinir progresso",
+            "reset-confirmation-title": "Você realmente deseja redefinir todo o progresso?",
+            "reset-button-tooltip": "Redefinir todas as conquistas e o progresso de nível"
+        },
+        "quick-select-key-label": "Tecla de atalho rápido",
+        "quick-select-key-recording": "Escolher atalho…",
+        "restore-backup": "Restaurar Backup…",
+        "restore-general-settings-warning-title": "Você realmente deseja restaurar as configurações gerais?",
+        "restore-general-settings-warning-message": "Isso substituirá as configurações atuais do seu aplicativo pelo conteúdo do arquivo de backup selecionado! Seus menus e coleções de menus não serão afetados.",
+        "restore-general-settings-error-title": "Falha ao carregar o backup das configurações gerais!",
+        "restore-general-settings-success-title": "Sucesso!",
+        "restore-general-settings-success-message": "Suas configurações gerais foram restauradas a partir do arquivo de backup.",
+        "restore-menu-settings-warning-title": "Você realmente deseja restaurar as configurações do menu?",
+        "restore-menu-settings-warning-message": "Isso substituirá seus menus atuais e coleções de menus pelo conteúdo do arquivo de backup selecionado!",
+        "restore-menu-settings-error-title": "Falha ao carregar o backup dos menus!",
+        "restore-menu-settings-success-title": "Sucesso!",
+        "restore-menu-settings-success-message": "Seus menus e coleções de menus foram restaurados a partir do arquivo de backup.",
+        "export-menu-error-title": "Falha ao exportar o menu",
+        "import-menu-error-title": "Falha ao importar o menu",
+        "import-menu-error-message": "O arquivo selecionado não pôde ser importado. Ele não contém um menu exportado do Kando válido.",
+        "import-menu": "Importar menu",
+        "workflow-editor": {
+            "add-action": "Adicionar Ação",
+            "button-select-workflow": {
+                "description": "As ações abaixo serão executadas quando você selecionar o item.",
+                "empty-hint": "Atualmente, nenhuma ação será executada ao selecionar este item. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla enquanto o menu principal estiver aberto também acionará o fluxo de trabalho de seleção."
+            },
+            "button-hover-workflow": {
+                "description": "As ações abaixo serão executadas quando você mover o ponteiro sobre o item.",
+                "empty-hint": "Atualmente, nenhuma ação será executada ao passar o mouse sobre este item. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla enquanto o menu pai estiver aberto também acionará o fluxo de trabalho de foco."
+            },
+            "submenu-open-workflow": {
+                "description": "As ações abaixo serão executadas quando o submenu for aberto.",
+                "empty-hint": "Atualmente, nenhuma ação adicional será executada ao abrir este submenu. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla abrirá o submenu."
+            },
+            "submenu-hover-workflow": {
+                "description": "As ações abaixo serão executadas quando você mover o ponteiro sobre o item do submenu.",
+                "empty-hint": "Atualmente, nenhuma ação será executada ao passar o mouse sobre este submenu. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla enquanto o menu principal estiver aberto também acionará o fluxo de trabalho de foco."
+            },
+            "submenu-activate-workflow": {
+                "description": "As ações abaixo serão executadas quando você clicar no centro do submenu.",
+                "empty-hint": "Atualmente, nada acontecerá quando você clicar no centro do submenu. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla enquanto o submenu estiver aberto também acionará o fluxo de trabalho de clique central."
+            },
+            "root-activate-workflow": {
+                "description": "As ações abaixo serão executadas quando você clicar no centro do menu raiz.",
+                "empty-hint": "Atualmente, nada acontecerá quando você clicar no centro do menu raiz. Use o botão acima para adicionar ações a este fluxo de trabalho!",
+                "quick-select-key-hint": "Pressionar esta tecla enquanto o menu raiz estiver aberto também acionará o fluxo de trabalho de clique central."
+            },
+            "action-picker": {
+                "search-placeholder": "Pesquisar por uma ação…"
+            },
+            "select-workflow-name": "Selecionar Fluxo de Trabalho",
+            "hover-workflow-name": "Fluxo de Trabalho Flutuante",
+            "activate-workflow-name": "Fluxo de trabalho com clique central",
+            "open-workflow-name": "Abrir Fluxo de Trabalho"
+        },
+        "export-menu": "Menu de exportação",
+        "fix-menu-item-angle": "Corrija o ângulo deste item de menu. Depois de ativar isto, arraste o item para atualizar o ângulo.",
+        "edit-submenu": "Editar submenu",
+        "drop-here-to-delete": "Solte aqui para excluir"
+    },
+    "menu-actions": {
+        "open-file": {
+            "name": "Abrir Arquivo",
+            "description": "Abre um arquivo ou pasta.",
+            "placeholder": "Escolher arquivo ou pasta…"
+        },
+        "execute-command": {
+            "name": "Executar Comando",
+            "description": "Inicia aplicativos ou executa scripts. ",
+            "choose-app": "Escolha um aplicativo…",
+            "placeholder": "Insira algum comando…",
+            "isolated": "Executar isoladamente",
+            "isolated-info": "Isto irá executar o comando em um ambiente limpo, não herdando nenhuma variável de ambiente do Kando. Isso pode ajudar com comandos que não iniciam corretamente.",
+            "detached-info": "Isto irá desconectar o comando do Kando, fazendo com que continue executando mesmo se o Kando estiver fechado. Desabilitar isso pode ajudar a resolver problemas com comandos que não iniciam corretamente.",
+            "detached": "Executar separadamente"
+        },
+        "open-menu": {
+            "name": "Redirecionar",
+            "description": "Abre outro menu."
+        },
+        "open-settings": {
+            "name": "Abrir Ajustes",
+            "description": "Abre a janela de configurações do Kando."
+        },
+        "open-uri": {
+            "name": "Abrir URI",
+            "description": "Abre sites e mais.",
+            "placeholder": "Insira alguma URL…"
+        },
+        "simulate-hotkey": {
+            "name": "Simular atalho de teclado",
+            "description": "Pressiona uma combinação de teclas para você. Certifique-se de adicionar uma ação de fechar menu antes disso, se quiser que o atalho seja direcionado para o aplicativo ativo e não para o menu!",
+            "recording-placeholder": "Pressione uma tecla de atalho…",
+            "hotkey": "Tecla de Atalho",
+            "hotkey-info": "Essa tecla de atalho será acionada quando o item é selecionado. Quando estiver gravando, você não precisa pressionar todas as teclas de uma vez, você também pode pressioná-las uma após a outra. Isso é útil se uma tecla de atalho já está atribuída a alguma ação global!"
+        },
+        "execute-macro": {
+            "name": "Simular Macro",
+            "description": "Digita várias teclas em sequência. Certifique-se de adicionar uma ação de fechar menu antes disso, se quiser que o atalho seja direcionado para o aplicativo ativo e não para o menu!",
+            "placeholder": "Aperte o botão de gravação para começar a gravar!",
+            "recording-placeholder": "Pressione as teclas…"
+        },
+        "set-clipboard": {
+            "name": "Definir área de transferência",
+            "description": "Armazena o texto fornecido na sua área de transferência. Você pode usar uma ação de atalho Ctrl+V para colar o texto após defini-lo na área de transferência.",
+            "placeholder": "Insira qualquer texto…"
+        },
+        "delay": {
+            "name": "Atraso",
+            "description": "Pausa a execução do fluxo de trabalho por uma duração especificada.",
+            "duration-info": "A execução do fluxo de trabalho será adiada por este período de tempo.",
+            "duration-label": "Segundos"
+        },
+        "close-menu": {
+            "name": "Fechar Menu",
+            "description": "Fecha o menu atual. É importante onde você coloca isso no seu fluxo de trabalho! Ações após esta esperarão até que o menu desapareça completamente antes de serem executadas."
+        },
+        "close-submenu": {
+            "name": "Fechar submenu",
+            "description": "Navega um nível acima na hierarquia do menu."
+        },
+        "inhibit-shortcuts": {
+            "name": "Desativar Atalhos",
+            "description": "Desativa todos os atalhos do Kando pelo resto da execução deste fluxo de trabalho."
+        },
+        "focus-window": {
+            "name": "Janela de Foco",
+            "description": "Traz a janela especificada para o primeiro plano. Você pode usar isso para focar o aplicativo de destino antes de executar um atalho de teclado ou uma ação de macro.",
+            "hint": "O Kando tentará encontrar uma janela que corresponda ao título ou nome do aplicativo fornecido (ou ambos). Você pode usar expressões regulares para uma correspondência mais poderosa, por exemplo, /firefox|chrome/i para corresponder a qualquer navegador web."
+        }
+    },
+    "achievements": {
+        "attributes": {
+            "novice": "Iniciante",
+            "capable": "Capacitado",
+            "skilled": "Experiente",
+            "expert": "Especialista",
+            "master": "Sensei"
+        },
+        "tier": {
+            "I": "I",
+            "II": "II",
+            "III": "III",
+            "IV": "IV",
+            "V": "V"
+        },
+        "cancelor": {
+            "name": "Estrada do Vazio {{tier}}",
+            "description": "Cancelar uma seleção {{n}} vezes."
+        },
+        "selector": {
+            "name": "{{attribute}} Samurai",
+            "description": "Selecione {{n}} itens."
+        },
+        "depth-selector": {
+            "name1": "{{attribute}} Fatiador",
+            "name2": "{{attribute}} Fatiador de Duas Camadas",
+            "name3": "{{attribute}} Deep Slicer",
+            "description": "Selecione {{n}} itens na profundidade {{depth}} em menos de {{time}} ms."
+        },
+        "click-selector": {
+            "name": "{{attribute}} Campeão do Clique-Clique",
+            "description": "Selecione {{n}} itens usando cliques do mouse."
+        },
+        "keyboard-selector": {
+            "name": "{{attribute}} Herói do Atalho",
+            "description": "Selecione {{n}} itens usando seu teclado."
+        },
+        "gamepad-selector": {
+            "name": "{{attribute}} Guerreiro do Gamepad",
+            "description": "Selecione {{n}} itens usando um controle."
+        },
+        "gesture-selector": {
+            "name": "{{attribute}} Poder Ninja",
+            "description": "Selecione {{n}} itens usando o modo turbo ou de marcação."
+        },
+        "settings-opened": {
+            "name": "A Jornada é a Recompensa {{tier}}",
+            "description": "Abra a caixa de diálogo de configurações {{n}} vezes."
+        },
+        "backup": {
+            "name": "Caminho da Presciência {{tier}}",
+            "description": "Faça backup de seus menus ou configurações {{n}} vezes."
+        },
+        "restore": {
+            "name": "Segunda Chance {{tier}}",
+            "description": "Restaurar um backup {{n}} vezes."
+        },
+        "added-items": {
+            "name": "Andarilho do Kando {{tier}}",
+            "description": "Crie {{n}} itens no editor de menu."
+        },
+        "deleted-all-menus": {
+            "name": "Limpe o Dojo",
+            "description": "Exclua todos os seus menus."
+        },
+        "full-menu": {
+            "name": "Amplitude em vez de profundidade",
+            "description": "Crie um menu com mais de doze itens."
+        },
+        "deep-menu": {
+            "name": "Mestre da Profundidade",
+            "description": "Adicionar um item de menu a um submenu de quatro níveis de profundidade."
+        },
+        "sponsors-viewed": {
+            "name": "Guardião de Kando",
+            "description": "Considere se tornar um patrocinador da Kando."
+        },
+        "menu-themes-selected": {
+            "name": "Caminho de Aesthete",
+            "description": "Alterne o tema do menu {{n}} vezes."
+        },
+        "tutorial-viewed": {
+            "name": "A Jornada Começa",
+            "description": "Conclua o tutorial de introdução ao Kando."
+        },
+        "many-selections-streak": {
+            "name": "Mãos de Relâmpago {{tier}}",
+            "description": "Selecione {{n}} itens em {{time}} s."
+        },
+        "speedy-selections-streak": {
+            "name": "Mais rápido que o pensamento {{tier}}",
+            "description": "Faça {{n}} seleções consecutivas em média mais rápido que {{time}} ms."
+        },
+        "completed-title": "Conquista desbloqueada!"
+    }
+}

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Post",
+      "file-browser": "Brabhsair faidhle",
+      "paint": "Peantadh",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Brabhsair-lìn"
+    },
+    "audio": {
+      "mute": "Taobh a-mach",
+      "next-track": "NextĠTrack",
+      "play-pause": "Cluich / Stad",
+      "previous-track": "Air a ' Chèitean",
+      "submenu": "Fuaim"
+    },
+    "bookmarks": {
+      "desktop": "Deasg",
+      "documents": "Sgrìobhainnean",
+      "downloads": "Luchdaich sìos",
+      "home": "Dhachaigh",
+      "music": "Ceol",
+      "pictures": "Dealbhan",
+      "submenu": "Comharran-leabhair",
+      "videos": "Bhideothan"
+    },
+    "clipboard": {
+      "copy": "Copies",
+      "cut": "A ' gearradh",
+      "paste": "Cuir ann",
+      "submenu": "Clàr-chlàir"
+    },
+    "name": "Clàr-taice Eisimpleir",
+    "next-workspace": "An ath àite-obrach",
+    "previous-workspace": "Àite-obrach roimhe",
+    "web-links": {
+      "kando-on-discord": "Kando air Discord",
+      "kando-on-github": "Kando air GitHub",
+      "kando-on-kofi": "Kando air Ko-fi",
+      "kando-on-youtube": "Kando air YouTube",
+      "submenu": "Ceanglaichean lìn"
+    },
+    "windows": {
+      "close-window": "ClòĠWindow",
+      "submenu": "Windows",
+      "tile-left": "Tile air chlì",
+      "tile-right": "Tile Ceart",
+      "toggle-maximize": "Toggle Maximize"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Dùin Clàr-taice"
+    },
+    "close-submenu": {
+      "name": "Dùin an Submenu"
+    },
+    "delay": {
+      "name": "Tha e air a mholadh"
+    },
+    "execute-command": {
+      "name": "Cuir an gnìomh àithne"
+    },
+    "execute-macro": {
+      "name": "Cur an gnìomh Macro"
+    },
+    "focus-window": {
+      "name": "Uinneag fòcas"
+    },
+    "inhibit-shortcuts": {
+      "name": "Cuir casg air ath-ghoiridean"
+    },
+    "open-file": {
+      "name": "OpenOpenFile"
+    },
+    "open-menu": {
+      "name": "Clàr-taice Fosgailte"
+    },
+    "open-settings": {
+      "name": "Fosgailte Settings"
+    },
+    "open-uri": {
+      "name": "Fosgail URI"
+    },
+    "send-tcp-message": {
+      "name": "Cuir teachdaireachd TCP"
+    },
+    "send-websocket-message": {
+      "name": "Cuir Teachdaireachd WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Suidhich Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Iuchraichean ath-ghoirid",
+      "name": "Dèan atharrais air Hotkey",
+      "recording-placeholder": "Cuir a-steach hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Fo-chlàr"
+    }
+  },
+  "native": {
+    "action": "Gnìomh",
+    "action-value": "Ath-ghoirid, slighe, URL, teacsa, no JSON",
+    "choose-icon": "Tagh ìomhaigh",
+    "condition-invalid": "Cuir a-steach uinneag dhligheach no suidheachadh app, mar eisimpleir /notepad/i.",
+    "configuration": "Rèiteachadh clàr-bìdh Pie",
+    "editor": "Deasaiche clàr-bìdh Pie",
+    "exported": "Às-phortadh gu {0}",
+    "fixed-angle": "Ceàrn stèidhichte (0 ° = suas)",
+    "fixed-x": "X stèidhichte (0-1 thairis air an monitor)",
+    "fixed-y": "Chàir sinn Y (0-1 sìos an monitor)",
+    "icon-invalid-image": "Tagh ìomhaigh PNG, JPEG, GIF, WebP, no ICO suas gu 192 KB.",
+    "icon-library": "Leabharlann ìomhaigheag",
+    "icon-next": "An ath ìomhaigheagan",
+    "icon-no-results": "Cha deach ìomhaighean a lorg.",
+    "icon-pick-file": "Tagh ìomhaigh no app",
+    "icon-previous": "Ìomhaighean roimhe",
+    "icon-use-image": "Cleachd ìomhaigh",
+    "imported": "Chaidh clàr-taice {0} a thoirt a-steach. Dèan lèirmheas air òrdughan a chaidh a thoirt a-steach mus cleachd thu iad, agus an uairsin sàbhail.",
+    "item-icon": "Ìomhaigh nì",
+    "item-order": "Òrdugh nì",
+    "label": "Label",
+    "move-down": "Gluais sìos",
+    "move-up": "Gluais suas",
+    "name": "Ainm clàr-taice",
+    "new-menu": "Clàr ùr",
+    "off": "Air falbh",
+    "on": "Air",
+    "palette": "Palet dath",
+    "preview": "Clàr ro-shealladh",
+    "remove": "Thoir air falbh",
+    "save": "Sàbhail clàran-bìdh",
+    "saved": "Chaidh rèiteachadh clàr a shàbhaladh.",
+    "shortcut-clear": "Ath-ghoirid soilleir",
+    "shortcut-cleared": "Ath-ghoirid air a ghlanadh.",
+    "shortcut-config-changed": "Dh’atharraich rèiteachadh a’ chlàr air diosc. Sàbhail na clàran-bìdh gnàthach gus an ath-ghoirid seo a chuir an sàs.",
+    "shortcut-in-use": "Tha Windows ag aithris gu bheil an ath-ghoirid seo ga chleachdadh mu thràth.",
+    "shortcut-invalid": "Cuir a-steach aon iuchair, agus atharraichean sam bith a tha ceadaichte airson a’ gheàrr-liosta seo.",
+    "shortcut-record": "Geàrr-chunntas clàr",
+    "shortcut-save-new-menu": "Sàbhail an clàr ùr seo gus an ath-ghoirid aige a chuir an gnìomh.",
+    "shortcut-saved": "Ath-ghoirid air a shàbhaladh: {0}. Cleachd e gus an clàr fhosgladh nuair a bhios Quick Actions air a chomasachadh.",
+    "shortcut-stop": "Cuir stad air clàradh",
+    "shortcut-unavailable": "Cha b' urrainn do Windows an ath-ghoirid seo a chlàradh."
+  },
+  "settings": {
+    "add-menu-items": "Cuir nithean clàr-taice ris",
+    "all-menus": "A h-uile clàr-taice",
+    "anchored-mode": "Modh air acair",
+    "app-condition": "Crìochan ri aplacaidean sònraichte",
+    "area-condition-bottom-placeholder": "Fhuiling",
+    "area-condition-left-placeholder": "An làimh chlì",
+    "area-condition-right-placeholder": "Ceart",
+    "area-condition-top-placeholder": "Barr",
+    "cancel": "A dh ' ath-dhùnadh",
+    "create-menu-button": "Cuir clàr-taice ris",
+    "delete-menu": "Sguab às clàr-taice",
+    "delete-menu-item": "Sguab às nì clàr-taice",
+    "edit-submenu": "Deasaich submenu",
+    "export-menu": "Clàr às-mhalairt",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Dèan comas air modh comharrachaidh",
+      "close-menu": "Dùin an clàr-taice",
+      "do-nothing": "Na dèan dad",
+      "enable-marking-mode-info": "Le Modh Comharrachaidh air a chomasachadh, faodaidh tu rudan a thaghadh le bhith a’ slaodadh na luchaige thairis orra.",
+      "enable-turbo-mode": "Dèan comas air Modh Turbo",
+      "enable-turbo-mode-info": "Le Turbo Mode air a chomasachadh, faodaidh tu gluasadan a dhèanamh fhad ‘s a chumas tu sìos iuchair mion-atharrachaidh leithid Shift no Ctrl.",
+      "interaction-modes": "Modhan eadar-obrachaidh",
+      "middle-mouse-button-behavior": "Putan meadhanach na luchaige",
+      "middle-mouse-button-behavior-info": "Bidh seo a’ dearbhadh dè thachras nuair a thèid putan meadhanach na luchaige a bhrùthadh fhad ‘s a tha clàr air a shealltainn.",
+      "move-pointer-to-menu-center": "Gluais am puing gu ionad a’ chlàr",
+      "move-pointer-to-menu-center-info": "Ma thèid a sgrùdadh, thèid puing na luchaige a ghluasad gu meadhan clàr no fo-chlàr nuair a bhios feum air. Dh’ fhaodadh seo a bhith fìor ma thèid clàr fhosgladh ro fhaisg air oir na sgrìn no ma thèid clàr fhosgladh ann am Modh Meadhanach.",
+      "require-click-for-hover-mode": "Feumaidh cliog airson taghaidhean Modh Hover",
+      "require-click-for-hover-mode-info": "Mura tèid an sgrùdadh, thèid nithean a thaghadh sa bhad nuair a thèid an luchag a ghluasad thairis orra airson clàran-bìdh a’ cleachdadh Modh Hover.",
+      "right-mouse-button-behavior": "Putan deas na luchaige",
+      "right-mouse-button-behavior-info": "Bidh seo a’ dearbhadh dè thachras nuair a thèid putan deas na luchaige a bhrùthadh fhad ‘s a tha clàr air a shealltainn.",
+      "select-item": "Tagh nì",
+      "select-parent": "Seòl suas aon ìre",
+      "trigger-center-click-on-key-release": "Dùin an clàr-taice air foillseachadh ath-ghoirid thairis air an ionad",
+      "trigger-center-click-on-key-release-info": "Brosnaichidh seo sruth-obrach cliog sa mheadhan nuair a thèid iuchair a leigeil ma sgaoil fhad ‘s a tha e a’ dol thairis air meadhan clàr."
+    },
+    "hover-mode": "Modh Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Rannsaich ìomhaighean…"
+    },
+    "import-menu": "Clàr-taice ion-phortadh",
+    "menu-behavior": "Giùlan clàr-taice",
+    "menu-conditions": "Cùmhnantan clàr-taice",
+    "menu-themes-dialog": {
+      "default-colors": "Dathan bunaiteach",
+      "enable-menu-animations": "Beothachaidhean clàr-taice",
+      "title": "Cuspairean clàr-taice"
+    },
+    "no-matching-menus": "Cha deach clàran-bìdh a lorg.",
+    "no-menus": "Chan eil clàran-bìdh agad.",
+    "not-bound": "Gun cheangal",
+    "quick-select-key-label": "Tagh iuchair gu sgiobalta",
+    "quick-select-key-recording": "Tagh iuchair…",
+    "shortcut-info": "Bidh an ath-ghoirid seo a’ fosgladh a’ chlàr. Feumaidh aon iuchair àbhaisteach a bhith ann agus àireamh sam bith de mhion-atharraichean leithid Ctrl, Alt, no Shift. Nuair a bhios tu a’ clàradh, cha leig thu leas a h-uile iuchair a bhrùthadh aig an aon àm, faodaidh tu cuideachd am brùthadh aon às deidh a chèile. Tha seo feumail ma tha ath-ghoirid mu thràth ceangailte ri clàr eile!",
+    "shortcut-label": "Ath-ghoirid",
+    "shortcut-recording": "Brùth air ath-ghoirid…",
+    "window-condition": "Crìochan ri tiotalan uinneig sònraichte",
+    "workflow-editor": {
+      "add-action": "Cuir Gnìomh",
+      "select-workflow-name": "Tagh Sruth-obrach"
+    },
+    "anchored-mode-info": "Fosgail submenus san aon suidheachadh ris a’ chlàr phàrant. Le bhith a’ sgrùdadh seo, cuiridh e à comas Modh Comharrachaidh agus Modh Turbo.",
+    "fixed-position-mode": "Modh suidheachadh stèidhichte",
+    "fixed-position-mode-info": "Fosgail a’ chlàr aig suidheachadh stèidhichte air an sgrion, an àite a’ chursair.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Suidhich suidheachadh gu bonn clì",
+      "bottom-right-preset-tooltip": "Suidhich an suidheachadh gu h-ìosal air an làimh dheis",
+      "centered-preset-tooltip": "Suidhich suidheachadh gu meadhan",
+      "confirm": "Cleachd an suidheachadh seo",
+      "top-left-preset-tooltip": "Suidhich an suidheachadh gu h-àrd air an taobh chlì",
+      "top-right-preset-tooltip": "Suidhich an suidheachadh gu h-àrd air an làimh dheis"
+    },
+    "fixed-position-tooltip": "Tagh suidheachadh stèidhichte",
+    "hover-mode-info": "Airson luchd-cleachdaidh cumhachd a-mhàin! Tagh nithean le bhith a’ dol thairis orra."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Deònach",
+      "clean-circle": "Cearcall glan",
+      "neon-lights": "Solais Neon",
+      "purity": "Purity",
+      "rainbow-labels": "Bileagan bogha-froise"
+    },
+    "presets": {
+      "Blue Glass": "Glainne Gorm",
+      "Dark Night": "Oidhche Dhorcha",
+      "Cotton Candy": "Candy Cotton",
+      "Dark and Cozy": "Dorcha agus comhfhurtail",
+      "Blue Glow": "Glow gorm",
+      "Green Glow": "Glow Uaine",
+      "Electric": "Dealanach",
+      "Orange": "Orains",
+      "Pink": "pinc",
+      "Bright Prism": "Prism soilleir",
+      "Kando Default": "Dathan bunaiteach"
+    }
+  }
+}

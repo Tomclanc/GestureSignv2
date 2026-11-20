@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-mail",
+      "file-browser": "Browser de fișiere",
+      "paint": "Vopsea",
+      "submenu": "Aplicații",
+      "terminal": "Terminal",
+      "web-browser": "Browser web"
+    },
+    "audio": {
+      "mute": "Dezactivează sunetul",
+      "next-track": "Piesa următoare",
+      "play-pause": "Redare/Pauză",
+      "previous-track": "Piesa anterioară",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Documente",
+      "downloads": "Descărcări",
+      "home": "Acasă",
+      "music": "Muzica",
+      "pictures": "Poze",
+      "submenu": "Marcaje",
+      "videos": "Videoclipuri"
+    },
+    "clipboard": {
+      "copy": "Copiază",
+      "cut": "Tăiere",
+      "paste": "Lipește",
+      "submenu": "Clipboard"
+    },
+    "name": "Exemplu de meniu",
+    "next-workspace": "Următorul spațiu de lucru",
+    "previous-workspace": "Spațiul de lucru anterior",
+    "web-links": {
+      "kando-on-discord": "Kando pe Discord",
+      "kando-on-github": "Kando pe GitHub",
+      "kando-on-kofi": "Kando pe Ko-fi",
+      "kando-on-youtube": "Kando pe YouTube",
+      "submenu": "Link-uri Web"
+    },
+    "windows": {
+      "close-window": "Închide fereastra",
+      "submenu": "Windows",
+      "tile-left": "Tigla Stânga",
+      "tile-right": "Tile Dreapta",
+      "toggle-maximize": "Comutați Maximizați"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Închideți meniul"
+    },
+    "close-submenu": {
+      "name": "Închideți submeniul"
+    },
+    "delay": {
+      "name": "Întârziere"
+    },
+    "execute-command": {
+      "name": "Executați comanda"
+    },
+    "execute-macro": {
+      "name": "Executați macro"
+    },
+    "focus-window": {
+      "name": "Fereastra de focalizare"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibarea comenzilor rapide"
+    },
+    "open-file": {
+      "name": "Deschide fișierul"
+    },
+    "open-menu": {
+      "name": "Deschideți Meniu"
+    },
+    "open-settings": {
+      "name": "Deschide Setări"
+    },
+    "open-uri": {
+      "name": "Deschideți URI"
+    },
+    "send-tcp-message": {
+      "name": "Trimiteți mesaj TCP"
+    },
+    "send-websocket-message": {
+      "name": "Trimiteți mesajul WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Setați Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Tastă rapidă",
+      "name": "Simulați tasta rapidă",
+      "recording-placeholder": "Tastați o tastă rapidă..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submeniu"
+    }
+  },
+  "native": {
+    "action": "Acțiune",
+    "action-value": "Comandă rapidă, cale, URL, text sau JSON",
+    "choose-icon": "Alege pictograma",
+    "condition-invalid": "Introduceți o condiție validă pentru fereastră sau aplicație, de exemplu /notepad/i.",
+    "configuration": "Configurarea Meniului Pie",
+    "editor": "Editor de meniuri Pie",
+    "exported": "Exportat în {0}",
+    "fixed-angle": "Unghi fix (0° = sus)",
+    "fixed-x": "Fix X (0–1 pe monitor)",
+    "fixed-y": "S-a fixat Y (0–1 în jos pe monitor)",
+    "icon-invalid-image": "Alegeți o imagine PNG, JPEG, GIF, WebP sau ICO de până la 192 KB.",
+    "icon-library": "Biblioteca de icoane",
+    "icon-next": "Următoarele pictograme",
+    "icon-no-results": "Nu s-au găsit pictograme.",
+    "icon-pick-file": "Alegeți imaginea sau aplicația",
+    "icon-previous": "Pictogramele anterioare",
+    "icon-use-image": "Utilizați imaginea",
+    "imported": "S-au importat {0} meniuri. Examinați comenzile importate înainte de a le folosi, apoi salvați.",
+    "item-icon": "Pictograma articolului",
+    "item-order": "Ordinea articolelor",
+    "label": "Etichetă",
+    "move-down": "Deplasați-vă în jos",
+    "move-up": "Mișcă-te în sus",
+    "name": "Numele meniului",
+    "new-menu": "Meniu nou",
+    "off": "Oprit",
+    "on": "Pornit",
+    "palette": "Paleta de culori",
+    "preview": "Meniul de previzualizare",
+    "remove": "Eliminați",
+    "save": "Salvați meniurile",
+    "saved": "Configurarea meniului a fost salvată.",
+    "shortcut-clear": "Ștergeți comanda rapidă",
+    "shortcut-cleared": "Comandă rapidă a fost ștearsă.",
+    "shortcut-config-changed": "Configurația meniului s-a schimbat pe disc. Salvați meniurile curente pentru a aplica această comandă rapidă.",
+    "shortcut-in-use": "Windows raportează că această comandă rapidă este deja utilizată.",
+    "shortcut-invalid": "Introduceți o tastă, plus orice modificatori permisi pentru această comandă rapidă.",
+    "shortcut-record": "Comandă rapidă de înregistrare",
+    "shortcut-save-new-menu": "Salvați acest nou meniu pentru a-i activa comanda rapidă.",
+    "shortcut-saved": "Comandă rapidă salvată: {0}. Folosiți-l pentru a deschide meniul când Acțiuni rapide este activată.",
+    "shortcut-stop": "Opriți înregistrarea",
+    "shortcut-unavailable": "Windows nu a putut înregistra această comandă rapidă."
+  },
+  "settings": {
+    "add-menu-items": "Adăugați elemente de meniu",
+    "all-menus": "Toate meniurile",
+    "anchored-mode": "Modul ancorat",
+    "app-condition": "Limitați-vă la anumite aplicații",
+    "area-condition-bottom-placeholder": "Jos",
+    "area-condition-left-placeholder": "Stânga",
+    "area-condition-right-placeholder": "Dreapta",
+    "area-condition-top-placeholder": "Sus",
+    "cancel": "Anulează",
+    "create-menu-button": "Adăugați meniu",
+    "delete-menu": "Șterge meniul",
+    "delete-menu-item": "Ștergeți elementul din meniu",
+    "edit-submenu": "Editare submeniu",
+    "export-menu": "meniu Export",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Activați modul de marcare",
+      "close-menu": "Închide meniul",
+      "do-nothing": "Nu face nimic",
+      "enable-marking-mode-info": "Cu modul de marcare activat, puteți selecta elemente trăgând mouse-ul peste ele.",
+      "enable-turbo-mode": "Activați modul Turbo",
+      "enable-turbo-mode-info": "Cu Modul Turbo activat, puteți efectua gesturi atâta timp cât țineți apăsată o tastă modificatoare, cum ar fi Shift sau Ctrl.",
+      "interaction-modes": "Moduri de interacțiune",
+      "middle-mouse-button-behavior": "Butonul din mijloc al mouse-ului",
+      "middle-mouse-button-behavior-info": "Aceasta determină ce se întâmplă atunci când butonul din mijloc al mouse-ului este apăsat în timp ce este afișat un meniu.",
+      "move-pointer-to-menu-center": "Mutați cursorul în centrul meniului",
+      "move-pointer-to-menu-center-info": "Dacă este bifat, indicatorul mouse-ului va fi mutat în centrul unui meniu sau submeniu atunci când este necesar. Acesta ar putea fi cazul dacă un meniu este deschis prea aproape de marginea ecranului sau dacă un meniu este deschis în modul Centrat.",
+      "require-click-for-hover-mode": "Necesită clic pentru selecțiile modului Hover",
+      "require-click-for-hover-mode-info": "Dacă nu sunt bifate, elementele vor fi selectate imediat când mouse-ul este mutat peste ele pentru meniuri care utilizează modul Hover.",
+      "right-mouse-button-behavior": "butonul dreapta al mouse-ului",
+      "right-mouse-button-behavior-info": "Aceasta determină ce se întâmplă atunci când butonul drept al mouse-ului este apăsat în timp ce este afișat un meniu.",
+      "select-item": "Selectați elementul",
+      "select-parent": "Navigați cu un nivel în sus",
+      "trigger-center-click-on-key-release": "Închideți meniul la eliberarea comenzii rapide peste centru",
+      "trigger-center-click-on-key-release-info": "Acest lucru va declanșa fluxul de lucru cu clic central atunci când o tastă este eliberată în timp ce treceți cursorul peste centrul unui meniu."
+    },
+    "hover-mode": "Modul Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Pictograme de căutare..."
+    },
+    "import-menu": "Meniu Import",
+    "menu-behavior": "Comportamentul meniului",
+    "menu-conditions": "Condiții de meniu",
+    "menu-themes-dialog": {
+      "default-colors": "Culori implicite",
+      "enable-menu-animations": "Meniu Animații",
+      "title": "Teme de meniu"
+    },
+    "no-matching-menus": "Nu s-au găsit meniuri.",
+    "no-menus": "Nu ai meniuri.",
+    "not-bound": "Nu Legat",
+    "quick-select-key-label": "Tasta de selectare rapidă",
+    "quick-select-key-recording": "Selectați cheia...",
+    "shortcut-info": "Această comandă rapidă deschide meniul. Trebuie să conțină o tastă normală și orice număr de modificatori, cum ar fi Ctrl, Alt sau Shift. Când înregistrați, nu trebuie să apăsați toate tastele simultan, le puteți apăsa una după alta. Acest lucru este util dacă o comandă rapidă este deja legată de un alt meniu!",
+    "shortcut-label": "Comandă rapidă",
+    "shortcut-recording": "Apăsați pe o comandă rapidă...",
+    "window-condition": "Limitați la anumite titluri de fereastră",
+    "workflow-editor": {
+      "add-action": "Adăugați o acțiune",
+      "select-workflow-name": "Selectați Flux de lucru"
+    },
+    "anchored-mode-info": "Deschideți submeniuri în aceeași poziție cu meniul părinte. Bifând acest lucru, se va dezactiva modul de marcare și modul Turbo.",
+    "fixed-position-mode": "Mod poziție fixă",
+    "fixed-position-mode-info": "Deschideți meniul într-o poziție fixă pe ecran, în loc de la cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Setați poziția în stânga jos",
+      "bottom-right-preset-tooltip": "Setați poziția în dreapta jos",
+      "centered-preset-tooltip": "Setați poziția în centru",
+      "confirm": "Folosiți această poziție",
+      "top-left-preset-tooltip": "Setați poziția în stânga sus",
+      "top-right-preset-tooltip": "Setați poziția în dreapta sus"
+    },
+    "fixed-position-tooltip": "Selectați o poziție fixă",
+    "hover-mode-info": "Numai pentru utilizatorii puternici! Selectați elemente trecând cu mouse-ul peste ele."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Implicit",
+      "clean-circle": "Cercul curat",
+      "neon-lights": "Lumini de neon",
+      "purity": "Puritate",
+      "rainbow-labels": "Etichete Curcubeu"
+    },
+    "presets": {
+      "Blue Glass": "Sticla albastra",
+      "Dark Night": "Noapte întunecată",
+      "Cotton Candy": "Vată de zahăr",
+      "Dark and Cozy": "Întunecat și confortabil",
+      "Blue Glow": "Strălucire albastră",
+      "Green Glow": "Strălucire verde",
+      "Electric": "electrice",
+      "Orange": "Portocaliu",
+      "Pink": "Roz",
+      "Bright Prism": "Prismă strălucitoare",
+      "Kando Default": "Culori implicite"
+    }
+  }
+}

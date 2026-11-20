@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Ī-Mēra",
+      "file-browser": "Pūtirotiro Kōnae",
+      "paint": "Te peita",
+      "submenu": "Taupānga",
+      "terminal": "tauranga",
+      "web-browser": "Pūtirotiro Tukutuku"
+    },
+    "audio": {
+      "mute": "Wahangu",
+      "next-track": "Waiata E whai ake nei",
+      "play-pause": "Play / Pause",
+      "previous-track": "Ara Wā o Mua",
+      "submenu": "Ororongo"
+    },
+    "bookmarks": {
+      "desktop": "Papamahi",
+      "documents": "Tuhinga",
+      "downloads": "Tikiake",
+      "home": "Kainga",
+      "music": "Waiata",
+      "pictures": "Pikitia",
+      "submenu": "Tohuwāhi",
+      "videos": "Ataata"
+    },
+    "clipboard": {
+      "copy": "Tārua",
+      "cut": "Tapahi",
+      "paste": "Whakapiri",
+      "submenu": "Papatopenga"
+    },
+    "name": "Tahua Tauira",
+    "next-workspace": "Mokowāmahi Panuku",
+    "previous-workspace": "Mokowāmahi o mua",
+    "web-links": {
+      "kando-on-discord": "Kando i runga i te Discord",
+      "kando-on-github": "Kando i runga i GitHub",
+      "kando-on-kofi": "Kando on Ko-fi",
+      "kando-on-youtube": "Kando i runga i YouTube",
+      "submenu": "Hononga Tukutuku"
+    },
+    "windows": {
+      "close-window": "Kātia Matapihi",
+      "submenu": "Matapihi",
+      "tile-left": "Tile Mauī",
+      "tile-right": "Tile Matau",
+      "toggle-maximize": "Takahuri Whakamōrahi"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Katia Tahua"
+    },
+    "close-submenu": {
+      "name": "Katia te Tahuaroto"
+    },
+    "delay": {
+      "name": "Takaware"
+    },
+    "execute-command": {
+      "name": "Whakahaerehia te Whakahau"
+    },
+    "execute-macro": {
+      "name": "Whakahaerehia te Tonotono"
+    },
+    "focus-window": {
+      "name": "Matapihi Arotahi"
+    },
+    "inhibit-shortcuts": {
+      "name": "Aukati Pokatata"
+    },
+    "open-file": {
+      "name": "Tuwherahia te Kōnae"
+    },
+    "open-menu": {
+      "name": "Whakatuwhera Tahua"
+    },
+    "open-settings": {
+      "name": "Whakatuwherahia nga Tautuhinga"
+    },
+    "open-uri": {
+      "name": "Whakatuwherahia te URI"
+    },
+    "send-tcp-message": {
+      "name": "Tukua te Karere TCP"
+    },
+    "send-websocket-message": {
+      "name": "Tukuna te Karere Tukutuku"
+    },
+    "set-clipboard": {
+      "name": "Tautuhi Papatopenga"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Pūwhiri wera",
+      "name": "Whakatauhia te Hotkey",
+      "recording-placeholder": "Patohia he kī wera…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Tahuaroto"
+    }
+  },
+  "native": {
+    "action": "Mahi",
+    "action-value": "Pokatata, ara, URL, kuputuhi, JSON ranei",
+    "choose-icon": "Kōwhiri ata",
+    "condition-invalid": "Whakauruhia he matapihi whaimana, he ahuatanga tono ranei, hei tauira /notepad/i.",
+    "configuration": "whirihoranga Tahua Porohita",
+    "editor": "Etita Tahua Porohita",
+    "exported": "Kaweake ki {0}",
+    "fixed-angle": "Koki mau (0° = whakarunga)",
+    "fixed-x": "Whakaritea X (0–1 puta noa i te kaupane)",
+    "fixed-y": "Kua Whakatikahia te Y (0–1 ki raro i te aroturuki)",
+    "icon-invalid-image": "Kōwhirihia he whakaahua PNG, JPEG, GIF, WebP, ICO ranei ki te 192 KB.",
+    "icon-library": "Whare pukapuka ata",
+    "icon-next": "Nga tohu o muri",
+    "icon-no-results": "Karekau he tohu i kitea.",
+    "icon-pick-file": "Kōwhirihia he whakaahua, he taupānga ranei",
+    "icon-previous": "Nga tohu o mua",
+    "icon-use-image": "Whakamahia te ahua",
+    "imported": "{0} tahua i kawemai. Arotakehia nga tono kawemai i mua i te whakamahi, katahi ka tiakina.",
+    "item-icon": "ata tūemi",
+    "item-order": "raupapa tūemi",
+    "label": "Tapanga",
+    "move-down": "Nuku ki raro",
+    "move-up": "Neke ki runga",
+    "name": "Ingoa tahua",
+    "new-menu": "Tahua hou",
+    "off": "Weto",
+    "on": "Wewete",
+    "palette": "Papatae tae",
+    "preview": "Tahua arokite",
+    "remove": "Tango",
+    "save": "Tiakina nga tahua",
+    "saved": "Kua tiakina te whirihoranga tahua.",
+    "shortcut-clear": "Ūkui pokatata",
+    "shortcut-cleared": "Kua whakakorehia te pokatata.",
+    "shortcut-config-changed": "I huri te whirihoranga tahua i runga i te kōpae. Tiakina nga tahua onāianei hei whakamahi i tenei pokatata.",
+    "shortcut-in-use": "E ai ki a Windows kei te whakamahia kētia tenei pokatata.",
+    "shortcut-invalid": "Whakauruhia he kī kotahi, me nga momo whakarereke e whakaaetia ana mo tenei pokatata.",
+    "shortcut-record": "Tuhia te pokatata",
+    "shortcut-save-new-menu": "Tiakina tenei tahua hou hei whakahohe i tana pokatata.",
+    "shortcut-saved": "Pokatata kua tiakina: {0}. Whakamahia hei whakatuwhera i te tahua ina whakahohea nga Mahi Tere.",
+    "shortcut-stop": "Kati te tuhi",
+    "shortcut-unavailable": "Kaore i taea e Windows te rehita i tenei pokatata."
+  },
+  "settings": {
+    "add-menu-items": "Tāpiri Tūemi Tahua",
+    "all-menus": "Nga Tahua Katoa",
+    "anchored-mode": "Aratau Punga",
+    "app-condition": "Tepe ki nga Taumahi Tauwhāiti",
+    "area-condition-bottom-placeholder": "Pōturi Raro",
+    "area-condition-left-placeholder": "Mauī",
+    "area-condition-right-placeholder": "Matau",
+    "area-condition-top-placeholder": "Runga",
+    "cancel": "Whakakore",
+    "create-menu-button": "Tāpiri Tahua",
+    "delete-menu": "Muku tahua",
+    "delete-menu-item": "Mukua te tuemi tahua",
+    "edit-submenu": "Whakatika tahuaroto",
+    "export-menu": "Tahua kaweake",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Whakahohehia te Aratau Tohu",
+      "close-menu": "Katia te tahua",
+      "do-nothing": "Kaua e mahia",
+      "enable-marking-mode-info": "Ki te whakahohea te Aratau Tohu, ka taea e koe te kowhiri i nga mea ma te toia te kiore ki runga.",
+      "enable-turbo-mode": "Whakahohehia te Aratau Turbo",
+      "enable-turbo-mode-info": "Ki te whakahohea te Aratau Turbo, ka taea e koe te mahi tohu i te wa e pupuri ana koe i te taviri whakarereke penei i te Shift, Ctrl ranei.",
+      "interaction-modes": "Aratau Whakawhitiwhiti",
+      "middle-mouse-button-behavior": "Pātene kiore waenga",
+      "middle-mouse-button-behavior-info": "Ma tenei ka whakatau he aha te mea ka pehia te paatene kiore waenga i te wa e whakaatuhia ana he tahua.",
+      "move-pointer-to-menu-center": "Nuku te atatohu ki te pokapū tahua",
+      "move-pointer-to-menu-center-info": "Ki te takina, ka nukuhia te atatohu kiore ki waenganui o te tahua, tahuaroto ranei ina tika. Ka penei pea mena ka whakatuwherahia he tahua kia tata rawa ki te taha o te mata, ki te whakatuwherahia ranei he tahua i roto i te Aratau Tauwaenga.",
+      "require-click-for-hover-mode": "Me paatoo mo nga whiringa Aratau Whakaparo",
+      "require-click-for-hover-mode-info": "Ki te kore e takina, ka kowhiria nga taonga ina nukuhia te kiore ki runga mo nga tahua ma te whakamahi i te Aratau Whakaparo.",
+      "right-mouse-button-behavior": "Pātene kiore matau",
+      "right-mouse-button-behavior-info": "Ma tenei ka whakatau he aha te mea ka pehia te paatene kiore matau i te wa e whakaatuhia ana he tahua.",
+      "select-item": "Tīpakohia te tūemi",
+      "select-parent": "Whakatere ki runga kotahi te taumata",
+      "trigger-center-click-on-key-release": "Katia te tahua i runga i te tuku pokatata ki te pokapū",
+      "trigger-center-click-on-key-release-info": "Ma tenei ka puta te rerengamahi-a-waenga ka tukuna he taviri i te wa e whakapaoho ana ki te pokapu o te tahua."
+    },
+    "hover-mode": "Aratau Whakaparo",
+    "icon-picker-dialog": {
+      "search-placeholder": "Rapu ata…"
+    },
+    "import-menu": "Tahua kawemai",
+    "menu-behavior": "Tahua Whanonga",
+    "menu-conditions": "Nga Tikanga Tahua",
+    "menu-themes-dialog": {
+      "default-colors": "Tae taunoa",
+      "enable-menu-animations": "Tahua Animations",
+      "title": "Tahua Kaupapa"
+    },
+    "no-matching-menus": "Karekau he tahua i kitea.",
+    "no-menus": "Karekau he tahua.",
+    "not-bound": "Kaore i Herea",
+    "quick-select-key-label": "Kī kōwhiri tere",
+    "quick-select-key-recording": "Tīpako kī…",
+    "shortcut-info": "Ma tenei pokatata e whakatuwhera te tahua. Kia kotahi te kī pūnoa me te maha o ngā whakakē pērā i Ctrl, Alt, Shift rānei. I te wa e tuhi ana, kaore koe e pehi i nga taviri katoa i te wa kotahi, ka taea hoki e koe te pehi tetahi i muri i tetahi. Ka whai hua tenei mena kua herea te pokatata ki tetahi atu tahua!",
+    "shortcut-label": "Pokatata",
+    "shortcut-recording": "Pēhia he pokatata…",
+    "window-condition": "Tepe ki nga Taitara Matapihi Tauwhāiti",
+    "workflow-editor": {
+      "add-action": "Tāpiri Mahi",
+      "select-workflow-name": "Tīpako Reremahi"
+    },
+    "anchored-mode-info": "Whakatuwherahia nga tahuaroto ki te tuunga rite ki te tahua matua. Ma te tirotiro i tenei, ka whakakorehia te Aratau Tohu me te Aratau Turbo.",
+    "fixed-position-mode": "Aratau Turanga Pumau",
+    "fixed-position-mode-info": "Whakatuwherahia te tahua ki te waahi kua whakaritea i runga i te mata, kaua ki te pehu.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Tautuhia te waahi ki te taha maui ki raro",
+      "bottom-right-preset-tooltip": "Tautuhia te waahi ki te taha matau o raro",
+      "centered-preset-tooltip": "Whakatakotoria te tūnga ki waenganui",
+      "confirm": "Whakamahia tenei turanga",
+      "top-left-preset-tooltip": "Tautuhia te tuunga ki runga maui",
+      "top-right-preset-tooltip": "Whakatakotoria te tūnga ki runga matau"
+    },
+    "fixed-position-tooltip": "Tīpakohia he tūnga pūmau",
+    "hover-mode-info": "Mo nga kaiwhakamahi hiko anake! Tīpakohia ngā tūemi mā te whakaparo ki runga."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Taunoa",
+      "clean-circle": "Porowhita Ma",
+      "neon-lights": "Maama Neon",
+      "purity": "Maamaa",
+      "rainbow-labels": "Tapanga Aniwaniwa"
+    },
+    "presets": {
+      "Blue Glass": "Karaehe Kahurangi",
+      "Dark Night": "Po pouri",
+      "Cotton Candy": "Karakara Miro",
+      "Dark and Cozy": "Pouri me te Awhiawhi",
+      "Blue Glow": "Tirama kahurangi",
+      "Green Glow": "Tiramana Kakariki",
+      "Electric": "Hiko",
+      "Orange": "Karaka",
+      "Pink": "Māwhero",
+      "Bright Prism": "Prisma kanapa",
+      "Kando Default": "Tae taunoa"
+    }
+  }
+}

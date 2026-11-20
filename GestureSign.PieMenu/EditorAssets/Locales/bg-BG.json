@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Имейл",
+      "file-browser": "Файлов браузър",
+      "paint": "Боядисвайте",
+      "submenu": "Приложения",
+      "terminal": "Терминал",
+      "web-browser": "Уеб браузър"
+    },
+    "audio": {
+      "mute": "Изключи звука",
+      "next-track": "Следваща песен",
+      "play-pause": "Възпроизвеждане / Пауза",
+      "previous-track": "Предишна песен",
+      "submenu": "аудио"
+    },
+    "bookmarks": {
+      "desktop": "Работен плот",
+      "documents": "Документи",
+      "downloads": "Изтегляния",
+      "home": "Начало",
+      "music": "Музика",
+      "pictures": "Снимки",
+      "submenu": "Отметки",
+      "videos": "Видеоклипове"
+    },
+    "clipboard": {
+      "copy": "Копирай",
+      "cut": "Изрежи",
+      "paste": "Залепете",
+      "submenu": "Клипборд"
+    },
+    "name": "Примерно меню",
+    "next-workspace": "Следващо работно пространство",
+    "previous-workspace": "Предишно работно пространство",
+    "web-links": {
+      "kando-on-discord": "Кандо на Discord",
+      "kando-on-github": "Kando в GitHub",
+      "kando-on-kofi": "Кандо на ко-фи",
+      "kando-on-youtube": "Кандо в YouTube",
+      "submenu": "Уеб връзки"
+    },
+    "windows": {
+      "close-window": "Затвори прозорец",
+      "submenu": "Windows",
+      "tile-left": "Плочка отляво",
+      "tile-right": "Плочка вдясно",
+      "toggle-maximize": "Превключете Увеличаване"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Затваряне на менюто"
+    },
+    "close-submenu": {
+      "name": "Затворете подменюто"
+    },
+    "delay": {
+      "name": "Забавяне"
+    },
+    "execute-command": {
+      "name": "Изпълнение на командата"
+    },
+    "execute-macro": {
+      "name": "Изпълнение на макроса"
+    },
+    "focus-window": {
+      "name": "Прозорец за фокусиране"
+    },
+    "inhibit-shortcuts": {
+      "name": "Инхибиране на преки пътища"
+    },
+    "open-file": {
+      "name": "Отвори файла"
+    },
+    "open-menu": {
+      "name": "Отворете менюто"
+    },
+    "open-settings": {
+      "name": "Отворете Настройки"
+    },
+    "open-uri": {
+      "name": "Отворете URI"
+    },
+    "send-tcp-message": {
+      "name": "Изпратете TCP съобщение"
+    },
+    "send-websocket-message": {
+      "name": "Изпратете WebSocket съобщение"
+    },
+    "set-clipboard": {
+      "name": "Задаване на клипборда"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Горещ клавиш",
+      "name": "Симулирайте клавишна комбинация",
+      "recording-placeholder": "Въведете клавишна комбинация..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Подменю"
+    }
+  },
+  "native": {
+    "action": "Действие",
+    "action-value": "Пряк път, път, URL адрес, текст или JSON",
+    "choose-icon": "Изберете икона",
+    "condition-invalid": "Въведете валиден прозорец или условие за приложение, например /notepad/i.",
+    "configuration": "Конфигурация на Pie Menu",
+    "editor": "Редактор на пай меню",
+    "exported": "Експортирано в {0}",
+    "fixed-angle": "Фиксиран ъгъл (0° = нагоре)",
+    "fixed-x": "Фиксиран X (0–1 на монитора)",
+    "fixed-y": "Фиксиран Y (0–1 надолу по монитора)",
+    "icon-invalid-image": "Изберете PNG, JPEG, GIF, WebP или ICO изображение до 192 KB.",
+    "icon-library": "Библиотека с икони",
+    "icon-next": "Следващи икони",
+    "icon-no-results": "Няма намерени икони.",
+    "icon-pick-file": "Изберете изображение или приложение",
+    "icon-previous": "Предишни икони",
+    "icon-use-image": "Използвайте изображение",
+    "imported": "Импортирани са {0} менюта. Прегледайте импортираните команди, преди да ги използвате, след което запазете.",
+    "item-icon": "Икона на елемент",
+    "item-order": "Ред на артикулите",
+    "label": "Етикет",
+    "move-down": "Придвижете се надолу",
+    "move-up": "Придвижете се нагоре",
+    "name": "Име на менюто",
+    "new-menu": "Ново меню",
+    "off": "Изключено",
+    "on": "Включено",
+    "palette": "Цветова палитра",
+    "preview": "Меню за визуализация",
+    "remove": "Премахнете",
+    "save": "Запазване на менюта",
+    "saved": "Конфигурацията на менюто е запазена.",
+    "shortcut-clear": "Изчистване на пряк път",
+    "shortcut-cleared": "Прекият път е изчистен.",
+    "shortcut-config-changed": "Конфигурацията на менюто е променена на диска. Запазете текущите менюта, за да приложите този пряк път.",
+    "shortcut-in-use": "Windows съобщава, че този пряк път вече се използва.",
+    "shortcut-invalid": "Въведете един клавиш плюс всички модификатори, разрешени за този пряк път.",
+    "shortcut-record": "Пряк път за запис",
+    "shortcut-save-new-menu": "Запазете това ново меню, за да активирате неговия пряк път.",
+    "shortcut-saved": "Пряк път запазен: {0}. Използвайте го, за да отворите менюто, когато са активирани Бързи действия.",
+    "shortcut-stop": "Спрете записа",
+    "shortcut-unavailable": "Windows не можа да регистрира този пряк път."
+  },
+  "settings": {
+    "add-menu-items": "Добавяне на елементи от менюто",
+    "all-menus": "Всички менюта",
+    "anchored-mode": "Закотвен режим",
+    "app-condition": "Ограничение до конкретни приложения",
+    "area-condition-bottom-placeholder": "Долу",
+    "area-condition-left-placeholder": "Ляво",
+    "area-condition-right-placeholder": "Дясно",
+    "area-condition-top-placeholder": "Отгоре",
+    "cancel": "Отказ",
+    "create-menu-button": "Добавяне на меню",
+    "delete-menu": "Меню за изтриване",
+    "delete-menu-item": "Изтриване на елемент от менюто",
+    "edit-submenu": "Редактиране на подменю",
+    "export-menu": "Меню за експортиране",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Активирайте режима за маркиране",
+      "close-menu": "Затваряне на менюто",
+      "do-nothing": "Не правете нищо",
+      "enable-marking-mode-info": "При активиран режим на маркиране можете да избирате елементи чрез плъзгане на мишката върху тях.",
+      "enable-turbo-mode": "Активиране на турбо режим",
+      "enable-turbo-mode-info": "С активиран режим Turbo можете да извършвате жестове, стига да задържите модифициращ клавиш като Shift или Ctrl.",
+      "interaction-modes": "Режими на взаимодействие",
+      "middle-mouse-button-behavior": "Среден бутон на мишката",
+      "middle-mouse-button-behavior-info": "Това определя какво се случва при натискане на средния бутон на мишката, докато е показано меню.",
+      "move-pointer-to-menu-center": "Преместете показалеца в центъра на менюто",
+      "move-pointer-to-menu-center-info": "Ако е отметнато, показалецът на мишката ще бъде преместен в центъра на меню или подменю, когато е необходимо. Такъв може да е случаят, ако меню е отворено твърде близо до ръба на екрана или ако меню е отворено в центриран режим.",
+      "require-click-for-hover-mode": "Изискване за щракване за избор на режим на задържане",
+      "require-click-for-hover-mode-info": "Ако не е отметнато, елементите ще бъдат избрани незабавно, когато мишката се премести върху тях за менюта, използващи режим на задържане.",
+      "right-mouse-button-behavior": "Десен бутон на мишката",
+      "right-mouse-button-behavior-info": "Това определя какво се случва при натискане на десния бутон на мишката, докато е показано меню.",
+      "select-item": "Изберете елемент",
+      "select-parent": "Придвижете се едно ниво нагоре",
+      "trigger-center-click-on-key-release": "Затваряне на менюто при освобождаване на пряк път през центъра",
+      "trigger-center-click-on-key-release-info": "Това ще задейства работния процес с централно щракване, когато се пусне клавиш, докато задържате курсора на мишката над центъра на менюто."
+    },
+    "hover-mode": "Режим на задържане",
+    "icon-picker-dialog": {
+      "search-placeholder": "Икони за търсене..."
+    },
+    "import-menu": "Меню за импортиране",
+    "menu-behavior": "Поведение на менюто",
+    "menu-conditions": "Условия на менюто",
+    "menu-themes-dialog": {
+      "default-colors": "Цветове по подразбиране",
+      "enable-menu-animations": "Анимации на менюто",
+      "title": "Теми на менюто"
+    },
+    "no-matching-menus": "Няма намерени менюта.",
+    "no-menus": "Нямате менюта.",
+    "not-bound": "Не е обвързано",
+    "quick-select-key-label": "Клавиш за бърз избор",
+    "quick-select-key-recording": "Изберете ключ...",
+    "shortcut-info": "Този пряк път отваря менюто. Трябва да съдържа един нормален клавиш и произволен брой модификатори като Ctrl, Alt или Shift. Когато записвате, не е необходимо да натискате всички клавиши наведнъж, можете също да ги натискате един след друг. Това е полезно, ако пряк път вече е свързан с друго меню!",
+    "shortcut-label": "Пряк път",
+    "shortcut-recording": "Натиснете пряк път...",
+    "window-condition": "Ограничение до конкретни заглавия на прозорци",
+    "workflow-editor": {
+      "add-action": "Добавяне на действие",
+      "select-workflow-name": "Изберете Работен поток"
+    },
+    "anchored-mode-info": "Отворете подменютата на същата позиция като родителското меню. Отбелязването на това ще деактивира режима на маркиране и режима Turbo.",
+    "fixed-position-mode": "Режим на фиксирана позиция",
+    "fixed-position-mode-info": "Отворете менюто на фиксирана позиция на екрана, вместо на курсора.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Задайте позиция долу вляво",
+      "bottom-right-preset-tooltip": "Задайте позиция долу вдясно",
+      "centered-preset-tooltip": "Задайте позиция в центъра",
+      "confirm": "Използвайте тази позиция",
+      "top-left-preset-tooltip": "Задайте позиция горе вляво",
+      "top-right-preset-tooltip": "Задайте позиция горе вдясно"
+    },
+    "fixed-position-tooltip": "Изберете фиксирана позиция",
+    "hover-mode-info": "Само за опитни потребители! Изберете елементи, като задържите курсора на мишката върху тях."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "По подразбиране",
+      "clean-circle": "Чист кръг",
+      "neon-lights": "Неонови светлини",
+      "purity": "Чистота",
+      "rainbow-labels": "Етикети Rainbow"
+    },
+    "presets": {
+      "Blue Glass": "Синьо стъкло",
+      "Dark Night": "Тъмна нощ",
+      "Cotton Candy": "Захарен памук",
+      "Dark and Cozy": "Тъмно и уютно",
+      "Blue Glow": "Синьо сияние",
+      "Green Glow": "Зелен блясък",
+      "Electric": "Електрически",
+      "Orange": "Оранжево",
+      "Pink": "Розово",
+      "Bright Prism": "Ярка призма",
+      "Kando Default": "Цветове по подразбиране"
+    }
+  }
+}

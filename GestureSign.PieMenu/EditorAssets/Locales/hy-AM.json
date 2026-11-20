@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Էլեկտրոնային փոստ",
+      "file-browser": "Ֆայլերի զննարկիչ",
+      "paint": "Ներկել",
+      "submenu": "Հավելվածներ",
+      "terminal": "Տերմինալ",
+      "web-browser": "Վեբ զննարկիչ"
+    },
+    "audio": {
+      "mute": "Զլվել",
+      "next-track": "Հաջորդ երգ",
+      "play-pause": "Նվագարկել / Դադարեցնել",
+      "previous-track": "Նախորդ երգ/հետքը",
+      "submenu": "Աուդիո"
+    },
+    "bookmarks": {
+      "desktop": "Աշխատասեղան",
+      "documents": "Փաստաթղթեր",
+      "downloads": "Ներբեռնումներ",
+      "home": "Տուն",
+      "music": "Երաժշտություն",
+      "pictures": "Նկարներ",
+      "submenu": "Էջանիշեր",
+      "videos": "Տեսանյութեր"
+    },
+    "clipboard": {
+      "copy": "Պատճենել",
+      "cut": "Կտրել",
+      "paste": "Ներկարկել",
+      "submenu": "Clipboard"
+    },
+    "name": "Օրինակ մենյու",
+    "next-workspace": "Հաջորդ աշխատանքային տարածքը",
+    "previous-workspace": "Նախորդ աշխատանքային տարածք",
+    "web-links": {
+      "kando-on-discord": "Kando on Discord",
+      "kando-on-github": "Kando-ն GitHub-ում",
+      "kando-on-kofi": "Կանդո Ko-fi-ի վրա",
+      "kando-on-youtube": "Կանդո YouTube-ում",
+      "submenu": "Վեբ հղումներ"
+    },
+    "windows": {
+      "close-window": "Փակել պատուհանը",
+      "submenu": "Windows",
+      "tile-left": "Սալիկ ձախ",
+      "tile-right": "Կղմինդր Աջ",
+      "toggle-maximize": "Միացնել առավելագույնը"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Փակել ընտրացանկը"
+    },
+    "close-submenu": {
+      "name": "Փակել ենթացանկը"
+    },
+    "delay": {
+      "name": "հետաձգում"
+    },
+    "execute-command": {
+      "name": "Կատարել հրամանը"
+    },
+    "execute-macro": {
+      "name": "Կատարել մակրո"
+    },
+    "focus-window": {
+      "name": "Ֆոկուս պատուհան"
+    },
+    "inhibit-shortcuts": {
+      "name": "Արգելափակել դյուրանցումները"
+    },
+    "open-file": {
+      "name": "Բացել Պայմանագիրը"
+    },
+    "open-menu": {
+      "name": "Բացեք Մենյու"
+    },
+    "open-settings": {
+      "name": "Բացեք Պարամետրերը"
+    },
+    "open-uri": {
+      "name": "Բացեք URI"
+    },
+    "send-tcp-message": {
+      "name": "Ուղարկեք TCP հաղորդագրություն"
+    },
+    "send-websocket-message": {
+      "name": "Ուղարկեք WebSocket հաղորդագրություն"
+    },
+    "set-clipboard": {
+      "name": "Սահմանել Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Կարճանկյուն ստեղն",
+      "name": "Մոդելավորել Hotkey",
+      "recording-placeholder": "Մուտքագրեք թեժ ստեղն…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Ենթամենյու"
+    }
+  },
+  "native": {
+    "action": "Գործողություն",
+    "action-value": "Դյուրանցում, ուղի, URL, տեքստ կամ JSON",
+    "choose-icon": "Ընտրեք պատկերակը",
+    "condition-invalid": "Մուտքագրեք վավեր պատուհան կամ հավելվածի պայման, օրինակ, /notepad/i:",
+    "configuration": "Կարկանդակ մենյուի կազմաձևում",
+    "editor": "Կարկանդակ մենյուի խմբագիր",
+    "exported": "Արտահանվել է {0}",
+    "fixed-angle": "Ֆիքսված անկյուն (0° = վեր)",
+    "fixed-x": "Ֆիքսված X (0–1 մոնիտորով)",
+    "fixed-y": "Ֆիքսված Y (0–1 մոնիտորից ներքեւ)",
+    "icon-invalid-image": "Ընտրեք PNG, JPEG, GIF, WebP կամ ICO պատկեր մինչև 192 ԿԲ:",
+    "icon-library": "Սրբապատկերների գրադարան",
+    "icon-next": "Հաջորդ պատկերակները",
+    "icon-no-results": "Սրբապատկերներ չեն գտնվել:",
+    "icon-pick-file": "Ընտրեք պատկեր կամ հավելված",
+    "icon-previous": "Նախորդ սրբապատկերներ",
+    "icon-use-image": "Օգտագործեք պատկերը",
+    "imported": "Ներմուծվել է {0} մենյու(ներ): Վերանայեք ներմուծված հրամանները նախքան դրանք օգտագործելը, ապա պահպանեք:",
+    "item-icon": "Նյութի պատկերակ",
+    "item-order": "Նյութի կարգը",
+    "label": "Պիտակ",
+    "move-down": "Տեղափոխեք ներքև",
+    "move-up": "Շարժվեք վերև",
+    "name": "Ցանկի անվանումը",
+    "new-menu": "Նոր մենյու",
+    "off": "Թույլ չտրված վիճակ",
+    "on": "Նստած վիճակ",
+    "palette": "Գունավոր գունապնակ",
+    "preview": "Նախադիտման ընտրացանկ",
+    "remove": "Հեռացնել",
+    "save": "Պահպանել ընտրացանկերը",
+    "saved": "Ցանկի կազմաձևումը պահպանված է:",
+    "shortcut-clear": "Մաքրել դյուրանցումը",
+    "shortcut-cleared": "Դյուրանցումը ջնջվեց:",
+    "shortcut-config-changed": "Մենյուի կազմաձևը փոխվել է սկավառակի վրա: Այս դյուրանցումը կիրառելու համար պահեք ընթացիկ ընտրացանկերը:",
+    "shortcut-in-use": "Windows-ը հայտնում է, որ այս դյուրանցումն արդեն օգտագործվում է։",
+    "shortcut-invalid": "Մուտքագրեք մեկ ստեղն, գումարած այս դյուրանցման համար թույլատրված ցանկացած փոփոխող:",
+    "shortcut-record": "Ձայնագրման դյուրանցում",
+    "shortcut-save-new-menu": "Պահպանեք այս նոր ընտրացանկը՝ դրա դյուրանցումն ակտիվացնելու համար:",
+    "shortcut-saved": "Դյուրանցումը պահպանված է՝ {0}: Օգտագործեք այն՝ ցանկը բացելու համար, երբ Արագ գործողությունները միացված են:",
+    "shortcut-stop": "Դադարեցնել ձայնագրումը",
+    "shortcut-unavailable": "Windows-ը չկարողացավ գրանցել այս դյուրանցումը:"
+  },
+  "settings": {
+    "add-menu-items": "Ավելացնել ընտրացանկի տարրեր",
+    "all-menus": "Բոլոր ընտրացանկերը",
+    "anchored-mode": "Խարսխված ռեժիմ",
+    "app-condition": "Սահմանափակել հատուկ հավելվածների համար",
+    "area-condition-bottom-placeholder": "Ներքևում",
+    "area-condition-left-placeholder": "Ձախ",
+    "area-condition-right-placeholder": "Աջ",
+    "area-condition-top-placeholder": "Վերև",
+    "cancel": "Չեղարկել",
+    "create-menu-button": "Ավելացնել ընտրացանկ",
+    "delete-menu": "Ջնջել ընտրացանկը",
+    "delete-menu-item": "Ջնջել ցանկի տարրը",
+    "edit-submenu": "Խմբագրել ենթամենյուն",
+    "export-menu": "Արտահանման ընտրացանկ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Միացնել նշման ռեժիմը",
+      "close-menu": "Փակել ընտրացանկը",
+      "do-nothing": "ոչինչ չանել",
+      "enable-marking-mode-info": "Եթե նշման ռեժիմը միացված է, դուք կարող եք ընտրել տարրեր՝ մկնիկը քարշ տալով դրանց վրայով:",
+      "enable-turbo-mode": "Միացնել Turbo ռեժիմը",
+      "enable-turbo-mode-info": "Եթե Turbo Mode-ը միացված է, դուք կարող եք ժեստեր կատարել այնքան ժամանակ, քանի դեռ սեղմած եք պահում փոփոխիչի ստեղնը, ինչպիսիք են Shift կամ Ctrl:",
+      "interaction-modes": "Փոխազդեցության ռեժիմներ",
+      "middle-mouse-button-behavior": "Մկնիկի միջին կոճակը",
+      "middle-mouse-button-behavior-info": "Սա որոշում է, թե ինչ է տեղի ունենում, երբ սեղմվում է մկնիկի միջին կոճակը, երբ ցուցադրվում է մենյու:",
+      "move-pointer-to-menu-center": "Տեղափոխեք ցուցիչը մենյուի կենտրոն",
+      "move-pointer-to-menu-center-info": "Նշված լինելու դեպքում մկնիկի ցուցիչը կտեղափոխվի ցանկի կամ ենթամենյուի կենտրոն, երբ անհրաժեշտ լինի: Դա կարող է լինել, եթե ընտրացանկը բացվի էկրանի եզրին շատ մոտ կամ եթե ընտրացանկը բացվի Կենտրոնացված ռեժիմում:",
+      "require-click-for-hover-mode": "Պահանջվում է սեղմել «Հովերի ռեժիմ» ընտրության համար",
+      "require-click-for-hover-mode-info": "Եթե նշված չէ, տարրերը կընտրվեն անմիջապես, երբ մկնիկը կտեղափոխվի դրանց վրայով մենյուների համար՝ օգտագործելով Hover Mode:",
+      "right-mouse-button-behavior": "Մկնիկի աջ կոճակ",
+      "right-mouse-button-behavior-info": "Սա որոշում է, թե ինչ է տեղի ունենում, երբ սեղմվում է մկնիկի աջ կոճակը, երբ ցուցադրվում է մենյու:",
+      "select-item": "Ընտրեք տարրը",
+      "select-parent": "Նավարկեք մեկ մակարդակով",
+      "trigger-center-click-on-key-release": "Փակեք ընտրացանկը կենտրոնի վրայով դյուրանցումների թողարկման վրա",
+      "trigger-center-click-on-key-release-info": "Սա կգործարկի կենտրոնական սեղմման աշխատանքային հոսքը, երբ բանալին բացվի՝ սավառնելիս մենյուի կենտրոնում:"
+    },
+    "hover-mode": "Հովերի ռեժիմ",
+    "icon-picker-dialog": {
+      "search-placeholder": "Որոնման պատկերակներ…"
+    },
+    "import-menu": "Ներմուծման մենյու",
+    "menu-behavior": "Մենյու վարքագիծ",
+    "menu-conditions": "Մենյուի պայմանները",
+    "menu-themes-dialog": {
+      "default-colors": "Կանխադրված գույներ",
+      "enable-menu-animations": "Մենյու անիմացիաներ",
+      "title": "Մենյուի թեմաներ"
+    },
+    "no-matching-menus": "Ցանկեր չեն գտնվել:",
+    "no-menus": "Դուք ընտրացանկ չունեք:",
+    "not-bound": "Կապված չէ",
+    "quick-select-key-label": "Արագ ընտրելու բանալի",
+    "quick-select-key-recording": "Ընտրել բանալին…",
+    "shortcut-info": "Այս դյուրանցումը բացում է ընտրացանկը: Այն պետք է պարունակի մեկ նորմալ բանալի և ցանկացած թվով փոփոխիչներ, ինչպիսիք են Ctrl, Alt կամ Shift: Ձայնագրելիս պետք չէ միանգամից սեղմել բոլոր ստեղները, կարող եք նաև սեղմել դրանք մեկը մյուսի հետևից: Սա օգտակար է, եթե դյուրանցումն արդեն կապված է մեկ այլ ցանկի հետ:",
+    "shortcut-label": "Դյուրանցում",
+    "shortcut-recording": "Սեղմեք դյուրանցում…",
+    "window-condition": "Սահմանափակել հատուկ պատուհանների վերնագրերը",
+    "workflow-editor": {
+      "add-action": "Ավելացնել Գործողություն",
+      "select-workflow-name": "Ընտրեք Աշխատանքային հոսք"
+    },
+    "anchored-mode-info": "Բացեք ենթամենյուները նույն դիրքում, ինչ մայր ընտրացանկը: Սա ստուգելով՝ կանջատվեն Նշման ռեժիմը և տուրբո ռեժիմը:",
+    "fixed-position-mode": "Հաստատուն դիրքի ռեժիմ",
+    "fixed-position-mode-info": "Բացեք ընտրացանկը էկրանի վրա ֆիքսված դիրքում, կուրսորի փոխարեն:",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Տեղադրեք դիրքը ներքևի ձախ կողմում",
+      "bottom-right-preset-tooltip": "Տեղադրեք դիրքը ներքևի աջ կողմում",
+      "centered-preset-tooltip": "Տեղադրեք դիրքը կենտրոնում",
+      "confirm": "Օգտագործեք այս դիրքը",
+      "top-left-preset-tooltip": "Տեղադրեք դիրքը վերևի ձախ կողմում",
+      "top-right-preset-tooltip": "Տեղադրեք դիրքը վերևի աջ կողմում"
+    },
+    "fixed-position-tooltip": "Ընտրեք ֆիքսված դիրք",
+    "hover-mode-info": "Միայն հզոր օգտագործողների համար: Ընտրեք տարրեր՝ սավառնելով դրանց վրա:"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Կանխադրված",
+      "clean-circle": "Մաքուր շրջան",
+      "neon-lights": "Նեոնային լույսեր",
+      "purity": "Մաքրություն",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Blue Glass": "Կապույտ Ապակի",
+      "Dark Night": "Մութ գիշեր",
+      "Cotton Candy": "Բամբակյա կոնֆետ",
+      "Dark and Cozy": "Մութ և հարմարավետ",
+      "Blue Glow": "Կապույտ փայլ",
+      "Green Glow": "Կանաչ փայլ",
+      "Electric": "Էլեկտրական",
+      "Orange": "Նարնջագույն",
+      "Pink": "Վարդագույն",
+      "Bright Prism": "Պայծառ պրիզմա",
+      "Kando Default": "Կանխադրված գույներ"
+    }
+  }
+}

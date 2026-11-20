@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Explorateur de Fichiers",
+      "paint": "Paint",
+      "submenu": "Applications",
+      "terminal": "Invite de Commande",
+      "web-browser": "Navigateur Internet"
+    },
+    "audio": {
+      "mute": "Sourdine",
+      "next-track": "Prochaine Piste",
+      "play-pause": "Lecture / Pause",
+      "previous-track": "Piste Précédente",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Bureau",
+      "documents": "Documents",
+      "downloads": "Téléchargements",
+      "home": "Accueil",
+      "music": "Musique",
+      "pictures": "Images",
+      "submenu": "Signets",
+      "videos": "Vidéos"
+    },
+    "clipboard": {
+      "copy": "Copier",
+      "cut": "Couper",
+      "paste": "Coller",
+      "submenu": "Presse-Papiers"
+    },
+    "name": "Exemple de Menu",
+    "next-workspace": "Espace de Travail Suivant",
+    "previous-workspace": "Espace de Travail Précédent",
+    "web-links": {
+      "kando-on-discord": "Kando sur Discord",
+      "kando-on-github": "Kando sur GitHub",
+      "kando-on-kofi": "Kando sur Ko-fi",
+      "kando-on-youtube": "Kando sur YouTube",
+      "submenu": "Lien Internet"
+    },
+    "windows": {
+      "close-window": "Fermer la Fenêtre",
+      "submenu": "Fenêtres",
+      "tile-left": "Tuile à Gauche",
+      "tile-right": "Tuile à Droite",
+      "toggle-maximize": "Agrandir la fenêtre"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Fermer le menu"
+    },
+    "close-submenu": {
+      "name": "Fermer le sous-menu"
+    },
+    "delay": {
+      "name": "Retard"
+    },
+    "execute-command": {
+      "name": "Exécuter une Commande"
+    },
+    "execute-macro": {
+      "name": "Simuler une Macro"
+    },
+    "focus-window": {
+      "name": "Fenêtre de mise au point"
+    },
+    "inhibit-shortcuts": {
+      "name": "Interdire les raccourcis"
+    },
+    "open-file": {
+      "name": "Ouvrir un fichier"
+    },
+    "open-menu": {
+      "name": "Rediriger"
+    },
+    "open-settings": {
+      "name": "Ouvrir les paramètres"
+    },
+    "open-uri": {
+      "name": "Ouvrir un URI"
+    },
+    "send-tcp-message": {
+      "name": "Envoyer un message TCP"
+    },
+    "send-websocket-message": {
+      "name": "Envoyer un message WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Définir le Presse-papiers"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Raccourci clavier",
+      "name": "Simuler une touche de raccourci",
+      "recording-placeholder": "Écrire le raccourci clavier…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Sous-Menu"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Flux de travail du clic central",
+      "center-workflow-description": "Cliquez au centre du menu principal pour exécuter ces actions dans l’ordre.",
+      "appearance": "Apparence et animation",
+      "menu-size": "Taille du menu",
+      "fade-in": "Fondu d’entrée (ms)",
+      "fade-out": "Fondu de sortie (ms)",
+      "dark-palette": "Palette sombre",
+      "dark-theme": "Thème sombre",
+      "pointer-shortcuts": "Pointeur et raccourcis",
+      "theme-credits": "Crédits et licences des thèmes",
+      "back-up-menus": "Sauvegarder les menus",
+      "restore-menus": "Restaurer les menus",
+      "back-up-settings": "Sauvegarder les paramètres",
+      "restore-settings": "Restaurer les paramètres",
+      "open-config-folder": "Ouvrir le dossier de configuration",
+      "restored": "Restauration effectuée dans l’éditeur. Enregistrez pour appliquer.",
+      "collapse": "Replier les paramètres"
+    },
+    "action": "Action",
+    "action-value": "Raccourci, chemin, URL, texte ou JSON",
+    "choose-icon": "Choisir l'icône",
+    "condition-invalid": "Entrez une condition de fenêtre ou d'application valide, par exemple /notepad/i.",
+    "configuration": "Configuration du menu à tarte",
+    "editor": "Éditeur de menu à secteurs",
+    "exported": "Exporté vers {0}",
+    "fixed-angle": "Angle fixe (0° = vers le haut)",
+    "fixed-x": "X fixe (0-1 sur le moniteur)",
+    "fixed-y": "Y fixe (0–1 sur le moniteur)",
+    "icon-invalid-image": "Choisissez une image PNG, JPEG, GIF, WebP ou ICO jusqu'à 192 Ko.",
+    "icon-library": "Bibliothèque d'icônes",
+    "icon-next": "Icônes suivantes",
+    "icon-no-results": "Aucune icône trouvée.",
+    "icon-pick-file": "Choisissez une image ou une application",
+    "icon-previous": "Icônes précédentes",
+    "icon-use-image": "Utiliser l'image",
+    "imported": "{0} menu(s) importé(s). Vérifiez les commandes importées avant de les utiliser, puis enregistrez.",
+    "item-icon": "Icône d'article",
+    "item-order": "Ordre des articles",
+    "label": "Étiquette",
+    "move-down": "Descendre",
+    "move-up": "Monter",
+    "name": "Nom du menu",
+    "new-menu": "Nouveau menu",
+    "off": "Désactivé",
+    "on": "Activé",
+    "palette": "Palette de couleurs",
+    "preview": "Menu Aperçu",
+    "remove": "Supprimer",
+    "save": "Enregistrer les menus",
+    "saved": "Configuration du menu enregistrée.",
+    "shortcut-clear": "Effacer le raccourci",
+    "shortcut-cleared": "Raccourci effacé.",
+    "shortcut-config-changed": "La configuration du menu a changé sur le disque. Enregistrez les menus actuels pour appliquer ce raccourci.",
+    "shortcut-in-use": "Windows signale que ce raccourci est déjà utilisé.",
+    "shortcut-invalid": "Entrez une touche, ainsi que tous les modificateurs autorisés pour ce raccourci.",
+    "shortcut-record": "Raccourci d'enregistrement",
+    "shortcut-save-new-menu": "Enregistrez ce nouveau menu pour activer son raccourci.",
+    "shortcut-saved": "Raccourci enregistré : {0}. Utilisez-le pour ouvrir le menu lorsque les actions rapides sont activées.",
+    "shortcut-stop": "Arrêter l'enregistrement",
+    "shortcut-unavailable": "Windows n'a pas pu enregistrer ce raccourci."
+  },
+  "settings": {
+    "add-menu-items": "Ajouter des éléments au menu",
+    "all-menus": "Tous les menus",
+    "anchored-mode": "Mode Ancré",
+    "app-condition": "Limiter à des Applications Spécifiques",
+    "area-condition-bottom-placeholder": "Bas",
+    "area-condition-left-placeholder": "Gauche",
+    "area-condition-right-placeholder": "Droite",
+    "area-condition-top-placeholder": "Haut",
+    "cancel": "Annuler",
+    "create-menu-button": "Ajouter un menu",
+    "delete-menu": "Supprimer un menu",
+    "delete-menu-item": "Supprimer un élément du menu",
+    "edit-submenu": "Modifier le sous-menu",
+    "export-menu": "Exporter le menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Activer le Mode Marquage",
+      "close-menu": "Fermer le menu",
+      "do-nothing": "Ne rien faire",
+      "enable-marking-mode-info": "Lorsque le Mode Marquage est activé, vous pouvez sélectionner des éléments en faisant glisser la souris dessus.",
+      "enable-turbo-mode": "Active le Mode Turbo",
+      "enable-turbo-mode-info": "Lorsque le Mode Turbo est activé, vous pouvez effectuer des gestes tant que vous maintenez enfoncée une touche modifiante telle que Maj ou Ctrl.",
+      "interaction-modes": "Modes d'Interaction",
+      "middle-mouse-button-behavior": "Bouton central de la souris",
+      "middle-mouse-button-behavior-info": "Ceci détermine ce qui se passe lorsque le bouton central de la souris est enfoncé alors qu'un menu est affiché.",
+      "move-pointer-to-menu-center": "Déplacer le curseur au centre du menu",
+      "move-pointer-to-menu-center-info": "Si cochée, le curseur sera déplacé au centre d'un menu ou d'un sous-menu si nécessaire. Cela peut être le cas si un menu est ouvert trop près du bord de l'écran ou si un menu est ouvert en Mode Centré.",
+      "require-click-for-hover-mode": "Nécessite un clic pour la sélection en Mode Survol",
+      "require-click-for-hover-mode-info": "Pour les menus utilisant le Mode Survol, ne pas cocher cette option entrainera les éléments à être sélectionnés immédiatement lorsque la souris passera au-dessus d'eux.",
+      "right-mouse-button-behavior": "Bouton droit de la souris",
+      "right-mouse-button-behavior-info": "Ceci détermine ce qui se passe lorsque le bouton droit de la souris est enfoncé alors qu'un menu est affiché.",
+      "select-item": "Sélectionner un article",
+      "select-parent": "Remonter d'un niveau",
+      "trigger-center-click-on-key-release": "Fermer le menu en libérant le raccourci au centre",
+      "trigger-center-click-on-key-release-info": "Cela déclenchera le flux de travail du clic central lorsqu'une touche est relâchée en survolant le centre d'un menu."
+    },
+    "hover-mode": "Mode Survol",
+    "icon-picker-dialog": {
+      "search-placeholder": "Rechercher des Icônes…"
+    },
+    "import-menu": "Importer le menu",
+    "menu-behavior": "Comportement du Menu",
+    "menu-conditions": "Conditions du Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Couleurs par défaut",
+      "enable-menu-animations": "Animations de Menu",
+      "title": "Thèmes de Menu"
+    },
+    "no-matching-menus": "Aucun menu trouvé.",
+    "no-menus": "Il n'y a aucun menu.",
+    "not-bound": "Non-Attribué",
+    "quick-select-key-label": "Touche de sélection rapide",
+    "quick-select-key-recording": "Sélectionnez une touche…",
+    "shortcut-info": "Ce raccourci ouvre le menu. Il doit contenir une touche normale et un nombre quelconque de modifiantes tels que Ctrl, Alt ou Maj. Lors de l'enregistrement, il n'est pas nécessaire d'appuyer sur toutes les touches en même temps, vous pouvez aussi les enfoncer l'une après l'autre. C'est utile si un raccourci est déjà lié à un autre menu !",
+    "shortcut-label": "Raccourci",
+    "shortcut-recording": "Appuyez sur un raccourci…",
+    "window-condition": "Limiter à des titres de fenêtres spécifiques",
+    "workflow-editor": {
+      "add-action": "Ajouter une action",
+      "select-workflow-name": "Sélectionnez le flux de travail"
+    },
+    "anchored-mode-info": "Ouvrir les sous-menus à la même position que le menu parent. Le fait de cocher cette case désactive le Mode Marquage et Turbo.",
+    "fixed-position-mode": "Mode Position fixe",
+    "fixed-position-mode-info": "Ouvre le menu à une position fixe de l'écran, au lieu de la position du curseur.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Définir la position en bas à gauche",
+      "bottom-right-preset-tooltip": "Définir la position en bas à droite",
+      "centered-preset-tooltip": "Régler la position au centre",
+      "confirm": "Utiliser cette position",
+      "top-left-preset-tooltip": "Définir la position en haut à gauche",
+      "top-right-preset-tooltip": "Définir la position en haut à droite"
+    },
+    "fixed-position-tooltip": "Sélectionner une position fixe",
+    "hover-mode-info": "Pour utilisateurs expérimentés seulement ! Sélectionne les éléments en les survolant."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Par défaut",
+      "clean-circle": "Cercle épuré",
+      "neon-lights": "Lumières néon",
+      "purity": "Pureté",
+      "rainbow-labels": "Libellés arc-en-ciel"
+    },
+    "presets": {
+      "Blue Glass": "Verre bleu",
+      "Dark Night": "Nuit sombre",
+      "Cotton Candy": "Barbe à papa",
+      "Dark and Cozy": "Sombre et chaleureux",
+      "Blue Glow": "Lueur bleue",
+      "Green Glow": "Lueur verte",
+      "Electric": "Électrique",
+      "Orange": "Orange",
+      "Pink": "Rose",
+      "Bright Prism": "Prisme lumineux",
+      "Kando Default": "Couleurs par défaut"
+    }
+  }
+}

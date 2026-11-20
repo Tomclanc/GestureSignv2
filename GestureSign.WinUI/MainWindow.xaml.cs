@@ -153,6 +153,8 @@ public sealed partial class MainWindow : Window
     private StackPanel? _actionsPageActionsPanel;
     private readonly Dictionary<string, Border> _actionsPageScopeRows = new(StringComparer.Ordinal);
     private int _actionsScopeRenderVersion;
+    private bool _actionsPageWheelHandoffQueued;
+    private double _actionsPageWheelHandoffDelta;
     private IntPtr _nativeLargeIcon;
     private IntPtr _nativeSmallIcon;
     private uint _nativeIconDpi;
@@ -206,6 +208,7 @@ public sealed partial class MainWindow : Window
         ApplyMicaDimmingOverlay();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
+        InitializeGlobalSearch();
 
         ConfigureWindow();
         RefreshNavigationText();
@@ -330,9 +333,11 @@ public sealed partial class MainWindow : Window
         _ = NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
         _legacyData = LegacyDataStore.Load();
         _uiCultureName = _legacyData.Options.CultureName;
+        _showGlobalSearch = _legacyData.Options.ShowGlobalSearch;
         ApplyUiCulture(_uiCultureName);
         ApplyUiFlowDirection();
         RefreshNavigationText();
+        UpdateGlobalSearchLayout();
         ShowSelectedPage();
     }
 
@@ -370,7 +375,7 @@ public sealed partial class MainWindow : Window
     {
         foreach (var (name, offset) in offsets)
         {
-            if (FindNamedScrollViewer(root, name) is { } scrollViewer)
+            if (offset > 0 && FindNamedScrollViewer(root, name) is { VerticalOffset: 0 } scrollViewer)
                 scrollViewer.ChangeView(null, offset, null, disableAnimation: true);
         }
     }
@@ -465,6 +470,7 @@ public sealed partial class MainWindow : Window
     private void RefreshNavigationText()
     {
         _pageService = CreatePageService();
+        RefreshGlobalSearchText();
         RecognitionDisabledText.Text = L("手势识别已关闭", "Gesture recognition is off", "手勢辨識已關閉", "제스처 인식이 꺼져 있습니다");
         RecognitionDisabledEnableButton.Content = L("启用手势识别", "Enable gesture recognition", "啟用手勢辨識", "제스처 인식 켜기");
         foreach (var item in Navigation.MenuItems.OfType<NavigationViewItem>())
@@ -922,11 +928,18 @@ public sealed partial class MainWindow : Window
 
     private void ShowPageCore(string tag, bool recordHistory = true)
     {
+        // An explicit refresh of the visible page can follow a component update.
+        if (tag == "quickActions" && _currentNavigationPage == tag)
+            _nativeQuickActionsPage = null;
+        if (_searchTarget is { } pending && pending.Page != tag)
+            _searchTarget = null;
         if (!string.Equals(tag, _currentNavigationPage, StringComparison.Ordinal))
         {
             if (recordHistory && _currentNavigationPage != null)
                 _navigationHistory.Push(_currentNavigationPage);
             _currentNavigationPage = tag;
+            if (tag == IntentLearningPageTag)
+                MainContentScrollViewer.ChangeView(null, 0, null, disableAnimation: true);
         }
         Navigation.IsBackEnabled = _navigationHistory.Count != 0;
 
@@ -961,7 +974,7 @@ public sealed partial class MainWindow : Window
                 break;
             case "quickActions":
                 PageTitle.Text = L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업");
-                PageSubtitle.Text = L("用独立快捷键唤起 Kando 圆环菜单。", "Open the Kando radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出 Kando 環形選單。", "전용 단축키로 Kando 원형 메뉴를 엽니다.");
+                PageSubtitle.Text = L("用独立快捷键唤起环形菜单。", "Open the radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出環形選單。", "전용 단축키로 원형 메뉴를 엽니다.");
                 PageHost.Children.Add(BuildQuickActionsPageFromService());
                 break;
             case "touchpad":
@@ -973,6 +986,11 @@ public sealed partial class MainWindow : Window
                 PageTitle.Text = L("选项", "Options", "選項", "옵션");
                 PageSubtitle.Text = L("调整识别方式、轨迹反馈、启动项和设备开关。", "Adjust recognition, visual feedback, startup, and device switches.", "調整辨識方式、軌跡回饋、啟動項與裝置開關。", "인식 방식, 궤적 표시, 시작 항목 및 장치 스위치를 조정합니다.");
                 PageHost.Children.Add(BuildOptionsPageFromService());
+                break;
+            case IntentLearningPageTag:
+                PageTitle.Text = IntentLearningPageTitle;
+                PageSubtitle.Text = IntentLearningPageSubtitle;
+                PageHost.Children.Add(BuildIntentLearningPage());
                 break;
             case "about":
                 PageTitle.Text = L("关于", "About", "關於", "정보");
@@ -1026,7 +1044,7 @@ public sealed partial class MainWindow : Window
         var action = NewPillButton(
             external ? KandoText("查看发布说明和下载", "View release notes and downloads") : installed
                 ? KandoText("单独卸载", "Uninstall")
-                : KandoText("下载 Kando", "Download Kando"),
+                : KandoText("下载环形菜单", "Download the radial menu"),
             !installed);
         action.Click += async (_, _) =>
         {
@@ -1062,14 +1080,14 @@ public sealed partial class MainWindow : Window
         controls.Children.Add(action);
 
         var subtitle = external
-            ? KandoText("这是外部 Kando，请使用原安装方式更新。通过下方链接下载时，请按原安装位置和配置方式升级。GestureSign 不会覆盖此安装。", "This is an external Kando installation. Update through its original installation method. If downloading below, use its existing installation location and configuration. GestureSign will not overwrite this installation.")
+            ? KandoText("此环形菜单是单独安装的，请用原安装程序和现有配置更新。", "This radial menu was installed separately. Update it through its original installer and use its existing location and configuration.")
             : downloaded
-            ? KandoText("Kando 已作为独立组件保存，升级 GestureSign 时会继续保留。", "Kando is stored as a separate component and is retained when GestureSign updates.")
+            ? KandoText("环形菜单已作为独立组件保存，升级 GestureSign 时会继续保留。", "The radial menu is stored separately and retained when GestureSign updates.")
             : installed
-                ? KandoText("检测到旧版本随附的 Kando。卸载后可随时重新下载。", "A Kando copy bundled with an earlier version was found. You can reinstall it later.")
-                : KandoText("Kando 默认不随 GestureSign 安装。需要时下载约 180 MB，可随时单独卸载。", "Kando is not bundled by default. Download about 180 MB when needed and uninstall it separately at any time.");
+                ? KandoText("检测到旧版本随附的环形菜单。卸载后可随时重新下载。", "A radial menu component bundled with an earlier version was found. You can reinstall it later.")
+                : KandoText("环形菜单默认不随 GestureSign 安装。需要时下载约 180 MB，可随时单独卸载。", "The radial menu is optional. Download about 180 MB when needed and uninstall it separately at any time.");
 
-        return NewPowerToysSettingCard("\uE896", KandoText("Kando 可选组件", "Kando optional component"), subtitle, controls);
+        return NewPowerToysSettingCard("\uE896", KandoText("环形菜单可选组件", "Optional radial menu component"), subtitle, controls);
     }
 
     private async Task DownloadKandoComponentAsync(Button button)
@@ -1084,7 +1102,7 @@ public sealed partial class MainWindow : Window
                 button.Content = string.Format(CultureInfo.CurrentCulture, KandoText("下载中 {0:0}%", "Downloading {0:0}%"), value));
             await KandoComponentService.DownloadAndInstallAsync(progress);
             await ShowInfoDialog(
-                KandoText("Kando 已安装", "Kando installed"),
+                KandoText("环形菜单已安装", "Radial menu installed"),
                 KandoText("现在可以启用快捷操作并设置快捷键。", "You can now enable Quick Actions and configure its shortcuts."));
             ShowSelectedPage();
         }
@@ -1103,8 +1121,8 @@ public sealed partial class MainWindow : Window
         try
         {
             if (!await ConfirmDialogAsync(
-                    KandoText("卸载 Kando", "Uninstall Kando"),
-                    KandoText("只删除 Kando 程序组件，菜单和个人设置会保留，之后可以重新下载。", "Only the Kando program component will be removed. Menus and personal settings are kept for a later reinstall."),
+                    KandoText("卸载环形菜单", "Uninstall the radial menu"),
+                    KandoText("卸载环形菜单组件，菜单和个人设置会保留，之后可以重新下载。", "Uninstall the radial menu component. Menus and personal settings are kept for a later reinstall."),
                     KandoText("卸载", "Uninstall")))
                 return;
 
@@ -1163,6 +1181,10 @@ public sealed partial class MainWindow : Window
     }
 
     private FrameworkElement NewKandoPowerToysToggleRow(bool isEnabled)
+        => NewPowerToysSettingCard("\uE945", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), null,
+            NewKandoQuickActionsToggle(isEnabled));
+
+    private ToggleSwitch NewKandoQuickActionsToggle(bool isEnabled)
     {
         var toggle = new ToggleSwitch
         {
@@ -1179,7 +1201,7 @@ public sealed partial class MainWindow : Window
                 await RunUiActionAsync(DisableKandoQuickActionsAsync);
         };
 
-        return NewPowerToysSettingCard("\uE945", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), null, toggle);
+        return toggle;
     }
 
     private FrameworkElement NewKandoSettingsHotKeyRow(string existingSettings)
@@ -1213,17 +1235,17 @@ public sealed partial class MainWindow : Window
         panel.Children.Add(recorder);
         panel.Children.Add(clear);
 
-        return NewPowerToysSettingCard("\uE765", L("打开 Kando 设置页面的快捷键", "Hotkey to open Kando settings", "開啟 Kando 設定頁面的快速鍵", "Kando 설정 열기 단축키"), null, panel);
+        return NewPowerToysSettingCard("\uE765", L("打开环形菜单设置页面的快捷键", "Hotkey to open radial menu settings", "開啟 環形選單設定頁面的快速鍵", "원형 메뉴 설정 열기 단축키"), null, panel);
     }
 
     private FrameworkElement NewKandoOpenSettingsRow()
     {
-        var button = NewPillButton(L("打开 Kando 设置", "Open Kando Settings", "開啟 Kando 設定", "Kando 설정 열기"), false);
+        var button = NewPillButton(L("打开环形菜单设置", "Open Radial Menu Settings", "開啟 環形選單設定", "원형 메뉴 설정 열기"), false);
         button.Click += async (_, _) => await RunUiActionAsync(OpenKandoSettingsAsync);
         button.HorizontalAlignment = HorizontalAlignment.Right;
         button.VerticalAlignment = VerticalAlignment.Center;
 
-        return NewPowerToysSettingCard("\uE713", L("Kando 设置", "Kando Settings", "Kando 設定", "Kando 설정"), L("配置菜单、触发方式、外观等", "Configure menus, triggers, appearance, and more.", "設定選單、觸發方式、外觀等。", "메뉴, 트리거, 모양 등을 설정합니다."), button);
+        return NewPowerToysSettingCard("\uE713", L("环形菜单设置", "Radial Menu Settings", "環形選單設定", "원형 메뉴 설정"), L("配置菜单、触发方式、外观等", "Configure menus, triggers, appearance, and more.", "設定選單、觸發方式、外觀等。", "메뉴, 트리거, 모양 등을 설정합니다."), button);
     }
 
     private FrameworkElement NewPowerToysSettingCard(string glyph, string title, string? subtitle, FrameworkElement control)
@@ -1282,7 +1304,7 @@ public sealed partial class MainWindow : Window
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.Children.Add(new TextBlock
         {
-            Text = T("Kando 菜单", "Kando menus"),
+            Text = T("环形菜单", "Radial menus"),
             VerticalAlignment = VerticalAlignment.Top,
             Margin = new Thickness(0, 8, 0, 0),
             FontWeight = Microsoft.UI.Text.FontWeights.SemiBold
@@ -1323,7 +1345,7 @@ public sealed partial class MainWindow : Window
             {
                 content.Children.Add(new TextBlock
                 {
-                    Text = T("没有读取到 Kando 菜单。请先打开 Kando 设置创建菜单，或检查 %APPDATA%\\kando\\menus.json。", "No Kando menus were found. Create a menu in Kando settings or check %APPDATA%\\kando\\menus.json."),
+                    Text = T("没有读取到环形菜单。请先打开环形菜单设置创建菜单，或检查 %APPDATA%\\kando\\menus.json。", "No radial menus were found. Create a menu in the radial menu settings or check %APPDATA%\\kando\\menus.json."),
                     TextWrapping = TextWrapping.Wrap,
                     Opacity = 0.72
                 });
@@ -1758,7 +1780,7 @@ public sealed partial class MainWindow : Window
         Grid.SetColumn(toggle, 1);
         grid.Children.Add(toggle);
         ConfigureResponsiveTwoColumnGrid(grid, text, toggle, 520, new GridLength(1, GridUnitType.Star), GridLength.Auto);
-        return NewCard(grid);
+        return MarkSearchTarget(NewCard(grid), "gesture-recognition");
     }
 
     private FrameworkElement NewRecognitionCardLegacy()
@@ -1857,7 +1879,7 @@ public sealed partial class MainWindow : Window
             var selected = combo.SelectedIndex >= 0 && combo.SelectedIndex < processes.Count ? processes[combo.SelectedIndex] : null;
             if (selected is null)
                 return;
-            name.Text = selected.Name;
+            name.Text = ApplicationProductNames.SuggestedName(selected.FileName);
             matchText.Text = selected.FileName;
             matchUsing.SelectedIndex = 1;
         };
@@ -1893,7 +1915,8 @@ public sealed partial class MainWindow : Window
                 return;
             }
 
-            name.Text = string.IsNullOrWhiteSpace(info.Title) ? info.FileName : info.Title;
+            name.Text = mode.SelectedIndex == 0 ? ApplicationProductNames.SuggestedName(info.FileName)
+                : string.IsNullOrWhiteSpace(info.Title) ? info.FileName : info.Title;
             matchUsing.SelectedIndex = mode.SelectedIndex switch { 1 => 0, 2 => 2, _ => 1 };
             matchText.Text = mode.SelectedIndex switch { 1 => info.Title, 2 => info.ClassName, _ => info.FileName };
         };
@@ -3507,8 +3530,11 @@ public sealed partial class MainWindow : Window
 
     private async Task RenameGestureAsync(LegacyGesture gesture)
     {
-        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = gesture.Name };
+        var caption = GestureDisplayName(gesture);
+        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = caption };
         if (!await ConfirmDialogAsync(T("重命名手势", "Rename gesture"), name, T("保存", "Save")))
+            return;
+        if (string.Equals(name.Text, caption, StringComparison.Ordinal))
             return;
         _legacyData.RenameGesture(gesture, name.Text);
         ReloadData();
@@ -3525,7 +3551,7 @@ public sealed partial class MainWindow : Window
                         "Delete gesture {0}? Actions that reference it will be kept, but the background service will no longer match this gesture.",
                         "確定刪除手勢 {0}？引用它的動作會保留，但背景服務將無法再比對這個手勢。",
                         "{0} 제스처를 삭제하시겠습니까? 이 제스처를 참조하는 동작은 유지되지만 백그라운드 서비스에서 더 이상 인식할 수 없습니다."),
-                    gesture.Name),
+                    GestureDisplayName(gesture)),
                 DeleteButtonText()))
             return;
         _legacyData.DeleteGesture(gesture);
@@ -3606,7 +3632,8 @@ public sealed partial class MainWindow : Window
 
     private async Task DrawGestureAsync(LegacyGesture? gesture)
     {
-        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = gesture?.Name ?? T("新手势", "New Gesture") };
+        var initialName = gesture is null ? T("新手势", "New Gesture") : GestureDisplayName(gesture);
+        var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = initialName };
         var sample = new List<List<(double X, double Y)>>();
         var drawing = NewInlineGestureDrawingPanel(sample, out _, out var clear, width: 620, height: 300);
         var panel = NewCardPanel(8);
@@ -3624,7 +3651,7 @@ public sealed partial class MainWindow : Window
         bool saved;
         try
         {
-            saved = await ConfirmDialogAsync(gesture is null ? T("绘制手势", "Draw Gesture") : F("重训 {0}", "Retrain {0}", gesture.Name), panel, T("保存", "Save"));
+            saved = await ConfirmDialogAsync(gesture is null ? T("绘制手势", "Draw Gesture") : F("重训 {0}", "Retrain {0}", initialName), panel, T("保存", "Save"));
         }
         finally
         {
@@ -3644,7 +3671,7 @@ public sealed partial class MainWindow : Window
             _legacyData.AddGestureFromPointPatterns(name.Text, pointPatterns);
         else
         {
-            if (!string.Equals(name.Text, gesture.Name, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(name.Text, initialName, StringComparison.Ordinal))
                 _legacyData.RenameGesture(gesture, name.Text);
             _legacyData.UpdateGesturePointPatterns(gesture, pointPatterns);
         }
@@ -3800,11 +3827,11 @@ public sealed partial class MainWindow : Window
 
         if (!StartKando(_legacyData.Options, BuildKandoShowMenuArguments(_legacyData.Options)))
         {
-            await ShowInfoDialog(T("Kando 未启动", "Kando did not start"), T("没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。", "A compatible Kando executable was not found or could not start. Check the Kando application path."));
+            await ShowInfoDialog(T("环形菜单未启动", "Radial menu did not start"), T("没有找到兼容的 环形菜单可执行文件，或启动失败。请检查 环形菜单程序路径。", "The radial menu could not start. Check the path to the component executable."));
             return;
         }
 
-        await ShowInfoDialog(T("已发送唤起命令", "Activation command sent"), T("如果 Kando 已正确配置，圆环菜单会出现在当前鼠标位置。", "If Kando is configured correctly, the radial menu will appear at the current pointer position."));
+        await ShowInfoDialog(T("已发送唤起命令", "Activation command sent"), T("如果 环形菜单 已正确配置，圆环菜单会出现在当前鼠标位置。", "If the radial menu is configured correctly, it will appear at the current pointer position."));
     }
 
     private async Task EnableKandoQuickActionsAsync()
@@ -3819,7 +3846,7 @@ public sealed partial class MainWindow : Window
         await UpdateOptionAndWaitAsync("KandoEnabled", "False");
         _legacyData = LegacyDataStore.Load();
         ShowPage("quickActions");
-        await ShowInfoDialog(T("Kando 未启动", "Kando did not start"), T("没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。", "A compatible Kando executable was not found or could not start. Check the Kando application path."));
+        await ShowInfoDialog(T("环形菜单未启动", "Radial menu did not start"), T("没有找到兼容的 环形菜单可执行文件，或启动失败。请检查 环形菜单程序路径。", "The radial menu could not start. Check the path to the component executable."));
     }
 
     private async Task DisableKandoQuickActionsAsync()
@@ -3839,7 +3866,8 @@ public sealed partial class MainWindow : Window
                                              KandoComponentService.HasPersistentUserData;
             await KandoComponentService.PreserveBundledInstallationAsync(preserveLegacyInstallation);
             _legacyData = LegacyDataStore.Load();
-            if (_legacyData.Options.KandoEnabled && FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath) is null)
+            if (_legacyData.Options.KandoEnabled && !KandoComponentPaths.IsNativePieMenu(_legacyData.Options.KandoExecutablePath) &&
+                FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath) is null)
                 await KandoComponentService.DownloadAndInstallAsync();
             if (!wasDownloaded && KandoComponentService.IsDownloaded)
                 ShowSelectedPage();
@@ -3865,7 +3893,7 @@ public sealed partial class MainWindow : Window
         _legacyData = LegacyDataStore.Load();
 
         if (!StartKando(_legacyData.Options, "--settings"))
-            await ShowInfoDialog(T("Kando 未启动", "Kando did not start"), T("没有找到兼容的 Kando 可执行文件，或启动失败。请检查 Kando 程序路径。", "A compatible Kando executable was not found or could not start. Check the Kando application path."));
+            await ShowInfoDialog(T("环形菜单未启动", "Radial menu did not start"), T("没有找到兼容的 环形菜单可执行文件，或启动失败。请检查 环形菜单程序路径。", "The radial menu could not start. Check the path to the component executable."));
     }
 
     private static string BuildKandoShowMenuArguments(LegacyOptions options)
@@ -3875,10 +3903,14 @@ public sealed partial class MainWindow : Window
         return string.Empty;
     }
     private bool StartKando(LegacyOptions options, string arguments)
-        => Kando.Start(options, arguments, LogException) is not null;
+        => StartKandoProcess(options, arguments) is not null;
 
     private Process? StartKandoProcess(LegacyOptions options, string arguments)
-        => Kando.Start(options, arguments, LogException);
+    {
+        var roamingConfig = Path.Combine(_legacyData.RoamingPath, "GestureSign.config");
+        var config = File.Exists(roamingConfig) ? roamingConfig : _legacyData.ConfigPath ?? roamingConfig;
+        return Kando.Start(options, arguments, LogException, config);
+    }
 
     private static void StopKandoProcesses(LegacyOptions options)
         => Kando.Stop(options);
@@ -4882,7 +4914,10 @@ public sealed partial class MainWindow : Window
         if (sender is not ScrollViewer innerScrollViewer)
             return;
 
-        var wheelDelta = e.GetCurrentPoint(innerScrollViewer).Properties.MouseWheelDelta;
+        var wheel = e.GetCurrentPoint(innerScrollViewer).Properties;
+        if (wheel.IsHorizontalMouseWheel)
+            return;
+        var wheelDelta = wheel.MouseWheelDelta;
         const double boundaryTolerance = 0.5;
         var reachedBoundary = wheelDelta < 0
             ? innerScrollViewer.VerticalOffset >= innerScrollViewer.ScrollableHeight - boundaryTolerance
@@ -4891,15 +4926,31 @@ public sealed partial class MainWindow : Window
             return;
 
         var currentOffset = MainContentScrollViewer.VerticalOffset;
+        var queuedOffset = currentOffset + _actionsPageWheelHandoffDelta;
         var targetOffset = Math.Clamp(
-            currentOffset - wheelDelta,
+            queuedOffset - wheelDelta,
             0,
             MainContentScrollViewer.ScrollableHeight);
-        if (Math.Abs(targetOffset - currentOffset) <= boundaryTolerance)
+        if (Math.Abs(targetOffset - queuedOffset) <= boundaryTolerance)
             return;
 
-        MainContentScrollViewer.ChangeView(null, targetOffset, null, disableAnimation: true);
-        e.Handled = true;
+        _actionsPageWheelHandoffDelta = targetOffset - currentOffset;
+        if (!_actionsPageWheelHandoffQueued)
+            _actionsPageWheelHandoffQueued = DispatcherQueue.TryEnqueue(ApplyActionsPageWheelHandoff);
+        e.Handled = _actionsPageWheelHandoffQueued;
+        if (!e.Handled) _actionsPageWheelHandoffDelta = 0;
+    }
+
+    private void ApplyActionsPageWheelHandoff()
+    {
+        var delta = _actionsPageWheelHandoffDelta;
+        _actionsPageWheelHandoffDelta = 0;
+        _actionsPageWheelHandoffQueued = false;
+        if (_currentNavigationPage != "actions" || delta == 0)
+            return;
+
+        var target = Math.Clamp(MainContentScrollViewer.VerticalOffset + delta, 0, MainContentScrollViewer.ScrollableHeight);
+        MainContentScrollViewer.ChangeView(null, target, null, disableAnimation: true);
     }
 
     private async System.Threading.Tasks.Task ShowInfoDialog(string title, string message)
@@ -5128,15 +5179,66 @@ public sealed partial class MainWindow : Window
         Grid.SetColumn(text, 1);
         grid.Children.Add(text);
 
+        var pattern = NewDisabledActionPattern();
+        grid.Margin = new Thickness(12);
+        var layers = new Grid();
+        layers.Children.Add(pattern);
+        layers.Children.Add(grid);
+        var card = NewCard(layers, new Thickness(0));
+
+        void ApplyEnabledAppearance(bool enabled)
+        {
+            pattern.Visibility = enabled ? Visibility.Collapsed : Visibility.Visible;
+            var dimmed = !enabled && !HighContrast;
+            gestureBox.Opacity = dimmed ? 0.60 : 1;
+            text.Opacity = dimmed ? 0.78 : 1;
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetItemStatus(card,
+                enabled ? "" : L("已停用", "Disabled", "已停用", "사용 안 함"));
+        }
+
+        ApplyEnabledAppearance(action.IsEnabled);
         var buttons = NewInlineButtonsWithContext(
             (L("编辑", "Edit", "編輯", "편집"), async _ => await WithCurrentAction((_, current) => EditActionAsync(current))),
-            (action.IsEnabled ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"), async button => await WithCurrentAction(async (_, current) => { await ToggleEnabledAsync(current.Source, button); })),
+            (action.IsEnabled ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"),
+                async button => await WithCurrentAction(async (_, current) =>
+                    ApplyEnabledAppearance(await ToggleEnabledAsync(current.Source, button)))),
             (L("设置命令", "Set Command", "設定命令", "명령 설정"), async _ => await WithCurrentAction((_, current) => SetCommandAsync(current))),
             (L("删除", "Delete", "刪除", "삭제"), async _ => await WithCurrentAction((owner, current) => DeleteActionAsync(owner, current))));
         Grid.SetColumn(buttons, 2);
         grid.Children.Add(buttons);
         ConfigureResponsiveActionRow(grid, gestureBox, text, buttons, 760);
-        return NewCard(grid, new Thickness(12));
+        return MarkSearchTarget(card, action.Source);
+    }
+
+    private Canvas NewDisabledActionPattern()
+    {
+        var stripes = new Microsoft.UI.Xaml.Shapes.Path
+        {
+            IsHitTestVisible = false,
+            Stretch = Stretch.None,
+            Stroke = SystemBrush("SystemControlForegroundBaseHighBrush"),
+            StrokeThickness = 1,
+            Opacity = HighContrast ? 0.26 : 0.10
+        };
+        var pattern = new Canvas { IsHitTestVisible = false, Margin = new Thickness(6) };
+        pattern.Children.Add(stripes);
+        pattern.SizeChanged += (_, args) =>
+        {
+            double width = args.NewSize.Width;
+            double height = args.NewSize.Height;
+            var lines = new PathGeometry();
+            for (double offset = 11; offset < width + height; offset += 11)
+            {
+                double left = Math.Max(0, offset - height);
+                double right = Math.Min(width, offset);
+                var line = new PathFigure { StartPoint = new Point(left, offset - left) };
+                line.Segments.Add(new LineSegment { Point = new Point(right, offset - right) });
+                lines.Figures.Add(line);
+            }
+            stripes.Data = lines;
+        };
+
+        return pattern;
     }
 
     private FrameworkElement NewGesturePreview(string gestureName, double width, double height)
@@ -5433,7 +5535,7 @@ public sealed partial class MainWindow : Window
     {
         var canvas = new Canvas { Width = width, Height = height };
         DrawGestureLines(canvas, gesture.PointPatterns, width, height);
-        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(canvas, $"{DisplayName(gesture.Name)} · {gesture.FingerCount} " + IntentText("指手势预览", "finger gesture preview"));
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(canvas, $"{GestureDisplayName(gesture)} · {gesture.FingerCount} " + IntentText("指手势预览", "finger gesture preview"));
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(canvas, Microsoft.UI.Xaml.Automation.Peers.AccessibilityView.Content);
         return canvas;
     }
@@ -5744,7 +5846,7 @@ public sealed partial class MainWindow : Window
             };
         }
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(toggle, title);
-        return NewSettingRow(title, null, toggle);
+        return configKey is null ? NewSettingRow(title, null, toggle) : MarkSearchTarget(NewSettingRow(title, null, toggle), configKey);
     }
 
     private FrameworkElement NewStartupToggleRow()
@@ -5798,10 +5900,12 @@ public sealed partial class MainWindow : Window
                 if (IsStartupEnabled() != requestedValue)
                     throw new InvalidOperationException("Startup registration verification failed. See GestureSign.WinUI.log.");
                 LogWinUiDaemonMessage($"Startup setting verified. Enabled={requestedValue}");
+                _startupDiagnosticError = null;
                 RefreshStartupToggleStates();
             }
             catch (Exception ex)
             {
+                _startupDiagnosticError = ex.HResult;
                 RefreshStartupToggleStates();
                 await ShowInfoDialog(L("启动项设置失败", "Startup setting failed", "啟動項設定失敗", "시작 항목 설정 실패"), UiExceptionMessage(ex));
             }
@@ -5853,10 +5957,12 @@ public sealed partial class MainWindow : Window
                 if (IsAdminStartupEnabled() != requestedValue)
                     throw new InvalidOperationException("Administrator startup registration verification failed. See GestureSign.WinUI.log.");
                 UpdateOptionAndReload("RunAsAdmin", requestedValue ? "True" : "False");
+                _startupDiagnosticError = null;
                 RefreshStartupToggleStates();
             }
             catch (Exception ex)
             {
+                _startupDiagnosticError = ex.HResult;
                 RefreshStartupToggleStates();
                 await ShowInfoDialog(L("管理员启动设置失败", "Administrator startup setting failed", "系統管理員啟動設定失敗", "관리자 시작 설정 실패"), UiExceptionMessage(ex));
             }
@@ -5894,6 +6000,7 @@ public sealed partial class MainWindow : Window
                 await Task.Run(() => _legacyData.SetOneDriveSyncEnabled(requestedValue));
                 _legacyData = LegacyDataStore.Load();
                 await NotifyDaemonAsync(DaemonCommand.LoadConfiguration);
+                RefreshPieMenuHostConfiguration();
                 ShowSelectedPage();
             }
             catch (Exception ex)
@@ -6171,7 +6278,7 @@ public sealed partial class MainWindow : Window
             "--mode", QuoteCommandLineArgument(msiInstallation ? "msi" : "portable"),
             "--package", QuoteCommandLineArgument(packagePath),
             "--target", QuoteCommandLineArgument(targetDirectory),
-            "--launch", QuoteCommandLineArgument("GestureSign.WinUI.exe"),
+            "--launch", QuoteCommandLineArgument("GestureSignV2.WinUI.exe"),
             "--wait-pid", Environment.ProcessId.ToString(CultureInfo.InvariantCulture)
         });
 
@@ -6619,10 +6726,10 @@ public sealed partial class MainWindow : Window
         AddSide(L("右", "Right", "右", "오른쪽"), "TouchScreenBlockRightPercent", options.TouchScreenBlockRightPercent);
         AddSide(L("下", "Bottom", "下", "아래쪽"), "TouchScreenBlockBottomPercent", options.TouchScreenBlockBottomPercent);
 
-        return NewSettingRow(
+        return MarkSearchTarget(NewSettingRow(
             L("触摸屏屏蔽区（%）", "Touchscreen blocked areas (%)", "觸控螢幕封鎖區（%）", "터치스크린 차단 영역(%)"),
             L("按屏幕四边分别设置。手势从屏蔽区开始时整轮不识别，触摸仍交给当前应用；全部设为 0 可关闭。", "Set each screen edge independently. Gestures starting in a blocked area are ignored for the whole touch sequence and remain available to the current app. Set all values to 0 to disable.", "依螢幕四邊分別設定。手勢從封鎖區開始時整輪不辨識，觸控仍交給目前應用程式；全部設為 0 可關閉。", "화면 네 가장자리를 각각 설정합니다. 차단 영역에서 시작한 제스처는 해당 터치가 끝날 때까지 인식하지 않고 현재 앱으로 전달합니다. 모두 0이면 비활성화됩니다."),
-            panel);
+            panel), "touchscreen-blocked-area");
     }
 
     private FrameworkElement NewSliderRow(string title, double value, double minimum, double maximum, double step, string configKey, Func<double, string> toConfigValue, Func<double, string> toDisplayText)
@@ -6648,7 +6755,8 @@ public sealed partial class MainWindow : Window
         };
         panel.Children.Add(slider);
         panel.Children.Add(valueLabel);
-        return NewSettingRow(title, null, panel);
+        return MarkSearchTarget(NewSettingRow(title, null, panel), configKey is "VisualFeedbackWidth" or "InitialTimeout"
+            ? configKey + "-slider" : configKey);
     }
 
     private FrameworkElement NewComboRow(string title, string[] items, string[] values, string configKey, int selectedIndex)
@@ -6676,6 +6784,7 @@ public sealed partial class MainWindow : Window
                     ApplyUiFlowDirection();
                     RefreshNavigationText();
                     await UpdateOptionAndWaitAsync(configKey, value);
+                    RefreshPieMenuHostConfiguration();
                     ShowSelectedPage();
                     return;
                 }
@@ -6683,7 +6792,7 @@ public sealed partial class MainWindow : Window
                 UpdateOptionAndReload(configKey, value);
             }
         };
-        return NewSettingRow(title, null, combo);
+        return MarkSearchTarget(NewSettingRow(title, null, combo), configKey);
     }
 
     private FrameworkElement NewButtonRow(string title, string[] buttons, string[]? commands = null)
@@ -6736,107 +6845,6 @@ public sealed partial class MainWindow : Window
         return $"{MatchUsingText(app.MatchUsing)} · {match}";
     }
 
-    private string ApplicationDisplayName(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return "";
-
-        return value.Trim().ToLowerInvariant() switch
-        {
-            "(全局动作)" or "全局动作" => L("(全局动作)", "(Global Actions)", "(全域動作)", "(전역 동작)"),
-            "windows 资源管理器" or "windows explorer" => L("Windows 资源管理器", "Windows Explorer", "Windows 檔案總管", "Windows 탐색기"),
-            "浏览器" => L("浏览器", "Browser", "瀏覽器", "브라우저"),
-            "uwp 应用" or "uwp app" or "uwp application" => L("UWP 应用", "UWP App", "UWP 應用程式", "UWP 앱"),
-            _ => value
-        };
-    }
-
-    private string DisplayName(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-            return L("未命名", "Unnamed", "未命名", "이름 없음");
-
-        var trimmed = value.Trim();
-        if (DefaultGestureCaption(trimmed) is string gestureCaption) return gestureCaption;
-        return trimmed.ToLowerInvariant() switch
-        {
-            "save" or "保存" => L("保存", "Save", "儲存", "저장"),
-            "copy" or "复制" => L("复制", "Copy", "複製", "복사"),
-            "cut" or "剪切" => L("剪切", "Cut", "剪下", "잘라내기"),
-            "paste" or "粘贴" => L("粘贴", "Paste", "貼上", "붙여넣기"),
-            "undo" or "撤销" => L("撤销", "Undo", "復原", "실행 취소"),
-            "redo" or "重做" => L("重做", "Redo", "重做", "다시 실행"),
-            "delete" or "删除" => L("删除", "Delete", "刪除", "삭제"),
-            "select all" or "全选" => L("全选", "Select All", "全選", "모두 선택"),
-            "open web browser" or "open browser" or "open default browser" or "打开网页浏览器" or "打开浏览器" or "打开默认浏览器" => L("打开网页浏览器", "Open Web Browser", "開啟網頁瀏覽器", "웹 브라우저 열기"),
-            "close" or "关闭" => L("关闭", "Close", "關閉", "닫기"),
-            "关闭窗口" => L("关闭窗口", "Close Window", "關閉視窗", "창 닫기"),
-            "close tab" or "关闭标签页" => L("关闭标签页", "Close Tab", "關閉分頁", "탭 닫기"),
-            "new tab" or "新建标签页" => L("新建标签页", "New Tab", "新增分頁", "새 탭"),
-            "reopen closed tab" or "重新打开关闭的标签页" => L("重新打开关闭的标签页", "Reopen Closed Tab", "重新開啟關閉的分頁", "닫은 탭 다시 열기"),
-            "previous tab" or "上一个标签页" => L("上一个标签页", "Previous Tab", "上一個分頁", "이전 탭"),
-            "next tab" or "下一个标签页" => L("下一个标签页", "Next Tab", "下一個分頁", "다음 탭"),
-            "back" or "后退" => L("后退", "Back", "返回", "뒤로"),
-            "forward" or "前进" => L("前进", "Forward", "前進", "앞으로"),
-            "refresh" or "刷新" => L("刷新", "Refresh", "重新整理", "새로 고침"),
-            "minimize" or "最小化" => L("最小化", "Minimize", "最小化", "최소화"),
-            "maximize" or "最大化" => L("最大化", "Maximize", "最大化", "최대화"),
-            "restore" or "还原" => L("还原", "Restore", "還原", "복원"),
-            "maximize/restore" or "最大化/还原" => L("最大化/还原", "Maximize/Restore", "最大化/還原", "최대화/복원"),
-            "show desktop" or "显示桌面" => L("显示桌面", "Show Desktop", "顯示桌面", "바탕 화면 표시"),
-            "switch window" or "切换窗口" => L("切换窗口", "Switch Window", "切換視窗", "창 전환"),
-            "previous application" or "上一个窗口" => L("上一个窗口", "Previous Window", "上一個視窗", "이전 창"),
-            "next application" or "下一个窗口" => L("下一个窗口", "Next Window", "下一個視窗", "다음 창"),
-            "increase volume" or "volume up" or "增大音量" => L("增大音量", "Volume Up", "增大音量", "볼륨 높이기"),
-            "decrease volume" or "volume down" or "减小音量" => L("减小音量", "Volume Down", "降低音量", "볼륨 낮추기"),
-            "mute" or "静音" => L("静音", "Mute", "靜音", "음소거"),
-            "play/pause" or "play pause" or "播放/暂停" => L("播放/暂停", "Play/Pause", "播放/暫停", "재생/일시 정지"),
-            "媒体播放/暂停" => L("媒体播放/暂停", "Media Play/Pause", "媒體播放/暫停", "미디어 재생/일시 정지"),
-            "previous track" or "上一曲" => L("上一曲", "Previous Track", "上一首", "이전 트랙"),
-            "next track" or "下一曲" => L("下一曲", "Next Track", "下一首", "다음 트랙"),
-            "run command" or "运行命令" => L("运行命令", "Run Command", "執行命令", "명령 실행"),
-            "open file" or "打开文件" => L("打开文件", "Open File", "開啟檔案", "파일 열기"),
-            "launch app" or "启动应用" => L("启动应用", "Launch App", "啟動應用程式", "앱 실행"),
-            "delay" or "延迟等待" => L("延迟等待", "Delay", "延遲等待", "지연"),
-            "mouse action" or "mouse actions" or "鼠标动作" => L("鼠标动作", "Mouse Action", "滑鼠動作", "마우스 동작"),
-            "screen brightness" or "屏幕亮度" => L("屏幕亮度", "Screen Brightness", "螢幕亮度", "화면 밝기"),
-            "brightness up" or "提高亮度" => L("提高亮度", "Brightness Up", "提高亮度", "밝기 높이기"),
-            "brightness down" or "降低亮度" => L("降低亮度", "Brightness Down", "降低亮度", "밝기 낮추기"),
-            "activate window" or "激活窗口" => L("激活窗口", "Activate Window", "啟用視窗", "창 활성화"),
-            "touch keyboard" or "触摸键盘" => L("触摸键盘", "Touch Keyboard", "觸控鍵盤", "터치 키보드"),
-            "toggle window topmost" or "窗口置顶" => L("窗口置顶", "Toggle Topmost", "視窗置頂", "항상 위 전환"),
-            "temporarily disable" or "临时禁用手势" => L("临时禁用手势", "Temporarily Disable Gestures", "暫時停用手勢", "제스처 임시 비활성화"),
-            "toggle disable gestures" or "切换禁用手势" => L("切换禁用手势", "Toggle Gesture Disable", "切換停用手勢", "제스처 비활성화 전환"),
-            "发送快捷键" => L("发送快捷键", "Send Hotkey", "傳送快速鍵", "단축키 보내기"),
-            "显示/隐藏触摸键盘" => L("显示/隐藏触摸键盘", "Show/Hide Touch Keyboard", "顯示/隱藏觸控鍵盤", "터치 키보드 표시/숨기기"),
-            "s形手势" => L("S形手势", "S-shaped Gesture", "S 形手勢", "S자 제스처"),
-            "双指左滑" => L("双指左滑", "Two-finger Swipe Left", "雙指左滑", "두 손가락 왼쪽 스와이프"),
-            "双指上下滑" => L("双指上下滑", "Two-finger Vertical Swipe", "雙指上下滑", "두 손가락 위아래 스와이프"),
-            "双指平行左滑" => L("双指平行左滑", "Two-finger Parallel Swipe Left", "雙指平行左滑", "두 손가락 평행 왼쪽 스와이프"),
-            "双指手" => L("双指手", "Two-finger Gesture", "雙指手勢", "두 손가락 제스처"),
-            "三指左滑" => L("三指左滑", "Three-finger Swipe Left", "三指左滑", "세 손가락 왼쪽 스와이프"),
-            "三指l形" => L("三指L形", "Three-finger L Shape", "三指 L 形", "세 손가락 L자"),
-            "四指l形" => L("四指L形", "Four-finger L Shape", "四指 L 形", "네 손가락 L자"),
-            "四指点按" => L("四指点按", "Four-finger Tap", "四指點按", "네 손가락 탭"),
-            "四指下滑" => L("四指下滑", "Four-finger Swipe Down", "四指下滑", "네 손가락 아래 스와이프"),
-            "四指右滑" => L("四指右滑", "Four-finger Swipe Right", "四指右滑", "네 손가락 오른쪽 스와이프"),
-            "四指左滑" => L("四指左滑", "Four-finger Swipe Left", "四指左滑", "네 손가락 왼쪽 스와이프"),
-            "touchpadedge.top" => L("触控板上边缘点击", "Touchpad Top Edge Tap", "觸控板上邊緣點擊", "터치패드 위쪽 가장자리 탭"),
-            "touchpadedge.bottom" => L("触控板下边缘点击", "Touchpad Bottom Edge Tap", "觸控板下邊緣點擊", "터치패드 아래쪽 가장자리 탭"),
-            "touchpadedge.left" => L("触控板左边缘点击", "Touchpad Left Edge Tap", "觸控板左邊緣點擊", "터치패드 왼쪽 가장자리 탭"),
-            "touchpadedge.right" => L("触控板右边缘点击", "Touchpad Right Edge Tap", "觸控板右邊緣點擊", "터치패드 오른쪽 가장자리 탭"),
-            "touchscreenedge.top" => L("触控屏上边缘点击", "Touchscreen Top Edge Tap", "觸控螢幕上邊緣點擊", "터치스크린 위쪽 가장자리 탭"),
-            "touchscreenedge.bottom" => L("触控屏下边缘点击", "Touchscreen Bottom Edge Tap", "觸控螢幕下邊緣點擊", "터치스크린 아래쪽 가장자리 탭"),
-            "touchscreenedge.left" => L("触控屏左边缘点击", "Touchscreen Left Edge Tap", "觸控螢幕左邊緣點擊", "터치스크린 왼쪽 가장자리 탭"),
-            "touchscreenedge.right" => L("触控屏右边缘点击", "Touchscreen Right Edge Tap", "觸控螢幕右邊緣點擊", "터치스크린 오른쪽 가장자리 탭"),
-            "left" or "向左" => L("向左", "Left", "向左", "왼쪽"),
-            "right" or "向右" => L("向右", "Right", "向右", "오른쪽"),
-            "up" or "向上" => L("向上", "Up", "向上", "위"),
-            "down" or "向下" => L("向下", "Down", "向下", "아래"),
-            _ => trimmed
-        };
-    }
-
     private string ActionSummary(LegacyApplication app, LegacyAction action)
     {
         var commands = action.Commands.Count == 0
@@ -6846,7 +6854,7 @@ public sealed partial class MainWindow : Window
         if (action.Commands.Count > 2)
             commands += $" {L("等", "and", "等", "외")} {CountText(action.Commands.Count, L("个命令", "commands", "個命令", "개 명령"))}";
 
-        var scope = app.Type == "全局" ? L("全局动作", "Global Actions", "全域動作", "전역 동작") : ApplicationDisplayName(app.Name);
+        var scope = app.Type == "全局" ? L("全局动作", "Global Actions", "全域動作", "전역 동작") : ApplicationDisplayName(app);
         var startButton = action.MouseGestureButton == 0 ? "" : $" · {IntentText("绘制手势使用的鼠标按键", "Mouse button for drawing gestures")}: {ActionMouseGestureButtonText(action.MouseGestureButton)}";
         var combination = action.MouseHotkey == 0 ? "" : $" · {IntentText("鼠标组合快捷键", "Mouse button combinations")}: {MouseCombinationStartText(action.MouseGestureButton)} + {MouseCombinationInputText(action.MouseHotkey)}";
         return $"{scope} · {ActionDeviceSummary(action.IgnoredDevices)}{startButton}{combination} · {commands}";
@@ -7309,7 +7317,8 @@ public sealed partial class MainWindow : Window
     {
         try
         {
-            if (Process.GetProcessesByName("GestureSign").Any())
+            using var runningDaemon = FindRunningDaemon();
+            if (runningDaemon is not null)
                 return true;
 
             var daemonPath = FindDaemonPath();
@@ -7433,6 +7442,7 @@ public sealed partial class MainWindow : Window
     private void RefreshStartupToggleStates()
     {
         var adminEnabled = IsAdminStartupEnabled();
+        PublishStartupDiagnostic(adminEnabled);
         if (_startupToggle is not null)
             _startupToggle.IsOn = File.Exists(StartupShortcutPath()) || adminEnabled;
         if (_adminStartupToggle is not null)
@@ -7466,7 +7476,7 @@ public sealed partial class MainWindow : Window
 
         var daemonPath = FindDaemonPath();
         if (!File.Exists(daemonPath))
-            throw new FileNotFoundException("未找到后台程序 GestureSign.exe。", daemonPath);
+            throw new FileNotFoundException("未找到后台程序 GestureSignV2Daemon.exe。", daemonPath);
 
         Directory.CreateDirectory(Path.GetDirectoryName(shortcut)!);
         var shellType = Type.GetTypeFromProgID("WScript.Shell") ?? throw new InvalidOperationException("无法创建 WScript.Shell。");
@@ -7499,7 +7509,7 @@ public sealed partial class MainWindow : Window
     {
         var daemonPath = FindDaemonPath();
         if (enabled && !File.Exists(daemonPath))
-            throw new FileNotFoundException("未找到后台程序 GestureSign.exe。", daemonPath);
+            throw new FileNotFoundException("未找到后台程序 GestureSignV2Daemon.exe。", daemonPath);
 
         string? taskXmlPath = null;
         var alreadyElevated = IsCurrentProcessElevated();
@@ -7641,12 +7651,36 @@ public sealed partial class MainWindow : Window
     private static string StartupShortcutPath()
         => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Startup), "GestureSign.lnk");
 
+    internal static Process? FindRunningDaemon()
+    {
+        var expectedPath = FindDaemonPath();
+        using var current = Process.GetCurrentProcess();
+        Process? match = null;
+        foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(expectedPath)))
+        {
+            try
+            {
+                if (match is null && process.SessionId == current.SessionId &&
+                    string.Equals(KandoProcessPath.Read(process), expectedPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    match = process;
+                    continue;
+                }
+            }
+            catch (InvalidOperationException) { }
+            process.Dispose();
+        }
+        return match;
+    }
+
     private static string FindDaemonPath()
     {
         var baseDirectory = AppContext.BaseDirectory;
         var packageDirectory = Environment.GetEnvironmentVariable("GESTURESIGN_PACKAGE_DIR");
         var candidates = new List<string>
         {
+            Path.Combine(baseDirectory, "Backend", "GestureSignV2Daemon.exe"),
+            Path.Combine(baseDirectory, "Backend", "GestureSignV2.exe"),
             Path.Combine(baseDirectory, "Backend", "GestureSign.exe"),
             Path.Combine(baseDirectory, "GestureSign.exe"),
             Path.GetFullPath(Path.Combine(baseDirectory, "..", "..", "..", "..", "..", "bin", "Release", "GestureSign.exe")),
@@ -7655,8 +7689,10 @@ public sealed partial class MainWindow : Window
 
         if (!string.IsNullOrWhiteSpace(packageDirectory))
         {
+            candidates.Insert(2, Path.Combine(packageDirectory, "Backend", "GestureSignV2.exe"));
+            candidates.Insert(2, Path.Combine(packageDirectory, "Backend", "GestureSignV2Daemon.exe"));
             candidates.Insert(1, Path.Combine(packageDirectory, "Backend", "GestureSign.exe"));
-            candidates.Insert(2, Path.Combine(packageDirectory, "GestureSign.exe"));
+            candidates.Insert(4, Path.Combine(packageDirectory, "GestureSign.exe"));
         }
 
         return candidates.FirstOrDefault(File.Exists) ?? candidates[0];

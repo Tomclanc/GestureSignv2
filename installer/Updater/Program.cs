@@ -228,7 +228,7 @@ namespace GestureSign.Updater
 
         private void InstallMsi()
         {
-            SetStatus(T("Preserving the installed Kando component…"));
+            SetStatus(T("Preserving the installed radial menu component…"));
             PreserveBundledKando(_options.TargetDirectory);
             SetStatus(T("Installing the new version…"));
             var logPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
@@ -258,7 +258,7 @@ namespace GestureSign.Updater
 
             try
             {
-                SetStatus(T("Preserving the installed Kando component…"));
+                SetStatus(T("Preserving the installed radial menu component…"));
                 PreserveBundledKando(target);
                 ZipFile.ExtractToDirectory(_options.PackagePath, staging);
                 ValidatePortableDirectory(staging);
@@ -290,7 +290,7 @@ namespace GestureSign.Updater
 
         private static void ValidatePortableDirectory(string directory)
         {
-            foreach (var relative in new[] { "GestureSign.WinUI.exe", @"Backend\GestureSign.exe" })
+            foreach (var relative in new[] { "GestureSignV2.WinUI.exe", @"Backend\GestureSignV2Daemon.exe" })
             {
                 if (!File.Exists(Path.Combine(directory, relative)))
                     throw new InvalidDataException(string.Format(T("The update package is missing a required file: {0}"), relative));
@@ -355,7 +355,7 @@ namespace GestureSign.Updater
 
         private void LaunchUpdatedApplication()
         {
-            var executable = Path.Combine(_options.TargetDirectory, _options.LaunchExecutable ?? "GestureSign.WinUI.exe");
+            var executable = Path.Combine(_options.TargetDirectory, _options.LaunchExecutable ?? "GestureSignV2.WinUI.exe");
             if (!File.Exists(executable))
                 throw new FileNotFoundException("更新完成，但找不到启动程序。", executable);
             Process.Start(new ProcessStartInfo(executable)

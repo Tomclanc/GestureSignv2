@@ -27,7 +27,7 @@ public sealed partial class MainWindow
             {
                 if (cause is UnauthorizedAccessException || cause is System.ComponentModel.Win32Exception { NativeErrorCode: 5 })
                 {
-                    details = KandoText("访问被拒绝，请关闭 Kando 后重试。", "Access denied. Close Kando and try again.") + "\n\n" + details;
+                    details = KandoText("访问被拒绝，请关闭环形菜单 后重试。", "Access denied. Close the radial menu and try again.") + "\n\n" + details;
                     break;
                 }
                 if (cause is System.Net.Http.HttpRequestException or OperationCanceledException)
@@ -39,7 +39,7 @@ public sealed partial class MainWindow
             var dialog = new ContentDialog
             {
                 XamlRoot = Root.XamlRoot,
-                Title = KandoText("Kando 更新", "Kando update"),
+                Title = KandoText("环形菜单更新", "Radial menu update"),
                 Content = new TextBlock { Text = details, TextWrapping = TextWrapping.Wrap },
                 PrimaryButtonText = KandoText("查看日志", "View logs"),
                 CloseButtonText = KandoText("关闭", "Close"),
@@ -87,9 +87,9 @@ public sealed partial class MainWindow
             panel.Children.Add(new TextBlock
             {
                 Text = !managed
-                    ? KandoText("这是外部 Kando，请使用原安装方式更新。通过下方链接下载时，请按原安装位置和配置方式升级。GestureSign 不会覆盖此安装。", "This is an external Kando installation. Update through its original installation method. If downloading below, use its existing installation location and configuration. GestureSign will not overwrite this installation.")
+                    ? KandoText("这是外部 环形菜单，请使用原安装方式更新。通过下方链接下载时，请按原安装位置和配置方式升级。GestureSign 不会覆盖此安装。", "This radial menu was installed separately. Update it through its original installer and use its existing location and configuration.")
                     : available
-                        ? KandoText("更新会保留菜单、个人设置和手势绑定。下载完成后会短暂关闭 Kando，并恢复此前的运行状态；失败时恢复旧版。", "The update keeps menus, personal settings and gesture bindings. After downloading, Kando will close briefly and return to its previous running state. If the update fails, the previous version is restored.")
+                        ? KandoText("更新会保留菜单、个人设置和手势绑定。下载完成后会短暂关闭环形菜单，并恢复此前的运行状态；失败时恢复旧版。", "The update keeps menus, personal settings and gesture bindings. After downloading, the radial menu will close briefly and return to its previous running state. If the update fails, the previous version is restored.")
                         : KandoText("当前已是最新正式版，或版本高于最新正式版。", "Your version is the latest stable release or newer."),
                 TextWrapping = TextWrapping.Wrap
             });
@@ -104,7 +104,7 @@ public sealed partial class MainWindow
             var dialog = new ContentDialog
             {
                 XamlRoot = Root.XamlRoot,
-                Title = KandoText("Kando 更新", "Kando update"),
+                Title = KandoText("环形菜单更新", "Radial menu update"),
                 Content = panel,
                 CloseButtonText = KandoText("关闭", "Close"),
                 PrimaryButtonText = managed && available ? KandoText("立即更新", "Update now") : "",
@@ -125,7 +125,7 @@ public sealed partial class MainWindow
     {
         // Recheck the active path after the dialog, before modifying anything.
         if (!KandoComponentService.IsManagedExecutable(FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath)))
-            throw new InvalidOperationException(KandoText("当前 Kando 不是由 GestureSign 管理的组件。", "The active Kando installation is not managed by GestureSign."));
+            throw new InvalidOperationException(KandoText("当前 环形菜单 不是由 GestureSign 管理的组件。", "The active radial menu installation is not managed by GestureSign."));
         var options = _legacyData.Options;
         var wasRunning = false;
         IDisposable? updateLease = null;
@@ -134,10 +134,10 @@ public sealed partial class MainWindow
         {
             if (!wasRunning) return;
             using var process = StartKandoProcess(options, string.Empty);
-            if (process is null) throw new InvalidOperationException(KandoText("Kando 启动失败。", "Kando could not start."));
+            if (process is null) throw new InvalidOperationException(KandoText("环形菜单启动失败。", "The radial menu could not start."));
             await Task.Delay(2000);
             if (!IsKandoRunning(options))
-                throw new InvalidOperationException(KandoText("Kando 在启动后退出。", "Kando exited after starting."));
+                throw new InvalidOperationException(KandoText("环形菜单在启动后退出。", "The radial menu exited after starting."));
         }
         try
         {
@@ -146,7 +146,7 @@ public sealed partial class MainWindow
                 beforeReplace: async () =>
                 {
                     if (!KandoComponentService.IsManagedExecutable(FindKandoExecutablePath(_legacyData.Options.KandoExecutablePath)))
-                        throw new InvalidOperationException(KandoText("当前 Kando 不是由 GestureSign 管理的组件。", "The active Kando installation is not managed by GestureSign."));
+                        throw new InvalidOperationException(KandoText("当前 环形菜单 不是由 GestureSign 管理的组件。", "The active radial menu installation is not managed by GestureSign."));
                     // The lease blocks daemon launches without changing settings.
                     // Windows releases it even if this process crashes.
                     updateLease = KandoComponentPaths.AcquireUpdateLease(KandoComponentPaths.UpdateLeasePath);
@@ -159,13 +159,13 @@ public sealed partial class MainWindow
         }
         catch (Exception error) when (error is not AggregateException)
         {
-            throw new InvalidOperationException(KandoText("Kando 更新失败，旧版程序和设置已保留或恢复。", "The Kando update failed. The previous application and settings were kept or restored."), error);
+            throw new InvalidOperationException(KandoText("环形菜单更新失败，旧版程序和设置已保留或恢复。", "The radial menu update failed. The previous application and settings were kept or restored."), error);
         }
         finally
         {
             updateLease?.Dispose();
             ShowSelectedPage();
         }
-        await ShowInfoDialog(KandoText("Kando 已更新", "Kando updated"), KandoText("已安装最新正式版，菜单、设置和手势绑定已保留。", "The latest stable release is installed. Menus, settings and gesture bindings were kept."));
+        await ShowInfoDialog(KandoText("环形菜单已更新", "Radial menu updated"), KandoText("已安装最新正式版，菜单、设置和手势绑定已保留。", "The latest stable release is installed. Menus, settings and gesture bindings were kept."));
     }
 }

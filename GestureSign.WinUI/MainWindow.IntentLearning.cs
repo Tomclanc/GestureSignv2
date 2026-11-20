@@ -17,24 +17,29 @@ namespace GestureSign.WinUI;
 
 public sealed partial class MainWindow
 {
+    private const string IntentLearningPageTag = "intentLearning";
     private Expander? _intentReview;
-    private Expander? _intentSection;
-    private bool _intentSectionExpanded;
+    private string IntentLearningPageTitle => T("意图学习", "Intent Learning");
+    private string IntentLearningPageSubtitle => IntentFormat(
+        "Install the optional learning engine. Record, train and correct labels here; personal traces and models stay on this PC.");
+
     public void OpenIntentReview()
     {
-        Navigation.SelectedItem = Navigation.MenuItems.OfType<NavigationViewItem>().FirstOrDefault(i => (string?)i.Tag == "options");
-        if (_intentReview == null) ShowPage("options");
+        Navigation.SelectedItem = Navigation.MenuItems.OfType<NavigationViewItem>()
+            .FirstOrDefault(item => (string?)item.Tag == IntentLearningPageTag);
+        if (_currentNavigationPage != IntentLearningPageTag) ShowPage(IntentLearningPageTag);
+        var review = _intentReview;
         DispatcherQueue.TryEnqueue(() =>
         {
-            if (_intentReview == null) return;
-            if (_intentSection != null) _intentSection.IsExpanded = true;
-            _intentReview.IsExpanded = true;
+            if (review is null || !ReferenceEquals(_intentReview, review) || _currentNavigationPage != IntentLearningPageTag) return;
+            if (review.Parent is not FrameworkElement { Visibility: Visibility.Visible }) return;
+            review.IsExpanded = true;
             MainContentScrollViewer.UpdateLayout();
-            var position = _intentReview.TransformToVisual(MainContentScrollViewer).TransformPoint(new Point(0, 0));
-            MainContentScrollViewer.ChangeView(null, MainContentScrollViewer.VerticalOffset + position.Y, null, true);
+            review.StartBringIntoView(new BringIntoViewOptions { AnimationDesired = false, VerticalAlignmentRatio = 0 });
         });
     }
     private readonly IntentComponentService _intentComponent = new();
+    private IntentHostResponse? _lastVetoState;
     private string IntentText(string zh, string en) => IntentFormat(en);
     private string IntentFormat(string english, params object[] args) => GestureSign.Foundation.Localization.IntentLocalization.Format(ResolveUiCultureName(_uiCultureName), english, args);
     private string IntentMessage(string? text) => GestureSign.Foundation.Localization.IntentLocalization.Message(ResolveUiCultureName(_uiCultureName), text);
@@ -55,12 +60,11 @@ public sealed partial class MainWindow
         return grid;
     }
 
-    private FrameworkElement NewIntentLearningSettings()
+    private UIElement BuildIntentLearningPage()
     {
         var content = NewCardPanel(12);
         var status = new TextBlock { TextWrapping = TextWrapping.Wrap };
-        var info = new TextBlock { TextWrapping = TextWrapping.Wrap, Opacity = .7, Text = IntentText("按需安装学习引擎。采样、训练和纠错都在这里完成，个人轨迹与模型只保存在本机。", "Install the optional learning engine. Record, train and correct labels here; personal traces and models stay on this PC.") };
-        content.Children.Add(info); content.Children.Add(status);
+        content.Children.Add(status);
         var componentBackend = new ComboBox { Header = IntentText("推理后端", "Backend"), HorizontalAlignment = HorizontalAlignment.Stretch };
         componentBackend.Items.Add("CPU");
         componentBackend.Items.Add("NPU / GPU / CPU");
@@ -129,7 +133,7 @@ public sealed partial class MainWindow
         }
         learnActions.Children.Add(actionRow);
         learnActions.Children.Add(trainingStatus);
-        settings.Children.Add(learnActions);
+        settings.Children.Add(MarkSearchTarget(learnActions, "intent-scoring"));
         // Hide the scope panel and explanatory text; the review policy is unchanged.
         // settings.Children.Add(NewIntentReviewScope());
         // settings.Children.Add(new TextBlock { TextWrapping = TextWrapping.Wrap, Opacity = .7, Text = IntentText("自由绘制 AI 复核：每次触控板绘制结束后、执行动作前判断一次。结合模板与意图评分；TipTap、边缘和快捷键不参与。模型未覆盖该指数量或超时时，普通动作沿用原识别，智能关闭暂停执行。可在下方纠正。", "Reviews each completed touchpad drawing before execution, using template evidence and intent scores. TipTap, edges and shortcuts are excluded. Unsupported counts or timeouts preserve ordinary actions but withhold Smart Close. Correct mistakes below.") });
@@ -241,6 +245,7 @@ public sealed partial class MainWindow
         bool transfer = false, refreshing = false, loaded = false, busy = false, updating = false;
         bool samplesInitialized = false, reloadSamples = false, correcting = false, connectionReport = false;
         int correctionRevision = 0;
+        long? lastSampleRefresh = null;
         var correctedNames = new Dictionary<string, string>();
         string ScoreText(IntentSampleSummary sample)
         {
@@ -361,6 +366,7 @@ public sealed partial class MainWindow
         }
         void UpdateVetoButton(IntentHostResponse state)
         {
+            _lastVetoState = state;
             var control = state.Control;
             experimentalActive = state.AiVeto ?? (control.Active && control.Mode == IntentMode.ExperimentalVeto);
             experimental.Content = experimentalActive
@@ -371,11 +377,41 @@ public sealed partial class MainWindow
         }
         void UnknownVetoButton()
         {
+            _lastVetoState = null;
             experimental.IsEnabled = false;
             experimental.Style = null;
             experimental.Content = IntentText("AI 否决状态未确认", "AI veto status unavailable");
         }
-        async Task Refresh()
+        void ApplyEngineState(IntentHostResponse state)
+        {
+            status.Text = IntentText("学习组件已安装 · 后台引擎已连接", "Learning component installed · background engine connected");
+            if (connectionReport) { report.Text = ""; report.Visibility = Visibility.Collapsed; connectionReport = false; }
+            busy = state.Busy;
+            ShowTrainingProgress(state);
+            background.IsEnabled = !busy;
+            foreach (var b in new[] { train, observe, hardware }) b.IsEnabled = !busy;
+            protect.IsEnabled = state.Eligible && !busy;
+
+            hardwarePreview.Text = string.IsNullOrWhiteSpace(state.HardwarePreview)
+                ? IntentText("本机设备尚未检测，请更新学习组件或等待引擎就绪。", "Hardware not detected yet. Update the learning component or wait for the engine.") : IntentMessage(state.HardwarePreview);
+            backend.Text = IntentText("实际推理后端：", "Actual inference backend: ") + IntentMessage(state.Backend);
+            var c = state.Control; var now = DateTimeOffset.UtcNow;
+            backgroundActive = state.BackgroundLearning;
+            background.Content = backgroundActive
+                ? IntentText("后台学习已开启 · 点击关闭", "Background learning enabled · Click to turn off")
+                : IntentText("开启后台学习", "Enable background learning");
+            background.Style = backgroundActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
+            UpdateVetoButton(state);
+            mode.Text = c.Mode == IntentMode.Off || now >= c.ExpiresUtc ? IntentText("当前：关闭", "Current mode: off") :
+                now < c.StartsUtc ? IntentText("开始倒计时：", "Starting in: ") + $"{Math.Ceiling((c.StartsUtc - now).TotalSeconds)} s" :
+                c.Mode == IntentMode.BackgroundLearn ? IntentText("当前：后台学习 · 不拦截 · 待确认样本不会自动当成答案", "Current mode: background learning · no blocking · confirmed labels only") :
+                c.Mode == IntentMode.ExperimentalVeto ? IntentText("当前：AI 否决已开启 · 所有自由绘制动作", "Current mode: AI veto · drawing review") :
+                c.Mode == IntentMode.Observe ? IntentText("当前：AI评分 · 所有自由绘制动作 · 不拦截", "Current mode: AI scoring · all drawing actions · no blocking") : IntentText("当前：双指智能关闭保护", "Current mode: protecting two-finger Smart Close");
+            if (state.BackgroundLearning && c.Mode == IntentMode.ExperimentalVeto && now < c.ExpiresUtc)
+                mode.Text += IntentText(" · 后台学习已开启", " · Background learning enabled");
+        }
+
+        async Task Refresh(bool forceSamples = false)
         {
             if (!loaded || refreshing || transfer || correcting || !_intentComponent.Installed) return;
             refreshing = true;
@@ -383,34 +419,22 @@ public sealed partial class MainWindow
             int observedVetoRevision = vetoRevision;
             try
             {
-                var state = await _intentComponent.SendAsync(new("status")); if (!loaded || revision != correctionRevision) return;
-                correctedNames = IntentGestureCorrections.Read(IntentFiles.Root).ToDictionary(c => c.SampleId, c => c.Gesture);
-                status.Text = IntentText("学习组件已安装 · 后台引擎已连接", "Learning component installed · background engine connected");
-                if (connectionReport) { report.Text = ""; report.Visibility = Visibility.Collapsed; connectionReport = false; }
-                busy = state.Busy;
-                ShowTrainingProgress(state);
-                background.IsEnabled = !busy;
-                foreach (var b in new[] { train, observe, hardware }) b.IsEnabled = !busy;
-                protect.IsEnabled = state.Eligible && !busy;
+                var engine = await _intentComponent.SendAsync(new("progress"));
+                if (!loaded || transfer || revision != correctionRevision) return;
+                if (!changingVeto && observedVetoRevision == vetoRevision)
+                    ApplyEngineState(engine);
 
-                hardwarePreview.Text = string.IsNullOrWhiteSpace(state.HardwarePreview)
-                    ? IntentText("本机设备尚未检测，请更新学习组件或等待引擎就绪。", "Hardware not detected yet. Update the learning component or wait for the engine.") : IntentMessage(state.HardwarePreview);
-                backend.Text = IntentText("实际推理后端：", "Actual inference backend: ") + IntentMessage(state.Backend);
+                long sampleInterval = review.IsExpanded ? 2000 : 10000;
+                if (!forceSamples && !reloadSamples && lastSampleRefresh is long previous &&
+                    Environment.TickCount64 - previous < sampleInterval) return;
+
+                // The summary reads the sample library. Update the controls first
+                // and skip the disk scan on most polls while review is collapsed.
+                var state = await _intentComponent.SendAsync(new("status"), start: false);
+                if (!loaded || transfer || revision != correctionRevision) return;
+                lastSampleRefresh = Environment.TickCount64;
+                correctedNames = IntentGestureCorrections.Read(IntentFiles.Root).ToDictionary(c => c.SampleId, c => c.Gesture);
                 counts.Text = IntentFormat("Gesture samples: labeled scrolling {0} \u00B7 labeled intentional gestures {1} \u00B7 unlabeled {2}", state.Scrolls, state.Gestures, state.Unknown);
-                var c = state.Control; var now = DateTimeOffset.UtcNow;
-                backgroundActive = state.BackgroundLearning;
-                background.Content = backgroundActive
-                    ? IntentText("后台学习已开启 · 点击关闭", "Background learning enabled · Click to turn off")
-                    : IntentText("开启后台学习", "Enable background learning");
-                background.Style = backgroundActive ? (Style)Application.Current.Resources["AccentButtonStyle"] : null;
-                if (!changingVeto && observedVetoRevision == vetoRevision) UpdateVetoButton(state);
-                mode.Text = c.Mode == IntentMode.Off || now >= c.ExpiresUtc ? IntentText("当前：关闭", "Current mode: off") :
-                    now < c.StartsUtc ? IntentText("开始倒计时：", "Starting in: ") + $"{Math.Ceiling((c.StartsUtc - now).TotalSeconds)} s" :
-                    c.Mode == IntentMode.BackgroundLearn ? IntentText("当前：后台学习 · 不拦截 · 待确认样本不会自动当成答案", "Current mode: background learning · no blocking · confirmed labels only") :
-                    c.Mode == IntentMode.ExperimentalVeto ? IntentText("当前：AI 否决已开启 · 所有自由绘制动作", "Current mode: AI veto · drawing review") :
-                    c.Mode == IntentMode.Observe ? IntentText("当前：AI评分 · 所有自由绘制动作 · 不拦截", "Current mode: AI scoring · all drawing actions · no blocking") : IntentText("当前：双指智能关闭保护", "Current mode: protecting two-finger Smart Close");
-                if (state.BackgroundLearning && c.Mode == IntentMode.ExperimentalVeto && now < c.ExpiresUtc)
-                    mode.Text += IntentText(" · 后台学习已开启", " · Background learning enabled");
                 // Keep item containers and selection intact during polling. In particular,
                 // never reselect an item: ListView may bring it into view on every tick.
                 var latest = state.Samples.ToDictionary(s => s.Id);
@@ -445,7 +469,7 @@ public sealed partial class MainWindow
             catch (Exception ex)
             {
                 if (!loaded) return;
-                if (!changingVeto && observedVetoRevision == vetoRevision) UnknownVetoButton();
+                if (_lastVetoState is null && !changingVeto && observedVetoRevision == vetoRevision) UnknownVetoButton();
                 status.Text = ex is OperationCanceledException
                     ? IntentText("学习引擎响应较慢，正在重试；已有显示暂未更新。", "The learning engine is responding slowly. Retrying; displayed data has not refreshed.")
                     : UiExceptionMessage(ex);
@@ -454,11 +478,16 @@ public sealed partial class MainWindow
         }
         async Task Command(IntentHostRequest request)
         {
+            int observedVetoRevision = vetoRevision;
             try
             {
                 var response = await _intentComponent.SendAsync(request);
                 report.Text = ""; report.Visibility = Visibility.Collapsed; connectionReport = false;
-                if (request.Command == "train") ShowTrainingProgress(response);
+                if (loaded && !changingVeto && observedVetoRevision == vetoRevision && request.Command != "delete")
+                {
+                    vetoRevision++;
+                    ApplyEngineState(response);
+                }
                 if (response.Error == null && request.Command == "delete")
                 {
                     var item = samples.Items.Cast<ListViewItem>().FirstOrDefault(i => (string)i.Tag == request.SampleId);
@@ -500,7 +529,7 @@ public sealed partial class MainWindow
                 changingVeto = false;
                 if (loaded)
                 {
-                    UpdateVetoButton(state);
+                    ApplyEngineState(state);
                     report.Visibility = Visibility.Collapsed;
                     connectionReport = false;
                 }
@@ -583,7 +612,7 @@ public sealed partial class MainWindow
                 if (!await NotifyDaemonAsync(DaemonCommand.LoadGestures)) correctionStatus.Text += IntentText(" 后台未连接，模板将在下次启动生效。", " Backend disconnected; templates apply on next launch.");
                 else if (gesture != null) correctionStatus.Text += IntentFormat(" Added recognition examples for \u0027{0}\u0027.", gesture);
             }
-            await Refresh();
+            await Refresh(forceSamples: true);
         }
         vetoWrong.Click += async (_, _) =>
         {
@@ -598,7 +627,7 @@ public sealed partial class MainWindow
                 var available = LegacyDataStore.Load().Gestures.Where(g => g.FingerCount == counts[0] && g.Source["PointPatterns"] is System.Text.Json.Nodes.JsonArray patterns && patterns.Count == 1).ToArray();
                 if (available.Length == 0) { await ShowInfoDialog(IntentFormat("No matching gestures"), IntentFormat("Create a drawing gesture with the same finger count in the gesture library first.")); return; }
                 var choice = new ComboBox { Header = IntentText("正确的手势", "Correct gesture"), HorizontalAlignment = HorizontalAlignment.Stretch, PlaceholderText = IntentText("请选择手势", "Choose a gesture") };
-                foreach (var g in available) choice.Items.Add(new ComboBoxItem { Content = DisplayName(g.Name) + " · " + IntentFormat("{0} fingers", g.FingerCount), Tag = g });
+                foreach (var g in available) choice.Items.Add(new ComboBoxItem { Content = GestureDisplayName(g) + " · " + IntentFormat("{0} fingers", g.FingerCount), Tag = g });
                 var preview = new ContentControl();
                 choice.SelectionChanged += (_, _) => preview.Content = choice.SelectedItem is ComboBoxItem { Tag: LegacyGesture g } ? NewGestureCanvas(g, 300, 130) : null;
                 var panel = NewCardPanel(10);
@@ -635,21 +664,25 @@ public sealed partial class MainWindow
         remove.Click += async (_, _) =>
         {
             if (transfer) return; transfer = true; installLocation.IsEnabled = false;
-            try { await _intentComponent.UninstallAsync(); InstalledState(); }
+            try { await _intentComponent.UninstallAsync(); UnknownVetoButton(); lastSampleRefresh = null; InstalledState(); }
             catch (Exception ex) { status.Text = UiExceptionMessage(ex); }
             finally { transfer = false; componentBackend.IsEnabled = installLocation.IsEnabled = !_intentComponent.Installed; download.IsEnabled = import.IsEnabled = remove.IsEnabled = true; }
         };
+        review.Expanding += async (_, _) => await Refresh(forceSamples: true);
         content.Loaded += async (_, _) => { loaded = true; ApplyAccessibleTree(Root); timer.Start(); await Refresh(); };
-        content.Unloaded += (_, _) => { loaded = false; timer.Stop(); trainingTimer.Stop(); cancellation.Cancel(); };
-        timer.Tick += async (_, _) => await Refresh(); InstalledState(); SelectionState();
-        _intentSection = new Expander
+        content.Unloaded += (_, _) =>
         {
-            Header = IntentText("AI：本地意图学习（可选组件）", "AI: local intent learning (optional)"),
-            Content = content, IsExpanded = _intentSectionExpanded,
-            HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch
+            loaded = false;
+            timer.Stop();
+            trainingTimer.Stop();
+            cancellation.Cancel();
+            if (ReferenceEquals(_intentReview, review)) _intentReview = null;
         };
-        _intentSection.Expanding += (_, _) => _intentSectionExpanded = true;
-        _intentSection.Collapsed += (_, _) => _intentSectionExpanded = false;
-        return _intentSection;
+        timer.Tick += async (_, _) => await Refresh();
+        InstalledState();
+        if (_lastVetoState is { } lastVetoState && _intentComponent.Installed)
+            UpdateVetoButton(lastVetoState);
+        SelectionState();
+        return NewCard(content, new Thickness(14));
     }
 }

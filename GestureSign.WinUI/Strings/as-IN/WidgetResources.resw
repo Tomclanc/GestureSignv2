@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>দ্ৰুত কাৰ্য</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>নিৰ্দিষ্ট চূড়ান্ত চাবিৰ সৈতে ৰেডিয়েল মেনু খোলক।</value>
+  </data>
+</root>

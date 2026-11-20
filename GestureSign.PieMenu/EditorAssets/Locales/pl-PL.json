@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-mail",
+      "file-browser": "Przeglądarka plików",
+      "paint": "Farba",
+      "submenu": "Aplikacje",
+      "terminal": "Terminal",
+      "web-browser": "Przeglądarka internetowa"
+    },
+    "audio": {
+      "mute": "Wycisz",
+      "next-track": "Następny utwór",
+      "play-pause": "Odtwórz/Wstrzymaj",
+      "previous-track": "Poprzedni utwór",
+      "submenu": "Dźwięk"
+    },
+    "bookmarks": {
+      "desktop": "Pulpit",
+      "documents": "Dokumenty",
+      "downloads": "Pliki do pobrania",
+      "home": "Dom",
+      "music": "Muzyka",
+      "pictures": "Zdjęcia",
+      "submenu": "Zakładki",
+      "videos": "Filmy"
+    },
+    "clipboard": {
+      "copy": "Kopiuj",
+      "cut": "Wytnij",
+      "paste": "Wklej",
+      "submenu": "Schowek"
+    },
+    "name": "Przykładowe menu",
+    "next-workspace": "Następny obszar roboczy",
+    "previous-workspace": "Poprzedni obszar roboczy",
+    "web-links": {
+      "kando-on-discord": "Kando na Discordzie",
+      "kando-on-github": "Kando na GitHubie",
+      "kando-on-kofi": "Kando na Ko-fi",
+      "kando-on-youtube": "Kando na YouTube",
+      "submenu": "Linki internetowe"
+    },
+    "windows": {
+      "close-window": "Zamknij okno",
+      "submenu": "Okna",
+      "tile-left": "Płytka w lewo",
+      "tile-right": "Płytka prawa",
+      "toggle-maximize": "Przełącz Maksymalizuj"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Zamknij menu"
+    },
+    "close-submenu": {
+      "name": "Zamknij podmenu"
+    },
+    "delay": {
+      "name": "Opóźnienie"
+    },
+    "execute-command": {
+      "name": "Wykonaj polecenie"
+    },
+    "execute-macro": {
+      "name": "Wykonaj makro"
+    },
+    "focus-window": {
+      "name": "Okno ostrości"
+    },
+    "inhibit-shortcuts": {
+      "name": "Zablokuj skróty"
+    },
+    "open-file": {
+      "name": "Otwórz plik"
+    },
+    "open-menu": {
+      "name": "Otwórz menu"
+    },
+    "open-settings": {
+      "name": "Otwórz Ustawienia"
+    },
+    "open-uri": {
+      "name": "Otwórz identyfikator URI"
+    },
+    "send-tcp-message": {
+      "name": "Wyślij wiadomość TCP"
+    },
+    "send-websocket-message": {
+      "name": "Wyślij wiadomość WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Ustaw schowek"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Skrót klawiszowy",
+      "name": "Symuluj skrót klawiszowy",
+      "recording-placeholder": "Wpisz klawisz skrótu…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Podmenu"
+    }
+  },
+  "native": {
+    "action": "Akcja",
+    "action-value": "Skrót, ścieżka, adres URL, tekst lub JSON",
+    "choose-icon": "Wybierz ikonę",
+    "condition-invalid": "Wprowadź prawidłowy warunek okna lub aplikacji, na przykład /notepad/i.",
+    "configuration": "Konfiguracja menu Pie",
+    "editor": "Edytor menu ciasta",
+    "exported": "Wyeksportowano do {0}",
+    "fixed-angle": "Stały kąt (0° = w górę)",
+    "fixed-x": "Naprawiono X (0–1 na monitorze)",
+    "fixed-y": "Naprawiono Y (0–1 w dół monitora)",
+    "icon-invalid-image": "Wybierz obraz PNG, JPEG, GIF, WebP lub ICO o rozmiarze do 192 KB.",
+    "icon-library": "Biblioteka ikon",
+    "icon-next": "Następne ikony",
+    "icon-no-results": "Nie znaleziono ikon.",
+    "icon-pick-file": "Wybierz obraz lub aplikację",
+    "icon-previous": "Poprzednie ikony",
+    "icon-use-image": "Użyj obrazu",
+    "imported": "Zaimportowano menu ({0}). Przejrzyj zaimportowane polecenia przed ich użyciem, a następnie zapisz.",
+    "item-icon": "Ikona elementu",
+    "item-order": "Kolejność przedmiotów",
+    "label": "Etykieta",
+    "move-down": "Przesuń w dół",
+    "move-up": "Przesuń się w górę",
+    "name": "Nazwa menu",
+    "new-menu": "Nowe menu",
+    "off": "Wyłączone",
+    "on": "Włączone",
+    "palette": "Paleta kolorów",
+    "preview": "Menu podglądu",
+    "remove": "Usuń",
+    "save": "Zapisz menu",
+    "saved": "Konfiguracja menu została zapisana.",
+    "shortcut-clear": "Wyczyść skrót",
+    "shortcut-cleared": "Skrót został usunięty.",
+    "shortcut-config-changed": "Konfiguracja menu została zmieniona na dysku. Zapisz bieżące menu, aby zastosować ten skrót.",
+    "shortcut-in-use": "System Windows zgłasza, że ​​ten skrót jest już używany.",
+    "shortcut-invalid": "Wprowadź jeden klawisz i wszelkie modyfikatory dozwolone dla tego skrótu.",
+    "shortcut-record": "Nagraj skrót",
+    "shortcut-save-new-menu": "Zapisz to nowe menu, aby aktywować jego skrót.",
+    "shortcut-saved": "Skrót zapisany: {0}. Użyj go, aby otworzyć menu, gdy włączone są Szybkie akcje.",
+    "shortcut-stop": "Zatrzymaj nagrywanie",
+    "shortcut-unavailable": "System Windows nie mógł zarejestrować tego skrótu."
+  },
+  "settings": {
+    "add-menu-items": "Dodaj pozycje menu",
+    "all-menus": "Wszystkie menu",
+    "anchored-mode": "Tryb zakotwiczony",
+    "app-condition": "Ogranicz do określonych aplikacji",
+    "area-condition-bottom-placeholder": "Dół",
+    "area-condition-left-placeholder": "Lewo",
+    "area-condition-right-placeholder": "Prawy",
+    "area-condition-top-placeholder": "Góra",
+    "cancel": "Anuluj",
+    "create-menu-button": "Dodaj menu",
+    "delete-menu": "Usuń menu",
+    "delete-menu-item": "Usuń element menu",
+    "edit-submenu": "Edytuj podmenu",
+    "export-menu": "Eksportuj menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Włącz tryb zaznaczania",
+      "close-menu": "Zamknij menu",
+      "do-nothing": "Nie rób nic",
+      "enable-marking-mode-info": "Po włączeniu trybu zaznaczania możesz wybierać elementy, przeciągając nad nimi myszą.",
+      "enable-turbo-mode": "Włącz tryb Turbo",
+      "enable-turbo-mode-info": "Po włączeniu trybu Turbo, możesz wykonywać gesty tak długo, jak trzymasz wciśnięty klawisz modyfikujący, taki jak Shift lub Ctrl.",
+      "interaction-modes": "Tryby interakcji",
+      "middle-mouse-button-behavior": "Środkowy przycisk myszy",
+      "middle-mouse-button-behavior-info": "This determines what happens when the middle mouse button is pressed while a menu is shown.",
+      "move-pointer-to-menu-center": "Przesuń kursor do środka menu",
+      "move-pointer-to-menu-center-info": "Jeśli zaznaczone, wskaźnik myszy zostanie przesunięty do środka menu lub podmenu, gdy będzie to konieczne. Może to mieć miejsce, jeśli menu zostanie otwarte zbyt blisko krawędzi ekranu lub jeśli menu zostanie otwarte w trybie wyśrodkowanym.",
+      "require-click-for-hover-mode": "Wymagaj kliknięcia do wyboru w trybie najechania",
+      "require-click-for-hover-mode-info": "Jeśli opcja jest odznaczona, elementy zostaną natychmiast zaznaczone po przesunięciu nad nimi kursora myszy w menu korzystających z trybu najechania.",
+      "right-mouse-button-behavior": "Prawy przycisk myszy",
+      "right-mouse-button-behavior-info": "This determines what happens when the right mouse button is pressed while a menu is shown.",
+      "select-item": "Wybierz element",
+      "select-parent": "Przejdź o jeden poziom wyżej",
+      "trigger-center-click-on-key-release": "Zamknij menu po zwolnieniu skrótu na środku",
+      "trigger-center-click-on-key-release-info": "This will trigger the center-click workflow when a key is released while hovering over the center of a menu."
+    },
+    "hover-mode": "Tryb zawisu",
+    "icon-picker-dialog": {
+      "search-placeholder": "Szukaj ikon…"
+    },
+    "import-menu": "Importuj menu",
+    "menu-behavior": "Zachowanie menu",
+    "menu-conditions": "Warunki menu",
+    "menu-themes-dialog": {
+      "default-colors": "Domyślne kolory",
+      "enable-menu-animations": "Animacje menu",
+      "title": "Motywy menu"
+    },
+    "no-matching-menus": "Nie znaleziono menu.",
+    "no-menus": "Nie masz menu.",
+    "not-bound": "Nie związany",
+    "quick-select-key-label": "Klawisz szybkiego wyboru",
+    "quick-select-key-recording": "Wybierz klucz…",
+    "shortcut-info": "Ten skrót otwiera menu. Musi zawierać jeden normalny klawisz i dowolną liczbę modyfikatorów, takich jak Ctrl, Alt lub Shift. Podczas nagrywania nie musisz naciskać wszystkich klawiszy na raz, możesz też naciskać je jeden po drugim. Jest to przydatne, jeśli skrót jest już powiązany z innym menu!",
+    "shortcut-label": "Skrót",
+    "shortcut-recording": "Naciśnij skrót…",
+    "window-condition": "Ogranicz do określonych tytułów okien",
+    "workflow-editor": {
+      "add-action": "Dodaj akcję",
+      "select-workflow-name": "Wybierz opcję Przepływ pracy"
+    },
+    "anchored-mode-info": "Open submenus at the same position as the parent menu. Checking this, will disable Marking Mode and Turbo Mode.",
+    "fixed-position-mode": "Tryb stałej pozycji",
+    "fixed-position-mode-info": "Open the menu at a fixed position on the screen, instead of at the cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Ustaw pozycję w lewym dolnym rogu",
+      "bottom-right-preset-tooltip": "Ustaw pozycję w prawym dolnym rogu",
+      "centered-preset-tooltip": "Ustaw pozycję na środek",
+      "confirm": "Użyj tej pozycji",
+      "top-left-preset-tooltip": "Ustaw pozycję w lewym górnym rogu",
+      "top-right-preset-tooltip": "Ustaw pozycję w prawym górnym rogu"
+    },
+    "fixed-position-tooltip": "Wybierz stałą pozycję",
+    "hover-mode-info": "Tylko dla zaawansowanych użytkowników! Wybierz elementy, najeżdżając na nie kursorem."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Domyślny",
+      "clean-circle": "Prosty okrąg",
+      "neon-lights": "Neonowe światła",
+      "purity": "Czystość",
+      "rainbow-labels": "Tęczowe etykiety"
+    },
+    "presets": {
+      "Blue Glass": "Niebieskie szkło",
+      "Dark Night": "Ciemna noc",
+      "Cotton Candy": "Wata cukrowa",
+      "Dark and Cozy": "Ciemno i przytulnie",
+      "Blue Glow": "Niebieska poświata",
+      "Green Glow": "Zielona poświata",
+      "Electric": "Elektryczny",
+      "Orange": "Pomarańczowy",
+      "Pink": "Różowy",
+      "Bright Prism": "Jasny pryzmat",
+      "Kando Default": "Kolory domyślne"
+    }
+  }
+}

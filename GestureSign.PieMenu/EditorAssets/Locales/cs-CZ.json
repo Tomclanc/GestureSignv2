@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Správce souborů",
+      "paint": "Malování",
+      "submenu": "Aplikace",
+      "terminal": "Terminál",
+      "web-browser": "Prohlížeč"
+    },
+    "audio": {
+      "mute": "Ztlumit",
+      "next-track": "Další skladba",
+      "play-pause": "Přehrát / Pozastavit",
+      "previous-track": "Předchozí skladba",
+      "submenu": "Zvuk"
+    },
+    "bookmarks": {
+      "desktop": "Plocha",
+      "documents": "Dokumenty",
+      "downloads": "Stažené soubory",
+      "home": "Domovská složka",
+      "music": "Hudba",
+      "pictures": "Obrázky",
+      "submenu": "Záložky",
+      "videos": "Videa"
+    },
+    "clipboard": {
+      "copy": "Kopírovat",
+      "cut": "Vyjmout",
+      "paste": "Vložit",
+      "submenu": "Schránka"
+    },
+    "name": "Ukázkové menu",
+    "next-workspace": "Další pracovní plocha",
+    "previous-workspace": "Předchozí pracovní plocha",
+    "web-links": {
+      "kando-on-discord": "Kando Discord",
+      "kando-on-github": "Kando GitHub",
+      "kando-on-kofi": "Kando Ko-fi",
+      "kando-on-youtube": "Kando YouTube",
+      "submenu": "Webové odkazy"
+    },
+    "windows": {
+      "close-window": "Zavřít okno",
+      "submenu": "Okna",
+      "tile-left": "Přichytit vlevo",
+      "tile-right": "Přichytit vpravo",
+      "toggle-maximize": "Přepnout maximalizaci"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Zavřít nabídku"
+    },
+    "close-submenu": {
+      "name": "Zavřít podnabídku"
+    },
+    "delay": {
+      "name": "Zpoždění"
+    },
+    "execute-command": {
+      "name": "Spustit příkaz"
+    },
+    "execute-macro": {
+      "name": "Simulovat makro"
+    },
+    "focus-window": {
+      "name": "Zaměření okna"
+    },
+    "inhibit-shortcuts": {
+      "name": "Zakázat zkratky"
+    },
+    "open-file": {
+      "name": "Otevřít soubor"
+    },
+    "open-menu": {
+      "name": "Přesměrování"
+    },
+    "open-settings": {
+      "name": "Otevřít nastavení"
+    },
+    "open-uri": {
+      "name": "Otevřít URI"
+    },
+    "send-tcp-message": {
+      "name": "Odeslat zprávu TCP"
+    },
+    "send-websocket-message": {
+      "name": "Odeslat zprávu WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Nastavit schránku"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Klávesová zkratka",
+      "name": "Simulovat klávesovou zkratku",
+      "recording-placeholder": "Stiskněte klávesovou zkratku…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Podmenu"
+    }
+  },
+  "native": {
+    "action": "Akce",
+    "action-value": "Zástupce, cesta, URL, text nebo JSON",
+    "choose-icon": "Vyberte ikonu",
+    "condition-invalid": "Zadejte platnou podmínku okna nebo aplikace, například /notepad/i.",
+    "configuration": "Konfigurace koláčového menu",
+    "editor": "Editor koláčového menu",
+    "exported": "Exportováno do {0}",
+    "fixed-angle": "Pevný úhel (0° = nahoru)",
+    "fixed-x": "Opraveno X (0–1 přes monitor)",
+    "fixed-y": "Pevné Y (0–1 dolů po monitoru)",
+    "icon-invalid-image": "Vyberte obrázek PNG, JPEG, GIF, WebP nebo ICO do velikosti 192 kB.",
+    "icon-library": "Knihovna ikon",
+    "icon-next": "Další ikony",
+    "icon-no-results": "Nebyly nalezeny žádné ikony.",
+    "icon-pick-file": "Vyberte obrázek nebo aplikaci",
+    "icon-previous": "Předchozí ikony",
+    "icon-use-image": "Použít obrázek",
+    "imported": "Počet importovaných nabídek: {0}. Před použitím importovaných příkazů si je prohlédněte a poté je uložte.",
+    "item-icon": "Ikona položky",
+    "item-order": "Pořadí položek",
+    "label": "Štítek",
+    "move-down": "Posuňte se dolů",
+    "move-up": "Posuňte se nahoru",
+    "name": "Název menu",
+    "new-menu": "Nové menu",
+    "off": "Vypnuto",
+    "on": "Zapnuto",
+    "palette": "Barevná paleta",
+    "preview": "Nabídka náhledu",
+    "remove": "Odebrat",
+    "save": "Uložit nabídky",
+    "saved": "Konfigurace menu uložena.",
+    "shortcut-clear": "Vymazat zkratku",
+    "shortcut-cleared": "Zástupce byl vymazán.",
+    "shortcut-config-changed": "Konfigurace nabídky se na disku změnila. Chcete-li použít tuto zkratku, uložte aktuální nabídky.",
+    "shortcut-in-use": "Windows hlásí, že tato zkratka se již používá.",
+    "shortcut-invalid": "Zadejte jeden klíč a všechny modifikátory povolené pro tuto zkratku.",
+    "shortcut-record": "Záznamová zkratka",
+    "shortcut-save-new-menu": "Uložením této nové nabídky aktivujete její zástupce.",
+    "shortcut-saved": "Zástupce byl uložen: {0}. Použijte jej k otevření nabídky, když jsou povoleny Rychlé akce.",
+    "shortcut-stop": "Zastavit nahrávání",
+    "shortcut-unavailable": "Systém Windows nemohl zaregistrovat tuto zkratku."
+  },
+  "settings": {
+    "add-menu-items": "Přidat Menu Položky",
+    "all-menus": "Všechna Menu",
+    "anchored-mode": "Mód Kotvy",
+    "app-condition": "Omezit na konkrétní aplikace",
+    "area-condition-bottom-placeholder": "Dole",
+    "area-condition-left-placeholder": "Vlevo",
+    "area-condition-right-placeholder": "Vpravo",
+    "area-condition-top-placeholder": "Nahoře",
+    "cancel": "Zrušit",
+    "create-menu-button": "Nové menu",
+    "delete-menu": "Smazat menu",
+    "delete-menu-item": "Smazat položku menu",
+    "edit-submenu": "Upravit podnabídku",
+    "export-menu": "Export menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Povolit Označovací Mód",
+      "close-menu": "Zavřít menu",
+      "do-nothing": "Nedělat nic",
+      "enable-marking-mode-info": "S povoleným Označovacím Módem, můžete vybrat položky přetažením myši nad nimi.",
+      "enable-turbo-mode": "Povolit Turbo Mód",
+      "enable-turbo-mode-info": "Při zapnutém Turbo Módu můžete provádět gesta, dokud držíte stisknutou modifikační klávesu, jako Shift nebo Ctrl.",
+      "interaction-modes": "Módy interakce",
+      "middle-mouse-button-behavior": "Střední tlačítko myši",
+      "middle-mouse-button-behavior-info": "To určuje, co se stane po stisknutí prostředního tlačítka myši, když je zobrazena nabídka.",
+      "move-pointer-to-menu-center": "Přesunout kurzor do centra menu",
+      "move-pointer-to-menu-center-info": "Pokud je zaškrtnuto, kurzor myši bude přesunut na střed menu nebo podmenu, pokud je to nutné. To by mohlo být v případě, že je menu otevřeno příliš blízko k okraji obrazovky, nebo pokud je menu otevřeno v Centrovaném Módu.",
+      "require-click-for-hover-mode": "Požadovat klik pro výběr v Hover Módu",
+      "require-click-for-hover-mode-info": "Pokud nezaškrtnuto, položky budou vybrány okamžitě, když přes ně přejedete myší pro menu používající Hover Mód.",
+      "right-mouse-button-behavior": "Pravé tlačítko myši",
+      "right-mouse-button-behavior-info": "To určuje, co se stane po stisknutí pravého tlačítka myši, když je zobrazena nabídka.",
+      "select-item": "Vyberte položku",
+      "select-parent": "Přejděte o jednu úroveň nahoru",
+      "trigger-center-click-on-key-release": "Zavřít nabídku při uvolnění zkratky přes střed",
+      "trigger-center-click-on-key-release-info": "Tím se spustí pracovní postup pro kliknutí středním tlačítkem, pokud uvolníte klávesu v okamžiku, kdy se kurzor nachází nad středem nabídky."
+    },
+    "hover-mode": "Hover Mód",
+    "icon-picker-dialog": {
+      "search-placeholder": "Hledat ikony…"
+    },
+    "import-menu": "Import menu",
+    "menu-behavior": "Chování menu",
+    "menu-conditions": "Podmínky menu",
+    "menu-themes-dialog": {
+      "default-colors": "Výchozí barvy",
+      "enable-menu-animations": "Menu Animace",
+      "title": "Témata menu"
+    },
+    "no-matching-menus": "Žádné menu nenalezeno.",
+    "no-menus": "Nemáte žádná menu.",
+    "not-bound": "Nepřiřazeno",
+    "quick-select-key-label": "Klávesa rychlého výběru",
+    "quick-select-key-recording": "Vybrat klíč…",
+    "shortcut-info": "Tato zkratka otevře menu. Musí obsahovat jednu normální klávesu a libovolný počet modifikátorů, jako je Ctrl, Alt nebo Shift. Při nahrávání nemusíte stisknout všechny klávesy najednou, můžete je také stisknout za sebou. To je užitečné, pokud je zkratka již vázána na další menu!",
+    "shortcut-label": "Zkratka",
+    "shortcut-recording": "Stiskněte zkratku…",
+    "window-condition": "Omezit na konkrétní názvy oken",
+    "workflow-editor": {
+      "add-action": "Přidat akci",
+      "select-workflow-name": "Vyberte Pracovní postup"
+    },
+    "anchored-mode-info": "Otevře podmenu na stejné pozici jako rodičovské menu. Zaškrtnutí, zakáže Markovací a Turbo Mód.",
+    "fixed-position-mode": "Režim pevné polohy",
+    "fixed-position-mode-info": "Otevřete nabídku na pevné pozici na obrazovce, nikoli na kurzoru.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Nastavte polohu vlevo dole",
+      "bottom-right-preset-tooltip": "Nastavte polohu vpravo dole",
+      "centered-preset-tooltip": "Nastavte polohu na střed",
+      "confirm": "Použijte tuto pozici",
+      "top-left-preset-tooltip": "Nastavte polohu vlevo nahoře",
+      "top-right-preset-tooltip": "Nastavte polohu vpravo nahoře"
+    },
+    "fixed-position-tooltip": "Vyberte pevnou pozici",
+    "hover-mode-info": "Pouze pro pokročilé uživatele! Položky vyberete najetím kurzoru."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Výchozí",
+      "clean-circle": "Jednoduchý kruh",
+      "neon-lights": "Neonová světla",
+      "purity": "Čistota",
+      "rainbow-labels": "Duhové popisky"
+    },
+    "presets": {
+      "Blue Glass": "Modré sklo",
+      "Dark Night": "Temná noc",
+      "Cotton Candy": "Cukrová vata",
+      "Dark and Cozy": "Tmavé a útulné",
+      "Blue Glow": "Modrá záře",
+      "Green Glow": "Zelená záře",
+      "Electric": "Elektrická",
+      "Orange": "Oranžová",
+      "Pink": "Růžová",
+      "Bright Prism": "Zářivý hranol",
+      "Kando Default": "Výchozí barvy"
+    }
+  }
+}

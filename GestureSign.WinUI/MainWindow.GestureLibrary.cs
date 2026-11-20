@@ -52,12 +52,15 @@ public sealed partial class MainWindow
     private FrameworkElement NewGestureLibraryCard(LegacyGesture gesture, int viewMode)
     {
         var description = NewCardPanel(6);
-        description.Children.Add(new TextBlock
+        var caption = GestureDisplayName(gesture);
+        var title = new TextBlock
         {
-            Text = DisplayName(gesture.Name), TextWrapping = TextWrapping.Wrap,
+            Text = caption, TextWrapping = TextWrapping.Wrap,
             Style = BodyStrongTextBlockStyle,
             TextAlignment = viewMode == 0 ? TextAlignment.Left : TextAlignment.Center
-        });
+        };
+        if (caption != gesture.Name) ToolTipService.SetToolTip(title, gesture.Name);
+        description.Children.Add(title);
         description.Children.Add(new TextBlock
         {
             Text = CountText(gesture.FingerCount, L("指", "finger(s)", "指", "손가락")),
@@ -99,11 +102,11 @@ public sealed partial class MainWindow
         }
         content.SizeChanged += (_, args) => Arrange(args.NewSize.Width);
         Arrange(0);
-        return new Border
+        return MarkSearchTarget(new Border
         {
             Background = SubtleBrush(), BorderBrush = BorderBrush(), BorderThickness = new Thickness(1),
             CornerRadius = new CornerRadius(10), Padding = new Thickness(12), Child = content,
             HorizontalAlignment = HorizontalAlignment.Stretch
-        };
+        }, gesture.Source);
     }
 }

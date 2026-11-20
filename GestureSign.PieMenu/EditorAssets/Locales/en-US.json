@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "File Browser",
+      "paint": "Paint",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Web Browser"
+    },
+    "audio": {
+      "mute": "Mute",
+      "next-track": "Next Track",
+      "play-pause": "Play / Pause",
+      "previous-track": "Previous Track",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Documents",
+      "downloads": "Downloads",
+      "home": "Home",
+      "music": "Music",
+      "pictures": "Pictures",
+      "submenu": "Bookmarks",
+      "videos": "Videos"
+    },
+    "clipboard": {
+      "copy": "Copy",
+      "cut": "Cut",
+      "paste": "Paste",
+      "submenu": "Clipboard"
+    },
+    "name": "Example Menu",
+    "next-workspace": "Next Workspace",
+    "previous-workspace": "Previous Workspace",
+    "web-links": {
+      "kando-on-discord": "Kando on Discord",
+      "kando-on-github": "Kando on GitHub",
+      "kando-on-kofi": "Kando on Ko-fi",
+      "kando-on-youtube": "Kando on YouTube",
+      "submenu": "Web Links"
+    },
+    "windows": {
+      "close-window": "Close Window",
+      "submenu": "Windows",
+      "tile-left": "Tile Left",
+      "tile-right": "Tile Right",
+      "toggle-maximize": "Toggle Maximize"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Close Menu"
+    },
+    "close-submenu": {
+      "name": "Close Submenu"
+    },
+    "delay": {
+      "name": "Delay"
+    },
+    "execute-command": {
+      "name": "Execute Command"
+    },
+    "execute-macro": {
+      "name": "Execute Macro"
+    },
+    "focus-window": {
+      "name": "Focus Window"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibit Shortcuts"
+    },
+    "open-file": {
+      "name": "Open File"
+    },
+    "open-menu": {
+      "name": "Open Menu"
+    },
+    "open-settings": {
+      "name": "Open Settings"
+    },
+    "open-uri": {
+      "name": "Open URI"
+    },
+    "send-tcp-message": {
+      "name": "Send TCP Message"
+    },
+    "send-websocket-message": {
+      "name": "Send WebSocket Message"
+    },
+    "set-clipboard": {
+      "name": "Set Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hotkey",
+      "name": "Simulate Hotkey",
+      "recording-placeholder": "Type a hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Center click workflow",
+      "center-workflow-description": "Click the root menu center to run these actions in order.",
+      "appearance": "Appearance and animation",
+      "menu-size": "Menu size",
+      "fade-in": "Fade in (ms)",
+      "fade-out": "Fade out (ms)",
+      "dark-palette": "Dark palette",
+      "dark-theme": "Dark theme",
+      "pointer-shortcuts": "Pointer and shortcuts",
+      "theme-credits": "Theme credits and licenses",
+      "back-up-menus": "Back up menus",
+      "restore-menus": "Restore menus",
+      "back-up-settings": "Back up settings",
+      "restore-settings": "Restore settings",
+      "open-config-folder": "Open configuration folder",
+      "restored": "Restored to the editor. Save to apply.",
+      "collapse": "Collapse settings"
+    },
+    "action": "Action",
+    "action-value": "Shortcut, path, URL, text, or JSON",
+    "choose-icon": "Choose icon",
+    "condition-invalid": "Enter a valid window or app condition, for example /notepad/i.",
+    "configuration": "Pie Menu configuration",
+    "editor": "Pie Menu Editor",
+    "exported": "Exported to {0}",
+    "fixed-angle": "Fixed angle (0° = up)",
+    "fixed-x": "Fixed X (0–1 across the monitor)",
+    "fixed-y": "Fixed Y (0–1 down the monitor)",
+    "icon-invalid-image": "Choose a PNG, JPEG, GIF, WebP, or ICO image up to 192 KB.",
+    "icon-library": "Icon library",
+    "icon-next": "Next icons",
+    "icon-no-results": "No icons found.",
+    "icon-pick-file": "Choose image or app",
+    "icon-previous": "Previous icons",
+    "icon-use-image": "Use image",
+    "imported": "Imported {0} menu(s). Review imported commands before using them, then save.",
+    "item-icon": "Item icon",
+    "item-order": "Item order",
+    "label": "Label",
+    "move-down": "Move down",
+    "move-up": "Move up",
+    "name": "Menu name",
+    "new-menu": "New menu",
+    "off": "Off",
+    "on": "On",
+    "palette": "Color palette",
+    "preview": "Preview menu",
+    "remove": "Remove",
+    "save": "Save menus",
+    "saved": "Menu configuration saved.",
+    "shortcut-clear": "Clear shortcut",
+    "shortcut-cleared": "Shortcut cleared.",
+    "shortcut-config-changed": "The menu configuration changed on disk. Save the current menus to apply this shortcut.",
+    "shortcut-in-use": "Windows reports that this shortcut is already in use.",
+    "shortcut-invalid": "Enter one key, plus any modifiers allowed for this shortcut.",
+    "shortcut-record": "Record shortcut",
+    "shortcut-save-new-menu": "Save this new menu to activate its shortcut.",
+    "shortcut-saved": "Shortcut saved: {0}. Use it to open the menu when Quick Actions is enabled.",
+    "shortcut-stop": "Stop recording",
+    "shortcut-unavailable": "Windows could not register this shortcut."
+  },
+  "settings": {
+    "add-menu-items": "Add Menu Items",
+    "all-menus": "All Menus",
+    "anchored-mode": "Anchored Mode",
+    "app-condition": "Limit to Specific Apps",
+    "area-condition-bottom-placeholder": "Bottom",
+    "area-condition-left-placeholder": "Left",
+    "area-condition-right-placeholder": "Right",
+    "area-condition-top-placeholder": "Top",
+    "cancel": "Cancel",
+    "create-menu-button": "Add Menu",
+    "delete-menu": "Delete menu",
+    "delete-menu-item": "Delete menu item",
+    "edit-submenu": "Edit submenu",
+    "export-menu": "Export menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Enable Marking Mode",
+      "close-menu": "Close menu",
+      "do-nothing": "Do nothing",
+      "enable-marking-mode-info": "With Marking Mode enabled, you can select items by dragging the mouse over them.",
+      "enable-turbo-mode": "Enable Turbo Mode",
+      "enable-turbo-mode-info": "With Turbo Mode enabled, you can perform gestures as long as you hold down a modifier key such as Shift or Ctrl.",
+      "interaction-modes": "Interaction Modes",
+      "middle-mouse-button-behavior": "Middle mouse button",
+      "middle-mouse-button-behavior-info": "This determines what happens when the middle mouse button is pressed while a menu is shown.",
+      "move-pointer-to-menu-center": "Move pointer to the menu center",
+      "move-pointer-to-menu-center-info": "If checked, the mouse pointer will be moved to the center of a menu or submenu when necessary. This could be the case if a menu is opened too close to the edge of the screen or if a menu is opened in Centered Mode.",
+      "require-click-for-hover-mode": "Require click for Hover Mode selections",
+      "require-click-for-hover-mode-info": "If unchecked, items will be selected immediately when the mouse is moved over them for menus using Hover Mode.",
+      "right-mouse-button-behavior": "Right mouse button",
+      "right-mouse-button-behavior-info": "This determines what happens when the right mouse button is pressed while a menu is shown.",
+      "select-item": "Select item",
+      "select-parent": "Navigate up one level",
+      "trigger-center-click-on-key-release": "Close menu on shortcut release over center",
+      "trigger-center-click-on-key-release-info": "This will trigger the center-click workflow when a key is released while hovering over the center of a menu."
+    },
+    "hover-mode": "Hover Mode",
+    "icon-picker-dialog": {
+      "search-placeholder": "Search icons…"
+    },
+    "import-menu": "Import menu",
+    "menu-behavior": "Menu Behavior",
+    "menu-conditions": "Menu Conditions",
+    "menu-themes-dialog": {
+      "default-colors": "Default colors",
+      "enable-menu-animations": "Menu Animations",
+      "title": "Menu Themes"
+    },
+    "no-matching-menus": "No menus found.",
+    "no-menus": "You have no menus.",
+    "not-bound": "Not Bound",
+    "quick-select-key-label": "Quick-select key",
+    "quick-select-key-recording": "Select key…",
+    "shortcut-info": "This shortcut opens the menu. It must contain one normal key and any number of modifiers such as Ctrl, Alt, or Shift. When recording, you do not have to press all keys at once, you can also press them one after another. This is useful if a shortcut is already bound to another menu!",
+    "shortcut-label": "Shortcut",
+    "shortcut-recording": "Press a shortcut…",
+    "window-condition": "Limit to Specific Window Titles",
+    "workflow-editor": {
+      "add-action": "Add Action",
+      "select-workflow-name": "Select Workflow"
+    },
+    "anchored-mode-info": "Open submenus at the same position as the parent menu. Checking this, will disable Marking Mode and Turbo Mode.",
+    "fixed-position-mode": "Fixed Position Mode",
+    "fixed-position-mode-info": "Open the menu at a fixed position on the screen, instead of at the cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Set position to bottom left",
+      "bottom-right-preset-tooltip": "Set position to bottom right",
+      "centered-preset-tooltip": "Set position to center",
+      "confirm": "Use this position",
+      "top-left-preset-tooltip": "Set position to top left",
+      "top-right-preset-tooltip": "Set position to top right"
+    },
+    "fixed-position-tooltip": "Select a fixed position",
+    "hover-mode-info": "For power users only! Select items by hovering over them."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Clean Circle",
+      "neon-lights": "Neon Lights",
+      "purity": "Purity",
+      "rainbow-labels": "Rainbow Labels"
+    },
+    "presets": {
+      "Blue Glass": "Blue Glass",
+      "Dark Night": "Dark Night",
+      "Cotton Candy": "Cotton Candy",
+      "Dark and Cozy": "Dark and Cozy",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Green Glow",
+      "Electric": "Electric",
+      "Orange": "Orange",
+      "Pink": "Pink",
+      "Bright Prism": "Bright Prism",
+      "Kando Default": "Default colors"
+    }
+  }
+}
