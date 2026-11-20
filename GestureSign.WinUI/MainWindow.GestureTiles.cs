@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.UI;
@@ -21,7 +22,17 @@ public sealed partial class MainWindow
     private string _gestureSearch = "";
     private readonly List<Button> _gestureSelectionButtons = new();
     private TextBlock? _gestureSelectionText;
-    private readonly List<(Button Tile, string Name)> _gestureTiles = new();
+    private readonly List<GestureTileVisual> _gestureTiles = new();
+
+    /// <summary>The tile button keeps a transparent template; its look (hover / pressed / selected) is drawn on Chrome.</summary>
+    private sealed class GestureTileVisual
+    {
+        public required Button Tile { get; init; }
+        public required Border Chrome { get; init; }
+        public required string Name { get; init; }
+        public bool Hovered { get; set; }
+        public bool Pressed { get; set; }
+    }
 
     private LegacyGesture? SelectedGesture
         => _selectedGestureName is null ? null : _legacyData.Gestures.FirstOrDefault(g => string.Equals(g.Name, _selectedGestureName, StringComparison.Ordinal));
@@ -169,16 +180,42 @@ public sealed partial class MainWindow
             _gestureSelectionText.Text = gesture is null
                 ? T("先选中一个手势", "Select a gesture first")
                 : F("已选中：{0}", "Selected: {0}", DisplayName(gesture.Name));
+        foreach (var visual in _gestureTiles)
+            ApplyGestureTileVisual(visual);
+    }
+
+    private void ApplyGestureTileVisual(GestureTileVisual visual)
+    {
+        var selected = string.Equals(visual.Name, _selectedGestureName, StringComparison.Ordinal);
         var accent = ThemeBrush("AccentFillColorDefaultBrush") ?? new SolidColorBrush(Color.FromArgb(255, 76, 194, 255));
-        foreach (var (tile, name) in _gestureTiles)
+        Brush background;
+        Brush border;
+        if (HighContrast)
         {
-            var selected = string.Equals(name, _selectedGestureName, StringComparison.Ordinal);
-            tile.BorderBrush = selected ? accent : new SolidColorBrush(Microsoft.UI.Colors.Transparent);
-            tile.BorderThickness = new Thickness(selected ? 2 : 1);
-            tile.Background = selected
-                ? (IsDark ? new SolidColorBrush(Color.FromArgb(255, 47, 74, 98)) : new SolidColorBrush(Color.FromArgb(255, 222, 238, 252)))
-                : SubtleBrush();
+            background = selected || visual.Hovered ? SystemBrush("SystemColorHighlightColorBrush") : SubtleBrush();
+            border = selected || visual.Hovered ? SystemBrush("SystemColorHighlightTextColorBrush") : BorderBrush();
         }
+        else if (selected)
+        {
+            background = IsDark
+                ? new SolidColorBrush(visual.Pressed ? Color.FromArgb(255, 40, 64, 86) : visual.Hovered ? Color.FromArgb(255, 56, 88, 116) : Color.FromArgb(255, 47, 74, 98))
+                : new SolidColorBrush(visual.Pressed ? Color.FromArgb(255, 208, 228, 248) : visual.Hovered ? Color.FromArgb(255, 212, 232, 252) : Color.FromArgb(255, 222, 238, 252));
+            border = accent;
+        }
+        else if (visual.Hovered)
+        {
+            background = IsDark
+                ? new SolidColorBrush(Color.FromArgb((byte)(visual.Pressed ? 18 : 46), 255, 255, 255))
+                : new SolidColorBrush(visual.Pressed ? Color.FromArgb(255, 226, 232, 240) : Color.FromArgb(255, 233, 239, 246));
+            border = IsDark ? new SolidColorBrush(Color.FromArgb(70, 255, 255, 255)) : new SolidColorBrush(Color.FromArgb(255, 200, 208, 218));
+        }
+        else
+        {
+            background = SubtleBrush();
+            border = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+        }
+        visual.Chrome.Background = background;
+        visual.Chrome.BorderBrush = border;
     }
 
     /// <summary>Gestures as small tiles; viewMode 1 = grid (small), 2 = tiles (larger).</summary>
@@ -278,17 +315,38 @@ public sealed partial class MainWindow
             content.Children.Add(dot);
         }
 
-        var tile = new Button
+        var chrome = new Border
         {
-            Content = content,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            HorizontalContentAlignment = HorizontalAlignment.Stretch,
-            Padding = new Thickness(6, 8, 6, 6),
+            Child = content,
+            Padding = new Thickness(5, 7, 5, 5),
             CornerRadius = new CornerRadius(8),
+            BorderThickness = new Thickness(2),
             Background = SubtleBrush(),
-            BorderThickness = new Thickness(1),
             BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Transparent)
         };
+        var tile = new Button
+        {
+            Content = chrome,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            VerticalContentAlignment = VerticalAlignment.Stretch,
+            Padding = new Thickness(0),
+            CornerRadius = new CornerRadius(8),
+            Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
+            BorderThickness = new Thickness(0),
+            BorderBrush = new SolidColorBrush(Microsoft.UI.Colors.Transparent)
+        };
+        // The default Button template swaps in its own PointerOver/Pressed brushes, which hid the selection
+        // while hovering and showed almost no hover feedback. Neutralise them and draw the states on Chrome.
+        foreach (var key in new[] { "ButtonBackgroundPointerOver", "ButtonBackgroundPressed", "ButtonBorderBrushPointerOver", "ButtonBorderBrushPressed" })
+            tile.Resources[key] = new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+        var visual = new GestureTileVisual { Tile = tile, Chrome = chrome, Name = gesture.Name };
+        tile.PointerEntered += (_, _) => { visual.Hovered = true; ApplyGestureTileVisual(visual); };
+        tile.PointerExited += (_, _) => { visual.Hovered = false; visual.Pressed = false; ApplyGestureTileVisual(visual); };
+        tile.PointerCanceled += (_, _) => { visual.Hovered = false; visual.Pressed = false; ApplyGestureTileVisual(visual); };
+        tile.PointerCaptureLost += (_, _) => { visual.Pressed = false; ApplyGestureTileVisual(visual); };
+        tile.AddHandler(UIElement.PointerPressedEvent, new PointerEventHandler((_, _) => { visual.Pressed = true; ApplyGestureTileVisual(visual); }), true);
+        tile.AddHandler(UIElement.PointerReleasedEvent, new PointerEventHandler((_, _) => { visual.Pressed = false; ApplyGestureTileVisual(visual); }), true);
         var fingerText = CountText(gesture.FingerCount, L("指", "finger(s)", "指", "손가락"));
         ToolTipService.SetToolTip(tile, unused ? $"{name} · {fingerText} · {T("还没有动作使用这个手势", "No action uses this gesture yet")}" : $"{name} · {fingerText}");
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(tile, $"{name} · {fingerText}");
@@ -319,7 +377,8 @@ public sealed partial class MainWindow
             UpdateGestureSelectionToolbar();
         };
         tile.ContextFlyout = menu;
-        _gestureTiles.Add((tile, gesture.Name));
+        _gestureTiles.Add(visual);
+        ApplyGestureTileVisual(visual);
         return tile;
     }
 }
