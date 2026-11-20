@@ -186,6 +186,15 @@ namespace GestureSign.Daemon.RadialMenu
                 }
             }
 
+            // In a submenu the center goes back: show a back arrow there.
+            if (layout.IsSubmenu && RadialMenuIcons.GlyphFontName != null)
+            {
+                using var backFont = new Font(RadialMenuIcons.GlyphFontName, 16f * s, FontStyle.Regular, GraphicsUnit.Pixel);
+                using var backBrush = new SolidBrush(text);
+                using var centered = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center };
+                g.DrawString("\uE72B", backFont, backBrush, Circle(c, layout.DeadZoneRadius), centered);
+            }
+
             var dx = cursor.X - c.X;
             var dy = cursor.Y - c.Y;
             var distance = (float)Math.Sqrt(dx * dx + dy * dy);

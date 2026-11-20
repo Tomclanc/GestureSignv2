@@ -59,6 +59,9 @@ namespace GestureSign.Daemon
                     case IpcCommands.StartSettings:
                         TrayManager.StartSettings();
                         break;
+                    case IpcCommands.RunTestAction:
+                        TestActionRunner.Start(_synchronizationContext);
+                        break;
                     case IpcCommands.Exit:
                         Logging.LogMessage("Daemon exit requested by IPC.");
                         _ = TrayManager.ExitGestureSignAsync();

@@ -37,7 +37,22 @@ public sealed partial class MainWindow
             if (await EditRadialActionAsync(null) is null) return;
             RefreshActionLibraryViews();
         });
-        toolbar.Children.Add(create);
+        var aiSettings = NewPillButton(T("AI 设置", "AI settings"), false);
+        aiSettings.Click += async (_, _) => await RunUiActionAsync(EditAiSettingsAsync);
+        var leftButtons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        leftButtons.Children.Add(create);
+        var import = new DropDownButton { Content = T("导入", "Import"), MinHeight = 32 };
+        var importMenu = new MenuFlyout();
+        var importFile = new MenuFlyoutItem { Text = T("从文件导入…", "From a file…") };
+        importFile.Click += async (_, _) => await RunUiActionAsync(ImportActionsFromFileAsync);
+        var importCode = new MenuFlyoutItem { Text = T("导入分享代码…", "From a share code…") };
+        importCode.Click += async (_, _) => await RunUiActionAsync(ImportActionsFromShareCodeAsync);
+        importMenu.Items.Add(importFile);
+        importMenu.Items.Add(importCode);
+        import.Flyout = importMenu;
+        leftButtons.Children.Add(import);
+        leftButtons.Children.Add(aiSettings);
+        toolbar.Children.Add(leftButtons);
         var filter = new TextBox { PlaceholderText = T("筛选", "Filter"), Text = _actionLibraryFilter, MaxWidth = 360, HorizontalAlignment = HorizontalAlignment.Right };
         filter.TextChanged += (_, _) =>
         {
@@ -61,6 +76,56 @@ public sealed partial class MainWindow
         RefreshActionLibraryCategories();
         RefreshActionLibraryList();
         return root;
+    }
+
+    /// <summary>API address, key and model used by the "Ask AI" step when a step leaves them empty.</summary>
+    private async Task EditAiSettingsAsync()
+    {
+        var options = _legacyData.Options;
+        var endpoint = new TextBox { Header = T("接口地址", "API address"), Text = options.AiEndpoint, PlaceholderText = "https://api.deepseek.com/v1" };
+        var apiKey = new PasswordBox { Header = T("API 密钥", "API key"), Password = options.AiApiKey };
+        var model = new TextBox { Header = T("模型", "Model"), Text = options.AiModel, PlaceholderText = "deepseek-chat" };
+        var presets = new ComboBox { Header = T("服务商", "Provider"), HorizontalAlignment = HorizontalAlignment.Stretch };
+        var presetValues = new (string Name, string Endpoint, string Model)[]
+        {
+            ("DeepSeek", "https://api.deepseek.com/v1", "deepseek-chat"),
+            ("OpenAI", "https://api.openai.com/v1", "gpt-4o-mini"),
+            ("Qwen / 通义千问", "https://dashscope.aliyuncs.com/compatible-mode/v1", "qwen-plus"),
+            ("GLM / 智谱", "https://open.bigmodel.cn/api/paas/v4", "glm-4-flash"),
+            ("Ollama (localhost)", "http://localhost:11434/v1", "qwen2.5"),
+        };
+        foreach (var preset in presetValues)
+            presets.Items.Add(preset.Name);
+        presets.SelectedIndex = Array.FindIndex(presetValues, p => string.Equals(p.Endpoint, options.AiEndpoint, StringComparison.OrdinalIgnoreCase));
+        presets.SelectionChanged += (_, _) =>
+        {
+            if (presets.SelectedIndex < 0) return;
+            endpoint.Text = presetValues[presets.SelectedIndex].Endpoint;
+            model.Text = presetValues[presets.SelectedIndex].Model;
+        };
+        var panel = NewCardPanel(10);
+        panel.Children.Add(new TextBlock
+        {
+            Text = T("「AI 处理」步骤和 AI 模板使用这里的设置。支持兼容 OpenAI 接口的服务。", "The Ask AI step and the AI templates use these settings. Any OpenAI-compatible service works."),
+            TextWrapping = TextWrapping.Wrap,
+            Opacity = 0.75
+        });
+        panel.Children.Add(presets);
+        panel.Children.Add(endpoint);
+        panel.Children.Add(apiKey);
+        panel.Children.Add(model);
+        panel.Children.Add(new TextBlock
+        {
+            Text = T("密钥保存在本机的 GestureSign 配置文件中。导出或分享动作时不会包含它。", "The key is stored in GestureSign's settings file on this PC. Exported or shared actions never include it."),
+            TextWrapping = TextWrapping.Wrap,
+            FontSize = 12,
+            Opacity = 0.6
+        });
+        if (!await ConfirmDialogAsync(T("AI 设置", "AI settings"), panel, L("保存", "Save", "儲存", "저장")))
+            return;
+        _pendingOptionUpdates["AiEndpoint"] = endpoint.Text.Trim();
+        _pendingOptionUpdates["AiApiKey"] = apiKey.Password.Trim();
+        await UpdateOptionAndWaitAsync("AiModel", model.Text.Trim());
     }
 
     /// <summary>Refreshes every view that shows library actions (library page and radial page).</summary>
@@ -199,6 +264,9 @@ public sealed partial class MainWindow
                 RefreshActionLibraryViews();
                 return Task.CompletedTask;
             });
+            menu.Items.Add(new MenuFlyoutSeparator());
+            Item(T("导出到文件…", "Export to a file…"), () => ExportActionToFileAsync(current));
+            Item(T("复制分享代码", "Copy share code"), () => CopyActionShareCodeAsync(current));
             menu.Items.Add(new MenuFlyoutSeparator());
             Item(L("删除", "Delete", "刪除", "삭제"), async () =>
             {

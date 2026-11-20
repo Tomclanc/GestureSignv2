@@ -19,6 +19,9 @@ public sealed class RadialMenuConfig
     public const string FileName = "RadialMenus.json";
     public const int SlotsPerRing = 8;
     public const int MaxRings = 3;
+
+    /// <summary>Slot value prefix for a folder slot: "menu:&lt;submenu id&gt;".</summary>
+    public const string SubmenuPrefix = "menu:";
     private static readonly string[] RingNames = { "Inner", "Outer", "Third" };
 
     public int Version { get; set; } = 1;
@@ -90,8 +93,8 @@ public sealed class RadialMenuConfig
             menu.Slots ??= new(StringComparer.OrdinalIgnoreCase);
             if (menu.Slots.Comparer != StringComparer.OrdinalIgnoreCase)
                 menu.Slots = new Dictionary<string, string>(menu.Slots, StringComparer.OrdinalIgnoreCase);
-            // Drop references to deleted actions.
-            foreach (var key in menu.Slots.Where(pair => string.IsNullOrEmpty(pair.Value) || FindAction(pair.Value) == null).Select(pair => pair.Key).ToList())
+            // Drop references to deleted actions and submenus.
+            foreach (var key in menu.Slots.Where(pair => !IsValidSlotValue(pair.Value)).Select(pair => pair.Key).ToList())
                 menu.Slots.Remove(key);
         }
         if (!Menus.Any(m => m.Scope == RadialMenuScope.Global))
@@ -99,6 +102,52 @@ public sealed class RadialMenuConfig
     }
 
     public static string NewId() => Guid.NewGuid().ToString("N");
+
+    public static string SubmenuRef(string submenuId) => SubmenuPrefix + submenuId;
+
+    /// <summary>True when a slot value points to a submenu ("menu:&lt;id&gt;").</summary>
+    public static bool TryGetSubmenuId(string slotValue, out string submenuId)
+    {
+        submenuId = null;
+        if (string.IsNullOrEmpty(slotValue) || !slotValue.StartsWith(SubmenuPrefix, StringComparison.Ordinal))
+            return false;
+        submenuId = slotValue.Substring(SubmenuPrefix.Length);
+        return submenuId.Length > 0;
+    }
+
+    public RadialMenuDefinition FindMenuById(string id)
+        => string.IsNullOrEmpty(id) ? null : Menus.FirstOrDefault(m => string.Equals(m.Id, id, StringComparison.OrdinalIgnoreCase));
+
+    private bool IsValidSlotValue(string value)
+        => !string.IsNullOrEmpty(value) &&
+           (TryGetSubmenuId(value, out var submenuId)
+               ? FindMenuById(submenuId)?.Scope == RadialMenuScope.Submenu
+               : FindAction(value) != null);
+
+    /// <summary>The value a slot shows: its own, or for a top-level menu the global menu's.</summary>
+    private string EffectiveSlotValue(RadialMenuDefinition menu, string key)
+    {
+        if (menu != null && menu.Slots.TryGetValue(key, out var own))
+            return own;
+        var global = GlobalMenu;
+        if (menu != global && menu?.Scope != RadialMenuScope.Submenu && global.Slots.TryGetValue(key, out var inherited))
+            return inherited;
+        return null;
+    }
+
+    /// <summary>Folder slots of a menu (same inheritance as actions), keyed like <see cref="ResolveSlots(RadialMenuDefinition, int)"/>.</summary>
+    public Dictionary<string, RadialMenuDefinition> ResolveSubmenus(RadialMenuDefinition menu, int ringCount)
+    {
+        var result = new Dictionary<string, RadialMenuDefinition>(StringComparer.OrdinalIgnoreCase);
+        for (var ring = 0; ring < Math.Clamp(ringCount, 1, MaxRings); ring++)
+            for (var index = 0; index < SlotsPerRing; index++)
+            {
+                var key = SlotKey(ring, index);
+                if (TryGetSubmenuId(EffectiveSlotValue(menu, key), out var id) && FindMenuById(id) is { Scope: RadialMenuScope.Submenu } submenu)
+                    result[key] = submenu;
+            }
+        return result;
+    }
 
     public RadialMenuAction FindAction(string id)
         => string.IsNullOrEmpty(id) ? null : Actions.FirstOrDefault(a => string.Equals(a.Id, id, StringComparison.OrdinalIgnoreCase));
@@ -137,15 +186,14 @@ public sealed class RadialMenuConfig
     public Dictionary<string, RadialMenuAction> ResolveSlots(RadialMenuDefinition menu, int ringCount)
     {
         var result = new Dictionary<string, RadialMenuAction>(StringComparer.OrdinalIgnoreCase);
-        var global = GlobalMenu;
         for (var ring = 0; ring < Math.Clamp(ringCount, 1, MaxRings); ring++)
         {
             for (var index = 0; index < SlotsPerRing; index++)
             {
                 var key = SlotKey(ring, index);
-                var action = menu != null && menu.Slots.TryGetValue(key, out var own) ? FindAction(own) : null;
-                if (action == null && menu != global && global.Slots.TryGetValue(key, out var inherited))
-                    action = FindAction(inherited);
+                // A slot of the menu itself (action or folder) hides the global one.
+                var value = EffectiveSlotValue(menu, key);
+                var action = TryGetSubmenuId(value, out _) ? null : FindAction(value);
                 if (action != null && action.IsEnabled)
                     result[key] = action;
             }
@@ -165,7 +213,9 @@ public enum RadialMenuScope
     Global,
     Taskbar,
     Desktop,
-    Application
+    Application,
+    /// <summary>A folder opened from a slot of another menu; never matched to a window.</summary>
+    Submenu
 }
 
 public sealed class RadialMenuDefinition

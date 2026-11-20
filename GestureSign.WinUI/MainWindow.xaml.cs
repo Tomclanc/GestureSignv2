@@ -8387,7 +8387,8 @@ public sealed partial class MainWindow : Window
         DisableRecognition = 10,
         Exit = 11,
         Ping = 13,
-        InputHealth = 15
+        InputHealth = 15,
+        RunTestAction = 16
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);

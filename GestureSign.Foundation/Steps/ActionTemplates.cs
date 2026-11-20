@@ -37,6 +37,16 @@ public static class ActionTemplates
 
     private static Step NoSelection(bool zh) => S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文字", "No text is selected")));
 
+    /// <summary>Gets the selection into {text}; stops with a message when nothing is selected.</summary>
+    private static Step RequireSelection(bool zh)
+        => S(StepCatalog.Group, ("Title", Z(zh, "获取选中的文字", "Get the selected text"))).With(new[]
+        {
+            S(StepCatalog.GetSelectedText, ("Output", "text")),
+            S(StepCatalog.If, ("Condition", "text.trim() == \"\"")).With(new[] { NoSelection(zh), S(StepCatalog.Stop) })
+        });
+
+    private static Step Thinking(bool zh) => S(StepCatalog.Notify, ("Text", Z(zh, "AI 处理中…", "Asking AI…")));
+
     public static readonly IReadOnlyList<ActionTemplate> All = new[]
     {
         // Web
@@ -71,6 +81,56 @@ public static class ActionTemplates
                 S(StepCatalog.If, ("Condition", "link != \"\"")).With(
                     new[] { S(StepCatalog.OpenUrl, ("Url", "{link}")) },
                     new[] { S(StepCatalog.Notify, ("Text", Z(zh, "选中的文字里没有网址", "The selection contains no link"))) }))),
+
+        // AI (uses the AI settings: API address, key and model)
+        new ActionTemplate("ai-translate", "AI", "AI", "AI 翻译选中文字", "AI: translate selection",
+            "用 AI 翻译选中的文字，在窗口中显示译文。", "Translates the selected text with AI and shows the result.", "\uE82F",
+            zh => P(new[] { Var("targetLanguage", zh ? "简体中文" : "English", Z(zh, "目标语言", "Target language")) },
+                RequireSelection(zh),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("SystemPrompt", Z(zh, "你是专业翻译。把用户的文字翻译成{targetLanguage}，保留原有格式，只输出译文。", "You are a professional translator. Translate the user's text into {targetLanguage}, keep the formatting, and output only the translation.")),
+                    ("Prompt", "{text}"), ("Output", "result")),
+                S(StepCatalog.ShowText, ("Title", Z(zh, "翻译", "Translation")), ("Text", "{result}")))),
+        new ActionTemplate("ai-rewrite", "AI", "AI", "AI 润色改写", "AI: polish selection",
+            "让表达更通顺，直接替换选中的文字。", "Makes the selected text read better and replaces it.", "\uE82F",
+            zh => P(new[] { Var("style", Z(zh, "通顺、自然、简洁", "clear, natural and concise"), Z(zh, "改写风格", "Style")) },
+                RequireSelection(zh),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("SystemPrompt", Z(zh, "把用户的文字改写得{style}，保持原语言和原意，只输出改写后的文字。", "Rewrite the user's text to be {style}. Keep the language and meaning, and output only the rewritten text.")),
+                    ("Prompt", "{text}"), ("Output", "result")),
+                S(StepCatalog.PasteText, ("Text", "{result}")))),
+        new ActionTemplate("ai-fix", "AI", "AI", "AI 修正错别字和语法", "AI: fix spelling and grammar",
+            "修正选中文字的错别字、标点和语法，直接替换。", "Fixes spelling, punctuation and grammar in the selection and replaces it.", "\uE82F",
+            zh => P(Array.Empty<StepVariableDef>(),
+                RequireSelection(zh),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("SystemPrompt", Z(zh, "修正用户文字中的错别字、标点和语法错误，不改变意思和风格，只输出修正后的文字。", "Fix spelling, punctuation and grammar mistakes in the user's text without changing its meaning or style. Output only the corrected text.")),
+                    ("Prompt", "{text}"), ("Output", "result")),
+                S(StepCatalog.PasteText, ("Text", "{result}")))),
+        new ActionTemplate("ai-summarize", "AI", "AI", "AI 总结", "AI: summarize",
+            "总结选中文字的要点。", "Summarizes the key points of the selected text.", "\uE82F",
+            zh => P(Array.Empty<StepVariableDef>(),
+                RequireSelection(zh),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("SystemPrompt", Z(zh, "用简体中文分条总结用户文字的要点，简洁准确。", "Summarize the key points of the user's text as a short bulleted list.")),
+                    ("Prompt", "{text}"), ("Output", "result")),
+                S(StepCatalog.ShowText, ("Title", Z(zh, "总结", "Summary")), ("Text", "{result}")))),
+        new ActionTemplate("ai-explain", "AI", "AI", "AI 解释", "AI: explain",
+            "解释选中的代码、术语或句子。", "Explains the selected code, term or sentence.", "\uE82F",
+            zh => P(Array.Empty<StepVariableDef>(),
+                RequireSelection(zh),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("SystemPrompt", Z(zh, "用通俗易懂的简体中文解释用户给出的内容（代码、术语或句子），必要时举例。", "Explain what the user gives you (code, a term or a sentence) in plain language, with an example if useful.")),
+                    ("Prompt", "{text}"), ("Output", "result")),
+                S(StepCatalog.ShowText, ("Title", Z(zh, "解释", "Explanation")), ("Text", "{result}")))),
+        new ActionTemplate("ai-ask", "AI", "AI", "AI 提问（带上选中文字）", "AI: ask about selection",
+            "输入问题，连同选中的文字一起发给 AI。", "Asks a question about the selected text.", "\uE82F",
+            zh => P(Array.Empty<StepVariableDef>(),
+                S(StepCatalog.GetSelectedText, ("Output", "text")),
+                S(StepCatalog.UserInput, ("Prompt", Z(zh, "想问 AI 什么？", "What do you want to ask?")), ("Output", "question")),
+                Thinking(zh),
+                S(StepCatalog.AiChat, ("Prompt", Z(zh, "{question}\n\n参考内容：\n{text}", "{question}\n\nContext:\n{text}")), ("Output", "result")),
+                S(StepCatalog.ShowText, ("Title", "AI"), ("Text", "{result}")))),
 
         // Text
         new ActionTemplate("zh-convert", "文本", "Text", "简繁互换", "Simplified/Traditional Chinese",

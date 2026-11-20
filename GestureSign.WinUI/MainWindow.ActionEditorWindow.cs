@@ -106,6 +106,8 @@ public sealed partial class MainWindow
         var collapsed = new HashSet<Step>();
         EditorRow? selected = null;
         var summaryBlocks = new Dictionary<Step, TextBlock>();
+        var undoStack = new Stack<string>();
+        var redoStack = new Stack<string>();
         var suppressSelection = false;
         var rows = new List<EditorRow>();
 
@@ -418,8 +420,9 @@ public sealed partial class MainWindow
         bool Contains(Step parent, Step candidate)
             => (parent.Body ?? new()).Concat(parent.Else ?? new()).Any(child => child == candidate || Contains(child, candidate));
 
-        void InsertAt(Step step, EditorRow? target, bool after)
+        void InsertAt(Step step, EditorRow? target, bool after, bool checkpoint = true)
         {
+            if (checkpoint) Checkpoint();
             if (target is null)
                 program.Steps.Add(step);
             else if (target.Kind == EditorRowKind.Else)
@@ -446,6 +449,7 @@ public sealed partial class MainWindow
             var index = owner.IndexOf(step);
             var target = index + delta;
             if (index < 0 || target < 0 || target >= owner.Count) return;
+            Checkpoint();
             owner.RemoveAt(index);
             owner.Insert(target, step);
             Refresh(step);
@@ -455,6 +459,7 @@ public sealed partial class MainWindow
         {
             if (selected?.Kind != EditorRowKind.Step) return;
             var step = selected.Step;
+            Checkpoint();
             var clone = new StepProgram { Steps = { step } }.Clone().Steps[0];
             selected.Owner.Insert(selected.Owner.IndexOf(step) + 1, clone);
             Refresh(clone);
@@ -463,6 +468,7 @@ public sealed partial class MainWindow
         void ToggleDisabled()
         {
             if (selected?.Kind != EditorRowKind.Step) return;
+            Checkpoint();
             selected.Step.Disabled = !selected.Step.Disabled;
             Refresh(selected.Step);
         }
@@ -470,10 +476,90 @@ public sealed partial class MainWindow
         void Delete()
         {
             if (selected?.Kind != EditorRowKind.Step) return;
+            Checkpoint();
             var owner = selected.Owner;
             var index = owner.IndexOf(selected.Step);
             owner.Remove(selected.Step);
             Refresh(owner.Count == 0 ? null : owner[Math.Min(index, owner.Count - 1)]);
+        }
+
+        // ----- undo / redo: snapshots of the whole program ------------------
+        void Checkpoint()
+        {
+            var snapshot = program.ToJson();
+            if (undoStack.Count == 0 || undoStack.Peek() != snapshot)
+            {
+                undoStack.Push(snapshot);
+                redoStack.Clear();
+            }
+        }
+
+        void Restore(string json)
+        {
+            var restored = StepProgram.FromJson(json);
+            program.Steps = restored.Steps;
+            program.Variables = restored.Variables;
+            collapsed.Clear();
+            var index = list.SelectedIndex;
+            Refresh();
+            FillVariables();
+            if (index >= 0 && index < list.Items.Count)
+                list.SelectedIndex = index;
+        }
+
+        void Undo()
+        {
+            var current = program.ToJson();
+            while (undoStack.Count > 0)
+            {
+                var previous = undoStack.Pop();
+                if (previous == current) continue;
+                redoStack.Push(current);
+                Restore(previous);
+                return;
+            }
+        }
+
+        void Redo()
+        {
+            if (redoStack.Count == 0) return;
+            undoStack.Push(program.ToJson());
+            Restore(redoStack.Pop());
+        }
+
+        // ----- copy / paste steps between actions via the clipboard ----------
+        const string StepClipboardPrefix = "GestureSign.Steps:";
+
+        void CopySteps()
+        {
+            if (selected?.Kind != EditorRowKind.Step) return;
+            var package = new DataPackage();
+            package.SetText(StepClipboardPrefix + new StepProgram { Steps = { selected.Step } }.ToJson());
+            Clipboard.SetContent(package);
+        }
+
+        async Task PasteStepsAsync()
+        {
+            try
+            {
+                var content = Clipboard.GetContent();
+                if (!content.Contains(StandardDataFormats.Text)) return;
+                var text = await content.GetTextAsync();
+                if (!text.StartsWith(StepClipboardPrefix, StringComparison.Ordinal)) return;
+                var pasted = StepProgram.FromJson(text[StepClipboardPrefix.Length..]).Steps;
+                if (pasted.Count == 0) return;
+                Checkpoint();
+                var anchor = selected;
+                foreach (var step in pasted)
+                {
+                    InsertAt(step, anchor, after: true, checkpoint: false);
+                    anchor = rows.FirstOrDefault(r => r.Kind == EditorRowKind.Step && r.Step == step) ?? anchor;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
         }
 
         Button ToolButton(string glyph, string tip, Action onClick)
@@ -492,6 +578,23 @@ public sealed partial class MainWindow
         toolbar.Children.Add(ToolButton("", L("停用", "Disable", "停用", "사용 안 함") + " / " + L("启用", "Enable", "啟用", "사용"), ToggleDisabled));
         toolbar.Children.Add(ToolButton("", L("删除", "Delete", "刪除", "삭제") + " (Del)", Delete));
 
+        toolbar.Children.Insert(0, ToolButton("\uE7A6", T("重做", "Redo") + " (Ctrl+Y)", Redo));
+        toolbar.Children.Insert(0, ToolButton("\uE7A7", T("撤销", "Undo") + " (Ctrl+Z)", Undo));
+
+        var stepMenu = new MenuFlyout();
+        void MenuItem(string text, Action onClick)
+        {
+            var item = new MenuFlyoutItem { Text = text };
+            item.Click += (_, _) => onClick();
+            stepMenu.Items.Add(item);
+        }
+        MenuItem(L("复制", "Copy", "複製", "복사") + "\tCtrl+C", CopySteps);
+        MenuItem(L("粘贴", "Paste", "貼上", "붙여넣기") + "\tCtrl+V", () => _ = PasteStepsAsync());
+        MenuItem(T("创建副本", "Duplicate") + "\tCtrl+D", Duplicate);
+        MenuItem(L("停用", "Disable", "停用", "사용 안 함") + " / " + L("启用", "Enable", "啟用", "사용"), ToggleDisabled);
+        MenuItem(L("删除", "Delete", "刪除", "삭제") + "\tDel", Delete);
+        list.ContextFlyout = stepMenu;
+
         list.KeyDown += (_, e) =>
         {
             var control = Microsoft.UI.Input.InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -499,7 +602,13 @@ public sealed partial class MainWindow
             else if (control && e.Key == VirtualKey.Up) { Move(-1); e.Handled = true; }
             else if (control && e.Key == VirtualKey.Down) { Move(1); e.Handled = true; }
             else if (control && e.Key == VirtualKey.D) { Duplicate(); e.Handled = true; }
+            else if (control && e.Key == VirtualKey.C) { CopySteps(); e.Handled = true; }
+            else if (control && e.Key == VirtualKey.V) { _ = PasteStepsAsync(); e.Handled = true; }
+            else if (control && e.Key == VirtualKey.Z) { Undo(); e.Handled = true; }
+            else if (control && e.Key == VirtualKey.Y) { Redo(); e.Handled = true; }
         };
+        // Editing a field of a step: remember the state before the edit.
+        propertiesHost.GotFocus += (_, _) => Checkpoint();
 
         // Drag and drop: new steps from the palette ("new:Type") and moves within the tree ("move").
         Step? dragging = null;
@@ -545,8 +654,9 @@ public sealed partial class MainWindow
                 dragging = null;
                 if (target?.Step == moving || (target?.Step is not null && Contains(moving, target.Step)))
                     return;
+                Checkpoint();
                 RemoveFromTree(program.Steps, moving);
-                InsertAt(moving, target, after);
+                InsertAt(moving, target, after, checkpoint: false);
                 return;
             }
             if (!e.DataView.Contains(StandardDataFormats.Text)) return;
@@ -708,6 +818,7 @@ public sealed partial class MainWindow
             panel.Children.Add(variableDefaultBox);
             panel.Children.Add(variableDescriptionBox);
             var flyout = new Flyout { Content = panel };
+            flyout.Opened += (_, _) => Checkpoint();
             flyout.Closed += (_, _) =>
             {
                 var newName = variableNameBox.Text.Trim();
@@ -726,6 +837,7 @@ public sealed partial class MainWindow
             var index = 1;
             while (program.Variables.Any(v => v.Name == "var" + index)) index++;
             var variable = new StepVariableDef { Name = "var" + index, Kind = "text", Default = "" };
+            Checkpoint();
             program.Variables.Add(variable);
             FillVariables();
             EditVariable(variable, addVariable);
@@ -734,6 +846,7 @@ public sealed partial class MainWindow
         {
             if (variablesList.SelectedItem is FrameworkElement { Tag: StepVariableDef variable })
             {
+                Checkpoint();
                 program.Variables.Remove(variable);
                 FillVariables();
             }
@@ -779,6 +892,21 @@ public sealed partial class MainWindow
         var iconPreview = new Border { Width = 56, Height = 56, CornerRadius = new CornerRadius(8), BorderBrush = BorderBrush(), BorderThickness = new Thickness(1) };
         void UpdateIconPreview()
         {
+            if (icon.Length > 1)
+            {
+                // A program or image path: show its file name.
+                iconPreview.Child = new TextBlock
+                {
+                    Text = System.IO.Path.GetFileName(icon),
+                    FontSize = 10,
+                    TextWrapping = TextWrapping.Wrap,
+                    TextAlignment = TextAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(2)
+                };
+                ToolTipService.SetToolTip(iconPreview, icon);
+                return;
+            }
             var shown = Glyph(icon.Length == 1 ? icon : "", 26);
             shown.Opacity = icon.Length == 1 ? 1 : 0.35;
             shown.HorizontalAlignment = HorizontalAlignment.Center;
@@ -801,12 +929,25 @@ public sealed partial class MainWindow
         };
         var chooseIcon = NewPillButton(T("选择图标", "Choose icon"), false);
         chooseIcon.Flyout = iconFlyout;
+        var pickIconFile = NewPillButton(T("图片或程序…", "Image or program…"), false);
+        pickIconFile.Click += async (_, _) =>
+        {
+            var path = await PickOpenFileAsync(new[] { ".png", ".jpg", ".jpeg", ".bmp", ".ico", ".exe" });
+            if (string.IsNullOrWhiteSpace(path)) return;
+            icon = path;
+            UpdateIconPreview();
+        };
         var clearIcon = NewPillButton(L("清除", "Clear", "清除", "지우기"), false);
         clearIcon.Click += (_, _) => { icon = ""; UpdateIconPreview(); };
-        var iconRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var iconRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10 };
         iconRow.Children.Add(iconPreview);
-        iconRow.Children.Add(chooseIcon);
-        iconRow.Children.Add(clearIcon);
+        var iconButtons = new StackPanel { Spacing = 6 };
+        var iconButtonsTop = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6 };
+        iconButtonsTop.Children.Add(chooseIcon);
+        iconButtonsTop.Children.Add(clearIcon);
+        iconButtons.Children.Add(iconButtonsTop);
+        iconButtons.Children.Add(pickIconFile);
+        iconRow.Children.Add(iconButtons);
         var enabledBox = new CheckBox { Content = L("启用", "Enable", "啟用", "사용"), IsChecked = enabled };
         enabledBox.Click += (_, _) => enabled = enabledBox.IsChecked == true;
         appearanceHost.Children.Add(iconRow);
@@ -845,6 +986,33 @@ public sealed partial class MainWindow
         Grid.SetRow(bottom, 1);
         Grid.SetColumnSpan(bottom, 3);
         root.Children.Add(bottom);
+
+        // Test run: the background service runs the unsaved action in the
+        // active window after 3 seconds, so there is time to switch to it.
+        var testRun = new Button { Content = T("测试运行", "Test run"), MinWidth = 110 };
+        var testStatus = new TextBlock { Opacity = 0.7, VerticalAlignment = VerticalAlignment.Center, TextWrapping = TextWrapping.Wrap, MaxWidth = 560 };
+        testRun.Click += async (_, _) =>
+        {
+            try
+            {
+                var probe = new RadialMenuAction { Name = string.IsNullOrWhiteSpace(name) ? "Test" : name.Trim(), Commands = CommandsOf(name, program) };
+                System.IO.File.WriteAllText(System.IO.Path.Combine(_legacyData.RoamingPath, "TestAction.json"), System.Text.Json.JsonSerializer.Serialize(probe));
+                var sent = await NotifyDaemonAsync(DaemonCommand.RunTestAction);
+                testStatus.Text = sent
+                    ? T("3 秒后在当前活动窗口中运行，请切换到目标窗口。", "Runs in the active window in 3 seconds; switch to the target window.")
+                    : T("后台服务没有运行，无法测试。", "The background service is not running.");
+            }
+            catch (Exception ex)
+            {
+                testStatus.Text = ex.Message;
+            }
+        };
+        var testPanel = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12, HorizontalAlignment = HorizontalAlignment.Left };
+        testPanel.Children.Add(testRun);
+        testPanel.Children.Add(testStatus);
+        Grid.SetRow(testPanel, 1);
+        Grid.SetColumnSpan(testPanel, 2);
+        root.Children.Add(testPanel);
 
         cancel.Click += (_, _) => window.Close();
         save.Click += (_, _) =>

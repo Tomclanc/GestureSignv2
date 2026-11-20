@@ -53,9 +53,10 @@ namespace GestureSign.Daemon.RadialMenu
 
         private readonly Dictionary<string, IAction> _slots;
 
-        public RadialMenuLayout(Dictionary<string, IAction> slots, Point origin)
+        public RadialMenuLayout(Dictionary<string, IAction> slots, Point origin, bool isSubmenu = false)
         {
             _slots = slots;
+            IsSubmenu = isSubmenu;
             Scale = Math.Max(1f, DpiHelper.GetScreenDpi(origin) / 96f);
             RingCount = Math.Clamp(AppConfig.RadialMenuRingCount, 1, RadialMenuSlots.MaxRings);
             DeadZoneRadius = DeadZone96 * Scale;
@@ -73,22 +74,37 @@ namespace GestureSign.Daemon.RadialMenu
             var y = Math.Min(Math.Max(origin.Y, screen.Top + half), screen.Bottom - half);
             Center = new Point(x, y);
 
+            var overrides = ApplicationManager.Instance.RadialMenuIconOverrides;
             Labels = slots
-                .Select(pair => new { Hit = Parse(pair.Key, pair.Value) })
+                .Select(pair => new { Hit = Parse(pair.Key, pair.Value), Custom = overrides.TryGetValue(pair.Key, out var icon) ? icon : null })
                 .Where(x2 => x2.Hit != null)
                 .Select(x2 => new RadialMenuLabel
                 {
                     Ring = x2.Hit.Ring,
                     Index = x2.Hit.Index,
                     Text = LabelOf(x2.Hit.Action),
-                    Icon = RadialMenuIcons.FileIcon(x2.Hit.Action),
-                    Glyph = RadialMenuIcons.Glyph(x2.Hit.Action)
+                    // An icon chosen in the action editor wins: one character is a
+                    // Segoe Fluent glyph, anything longer a program or image path.
+                    Icon = x2.Custom is { Length: > 1 } ? RadialMenuIcons.FileIcon(x2.Custom) : x2.Custom is null ? RadialMenuIcons.FileIcon(x2.Hit.Action) : null,
+                    Glyph = x2.Custom is { Length: 1 } ? x2.Custom
+                        : x2.Hit.Action is RadialMenuFolderAction ? "\uE8B7"
+                        : RadialMenuIcons.Glyph(x2.Hit.Action)
                 })
                 .ToList();
         }
 
         public float Scale { get; }
         public int RingCount { get; }
+
+        /// <summary>A submenu opened from a folder slot: the center goes back.</summary>
+        public bool IsSubmenu { get; }
+
+        public bool IsInCenter(Point cursor)
+        {
+            double dx = cursor.X - Center.X;
+            double dy = cursor.Y - Center.Y;
+            return dx * dx + dy * dy < DeadZoneRadius * DeadZoneRadius;
+        }
         public float DeadZoneRadius { get; }
         public float InnerRadius { get; }
         public float OuterRadius { get; }
@@ -191,6 +207,10 @@ namespace GestureSign.Daemon.RadialMenu
         private const int VK_MBUTTON = 0x04;
         private const int WatchdogIntervalMs = 15;
         private const int MaximumHoldMs = 15000;
+        /// <summary>Resting on a folder slot this long opens its submenu.</summary>
+        private const int FolderDwellMs = 350;
+        /// <summary>Resting in the center of a submenu this long goes back.</summary>
+        private const int BackDwellMs = 450;
 
         public static RadialMenuController Instance { get; } = new RadialMenuController();
 
@@ -207,6 +227,13 @@ namespace GestureSign.Daemon.RadialMenu
         private DateTime _lastHookUtc;
         private int _releasedTicks;
         private bool _observedDown;
+        private readonly Stack<(Dictionary<string, IAction> Slots, RadialMenuLayout Layout)> _menuStack = new Stack<(Dictionary<string, IAction>, RadialMenuLayout)>();
+        private RadialMenuHit _hover;
+        private DateTime _hoverSinceUtc;
+        private bool _dwellArmed;
+        private bool _inCenter;
+        private DateTime _centerSinceUtc;
+        private bool _leftCenter;
 
         internal RadialMenuTrigger Trigger { get; set; }
 
@@ -274,7 +301,81 @@ namespace GestureSign.Daemon.RadialMenu
                 return;
             }
             _selected = _layout.HitTest(point);
+            TrackHover(point);
             _dirty = true;
+        }
+
+        private static bool SameSlot(RadialMenuHit a, RadialMenuHit b)
+            => a != null && b != null && a.Ring == b.Ring && a.Index == b.Index;
+
+        /// <summary>Remembers since when the cursor rests on the current slot or in the center.</summary>
+        private void TrackHover(Point point)
+        {
+            var now = DateTime.UtcNow;
+            if (!SameSlot(_hover, _selected))
+            {
+                // Moving to another slot arms the folder dwell again (it is
+                // disarmed right after going back, so the folder under the
+                // cursor does not reopen at once).
+                if (_hover != null || _selected != null)
+                    _dwellArmed = true;
+                _hover = _selected;
+                _hoverSinceUtc = now;
+            }
+            var inCenter = _layout.IsInCenter(point);
+            if (inCenter != _inCenter)
+            {
+                _inCenter = inCenter;
+                _centerSinceUtc = now;
+                if (!inCenter)
+                    _leftCenter = true;
+            }
+        }
+
+        private void EnterSubmenu(RadialMenuFolderAction folder)
+        {
+            Dictionary<string, IAction> slots;
+            try
+            {
+                slots = ApplicationManager.Instance.PrepareRadialSubmenu(folder.SubmenuId);
+            }
+            catch (Exception ex)
+            {
+                Logging.LogException(ex);
+                slots = null;
+            }
+            if (slots == null)
+            {
+                _dwellArmed = false;
+                return;
+            }
+            _menuStack.Push((_slots, _layout));
+            _slots = slots;
+            // The submenu opens around the cursor, so moving on from here picks its slots.
+            _layout = new RadialMenuLayout(slots, _cursor, isSubmenu: true);
+            _selected = null;
+            _hover = null;
+            _dwellArmed = true;
+            _inCenter = true;
+            _leftCenter = false;
+            _centerSinceUtc = DateTime.UtcNow;
+            _form.Render(_layout, _cursor, _selected);
+        }
+
+        private void LeaveSubmenu()
+        {
+            var (slots, layout) = _menuStack.Pop();
+            _slots = slots;
+            _layout = layout;
+            _selected = _layout.HitTest(_cursor);
+            _hover = _selected;
+            _hoverSinceUtc = DateTime.UtcNow;
+            _dwellArmed = false;
+            _inCenter = _layout.IsInCenter(_cursor);
+            _leftCenter = !_inCenter;
+            _centerSinceUtc = DateTime.UtcNow;
+            Logging.LogMessage("Radial submenu closed (back).");
+            _form.Render(_layout, _cursor, _selected);
         }
 
         public void End(Point point)
@@ -303,6 +404,11 @@ namespace GestureSign.Daemon.RadialMenu
                 Logging.LogMessage("Radial menu canceled. Reason=NoSelection");
                 return;
             }
+            if (selected.Action is RadialMenuFolderAction)
+            {
+                Logging.LogMessage("Radial menu canceled. Reason=ReleasedOnFolder");
+                return;
+            }
 
             Logging.LogMessage($"Radial menu selected. Slot={RadialMenuSlots.Name(selected.Ring, selected.Index)}, Action={selected.Action.Name}");
             var trigger = Trigger;
@@ -327,6 +433,11 @@ namespace GestureSign.Daemon.RadialMenu
             _selected = null;
             _slots = null;
             _layout = null;
+            _menuStack.Clear();
+            _hover = null;
+            _dwellArmed = false;
+            _inCenter = false;
+            _leftCenter = false;
             _timer?.Stop();
             _form?.HideMenu();
         }
@@ -375,6 +486,22 @@ namespace GestureSign.Daemon.RadialMenu
             else
             {
                 _releasedTicks = 0;
+            }
+
+            if (_open)
+            {
+                var now = DateTime.UtcNow;
+                if (_selected?.Action is RadialMenuFolderAction folder && _dwellArmed && SameSlot(_hover, _selected)
+                    && (now - _hoverSinceUtc).TotalMilliseconds >= FolderDwellMs)
+                {
+                    EnterSubmenu(folder);
+                    return;
+                }
+                if (_menuStack.Count > 0 && _inCenter && _leftCenter && (now - _centerSinceUtc).TotalMilliseconds >= BackDwellMs)
+                {
+                    LeaveSubmenu();
+                    return;
+                }
             }
 
             if (_open && _dirty)

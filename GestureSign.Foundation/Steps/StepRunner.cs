@@ -34,6 +34,10 @@ public interface IStepHost
     IReadOnlyList<string> GetClipboardFiles();
     /// <summary>Converts between Simplified and Traditional Chinese.</summary>
     string ConvertChinese(string text, bool toTraditional);
+    /// <summary>Calls an OpenAI-compatible chat API; empty settings use the global AI settings.</summary>
+    string AiChat(string endpoint, string apiKey, string model, string systemPrompt, string prompt, double? temperature);
+    /// <summary>Shows text in a window the user can copy from.</summary>
+    void ShowText(string title, string text);
     void RunCommand(string pluginClass, string settings);
     /// <summary>Runs JavaScript. As an expression the code is evaluated; otherwise it is a function body.</summary>
     object RunJavaScript(string code, StepVariables variables, bool expression);
@@ -393,6 +397,15 @@ public sealed class StepRunner
             case StepCatalog.GetDateTime:
                 var format = Arg("Format");
                 Output(DateTime.Now.ToString(string.IsNullOrWhiteSpace(format) ? "yyyy-MM-dd HH:mm:ss" : format, CultureInfo.CurrentCulture));
+                break;
+
+            case StepCatalog.AiChat:
+                double? temperature = double.TryParse(Arg("Temperature").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var t) ? t : null;
+                Output(_host.AiChat(Arg("Endpoint").Trim(), Arg("ApiKey").Trim(), Arg("Model").Trim(), Arg("SystemPrompt"), Arg("Prompt"), temperature) ?? "");
+                break;
+
+            case StepCatalog.ShowText:
+                _host.ShowText(Arg("Title"), Arg("Text"));
                 break;
 
             case StepCatalog.OpenUrl:

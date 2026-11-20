@@ -220,10 +220,46 @@ public sealed partial class MainWindow
         return migrated;
     }
 
+    /// <summary>Submenus opened in the wheel editor, from the selected top-level menu down.</summary>
+    private readonly List<string> _radialSubmenuPath = new();
+
+    /// <summary>The menu selected in the list on the left (never a submenu).</summary>
+    private RadialMenuDefinition TopRadialMenu()
+    {
+        var config = _radialConfig!;
+        return config.Menus.FirstOrDefault(m => m.Id == _radialSelectedMenuId && m.Scope != RadialMenuScope.Submenu) ?? config.GlobalMenu;
+    }
+
+    /// <summary>The menu shown in the wheel editor: the open submenu, or the top-level menu.</summary>
     private RadialMenuDefinition SelectedRadialMenu()
     {
         var config = _radialConfig!;
-        return config.Menus.FirstOrDefault(m => m.Id == _radialSelectedMenuId) ?? config.GlobalMenu;
+        while (_radialSubmenuPath.Count > 0)
+        {
+            var submenu = config.FindMenuById(_radialSubmenuPath[^1]);
+            if (submenu is { Scope: RadialMenuScope.Submenu })
+                return submenu;
+            _radialSubmenuPath.RemoveAt(_radialSubmenuPath.Count - 1);
+        }
+        return TopRadialMenu();
+    }
+
+    /// <summary>Removes submenus that no slot refers to any more (repeated for nested ones).</summary>
+    private static void PruneOrphanSubmenus(RadialMenuConfig config)
+    {
+        while (true)
+        {
+            var referenced = config.Menus
+                .SelectMany(m => m.Slots.Values)
+                .Select(value => RadialMenuConfig.TryGetSubmenuId(value, out var id) ? id : null)
+                .Where(id => id is not null)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var orphans = config.Menus.Where(m => m.Scope == RadialMenuScope.Submenu && !referenced.Contains(m.Id)).ToList();
+            if (orphans.Count == 0)
+                return;
+            foreach (var orphan in orphans)
+                config.Menus.Remove(orphan);
+        }
     }
 
     /// <summary>Taskbar and desktop entries always exist so they can be configured.</summary>
@@ -244,6 +280,7 @@ public sealed partial class MainWindow
         RadialMenuScope.Global => L("全局", "Global", "全域", "전역"),
         RadialMenuScope.Taskbar => T("任务栏", "Taskbar"),
         RadialMenuScope.Desktop => T("桌面", "Desktop"),
+        RadialMenuScope.Submenu => string.IsNullOrWhiteSpace(menu.Name) ? T("子菜单", "Submenu") : menu.Name,
         _ => string.IsNullOrWhiteSpace(menu.Name) ? menu.Processes ?? "" : menu.Name
     };
 
@@ -256,6 +293,7 @@ public sealed partial class MainWindow
         EnsureSpecialMenu(RadialMenuScope.Taskbar);
         EnsureSpecialMenu(RadialMenuScope.Desktop);
         var menus = _radialConfig.Menus
+            .Where(m => m.Scope != RadialMenuScope.Submenu)
             .OrderBy(m => m.Scope)
             .ThenBy(m => RadialMenuTitle(m), StringComparer.CurrentCultureIgnoreCase)
             .ToList();
@@ -280,7 +318,7 @@ public sealed partial class MainWindow
             row.Children.Add(text);
             row.Opacity = menu.Disabled ? 0.5 : 1;
             list.Items.Add(row);
-            if (menu == SelectedRadialMenu())
+            if (menu == TopRadialMenu())
                 list.SelectedItem = row;
         }
         list.SelectionChanged += (_, _) =>
@@ -288,6 +326,7 @@ public sealed partial class MainWindow
             if (list.SelectedItem is FrameworkElement { Tag: string id } && id != _radialSelectedMenuId)
             {
                 _radialSelectedMenuId = id;
+                _radialSubmenuPath.Clear();
                 RefreshRadialWheel();
             }
         };
@@ -372,13 +411,15 @@ public sealed partial class MainWindow
 
     private async Task DeleteSelectedRadialMenuAsync()
     {
-        var menu = SelectedRadialMenu();
+        var menu = TopRadialMenu();
         if (menu.Scope != RadialMenuScope.Application)
             return;
         if (!await ConfirmDialogAsync(DeleteConfirmationTitle(), RadialMenuTitle(menu), DeleteButtonText()))
             return;
         _radialConfig!.Menus.Remove(menu);
+        PruneOrphanSubmenus(_radialConfig);
         _radialSelectedMenuId = null;
+        _radialSubmenuPath.Clear();
         SaveRadialConfig();
         RefreshRadialPage();
     }

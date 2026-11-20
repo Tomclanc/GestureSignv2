@@ -720,6 +720,12 @@ namespace GestureSign.Common.Applications
         private GestureSign.Foundation.RadialMenus.RadialMenuConfig _radialMenuConfig;
         private DateTime _radialMenuConfigWriteTimeUtc;
 
+        /// <summary>
+        /// Icons chosen for the slots of the last prepared radial menu (slot gesture
+        /// name to a glyph character or an image/program path).
+        /// </summary>
+        public IReadOnlyDictionary<string, string> RadialMenuIconOverrides { get; private set; } = new Dictionary<string, string>();
+
         /// <summary>Loads RadialMenus.json, re-reading it only when the file changed.</summary>
         public GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
         {
@@ -758,7 +764,19 @@ namespace GestureSign.Common.Applications
                 return null;
             }
 
+            var result = BuildRadialSlots(config, menu);
+
+            CaptureWindow = target;
+            _recognizedApplication = apps;
+            Logging.LogMessage($"Radial menu lookup. Menu={menu.Name ?? menu.Scope.ToString()}, Process={fileName}, Class={className}, Slots={result.Count}");
+            return result;
+        }
+
+        /// <summary>Slots of one radial menu: actions, and folder slots that open a submenu.</summary>
+        private Dictionary<string, IAction> BuildRadialSlots(GestureSign.Foundation.RadialMenus.RadialMenuConfig config, GestureSign.Foundation.RadialMenus.RadialMenuDefinition menu)
+        {
             var result = new Dictionary<string, IAction>(StringComparer.OrdinalIgnoreCase);
+            var icons = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var pair in config.ResolveSlots(menu, AppConfig.RadialMenuRingCount))
             {
                 if (!GestureSign.Foundation.RadialMenus.RadialMenuConfig.TryParseSlotKey(pair.Key, out var ring, out var index))
@@ -780,12 +798,40 @@ namespace GestureSign.Common.Applications
                     }).ToList()
                 };
                 if (IsActionExecutable(action))
+                {
                     result[action.GestureName] = action;
+                    if (!string.IsNullOrWhiteSpace(source.Icon))
+                        icons[action.GestureName] = source.Icon;
+                }
             }
+            foreach (var pair in config.ResolveSubmenus(menu, AppConfig.RadialMenuRingCount))
+            {
+                if (!GestureSign.Foundation.RadialMenus.RadialMenuConfig.TryParseSlotKey(pair.Key, out var ring, out var index))
+                    continue;
+                var name = RadialMenuSlots.Name(ring, index);
+                result[name] = new RadialMenuFolderAction
+                {
+                    Name = string.IsNullOrWhiteSpace(pair.Value.Name) ? "..." : pair.Value.Name,
+                    GestureName = name,
+                    IsEnabled = true,
+                    SubmenuId = pair.Value.Id
+                };
+                if (!string.IsNullOrWhiteSpace(pair.Value.IconPath))
+                    icons[name] = pair.Value.IconPath;
+            }
+            RadialMenuIconOverrides = icons;
+            return result;
+        }
 
-            CaptureWindow = target;
-            _recognizedApplication = apps;
-            Logging.LogMessage($"Radial menu lookup. Menu={menu.Name ?? menu.Scope.ToString()}, Process={fileName}, Class={className}, Slots={result.Count}");
+        /// <summary>Slots of a submenu opened from a folder slot, or null when it no longer exists.</summary>
+        public Dictionary<string, IAction> PrepareRadialSubmenu(string submenuId)
+        {
+            var config = LoadRadialMenuConfig();
+            var menu = config?.FindMenuById(submenuId);
+            if (menu == null)
+                return null;
+            var result = BuildRadialSlots(config, menu);
+            Logging.LogMessage($"Radial submenu opened. Menu={menu.Name}, Slots={result.Count}");
             return result;
         }
 

@@ -224,6 +224,65 @@ namespace GestureSign.CorePlugins.Steps
             return files;
         }
 
+        // ----- AI ------------------------------------------------------------
+
+        private static readonly HttpClient AiClient = new HttpClient { Timeout = TimeSpan.FromSeconds(120) };
+
+        /// <summary>"https://host/v1" or ".../chat/completions" both work.</summary>
+        private static string ChatCompletionsUrl(string endpoint)
+        {
+            var url = endpoint.Trim().TrimEnd('/');
+            if (url.EndsWith("/chat/completions", StringComparison.OrdinalIgnoreCase))
+                return url;
+            // Versioned base addresses: ".../v1", ".../api/paas/v4", ".../compatible-mode/v1".
+            if (System.Text.RegularExpressions.Regex.IsMatch(url, @"/v\d+$", System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+                return url + "/chat/completions";
+            return url + "/v1/chat/completions";
+        }
+
+        public string AiChat(string endpoint, string apiKey, string model, string systemPrompt, string prompt, double? temperature)
+        {
+            endpoint = string.IsNullOrWhiteSpace(endpoint) ? GestureSign.Common.Configuration.AppConfig.AiEndpoint : endpoint;
+            apiKey = string.IsNullOrWhiteSpace(apiKey) ? GestureSign.Common.Configuration.AppConfig.AiApiKey : apiKey;
+            model = string.IsNullOrWhiteSpace(model) ? GestureSign.Common.Configuration.AppConfig.AiModel : model;
+            if (string.IsNullOrWhiteSpace(endpoint) || string.IsNullOrWhiteSpace(model))
+                throw new InvalidOperationException("AI is not set up: fill in the API address and model in AI settings (Action library page).");
+
+            var messages = new List<object>();
+            if (!string.IsNullOrWhiteSpace(systemPrompt))
+                messages.Add(new { role = "system", content = systemPrompt });
+            messages.Add(new { role = "user", content = prompt ?? "" });
+            var body = new Dictionary<string, object> { ["model"] = model, ["messages"] = messages, ["stream"] = false };
+            if (temperature.HasValue)
+                body["temperature"] = Math.Clamp(temperature.Value, 0, 2);
+
+            using var request = new HttpRequestMessage(HttpMethod.Post, ChatCompletionsUrl(endpoint))
+            {
+                Content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json")
+            };
+            if (!string.IsNullOrWhiteSpace(apiKey))
+                request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey.Trim());
+            using var response = AiClient.Send(request);
+            var text = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            if (!response.IsSuccessStatusCode)
+            {
+                var detail = text.Length > 300 ? text.Substring(0, 300) + "…" : text;
+                throw new InvalidOperationException($"AI request failed ({(int)response.StatusCode}): {detail}");
+            }
+            using var document = JsonDocument.Parse(text);
+            var choices = document.RootElement.GetProperty("choices");
+            if (choices.GetArrayLength() == 0)
+                return "";
+            var content = choices[0].GetProperty("message").GetProperty("content").GetString() ?? "";
+            // Reasoning models may wrap their thinking in <think>...</think>; keep the answer only.
+            var thinkEnd = content.IndexOf("</think>", StringComparison.OrdinalIgnoreCase);
+            if (content.TrimStart().StartsWith("<think>", StringComparison.OrdinalIgnoreCase) && thinkEnd >= 0)
+                content = content.Substring(thinkEnd + "</think>".Length);
+            return content.Trim();
+        }
+
+        public void ShowText(string title, string text) => _pointInfo.Invoke(() => StepPromptForm.ShowText(title, text));
+
         private const uint LCMAP_SIMPLIFIED_CHINESE = 0x02000000;
         private const uint LCMAP_TRADITIONAL_CHINESE = 0x04000000;
 
@@ -437,8 +496,8 @@ namespace GestureSign.CorePlugins.Steps
             Padding = new Padding(12);
 
             var label = new Label { Text = prompt ?? "", Dock = DockStyle.Top, AutoSize = false, Height = string.IsNullOrEmpty(prompt) ? 0 : 28 };
-            var ok = new Button { Text = "OK", DialogResult = DialogResult.OK, Width = 88, Height = 30 };
-            var cancel = new Button { Text = "Cancel", DialogResult = DialogResult.Cancel, Width = 88, Height = 30 };
+            var ok = new Button { Text = Ui("确定", "OK"), DialogResult = DialogResult.OK, Width = 88, Height = 30 };
+            var cancel = new Button { Text = Ui("取消", "Cancel"), DialogResult = DialogResult.Cancel, Width = 88, Height = 30 };
             var buttons = new FlowLayoutPanel { Dock = DockStyle.Bottom, FlowDirection = FlowDirection.RightToLeft, Height = 40, Padding = new Padding(0, 6, 0, 0) };
             buttons.Controls.Add(cancel);
             buttons.Controls.Add(ok);
@@ -461,6 +520,60 @@ namespace GestureSign.CorePlugins.Steps
             using var form = new StepPromptForm(prompt, box, multiline ? 240 : 120);
             form.Shown += (_, __) => { form.Activate(); box.Focus(); box.SelectAll(); };
             return form.ShowDialog() == DialogResult.OK ? box.Text : null;
+        }
+
+        /// <summary>Chinese or English button text, following the UI language.</summary>
+        private static string Ui(string zh, string en)
+            => System.Globalization.CultureInfo.CurrentUICulture.Name.StartsWith("zh", StringComparison.OrdinalIgnoreCase) ? zh : en;
+
+        /// <summary>A resizable window with read-only text and a Copy button.</summary>
+        public static void ShowText(string title, string text)
+        {
+            var box = new TextBox
+            {
+                Text = (text ?? "").Replace("\r\n", "\n").Replace("\n", "\r\n"),
+                Multiline = true,
+                ReadOnly = true,
+                ScrollBars = ScrollBars.Vertical,
+                WordWrap = true,
+                Font = new Font("Microsoft YaHei UI", 10.5f)
+            };
+            var form = new Form
+            {
+                Text = string.IsNullOrWhiteSpace(title) ? "GestureSign" : title,
+                TopMost = true,
+                ShowInTaskbar = true,
+                StartPosition = FormStartPosition.Manual,
+                AutoScaleMode = AutoScaleMode.Dpi,
+                AutoScaleDimensions = new SizeF(96f, 96f),
+                ClientSize = new Size(560, 380),
+                Padding = new Padding(10),
+                KeyPreview = true
+            };
+            var copy = new Button { Text = Ui("复制", "Copy"), Width = 96, Height = 30 };
+            var close = new Button { Text = Ui("关闭", "Close"), Width = 96, Height = 30, DialogResult = DialogResult.Cancel };
+            copy.Click += (_, __) =>
+            {
+                try { Clipboard.SetText(box.Text); copy.Text = Ui("已复制", "Copied"); }
+                catch (ExternalException) { }
+            };
+            close.Click += (_, __) => form.Close();
+            var buttons = new FlowLayoutPanel { Dock = DockStyle.Bottom, FlowDirection = FlowDirection.RightToLeft, Height = 42, Padding = new Padding(0, 8, 0, 0) };
+            buttons.Controls.Add(close);
+            buttons.Controls.Add(copy);
+            box.Dock = DockStyle.Fill;
+            form.Controls.Add(box);
+            form.Controls.Add(buttons);
+            form.CancelButton = close;
+            form.FormClosed += (_, __) => form.Dispose();
+            var area = Screen.FromPoint(Cursor.Position).WorkingArea;
+            form.Location = new Point(
+                Math.Max(area.Left, Math.Min(Cursor.Position.X - form.Width / 2, area.Right - form.Width)),
+                Math.Max(area.Top, Math.Min(Cursor.Position.Y - form.Height / 2, area.Bottom - form.Height)));
+            form.Show();
+            form.Activate();
+            box.SelectionStart = 0;
+            box.SelectionLength = 0;
         }
 
         public static string AskChoice(string prompt, IReadOnlyList<string> items)

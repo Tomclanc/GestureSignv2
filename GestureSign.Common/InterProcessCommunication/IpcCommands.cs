@@ -17,6 +17,8 @@ namespace GestureSign.Common.InterProcessCommunication
         SynRecognitionState,
         Ping,
         RecoverInput,
-        InputHealth
+        InputHealth,
+        /// <summary>Run TestAction.json (written by the action editor) in the active window.</summary>
+        RunTestAction
     }
 }

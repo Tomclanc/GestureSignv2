@@ -48,29 +48,44 @@ namespace GestureSign.Daemon.RadialMenu
             {
                 foreach (var path in CandidatePaths(command.CommandSettings))
                 {
-                    if (FileIcons.TryGetValue(path, out var cached))
-                    {
-                        if (cached != null) return cached;
-                        continue;
-                    }
-                    Bitmap bitmap = null;
-                    try
-                    {
-                        if (File.Exists(path))
-                        {
-                            using var icon = Icon.ExtractAssociatedIcon(path);
-                            bitmap = icon?.ToBitmap();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        Logging.LogMessage($"Radial menu icon extraction failed. Path={path}, Error={ex.GetType().Name}");
-                    }
-                    FileIcons[path] = bitmap;
+                    var bitmap = FileIcon(path);
                     if (bitmap != null) return bitmap;
                 }
             }
             return null;
+        }
+
+        /// <summary>Icon of a program or file, or the picture itself for an image file; cached.</summary>
+        public static Bitmap FileIcon(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return null;
+            if (FileIcons.TryGetValue(path, out var cached))
+                return cached;
+            Bitmap bitmap = null;
+            try
+            {
+                if (File.Exists(path))
+                {
+                    var extension = Path.GetExtension(path).ToLowerInvariant();
+                    if (extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif")
+                    {
+                        using var image = Image.FromFile(path);
+                        bitmap = new Bitmap(image, 64, 64);
+                    }
+                    else
+                    {
+                        using var icon = Icon.ExtractAssociatedIcon(path);
+                        bitmap = icon?.ToBitmap();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Radial menu icon extraction failed. Path={path}, Error={ex.GetType().Name}");
+            }
+            FileIcons[path] = bitmap;
+            return bitmap;
         }
 
         public static string Glyph(IAction action)
@@ -103,6 +118,8 @@ namespace GestureSign.Daemon.RadialMenu
                 "Notifier" => "",
                 "ClipboardMatch" => "",
                 "TextCopyer" => "",
+                "StepsPlugin" => "\uE8FD",
+                "LibraryActionPlugin" => "\uE8F1",
                 _ => ""
             };
         }

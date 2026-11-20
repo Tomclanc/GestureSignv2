@@ -63,6 +63,8 @@ public static class StepCatalog
     public const string RunJavaScript = "RunJavaScript";
     public const string RunLua = "RunLua";
     public const string RunCommand = "RunCommand";
+    public const string AiChat = "AiChat";
+    public const string ShowText = "ShowText";
 
     public static readonly IReadOnlyList<StepCategory> Categories = new[]
     {
@@ -72,6 +74,7 @@ public static class StepCatalog
         new StepCategory("input", "剪贴板与按键", "Clipboard and keys", ""),
         new StepCategory("data", "变量与计算", "Variables and math", ""),
         new StepCategory("system", "系统与网络", "System and web", ""),
+        new StepCategory("ai", "AI", "AI", "\uE82F"),
         new StepCategory("script", "脚本", "Scripts", ""),
     };
 
@@ -216,6 +219,23 @@ public static class StepCatalog
             new[] { new StepParameter("PluginClass", "插件类名", "Plugin class", StepParameterKind.Text, "GestureSign.CorePlugins.HotKey.HotKeyPlugin"),
                     new StepParameter("Settings", "命令设置 JSON", "Command settings JSON", StepParameterKind.Code, "") },
             descriptionZh: "快捷键、音量、打开文件、启动应用等 GestureSign 命令。", descriptionEn: "Hotkey, volume, open file, launch app and other GestureSign commands."),
+
+        // AI
+        Type("ai", AiChat, "AI 处理", "Ask AI", "\uE82F",
+            new[] { new StepParameter("Prompt", "内容（发给 AI 的文字）", "Prompt (text sent to the AI)", StepParameterKind.MultilineText, "{text}"),
+                    new StepParameter("SystemPrompt", "要求（系统提示词）", "Instructions (system prompt)", StepParameterKind.MultilineText, "",
+                        HintZh: "例如：把用户的文字翻译成英文，只输出译文。", HintEn: "For example: Translate the user's text into English. Output only the translation."),
+                    new StepParameter("Model", "模型（留空用 AI 设置）", "Model (empty: AI settings)", StepParameterKind.Text, ""),
+                    new StepParameter("Endpoint", "接口地址（留空用 AI 设置）", "API address (empty: AI settings)", StepParameterKind.Text, ""),
+                    new StepParameter("ApiKey", "API Key（留空用 AI 设置）", "API key (empty: AI settings)", StepParameterKind.Text, ""),
+                    new StepParameter("Temperature", "随机性 0~2（可留空）", "Temperature 0-2 (optional)", StepParameterKind.Text, ""),
+                    Output("result") },
+            descriptionZh: "调用兼容 OpenAI 的接口（OpenAI、DeepSeek、通义千问、Ollama 等），把回复保存到变量。",
+            descriptionEn: "Calls an OpenAI-compatible API (OpenAI, DeepSeek, Qwen, Ollama and others) and saves the reply to a variable."),
+        Type("interact", ShowText, "显示文本窗口", "Show text window", "\uE8A5",
+            new[] { new StepParameter("Title", "标题", "Title", StepParameterKind.Text, "GestureSign"),
+                    new StepParameter("Text", "内容", "Text", StepParameterKind.MultilineText, "{result}") },
+            descriptionZh: "在可复制的窗口中显示较长的文字。", descriptionEn: "Shows longer text in a window you can copy from."),
 
         // Scripts
         Type("script", RunJavaScript, "运行 JavaScript", "Run JavaScript", "",

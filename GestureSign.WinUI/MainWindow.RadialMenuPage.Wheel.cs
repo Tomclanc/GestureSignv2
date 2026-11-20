@@ -25,12 +25,38 @@ public sealed partial class MainWindow
         var config = _radialConfig;
         var menu = SelectedRadialMenu();
         var isGlobal = menu.Scope == RadialMenuScope.Global;
-        var panel = new StackPanel { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Center };
+        var isSubmenu = menu.Scope == RadialMenuScope.Submenu;
+        // Only top-level application/taskbar/desktop wheels inherit empty slots from the global wheel.
+        var inherits = !isGlobal && !isSubmenu;
+        var panel = new StackPanel { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Stretch };
 
-        panel.Children.Add(new TextBlock { Text = RadialMenuTitle(menu), Style = BodyStrongTextBlockStyle, HorizontalAlignment = HorizontalAlignment.Center });
-        if (!isGlobal)
+        var path = new[] { RadialMenuTitle(TopRadialMenu()) }
+            .Concat(_radialSubmenuPath.Select(id => config.FindMenuById(id)).Where(m => m is not null).Select(m => RadialMenuTitle(m!)));
+        panel.Children.Add(new TextBlock { Text = string.Join("  ›  ", path), Style = BodyStrongTextBlockStyle, HorizontalAlignment = HorizontalAlignment.Center, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center });
+        if (isSubmenu)
         {
-            var disable = new CheckBox { Content = T("在此程序中禁用轮盘", "Disable the radial menu in this app"), IsChecked = menu.Disabled };
+            var back = NewPillButton(T("返回上级", "Back"), false);
+            back.HorizontalAlignment = HorizontalAlignment.Center;
+            back.Click += (_, _) =>
+            {
+                if (_radialSubmenuPath.Count > 0)
+                    _radialSubmenuPath.RemoveAt(_radialSubmenuPath.Count - 1);
+                RefreshRadialWheel();
+            };
+            panel.Children.Add(back);
+            panel.Children.Add(new TextBlock
+            {
+                Text = T("使用时：在文件夹格子上停一下打开子菜单，在中心停一下返回上级。", "In use: rest on a folder slot to open it; rest in the center to go back."),
+                Opacity = 0.6,
+                FontSize = 12,
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
+            });
+        }
+        if (inherits)
+        {
+            var disable = new CheckBox { Content = T("在此程序中禁用轮盘", "Disable the radial menu in this app"), IsChecked = menu.Disabled, HorizontalAlignment = HorizontalAlignment.Center };
             disable.Click += (_, _) =>
             {
                 menu.Disabled = disable.IsChecked == true;
@@ -54,16 +80,22 @@ public sealed partial class MainWindow
             for (var index = 0; index < RadialMenuConfig.SlotsPerRing; index++)
             {
                 var key = RadialMenuConfig.SlotKey(ring, index);
-                var own = menu.Slots.TryGetValue(key, out var ownId) ? config.FindAction(ownId) : null;
-                var inherited = own is null && !isGlobal && config.GlobalMenu.Slots.TryGetValue(key, out var globalId)
-                    ? config.FindAction(globalId)
-                    : null;
+                menu.Slots.TryGetValue(key, out var ownValue);
+                string? inheritedValue = null;
+                if (ownValue is null && inherits)
+                    config.GlobalMenu.Slots.TryGetValue(key, out inheritedValue);
+                var own = config.FindAction(ownValue ?? "");
+                var ownFolder = RadialMenuConfig.TryGetSubmenuId(ownValue, out var ownSubmenuId) ? config.FindMenuById(ownSubmenuId) : null;
+                var inherited = config.FindAction(inheritedValue ?? "");
+                var inheritedFolder = RadialMenuConfig.TryGetSubmenuId(inheritedValue, out var inheritedSubmenuId) ? config.FindMenuById(inheritedSubmenuId) : null;
+                var hasOwn = own is not null || ownFolder is not null;
+                var hasInherited = inherited is not null || inheritedFolder is not null;
                 var r1 = radii[ring];
                 var r2 = radii[ring + 1];
                 var sector = new Path
                 {
                     Data = WheelSectorGeometry(r1, r2, index),
-                    Fill = own is not null ? ownFill : inherited is not null ? inheritedFill : emptyFill,
+                    Fill = hasOwn ? ownFill : hasInherited ? inheritedFill : emptyFill,
                     Stroke = stroke,
                     StrokeThickness = 1,
                     AllowDrop = true,
@@ -72,6 +104,16 @@ public sealed partial class MainWindow
                 var capturedKey = key;
                 sector.Tapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
                 sector.RightTapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
+                var openFolder = ownFolder ?? inheritedFolder;
+                if (openFolder is not null)
+                {
+                    // Double-click a folder slot to edit its submenu.
+                    sector.DoubleTapped += (_, _) =>
+                    {
+                        _radialSubmenuPath.Add(openFolder.Id);
+                        RefreshRadialWheel();
+                    };
+                }
                 sector.PointerEntered += (_, _) => sector.Stroke = accent;
                 sector.PointerExited += (_, _) => sector.Stroke = stroke;
                 sector.DragOver += (_, e) =>
@@ -90,7 +132,10 @@ public sealed partial class MainWindow
                 };
                 canvas.Children.Add(sector);
 
-                var label = (own ?? inherited)?.Name;
+                var label = own?.Name
+                            ?? (ownFolder is not null ? "▸ " + RadialMenuTitle(ownFolder) : null)
+                            ?? inherited?.Name
+                            ?? (inheritedFolder is not null ? "▸ " + RadialMenuTitle(inheritedFolder) : null);
                 if (string.IsNullOrWhiteSpace(label))
                     continue;
                 var mid = WheelPolar((r1 + r2) / 2, index);
@@ -103,7 +148,7 @@ public sealed partial class MainWindow
                     TextTrimming = TextTrimming.CharacterEllipsis,
                     TextWrapping = TextWrapping.NoWrap,
                     FontSize = 13,
-                    Opacity = own is not null ? 1 : 0.55,
+                    Opacity = hasOwn ? 1 : 0.55,
                     IsHitTestVisible = false
                 };
                 Canvas.SetLeft(text, mid.X - width / 2.0);
@@ -115,9 +160,18 @@ public sealed partial class MainWindow
         Canvas.SetLeft(center, WheelSize / 2 - WheelDeadZone);
         Canvas.SetTop(center, WheelSize / 2 - WheelDeadZone);
         canvas.Children.Add(center);
-        panel.Children.Add(canvas);
+        // Shrink (never enlarge) the wheel to the column width, so a narrow
+        // window does not push it under the action library.
+        panel.Children.Add(new Viewbox
+        {
+            Child = canvas,
+            Stretch = Stretch.Uniform,
+            StretchDirection = StretchDirection.DownOnly,
+            MaxWidth = WheelSize,
+            MaxHeight = WheelSize
+        });
 
-        if (!isGlobal)
+        if (inherits)
             panel.Children.Add(new TextBlock { Text = T("空格子沿用全局轮盘的动作。", "Empty slots use the global wheel."), Opacity = 0.6, HorizontalAlignment = HorizontalAlignment.Center });
 
         var copy = NewPillButton(L("复制", "Copy", "複製", "복사"), false);
@@ -137,6 +191,7 @@ public sealed partial class MainWindow
             if (!await ConfirmDialogAsync(L("清除", "Clear", "清除", "지우기"), RadialMenuTitle(menu), L("清除", "Clear", "清除", "지우기")))
                 return;
             menu.Slots.Clear();
+            PruneOrphanSubmenus(config);
             SaveRadialConfig();
             RefreshRadialWheel();
         });
@@ -169,11 +224,29 @@ public sealed partial class MainWindow
         return geometry;
     }
 
+    private async Task<string?> AskRadialSubmenuNameAsync(string title, string current)
+    {
+        var box = new TextBox { Header = L("名称", "Name", "名稱", "이름"), Text = current };
+        box.Loaded += (_, _) => { box.Focus(FocusState.Programmatic); box.SelectAll(); };
+        if (!await ConfirmDialogAsync(title, box, L("保存", "Save", "儲存", "저장")))
+            return null;
+        return string.IsNullOrWhiteSpace(box.Text) ? current : box.Text.Trim();
+    }
+
     private void ShowRadialSlotMenu(FrameworkElement target, string slotKey, Point position)
     {
         var config = _radialConfig!;
         var menu = SelectedRadialMenu();
-        var own = menu.Slots.TryGetValue(slotKey, out var ownId) ? config.FindAction(ownId) : null;
+        menu.Slots.TryGetValue(slotKey, out var ownValue);
+        var own = config.FindAction(ownValue ?? "");
+        var ownFolder = RadialMenuConfig.TryGetSubmenuId(ownValue, out var ownSubmenuId) ? config.FindMenuById(ownSubmenuId) : null;
+        bool CanPaste()
+        {
+            var value = _radialCopiedActionId ?? "";
+            if (RadialMenuConfig.TryGetSubmenuId(value, out var copiedSubmenu))
+                return config.FindMenuById(copiedSubmenu) is not null && !string.Equals(copiedSubmenu, menu.Id, StringComparison.OrdinalIgnoreCase);
+            return config.FindAction(value) is not null;
+        }
 
         var flyout = new MenuFlyout();
         void Add(string text, Action onClick, bool enabled = true)
@@ -208,20 +281,54 @@ public sealed partial class MainWindow
             RefreshRadialLibrary();
         }), own is not null);
         flyout.Items.Add(new MenuFlyoutSeparator());
-        Add(L("复制", "Copy", "複製", "복사"), () => _radialCopiedActionId = own?.Id, own is not null);
+        if (ownFolder is not null)
+        {
+            Add(T("打开子菜单", "Open submenu"), () =>
+            {
+                _radialSubmenuPath.Add(ownFolder.Id);
+                RefreshRadialWheel();
+            });
+            Add(T("重命名子菜单", "Rename submenu"), () => _ = RunUiActionAsync(async () =>
+            {
+                var newName = await AskRadialSubmenuNameAsync(T("重命名子菜单", "Rename submenu"), RadialMenuTitle(ownFolder));
+                if (newName is null) return;
+                ownFolder.Name = newName;
+                SaveRadialConfig();
+                RefreshRadialWheel();
+            }));
+        }
+        else
+        {
+            Add(T("新建子菜单", "New submenu"), () => _ = RunUiActionAsync(async () =>
+            {
+                var newName = await AskRadialSubmenuNameAsync(T("新建子菜单", "New submenu"), T("子菜单", "Submenu"));
+                if (newName is null) return;
+                var submenu = new RadialMenuDefinition { Id = RadialMenuConfig.NewId(), Scope = RadialMenuScope.Submenu, Name = newName };
+                config.Menus.Add(submenu);
+                menu.Slots[slotKey] = RadialMenuConfig.SubmenuRef(submenu.Id);
+                SaveRadialConfig();
+                _radialSubmenuPath.Add(submenu.Id);
+                RefreshRadialWheel();
+            }));
+        }
+        flyout.Items.Add(new MenuFlyoutSeparator());
+        // Copying a folder copies a reference: both slots open the same submenu.
+        Add(L("复制", "Copy", "複製", "복사"), () => _radialCopiedActionId = ownValue, own is not null || ownFolder is not null);
         Add(L("粘贴", "Paste", "貼上", "붙여넣기"), () =>
         {
-            if (config.FindAction(_radialCopiedActionId ?? "") is null) return;
+            if (!CanPaste()) return;
             menu.Slots[slotKey] = _radialCopiedActionId!;
+            PruneOrphanSubmenus(config);
             SaveRadialConfig();
             RefreshRadialWheel();
-        }, config.FindAction(_radialCopiedActionId ?? "") is not null);
+        }, CanPaste());
         Add(L("清除", "Clear", "清除", "지우기"), () =>
         {
             menu.Slots.Remove(slotKey);
+            PruneOrphanSubmenus(config);
             SaveRadialConfig();
             RefreshRadialWheel();
-        }, own is not null);
+        }, own is not null || ownFolder is not null);
 
         flyout.ShowAt(target, new Microsoft.UI.Xaml.Controls.Primitives.FlyoutShowOptions { Position = position });
     }

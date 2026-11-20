@@ -33,14 +33,17 @@
     "apps",
     "Backend",
     "Note",
-    "Type"
+    "Type",
+    "Model"
   ],
   "uz-Latn-UZ": [
     "Global",
-    "Import"
+    "Import",
+    "Model"
   ],
   "hr-HR": [
-    "Start"
+    "Start",
+    "Model"
   ],
   "gl-ES": [
     "Global",
@@ -58,7 +61,8 @@
     "Touchpad",
     "Backend",
     "Text",
-    "Variables"
+    "Variables",
+    "Model"
   ],
   "ca-ES-valencia": [
     "Editors",
@@ -69,13 +73,15 @@
     "Touchpad",
     "Backend",
     "Text",
-    "Variables"
+    "Variables",
+    "Model"
   ],
   "af-ZA": [
     "Later",
     "Pen",
     "Volume",
-    "items"
+    "items",
+    "Model"
   ],
   "lb-LU": [
     "Browser",
@@ -102,15 +108,19 @@
     "Global",
     "Volume",
     "Label",
-    "Desktop"
+    "Desktop",
+    "Model",
+    "Submenu"
   ],
   "tr-TR": [
-    "Normal"
+    "Normal",
+    "Model"
   ],
   "cy-GB": [
     "Pen",
     "System",
-    "Grid"
+    "Grid",
+    "Model"
   ],
   "de-DE": [
     "1 finger",
@@ -158,14 +168,16 @@
     "Tip",
     "Touchpad",
     "Backend",
-    "Text"
+    "Text",
+    "Model"
   ],
   "sk-SK": [
     "Tip",
     "Touchpad",
     "Backend",
     "Filter",
-    "Text"
+    "Text",
+    "Model"
   ],
   "el-GR": [
     "Touchpad",
@@ -205,7 +217,8 @@
   ],
   "pl-PL": [
     "System",
-    "Touchpad"
+    "Touchpad",
+    "Model"
   ],
   "sv-SE": [
     "1 finger",
@@ -229,7 +242,8 @@
     "Touchpad",
     "Backend",
     "Desktop",
-    "Text"
+    "Text",
+    "Model"
   ],
   "nl-NL": [
     "Browser",
@@ -240,7 +254,9 @@
     "Volume",
     "apps",
     "items",
-    "Type"
+    "Type",
+    "Model",
+    "Submenu"
   ],
   "pt-BR": [
     "Backup",
@@ -248,14 +264,16 @@
     "Mouse",
     "Touchpad",
     "Volume",
-    "apps"
+    "apps",
+    "Submenu"
   ],
   "pt-PT": [
     "Backup",
     "Global",
     "Touchpad",
     "Volume",
-    "apps"
+    "apps",
+    "Submenu"
   ],
   "es-MX": [
     "Global",
@@ -271,7 +289,8 @@
     "Variables"
   ],
   "az-Latn-AZ": [
-    "Normal"
+    "Normal",
+    "Model"
   ],
   "sq-AL": [
     "Feedback",
@@ -287,7 +306,9 @@
     "Pen",
     "apps",
     "Label",
-    "Desktop"
+    "Desktop",
+    "Model",
+    "Submenu"
   ],
   "mt-MT": [
     "Backup",
@@ -301,16 +322,22 @@
     "Desktop"
   ],
   "bs-Latn-BA": [
-    "Filter"
+    "Filter",
+    "Model"
   ],
   "fil-PH": [
     "Taskbar",
-    "Desktop"
+    "Desktop",
+    "API key",
+    "Provider",
+    "Submenu"
   ],
   "sl-SI": [
-    "Filter"
+    "Filter",
+    "Model"
   ],
   "sr-Latn-RS": [
-    "Filter"
+    "Filter",
+    "Model"
   ]
 }

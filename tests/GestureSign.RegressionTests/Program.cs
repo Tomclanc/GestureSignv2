@@ -13,7 +13,12 @@ var tests = new (string Name, Action Run)[]
     ("capture recognize execute pipeline", TestCaptureExecutionPipeline),
     ("stale visual generation isolation", TestStaleVisualGenerationIsolation),
     ("configuration migration", TestConfigurationMigration),
-    ("Kando migration", TestKandoMigration)
+    ("Kando migration", TestKandoMigration),
+    ("action templates", ActionEngineTests.TestTemplates),
+    ("step engine and variables", ActionEngineTests.TestStepsAndVariables),
+    ("AI text templates", ActionEngineTests.TestAiTemplates),
+    ("radial rings and submenus", ActionEngineTests.TestRingsAndSubmenus),
+    ("action package export/import/review", ActionEngineTests.TestActionPackage)
 };
 
 foreach (var (name, run) in tests)
