@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "사용 시: 폴더 칸에 잠시 머무르면 열리고, 가운데에 머무르면 돌아갑니다.",
   "Open submenu": "하위 메뉴 열기",
   "Rename submenu": "하위 메뉴 이름 바꾸기",
-  "New submenu": "새 하위 메뉴"
+  "New submenu": "새 하위 메뉴",
+  "Examples": "예시",
+  "More formats": "기타 형식",
+  "Help": "도움말"
 }

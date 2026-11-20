@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "Kasutamisel: peatuge kaustalahtril selle avamiseks; keskel tagasi minemiseks.",
   "Open submenu": "Ava alammenüü",
   "Rename submenu": "Nimeta alammenüü ümber",
-  "New submenu": "Uus alammenüü"
+  "New submenu": "Uus alammenüü",
+  "Examples": "Näited",
+  "More formats": "Rohkem vorminguid",
+  "Help": "Abi"
 }

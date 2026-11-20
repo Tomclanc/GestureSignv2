@@ -395,7 +395,7 @@ public sealed partial class MainWindow
                 propertiesHost.Children.Add(NewStepCommandEditor(step, () => RefreshRowOf(step)));
             else
                 foreach (var parameter in info?.Parameters ?? Array.Empty<StepParameter>())
-                    propertiesHost.Children.Add(NewStepParameterEditor(step, parameter, VariableNames, () => RefreshRowOf(step)));
+                    propertiesHost.Children.Add(NewStepParameterEditor(step, parameter, VariableNames, () => RefreshRowOf(step), ShowProperties));
             var note = new TextBox { Header = T("备注", "Note"), Text = step.Note ?? "", AcceptsReturn = true, TextWrapping = TextWrapping.Wrap, MinHeight = 56 };
             note.TextChanged += (_, _) => step.Note = string.IsNullOrWhiteSpace(note.Text) ? null : note.Text;
             propertiesHost.Children.Add(note);
@@ -1177,7 +1177,7 @@ public sealed partial class MainWindow
     }
 
     /// <summary>An editor for one step parameter; text fields get a button that inserts {variable}.</summary>
-    private FrameworkElement NewStepParameterEditor(Step step, StepParameter parameter, Func<IEnumerable<string>> variables, Action changed)
+    private FrameworkElement NewStepParameterEditor(Step step, StepParameter parameter, Func<IEnumerable<string>> variables, Action changed, Action? rebuild = null)
     {
         var header = T(parameter.NameZh, parameter.NameEn);
         var hint = parameter.HintZh is null ? null : T(parameter.HintZh, parameter.HintEn ?? parameter.HintZh);
@@ -1246,18 +1246,34 @@ public sealed partial class MainWindow
                 insert.Click += (_, _) =>
                 {
                     var flyout = new MenuFlyout();
-                    foreach (var name in variables())
+                    MenuFlyoutItem TokenItem(string token)
                     {
-                        var item = new MenuFlyoutItem { Text = "{" + name + "}" };
+                        var item = new MenuFlyoutItem { Text = token };
                         item.Click += (_, _) =>
                         {
                             var caret = box.SelectionStart;
-                            var token = "{" + name + "}";
                             box.Text = box.Text.Remove(caret, box.SelectionLength).Insert(caret, token);
                             box.SelectionStart = caret + token.Length;
                             box.Focus(FocusState.Programmatic);
                         };
-                        flyout.Items.Add(item);
+                        return item;
+                    }
+                    var variableNames = variables().ToList();
+                    foreach (var name in variableNames)
+                        flyout.Items.Add(TokenItem("{" + name + "}"));
+                    if (variableNames.Count > 0)
+                    {
+                        // {name:quote} and friends, grouped by format with what each one is for.
+                        var more = new MenuFlyoutSubItem { Text = T("更多写法", "More formats") };
+                        foreach (var format in StepPresets.VariableFormats)
+                        {
+                            var group = new MenuFlyoutSubItem { Text = ":" + format.Suffix + "  " + T(format.DescriptionZh, format.DescriptionEn) };
+                            foreach (var name in variableNames)
+                                group.Items.Add(TokenItem("{" + name + ":" + format.Suffix + "}"));
+                            more.Items.Add(group);
+                        }
+                        flyout.Items.Add(new MenuFlyoutSeparator());
+                        flyout.Items.Add(more);
                     }
                     flyout.ShowAt(insert);
                 };
@@ -1266,6 +1282,37 @@ public sealed partial class MainWindow
                 head.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
                 head.Children.Add(new TextBlock { Text = header, VerticalAlignment = VerticalAlignment.Bottom });
                 var tools = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 4 };
+                var presets = parameter.Key == "Path" ? StepPresets.ForStep(step.Type ?? "") : Array.Empty<StepPreset>();
+                if (presets.Count > 0)
+                {
+                    // Common programs and Windows pages; picking one also fills Arguments (and ProcessName).
+                    var examples = new DropDownButton { Content = T("示例", "Examples"), Padding = new Thickness(8, 0, 8, 0), MinHeight = 24, FontSize = 12 };
+                    var menu = new MenuFlyout();
+                    var hasProcessName = StepCatalog.Find(step.Type ?? "")?.Parameters.Any(p => p.Key == "ProcessName") == true;
+                    foreach (var group in presets.GroupBy(p => p.GroupZh))
+                    {
+                        var first = group.First();
+                        var sub = new MenuFlyoutSubItem { Text = T(first.GroupZh, first.GroupEn) };
+                        foreach (var preset in group)
+                        {
+                            var item = new MenuFlyoutItem { Text = T(preset.NameZh, preset.NameEn) };
+                            ToolTipService.SetToolTip(item, (preset.Path + " " + preset.Arguments).Trim());
+                            item.Click += (_, _) =>
+                            {
+                                step.Args!["Arguments"] = preset.Arguments;
+                                if (hasProcessName)
+                                    step.Args["ProcessName"] = preset.ProcessName;
+                                box.Text = preset.Path;
+                                changed();
+                                rebuild?.Invoke();
+                            };
+                            sub.Items.Add(item);
+                        }
+                        menu.Items.Add(sub);
+                    }
+                    examples.Flyout = menu;
+                    tools.Children.Add(examples);
+                }
                 if (parameter.Kind == StepParameterKind.FilePath)
                 {
                     var browse = new Button { Content = T("浏览", "Browse"), Padding = new Thickness(8, 0, 8, 0), MinHeight = 24, FontSize = 12 };

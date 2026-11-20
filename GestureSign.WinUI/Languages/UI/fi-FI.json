@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "Käytössä: pysähdy kansiopaikan päälle avataksesi sen; keskelle palataksesi.",
   "Open submenu": "Avaa alivalikko",
   "Rename submenu": "Nimeä alivalikko uudelleen",
-  "New submenu": "Uusi alivalikko"
+  "New submenu": "Uusi alivalikko",
+  "Examples": "Esimerkit",
+  "More formats": "Lisää muotoja",
+  "Help": "Ohje"
 }

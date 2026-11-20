@@ -99,11 +99,17 @@ namespace GestureSign.CorePlugins.Steps
             var byName = new List<IntPtr>();
             var imagePaths = new Dictionary<uint, string>();
             var title = new StringBuilder(512);
+            var className = new StringBuilder(256);
             EnumWindows((hWnd, _) =>
             {
                 if (!IsWindowVisible(hWnd) || GetWindow(hWnd, GW_OWNER) != IntPtr.Zero)
                     return true;
                 if ((GetWindowLongPtr(hWnd, GWL_EXSTYLE).ToInt64() & WS_EX_TOOLWINDOW) != 0)
+                    return true;
+                // The desktop belongs to explorer.exe but is not a window to switch to.
+                className.Clear();
+                GetClassName(hWnd, className, className.Capacity);
+                if (className.ToString() is "Progman" or "WorkerW")
                     return true;
                 title.Clear();
                 GetWindowText(hWnd, title, title.Capacity);
@@ -177,6 +183,7 @@ namespace GestureSign.CorePlugins.Steps
         [DllImport("user32.dll")] private static extern IntPtr GetWindow(IntPtr hWnd, uint command);
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtrW")] private static extern IntPtr GetWindowLongPtr(IntPtr hWnd, int index);
         [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int maxCount);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)] private static extern int GetClassName(IntPtr hWnd, StringBuilder name, int maxCount);
         [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint processId);
         [DllImport("user32.dll")] private static extern IntPtr GetForegroundWindow();
         [DllImport("user32.dll")] private static extern IntPtr GetAncestor(IntPtr hWnd, int flags);

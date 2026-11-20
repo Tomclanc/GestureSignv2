@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "使用时：在文件夹格子上停一下打开子菜单，在中心停一下返回上级。",
   "Open submenu": "打开子菜单",
   "Rename submenu": "重命名子菜单",
-  "New submenu": "新建子菜单"
+  "New submenu": "新建子菜单",
+  "Examples": "示例",
+  "More formats": "更多写法",
+  "Help": "帮助"
 }

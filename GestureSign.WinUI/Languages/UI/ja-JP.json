@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "使用時: フォルダーのスロット上で止まると開き、中央で止まると戻ります。",
   "Open submenu": "サブメニューを開く",
   "Rename submenu": "サブメニューの名前を変更",
-  "New submenu": "新しいサブメニュー"
+  "New submenu": "新しいサブメニュー",
+  "Examples": "例",
+  "More formats": "その他の書式",
+  "Help": "ヘルプ"
 }

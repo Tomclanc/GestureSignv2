@@ -108,6 +108,9 @@ internal static class ActionEngineTests
         Check(noFolder.Calls.Contains("run:wt.exe") && !noFolder.Calls.Any(c => c.StartsWith("args:")));
         Check(RunTemplate("open-folder-with", h => h.Folder = @"D:\Work").Calls.Contains(@"args:""D:\Work""||False"));
         Check(RunTemplate("system-tool").Calls.Contains("run:ms-settings:display"));
+        Check(StepPresets.ForStep(StepCatalog.RunProgram).Count > 20 && StepPresets.ForStep(StepCatalog.Http).Count == 0);
+        Check(StepPresets.ForStep(StepCatalog.LaunchOrActivate).Any(p => p.Path == "code" && p.ProcessName == "Code.exe"));
+        Check(StepPresets.ForStep(StepCatalog.RunProgram).All(p => p.Path.Length > 0 && p.NameZh.Length > 0 && p.NameEn.Length > 0));
         Check(RunTemplate("launch-or-switch").Calls.Contains("switch:notepad.exe||minimize"));
     }
 

@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "ขณะใช้งาน: หยุดค้างบนช่องโฟลเดอร์เพื่อเปิด หยุดค้างที่กึ่งกลางเพื่อย้อนกลับ",
   "Open submenu": "เปิดเมนูย่อย",
   "Rename submenu": "เปลี่ยนชื่อเมนูย่อย",
-  "New submenu": "เมนูย่อยใหม่"
+  "New submenu": "เมนูย่อยใหม่",
+  "Examples": "ตัวอย่าง",
+  "More formats": "รูปแบบเพิ่มเติม",
+  "Help": "วิธีใช้"
 }

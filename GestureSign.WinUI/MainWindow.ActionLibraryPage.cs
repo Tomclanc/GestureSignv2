@@ -22,6 +22,9 @@ public sealed partial class MainWindow
     private string? _actionLibraryCategory;
     private string _actionLibraryFilter = "";
 
+    /// <summary>Usage guide with examples; kept in the repository so it can change without a release.</summary>
+    private const string ActionLibraryGuideUrl = "https://github.com/DreamAfar/GestureSignv2/blob/main/docs/action-library-guide.md";
+
     private UIElement BuildActionLibraryPage()
     {
         EnsureRadialConfig();
@@ -52,6 +55,10 @@ public sealed partial class MainWindow
         import.Flyout = importMenu;
         leftButtons.Children.Add(import);
         leftButtons.Children.Add(aiSettings);
+        var help = NewPillButton(T("帮助", "Help"), false);
+        ToolTipService.SetToolTip(help, ActionLibraryGuideUrl);
+        help.Click += (_, _) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ActionLibraryGuideUrl) { UseShellExecute = true });
+        leftButtons.Children.Add(help);
         toolbar.Children.Add(leftButtons);
         var filter = new TextBox { PlaceholderText = T("筛选", "Filter"), Text = _actionLibraryFilter, MaxWidth = 360, HorizontalAlignment = HorizontalAlignment.Right };
         filter.TextChanged += (_, _) =>

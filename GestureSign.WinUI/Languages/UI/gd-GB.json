@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "Nuair a chleachdas tu e: fuirich air slot pasgain airson fhosgladh; sa mheadhan airson tilleadh.",
   "Open submenu": "Fosgail am fo-chlàr-taice",
   "Rename submenu": "Thoir ainm ùr air an fho-chlàr-taice",
-  "New submenu": "Fo-chlàr-taice ùr"
+  "New submenu": "Fo-chlàr-taice ùr",
+  "Examples": "Eisimpleirean",
+  "More formats": "Barrachd fhòrmatan",
+  "Help": "Cobhair"
 }

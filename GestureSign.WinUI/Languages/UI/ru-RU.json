@@ -765,5 +765,8 @@
   "In use: rest on a folder slot to open it; rest in the center to go back.": "При использовании: задержитесь на ячейке-папке, чтобы открыть её; в центре — чтобы вернуться.",
   "Open submenu": "Открыть подменю",
   "Rename submenu": "Переименовать подменю",
-  "New submenu": "Новое подменю"
+  "New submenu": "Новое подменю",
+  "Examples": "Примеры",
+  "More formats": "Другие форматы",
+  "Help": "Справка"
 }
