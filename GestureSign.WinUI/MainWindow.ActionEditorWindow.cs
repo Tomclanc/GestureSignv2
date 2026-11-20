@@ -783,6 +783,8 @@ public sealed partial class MainWindow
             _ => T("文本", "Text")
         };
 
+        StepVariableDef? lastVariable = null;
+
         void FillVariables()
         {
             variablesList.Items.Clear();
@@ -799,8 +801,36 @@ public sealed partial class MainWindow
                     texts.Children.Add(new TextBlock { Text = detail.Replace("\n", " "), FontSize = 12, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis });
                 Grid.SetColumn(texts, 1);
                 row.Children.Add(texts);
+                // Per-row delete: the list is rebuilt after every edit, so a selection
+                // made before editing is gone by the time the header button is pressed.
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                var removeTip = L("删除", "Delete", "刪除", "삭제");
+                var remove = new Button
+                {
+                    Content = Glyph("\uE74D", 12),
+                    Padding = new Thickness(6, 4, 6, 4),
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
+                    BorderThickness = new Thickness(0)
+                };
+                ToolTipService.SetToolTip(remove, removeTip);
+                Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(remove, removeTip + " " + (variable.Name ?? ""));
+                remove.Click += (_, _) => RemoveVariable(variable);
+                Grid.SetColumn(remove, 2);
+                row.Children.Add(remove);
                 variablesList.Items.Add(row);
             }
+        }
+
+        void RemoveVariable(StepVariableDef variable)
+        {
+            if (!program.Variables.Contains(variable))
+                return;
+            Checkpoint();
+            program.Variables.Remove(variable);
+            if (ReferenceEquals(lastVariable, variable))
+                lastVariable = null;
+            FillVariables();
         }
 
         void EditVariable(StepVariableDef variable, FrameworkElement anchor)
@@ -858,18 +888,18 @@ public sealed partial class MainWindow
         };
         var deleteVariable = ToolButton("", L("删除", "Delete", "刪除", "삭제"), () =>
         {
-            if (variablesList.SelectedItem is FrameworkElement { Tag: StepVariableDef variable })
-            {
-                Checkpoint();
-                program.Variables.Remove(variable);
-                FillVariables();
-            }
+            var target = variablesList.SelectedItem is FrameworkElement { Tag: StepVariableDef selectedVariable } ? selectedVariable : lastVariable;
+            if (target is not null)
+                RemoveVariable(target);
         });
         variablesList.IsItemClickEnabled = true;
         variablesList.ItemClick += (_, e) =>
         {
             if (e.ClickedItem is FrameworkElement { Tag: StepVariableDef variable } element)
+            {
+                lastVariable = variable;
                 EditVariable(variable, element);
+            }
         };
         FillVariables();
 
