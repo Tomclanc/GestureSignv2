@@ -693,5 +693,15 @@
   "Action library": "Veiksmų biblioteka",
   "Filter": "Filtruoti",
   "Empty slots use the global wheel.": "Tušti langeliai naudoja bendrąjį meniu.",
-  "Set middle-button radial menus per application.": "Nustatykite vidurinio mygtuko apskrituosius meniu kiekvienai programai."
+  "Set middle-button radial menus per application.": "Nustatykite vidurinio mygtuko apskrituosius meniu kiekvienai programai.",
+  "Move up": "Perkelti aukštyn",
+  "Move down": "Perkelti žemyn",
+  "Note": "Pastaba",
+  "Steps": "Žingsniai",
+  "Else": "Kitu atveju",
+  "Add step": "Pridėti žingsnį",
+  "Single command": "Viena komanda",
+  "Edit steps": "Redaguoti žingsnius",
+  "{0} steps": "Žingsnių: {0}",
+  "Select a step to edit it.": "Pasirinkite žingsnį, kurį norite redaguoti."
 }

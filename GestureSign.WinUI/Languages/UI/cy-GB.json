@@ -693,5 +693,15 @@
   "Action library": "Llyfrgell gweithredoedd",
   "Filter": "Hidlo",
   "Empty slots use the global wheel.": "Mae slotiau gwag yn defnyddio'r olwyn fyd-eang.",
-  "Set middle-button radial menus per application.": "Gosodwch olwynion y botwm canol fesul ap."
+  "Set middle-button radial menus per application.": "Gosodwch olwynion y botwm canol fesul ap.",
+  "Move up": "Symud i fyny",
+  "Move down": "Symud i lawr",
+  "Note": "Nodyn",
+  "Steps": "Camau",
+  "Else": "Fel arall",
+  "Add step": "Ychwanegu cam",
+  "Single command": "Gorchymyn sengl",
+  "Edit steps": "Golygu camau",
+  "{0} steps": "{0} cam",
+  "Select a step to edit it.": "Dewiswch gam i'w olygu."
 }

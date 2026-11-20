@@ -693,5 +693,15 @@
   "Action library": "Bibliotecă de acțiuni",
   "Filter": "Filtrare",
   "Empty slots use the global wheel.": "Locurile goale folosesc meniul global.",
-  "Set middle-button radial menus per application.": "Configurați meniuri radiale ale butonului din mijloc pentru fiecare aplicație."
+  "Set middle-button radial menus per application.": "Configurați meniuri radiale ale butonului din mijloc pentru fiecare aplicație.",
+  "Move up": "Mută în sus",
+  "Move down": "Mută în jos",
+  "Note": "Notă",
+  "Steps": "Pași",
+  "Else": "Altfel",
+  "Add step": "Adaugă pas",
+  "Single command": "Comandă unică",
+  "Edit steps": "Editează pașii",
+  "{0} steps": "{0} pași",
+  "Select a step to edit it.": "Selectați un pas pentru a-l edita."
 }

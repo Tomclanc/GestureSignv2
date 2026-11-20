@@ -693,5 +693,15 @@
   "Action library": "പ്രവർത്തന ലൈബ്രറി",
   "Filter": "ഫിൽട്ടർ",
   "Empty slots use the global wheel.": "ശൂന്യമായ സ്ഥാനങ്ങൾ പൊതു മെനു ഉപയോഗിക്കുന്നു.",
-  "Set middle-button radial menus per application.": "ഓരോ ആപ്പിനും മധ്യ ബട്ടൺ വൃത്താകൃതി മെനു സജ്ജമാക്കുക."
+  "Set middle-button radial menus per application.": "ഓരോ ആപ്പിനും മധ്യ ബട്ടൺ വൃത്താകൃതി മെനു സജ്ജമാക്കുക.",
+  "Move up": "മുകളിലേക്ക് നീക്കുക",
+  "Move down": "താഴേക്ക് നീക്കുക",
+  "Note": "കുറിപ്പ്",
+  "Steps": "ഘട്ടങ്ങൾ",
+  "Else": "അല്ലെങ്കിൽ",
+  "Add step": "ഘട്ടം ചേർക്കുക",
+  "Single command": "ഒറ്റ കമാൻഡ്",
+  "Edit steps": "ഘട്ടങ്ങൾ എഡിറ്റ് ചെയ്യുക",
+  "{0} steps": "{0} ഘട്ടങ്ങൾ",
+  "Select a step to edit it.": "എഡിറ്റ് ചെയ്യാൻ ഒരു ഘട്ടം തിരഞ്ഞെടുക്കുക."
 }

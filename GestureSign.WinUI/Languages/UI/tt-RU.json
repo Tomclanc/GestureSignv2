@@ -693,5 +693,15 @@
   "Action library": "Гамәлләр китапханәсе",
   "Filter": "Фильтр",
   "Empty slots use the global wheel.": "Буш урыннар гомуми менюны куллана.",
-  "Set middle-button radial menus per application.": "Һәр кушымта өчен урта төймәнең түгәрәк менюларын көйләгез."
+  "Set middle-button radial menus per application.": "Һәр кушымта өчен урта төймәнең түгәрәк менюларын көйләгез.",
+  "Move up": "Өскә күчерү",
+  "Move down": "Аска күчерү",
+  "Note": "Искәрмә",
+  "Steps": "Адымнар",
+  "Else": "Югыйсә",
+  "Add step": "Адым өстәү",
+  "Single command": "Бер боерык",
+  "Edit steps": "Адымнарны үзгәртү",
+  "{0} steps": "Адымнар: {0}",
+  "Select a step to edit it.": "Үзгәртү өчен адым сайлагыз."
 }

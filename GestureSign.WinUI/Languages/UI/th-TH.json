@@ -693,5 +693,15 @@
   "Action library": "คลังการกระทำ",
   "Filter": "กรอง",
   "Empty slots use the global wheel.": "ช่องว่างจะใช้เมนูส่วนกลาง",
-  "Set middle-button radial menus per application.": "ตั้งค่าเมนูวงกลมของปุ่มกลางแยกตามแอป"
+  "Set middle-button radial menus per application.": "ตั้งค่าเมนูวงกลมของปุ่มกลางแยกตามแอป",
+  "Move up": "เลื่อนขึ้น",
+  "Move down": "เลื่อนลง",
+  "Note": "หมายเหตุ",
+  "Steps": "ขั้นตอน",
+  "Else": "มิฉะนั้น",
+  "Add step": "เพิ่มขั้นตอน",
+  "Single command": "คำสั่งเดียว",
+  "Edit steps": "แก้ไขขั้นตอน",
+  "{0} steps": "{0} ขั้นตอน",
+  "Select a step to edit it.": "เลือกขั้นตอนเพื่อแก้ไข"
 }

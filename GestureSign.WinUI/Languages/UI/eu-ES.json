@@ -693,5 +693,15 @@
   "Action library": "Ekintzen liburutegia",
   "Filter": "Iragazi",
   "Empty slots use the global wheel.": "Gelaxka hutsek menu orokorra erabiltzen dute.",
-  "Set middle-button radial menus per application.": "Ezarri erdiko botoiaren menu erradialak aplikazio bakoitzeko."
+  "Set middle-button radial menus per application.": "Ezarri erdiko botoiaren menu erradialak aplikazio bakoitzeko.",
+  "Move up": "Eraman gora",
+  "Move down": "Eraman behera",
+  "Note": "Oharra",
+  "Steps": "Urratsak",
+  "Else": "Bestela",
+  "Add step": "Gehitu urratsa",
+  "Single command": "Komando bakarra",
+  "Edit steps": "Editatu urratsak",
+  "{0} steps": "{0} urrats",
+  "Select a step to edit it.": "Hautatu urrats bat editatzeko."
 }

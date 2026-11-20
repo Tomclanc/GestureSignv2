@@ -693,5 +693,15 @@
   "Action library": "مكتبة الإجراءات",
   "Filter": "تصفية",
   "Empty slots use the global wheel.": "الخانات الفارغة تستخدم القائمة العامة.",
-  "Set middle-button radial menus per application.": "تعيين القوائم الدائرية للزر الأوسط لكل تطبيق."
+  "Set middle-button radial menus per application.": "تعيين القوائم الدائرية للزر الأوسط لكل تطبيق.",
+  "Move up": "نقل لأعلى",
+  "Move down": "نقل لأسفل",
+  "Note": "ملاحظة",
+  "Steps": "الخطوات",
+  "Else": "وإلا",
+  "Add step": "إضافة خطوة",
+  "Single command": "أمر واحد",
+  "Edit steps": "تحرير الخطوات",
+  "{0} steps": "{0} خطوات",
+  "Select a step to edit it.": "اختر خطوة لتحريرها."
 }

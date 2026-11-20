@@ -693,5 +693,15 @@
   "Action library": "Aktiounsbibliothéik",
   "Filter": "Filteren",
   "Empty slots use the global wheel.": "Eidel Felder benotzen de globale Menü.",
-  "Set middle-button radial menus per application.": "Kreesmenüe vum mëttlere Knäppchen pro App astellen."
+  "Set middle-button radial menus per application.": "Kreesmenüe vum mëttlere Knäppchen pro App astellen.",
+  "Move up": "No uewe réckelen",
+  "Move down": "No ënne réckelen",
+  "Note": "Notiz",
+  "Steps": "Schrëtt",
+  "Else": "Soss",
+  "Add step": "Schrëtt derbäisetzen",
+  "Single command": "Eenzele Befeel",
+  "Edit steps": "Schrëtt beaarbechten",
+  "{0} steps": "{0} Schrëtt",
+  "Select a step to edit it.": "Wielt e Schrëtt fir en ze beaarbechten."
 }

@@ -693,5 +693,15 @@
   "Action library": "Whare pukapuka mahi",
   "Filter": "Tātari",
   "Empty slots use the global wheel.": "Ka whakamahi ngā wāhi wātea i te tahua whānui.",
-  "Set middle-button radial menus per application.": "Tautuhia ngā tahua porowhita o te pātene waenga mō ia taupānga."
+  "Set middle-button radial menus per application.": "Tautuhia ngā tahua porowhita o te pātene waenga mō ia taupānga.",
+  "Move up": "Nuku ake",
+  "Move down": "Nuku iho",
+  "Note": "Tuhipoka",
+  "Steps": "Ngā hipanga",
+  "Else": "Ki te kore",
+  "Add step": "Tāpiri hipanga",
+  "Single command": "Tohutohu kotahi",
+  "Edit steps": "Whakatika hipanga",
+  "{0} steps": "{0} hipanga",
+  "Select a step to edit it.": "Tīpakohia he hipanga hei whakatika."
 }

@@ -693,5 +693,15 @@
   "Action library": "செயல் நூலகம்",
   "Filter": "வடிகட்டு",
   "Empty slots use the global wheel.": "காலியான இடங்கள் பொது மெனுவைப் பயன்படுத்தும்.",
-  "Set middle-button radial menus per application.": "ஒவ்வொரு பயன்பாட்டுக்கும் நடு பொத்தான் வட்ட மெனுக்களை அமைக்கவும்."
+  "Set middle-button radial menus per application.": "ஒவ்வொரு பயன்பாட்டுக்கும் நடு பொத்தான் வட்ட மெனுக்களை அமைக்கவும்.",
+  "Move up": "மேலே நகர்த்து",
+  "Move down": "கீழே நகர்த்து",
+  "Note": "குறிப்பு",
+  "Steps": "படிகள்",
+  "Else": "இல்லையெனில்",
+  "Add step": "படியைச் சேர்",
+  "Single command": "ஒற்றைக் கட்டளை",
+  "Edit steps": "படிகளைத் திருத்து",
+  "{0} steps": "{0} படிகள்",
+  "Select a step to edit it.": "திருத்த ஒரு படியைத் தேர்ந்தெடுக்கவும்."
 }

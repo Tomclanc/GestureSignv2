@@ -693,5 +693,15 @@
   "Action library": "Leabharlann gníomhartha",
   "Filter": "Scag",
   "Empty slots use the global wheel.": "Úsáideann sliotáin fholmha an roghchlár domhanda.",
-  "Set middle-button radial menus per application.": "Socraigh roghchláir chiorclacha an chnaipe láir in aghaidh an aipe."
+  "Set middle-button radial menus per application.": "Socraigh roghchláir chiorclacha an chnaipe láir in aghaidh an aipe.",
+  "Move up": "Bog suas",
+  "Move down": "Bog síos",
+  "Note": "Nóta",
+  "Steps": "Céimeanna",
+  "Else": "Seachas sin",
+  "Add step": "Cuir céim leis",
+  "Single command": "Ordú aonair",
+  "Edit steps": "Cuir céimeanna in eagar",
+  "{0} steps": "{0} céim",
+  "Select a step to edit it.": "Roghnaigh céim chun í a chur in eagar."
 }

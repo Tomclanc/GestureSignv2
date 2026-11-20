@@ -693,5 +693,15 @@
   "Action library": "Pustaka tindakan",
   "Filter": "Saring",
   "Empty slots use the global wheel.": "Slot kosong memakai menu global.",
-  "Set middle-button radial menus per application.": "Atur menu radial tombol tengah per aplikasi."
+  "Set middle-button radial menus per application.": "Atur menu radial tombol tengah per aplikasi.",
+  "Move up": "Pindah ke atas",
+  "Move down": "Pindah ke bawah",
+  "Note": "Catatan",
+  "Steps": "Langkah",
+  "Else": "Jika tidak",
+  "Add step": "Tambah langkah",
+  "Single command": "Perintah tunggal",
+  "Edit steps": "Edit langkah",
+  "{0} steps": "{0} langkah",
+  "Select a step to edit it.": "Pilih langkah untuk mengeditnya."
 }

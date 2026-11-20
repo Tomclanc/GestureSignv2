@@ -693,5 +693,15 @@
   "Action library": "Әрекеттер кітапханасы",
   "Filter": "Сүзгі",
   "Empty slots use the global wheel.": "Бос ұяшықтар жалпы мәзірді пайдаланады.",
-  "Set middle-button radial menus per application.": "Ортаңғы түйменің дөңгелек мәзірлерін әр қолданбаға орнатыңыз."
+  "Set middle-button radial menus per application.": "Ортаңғы түйменің дөңгелек мәзірлерін әр қолданбаға орнатыңыз.",
+  "Move up": "Жоғары жылжыту",
+  "Move down": "Төмен жылжыту",
+  "Note": "Ескертпе",
+  "Steps": "Қадамдар",
+  "Else": "Әйтпесе",
+  "Add step": "Қадам қосу",
+  "Single command": "Жалғыз пәрмен",
+  "Edit steps": "Қадамдарды өңдеу",
+  "{0} steps": "{0} қадам",
+  "Select a step to edit it.": "Өңдеу үшін қадамды таңдаңыз."
 }

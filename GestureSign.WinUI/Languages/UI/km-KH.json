@@ -693,5 +693,15 @@
   "Action library": "បណ្ណាល័យសកម្មភាព",
   "Filter": "តម្រង",
   "Empty slots use the global wheel.": "ប្រអប់ទទេប្រើម៉ឺនុយទូទៅ។",
-  "Set middle-button radial menus per application.": "កំណត់ម៉ឺនុយរង្វង់ប៊ូតុងកណ្ដាលតាមកម្មវិធី។"
+  "Set middle-button radial menus per application.": "កំណត់ម៉ឺនុយរង្វង់ប៊ូតុងកណ្ដាលតាមកម្មវិធី។",
+  "Move up": "ផ្លាស់ទីឡើងលើ",
+  "Move down": "ផ្លាស់ទីចុះក្រោម",
+  "Note": "កំណត់ចំណាំ",
+  "Steps": "ជំហាន",
+  "Else": "បើមិនដូច្នោះទេ",
+  "Add step": "បន្ថែមជំហាន",
+  "Single command": "ពាក្យបញ្ជាតែមួយ",
+  "Edit steps": "កែជំហាន",
+  "{0} steps": "{0} ជំហាន",
+  "Select a step to edit it.": "ជ្រើសជំហានមួយដើម្បីកែ។"
 }

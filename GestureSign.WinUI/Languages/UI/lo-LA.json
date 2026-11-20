@@ -693,5 +693,15 @@
   "Action library": "ຄັງການກະທຳ",
   "Filter": "ກັ່ນຕອງ",
   "Empty slots use the global wheel.": "ຊ່ອງທີ່ວ່າງຈະໃຊ້ເມນູທົ່ວໄປ.",
-  "Set middle-button radial menus per application.": "ຕັ້ງເມນູວົງມົນຂອງປຸ່ມກາງຕາມແອັບ."
+  "Set middle-button radial menus per application.": "ຕັ້ງເມນູວົງມົນຂອງປຸ່ມກາງຕາມແອັບ.",
+  "Move up": "ຍ້າຍຂຶ້ນ",
+  "Move down": "ຍ້າຍລົງ",
+  "Note": "ບັນທຶກ",
+  "Steps": "ຂັ້ນຕອນ",
+  "Else": "ຖ້າບໍ່ດັ່ງນັ້ນ",
+  "Add step": "ເພີ່ມຂັ້ນຕອນ",
+  "Single command": "ຄຳສັ່ງດຽວ",
+  "Edit steps": "ແກ້ໄຂຂັ້ນຕອນ",
+  "{0} steps": "{0} ຂັ້ນຕອນ",
+  "Select a step to edit it.": "ເລືອກຂັ້ນຕອນເພື່ອແກ້ໄຂ."
 }

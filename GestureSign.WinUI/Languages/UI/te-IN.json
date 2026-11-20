@@ -693,5 +693,15 @@
   "Action library": "చర్యల లైబ్రరీ",
   "Filter": "ఫిల్టర్",
   "Empty slots use the global wheel.": "ఖాళీ స్థానాలు సాధారణ మెనూను ఉపయోగిస్తాయి.",
-  "Set middle-button radial menus per application.": "ప్రతి యాప్‌కు మధ్య బటన్ వృత్తాకార మెనూలను సెట్ చేయండి."
+  "Set middle-button radial menus per application.": "ప్రతి యాప్‌కు మధ్య బటన్ వృత్తాకార మెనూలను సెట్ చేయండి.",
+  "Move up": "పైకి జరుపు",
+  "Move down": "కిందికి జరుపు",
+  "Note": "గమనిక",
+  "Steps": "దశలు",
+  "Else": "లేకపోతే",
+  "Add step": "దశను జోడించు",
+  "Single command": "ఒకే ఆదేశం",
+  "Edit steps": "దశలను సవరించు",
+  "{0} steps": "{0} దశలు",
+  "Select a step to edit it.": "సవరించడానికి ఒక దశను ఎంచుకోండి."
 }

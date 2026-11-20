@@ -693,5 +693,15 @@
   "Action library": "Knihovna akcí",
   "Filter": "Filtr",
   "Empty slots use the global wheel.": "Prázdná pole používají globální nabídku.",
-  "Set middle-button radial menus per application.": "Nastavte kruhové nabídky prostředního tlačítka pro jednotlivé aplikace."
+  "Set middle-button radial menus per application.": "Nastavte kruhové nabídky prostředního tlačítka pro jednotlivé aplikace.",
+  "Move up": "Posunout nahoru",
+  "Move down": "Posunout dolů",
+  "Note": "Poznámka",
+  "Steps": "Kroky",
+  "Else": "Jinak",
+  "Add step": "Přidat krok",
+  "Single command": "Jeden příkaz",
+  "Edit steps": "Upravit kroky",
+  "{0} steps": "Počet kroků: {0}",
+  "Select a step to edit it.": "Vyberte krok, který chcete upravit."
 }

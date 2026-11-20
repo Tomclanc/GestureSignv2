@@ -693,5 +693,15 @@
   "Action library": "Biblioteka e veprimeve",
   "Filter": "Filtro",
   "Empty slots use the global wheel.": "Vendet bosh përdorin menynë e përgjithshme.",
-  "Set middle-button radial menus per application.": "Cakto menytë rrethore të butonit të mesit për çdo aplikacion."
+  "Set middle-button radial menus per application.": "Cakto menytë rrethore të butonit të mesit për çdo aplikacion.",
+  "Move up": "Lëviz lart",
+  "Move down": "Lëviz poshtë",
+  "Note": "Shënim",
+  "Steps": "Hapat",
+  "Else": "Përndryshe",
+  "Add step": "Shto hap",
+  "Single command": "Komandë e vetme",
+  "Edit steps": "Redakto hapat",
+  "{0} steps": "{0} hapa",
+  "Select a step to edit it.": "Zgjidhni një hap për ta redaktuar."
 }

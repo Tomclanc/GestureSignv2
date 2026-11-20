@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using GestureSign.Foundation.RadialMenus;
+using GestureSign.Foundation.Steps;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -13,9 +14,27 @@ public sealed partial class MainWindow
     /// Creates (existing == null) or edits a library action. A new action is
     /// added to the library; returns null when the dialog is cancelled.
     /// </summary>
+    private const string StepsPluginClass = "GestureSign.CorePlugins.Steps.StepsPlugin";
+
+    private static StepProgram ParseStepProgram(string? json)
+    {
+        try { return StepProgram.FromJson(json ?? string.Empty); }
+        catch (System.Text.Json.JsonException) { return new StepProgram(); }
+    }
+
     private async Task<RadialMenuAction?> EditRadialActionAsync(RadialMenuAction? existing)
     {
         var existingCommand = existing?.Commands.FirstOrDefault();
+        var existingIsSteps = string.Equals(existingCommand?.PluginClass, StepsPluginClass, StringComparison.Ordinal);
+        var stepProgram = existingIsSteps ? ParseStepProgram(existingCommand!.CommandSettings) : new StepProgram();
+        if (existingIsSteps)
+            existingCommand = null; // the single-command editor starts blank
+        var mode = new ComboBox { HorizontalAlignment = HorizontalAlignment.Stretch };
+        mode.Items.Add(T("单条命令", "Single command"));
+        mode.Items.Add(T("步骤", "Steps"));
+        mode.SelectedIndex = existingIsSteps ? 1 : 0;
+        var stepsSummary = new TextBlock { Opacity = 0.7, TextWrapping = TextWrapping.Wrap };
+        stepsSummary.Text = F("{0} 个步骤", "{0} steps", stepProgram.Steps.Count) + " · " + T("编辑步骤", "Edit steps") + " →";
         var name = new TextBox
         {
             Header = L("名称", "Name", "名稱", "이름"),
@@ -79,16 +98,29 @@ public sealed partial class MainWindow
 
         var panel = NewCardPanel(8);
         panel.Children.Add(name);
-        panel.Children.Add(plugin);
-        panel.Children.Add(pluginDescription);
-        panel.Children.Add(hotkey);
-        panel.Children.Add(appPicker);
-        panel.Children.Add(typedSettings);
-        panel.Children.Add(enabled);
+        panel.Children.Add(mode);
+        // Single-command controls; hidden in steps mode.
+        var commandPanel = NewCardPanel(8);
+        commandPanel.Children.Add(plugin);
+        commandPanel.Children.Add(pluginDescription);
+        commandPanel.Children.Add(hotkey);
+        commandPanel.Children.Add(appPicker);
+        commandPanel.Children.Add(typedSettings);
         var advanced = NewCardPanel(8);
         advanced.Children.Add(pluginClass);
         advanced.Children.Add(settings);
-        panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, HorizontalAlignment = HorizontalAlignment.Stretch });
+        commandPanel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, HorizontalAlignment = HorizontalAlignment.Stretch });
+        panel.Children.Add(commandPanel);
+        panel.Children.Add(stepsSummary);
+        panel.Children.Add(enabled);
+        void UpdateMode()
+        {
+            var steps = mode.SelectedIndex == 1;
+            commandPanel.Visibility = steps ? Visibility.Collapsed : Visibility.Visible;
+            stepsSummary.Visibility = steps ? Visibility.Visible : Visibility.Collapsed;
+        }
+        mode.SelectionChanged += (_, _) => UpdateMode();
+        UpdateMode();
         UpdateEditor(false);
 
         var dialog = new ContentDialog
@@ -102,6 +134,33 @@ public sealed partial class MainWindow
         };
         if (await ShowDialogAsync(dialog) != ContentDialogResult.Primary)
             return null;
+
+        if (mode.SelectedIndex == 1)
+        {
+            // Steps mode: the step editor opens once this dialog has closed.
+            var edited = await EditStepProgramAsync(stepProgram);
+            if (edited is null && existing is null)
+                return null;
+            stepProgram = edited ?? stepProgram;
+            var stepsAction = existing ?? new RadialMenuAction { Id = RadialMenuConfig.NewId() };
+            var firstType = stepProgram.Steps.Select(s => StepCatalog.Find(s.Type)).FirstOrDefault(i => i is not null);
+            stepsAction.Name = string.IsNullOrWhiteSpace(name.Text)
+                ? (string.IsNullOrWhiteSpace(stepsAction.Name) ? (firstType is null ? T("步骤", "Steps") : StepTypeName(firstType)) : stepsAction.Name)
+                : name.Text.Trim();
+            stepsAction.IsEnabled = enabled.IsChecked ?? true;
+            var stepsCommand = new RadialMenuCommand
+            {
+                Name = stepsAction.Name,
+                PluginClass = StepsPluginClass,
+                CommandSettings = stepProgram.ToJson(),
+                IsEnabled = true
+            };
+            if (stepsAction.Commands.Count == 0) stepsAction.Commands.Add(stepsCommand);
+            else stepsAction.Commands[0] = stepsCommand;
+            if (existing is null)
+                _radialConfig!.Actions.Add(stepsAction);
+            return stepsAction;
+        }
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
         var pluginClassValue = SelectedPluginClass();

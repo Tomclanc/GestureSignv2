@@ -693,5 +693,15 @@
   "Action library": "Amallar kutubxonasi",
   "Filter": "Filtr",
   "Empty slots use the global wheel.": "Bo'sh kataklar umumiy menyudan foydalanadi.",
-  "Set middle-button radial menus per application.": "Har bir ilova uchun o'rta tugma doira menyularini sozlang."
+  "Set middle-button radial menus per application.": "Har bir ilova uchun o'rta tugma doira menyularini sozlang.",
+  "Move up": "Yuqoriga surish",
+  "Move down": "Pastga surish",
+  "Note": "Izoh",
+  "Steps": "Qadamlar",
+  "Else": "Aks holda",
+  "Add step": "Qadam qo'shish",
+  "Single command": "Yagona buyruq",
+  "Edit steps": "Qadamlarni tahrirlash",
+  "{0} steps": "{0} ta qadam",
+  "Select a step to edit it.": "Tahrirlash uchun qadamni tanlang."
 }

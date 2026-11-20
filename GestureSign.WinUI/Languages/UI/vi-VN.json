@@ -693,5 +693,15 @@
   "Action library": "Thư viện hành động",
   "Filter": "Lọc",
   "Empty slots use the global wheel.": "Ô trống sẽ dùng menu chung.",
-  "Set middle-button radial menus per application.": "Thiết lập menu tròn nút giữa cho từng ứng dụng."
+  "Set middle-button radial menus per application.": "Thiết lập menu tròn nút giữa cho từng ứng dụng.",
+  "Move up": "Di chuyển lên",
+  "Move down": "Di chuyển xuống",
+  "Note": "Ghi chú",
+  "Steps": "Các bước",
+  "Else": "Nếu không",
+  "Add step": "Thêm bước",
+  "Single command": "Lệnh đơn",
+  "Edit steps": "Sửa các bước",
+  "{0} steps": "{0} bước",
+  "Select a step to edit it.": "Chọn một bước để chỉnh sửa."
 }

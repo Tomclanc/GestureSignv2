@@ -693,5 +693,15 @@
   "Action library": "Бібліятэка дзеянняў",
   "Filter": "Фільтр",
   "Empty slots use the global wheel.": "Пустыя ячэйкі выкарыстоўваюць агульнае меню.",
-  "Set middle-button radial menus per application.": "Наладжвайце кругавыя меню сярэдняй кнопкі для кожнай праграмы."
+  "Set middle-button radial menus per application.": "Наладжвайце кругавыя меню сярэдняй кнопкі для кожнай праграмы.",
+  "Move up": "Перамясціць уверх",
+  "Move down": "Перамясціць уніз",
+  "Note": "Нататка",
+  "Steps": "Крокі",
+  "Else": "Інакш",
+  "Add step": "Дадаць крок",
+  "Single command": "Адна каманда",
+  "Edit steps": "Рэдагаваць крокі",
+  "{0} steps": "Крокаў: {0}",
+  "Select a step to edit it.": "Выберыце крок, каб яго змяніць."
 }

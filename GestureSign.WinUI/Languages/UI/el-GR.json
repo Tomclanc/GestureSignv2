@@ -693,5 +693,15 @@
   "Action library": "Βιβλιοθήκη ενεργειών",
   "Filter": "Φίλτρο",
   "Empty slots use the global wheel.": "Οι κενές θέσεις χρησιμοποιούν το γενικό μενού.",
-  "Set middle-button radial menus per application.": "Ορίστε κυκλικά μενού μεσαίου κουμπιού ανά εφαρμογή."
+  "Set middle-button radial menus per application.": "Ορίστε κυκλικά μενού μεσαίου κουμπιού ανά εφαρμογή.",
+  "Move up": "Μετακίνηση πάνω",
+  "Move down": "Μετακίνηση κάτω",
+  "Note": "Σημείωση",
+  "Steps": "Βήματα",
+  "Else": "Αλλιώς",
+  "Add step": "Προσθήκη βήματος",
+  "Single command": "Μία εντολή",
+  "Edit steps": "Επεξεργασία βημάτων",
+  "{0} steps": "{0} βήματα",
+  "Select a step to edit it.": "Επιλέξτε ένα βήμα για επεξεργασία."
 }

@@ -693,5 +693,15 @@
   "Action library": "Eylem kitaplığı",
   "Filter": "Filtrele",
   "Empty slots use the global wheel.": "Boş yuvalar genel menüyü kullanır.",
-  "Set middle-button radial menus per application.": "Orta düğme dairesel menülerini uygulamaya göre ayarlayın."
+  "Set middle-button radial menus per application.": "Orta düğme dairesel menülerini uygulamaya göre ayarlayın.",
+  "Move up": "Yukarı taşı",
+  "Move down": "Aşağı taşı",
+  "Note": "Not",
+  "Steps": "Adımlar",
+  "Else": "Aksi halde",
+  "Add step": "Adım ekle",
+  "Single command": "Tek komut",
+  "Edit steps": "Adımları düzenle",
+  "{0} steps": "{0} adım",
+  "Select a step to edit it.": "Düzenlemek için bir adım seçin."
 }

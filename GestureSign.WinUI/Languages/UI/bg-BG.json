@@ -693,5 +693,15 @@
   "Action library": "Библиотека с действия",
   "Filter": "Филтър",
   "Empty slots use the global wheel.": "Празните полета използват общото меню.",
-  "Set middle-button radial menus per application.": "Задайте кръгови менюта на средния бутон за всяко приложение."
+  "Set middle-button radial menus per application.": "Задайте кръгови менюта на средния бутон за всяко приложение.",
+  "Move up": "Премести нагоре",
+  "Move down": "Премести надолу",
+  "Note": "Бележка",
+  "Steps": "Стъпки",
+  "Else": "Иначе",
+  "Add step": "Добави стъпка",
+  "Single command": "Единична команда",
+  "Edit steps": "Редактиране на стъпки",
+  "{0} steps": "{0} стъпки",
+  "Select a step to edit it.": "Изберете стъпка, за да я редактирате."
 }

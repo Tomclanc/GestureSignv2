@@ -693,5 +693,15 @@
   "Action library": "Biblioteca d'accions",
   "Filter": "Filtra",
   "Empty slots use the global wheel.": "Les caselles buides usen el menú global.",
-  "Set middle-button radial menus per application.": "Configureu els menús radials del botó central per aplicació."
+  "Set middle-button radial menus per application.": "Configureu els menús radials del botó central per aplicació.",
+  "Move up": "Mou amunt",
+  "Move down": "Mou avall",
+  "Note": "Nota",
+  "Steps": "Passos",
+  "Else": "Si no",
+  "Add step": "Afig un pas",
+  "Single command": "Ordre única",
+  "Edit steps": "Edita els passos",
+  "{0} steps": "{0} passos",
+  "Select a step to edit it.": "Seleccioneu un pas per a editar-lo."
 }

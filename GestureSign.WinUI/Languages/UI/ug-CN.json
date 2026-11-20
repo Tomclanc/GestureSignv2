@@ -693,5 +693,15 @@
   "Action library": "مەشغۇلات ئامبىرى",
   "Filter": "سۈزگۈچ",
   "Empty slots use the global wheel.": "بوش ئورۇنلار ئومۇمىي تىزىملىكنى ئىشلىتىدۇ.",
-  "Set middle-button radial menus per application.": "ھەر بىر ئەپ ئۈچۈن ئوتتۇرا كۇنۇپكا چەمبەر تىزىملىكىنى تەڭشەڭ."
+  "Set middle-button radial menus per application.": "ھەر بىر ئەپ ئۈچۈن ئوتتۇرا كۇنۇپكا چەمبەر تىزىملىكىنى تەڭشەڭ.",
+  "Move up": "ئۈستىگە يۆتكە",
+  "Move down": "ئاستىغا يۆتكە",
+  "Note": "ئىزاھ",
+  "Steps": "قەدەملەر",
+  "Else": "بولمىسا",
+  "Add step": "قەدەم قوش",
+  "Single command": "يەككە بۇيرۇق",
+  "Edit steps": "قەدەملەرنى تەھرىرلە",
+  "{0} steps": "{0} قەدەم",
+  "Select a step to edit it.": "تەھرىرلەش ئۈچۈن بىر قەدەمنى تاللاڭ."
 }

@@ -693,5 +693,15 @@
   "Action library": "Գործողությունների գրադարան",
   "Filter": "Զտել",
   "Empty slots use the global wheel.": "Դատարկ վանդակները օգտագործում են ընդհանուր ընտրացանկը։",
-  "Set middle-button radial menus per application.": "Կարգավորեք միջին կոճակի շրջանաձև ընտրացանկերը ըստ հավելվածի։"
+  "Set middle-button radial menus per application.": "Կարգավորեք միջին կոճակի շրջանաձև ընտրացանկերը ըստ հավելվածի։",
+  "Move up": "Տեղափոխել վեր",
+  "Move down": "Տեղափոխել վար",
+  "Note": "Նշում",
+  "Steps": "Քայլեր",
+  "Else": "Հակառակ դեպքում",
+  "Add step": "Ավելացնել քայլ",
+  "Single command": "Մեկ հրաման",
+  "Edit steps": "Խմբագրել քայլերը",
+  "{0} steps": "{0} քայլ",
+  "Select a step to edit it.": "Ընտրեք քայլ՝ այն խմբագրելու համար։"
 }

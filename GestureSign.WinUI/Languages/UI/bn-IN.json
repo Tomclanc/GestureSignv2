@@ -693,5 +693,15 @@
   "Action library": "অ্যাকশন লাইব্রেরি",
   "Filter": "ফিল্টার",
   "Empty slots use the global wheel.": "খালি ঘরগুলো সাধারণ চাকা ব্যবহার করে।",
-  "Set middle-button radial menus per application.": "প্রতিটি অ্যাপের জন্য মাঝের বোতামের বৃত্তাকার মেনু সেট করুন।"
+  "Set middle-button radial menus per application.": "প্রতিটি অ্যাপের জন্য মাঝের বোতামের বৃত্তাকার মেনু সেট করুন।",
+  "Move up": "উপরে সরান",
+  "Move down": "নিচে সরান",
+  "Note": "নোট",
+  "Steps": "ধাপসমূহ",
+  "Else": "অন্যথায়",
+  "Add step": "ধাপ যোগ করুন",
+  "Single command": "একক কমান্ড",
+  "Edit steps": "ধাপ সম্পাদনা",
+  "{0} steps": "{0}টি ধাপ",
+  "Select a step to edit it.": "সম্পাদনা করতে একটি ধাপ বেছে নিন।"
 }

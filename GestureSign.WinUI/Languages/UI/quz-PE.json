@@ -693,5 +693,15 @@
   "Action library": "Ruraykunap huñun",
   "Filter": "Ch'uyanchay",
   "Empty slots use the global wheel.": "Ch'usaq sitiokuna llapanpaq menuta llamk'achinku.",
-  "Set middle-button radial menus per application.": "Sapa aplicacionpaq chawpi butunpa muyu menunkunata churay."
+  "Set middle-button radial menus per application.": "Sapa aplicacionpaq chawpi butunpa muyu menunkunata churay.",
+  "Move up": "Hanaqman astay",
+  "Move down": "Uraman astay",
+  "Note": "Willakuy",
+  "Steps": "Purikuykuna",
+  "Else": "Mana chayqa",
+  "Add step": "Purikuyta yapay",
+  "Single command": "Huk kamachiy",
+  "Edit steps": "Purikuykunata allichay",
+  "{0} steps": "{0} purikuy",
+  "Select a step to edit it.": "Huk purikuyta akllay allichanaykipaq."
 }

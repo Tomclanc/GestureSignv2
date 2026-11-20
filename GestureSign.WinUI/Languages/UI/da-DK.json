@@ -693,5 +693,15 @@
   "Action library": "Handlingsbibliotek",
   "Filter": "Filtrer",
   "Empty slots use the global wheel.": "Tomme pladser bruger den globale menu.",
-  "Set middle-button radial menus per application.": "Indstil cirkelmenuer for midterknappen pr. app."
+  "Set middle-button radial menus per application.": "Indstil cirkelmenuer for midterknappen pr. app.",
+  "Move up": "Flyt op",
+  "Move down": "Flyt ned",
+  "Note": "Note",
+  "Steps": "Trin",
+  "Else": "Ellers",
+  "Add step": "Tilføj trin",
+  "Single command": "Enkelt kommando",
+  "Edit steps": "Rediger trin",
+  "{0} steps": "{0} trin",
+  "Select a step to edit it.": "Vælg et trin for at redigere det."
 }

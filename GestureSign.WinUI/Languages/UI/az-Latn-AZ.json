@@ -693,5 +693,15 @@
   "Action library": "Əməliyyat kitabxanası",
   "Filter": "Filtr",
   "Empty slots use the global wheel.": "Boş xanalar ümumi dairədən istifadə edir.",
-  "Set middle-button radial menus per application.": "Orta düymə dairəvi menyularını tətbiqə görə təyin edin."
+  "Set middle-button radial menus per application.": "Orta düymə dairəvi menyularını tətbiqə görə təyin edin.",
+  "Move up": "Yuxarı köçür",
+  "Move down": "Aşağı köçür",
+  "Note": "Qeyd",
+  "Steps": "Addımlar",
+  "Else": "Əks halda",
+  "Add step": "Addım əlavə et",
+  "Single command": "Tək əmr",
+  "Edit steps": "Addımları redaktə et",
+  "{0} steps": "{0} addım",
+  "Select a step to edit it.": "Redaktə etmək üçün addım seçin."
 }

@@ -693,5 +693,15 @@
   "Action library": "कृती ग्रंथालय",
   "Filter": "गाळणी",
   "Empty slots use the global wheel.": "रिकामे जागे सगळ्यांखातीरचो मेनू वापरतात.",
-  "Set middle-button radial menus per application.": "दर ॲपाखातीर मदल्या बटणाचे वाटकुळे मेनू सेट करात."
+  "Set middle-button radial menus per application.": "दर ॲपाखातीर मदल्या बटणाचे वाटकुळे मेनू सेट करात.",
+  "Move up": "वयर व्हरात",
+  "Move down": "सकयल व्हरात",
+  "Note": "टीप",
+  "Steps": "पावलां",
+  "Else": "नाजाल्यार",
+  "Add step": "पावल जोडात",
+  "Single command": "एकूच आदेश",
+  "Edit steps": "पावलां संपादित करात",
+  "{0} steps": "{0} पावलां",
+  "Select a step to edit it.": "संपादित करपाक एक पावल वेंचात."
 }

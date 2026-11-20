@@ -693,5 +693,15 @@
   "Action library": "የእርምጃ ቤተ-መጽሐፍት",
   "Filter": "አጣራ",
   "Empty slots use the global wheel.": "ባዶ ቦታዎች ዓለም አቀፉን መንኮራኩር ይጠቀማሉ።",
-  "Set middle-button radial menus per application.": "የመሃል አዝራር ክብ ምናሌዎችን በመተግበሪያ ያዘጋጁ።"
+  "Set middle-button radial menus per application.": "የመሃል አዝራር ክብ ምናሌዎችን በመተግበሪያ ያዘጋጁ።",
+  "Move up": "ወደ ላይ አንቀሳቅስ",
+  "Move down": "ወደ ታች አንቀሳቅስ",
+  "Note": "ማስታወሻ",
+  "Steps": "ደረጃዎች",
+  "Else": "ያለበለዚያ",
+  "Add step": "ደረጃ አክል",
+  "Single command": "ነጠላ ትዕዛዝ",
+  "Edit steps": "ደረጃዎችን አርትዕ",
+  "{0} steps": "{0} ደረጃዎች",
+  "Select a step to edit it.": "ለማርትዕ ደረጃ ይምረጡ።"
 }

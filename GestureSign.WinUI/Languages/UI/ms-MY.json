@@ -693,5 +693,15 @@
   "Action library": "Pustaka tindakan",
   "Filter": "Tapis",
   "Empty slots use the global wheel.": "Slot kosong menggunakan menu global.",
-  "Set middle-button radial menus per application.": "Tetapkan menu jejari butang tengah mengikut aplikasi."
+  "Set middle-button radial menus per application.": "Tetapkan menu jejari butang tengah mengikut aplikasi.",
+  "Move up": "Alih ke atas",
+  "Move down": "Alih ke bawah",
+  "Note": "Nota",
+  "Steps": "Langkah",
+  "Else": "Jika tidak",
+  "Add step": "Tambah langkah",
+  "Single command": "Arahan tunggal",
+  "Edit steps": "Edit langkah",
+  "{0} steps": "{0} langkah",
+  "Select a step to edit it.": "Pilih langkah untuk mengeditnya."
 }

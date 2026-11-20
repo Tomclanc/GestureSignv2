@@ -693,5 +693,15 @@
   "Action library": "اعمال کی لائبریری",
   "Filter": "فلٹر",
   "Empty slots use the global wheel.": "خالی خانے عمومی مینو استعمال کرتے ہیں۔",
-  "Set middle-button radial menus per application.": "ہر ایپ کے لیے درمیانی بٹن کے دائرہ نما مینو سیٹ کریں۔"
+  "Set middle-button radial menus per application.": "ہر ایپ کے لیے درمیانی بٹن کے دائرہ نما مینو سیٹ کریں۔",
+  "Move up": "اوپر منتقل کریں",
+  "Move down": "نیچے منتقل کریں",
+  "Note": "نوٹ",
+  "Steps": "مراحل",
+  "Else": "ورنہ",
+  "Add step": "مرحلہ شامل کریں",
+  "Single command": "واحد کمانڈ",
+  "Edit steps": "مراحل میں ترمیم کریں",
+  "{0} steps": "{0} مراحل",
+  "Select a step to edit it.": "ترمیم کے لیے ایک مرحلہ منتخب کریں۔"
 }

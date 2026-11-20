@@ -693,5 +693,15 @@
   "Action library": "動作庫",
   "Filter": "篩選",
   "Empty slots use the global wheel.": "空格子沿用全域輪盤的動作。",
-  "Set middle-button radial menus per application.": "依程式設定中鍵輪盤。"
+  "Set middle-button radial menus per application.": "依程式設定中鍵輪盤。",
+  "Move up": "上移",
+  "Move down": "下移",
+  "Note": "備註",
+  "Steps": "步驟",
+  "Else": "否則",
+  "Add step": "新增步驟",
+  "Single command": "單一命令",
+  "Edit steps": "編輯步驟",
+  "{0} steps": "{0} 個步驟",
+  "Select a step to edit it.": "選擇一個步驟進行編輯。"
 }

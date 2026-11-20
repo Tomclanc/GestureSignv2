@@ -693,5 +693,15 @@
   "Action library": "Libreria azioni",
   "Filter": "Filtra",
   "Empty slots use the global wheel.": "Le caselle vuote usano il menu globale.",
-  "Set middle-button radial menus per application.": "Imposta menu radiali del pulsante centrale per app."
+  "Set middle-button radial menus per application.": "Imposta menu radiali del pulsante centrale per app.",
+  "Move up": "Sposta su",
+  "Move down": "Sposta giù",
+  "Note": "Nota",
+  "Steps": "Passaggi",
+  "Else": "Altrimenti",
+  "Add step": "Aggiungi passaggio",
+  "Single command": "Comando singolo",
+  "Edit steps": "Modifica passaggi",
+  "{0} steps": "{0} passaggi",
+  "Select a step to edit it.": "Seleziona un passaggio da modificare."
 }

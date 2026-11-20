@@ -693,5 +693,15 @@
   "Action library": "Библиотека действий",
   "Filter": "Фильтр",
   "Empty slots use the global wheel.": "Пустые ячейки используют общее меню.",
-  "Set middle-button radial menus per application.": "Настройка круговых меню средней кнопки для каждого приложения."
+  "Set middle-button radial menus per application.": "Настройка круговых меню средней кнопки для каждого приложения.",
+  "Move up": "Переместить вверх",
+  "Move down": "Переместить вниз",
+  "Note": "Заметка",
+  "Steps": "Шаги",
+  "Else": "Иначе",
+  "Add step": "Добавить шаг",
+  "Single command": "Одна команда",
+  "Edit steps": "Изменить шаги",
+  "{0} steps": "Шагов: {0}",
+  "Select a step to edit it.": "Выберите шаг, чтобы изменить его."
 }

@@ -693,5 +693,15 @@
   "Action library": "Biblioteka radnji",
   "Filter": "Filtar",
   "Empty slots use the global wheel.": "Prazna polja koriste globalni izbornik.",
-  "Set middle-button radial menus per application.": "Postavite kružne izbornike srednje tipke po aplikaciji."
+  "Set middle-button radial menus per application.": "Postavite kružne izbornike srednje tipke po aplikaciji.",
+  "Move up": "Pomakni gore",
+  "Move down": "Pomakni dolje",
+  "Note": "Bilješka",
+  "Steps": "Koraci",
+  "Else": "Inače",
+  "Add step": "Dodaj korak",
+  "Single command": "Jedna naredba",
+  "Edit steps": "Uredi korake",
+  "{0} steps": "Koraka: {0}",
+  "Select a step to edit it.": "Odaberite korak da biste ga uredili."
 }

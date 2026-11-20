@@ -693,5 +693,15 @@
   "Action library": "მოქმედებების ბიბლიოთეკა",
   "Filter": "ფილტრი",
   "Empty slots use the global wheel.": "ცარიელი უჯრები იყენებს საერთო მენიუს.",
-  "Set middle-button radial menus per application.": "დააყენეთ შუა ღილაკის წრიული მენიუები თითოეული აპისთვის."
+  "Set middle-button radial menus per application.": "დააყენეთ შუა ღილაკის წრიული მენიუები თითოეული აპისთვის.",
+  "Move up": "ზემოთ გადატანა",
+  "Move down": "ქვემოთ გადატანა",
+  "Note": "შენიშვნა",
+  "Steps": "ნაბიჯები",
+  "Else": "სხვა შემთხვევაში",
+  "Add step": "ნაბიჯის დამატება",
+  "Single command": "ერთი ბრძანება",
+  "Edit steps": "ნაბიჯების რედაქტირება",
+  "{0} steps": "{0} ნაბიჯი",
+  "Select a step to edit it.": "აირჩიეთ ნაბიჯი რედაქტირებისთვის."
 }

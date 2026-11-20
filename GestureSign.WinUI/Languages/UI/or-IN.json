@@ -693,5 +693,15 @@
   "Action library": "କାର୍ଯ୍ୟ ପାଠାଗାର",
   "Filter": "ଫିଲ୍ଟର୍",
   "Empty slots use the global wheel.": "ଖାଲି ସ୍ଥାନଗୁଡ଼ିକ ସାଧାରଣ ମେନୁ ବ୍ୟବହାର କରନ୍ତି।",
-  "Set middle-button radial menus per application.": "ପ୍ରତି ଆପ୍ ପାଇଁ ମଝି ବଟନ୍ ବୃତ୍ତାକାର ମେନୁ ସେଟ୍ କରନ୍ତୁ।"
+  "Set middle-button radial menus per application.": "ପ୍ରତି ଆପ୍ ପାଇଁ ମଝି ବଟନ୍ ବୃତ୍ତାକାର ମେନୁ ସେଟ୍ କରନ୍ତୁ।",
+  "Move up": "ଉପରକୁ ନିଅନ୍ତୁ",
+  "Move down": "ତଳକୁ ନିଅନ୍ତୁ",
+  "Note": "ଟିପ୍ପଣୀ",
+  "Steps": "ପଦକ୍ଷେପ",
+  "Else": "ଅନ୍ୟଥା",
+  "Add step": "ପଦକ୍ଷେପ ଯୋଡନ୍ତୁ",
+  "Single command": "ଏକକ ନିର୍ଦ୍ଦେଶ",
+  "Edit steps": "ପଦକ୍ଷେପ ସମ୍ପାଦନ କରନ୍ତୁ",
+  "{0} steps": "{0}ଟି ପଦକ୍ଷେପ",
+  "Select a step to edit it.": "ସମ୍ପାଦନ ପାଇଁ ଏକ ପଦକ୍ଷେପ ବାଛନ୍ତୁ।"
 }

@@ -693,5 +693,15 @@
   "Action library": "Aðgerðasafn",
   "Filter": "Sía",
   "Empty slots use the global wheel.": "Tómir reitir nota almennu valmyndina.",
-  "Set middle-button radial menus per application.": "Stilltu hringvalmyndir miðhnapps fyrir hvert forrit."
+  "Set middle-button radial menus per application.": "Stilltu hringvalmyndir miðhnapps fyrir hvert forrit.",
+  "Move up": "Færa upp",
+  "Move down": "Færa niður",
+  "Note": "Athugasemd",
+  "Steps": "Skref",
+  "Else": "Annars",
+  "Add step": "Bæta við skrefi",
+  "Single command": "Ein skipun",
+  "Edit steps": "Breyta skrefum",
+  "{0} steps": "{0} skref",
+  "Select a step to edit it.": "Veldu skref til að breyta því."
 }

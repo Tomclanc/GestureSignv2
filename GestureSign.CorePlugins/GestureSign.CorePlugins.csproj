@@ -12,6 +12,9 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Management" Version="10.0.10" />
+    <!-- Script engines for step programs (Steps plugin). -->
+    <PackageReference Include="Jint" Version="4.*" />
+    <PackageReference Include="MoonSharp" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GestureSign.Common\GestureSign.Common.csproj" />

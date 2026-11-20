@@ -693,5 +693,15 @@
   "Action library": "동작 라이브러리",
   "Filter": "필터",
   "Empty slots use the global wheel.": "빈 칸은 전역 메뉴를 사용합니다.",
-  "Set middle-button radial menus per application.": "앱별로 가운데 버튼 원형 메뉴를 설정합니다."
+  "Set middle-button radial menus per application.": "앱별로 가운데 버튼 원형 메뉴를 설정합니다.",
+  "Move up": "위로 이동",
+  "Move down": "아래로 이동",
+  "Note": "메모",
+  "Steps": "단계",
+  "Else": "그렇지 않으면",
+  "Add step": "단계 추가",
+  "Single command": "단일 명령",
+  "Edit steps": "단계 편집",
+  "{0} steps": "{0}개 단계",
+  "Select a step to edit it.": "편집할 단계를 선택하세요."
 }

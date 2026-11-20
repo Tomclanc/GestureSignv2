@@ -693,5 +693,15 @@
   "Action library": "Actiebibliotheek",
   "Filter": "Filteren",
   "Empty slots use the global wheel.": "Lege vakken gebruiken het algemene menu.",
-  "Set middle-button radial menus per application.": "Stel radiale menu's van de middelste knop per app in."
+  "Set middle-button radial menus per application.": "Stel radiale menu's van de middelste knop per app in.",
+  "Move up": "Omhoog",
+  "Move down": "Omlaag",
+  "Note": "Notitie",
+  "Steps": "Stappen",
+  "Else": "Anders",
+  "Add step": "Stap toevoegen",
+  "Single command": "Enkele opdracht",
+  "Edit steps": "Stappen bewerken",
+  "{0} steps": "{0} stappen",
+  "Select a step to edit it.": "Selecteer een stap om deze te bewerken."
 }

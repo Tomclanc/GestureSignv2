@@ -693,5 +693,15 @@
   "Action library": "Műveletkönyvtár",
   "Filter": "Szűrés",
   "Empty slots use the global wheel.": "Az üres mezők a globális menüt használják.",
-  "Set middle-button radial menus per application.": "Állítson be középső gombos körmenüket alkalmazásonként."
+  "Set middle-button radial menus per application.": "Állítson be középső gombos körmenüket alkalmazásonként.",
+  "Move up": "Feljebb",
+  "Move down": "Lejjebb",
+  "Note": "Megjegyzés",
+  "Steps": "Lépések",
+  "Else": "Különben",
+  "Add step": "Lépés hozzáadása",
+  "Single command": "Egyetlen parancs",
+  "Edit steps": "Lépések szerkesztése",
+  "{0} steps": "{0} lépés",
+  "Select a step to edit it.": "Válasszon ki egy lépést a szerkesztéshez."
 }

@@ -31,7 +31,8 @@
     "Touchpad",
     "Version",
     "apps",
-    "Backend"
+    "Backend",
+    "Note"
   ],
   "uz-Latn-UZ": [
     "Global",
@@ -167,7 +168,8 @@
     "Orange",
     "Version",
     "Volume",
-    "actions"
+    "actions",
+    "Note"
   ],
   "fr-FR": [
     "10 minutes",
@@ -179,7 +181,8 @@
     "Orange",
     "Version",
     "Volume",
-    "actions"
+    "actions",
+    "Note"
   ],
   "pl-PL": [
     "System",

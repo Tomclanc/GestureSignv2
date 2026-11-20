@@ -693,5 +693,15 @@
   "Action library": "Toimintokirjasto",
   "Filter": "Suodata",
   "Empty slots use the global wheel.": "Tyhjät paikat käyttävät yleistä valikkoa.",
-  "Set middle-button radial menus per application.": "Määritä keskipainikkeen ympyrävalikot sovelluskohtaisesti."
+  "Set middle-button radial menus per application.": "Määritä keskipainikkeen ympyrävalikot sovelluskohtaisesti.",
+  "Move up": "Siirrä ylös",
+  "Move down": "Siirrä alas",
+  "Note": "Huomautus",
+  "Steps": "Vaiheet",
+  "Else": "Muuten",
+  "Add step": "Lisää vaihe",
+  "Single command": "Yksittäinen komento",
+  "Edit steps": "Muokkaa vaiheita",
+  "{0} steps": "{0} vaihetta",
+  "Select a step to edit it.": "Valitse muokattava vaihe."
 }

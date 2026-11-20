@@ -693,5 +693,15 @@
   "Action library": "ספריית פעולות",
   "Filter": "סינון",
   "Empty slots use the global wheel.": "משבצות ריקות משתמשות בתפריט הכללי.",
-  "Set middle-button radial menus per application.": "הגדר תפריטים מעגליים ללחצן האמצעי לכל יישום."
+  "Set middle-button radial menus per application.": "הגדר תפריטים מעגליים ללחצן האמצעי לכל יישום.",
+  "Move up": "העבר למעלה",
+  "Move down": "העבר למטה",
+  "Note": "הערה",
+  "Steps": "שלבים",
+  "Else": "אחרת",
+  "Add step": "הוסף שלב",
+  "Single command": "פקודה בודדת",
+  "Edit steps": "ערוך שלבים",
+  "{0} steps": "{0} שלבים",
+  "Select a step to edit it.": "בחר שלב כדי לערוך אותו."
 }

@@ -693,5 +693,15 @@
   "Action library": "Aklatan ng aksyon",
   "Filter": "Salain",
   "Empty slots use the global wheel.": "Ginagamit ng mga bakanteng puwesto ang global na menu.",
-  "Set middle-button radial menus per application.": "Itakda ang pabilog na menu ng gitnang button bawat app."
+  "Set middle-button radial menus per application.": "Itakda ang pabilog na menu ng gitnang button bawat app.",
+  "Move up": "Ilipat pataas",
+  "Move down": "Ilipat pababa",
+  "Note": "Tala",
+  "Steps": "Mga hakbang",
+  "Else": "Kung hindi",
+  "Add step": "Magdagdag ng hakbang",
+  "Single command": "Iisang command",
+  "Edit steps": "I-edit ang mga hakbang",
+  "{0} steps": "{0} hakbang",
+  "Select a step to edit it.": "Pumili ng hakbang para i-edit ito."
 }

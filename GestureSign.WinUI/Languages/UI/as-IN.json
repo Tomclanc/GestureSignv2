@@ -693,5 +693,15 @@
   "Action library": "কাৰ্যৰ পুথিভঁৰাল",
   "Filter": "ফিল্টাৰ",
   "Empty slots use the global wheel.": "খালী ঠাইবোৰে গোলকীয় চকা ব্যৱহাৰ কৰে।",
-  "Set middle-button radial menus per application.": "প্ৰতিটো এপৰ বাবে মাজৰ বুটামৰ বৃত্তাকাৰ মেনু ছেট কৰক।"
+  "Set middle-button radial menus per application.": "প্ৰতিটো এপৰ বাবে মাজৰ বুটামৰ বৃত্তাকাৰ মেনু ছেট কৰক।",
+  "Move up": "ওপৰলৈ নিয়ক",
+  "Move down": "তললৈ নিয়ক",
+  "Note": "টোকা",
+  "Steps": "পদক্ষেপসমূহ",
+  "Else": "অন্যথা",
+  "Add step": "পদক্ষেপ যোগ কৰক",
+  "Single command": "একক আদেশ",
+  "Edit steps": "পদক্ষেপ সম্পাদনা কৰক",
+  "{0} steps": "{0}টা পদক্ষেপ",
+  "Select a step to edit it.": "সম্পাদনা কৰিবলৈ এটা পদক্ষেপ বাছক।"
 }

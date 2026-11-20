@@ -693,5 +693,15 @@
   "Action library": "Knižnica akcií",
   "Filter": "Filter",
   "Empty slots use the global wheel.": "Prázdne polia používajú globálnu ponuku.",
-  "Set middle-button radial menus per application.": "Nastavte kruhové ponuky prostredného tlačidla pre jednotlivé aplikácie."
+  "Set middle-button radial menus per application.": "Nastavte kruhové ponuky prostredného tlačidla pre jednotlivé aplikácie.",
+  "Move up": "Posunúť nahor",
+  "Move down": "Posunúť nadol",
+  "Note": "Poznámka",
+  "Steps": "Kroky",
+  "Else": "Inak",
+  "Add step": "Pridať krok",
+  "Single command": "Jeden príkaz",
+  "Edit steps": "Upraviť kroky",
+  "{0} steps": "Počet krokov: {0}",
+  "Select a step to edit it.": "Vyberte krok, ktorý chcete upraviť."
 }

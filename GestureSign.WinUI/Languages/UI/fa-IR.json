@@ -693,5 +693,15 @@
   "Action library": "کتابخانه کنش‌ها",
   "Filter": "فیلتر",
   "Empty slots use the global wheel.": "خانه‌های خالی از منوی سراسری استفاده می‌کنند.",
-  "Set middle-button radial menus per application.": "منوهای دایره‌ای دکمه وسط را برای هر برنامه تنظیم کنید."
+  "Set middle-button radial menus per application.": "منوهای دایره‌ای دکمه وسط را برای هر برنامه تنظیم کنید.",
+  "Move up": "انتقال به بالا",
+  "Move down": "انتقال به پایین",
+  "Note": "یادداشت",
+  "Steps": "مراحل",
+  "Else": "در غیر این صورت",
+  "Add step": "افزودن مرحله",
+  "Single command": "فرمان تکی",
+  "Edit steps": "ویرایش مراحل",
+  "{0} steps": "{0} مرحله",
+  "Select a step to edit it.": "یک مرحله را برای ویرایش انتخاب کنید."
 }

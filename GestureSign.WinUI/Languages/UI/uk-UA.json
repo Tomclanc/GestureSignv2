@@ -693,5 +693,15 @@
   "Action library": "Бібліотека дій",
   "Filter": "Фільтр",
   "Empty slots use the global wheel.": "Порожні комірки використовують загальне меню.",
-  "Set middle-button radial menus per application.": "Налаштуйте кругові меню середньої кнопки для кожної програми."
+  "Set middle-button radial menus per application.": "Налаштуйте кругові меню середньої кнопки для кожної програми.",
+  "Move up": "Перемістити вгору",
+  "Move down": "Перемістити вниз",
+  "Note": "Примітка",
+  "Steps": "Кроки",
+  "Else": "Інакше",
+  "Add step": "Додати крок",
+  "Single command": "Одна команда",
+  "Edit steps": "Редагувати кроки",
+  "{0} steps": "Кроків: {0}",
+  "Select a step to edit it.": "Виберіть крок, щоб редагувати його."
 }

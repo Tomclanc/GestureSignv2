@@ -693,5 +693,15 @@
   "Action library": "Aktionsbibliothek",
   "Filter": "Filtern",
   "Empty slots use the global wheel.": "Leere Felder verwenden das globale Menü.",
-  "Set middle-button radial menus per application.": "Radialmenüs der mittleren Taste pro App festlegen."
+  "Set middle-button radial menus per application.": "Radialmenüs der mittleren Taste pro App festlegen.",
+  "Move up": "Nach oben",
+  "Move down": "Nach unten",
+  "Note": "Notiz",
+  "Steps": "Schritte",
+  "Else": "Sonst",
+  "Add step": "Schritt hinzufügen",
+  "Single command": "Einzelner Befehl",
+  "Edit steps": "Schritte bearbeiten",
+  "{0} steps": "{0} Schritte",
+  "Select a step to edit it.": "Wählen Sie einen Schritt zum Bearbeiten aus."
 }

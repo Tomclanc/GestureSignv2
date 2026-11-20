@@ -693,5 +693,15 @@
   "Action library": "Maktaba ya vitendo",
   "Filter": "Chuja",
   "Empty slots use the global wheel.": "Nafasi tupu hutumia menyu ya jumla.",
-  "Set middle-button radial menus per application.": "Weka menyu za mduara za kitufe cha kati kwa kila programu."
+  "Set middle-button radial menus per application.": "Weka menyu za mduara za kitufe cha kati kwa kila programu.",
+  "Move up": "Sogeza juu",
+  "Move down": "Sogeza chini",
+  "Note": "Dokezo",
+  "Steps": "Hatua",
+  "Else": "Vinginevyo",
+  "Add step": "Ongeza hatua",
+  "Single command": "Amri moja",
+  "Edit steps": "Hariri hatua",
+  "{0} steps": "Hatua {0}",
+  "Select a step to edit it.": "Chagua hatua ili kuihariri."
 }

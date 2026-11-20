@@ -693,5 +693,15 @@
   "Action library": "ક્રિયા લાઇબ્રેરી",
   "Filter": "ફિલ્ટર",
   "Empty slots use the global wheel.": "ખાલી ખાનાં વૈશ્વિક મેનૂનો ઉપયોગ કરે છે.",
-  "Set middle-button radial menus per application.": "દરેક ઍપ માટે મધ્ય બટન વર્તુળાકાર મેનૂ સેટ કરો."
+  "Set middle-button radial menus per application.": "દરેક ઍપ માટે મધ્ય બટન વર્તુળાકાર મેનૂ સેટ કરો.",
+  "Move up": "ઉપર ખસેડો",
+  "Move down": "નીચે ખસેડો",
+  "Note": "નોંધ",
+  "Steps": "પગલાં",
+  "Else": "અન્યથા",
+  "Add step": "પગલું ઉમેરો",
+  "Single command": "એક આદેશ",
+  "Edit steps": "પગલાં સંપાદિત કરો",
+  "{0} steps": "{0} પગલાં",
+  "Select a step to edit it.": "સંપાદિત કરવા માટે પગલું પસંદ કરો."
 }

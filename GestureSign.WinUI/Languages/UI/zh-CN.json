@@ -693,5 +693,15 @@
   "Action library": "动作库",
   "Filter": "筛选",
   "Empty slots use the global wheel.": "空格子沿用全局轮盘的动作。",
-  "Set middle-button radial menus per application.": "按程序设置中键轮盘。"
+  "Set middle-button radial menus per application.": "按程序设置中键轮盘。",
+  "Move up": "上移",
+  "Move down": "下移",
+  "Note": "备注",
+  "Steps": "步骤",
+  "Else": "否则",
+  "Add step": "添加步骤",
+  "Single command": "单条命令",
+  "Edit steps": "编辑步骤",
+  "{0} steps": "{0} 个步骤",
+  "Select a step to edit it.": "选择一个步骤进行编辑。"
 }

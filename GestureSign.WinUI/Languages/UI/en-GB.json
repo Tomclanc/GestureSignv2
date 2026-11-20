@@ -693,5 +693,15 @@
   "Action library": "Action library",
   "Filter": "Filter",
   "Empty slots use the global wheel.": "Empty slots use the global wheel.",
-  "Set middle-button radial menus per application.": "Set middle-button radial menus per application."
+  "Set middle-button radial menus per application.": "Set middle-button radial menus per application.",
+  "Move up": "Move up",
+  "Move down": "Move down",
+  "Note": "Note",
+  "Steps": "Steps",
+  "Else": "Else",
+  "Add step": "Add step",
+  "Single command": "Single command",
+  "Edit steps": "Edit steps",
+  "{0} steps": "{0} steps",
+  "Select a step to edit it.": "Select a step to edit it."
 }

@@ -693,5 +693,15 @@
   "Action library": "Handlingsbibliotek",
   "Filter": "Filtrer",
   "Empty slots use the global wheel.": "Tomme plassar brukar den globale menyen.",
-  "Set middle-button radial menus per application.": "Set sirkelmenyar for midtknappen per app."
+  "Set middle-button radial menus per application.": "Set sirkelmenyar for midtknappen per app.",
+  "Move up": "Flytt opp",
+  "Move down": "Flytt ned",
+  "Note": "Notat",
+  "Steps": "Steg",
+  "Else": "Elles",
+  "Add step": "Legg til steg",
+  "Single command": "Enkeltkommando",
+  "Edit steps": "Rediger steg",
+  "{0} steps": "{0} steg",
+  "Select a step to edit it.": "Vel eit steg for å redigere det."
 }

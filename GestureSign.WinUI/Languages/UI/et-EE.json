@@ -693,5 +693,15 @@
   "Action library": "Toimingute teek",
   "Filter": "Filtreeri",
   "Empty slots use the global wheel.": "Tühjad lahtrid kasutavad üldist menüüd.",
-  "Set middle-button radial menus per application.": "Määra keskmise nupu ringmenüüd rakenduste kaupa."
+  "Set middle-button radial menus per application.": "Määra keskmise nupu ringmenüüd rakenduste kaupa.",
+  "Move up": "Liiguta üles",
+  "Move down": "Liiguta alla",
+  "Note": "Märkus",
+  "Steps": "Sammud",
+  "Else": "Muidu",
+  "Add step": "Lisa samm",
+  "Single command": "Üks käsk",
+  "Edit steps": "Muuda samme",
+  "{0} steps": "{0} sammu",
+  "Select a step to edit it.": "Valige muutmiseks samm."
 }

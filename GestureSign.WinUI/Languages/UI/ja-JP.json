@@ -693,5 +693,15 @@
   "Action library": "アクション ライブラリ",
   "Filter": "絞り込み",
   "Empty slots use the global wheel.": "空の枠は全体用のメニューを使います。",
-  "Set middle-button radial menus per application.": "アプリごとに中ボタンの円形メニューを設定します。"
+  "Set middle-button radial menus per application.": "アプリごとに中ボタンの円形メニューを設定します。",
+  "Move up": "上へ移動",
+  "Move down": "下へ移動",
+  "Note": "メモ",
+  "Steps": "ステップ",
+  "Else": "それ以外",
+  "Add step": "ステップを追加",
+  "Single command": "単一コマンド",
+  "Edit steps": "ステップを編集",
+  "{0} steps": "{0} 個のステップ",
+  "Select a step to edit it.": "編集するステップを選択してください。"
 }

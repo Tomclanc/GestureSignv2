@@ -693,5 +693,15 @@
   "Action library": "Leabharlann ghnìomhan",
   "Filter": "Criathraich",
   "Empty slots use the global wheel.": "Cleachdaidh slotaichean falamh an clàr-taice uile-choitcheann.",
-  "Set middle-button radial menus per application.": "Suidhich clàran-taice cearcallach a' phutain mheadhanaich a rèir aplacaid."
+  "Set middle-button radial menus per application.": "Suidhich clàran-taice cearcallach a' phutain mheadhanaich a rèir aplacaid.",
+  "Move up": "Gluais suas",
+  "Move down": "Gluais sìos",
+  "Note": "Nòta",
+  "Steps": "Ceuman",
+  "Else": "Air neo",
+  "Add step": "Cuir ceum ris",
+  "Single command": "Àithne shingilte",
+  "Edit steps": "Deasaich na ceuman",
+  "{0} steps": "{0} ceuman",
+  "Select a step to edit it.": "Tagh ceum airson a dheasachadh."
 }

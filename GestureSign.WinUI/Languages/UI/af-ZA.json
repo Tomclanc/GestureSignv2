@@ -693,5 +693,15 @@
   "Action library": "Aksiebiblioteek",
   "Filter": "Filtreer",
   "Empty slots use the global wheel.": "Leë gleuwe gebruik die globale wiel.",
-  "Set middle-button radial menus per application.": "Stel middelknoppie-radiaalkieslyste per toepassing in."
+  "Set middle-button radial menus per application.": "Stel middelknoppie-radiaalkieslyste per toepassing in.",
+  "Move up": "Skuif op",
+  "Move down": "Skuif af",
+  "Note": "Nota",
+  "Steps": "Stappe",
+  "Else": "Anders",
+  "Add step": "Voeg stap by",
+  "Single command": "Enkele opdrag",
+  "Edit steps": "Wysig stappe",
+  "{0} steps": "{0} stappe",
+  "Select a step to edit it.": "Kies 'n stap om dit te wysig."
 }

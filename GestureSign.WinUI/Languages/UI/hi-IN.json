@@ -693,5 +693,15 @@
   "Action library": "क्रिया लाइब्रेरी",
   "Filter": "फ़िल्टर",
   "Empty slots use the global wheel.": "खाली खाने वैश्विक मेनू का उपयोग करते हैं।",
-  "Set middle-button radial menus per application.": "हर ऐप के लिए मध्य बटन वृत्ताकार मेनू सेट करें।"
+  "Set middle-button radial menus per application.": "हर ऐप के लिए मध्य बटन वृत्ताकार मेनू सेट करें।",
+  "Move up": "ऊपर ले जाएँ",
+  "Move down": "नीचे ले जाएँ",
+  "Note": "टिप्पणी",
+  "Steps": "चरण",
+  "Else": "अन्यथा",
+  "Add step": "चरण जोड़ें",
+  "Single command": "एकल कमांड",
+  "Edit steps": "चरण संपादित करें",
+  "{0} steps": "{0} चरण",
+  "Select a step to edit it.": "संपादित करने के लिए कोई चरण चुनें।"
 }

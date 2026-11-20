@@ -64,6 +64,54 @@ namespace GestureSign.CorePlugins.Common
             return text;
         }
 
+        /// <summary>
+        /// Pastes text into the foreground window with Ctrl+V and then puts the
+        /// previous clipboard content back.
+        /// </summary>
+        public static void Paste(PointInfo pointInfo, string text)
+        {
+            DataObject backup = null;
+            var hadContent = false;
+            pointInfo.Invoke(() =>
+            {
+                backup = Snapshot(out hadContent);
+                Retry(() =>
+                {
+                    if (string.IsNullOrEmpty(text)) Clipboard.Clear();
+                    else Clipboard.SetDataObject(new DataObject(DataFormats.UnicodeText, text), true, 5, 50);
+                    return string.Empty;
+                });
+            });
+            new InputSimulator().Keyboard.ModifiedKeyStroke(VirtualKeyCode.CONTROL, VirtualKeyCode.VK_V);
+            // The target reads the clipboard asynchronously after Ctrl+V.
+            Thread.Sleep(250);
+            pointInfo.Invoke(() => Retry(() =>
+            {
+                if (backup != null)
+                    Clipboard.SetDataObject(backup, true, 5, 50);
+                else if (!hadContent)
+                    Clipboard.Clear();
+                return string.Empty;
+            }));
+        }
+
+        public static string GetText(PointInfo pointInfo)
+        {
+            var text = string.Empty;
+            pointInfo.Invoke(() => text = Retry(() => Clipboard.ContainsText() ? Clipboard.GetText() : string.Empty) ?? string.Empty);
+            return text;
+        }
+
+        public static void SetText(PointInfo pointInfo, string text)
+        {
+            pointInfo.Invoke(() => Retry(() =>
+            {
+                if (string.IsNullOrEmpty(text)) Clipboard.Clear();
+                else Clipboard.SetDataObject(new DataObject(DataFormats.UnicodeText, text), true, 5, 50);
+                return string.Empty;
+            }));
+        }
+
         private static DataObject Snapshot(out bool hadContent)
         {
             hadContent = false;

@@ -693,5 +693,15 @@
   "Action library": "क्रिया लायब्ररी",
   "Filter": "फिल्टर",
   "Empty slots use the global wheel.": "रिकाम्या जागा सामायिक मेनू वापरतात.",
-  "Set middle-button radial menus per application.": "प्रत्येक ॲपसाठी मधल्या बटणाचे वर्तुळाकार मेनू सेट करा."
+  "Set middle-button radial menus per application.": "प्रत्येक ॲपसाठी मधल्या बटणाचे वर्तुळाकार मेनू सेट करा.",
+  "Move up": "वर हलवा",
+  "Move down": "खाली हलवा",
+  "Note": "टीप",
+  "Steps": "पायऱ्या",
+  "Else": "अन्यथा",
+  "Add step": "पायरी जोडा",
+  "Single command": "एकच आदेश",
+  "Edit steps": "पायऱ्या संपादित करा",
+  "{0} steps": "{0} पायऱ्या",
+  "Select a step to edit it.": "संपादित करण्यासाठी पायरी निवडा."
 }

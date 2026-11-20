@@ -693,5 +693,15 @@
   "Action library": "ਕਾਰਵਾਈ ਲਾਇਬ੍ਰੇਰੀ",
   "Filter": "ਫਿਲਟਰ",
   "Empty slots use the global wheel.": "ਖਾਲੀ ਖਾਨੇ ਸਾਂਝਾ ਮੀਨੂ ਵਰਤਦੇ ਹਨ।",
-  "Set middle-button radial menus per application.": "ਹਰ ਐਪ ਲਈ ਵਿਚਕਾਰਲੇ ਬਟਨ ਦੇ ਗੋਲ ਮੀਨੂ ਸੈੱਟ ਕਰੋ।"
+  "Set middle-button radial menus per application.": "ਹਰ ਐਪ ਲਈ ਵਿਚਕਾਰਲੇ ਬਟਨ ਦੇ ਗੋਲ ਮੀਨੂ ਸੈੱਟ ਕਰੋ।",
+  "Move up": "ਉੱਪਰ ਲਿਜਾਓ",
+  "Move down": "ਹੇਠਾਂ ਲਿਜਾਓ",
+  "Note": "ਨੋਟ",
+  "Steps": "ਕਦਮ",
+  "Else": "ਨਹੀਂ ਤਾਂ",
+  "Add step": "ਕਦਮ ਜੋੜੋ",
+  "Single command": "ਇੱਕ ਕਮਾਂਡ",
+  "Edit steps": "ਕਦਮ ਸੋਧੋ",
+  "{0} steps": "{0} ਕਦਮ",
+  "Select a step to edit it.": "ਸੋਧਣ ਲਈ ਇੱਕ ਕਦਮ ਚੁਣੋ।"
 }

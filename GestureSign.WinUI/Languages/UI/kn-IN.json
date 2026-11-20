@@ -693,5 +693,15 @@
   "Action library": "ಕ್ರಿಯೆಗಳ ಗ್ರಂಥಾಲಯ",
   "Filter": "ಫಿಲ್ಟರ್",
   "Empty slots use the global wheel.": "ಖಾಲಿ ಸ್ಥಾನಗಳು ಜಾಗತಿಕ ಮೆನುವನ್ನು ಬಳಸುತ್ತವೆ.",
-  "Set middle-button radial menus per application.": "ಪ್ರತಿ ಆ್ಯಪ್‌ಗೆ ಮಧ್ಯ ಬಟನ್ ವೃತ್ತಾಕಾರದ ಮೆನು ಹೊಂದಿಸಿ."
+  "Set middle-button radial menus per application.": "ಪ್ರತಿ ಆ್ಯಪ್‌ಗೆ ಮಧ್ಯ ಬಟನ್ ವೃತ್ತಾಕಾರದ ಮೆನು ಹೊಂದಿಸಿ.",
+  "Move up": "ಮೇಲೆ ಸರಿಸಿ",
+  "Move down": "ಕೆಳಗೆ ಸರಿಸಿ",
+  "Note": "ಟಿಪ್ಪಣಿ",
+  "Steps": "ಹಂತಗಳು",
+  "Else": "ಇಲ್ಲದಿದ್ದರೆ",
+  "Add step": "ಹಂತ ಸೇರಿಸಿ",
+  "Single command": "ಒಂದೇ ಆಜ್ಞೆ",
+  "Edit steps": "ಹಂತಗಳನ್ನು ಸಂಪಾದಿಸಿ",
+  "{0} steps": "{0} ಹಂತಗಳು",
+  "Select a step to edit it.": "ಸಂಪಾದಿಸಲು ಒಂದು ಹಂತವನ್ನು ಆಯ್ಕೆಮಾಡಿ."
 }

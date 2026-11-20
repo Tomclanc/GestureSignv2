@@ -693,5 +693,15 @@
   "Action library": "Darbību bibliotēka",
   "Filter": "Filtrs",
   "Empty slots use the global wheel.": "Tukšie lauki izmanto vispārējo izvēlni.",
-  "Set middle-button radial menus per application.": "Iestatiet vidējās pogas apļveida izvēlnes katrai lietotnei."
+  "Set middle-button radial menus per application.": "Iestatiet vidējās pogas apļveida izvēlnes katrai lietotnei.",
+  "Move up": "Pārvietot augšup",
+  "Move down": "Pārvietot lejup",
+  "Note": "Piezīme",
+  "Steps": "Darbības",
+  "Else": "Citādi",
+  "Add step": "Pievienot darbību",
+  "Single command": "Viena komanda",
+  "Edit steps": "Rediģēt darbības",
+  "{0} steps": "Darbību skaits: {0}",
+  "Select a step to edit it.": "Atlasiet darbību, lai to rediģētu."
 }
