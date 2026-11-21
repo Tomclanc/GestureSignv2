@@ -4723,7 +4723,9 @@ public sealed partial class MainWindow : Window
             "Raw input registered",
             "Keyboard hook started",
             "Mouse hook started",
-            "Tray notification dispatcher"
+            "Tray notification dispatcher",
+            "warm-up",
+            "Slow mouse hook"
         };
 
         var lines = text.Replace("\r\n", "\n").Split('\n');
