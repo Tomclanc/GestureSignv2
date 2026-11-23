@@ -892,7 +892,7 @@ public sealed partial class MainWindow
             _ => fallback
         };
 
-    // Middle-button radial menu slots: 37-44 inner ring, 45-52 outer ring,
+    // Radial menu slots: 37-44 inner ring, 45-52 outer ring,
     // each ring starting at the top and advancing clockwise. The daemon reads
     // the same reserved names (GestureSign.Common.Applications.RadialMenuSlots).
     private const int FirstRadialMenuIndex = 37;
@@ -905,7 +905,7 @@ public sealed partial class MainWindow
         var outer = index - FirstRadialMenuIndex >= 8;
         var direction = RadialMenuDirectionName(index);
         var ring = outer ? L("外圈", "Outer ring", "外圈", "바깥쪽 링") : L("内圈", "Inner ring", "內圈", "안쪽 링");
-        return L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴") + " · " + ring + " · " + direction;
+        return L("环形菜单", "Radial menu", "環形選單", "원형 메뉴") + " · " + ring + " · " + direction;
     }
 
     private string RadialMenuDirectionName(int index)

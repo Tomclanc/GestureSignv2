@@ -27,7 +27,7 @@ public sealed partial class MainWindow
             RegisterPage("ignored", L("忽略", "Ignored", "忽略", "무시"), T("设置程序忽略和手势忽略规则。", "Configure application and gesture exclusions."), BuildIgnoredPageFromService),
             RegisterPage("gestures", L("手势", "Gestures", "手勢", "제스처"), L("查看、导入和整理可用手势。", "View, import, and organize available gestures.", "檢視、匯入與整理可用手勢。", "사용 가능한 제스처를 보고 가져오고 정리합니다."), BuildGesturesPageFromService),
             RegisterPage("actionLibrary", T("动作库", "Action library"), T("可复用的动作，轮盘、手势和边缘交互都可以调用。", "Reusable actions for the radial menu, gestures and edge swipes."), BuildActionLibraryPage),
-            RegisterPage("radialMenu", L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴"), T("按程序设置中键轮盘。", "Set middle-button radial menus per application."), BuildRadialMenuPage),
+            RegisterPage("radialMenu", L("环形菜单", "Radial menu", "環形選單", "원형 메뉴"), T("按程序设置环形菜单。", "Set radial menus per application."), BuildRadialMenuPage),
             RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), L("用独立快捷键唤起 Kando 圆环菜单。", "Open the Kando radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出 Kando 環形選單。", "전용 단축키로 Kando 원형 메뉴를 엽니다."), BuildQuickActionsPageFromService),
             RegisterPage("touchpad", L("边缘交互", "Edge Interaction", "邊緣互動", "가장자리 상호작용"), L("设置触控板和触摸屏边缘点击、滑动动作。", "Configure touchpad and touchscreen edge taps and swipes.", "設定觸控板與觸控螢幕邊緣點擊、滑動動作。", "터치패드와 터치스크린 가장자리 탭 및 스와이프 동작을 설정합니다."), BuildTouchPadPageFromService),
             RegisterPage("options", L("选项", "Options", "選項", "옵션"), L("调整识别方式、轨迹反馈、启动项和设备开关。", "Adjust recognition, visual feedback, startup, and device switches.", "調整辨識方式、軌跡回饋、啟動項與裝置開關。", "인식 방식, 궤적 표시, 시작 항목 및 장치 스위치를 조정합니다."), BuildOptionsPageFromService),

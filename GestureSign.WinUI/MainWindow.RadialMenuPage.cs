@@ -18,7 +18,7 @@ using Windows.UI;
 namespace GestureSign.WinUI;
 
 /// <summary>
-/// "Middle-button radial menu" page: application list on the left, the
+/// "Radial menu" page: application list on the left, the
 /// selected application's wheel in the middle and the shared action library
 /// on the right. Slots reference library actions, so an action can be placed
 /// on many wheels; empty slots of an application wheel inherit the global wheel.
@@ -147,7 +147,7 @@ public sealed partial class MainWindow
         };
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(thirdSwitch, T("第三圈", "Third ring"));
         _radialRingCount = !options.RadialMenuOuterRing ? 1 : options.RadialMenuThirdRing ? 3 : 2;
-        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(enabledSwitch, L("中键轮盘", "Middle-button radial menu", "中鍵輪盤", "가운데 버튼 원형 메뉴"));
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(enabledSwitch, L("环形菜单", "Radial menu", "環形選單", "원형 메뉴"));
         Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(outerSwitch, L("外圈", "Outer ring", "外圈", "바깥쪽 링"));
         var bar = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 28 };
         void Pair(string label, ToggleSwitch toggle)
