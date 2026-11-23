@@ -732,5 +732,18 @@
   "Download unavailable": "Lejupielāde nav pieejama",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub lejupielāde nav pieejama. Vēlāk mēģiniet vēlreiz vai izvēlieties Instalēt no ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Izvēlnes tika saglabātas, taču izpildlaiks neapstiprināja saīsnes atkārtotu ielādi.",
-  "Could not start the pie menu preview.": "Nevarēja palaist pīrāgu izvēlnes priekšskatījumu."
+  "Could not start the pie menu preview.": "Nevarēja palaist pīrāgu izvēlnes priekšskatījumu.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Pēc palaišanas uzzīmējiet žestu uz skārienpaliktņa vai skārienekrāna. Pēc katra posma paceliet visus pirkstus. Žests tiek saglabāts pēc visu atlasīto posmu uzzīmēšanas.",
+  "Could not start GestureSign V2.": "Nevarēja palaist GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ir rezervēta sistēmai Windows, un to nevar nosūtīt ar žestu.",
+  "Finish or clear the recording first.": "Vispirms pabeidziet zīmēšanu vai notīriet ierakstīto žestu.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 tika atjaunināts, taču to nevarēja automātiski restartēt. Atveriet to no izvēlnes Sākt vai instalācijas mapes. Sīkāka informācija: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Uzzīmējiet {0} žesta posmus. Pēc katra posma paceliet visus pirkstus.",
+  "Recorded {0} stage(s). Save the action to apply.": "Uzņemts {0} žestu posms. Saglabājiet darbību, lai to piemērotu.",
+  "Recording canceled.": "Žesta ierakstīšana ir atcelta.",
+  "Recording stages": "Žestu posmu skaits",
+  "Recording timed out": "Iestājās žestu ierakstīšanas noildze",
+  "Recording timed out. Start recording again.": "Iestājās žestu ierakstīšanas noildze. Vēlreiz uzzīmējiet žestu.",
+  "Start recording again.": "Sāciet zīmēt žestu vēlreiz.",
+  "The application executable was not found: {0}": "Lietojumprogrammas izpildāmā programma netika atrasta: {0}"
 }

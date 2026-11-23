@@ -732,5 +732,18 @@
   "Download unavailable": "ההורדה אינה זמינה",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "הורדת GitHub אינה זמינה. נסה שוב מאוחר יותר או בחר התקן מ-ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "התפריטים נשמרו, אך זמן הריצה לא אישרה את טעינת הקיצור מחדש.",
-  "Could not start the pie menu preview.": "לא ניתן היה להפעיל את התצוגה המקדימה של תפריט העוגה."
+  "Could not start the pie menu preview.": "לא ניתן היה להפעיל את התצוגה המקדימה של תפריט העוגה.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "לאחר ההתחלה, צייר את המחווה שלך על לוח המגע או מסך המגע. הרם את כל האצבעות לאחר כל שלב. המחווה נשמרת לאחר ציור כל השלבים שנבחרו.",
+  "Could not start GestureSign V2.": "לא ניתן היה להפעיל את GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete שמור על ידי Windows ולא ניתן לשלוח אותו באמצעות מחווה.",
+  "Finish or clear the recording first.": "סיים לצייר או נקה את המחווה המוקלטת תחילה.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 עודכן, אך לא ניתן היה להפעיל מחדש באופן אוטומטי. פתח אותו מתפריט התחל או מתיקיית ההתקנה. פרטים: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "צייר {0} שלבים של המחווה. הרם את כל האצבעות לאחר כל שלב.",
+  "Recorded {0} stage(s). Save the action to apply.": "נלכד {0} שלבי מחוות. שמור את הפעולה ליישום.",
+  "Recording canceled.": "הקלטת המחוות בוטלה.",
+  "Recording stages": "מספר שלבי המחוות",
+  "Recording timed out": "תם הזמן הקצוב להקלטת המחוות",
+  "Recording timed out. Start recording again.": "תם הזמן הקצוב להקלטת המחוות. צייר את המחווה שוב.",
+  "Start recording again.": "התחל לצייר את המחווה שוב.",
+  "The application executable was not found: {0}": "קובץ ההפעלה של היישום לא נמצא: {0}"
 }

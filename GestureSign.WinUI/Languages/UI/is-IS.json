@@ -732,5 +732,18 @@
   "Download unavailable": "Niðurhal ekki tiltækt",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub niðurhalið er ekki tiltækt. Reyndu aftur síðar eða veldu Install from ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Valmyndir voru vistaðar en keyrslutíminn staðfesti ekki endurhleðslu flýtileiðar.",
-  "Could not start the pie menu preview.": "Gat ekki ræst forskoðun bökuvalmyndarinnar."
+  "Could not start the pie menu preview.": "Gat ekki ræst forskoðun bökuvalmyndarinnar.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Eftir að þú byrjar skaltu teikna bendinguna þína á snertiborðinu eða snertiskjánum. Lyftu öllum fingrum eftir hvert stig. Bendingin er vistuð eftir að þú hefur teiknað öll valin stig.",
+  "Could not start GestureSign V2.": "Gat ekki ræst GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete er frátekið af Windows og er ekki hægt að senda það með látbragði.",
+  "Finish or clear the recording first.": "Ljúktu við að teikna eða hreinsaðu upptekna látbragðið fyrst.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 var uppfært, en gat ekki endurræst sjálfkrafa. Opnaðu það í Start valmyndinni eða uppsetningarmöppunni. Upplýsingar: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Teiknaðu {0} stig látbragðsins. Lyftu öllum fingrum eftir hvert stig.",
+  "Recorded {0} stage(s). Save the action to apply.": "Tók {0} bendingastig. Vistaðu aðgerðina til að sækja um.",
+  "Recording canceled.": "Hætt við bendingaupptöku.",
+  "Recording stages": "Fjöldi bendingastiga",
+  "Recording timed out": "Bendingaupptaka rann út á tíma",
+  "Recording timed out. Start recording again.": "Bendingaupptaka rann út á tíma. Teiknaðu látbragðið aftur.",
+  "Start recording again.": "Byrjaðu að teikna bendinguna aftur.",
+  "The application executable was not found: {0}": "Forritið sem keyrt fannst ekki: {0}"
 }

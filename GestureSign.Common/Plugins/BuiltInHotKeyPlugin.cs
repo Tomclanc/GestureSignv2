@@ -47,6 +47,11 @@ namespace GestureSign.Common.Plugins
             int lockMask = (_settings.Windows ? 8 : 0) | (_settings.Control ? 2 : 0) | (_settings.Alt ? 1 : 0) | (_settings.Shift ? 4 : 0);
             if (GestureSign.Shortcuts.ShortcutKeys.IsLockShortcut(lockMask, _settings.ModifierKeyCodes, _settings.KeyCode?.Select(k => (int)k)))
                 return _lockWorkStation();
+            if (GestureSign.Shortcuts.ShortcutKeys.IsSecureAttentionShortcut(lockMask, _settings.ModifierKeyCodes, _settings.KeyCode?.Select(k => (int)k)))
+            {
+                GestureSign.Common.Log.Logging.LogMessage("Hotkey not sent: Ctrl+Alt+Delete is reserved by Windows.");
+                return false;
+            }
             SendShortcutKeys(_settings);
             return true;
         }

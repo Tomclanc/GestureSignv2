@@ -732,5 +732,18 @@
   "Download unavailable": "डाउनलोड अनुपलब्ध",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub डाउनलोड अनुपलब्ध आहे. नंतर पुन्हा प्रयत्न करा किंवा ZIP मधून इंस्टॉल करा निवडा.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "मेनू जतन केले गेले, परंतु रनटाइमने शॉर्टकट रीलोडची पुष्टी केली नाही.",
-  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन सुरू करू शकलो नाही."
+  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन सुरू करू शकलो नाही.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "सुरू केल्यानंतर, टचपॅड किंवा टचस्क्रीनवर तुमचे जेश्चर काढा. प्रत्येक टप्प्यानंतर सर्व बोटे उचला. तुम्ही सर्व निवडलेले टप्पे काढल्यानंतर जेश्चर सेव्ह केले जाते.",
+  "Could not start GestureSign V2.": "GestureSign V2 सुरू करू शकलो नाही.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows द्वारे आरक्षित आहे आणि जेश्चरद्वारे पाठविले जाऊ शकत नाही.",
+  "Finish or clear the recording first.": "प्रथम रेखाचित्र पूर्ण करा किंवा रेकॉर्ड केलेले जेश्चर साफ करा.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 अद्यतनित केले गेले, परंतु स्वयंचलितपणे रीस्टार्ट होऊ शकले नाही. ते स्टार्ट मेनू किंवा इन्स्टॉलेशन फोल्डरमधून उघडा. तपशील: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "जेश्चरचे {0} टप्पे काढा. प्रत्येक टप्प्यानंतर सर्व बोटे उचला.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} जेश्चर स्टेज कॅप्चर केले. अर्ज करण्यासाठी क्रिया जतन करा.",
+  "Recording canceled.": "जेश्चर रेकॉर्डिंग रद्द केले.",
+  "Recording stages": "जेश्चर टप्प्यांची संख्या",
+  "Recording timed out": "जेश्चर रेकॉर्डिंग कालबाह्य झाले",
+  "Recording timed out. Start recording again.": "जेश्चर रेकॉर्डिंग कालबाह्य झाले. हावभाव पुन्हा काढा.",
+  "Start recording again.": "पुन्हा जेश्चर काढणे सुरू करा.",
+  "The application executable was not found: {0}": "एक्झिक्युटेबल ऍप्लिकेशन आढळले नाही: {0}"
 }

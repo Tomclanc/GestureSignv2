@@ -79,6 +79,30 @@ var vertical = new[] { new[] { new Point(50, 200) }, new[] { new Point(50, 100) 
 Check(PointPattern.ForComparison(vertical, true)[0][0].Y == 100 && PointPattern.ForComparison(vertical, true)[2].Length == 0, "Same-X starts use Y; empty strokes remain last");
 var roundTrip = GestureManager.LoadGesturesFromFile(store.GesturesPath!, true)[0].PointPatterns[0];
 Check(roundTrip.OrderByStartPosition && roundTrip.Points[0][0].X == 200, "Daemon deserializes the actual saved ordering marker and points");
+foreach (var (fingerCount, stageCount) in new[] { (3, 2), (4, 2), (3, 3) })
+{
+    var name = $"{fingerCount} fingers, {stageCount} taps";
+    IReadOnlyList<IReadOnlyList<(double X, double Y)>>[] taps = Enumerable.Range(0, stageCount)
+        .Select(stage => (IReadOnlyList<IReadOnlyList<(double X, double Y)>>)Enumerable.Range(0, fingerCount)
+            .Select(finger => (IReadOnlyList<(double X, double Y)>)new[] { (X: 300d - finger * 70d, Y: 100d + stage * 10d) })
+            .ToArray())
+        .ToArray();
+    store.SaveGestureStagesForAction(name, null, taps);
+    var saved = GestureManager.LoadGesturesFromFile(store.GesturesPath!, true).Single(item => item.Name == name);
+    Check(saved.PointPatterns.Length == stageCount, $"{name} saves every stage");
+    var candidates = new List<IGesture> { saved };
+    for (var stage = 0; stage < stageCount; stage++)
+    {
+        var pattern = saved.PointPatterns[stage];
+        Check(pattern.OrderByStartPosition && pattern.Points.All(stroke => stroke.Length == 1 && stroke[0].Y == 100 + stage * 10),
+            $"{name} preserves taps and stage order");
+        var arguments = new object?[] { pattern.Points.Reverse().ToArray(), candidates, stage, null, 80, false };
+        var recognized = (string?)match.Invoke(manager, arguments);
+        Check(recognized == (stage == stageCount - 1 ? name : null), $"{name} fires only on the final tap");
+        if (stage < stageCount - 1)
+            candidates = (List<IGesture>)arguments[3]!;
+    }
+}
 var oldFile = Path.Combine(root, "old.gest");
 File.WriteAllText(oldFile, "[{\"Name\":\"Old\",\"PointPatterns\":[{\"Points\":[[\"300, 100\"],[\"100, 100\"]]}]}]");
 var legacyRoundTrip = GestureManager.LoadGesturesFromFile(oldFile, true)[0].PointPatterns[0];

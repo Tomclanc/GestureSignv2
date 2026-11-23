@@ -732,5 +732,18 @@
   "Download unavailable": "ଡାଉନଲୋଡ୍ ଉପଲବ୍ଧ ନାହିଁ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ଡାଉନଲୋଡ୍ ଉପଲବ୍ଧ ନାହିଁ | ପରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ କିମ୍ବା ZIP ରୁ ସଂସ୍ଥାପନ ବାଛନ୍ତୁ",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ମେନୁଗୁଡିକ ସଞ୍ଚୟ କରାଯାଇଥିଲା, କିନ୍ତୁ ଚାଲିବା ସମୟ ସର୍ଟକଟ୍ ପୁନ o ଲୋଡ୍ ନିଶ୍ଚିତ କରିନଥିଲା",
-  "Could not start the pie menu preview.": "ପାଇ ମେନୁ ପୂର୍ବାବଲୋକନ ଆରମ୍ଭ କରିପାରିଲା ନାହିଁ"
+  "Could not start the pie menu preview.": "ପାଇ ମେନୁ ପୂର୍ବାବଲୋକନ ଆରମ୍ଭ କରିପାରିଲା ନାହିଁ",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ଆରମ୍ଭ କରିବା ପରେ, ଟଚପ୍ୟାଡ୍ କିମ୍ବା ଟଚସ୍କ୍ରିନରେ ଆପଣଙ୍କର ଅଙ୍ଗଭଙ୍ଗୀ ଆଙ୍କନ୍ତୁ | ପ୍ରତ୍ୟେକ ପର୍ଯ୍ୟାୟ ପରେ ସମସ୍ତ ଆଙ୍ଗୁଠି ଉଠାନ୍ତୁ | ଆପଣ ସମସ୍ତ ମନୋନୀତ ପର୍ଯ୍ୟାୟ ଅଙ୍କନ କରିବା ପରେ ଅଙ୍ଗଭଙ୍ଗୀ ସଞ୍ଚୟ ହୋଇଛି |",
+  "Could not start GestureSign V2.": "GestureSign V2 ଆରମ୍ଭ କରିପାରିଲା ନାହିଁ |",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl + Alt + ଡିଲିଟ୍ ୱିଣ୍ଡୋଜ୍ ଦ୍ୱାରା ସଂରକ୍ଷିତ ଏବଂ ଏକ ଅଙ୍ଗଭଙ୍ଗୀ ଦ୍ୱାରା ପଠାଯାଇପାରିବ ନାହିଁ |",
+  "Finish or clear the recording first.": "ଚିତ୍ରାଙ୍କନ ସମାପ୍ତ କରନ୍ତୁ କିମ୍ବା ପ୍ରଥମେ ରେକର୍ଡ ହୋଇଥିବା ଅଙ୍ଗଭଙ୍ଗୀକୁ ସଫା କରନ୍ତୁ |",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 କୁ ଅଦ୍ୟତନ କରାଯାଇଥିଲା, କିନ୍ତୁ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ପୁନ art ଆରମ୍ଭ ହୋଇପାରିଲା ନାହିଁ | ଏହାକୁ ଷ୍ଟାର୍ଟ ମେନୁ କିମ୍ବା ସଂସ୍ଥାପନ ଫୋଲ୍ଡରରୁ ଖୋଲ | ବିବରଣୀ: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ଅଙ୍ଗଭଙ୍ଗୀର {0} ପର୍ଯ୍ୟାୟ ଅଙ୍କନ କରନ୍ତୁ | ପ୍ରତ୍ୟେକ ପର୍ଯ୍ୟାୟ ପରେ ସମସ୍ତ ଆଙ୍ଗୁଠି ଉଠାନ୍ତୁ |",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} ଅଙ୍ଗଭଙ୍ଗୀ ପର୍ଯ୍ୟାୟ କ୍ୟାପଚର୍ | ପ୍ରୟୋଗ କରିବାକୁ କ୍ରିୟା ସଞ୍ଚୟ କରନ୍ତୁ |",
+  "Recording canceled.": "ଅଙ୍ଗଭଙ୍ଗୀ ରେକର୍ଡିଂ ବାତିଲ ହୋଇଛି |",
+  "Recording stages": "ଅଙ୍ଗଭଙ୍ଗୀ ପର୍ଯ୍ୟାୟ ସଂଖ୍ୟା |",
+  "Recording timed out": "ଅଙ୍ଗଭଙ୍ଗୀ ରେକର୍ଡିଂ ସମୟ ସମାପ୍ତ ହୋଇଛି |",
+  "Recording timed out. Start recording again.": "ଅଙ୍ଗଭଙ୍ଗୀ ରେକର୍ଡିଂ ସମୟ ସମାପ୍ତ ହୋଇଛି | ପୁନର୍ବାର ଅଙ୍ଗଭଙ୍ଗୀ ଅଙ୍କନ କର |",
+  "Start recording again.": "ପୁନର୍ବାର ଅଙ୍ଗଭଙ୍ଗୀ ଆଙ୍କିବା ଆରମ୍ଭ କର |",
+  "The application executable was not found: {0}": "ପ୍ରୟୋଗ ଏକଜେକ୍ୟୁଟେବଲ୍ ମିଳିଲା ନାହିଁ: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Преузимање није доступно",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "ГитХуб преузимање није доступно. Покушајте поново касније или изаберите Инсталирај из ЗИП-а.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Менији су сачувани, али време извођења није потврдило поновно учитавање пречице.",
-  "Could not start the pie menu preview.": "Није могуће покренути преглед менија колача."
+  "Could not start the pie menu preview.": "Није могуће покренути преглед менија колача.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Након покретања, нацртајте свој покрет на тачпеду или екрану осетљивом на додир. Подигните све прсте након сваке фазе. Гест се чува након што нацртате све изабране фазе.",
+  "Could not start GestureSign V2.": "Није могуће покренути ГестуреСигн В2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Цтрл+Алт+Делете резервише Виндовс и не може се послати покретом.",
+  "Finish or clear the recording first.": "Прво завршите цртање или обришите снимљени покрет.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "ГестуреСигн В2 је ажуриран, али није могао аутоматски поново да се покрене. Отворите га из менија Старт или из инсталационе фасцикле. Детаљи: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Нацртајте {0} фаза покрета. Подигните све прсте након сваке фазе.",
+  "Recorded {0} stage(s). Save the action to apply.": "Снимљено {0} фаза покрета. Сачувајте акцију да бисте се пријавили.",
+  "Recording canceled.": "Снимање покрета је отказано.",
+  "Recording stages": "Број фаза покрета",
+  "Recording timed out": "Временско ограничење за снимање покрета је истекло",
+  "Recording timed out. Start recording again.": "Временско ограничење за снимање покрета је истекло. Поново нацртајте гест.",
+  "Start recording again.": "Почните поново да цртате покрет.",
+  "The application executable was not found: {0}": "Извршни фајл апликације није пронађен: {0}"
 }

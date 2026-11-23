@@ -732,5 +732,18 @@
   "Download unavailable": "Download unavailable",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "The GitHub download is unavailable. Try again later or choose Install from ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menus were saved, but the runtime did not confirm the shortcut reload.",
-  "Could not start the pie menu preview.": "Could not start the pie menu preview."
+  "Could not start the pie menu preview.": "Could not start the pie menu preview.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.",
+  "Could not start GestureSign V2.": "Could not start GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.",
+  "Finish or clear the recording first.": "Finish or clear the recording first.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Record {0} stage(s), lifting all fingers after each stage.",
+  "Recorded {0} stage(s). Save the action to apply.": "Recorded {0} stage(s). Save the action to apply.",
+  "Recording canceled.": "Recording canceled.",
+  "Recording stages": "Recording stages",
+  "Recording timed out": "Recording timed out",
+  "Recording timed out. Start recording again.": "Recording timed out. Start recording again.",
+  "Start recording again.": "Start recording again.",
+  "The application executable was not found: {0}": "The application executable was not found: {0}"
 }

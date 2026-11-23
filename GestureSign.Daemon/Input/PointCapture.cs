@@ -51,7 +51,12 @@ namespace GestureSign.Daemon.Input
         private MouseActions _capturedMouseButton;
         private readonly InputProvider _inputProvider;
         private readonly PointerInputTargetWindow _pointerInputTargetWindow;
-        private readonly List<IPointPattern> _pointPatternCache = new List<IPointPattern>();
+        private readonly List<PointPattern> _trainingStages = new();
+        private readonly System.Windows.Forms.Timer _trainingTimeout = new() { Interval = 30000 };
+        private int _trainingStageCount = 1;
+        private Devices _trainingDevice;
+        private int _trainingButton;
+        private CaptureMode _modeBeforeTraining;
         private readonly TouchPadIntentBridge _intentDlc = new TouchPadIntentBridge();
         private readonly HashSet<IntPtr> _touchScreenPassthroughWindows = new HashSet<IntPtr>();
         private readonly object _touchScreenPassthroughWindowLock = new object();
@@ -197,6 +202,11 @@ namespace GestureSign.Daemon.Input
             set
             {
                 if (value == _mode) return;
+                if (_mode == CaptureMode.Training)
+                {
+                    _trainingTimeout.Stop();
+                    _trainingStages.Clear();
+                }
                 if (value != CaptureMode.Normal)
                 {
                     GestureSign.CorePlugins.MouseActions.DragLock.Release();
@@ -206,6 +216,23 @@ namespace GestureSign.Daemon.Input
                 _mode = value;
                 OnModeChanged(new ModeChangedEventArgs(value));
             }
+        }
+
+        internal void StartTraining(int stageCount)
+        {
+            if (Mode != CaptureMode.Training)
+                _modeBeforeTraining = Mode;
+            _trainingStages.Clear();
+            _trainingStageCount = stageCount;
+            Mode = CaptureMode.Training;
+            _trainingTimeout.Stop();
+            _trainingTimeout.Start();
+        }
+
+        internal void StopTraining()
+        {
+            if (Mode == CaptureMode.Training)
+                Mode = _modeBeforeTraining;
         }
 
         #endregion
@@ -323,6 +350,7 @@ namespace GestureSign.Daemon.Input
 
         protected PointCapture()
         {
+            _trainingTimeout.Tick += (_, _) => StopTraining();
             _surfaceForm = new SurfaceForm();
             _touchScreenPassthroughReleaseTimer = new System.Threading.Timer(
                 _ => _touchScreenPassthroughActive = false,
@@ -442,7 +470,7 @@ namespace GestureSign.Daemon.Input
             ClearLiveGestureHintIfShown(points);
         }
 
-        private static string PreviewActionGestureName(IEnumerable<List<Point>> points)
+        private static string PreviewActionGestureName(IEnumerable<List<Point>> points, bool completedCapture = false)
         {
             var pointArray = points?.Select(stroke => stroke?.ToArray() ?? Array.Empty<Point>()).ToArray();
             if (pointArray == null || pointArray.Length == 0)
@@ -463,8 +491,12 @@ namespace GestureSign.Daemon.Input
             // Smart Close is commonly drawn as a compact L. Give only that action a
             // modest tolerance boost; the axis-balance guard still rejects straight
             // two-finger scrolling strokes.
-            return GestureManager.Instance.PreviewGestureName(pointArray, smartCloseGestureNames, 74)
-                   ?? GestureManager.Instance.PreviewGestureName(pointArray, actionGestureNames);
+            var manager = GestureManager.Instance;
+            return completedCapture
+                ? manager.PreviewCompletedGestureName(pointArray, smartCloseGestureNames, 74)
+                    ?? manager.PreviewCompletedGestureName(pointArray, actionGestureNames)
+                : manager.PreviewGestureName(pointArray, smartCloseGestureNames, 74)
+                    ?? manager.PreviewGestureName(pointArray, actionGestureNames);
         }
 
         private static bool IsSmartCloseAction(IAction action)
@@ -509,6 +541,7 @@ namespace GestureSign.Daemon.Input
                     ReleasePointerMotionSuppression("Disposed");
                     if (_inputProvider != null) MouseHook.MouseWheel -= IntentContext_MouseWheel;
                     _intentDlc.Dispose();
+                    _trainingTimeout.Dispose();
                     _initialTimeoutTimer?.Dispose();
                     _blockTouchDelayTimer?.Dispose();
                     _touchScreenPassthroughReleaseTimer?.Dispose();
@@ -1139,17 +1172,13 @@ namespace GestureSign.Daemon.Input
                 return;
             }
 
-            if (Mode == CaptureMode.Training && !(_pointsCaptured.Count == 1 && _pointsCaptured.Values.First().Count == 1))
+            if (Mode == CaptureMode.Training)
             {
-                _pointPatternCache.Clear();
-                _pointPatternCache.Add(new PointPattern(_pointsCaptured.Values));
-
-                if (!NamedPipe.SendMessageAsync(IpcCommands.GotGesture, Constants.Settings, Tuple.Create(_pointPatternCache.Select(p => p.Points).ToArray(), (int)SourceDevice, (int)_capturedMouseButton), false).Result)
-                    Mode = CaptureMode.Normal;
-
-                // The pipe call has completed synchronously. Keeping the training
-                // pattern here would retain the complete last recording indefinitely.
-                _pointPatternCache.Clear();
+                RecordTrainingStage();
+                OnAfterPointsCaptured(pointsInformation);
+                _captureSession.Complete();
+                ResetCaptureBuffers();
+                return;
             }
 
             // Fire recognized event if we found a gesture match, otherwise throw not recognized event
@@ -1207,6 +1236,27 @@ namespace GestureSign.Daemon.Input
 
             _captureSession.Complete();
             ResetCaptureBuffers();
+        }
+
+        private void RecordTrainingStage()
+        {
+            // Ignore a lone pointer click used to interact with the recording UI.
+            if (_pointsCaptured.Count == 1 && _pointsCaptured.Values.First().Count == 1)
+                return;
+
+            var button = (int)_capturedMouseButton;
+            if (_trainingDevice != SourceDevice || _trainingButton != button)
+                _trainingStages.Clear();
+            _trainingDevice = SourceDevice;
+            _trainingButton = button;
+            _trainingStages.Add(new PointPattern(_pointsCaptured.Values));
+            if (_trainingStages.Count < _trainingStageCount)
+                return;
+
+            var stages = _trainingStages.Select(stage => stage.Points).ToArray();
+            NamedPipe.SendMessageAsync(IpcCommands.GotGesture, Constants.Settings,
+                Tuple.Create(stages, (int)_trainingDevice, _trainingButton), false).GetAwaiter().GetResult();
+            StopTraining();
         }
 
         private void ResetCaptureBuffers()
@@ -1373,7 +1423,7 @@ namespace GestureSign.Daemon.Input
 
         private string ResolveActionGestureName(string recognizedGestureName, IReadOnlyCollection<List<Point>> points)
         {
-            var actionGestureName = PreviewActionGestureName(points);
+            var actionGestureName = PreviewActionGestureName(points, completedCapture: true);
             if (!string.IsNullOrWhiteSpace(actionGestureName) &&
                 ApplicationManager.Instance.GetRecognizedDefinedAction(actionGestureName)?.Any() == true)
             {

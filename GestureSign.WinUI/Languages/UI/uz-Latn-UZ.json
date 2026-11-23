@@ -732,5 +732,18 @@
   "Download unavailable": "Yuklab olish imkonsiz",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub yuklab olish imkonsiz. Keyinroq qayta urinib ko‘ring yoki ZIP dan o‘rnatish-ni tanlang.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyular saqlandi, lekin ish vaqti yorliqlarni qayta yuklashni tasdiqlamadi.",
-  "Could not start the pie menu preview.": "Pirog menyusini oldindan ko‘rishni ishga tushirib bo‘lmadi."
+  "Could not start the pie menu preview.": "Pirog menyusini oldindan ko‘rishni ishga tushirib bo‘lmadi.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Ishga tushgandan so'ng, sensorli panel yoki sensorli ekranda imo-ishorangizni chizing. Har bir bosqichdan keyin barcha barmoqlarni ko'taring. Barcha tanlangan bosqichlarni chizganingizdan so'ng imo-ishora saqlanadi.",
+  "Could not start GestureSign V2.": "GestureSign V2 ishga tushmadi.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows tomonidan zahiralangan va uni imo-ishora bilan yuborish mumkin emas.",
+  "Finish or clear the recording first.": "Avval chizishni tugating yoki yozib olingan ishorani tozalang.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 yangilandi, lekin avtomatik ravishda qayta ishga tushirilmadi. Uni Boshlash menyusidan yoki o'rnatish papkasidan oching. Batafsil ma'lumot: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Imo-ishoraning {0} bosqichini chizing. Har bir bosqichdan keyin barcha barmoqlarni ko'taring.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} imo-ishora bosqichlari yozib olindi. Amal qilish uchun amalni saqlang.",
+  "Recording canceled.": "Imo-ishora yozib olish bekor qilindi.",
+  "Recording stages": "Imo-ishora bosqichlari soni",
+  "Recording timed out": "Imo-ishora yozib olish vaqti tugadi",
+  "Recording timed out. Start recording again.": "Imo-ishora yozib olish vaqti tugadi. Imo-ishorani yana chizing.",
+  "Start recording again.": "Imo-ishorani yana chizishni boshlang.",
+  "The application executable was not found: {0}": "Ilovaning bajariladigan fayli topilmadi: {0}"
 }

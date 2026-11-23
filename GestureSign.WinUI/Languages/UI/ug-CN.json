@@ -732,5 +732,18 @@
   "Download unavailable": "چۈشۈرۈشكە بولمايدۇ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub نى چۈشۈرۈشكە بولمايدۇ. كېيىن قايتا سىناڭ ياكى ZIP دىن قاچىلاشنى تاللاڭ.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "تىزىملىكلەر ساقلاندى ، ئەمما ئىجرا ۋاقتى تېزلەتمە يۈكنى قايتا دەلىللىمىدى.",
-  "Could not start the pie menu preview.": "تورت تىزىملىكى ئالدىن كۆرۈشنى قوزغىتالمىدى."
+  "Could not start the pie menu preview.": "تورت تىزىملىكى ئالدىن كۆرۈشنى قوزغىتالمىدى.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "قوزغالغاندىن كېيىن ، قول ئىشارىتىڭىزنى سېزىمچان ئېكران ياكى سېزىمچان ئېكرانغا سىزىڭ. ھەر باسقۇچتىن كېيىن بارلىق بارماقلارنى كۆتۈرۈڭ. سىز تاللانغان بارلىق باسقۇچلارنى سىزغاندىن كېيىن قول ئىشارىتى ساقلىنىدۇ.",
+  "Could not start GestureSign V2.": "GestureSign V2 نى قوزغىتالمىدى.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl + Alt + Delete Windows تەرىپىدىن ساقلانغان بولۇپ ، قول ئىشارىسى ئارقىلىق ئەۋەتكىلى بولمايدۇ.",
+  "Finish or clear the recording first.": "رەسىم سىزىشنى تاماملاڭ ياكى خاتىرىلەنگەن ئىشارەتنى ئاۋۋال تازىلاڭ.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 يېڭىلاندى ، ئەمما ئاپتوماتىك قايتا قوزغىتالمىدى. ئۇنى باشلاش تىزىملىكىدىن ياكى قاچىلاش قىسقۇچىدىن ئېچىڭ. تەپسىلاتى: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "قول ئىشارىسىنىڭ {0} باسقۇچىنى سىزىڭ. ھەر باسقۇچتىن كېيىن بارلىق بارماقلارنى كۆتۈرۈڭ.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} قول ئىشارىسى تۇتۇلدى. ئىلتىماس قىلىش ئۈچۈن ھەرىكەت قىلىڭ.",
+  "Recording canceled.": "قول ئىشارىسى خاتىرىلەش ئەمەلدىن قالدۇرۇلدى.",
+  "Recording stages": "ئىشارەت باسقۇچىنىڭ سانى",
+  "Recording timed out": "قول ئىشارىسى خاتىرىلەش ۋاقتى توشتى",
+  "Recording timed out. Start recording again.": "قول ئىشارىسى خاتىرىلەش ۋاقتى توشتى. قول ئىشارىسىنى قايتا سىزىڭ.",
+  "Start recording again.": "قول ئىشارىسىنى قايتا سىزىشنى باشلاڭ.",
+  "The application executable was not found: {0}": "ئىجرا قىلغىلى بولىدىغان پروگرامما تېپىلمىدى: {0}"
 }

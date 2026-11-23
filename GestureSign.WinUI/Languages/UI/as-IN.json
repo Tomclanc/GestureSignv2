@@ -732,5 +732,18 @@
   "Download unavailable": "ডাউনলোড উপলব্ধ নহয়",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ডাউনলোড উপলব্ধ নহয়। পিছত পুনৰ চেষ্টা কৰক বা ZIP ৰ পৰা সংস্থাপন নিৰ্ব্বাচন কৰক ।",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "মেনুসমূহ সংৰক্ষণ কৰা হৈছিল, কিন্তু চলনসময়ে চৰ্টকাট পুনৰ লোড নিশ্চিত কৰা নাছিল।",
-  "Could not start the pie menu preview.": "পাই মেনু পূৰ্বদৰ্শন আৰম্ভ কৰিব পৰা নগ'ল।"
+  "Could not start the pie menu preview.": "পাই মেনু পূৰ্বদৰ্শন আৰম্ভ কৰিব পৰা নগ'ল।",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "আৰম্ভ কৰাৰ পিছত টাচপেড বা টাচস্ক্ৰীণত আপোনাৰ ইংগিত অংকন কৰক। প্ৰতিটো পৰ্যায়ৰ পিছত সকলো আঙুলি তুলি লওক। আপুনি সকলো নিৰ্বাচিত পৰ্যায় অংকন কৰাৰ পিছত ইংগিতটো সংৰক্ষণ কৰা হয়।",
+  "Could not start GestureSign V2.": "GestureSign V2 আৰম্ভ কৰিব পৰা নগ'ল।",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows দ্বাৰা সংৰক্ষিত আৰু ইংগিতৰ দ্বাৰা পঠাব নোৱাৰি।",
+  "Finish or clear the recording first.": "প্ৰথমে অংকন শেষ কৰক বা ৰেকৰ্ড কৰা ইংগিতটো পৰিষ্কাৰ কৰক।",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 আপডেইট কৰা হৈছিল, কিন্তু স্বয়ংক্ৰিয়ভাৱে পুনৰাৰম্ভ কৰিব পৰা নগ'ল। ইয়াক আৰম্ভ মেনু বা সংস্থাপন ফোল্ডাৰৰ পৰা খোলক । সবিশেষ: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ইংগিতৰ {0}টা পৰ্যায় আঁকক। প্ৰতিটো পৰ্যায়ৰ পিছত সকলো আঙুলি তুলি লওক।",
+  "Recorded {0} stage(s). Save the action to apply.": "{0}টা ইংগিতৰ পৰ্যায় বন্দী কৰা হৈছে। প্ৰয়োগ কৰিবলৈ কাৰ্য্যটো সংৰক্ষণ কৰক।",
+  "Recording canceled.": "ইংগিত ৰেকৰ্ডিং বাতিল কৰা হৈছে।",
+  "Recording stages": "ইংগিতৰ পৰ্যায়ৰ সংখ্যা",
+  "Recording timed out": "ইংগিত ৰেকৰ্ডিঙৰ সময় শেষ হৈ গ’ল",
+  "Recording timed out. Start recording again.": "ইংগিত ৰেকৰ্ডিঙৰ সময় শেষ হৈ গ’ল। আকৌ ইংগিতটো আঁকক।",
+  "Start recording again.": "আকৌ ইংগিতটো অংকন কৰিবলৈ আৰম্ভ কৰক।",
+  "The application executable was not found: {0}": "এপ্লিকেচন এক্সিকিউটেবল পোৱা নগ'ল: {0}"
 }

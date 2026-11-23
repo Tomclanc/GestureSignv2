@@ -732,5 +732,18 @@
   "Download unavailable": "Allalaadimine pole saadaval",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHubi allalaadimine pole saadaval. Proovige hiljem uuesti või valige Installi ZIP-ist.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menüüd salvestati, kuid käitusaeg ei kinnitanud otsetee uuesti laadimist.",
-  "Could not start the pie menu preview.": "Pirukamenüü eelvaadet ei saanud käivitada."
+  "Could not start the pie menu preview.": "Pirukamenüü eelvaadet ei saanud käivitada.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Pärast käivitamist joonistage oma liigutus puuteplaadile või puuteekraanile. Pärast iga etappi tõstke kõik sõrmed üles. Žest salvestatakse pärast kõigi valitud etappide joonistamist.",
+  "Could not start GestureSign V2.": "GestureSign V2 ei saanud käivitada.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete on Windowsi poolt reserveeritud ja neid ei saa liigutusega saata.",
+  "Finish or clear the recording first.": "Esmalt lõpetage joonistamine või kustutage salvestatud liigutus.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 värskendati, kuid seda ei saanud automaatselt taaskäivitada. Avage see menüüst Start või installikaustast. Üksikasjad: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Joonistage žesti {0} etappi. Pärast iga etappi tõstke kõik sõrmed üles.",
+  "Recorded {0} stage(s). Save the action to apply.": "Jäädvustas {0} liigutusetappi. Rakendamiseks salvestage toiming.",
+  "Recording canceled.": "Žesti salvestamine tühistati.",
+  "Recording stages": "Žesti etappide arv",
+  "Recording timed out": "Liigutuste salvestamine aegus",
+  "Recording timed out. Start recording again.": "Liigutuste salvestamine aegus. Joonistage žest uuesti.",
+  "Start recording again.": "Alustage žesti joonistamist uuesti.",
+  "The application executable was not found: {0}": "Rakenduse käivitatavat faili ei leitud: {0}"
 }

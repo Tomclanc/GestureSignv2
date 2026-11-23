@@ -732,5 +732,18 @@
   "Download unavailable": "Descàrrega no disponible",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "La descàrrega de GitHub no està disponible. Torna-ho a provar més tard o tria Instal·la des del ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Els menús es van desar, però el temps d'execució no va confirmar la recàrrega de la drecera.",
-  "Could not start the pie menu preview.": "No s'ha pogut iniciar la previsualització del menú circular."
+  "Could not start the pie menu preview.": "No s'ha pogut iniciar la previsualització del menú circular.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Després de començar, dibuixa el teu gest al tauler tàctil o a la pantalla tàctil. Aixeca tots els dits després de cada etapa. El gest es desa després de dibuixar totes les etapes seleccionades.",
+  "Could not start GestureSign V2.": "No s'ha pogut iniciar GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Suprimir està reservat per Windows i no es pot enviar amb un gest.",
+  "Finish or clear the recording first.": "Acabeu de dibuixar o esborrar primer el gest gravat.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 s'ha actualitzat, però no s'ha pogut reiniciar automàticament. Obriu-lo des del menú Inici o des de la carpeta d'instal·lació. Detalls: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Dibuixa {0} etapes del gest. Aixeca tots els dits després de cada etapa.",
+  "Recorded {0} stage(s). Save the action to apply.": "S'han capturat {0} etapes de gest. Desa l'acció per aplicar.",
+  "Recording canceled.": "S'ha cancel·lat la gravació de gestos.",
+  "Recording stages": "Nombre d'etapes gestuals",
+  "Recording timed out": "S'ha esgotat el temps d'espera de la gravació de gestos",
+  "Recording timed out. Start recording again.": "S'ha esgotat el temps d'espera de la gravació de gestos. Torna a dibuixar el gest.",
+  "Start recording again.": "Comença a dibuixar el gest de nou.",
+  "The application executable was not found: {0}": "No s'ha trobat l'executable de l'aplicació: {0}"
 }

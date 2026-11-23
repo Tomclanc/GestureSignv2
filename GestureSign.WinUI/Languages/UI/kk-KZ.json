@@ -732,5 +732,18 @@
   "Download unavailable": "Жүктеп алу мүмкін емес",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub жүктеп алу қолжетімсіз. Әрекетті кейінірек қайталаңыз немесе ZIP файлынан орнатуды таңдаңыз.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Мәзірлер сақталды, бірақ орындалу уақыты таңбашаны қайта жүктеуді растамады.",
-  "Could not start the pie menu preview.": "Дөңгелек мәзірді алдын ала қарауды бастау мүмкін болмады."
+  "Could not start the pie menu preview.": "Дөңгелек мәзірді алдын ала қарауды бастау мүмкін болмады.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Іске қосқаннан кейін сенсорлық тақтаға немесе сенсорлық экранға қимылыңызды салыңыз. Әрбір кезеңнен кейін барлық саусақтарды көтеріңіз. Барлық таңдалған кезеңдерді салғаннан кейін қимыл сақталады.",
+  "Could not start GestureSign V2.": "GestureSign V2 іске қосылмады.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows жүйесінде сақталған және оны қимылмен жіберу мүмкін емес.",
+  "Finish or clear the recording first.": "Алдымен сурет салуды аяқтаңыз немесе жазылған қимылды өшіріңіз.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 жаңартылды, бірақ автоматты түрде қайта іске қосылмады. Оны Бастау мәзірінен немесе орнату қалтасынан ашыңыз. Толық ақпарат: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Қимылдың {0} кезеңін салыңыз. Әрбір кезеңнен кейін барлық саусақтарды көтеріңіз.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} қимыл кезеңдері түсірілді. Қолдану үшін әрекетті сақтаңыз.",
+  "Recording canceled.": "Қимыл жазуы тоқтатылды.",
+  "Recording stages": "Қимыл кезеңдерінің саны",
+  "Recording timed out": "Қимылды жазу уақыты аяқталды",
+  "Recording timed out. Start recording again.": "Қимылды жазу уақыты аяқталды. Қимылды қайтадан сызыңыз.",
+  "Start recording again.": "Қимылды қайтадан салуды бастаңыз.",
+  "The application executable was not found: {0}": "Орындалатын қолданба табылмады: {0}"
 }

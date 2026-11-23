@@ -732,5 +732,18 @@
   "Download unavailable": "Download ikke tilgængelig",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-downloaden er ikke tilgængelig. Prøv igen senere, eller vælg Installer fra ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menuer blev gemt, men kørselstiden bekræftede ikke genindlæsningen.",
-  "Could not start the pie menu preview.": "Forhåndsvisningen af ​​cirkelmenuen kunne ikke startes."
+  "Could not start the pie menu preview.": "Forhåndsvisningen af ​​cirkelmenuen kunne ikke startes.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Efter start skal du tegne din gestus på touchpad'en eller touchskærmen. Løft alle fingre efter hvert trin. Bevægelsen gemmes, når du har tegnet alle valgte stadier.",
+  "Could not start GestureSign V2.": "Kunne ikke starte GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete er reserveret af Windows og kan ikke sendes med en gestus.",
+  "Finish or clear the recording first.": "Afslut tegningen eller ryd den optagede gestus først.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 blev opdateret, men kunne ikke genstarte automatisk. Åbn den fra startmenuen eller installationsmappen. Detaljer: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tegn {0} faser af gestus. Løft alle fingre efter hvert trin.",
+  "Recorded {0} stage(s). Save the action to apply.": "Fangede {0} gestus-stadier. Gem handlingen for at anvende.",
+  "Recording canceled.": "Bevægelsesoptagelse blev annulleret.",
+  "Recording stages": "Antal gestustrin",
+  "Recording timed out": "Bevægelsesoptagelse fik timeout",
+  "Recording timed out. Start recording again.": "Bevægelsesoptagelse fik timeout. Tegn gestus igen.",
+  "Start recording again.": "Begynd at tegne gestussen igen.",
+  "The application executable was not found: {0}": "Den eksekverbare applikation blev ikke fundet: {0}"
 }

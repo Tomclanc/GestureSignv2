@@ -732,5 +732,18 @@
   "Download unavailable": "Nid yw llwytho i lawr ar gael",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Nid yw'r lawrlwythiad GitHub ar gael. Ceisiwch eto yn nes ymlaen neu dewiswch Gosod o ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Cadwyd dewislenni, ond ni chadarnhaodd yr amser rhedeg ail-lwytho'r llwybr byr.",
-  "Could not start the pie menu preview.": "Methu cychwyn y rhagolwg dewislen pastai."
+  "Could not start the pie menu preview.": "Methu cychwyn y rhagolwg dewislen pastai.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Ar ôl dechrau, tynnwch eich ystum ar y pad cyffwrdd neu'r sgrin gyffwrdd. Codwch bob bysedd ar ôl pob cam. Mae'r ystum yn cael ei gadw ar ôl i chi dynnu pob cam a ddewiswyd.",
+  "Could not start GestureSign V2.": "Methu cychwyn GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Mae Ctrl+Alt+Delete wedi'i gadw gan Windows ac ni ellir ei anfon trwy ystum.",
+  "Finish or clear the recording first.": "Gorffennwch y lluniad neu gliriwch yr ystum a gofnodwyd yn gyntaf.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Diweddarwyd GestureSign V2, ond ni allai ailgychwyn yn awtomatig. Agorwch ef o'r ddewislen Start neu'r ffolder gosod. Manylion: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tynnwch lun {0} o gamau'r ystum. Codwch bob bysedd ar ôl pob cam.",
+  "Recorded {0} stage(s). Save the action to apply.": "Wedi'i ddal {0} o gamau ystum. Arbedwch y weithred i wneud cais.",
+  "Recording canceled.": "Recordiad ystum wedi'i ganslo.",
+  "Recording stages": "Nifer y camau ystum",
+  "Recording timed out": "Amser i ffwrdd o ran cofnodi ystumiau",
+  "Recording timed out. Start recording again.": "Amser i ffwrdd o ran cofnodi ystumiau. Tynnwch lun yr ystum eto.",
+  "Start recording again.": "Dechreuwch dynnu'r ystum eto.",
+  "The application executable was not found: {0}": "Ni chanfuwyd y cais gweithredadwy: {0}"
 }

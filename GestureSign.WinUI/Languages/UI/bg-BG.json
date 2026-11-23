@@ -732,5 +732,18 @@
   "Download unavailable": "Изтеглянето не е налично",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Изтеглянето на GitHub не е налично. Опитайте отново по-късно или изберете Инсталиране от ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Менютата бяха запазени, но времето за изпълнение не потвърди презареждането на пряк път.",
-  "Could not start the pie menu preview.": "Визуализацията на кръговото меню не можа да се стартира."
+  "Could not start the pie menu preview.": "Визуализацията на кръговото меню не можа да се стартира.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "След стартиране нарисувайте своя жест върху тъчпада или сензорния екран. Повдигнете всички пръсти след всеки етап. Жестът се запазва, след като нарисувате всички избрани етапи.",
+  "Could not start GestureSign V2.": "Не можа да се стартира GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete е запазено от Windows и не може да бъде изпратено с жест.",
+  "Finish or clear the recording first.": "Завършете рисуването или първо изчистете записания жест.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 беше актуализиран, но не можа да се рестартира автоматично. Отворете го от менюто \"Старт\" или от инсталационната папка. Детайли: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Начертайте {0} етапа на жеста. Повдигнете всички пръсти след всеки етап.",
+  "Recorded {0} stage(s). Save the action to apply.": "Уловени {0} етапа на жестове. Запазете действието, за да го приложите.",
+  "Recording canceled.": "Записването на жестове е отменено.",
+  "Recording stages": "Брой етапи на жестове",
+  "Recording timed out": "Времето за изчакване на записа на жестове изтече",
+  "Recording timed out. Start recording again.": "Времето за изчакване на записа на жестове изтече. Начертайте жеста отново.",
+  "Start recording again.": "Започнете да рисувате жеста отново.",
+  "The application executable was not found: {0}": "Изпълнимият файл на приложението не е намерен: {0}"
 }

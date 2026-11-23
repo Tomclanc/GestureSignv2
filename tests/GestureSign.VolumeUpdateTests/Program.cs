@@ -31,7 +31,19 @@ internal static class Checks
         Console.WriteLine("PASS updater uses all 90 embedded languages and preserves error placeholders.");
         var options = UpdateOptions.Parse(new[] { "--mode", "portable", "--ready", @"C:\Temp Folder\ready", "--wait-pid", "123", "--from-temp" });
         if (options.ReadyPath != @"C:\Temp Folder\ready" || options.WaitProcessId != 123 || !options.FromTemp) throw new Exception("Update handoff arguments lost");
-        Console.WriteLine($"PASS {checks} volume step/boundary checks and updater handoff options. No volume changed or update installed.");
+        const string previous = @"C:\Old GestureSign";
+        const string installed = @"D:\Apps\GestureSign V2";
+        const string launchName = "GestureSignV2.WinUI.exe";
+        if (UpdateLaunch.ResolveExecutable(previous, installed, true) != System.IO.Path.Combine(installed, launchName))
+            throw new Exception("An exact MSI registration must win over the pre-upgrade directory");
+        if (UpdateLaunch.ResolveExecutable(previous, installed, false) != System.IO.Path.Combine(previous, launchName))
+            throw new Exception("Portable update must not use MSI registration");
+        foreach (var untrusted in new[] { null, "", @"D:relative", @"\relative", @"\\server\share", @"D:\Apps:stream" })
+            if (UpdateLaunch.ResolveExecutable(previous, untrusted, true) != System.IO.Path.Combine(previous, launchName))
+                throw new Exception("Unusable MSI registration should not change the launch root");
+        if (UpdateLaunch.GetMsiInstallLocation(System.IO.Path.Combine(System.IO.Path.GetTempPath(), Guid.NewGuid() + ".msi")) != null)
+            throw new Exception("Missing MSI must not return an install location");
+        Console.WriteLine($"PASS {checks} volume step/boundary checks, updater handoff and MSI launch path checks. No volume changed or update installed.");
         if (Array.IndexOf(args, "--native-smoke") >= 0)
         {
             // Opt-in only: reacquire the real default endpoint, write back its

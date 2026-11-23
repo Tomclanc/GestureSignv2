@@ -33,11 +33,16 @@ namespace GestureSign.Daemon
                         PointCapture.Instance.RecoverInput("IPC");
                         break;
                     case IpcCommands.StartTeaching:
-                        PointCapture.Instance.Mode = CaptureMode.Training;
+                        PointCapture.Instance.StartTraining(1);
+                        break;
+                    case IpcCommands.StartTeachingTwoStages:
+                        PointCapture.Instance.StartTraining(2);
+                        break;
+                    case IpcCommands.StartTeachingThreeStages:
+                        PointCapture.Instance.StartTraining(3);
                         break;
                     case IpcCommands.StopTraining:
-                        if (PointCapture.Instance.Mode != CaptureMode.UserDisabled)
-                            PointCapture.Instance.Mode = CaptureMode.Normal;
+                        PointCapture.Instance.StopTraining();
                         break;
                     case IpcCommands.LoadApplications:
                         ApplicationManager.Instance.LoadApplications().Wait();

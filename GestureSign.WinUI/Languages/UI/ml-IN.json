@@ -732,5 +732,18 @@
   "Download unavailable": "ഡൗൺലോഡ് ലഭ്യമല്ല",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ഡൗൺലോഡ് ലഭ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക അല്ലെങ്കിൽ ZIP-ൽ നിന്ന് ഇൻസ്റ്റാൾ ചെയ്യുക തിരഞ്ഞെടുക്കുക.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "മെനുകൾ സംരക്ഷിച്ചു, എന്നാൽ റൺടൈം കുറുക്കുവഴി റീലോഡ് സ്ഥിരീകരിച്ചില്ല.",
-  "Could not start the pie menu preview.": "പൈ മെനു പ്രിവ്യൂ ആരംഭിക്കാൻ കഴിഞ്ഞില്ല."
+  "Could not start the pie menu preview.": "പൈ മെനു പ്രിവ്യൂ ആരംഭിക്കാൻ കഴിഞ്ഞില്ല.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ആരംഭിച്ചതിന് ശേഷം, ടച്ച്പാഡിലോ ടച്ച്‌സ്‌ക്രീനിലോ നിങ്ങളുടെ ആംഗ്യം വരയ്ക്കുക. ഓരോ ഘട്ടത്തിനും ശേഷം എല്ലാ വിരലുകളും ഉയർത്തുക. തിരഞ്ഞെടുത്ത എല്ലാ ഘട്ടങ്ങളും വരച്ചതിന് ശേഷം ആംഗ്യം സംരക്ഷിക്കപ്പെടും.",
+  "Could not start GestureSign V2.": "GestureSign V2 ആരംഭിക്കാൻ കഴിഞ്ഞില്ല.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete വിൻഡോസ് റിസർവ് ചെയ്‌തിരിക്കുന്നതിനാൽ ഒരു ആംഗ്യത്തിലൂടെ അയയ്‌ക്കാനാകില്ല.",
+  "Finish or clear the recording first.": "ആദ്യം ഡ്രോയിംഗ് പൂർത്തിയാക്കുക അല്ലെങ്കിൽ റെക്കോർഡ് ചെയ്‌ത ആംഗ്യം മായ്‌ക്കുക.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 അപ്‌ഡേറ്റ് ചെയ്‌തു, പക്ഷേ യാന്ത്രികമായി പുനരാരംഭിക്കാനായില്ല. ആരംഭ മെനുവിൽ നിന്നോ ഇൻസ്റ്റലേഷൻ ഫോൾഡറിൽ നിന്നോ ഇത് തുറക്കുക. വിശദാംശങ്ങൾ: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ആംഗ്യത്തിൻ്റെ {0} ഘട്ടങ്ങൾ വരയ്ക്കുക. ഓരോ ഘട്ടത്തിനും ശേഷം എല്ലാ വിരലുകളും ഉയർത്തുക.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} ആംഗ്യ ഘട്ടങ്ങൾ ക്യാപ്‌ചർ ചെയ്‌തു. പ്രയോഗിക്കാനുള്ള പ്രവർത്തനം സംരക്ഷിക്കുക.",
+  "Recording canceled.": "ആംഗ്യ റെക്കോർഡിംഗ് റദ്ദാക്കി.",
+  "Recording stages": "ആംഗ്യ ഘട്ടങ്ങളുടെ എണ്ണം",
+  "Recording timed out": "ആംഗ്യ റെക്കോർഡിംഗ് കാലഹരണപ്പെട്ടു",
+  "Recording timed out. Start recording again.": "ആംഗ്യ റെക്കോർഡിംഗ് കാലഹരണപ്പെട്ടു. ആംഗ്യം വീണ്ടും വരയ്ക്കുക.",
+  "Start recording again.": "ആംഗ്യം വീണ്ടും വരയ്ക്കാൻ ആരംഭിക്കുക.",
+  "The application executable was not found: {0}": "എക്സിക്യൂട്ടബിൾ ആപ്ലിക്കേഷൻ കണ്ടെത്തിയില്ല: {0}"
 }

@@ -1,4 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0-windows10.0.19041.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
-  <ItemGroup><ProjectReference Include="../../GestureSign.Common/GestureSign.Common.csproj" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../GestureSign.Common/GestureSign.Common.csproj" />
+    <None Include="../../Defaults/Gestures.gest" Link="Defaults/Gestures.gest" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>

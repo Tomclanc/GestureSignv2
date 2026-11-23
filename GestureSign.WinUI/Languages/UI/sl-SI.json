@@ -732,5 +732,18 @@
   "Download unavailable": "Prenos ni na voljo",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Prenos GitHub ni na voljo. Poskusite znova pozneje ali izberite Namesti iz ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Meniji so bili shranjeni, vendar izvajalno okolje ni potrdilo ponovnega nalaganja bližnjic.",
-  "Could not start the pie menu preview.": "Ni bilo mogoče zagnati predogleda tortnega menija."
+  "Could not start the pie menu preview.": "Ni bilo mogoče zagnati predogleda tortnega menija.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Po zagonu narišite svojo potezo na sledilno ploščico ali zaslon na dotik. Po vsaki stopnji dvignite vse prste. Poteza se shrani, ko narišete vse izbrane stopnje.",
+  "Could not start GestureSign V2.": "GestureSign V2 ni bilo mogoče zagnati.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete je rezerviran za Windows in ga ni mogoče poslati s potezo.",
+  "Finish or clear the recording first.": "Najprej dokončajte risanje ali počistite posneto potezo.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 je bil posodobljen, vendar se ni mogel samodejno znova zagnati. Odprite ga v meniju Start ali v namestitveni mapi. Podrobnosti: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Narišite {0} stopenj kretnje. Po vsaki stopnji dvignite vse prste.",
+  "Recorded {0} stage(s). Save the action to apply.": "Zajetih {0} stopenj geste. Shranite dejanje za uporabo.",
+  "Recording canceled.": "Snemanje potez je preklicano.",
+  "Recording stages": "Število stopenj geste",
+  "Recording timed out": "Časovna omejitev snemanja potez je potekla",
+  "Recording timed out. Start recording again.": "Časovna omejitev snemanja potez je potekla. Ponovno narišite kretnjo.",
+  "Start recording again.": "Ponovno začnite risati potezo.",
+  "The application executable was not found: {0}": "Izvršljive datoteke aplikacije ni bilo mogoče najti: {0}"
 }

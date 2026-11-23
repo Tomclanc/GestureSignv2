@@ -732,5 +732,18 @@
   "Download unavailable": "ማውረድ አይገኝም",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "የ GitHub ማውረድ አይገኝም። ቆይተው እንደገና ይሞክሩ ወይም ከዚፕ ጫንን ይምረጡ።",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ምናሌዎች ተቀምጠዋል፣ ነገር ግን የሩጫ ሰዓቱ የአቋራጭ ዳግም መጫኑን አላረጋገጠም።",
-  "Could not start the pie menu preview.": "የፓይ ሜኑ ቅድመ እይታን መጀመር አልተቻለም።"
+  "Could not start the pie menu preview.": "የፓይ ሜኑ ቅድመ እይታን መጀመር አልተቻለም።",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ከጀመሩ በኋላ የእጅ ምልክትዎን በመዳሰሻ ሰሌዳው ወይም በንክኪ ስክሪን ላይ ይሳሉ። ከእያንዳንዱ ደረጃ በኋላ ሁሉንም ጣቶች ያንሱ. ሁሉንም የተመረጡ ደረጃዎች ከሳሉ በኋላ ምልክቱ ይቀመጣል።",
+  "Could not start GestureSign V2.": "GestureSign V2ን መጀመር አልተቻለም።",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete በዊንዶውስ የተያዘ ነው እና በምልክት መላክ አይቻልም።",
+  "Finish or clear the recording first.": "መሳል ይጨርሱ ወይም የተቀዳውን የእጅ ምልክት መጀመሪያ ያጽዱ።",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "የእጅ ምልክት V2 ተዘምኗል፣ ነገር ግን በራስ ሰር ዳግም መጀመር አልቻለም። ከጀምር ምናሌው ወይም ከመጫኛ አቃፊው ይክፈቱት። ዝርዝር፡ {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "የእጅ ምልክት {0} ደረጃዎችን ይሳሉ። ከእያንዳንዱ ደረጃ በኋላ ሁሉንም ጣቶች ያንሱ.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} የምልክት ደረጃዎች ተወስደዋል። ለማመልከት እርምጃውን ያስቀምጡ።",
+  "Recording canceled.": "የእጅ ምልክት ቀረጻ ተሰርዟል።",
+  "Recording stages": "የምልክት ደረጃዎች ብዛት",
+  "Recording timed out": "የእጅ ምልክት ቀረጻ ጊዜው አልፏል",
+  "Recording timed out. Start recording again.": "የእጅ ምልክት ቀረጻ ጊዜው አልፏል። ምልክቱን እንደገና ይሳሉ።",
+  "Start recording again.": "ምልክቱን እንደገና መሳል ይጀምሩ።",
+  "The application executable was not found: {0}": "ተፈፃሚ የሆነው መተግበሪያ አልተገኘም: {0}"
 }

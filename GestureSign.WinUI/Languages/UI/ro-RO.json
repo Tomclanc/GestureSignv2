@@ -732,5 +732,18 @@
   "Download unavailable": "Descărcarea indisponibilă",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Descărcarea GitHub nu este disponibilă. Încercați din nou mai târziu sau alegeți Instalare din ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Meniurile au fost salvate, dar timpul de execuție nu a confirmat reîncărcarea comenzii rapide.",
-  "Could not start the pie menu preview.": "Nu s-a putut porni previzualizarea meniului plăcintă."
+  "Could not start the pie menu preview.": "Nu s-a putut porni previzualizarea meniului plăcintă.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "După pornire, desenați gestul pe touchpad sau pe ecranul tactil. Ridicați toate degetele după fiecare etapă. Gestul este salvat după ce desenați toate etapele selectate.",
+  "Could not start GestureSign V2.": "Nu s-a putut porni GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete este rezervat de Windows și nu poate fi trimis printr-un gest.",
+  "Finish or clear the recording first.": "Terminați desenul sau ștergeți mai întâi gestul înregistrat.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 a fost actualizat, dar nu a putut reporni automat. Deschideți-l din meniul Start sau din folderul de instalare. Detalii: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Desenați {0} etape ale gestului. Ridicați toate degetele după fiecare etapă.",
+  "Recorded {0} stage(s). Save the action to apply.": "S-au capturat {0} etape de gesturi. Salvați acțiunea pentru aplicare.",
+  "Recording canceled.": "Înregistrarea gesturilor a fost anulată.",
+  "Recording stages": "Numărul de etape de gesturi",
+  "Recording timed out": "Înregistrarea gesturilor a expirat",
+  "Recording timed out. Start recording again.": "Înregistrarea gesturilor a expirat. Desenați din nou gestul.",
+  "Start recording again.": "Începeți să desenați din nou gestul.",
+  "The application executable was not found: {0}": "Aplicația executabilă nu a fost găsită: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Йөкләү мөмкин түгел",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub йөкләү мөмкин түгел. Соңрак кабатлап карагыз яки ZIP-тан урнаштыруны сайлагыз.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Менюлар сакланды, ләкин эш вакыты кыска юлны яңадан расламады.",
-  "Could not start the pie menu preview.": "Пирог менюсын алдан карый алмыйм."
+  "Could not start the pie menu preview.": "Пирог менюсын алдан карый алмыйм.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Башлап җибәргәннән соң, ишарәләрегезне сенсор тактасына яки сенсор экранына сызыгыз. Stageәр этаптан соң барлык бармакларны күтәрегез. Ишарә барлык сайланган этапларны ясаганнан соң саклана.",
+  "Could not start GestureSign V2.": "GestureSign V2 башлый алмый.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl + Alt + Delete Windows тарафыннан сакланган һәм ишарә белән җибәреп булмый.",
+  "Finish or clear the recording first.": "Башта рәсемне тәмамлагыз яки язылган ишарәне чистартыгыз.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 яңартылды, ләкин автоматик рәвештә яңадан эшли алмады. Аны Старт менюсыннан яки урнаштыру папкасыннан ачыгыз. Детальләр: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Ишарәнең {0} этапларын сызыгыз. Stageәр этаптан соң барлык бармакларны күтәрегез.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} ишарә этаплары. Куллану өчен эшне саклагыз.",
+  "Recording canceled.": "Ишарә язуы юкка чыгарылды.",
+  "Recording stages": "Ишарә этаплары саны",
+  "Recording timed out": "Ишарә язу вакыты бетте",
+  "Recording timed out. Start recording again.": "Ишарә язу вакыты бетте. Ишарәне кабат сызыгыз.",
+  "Start recording again.": "Ишарәне яңадан сыза башлагыз.",
+  "The application executable was not found: {0}": "Башкарыла торган кушымта табылмады: {0}"
 }

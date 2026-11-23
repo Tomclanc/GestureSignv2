@@ -732,5 +732,18 @@
   "Download unavailable": "Pobieranie niedostępne",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Pobieranie z GitHub jest niedostępne. Spróbuj ponownie później lub wybierz opcję Zainstaluj z ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menu zostały zapisane, ale środowisko wykonawcze nie potwierdziło ponownego załadowania skrótu.",
-  "Could not start the pie menu preview.": "Nie można uruchomić podglądu menu kołowego."
+  "Could not start the pie menu preview.": "Nie można uruchomić podglądu menu kołowego.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Po uruchomieniu narysuj swój gest na touchpadzie lub ekranie dotykowym. Po każdym etapie podnieś wszystkie palce. Gest zostanie zapisany po narysowaniu wszystkich wybranych etapów.",
+  "Could not start GestureSign V2.": "Nie można uruchomić GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete jest zarezerwowane przez system Windows i nie można go wysłać gestem.",
+  "Finish or clear the recording first.": "Najpierw zakończ rysowanie lub usuń nagrany gest.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 został zaktualizowany, ale nie mógł automatycznie uruchomić się ponownie. Otwórz go z menu Start lub folderu instalacyjnego. Szczegóły: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Narysuj {0} etapów gestu. Po każdym etapie podnieś wszystkie palce.",
+  "Recorded {0} stage(s). Save the action to apply.": "Przechwycono {0} etapów gestów. Zapisz akcję, aby ją zastosować.",
+  "Recording canceled.": "Nagrywanie gestów zostało anulowane.",
+  "Recording stages": "Liczba etapów gestu",
+  "Recording timed out": "Upłynął limit czasu nagrywania gestów",
+  "Recording timed out. Start recording again.": "Upłynął limit czasu nagrywania gestów. Narysuj gest ponownie.",
+  "Start recording again.": "Zacznij rysować gest ponownie.",
+  "The application executable was not found: {0}": "Nie znaleziono pliku wykonywalnego aplikacji: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Atsisiuntimas nepasiekiamas",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "„GitHub“ atsisiuntimas nepasiekiamas. Bandykite dar kartą vėliau arba pasirinkite Įdiegti iš ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Meniu buvo išsaugotas, bet vykdymo laikas nepatvirtino sparčiojo klavišo įkėlimo iš naujo.",
-  "Could not start the pie menu preview.": "Nepavyko paleisti pyrago meniu peržiūros."
+  "Could not start the pie menu preview.": "Nepavyko paleisti pyrago meniu peržiūros.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Pradėję nupieškite gestą jutikliniame kilimėlyje arba jutikliniame ekrane. Po kiekvieno etapo pakelkite visus pirštus. Gestas išsaugomas, kai nupiešite visus pasirinktus etapus.",
+  "Could not start GestureSign V2.": "Nepavyko paleisti GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "„Ctrl“ + „Alt“ + „Delete“ yra rezervuota „Windows“ ir jų negalima išsiųsti gestu.",
+  "Finish or clear the recording first.": "Pirmiausia užbaikite piešti arba išvalykite įrašytą gestą.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 buvo atnaujintas, bet negalėjo automatiškai paleisti iš naujo. Atidarykite jį iš meniu Pradėti arba diegimo aplanke. Išsamiau: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Nubrėžkite {0} gesto etapus. Po kiekvieno etapo pakelkite visus pirštus.",
+  "Recorded {0} stage(s). Save the action to apply.": "Užfiksavo {0} gestų etapą. Išsaugokite veiksmą, kad galėtumėte taikyti.",
+  "Recording canceled.": "Gesto įrašymas atšauktas.",
+  "Recording stages": "Gestų etapų skaičius",
+  "Recording timed out": "Baigėsi gestų įrašymo skirtasis laikas",
+  "Recording timed out. Start recording again.": "Baigėsi gestų įrašymo skirtasis laikas. Dar kartą nupieškite gestą.",
+  "Start recording again.": "Vėl pradėkite piešti gestą.",
+  "The application executable was not found: {0}": "Vykdomoji programa nerasta: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "ڈاؤن لوڈ دستیاب نہیں ہے۔",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ڈاؤن لوڈ دستیاب نہیں ہے۔ بعد میں دوبارہ کوشش کریں یا زپ سے انسٹال کو منتخب کریں۔",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "مینوز محفوظ ہو گئے تھے، لیکن رن ٹائم نے شارٹ کٹ دوبارہ لوڈ ہونے کی تصدیق نہیں کی۔",
-  "Could not start the pie menu preview.": "پائی مینو کا پیش نظارہ شروع نہیں کیا جا سکا۔"
+  "Could not start the pie menu preview.": "پائی مینو کا پیش نظارہ شروع نہیں کیا جا سکا۔",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "شروع کرنے کے بعد، ٹچ پیڈ یا ٹچ اسکرین پر اپنا اشارہ کھینچیں۔ ہر مرحلے کے بعد تمام انگلیاں اٹھائیں۔ آپ کے تمام منتخب مراحل کو ڈرا کرنے کے بعد اشارہ محفوظ ہو جاتا ہے۔",
+  "Could not start GestureSign V2.": "GestureSign V2 شروع نہیں ہو سکا۔",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ونڈوز کے ذریعے محفوظ ہے اور اسے اشارے سے نہیں بھیجا جا سکتا۔",
+  "Finish or clear the recording first.": "پہلے ڈرائنگ مکمل کریں یا ریکارڈ شدہ اشارہ صاف کریں۔",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 کو اپ ڈیٹ کر دیا گیا تھا، لیکن خود بخود دوبارہ شروع نہیں ہو سکا۔ اسے اسٹارٹ مینو یا انسٹالیشن فولڈر سے کھولیں۔ تفصیلات: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "اشارے کے {0} مراحل کھینچیں۔ ہر مرحلے کے بعد تمام انگلیاں اٹھائیں۔",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} اشاروں کے مراحل پر قبضہ کیا گیا۔ لاگو کرنے کے لیے کارروائی کو محفوظ کریں۔",
+  "Recording canceled.": "اشاروں کی ریکارڈنگ منسوخ کر دی گئی۔",
+  "Recording stages": "اشارے کے مراحل کی تعداد",
+  "Recording timed out": "اشاروں کی ریکارڈنگ کا وقت ختم ہو گیا۔",
+  "Recording timed out. Start recording again.": "اشاروں کی ریکارڈنگ کا وقت ختم ہو گیا۔ اشارہ دوبارہ کھینچیں۔",
+  "Start recording again.": "اشارہ دوبارہ بنانا شروع کریں۔",
+  "The application executable was not found: {0}": "قابل عمل درخواست نہیں ملی: {0}"
 }

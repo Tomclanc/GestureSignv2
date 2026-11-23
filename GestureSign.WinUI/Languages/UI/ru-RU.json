@@ -732,5 +732,18 @@
   "Download unavailable": "Загрузка недоступна",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Загрузка с GitHub недоступна. Повторите попытку позже или выберите «Установить из ZIP».",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Меню сохранились, но среда выполнения не подтвердила перезагрузку ярлыка.",
-  "Could not start the pie menu preview.": "Не удалось запустить предварительный просмотр кругового меню."
+  "Could not start the pie menu preview.": "Не удалось запустить предварительный просмотр кругового меню.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "После запуска нарисуйте жест на сенсорной панели или сенсорном экране. Поднимайте все пальцы после каждого этапа. Жест сохраняется после того, как вы нарисуете все выбранные этапы.",
+  "Could not start GestureSign V2.": "Не удалось запустить GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete зарезервировано Windows и не может быть отправлено жестом.",
+  "Finish or clear the recording first.": "Сначала завершите рисование или удалите записанный жест.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 был обновлен, но не смог автоматически перезапуститься. Откройте его из меню «Пуск» или папки установки. Детали: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Нарисуйте {0} стадию жеста. Поднимайте все пальцы после каждого этапа.",
+  "Recorded {0} stage(s). Save the action to apply.": "Захвачено {0} стадий жестов. Сохраните действие, чтобы применить его.",
+  "Recording canceled.": "Запись жестов отменена.",
+  "Recording stages": "Количество этапов жестов",
+  "Recording timed out": "Время записи жестов истекло",
+  "Recording timed out. Start recording again.": "Время записи жестов истекло. Нарисуйте жест еще раз.",
+  "Start recording again.": "Начните рисовать жест снова.",
+  "The application executable was not found: {0}": "Исполняемый файл приложения не найден: {0}"
 }

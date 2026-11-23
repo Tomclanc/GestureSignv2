@@ -732,5 +732,18 @@
   "Download unavailable": "Shkarkimi nuk ofrohet",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Shkarkimi i GitHub nuk është i disponueshëm. Provo sërish më vonë ose zgjidh Instalo nga ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menytë u ruajtën, por koha e ekzekutimit nuk konfirmoi ringarkimin e shkurtores.",
-  "Could not start the pie menu preview.": "Nuk mund të fillonte pamjen paraprake të menysë së byrekut."
+  "Could not start the pie menu preview.": "Nuk mund të fillonte pamjen paraprake të menysë së byrekut.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Pas fillimit, vizatoni gjestin tuaj në tastierën me prekje ose në ekranin me prekje. Ngrini të gjithë gishtat pas çdo faze. Gjesti ruhet pasi të vizatoni të gjitha fazat e zgjedhura.",
+  "Could not start GestureSign V2.": "GestureSign V2 nuk mund të nisej.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete është i rezervuar nga Windows dhe nuk mund të dërgohet me gjeste.",
+  "Finish or clear the recording first.": "Përfundoni së pari vizatimin ose pastroni gjestin e regjistruar.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 u përditësua, por nuk mundi të rifillojë automatikisht. Hapeni atë nga menyja Start ose dosja e instalimit. Detajet: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Vizatoni {0} faza të gjestit. Ngrini të gjithë gishtat pas çdo faze.",
+  "Recorded {0} stage(s). Save the action to apply.": "Kapur {0} faza gjestesh. Ruani veprimin për të aplikuar.",
+  "Recording canceled.": "Regjistrimi i gjesteve u anulua.",
+  "Recording stages": "Numri i fazave të gjesteve",
+  "Recording timed out": "Koha e regjistrimit të gjesteve mbaroi",
+  "Recording timed out. Start recording again.": "Koha e regjistrimit të gjesteve mbaroi. Vizatoni përsëri gjestin.",
+  "Start recording again.": "Filloni të vizatoni përsëri gjestin.",
+  "The application executable was not found: {0}": "Aplikacioni i ekzekutueshëm nuk u gjet: {0}"
 }

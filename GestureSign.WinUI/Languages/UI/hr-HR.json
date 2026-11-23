@@ -732,5 +732,18 @@
   "Download unavailable": "Preuzimanje nije dostupno",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Preuzimanje GitHuba nije dostupno. Pokušajte ponovo kasnije ili odaberite Instaliraj iz ZIP-a.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Izbornici su spremljeni, ali vrijeme izvođenja nije potvrdilo ponovno učitavanje prečaca.",
-  "Could not start the pie menu preview.": "Nije moguće pokrenuti pregled tortnog izbornika."
+  "Could not start the pie menu preview.": "Nije moguće pokrenuti pregled tortnog izbornika.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Nakon pokretanja nacrtajte svoju gestu na dodirnoj podlozi ili dodirnom zaslonu. Podignite sve prste nakon svake faze. Pokret se sprema nakon što nacrtate sve odabrane faze.",
+  "Could not start GestureSign V2.": "Nije moguće pokrenuti GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete rezerviran je za Windows i ne može se poslati pokretom.",
+  "Finish or clear the recording first.": "Prvo dovršite crtanje ili obrišite snimljenu gestu.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 je ažuriran, ali se nije mogao automatski ponovno pokrenuti. Otvorite ga iz izbornika Start ili instalacijske mape. Detalji: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Nacrtajte {0} faza geste. Podignite sve prste nakon svake faze.",
+  "Recorded {0} stage(s). Save the action to apply.": "Snimljeno {0} faza geste. Spremite radnju za primjenu.",
+  "Recording canceled.": "Snimanje pokreta otkazano.",
+  "Recording stages": "Broj faza geste",
+  "Recording timed out": "Isteklo je vrijeme snimanja pokreta",
+  "Recording timed out. Start recording again.": "Isteklo je vrijeme snimanja pokreta. Ponovno nacrtajte gestu.",
+  "Start recording again.": "Ponovno počnite crtati gestu.",
+  "The application executable was not found: {0}": "Izvršna datoteka aplikacije nije pronađena: {0}"
 }

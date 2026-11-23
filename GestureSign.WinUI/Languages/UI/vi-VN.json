@@ -732,5 +732,18 @@
   "Download unavailable": "Tải xuống không có sẵn",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Tải xuống GitHub không có sẵn. Hãy thử lại sau hoặc chọn Cài đặt từ ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Các menu đã được lưu nhưng thời gian chạy không xác nhận việc tải lại phím tắt.",
-  "Could not start the pie menu preview.": "Không thể bắt đầu xem trước menu bánh."
+  "Could not start the pie menu preview.": "Không thể bắt đầu xem trước menu bánh.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Sau khi bắt đầu, hãy vẽ cử chỉ của bạn trên bàn di chuột hoặc màn hình cảm ứng. Nhấc tất cả các ngón tay sau mỗi giai đoạn. Cử chỉ được lưu sau khi bạn vẽ tất cả các giai đoạn đã chọn.",
+  "Could not start GestureSign V2.": "Không thể khởi động GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete được Windows dành riêng và không thể gửi bằng cử chỉ.",
+  "Finish or clear the recording first.": "Hãy hoàn tất việc vẽ hoặc xóa cử chỉ đã ghi trước.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 đã được cập nhật nhưng không thể tự động khởi động lại. Mở nó từ menu Bắt đầu hoặc thư mục cài đặt. Chi tiết: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Vẽ {0} giai đoạn của cử chỉ. Nhấc tất cả các ngón tay sau mỗi giai đoạn.",
+  "Recorded {0} stage(s). Save the action to apply.": "Đã chụp được {0} giai đoạn cử chỉ. Lưu hành động để áp dụng.",
+  "Recording canceled.": "Đã hủy ghi âm cử chỉ.",
+  "Recording stages": "Số giai đoạn cử chỉ",
+  "Recording timed out": "Đã hết thời gian ghi cử chỉ",
+  "Recording timed out. Start recording again.": "Đã hết thời gian ghi cử chỉ. Vẽ lại cử chỉ.",
+  "Start recording again.": "Bắt đầu vẽ lại cử chỉ.",
+  "The application executable was not found: {0}": "Không tìm thấy ứng dụng thực thi: {0}"
 }

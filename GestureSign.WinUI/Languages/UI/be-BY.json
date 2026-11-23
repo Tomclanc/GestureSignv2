@@ -732,5 +732,18 @@
   "Download unavailable": "Спампоўка недаступная",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Спампоўка GitHub недаступная. Паўтарыце спробу пазней або выберыце «Усталяваць з ZIP».",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Меню былі захаваны, але час выканання не пацвердзіў перазагрузку хуткага доступу.",
-  "Could not start the pie menu preview.": "Не атрымалася запусціць папярэдні прагляд кругавога меню."
+  "Could not start the pie menu preview.": "Не атрымалася запусціць папярэдні прагляд кругавога меню.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Пасля запуску намалюйце свой жэст на сэнсарнай панэлі або сэнсарным экране. Пасля кожнага этапу падымайце ўсе пальцы. Жэст захоўваецца пасля таго, як вы намалюеце ўсе выбраныя этапы.",
+  "Could not start GestureSign V2.": "Не атрымалася запусціць GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete зарэзервавана Windows і не можа быць адпраўлена жэстам.",
+  "Finish or clear the recording first.": "Спачатку скончыце маляваць або ачысціце запісаны жэст.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 быў абноўлены, але не можа перазагрузіцца аўтаматычна. Адкрыйце яго з меню «Пуск» або з тэчкі ўстаноўкі. Падрабязная інфармацыя: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Намалюйце {0} этап жэсту. Пасля кожнага этапу падымайце ўсе пальцы.",
+  "Recorded {0} stage(s). Save the action to apply.": "Зафіксавана {0} этапаў жэстаў. Захавайце дзеянне, каб прымяніць.",
+  "Recording canceled.": "Запіс жэстаў скасаваны.",
+  "Recording stages": "Колькасць этапаў жэстаў",
+  "Recording timed out": "Час чакання запісу жэстаў скончыўся",
+  "Recording timed out. Start recording again.": "Час чакання запісу жэстаў скончыўся. Намалюйце жэст яшчэ раз.",
+  "Start recording again.": "Пачніце маляваць жэст зноўку.",
+  "The application executable was not found: {0}": "Выкананы файл прыкладання не знойдзены: {0}"
 }

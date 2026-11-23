@@ -732,5 +732,18 @@
   "Download unavailable": "Babu saukewa",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Babu zazzagewar GitHub. A sake gwadawa daga baya ko zaɓi Shigar daga ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "An ajiye menus, amma lokacin aiki bai tabbatar da sake shigar da gajeriyar hanyar ba.",
-  "Could not start the pie menu preview.": "An kasa fara samfotin menu na kek."
+  "Could not start the pie menu preview.": "An kasa fara samfotin menu na kek.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Bayan farawa, zana motsin motsinku akan faifan taɓawa ko allon taɓawa. Ɗaga duk yatsu bayan kowane mataki. An ajiye motsin bayan kun zana duk matakan da aka zaɓa.",
+  "Could not start GestureSign V2.": "An kasa fara GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete an tanada shi ta Windows kuma ba za a iya aika shi ta hanyar motsi ba.",
+  "Finish or clear the recording first.": "Kammala zane ko share alamar da aka yi rikodi da farko.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "An sabunta GestureSign V2, amma ba zai iya sake farawa ta atomatik ba. Buɗe shi daga menu na Fara ko babban fayil ɗin shigarwa. Takardar bayanai:{0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Zana {0} matakan karimcin. Ɗaga duk yatsu bayan kowane mataki.",
+  "Recorded {0} stage(s). Save the action to apply.": "Ɗauki matakan karimcin {0}. Ajiye aikin don nema.",
+  "Recording canceled.": "An soke yin rikodin motsi.",
+  "Recording stages": "Yawan matakan motsi",
+  "Recording timed out": "Rikodin motsi ya ƙare",
+  "Recording timed out. Start recording again.": "Rikodin motsi ya ƙare. Zana motsin motsi kuma.",
+  "Start recording again.": "Fara zana motsin motsi kuma.",
+  "The application executable was not found: {0}": "Ba a sami aikace-aikacen aiwatarwa ba: {0}"
 }

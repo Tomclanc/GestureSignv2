@@ -732,5 +732,18 @@
   "Download unavailable": "Download indisponível",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "O download do GitHub não está disponível. Tente novamente mais tarde ou escolha Instalar do ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Os menus foram salvos, mas o tempo de execução não confirmou a recarga do atalho.",
-  "Could not start the pie menu preview.": "Não foi possível iniciar a visualização do menu circular."
+  "Could not start the pie menu preview.": "Não foi possível iniciar a visualização do menu circular.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Após iniciar, desenhe seu gesto no touchpad ou na tela sensível ao toque. Levante todos os dedos após cada etapa. O gesto é salvo após você desenhar todos os estágios selecionados.",
+  "Could not start GestureSign V2.": "Não foi possível iniciar o GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete é reservado pelo Windows e não pode ser enviado por gesto.",
+  "Finish or clear the recording first.": "Termine de desenhar ou apague primeiro o gesto gravado.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "O GestureSign V2 foi atualizado, mas não pôde ser reiniciado automaticamente. Abra-o no menu Iniciar ou na pasta de instalação. Detalhes: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Desenhe {0} etapas do gesto. Levante todos os dedos após cada etapa.",
+  "Recorded {0} stage(s). Save the action to apply.": "Capturou {0} estágios de gestos. Salve a ação para aplicar.",
+  "Recording canceled.": "Gravação de gesto cancelada.",
+  "Recording stages": "Número de estágios de gesto",
+  "Recording timed out": "A gravação de gestos expirou",
+  "Recording timed out. Start recording again.": "A gravação de gestos expirou. Desenhe o gesto novamente.",
+  "Start recording again.": "Comece a desenhar o gesto novamente.",
+  "The application executable was not found: {0}": "O executável do aplicativo não foi encontrado: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Luchdaich sìos nach eil ri fhaighinn",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Chan eil an luchdachadh sìos GitHub ri fhaighinn. Feuch ris a-rithist nas fhaide air adhart no tagh Stàlaich bho ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Chaidh clàran-bìdh a shàbhaladh, ach cha do dhearbh an ùine ruith an ath-ghoirid ath-luchdachadh.",
-  "Could not start the pie menu preview.": "Cha b' urrainn dhuinn ro-shealladh a' chlàr-taice pie a thòiseachadh."
+  "Could not start the pie menu preview.": "Cha b' urrainn dhuinn ro-shealladh a' chlàr-taice pie a thòiseachadh.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Às deidh dhut tòiseachadh, tarraing do ghluasad air an touchpad no touchscreen. Tog a h-uile corragan às deidh gach ìre. Thèid an gluasad-bodhaig a shàbhaladh às deidh dhut a h-uile ìre taghte a tharraing.",
+  "Could not start GestureSign V2.": "Cha b’ urrainn dhuinn tòiseachadh air GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Tha Ctrl+Alt+Delete air a ghlèidheadh ​​le Windows agus chan urrainnear a chuir le gluasad-bodhaig.",
+  "Finish or clear the recording first.": "Crìochnaich an dealbh no cuir às don ghluasad clàraichte an toiseach.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Chaidh GestureSign V2 ùrachadh, ach cha b' urrainn dha ath-thòiseachadh gu fèin-obrachail. Fosgail e bhon chlàr tòiseachaidh no am pasgan stàlaidh. Fiosrachadh: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tarraing {0} ìrean den ghluasad. Tog a h-uile corragan às deidh gach ìre.",
+  "Recorded {0} stage(s). Save the action to apply.": "Air a ghlacadh {0} ìrean gluasad-bodhaig. Sàbhail an gnìomh gus tagradh a dhèanamh.",
+  "Recording canceled.": "Chaidh clàradh gluasad-bodhaig a chuir dheth.",
+  "Recording stages": "An àireamh de ìrean gluasad-bodhaig",
+  "Recording timed out": "Chaidh ùine seachad air clàradh gluasad-bodhaig",
+  "Recording timed out. Start recording again.": "Chaidh ùine seachad air clàradh gluasad-bodhaig. Tarraing an gluasad a-rithist.",
+  "Start recording again.": "Tòisich a 'tarraing an gluasad-bodhaig a-rithist.",
+  "The application executable was not found: {0}": "Cha deach an t-iarrtas so-ghnìomhaichte a lorg: {0}"
 }

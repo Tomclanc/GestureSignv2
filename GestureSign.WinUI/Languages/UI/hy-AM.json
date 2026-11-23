@@ -732,5 +732,18 @@
   "Download unavailable": "Ներբեռնումն անհասանելի է",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-ի ներբեռնումն անհասանելի է: Փորձեք ավելի ուշ կամ ընտրեք Տեղադրել ZIP-ից:",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Ցանկերը պահպանվեցին, բայց գործարկման ժամանակը չհաստատեց դյուրանցման վերաբեռնումը:",
-  "Could not start the pie menu preview.": "Չհաջողվեց սկսել կարկանդակի ընտրացանկի նախադիտումը:"
+  "Could not start the pie menu preview.": "Չհաջողվեց սկսել կարկանդակի ընտրացանկի նախադիտումը:",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Սկսելուց հետո նկարեք ձեր ժեստը սենսորային վահանակի կամ սենսորային էկրանի վրա: Յուրաքանչյուր փուլից հետո բարձրացրեք բոլոր մատները: Ժեստը պահպանվում է բոլոր ընտրված փուլերը նկարելուց հետո:",
+  "Could not start GestureSign V2.": "Չհաջողվեց գործարկել GestureSign V2-ը:",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete-ը վերապահված է Windows-ի կողմից և չի կարող ուղարկվել ժեստով:",
+  "Finish or clear the recording first.": "Ավարտեք նկարը կամ ջնջեք ձայնագրված ժեստը:",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2-ը թարմացվել է, բայց չի կարողացել ինքնաբերաբար վերագործարկել: Բացեք այն Start ընտրացանկից կամ տեղադրման թղթապանակից: Մանրամասները՝ {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Նկարեք ժեստի {0} փուլ: Յուրաքանչյուր փուլից հետո բարձրացրեք բոլոր մատները:",
+  "Recorded {0} stage(s). Save the action to apply.": "Նկարագրվել է {0} ժեստերի փուլ: Պահպանեք գործողությունը՝ կիրառելու համար:",
+  "Recording canceled.": "Ժեստերի ձայնագրումը չեղարկվել է:",
+  "Recording stages": "Ժեստերի փուլերի քանակը",
+  "Recording timed out": "Ժեստերի ձայնագրման ժամանակը սպառվել է",
+  "Recording timed out. Start recording again.": "Ժեստերի ձայնագրման ժամանակը սպառվել է: Կրկին նկարեք ժեստը:",
+  "Start recording again.": "Նորից սկսեք նկարել ժեստը:",
+  "The application executable was not found: {0}": "Գործարկվող հավելվածը չի գտնվել՝ {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "डाउनलोड अनुपलब्ध",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub डाउनलोड अनुपलब्ध है. बाद में पुनः प्रयास करें या ज़िप से इंस्टॉल चुनें।",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "मेनू सहेजे गए, लेकिन रनटाइम ने शॉर्टकट पुनः लोड की पुष्टि नहीं की।",
-  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन प्रारंभ नहीं किया जा सका."
+  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन प्रारंभ नहीं किया जा सका.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "शुरू करने के बाद, टचपैड या टचस्क्रीन पर अपना इशारा बनाएं। प्रत्येक चरण के बाद सभी अंगुलियाँ उठाएँ। आपके द्वारा सभी चयनित चरणों को बनाने के बाद इशारा सहेजा जाता है।",
+  "Could not start GestureSign V2.": "जेस्चरसाइन V2 प्रारंभ नहीं हो सका.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete विंडोज़ द्वारा आरक्षित है और इसे जेस्चर द्वारा नहीं भेजा जा सकता है।",
+  "Finish or clear the recording first.": "पहले ड्राइंग समाप्त करें या रिकॉर्ड किए गए हावभाव को साफ़ करें।",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "जेस्चरसाइन V2 अद्यतन किया गया था, लेकिन स्वचालित रूप से पुनरारंभ नहीं हो सका। इसे स्टार्ट मेनू या इंस्टॉलेशन फ़ोल्डर से खोलें। विवरण: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "इशारे के {0} चरण बनाएं। प्रत्येक चरण के बाद सभी अंगुलियाँ उठाएँ।",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} जेस्चर चरणों को कैप्चर किया गया। लागू करने की क्रिया सहेजें.",
+  "Recording canceled.": "जेस्चर रिकॉर्डिंग रद्द कर दी गई.",
+  "Recording stages": "इशारा चरणों की संख्या",
+  "Recording timed out": "जेस्चर रिकॉर्डिंग का समय समाप्त हो गया",
+  "Recording timed out. Start recording again.": "जेस्चर रिकॉर्डिंग का समय समाप्त हो गया. फिर से इशारा बनाएं.",
+  "Start recording again.": "इशारा फिर से बनाना शुरू करें.",
+  "The application executable was not found: {0}": "एप्लिकेशन निष्पादन योग्य नहीं मिला: {0}"
 }

@@ -177,7 +177,13 @@ public sealed partial class MainWindow : Window
         _uiCultureName = _legacyData.Options.CultureName;
         ApplyUiCulture(_uiCultureName);
         ApplyUiFlowDirection();
-        _trainingPipeServer = new TrainingPipeServer((points, device, button) => DispatcherQueue.TryEnqueue(async () => { if (_trainingPipeServer?.IsRunning != true) return; _pendingTrainingInput?.Invoke(device, button); await SaveTrainedGestureAsync(points); }));
+        _trainingPipeServer = new TrainingPipeServer((recording, device, button, cancellation) =>
+            DispatcherQueue.TryEnqueue(async () =>
+            {
+                if (cancellation.IsCancellationRequested) return;
+                _pendingTrainingInput?.Invoke(device, button);
+                await SaveTrainedGestureAsync(recording);
+            }));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
         _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
@@ -3354,74 +3360,107 @@ public sealed partial class MainWindow : Window
 
     private async Task StartDaemonGestureTrainingAsync()
     {
+        if (_trainingPipeServer.IsRunning) return;
         var name = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Text = T("新手势", "New Gesture") };
+        var stages = NewGestureStagePicker();
         var panel = NewCardPanel(8);
         panel.Children.Add(name);
-        panel.Children.Add(new TextBlock { Text = T("点击开始后，请用触控板/触摸屏绘制真实多指手势。后台捕获完成后会自动保存。", "Click Start, then draw a real multi-finger gesture on the touchpad or touchscreen. It is saved automatically after capture."), TextWrapping = TextWrapping.Wrap, Opacity = 0.68 });
+        panel.Children.Add(stages);
+        panel.Children.Add(new TextBlock { Text = T("点击开始后，用触控板或触摸屏录制。每段结束时抬起所有手指，录完所选段数后自动保存。", "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded."), TextWrapping = TextWrapping.Wrap, Opacity = 0.68 });
         if (!await ConfirmDialogAsync(T("后台训练手势", "Background Training"), panel, T("开始", "Start")))
             return;
 
         _pendingTrainingGestureName = name.Text;
-        _trainingPipeServer.Start();
-        if (!await NotifyDaemonAsync(DaemonCommand.StartTeaching))
+        var cancellation = _trainingPipeServer.Start();
+        if (await NotifyDaemonAsync(TrainingCommand(stages.SelectedIndex + 1)))
+        {
+            _ = WatchTrainingTimeoutAsync(cancellation);
+        }
+        else
         {
             _trainingPipeServer.Stop();
+            _pendingTrainingGestureName = null;
             await ShowInfoDialog(T("后台未运行", "Background service is not running"), T("没有连接到后台托盘，已切换为手绘训练。", "The background service is not connected. Switched to drawing mode."));
             await DrawGestureAsync(null);
         }
     }
 
+    private ComboBox NewGestureStagePicker() => new()
+    {
+        Header = T("录制段数", "Recording stages"),
+        ItemsSource = new[] { 1, 2, 3 },
+        SelectedIndex = 0
+    };
+
+    private static DaemonCommand TrainingCommand(int stages) => stages switch
+    {
+        2 => DaemonCommand.StartTeachingTwoStages,
+        3 => DaemonCommand.StartTeachingThreeStages,
+        _ => DaemonCommand.StartTeaching
+    };
+
+    private sealed record GestureTrainingRecording(IReadOnlyList<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> Stages);
     private Action<int, int>? _pendingTrainingInput;
     private string? _pendingTrainingGestureName;
-    private Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>>? _pendingTrainingPreview;
+    private Action<GestureTrainingRecording>? _pendingTrainingPreview;
 
-    private async Task SaveTrainedGestureAsync(IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
+    private async Task SaveTrainedGestureAsync(GestureTrainingRecording recording)
     {
-        var editorStatus = _pendingTrainingStatus;
-        await NotifyDaemonAsync(DaemonCommand.StopTraining);
-        if (editorStatus != null && !ReferenceEquals(editorStatus, _pendingTrainingStatus)) return;
-        _trainingPipeServer.Stop();
-
         var name = string.IsNullOrWhiteSpace(_pendingTrainingGestureName) ? T("新手势", "New Gesture") : _pendingTrainingGestureName;
-
-        if (_pendingTrainingStatus is not null)
+        var status = _pendingTrainingStatus;
+        var preview = _pendingTrainingPreview;
+        var stopTraining = StopEditorTrainingAsync();
+        if (status is not null)
         {
-            _pendingTrainingStatus.Text = F("已录制手势 {0}，点击保存后生效。", "Recorded gesture {0}. Click Save to apply it.", name);
-            _pendingTrainingPreview?.Invoke(pointPatterns);
-            _pendingTrainingGestureName = null;
-            _pendingTrainingStatus = null;
-            _pendingTrainingPreview = null;
-            _pendingTrainingInput = null;
+            status.Text = F("已录制 {0} 段，保存动作后生效。", "Recorded {0} stage(s). Save the action to apply.", recording.Stages.Count);
+            preview?.Invoke(recording);
+            await stopTraining;
             return;
         }
 
-        _legacyData.SaveGesturePointPatternsForAction(name, null, pointPatterns);
+        await stopTraining;
+        _legacyData.SaveGestureStagesForAction(name, null, recording.Stages);
         _legacyData = LegacyDataStore.Load();
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
-        _pendingTrainingGestureName = null;
-        _pendingTrainingPreview = null;
-            _pendingTrainingInput = null;
         ReloadData();
         await ShowInfoDialog(T("训练完成", "Training complete"), F("已保存手势 {0}。", "Saved gesture {0}.", name));
     }
 
-    private async Task StartGestureTrainingForNameAsync(string gestureName, TextBlock status, Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>>? preview = null)
+    private async Task StartGestureTrainingForNameAsync(string gestureName, int stageCount, TextBlock status, Action<GestureTrainingRecording> preview)
     {
         _pendingTrainingGestureName = string.IsNullOrWhiteSpace(gestureName) ? T("新手势", "New Gesture") : gestureName;
         _pendingTrainingStatus = status;
         _pendingTrainingPreview = preview;
-        _trainingPipeServer.Start();
-        status.Text = T("请现在用触控板绘制手势，完成后会自动保存到当前手势图案。", "Draw a gesture on the touchpad now. The completed pattern is saved automatically.");
-        if (await NotifyDaemonAsync(DaemonCommand.StartTeaching))
+        var cancellation = _trainingPipeServer.Start();
+        status.Text = F("请录制 {0} 段手势，每段结束时抬起所有手指。", "Record {0} stage(s), lifting all fingers after each stage.", stageCount);
+        if (await NotifyDaemonAsync(TrainingCommand(stageCount)))
+        {
+            _ = WatchTrainingTimeoutAsync(cancellation);
             return;
+        }
 
+        if (cancellation.IsCancellationRequested) return;
         _trainingPipeServer.Stop();
         _pendingTrainingGestureName = null;
         _pendingTrainingStatus = null;
         _pendingTrainingPreview = null;
-            _pendingTrainingInput = null;
+        _pendingTrainingInput = null;
         status.Text = T("后台识别服务未连接，无法捕捉触控板原始轨迹。可以先确认托盘服务已启动。", "The background recognition service is not connected, so touchpad strokes cannot be captured. Check that the tray service is running.");
+    }
+
+    private async Task WatchTrainingTimeoutAsync(System.Threading.CancellationToken cancellation)
+    {
+        try { await Task.Delay(TimeSpan.FromSeconds(31), cancellation); }
+        catch (OperationCanceledException) { return; }
+        if (cancellation.IsCancellationRequested) return;
+
+        var status = _pendingTrainingStatus;
+        await StopEditorTrainingAsync();
+        if (status is not null)
+            status.Text = T("录制超时，可以重新录制。", "Recording timed out. Start recording again.");
+        else
+            await ShowInfoDialog(T("录制超时", "Recording timed out"), T("请重新开始录制。", "Start recording again."));
     }
 
     private async Task DrawGestureAsync(LegacyGesture? gesture)
@@ -7836,7 +7875,9 @@ public sealed partial class MainWindow : Window
         DisableRecognition = 10,
         Exit = 11,
         Ping = 13,
-        InputHealth = 15
+        InputHealth = 15,
+        StartTeachingTwoStages = 16,
+        StartTeachingThreeStages = 17
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);
@@ -7902,21 +7943,23 @@ public sealed partial class MainWindow : Window
 
     private sealed class TrainingPipeServer
     {
-        private readonly Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>, int, int> _onGesture;
+        private readonly Action<GestureTrainingRecording, int, int, System.Threading.CancellationToken> _onGesture;
         private System.Threading.CancellationTokenSource? _cancellation;
 
-        public TrainingPipeServer(Action<IReadOnlyList<IReadOnlyList<(double X, double Y)>>, int, int> onGesture)
+        public TrainingPipeServer(Action<GestureTrainingRecording, int, int, System.Threading.CancellationToken> onGesture)
         {
             _onGesture = onGesture;
         }
 
         public bool IsRunning => _cancellation != null;
 
-        public void Start()
+        public System.Threading.CancellationToken Start()
         {
             Stop();
             _cancellation = new System.Threading.CancellationTokenSource();
-            _ = Task.Run(() => ListenAsync(_cancellation.Token));
+            var token = _cancellation.Token;
+            _ = Task.Run(() => ListenAsync(token));
+            return token;
         }
 
         public void Stop()
@@ -7939,9 +7982,9 @@ public sealed partial class MainWindow : Window
                     await using var server = new NamedPipeServerStream(pipeName, PipeDirection.In, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous);
                     await server.WaitForConnectionAsync(cancellationToken);
                     var patterns = ReadTrainingGesture(server, out var device, out var button);
-                    if (patterns.Count > 0)
+                    if (patterns is not null)
                     {
-                        _onGesture(patterns, device, button);
+                        _onGesture(patterns, device, button, cancellationToken);
                         return;
                     }
                 }
@@ -7957,7 +8000,7 @@ public sealed partial class MainWindow : Window
             }
         }
 
-        private static IReadOnlyList<IReadOnlyList<(double X, double Y)>> ReadTrainingGesture(Stream stream, out int device, out int button)
+        private static GestureTrainingRecording? ReadTrainingGesture(Stream stream, out int device, out int button)
         {
             device = 0; button = 0;
             using var memory = new MemoryStream();
@@ -7965,37 +8008,37 @@ public sealed partial class MainWindow : Window
             memory.Position = 0;
             var command = memory.ReadByte();
             if (command != 6)
-                return [];
+                return null;
 
             using var reader = new BinaryReader(memory, Encoding.UTF8, leaveOpen: true);
             const int wireMagic = 0x31505347; // "GSP1"
             if (reader.ReadInt32() != wireMagic)
-                return [];
+                return null;
 
             var patternCount = ReadIpcLength(reader);
-            var raw = new System.Drawing.Point[patternCount][][];
+            if (patternCount is < 1 or > 3)
+                return null;
+
+            var stages = new List<IReadOnlyList<IReadOnlyList<(double X, double Y)>>>(patternCount);
             for (var patternIndex = 0; patternIndex < patternCount; patternIndex++)
             {
                 var strokeCount = ReadIpcLength(reader);
-                raw[patternIndex] = new System.Drawing.Point[strokeCount][];
+                var strokes = new List<IReadOnlyList<(double X, double Y)>>(strokeCount);
                 for (var strokeIndex = 0; strokeIndex < strokeCount; strokeIndex++)
                 {
                     var pointCount = ReadIpcLength(reader);
-                    raw[patternIndex][strokeIndex] = new System.Drawing.Point[pointCount];
+                    if (pointCount == 0) continue;
+                    var points = new (double X, double Y)[pointCount];
                     for (var pointIndex = 0; pointIndex < pointCount; pointIndex++)
-                        raw[patternIndex][strokeIndex][pointIndex] = new System.Drawing.Point(reader.ReadInt32(), reader.ReadInt32());
+                        points[pointIndex] = (reader.ReadInt32(), reader.ReadInt32());
+                    strokes.Add(points);
                 }
+                if (strokes.Count == 0) return null;
+                stages.Add(strokes);
             }
 
             if (memory.Length - memory.Position >= 8) { device = reader.ReadInt32(); button = reader.ReadInt32(); }
-            var newestPattern = raw.FirstOrDefault();
-            if (newestPattern is null)
-                return [];
-
-            return newestPattern
-                .Select(stroke => stroke.Select(point => ((double)point.X, (double)point.Y)).ToList())
-                .Where(stroke => stroke.Count > 0)
-                .ToList();
+            return new GestureTrainingRecording(stages);
         }
 
         private static int ReadIpcLength(BinaryReader reader)

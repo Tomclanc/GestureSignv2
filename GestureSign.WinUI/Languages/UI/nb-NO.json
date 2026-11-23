@@ -732,5 +732,18 @@
   "Download unavailable": "Nedlasting utilgjengelig",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-nedlastingen er utilgjengelig. Prøv igjen senere eller velg Installer fra ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyer ble lagret, men kjøretiden bekreftet ikke innlastingen av snarveien.",
-  "Could not start the pie menu preview.": "Kunne ikke starte forhåndsvisningen av kakemenyen."
+  "Could not start the pie menu preview.": "Kunne ikke starte forhåndsvisningen av kakemenyen.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Etter å ha startet tegner du bevegelsen på berøringsplaten eller berøringsskjermen. Løft alle fingrene etter hvert trinn. Bevegelsen lagres etter at du har tegnet alle de valgte stadiene.",
+  "Could not start GestureSign V2.": "Kunne ikke starte GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete er reservert av Windows og kan ikke sendes med en bevegelse.",
+  "Finish or clear the recording first.": "Fullfør tegningen eller fjern den innspilte bevegelsen først.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ble oppdatert, men kunne ikke starte på nytt automatisk. Åpne den fra Start-menyen eller installasjonsmappen. Detaljer: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tegn {0} stadier av gesten. Løft alle fingrene etter hvert trinn.",
+  "Recorded {0} stage(s). Save the action to apply.": "Fanget {0} gestetapper. Lagre handlingen for å bruke.",
+  "Recording canceled.": "Bevegelsesopptak avbrutt.",
+  "Recording stages": "Antall gestetrinn",
+  "Recording timed out": "Bevegelsesopptak ble tidsavbrutt",
+  "Recording timed out. Start recording again.": "Bevegelsesopptak ble tidsavbrutt. Tegn gesten på nytt.",
+  "Start recording again.": "Begynn å tegne gesten igjen.",
+  "The application executable was not found: {0}": "Den kjørbare applikasjonen ble ikke funnet: {0}"
 }

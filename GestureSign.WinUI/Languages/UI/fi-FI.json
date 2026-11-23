@@ -732,5 +732,18 @@
   "Download unavailable": "Lataus ei ole saatavilla",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHubin lataus ei ole saatavilla. Yritä myöhemmin uudelleen tai valitse Asenna ZIP-tiedostosta.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Valikot tallennettiin, mutta suoritusaika ei vahvistanut pikakuvakkeen uudelleenlatausta.",
-  "Could not start the pie menu preview.": "Piirakkavalikon esikatselua ei voitu käynnistää."
+  "Could not start the pie menu preview.": "Piirakkavalikon esikatselua ei voitu käynnistää.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Kun olet käynnistänyt, piirrä ele kosketuslevylle tai kosketusnäytölle. Nosta kaikki sormet jokaisen vaiheen jälkeen. Ele tallennetaan, kun olet piirtänyt kaikki valitut vaiheet.",
+  "Could not start GestureSign V2.": "GestureSign V2:ta ei voitu käynnistää.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete on Windowsin varaama, eikä sitä voi lähettää eleellä.",
+  "Finish or clear the recording first.": "Viimeistele piirtäminen tai tyhjennä tallennettu ele ensin.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 päivitettiin, mutta sitä ei voitu käynnistää uudelleen automaattisesti. Avaa se Käynnistä-valikosta tai asennuskansiosta. Lisätiedot: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Piirrä eleen {0} vaihetta. Nosta kaikki sormet jokaisen vaiheen jälkeen.",
+  "Recorded {0} stage(s). Save the action to apply.": "Talletettu {0} elevaihetta. Tallenna toiminto ottaaksesi käyttöön.",
+  "Recording canceled.": "Eleiden tallennus peruutettu.",
+  "Recording stages": "Elevaiheiden määrä",
+  "Recording timed out": "Eleiden tallennus aikakatkaistiin",
+  "Recording timed out. Start recording again.": "Eleiden tallennus aikakatkaistiin. Piirrä ele uudelleen.",
+  "Start recording again.": "Aloita eleen piirtäminen uudelleen.",
+  "The application executable was not found: {0}": "Sovelluksen suoritettavaa tiedostoa ei löytynyt: {0}"
 }

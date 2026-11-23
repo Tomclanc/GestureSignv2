@@ -669,6 +669,9 @@
   "Waiting for GestureSign to exit…": "正在等待 GestureSign 退出…",
   "Closing the background service and quick actions…": "正在关闭后台服务和快捷操作…",
   "Update completed": "更新完成",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 已更新，但未能自动重启。请从开始菜单或安装目录打开。详细信息：{0}",
+  "The application executable was not found: {0}": "未找到启动程序：{0}",
+  "Could not start GestureSign V2.": "无法启动 GestureSign V2。",
   "GestureSign V2 has been updated. Restarting…": "GestureSign V2 已更新，正在重新启动…",
   "Update failed": "更新失败",
   "Unknown update mode.": "未知的更新方式。",
@@ -732,5 +735,15 @@
   "Download unavailable": "暂时无法下载",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "无法从 GitHub 下载。可稍后重试，或选「从 ZIP 安装」。",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "菜单已保存，后台未确认重新绑定快捷键。",
-  "Could not start the pie menu preview.": "无法启动环形菜单预览。"
+  "Could not start the pie menu preview.": "无法启动环形菜单预览。",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "开始后，在触摸板或触摸屏上绘制手势。每个阶段结束后抬起所有手指。绘制所有选定的阶段后，手势将被保存。",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete 是 Windows 保留的，不能通过手势发送。",
+  "Finish or clear the recording first.": "先完成绘制或清除录制的手势。",
+  "Record {0} stage(s), lifting all fingers after each stage.": "绘制 {0} 个手势阶段。每个阶段结束后抬起所有手指。",
+  "Recorded {0} stage(s). Save the action to apply.": "捕获了 {0} 个手势阶段。保存要应用的操作。",
+  "Recording canceled.": "手势录制已取消。",
+  "Recording stages": "手势阶段数",
+  "Recording timed out": "手势录制超时",
+  "Recording timed out. Start recording again.": "手势录制超时。再次绘制手势。",
+  "Start recording again.": "再次开始绘制手势。"
 }

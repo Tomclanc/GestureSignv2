@@ -732,5 +732,18 @@
   "Download unavailable": "Nedladdning är inte tillgänglig",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-nedladdningen är inte tillgänglig. Försök igen senare eller välj Installera från ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyerna sparades, men körtiden bekräftade inte genvägsladdningen.",
-  "Could not start the pie menu preview.": "Det gick inte att starta förhandsgranskningen av pajmenyn."
+  "Could not start the pie menu preview.": "Det gick inte att starta förhandsgranskningen av pajmenyn.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "När du har startat ritar du din gest på pekplattan eller pekskärmen. Lyft alla fingrar efter varje steg. Gesten sparas när du har ritat alla markerade steg.",
+  "Could not start GestureSign V2.": "Kunde inte starta GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete är reserverat av Windows och kan inte skickas med en gest.",
+  "Finish or clear the recording first.": "Avsluta ritningen eller rensa den inspelade gesten först.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 uppdaterades, men kunde inte starta om automatiskt. Öppna den från Start-menyn eller installationsmappen. Detaljer: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Rita {0} steg i gesten. Lyft alla fingrar efter varje steg.",
+  "Recorded {0} stage(s). Save the action to apply.": "Fångade {0} geststeg. Spara åtgärden för att tillämpa.",
+  "Recording canceled.": "Gestinspelning avbröts.",
+  "Recording stages": "Antal geststeg",
+  "Recording timed out": "Tidsgräns för inspelning av gester",
+  "Recording timed out. Start recording again.": "Tidsgräns för inspelning av gester. Rita gesten igen.",
+  "Start recording again.": "Börja rita gesten igen.",
+  "The application executable was not found: {0}": "Programmets körbara fil hittades inte: {0}"
 }

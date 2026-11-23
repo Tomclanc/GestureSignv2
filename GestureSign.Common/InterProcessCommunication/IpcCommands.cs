@@ -17,6 +17,8 @@ namespace GestureSign.Common.InterProcessCommunication
         SynRecognitionState,
         Ping,
         RecoverInput,
-        InputHealth
+        InputHealth,
+        StartTeachingTwoStages,
+        StartTeachingThreeStages
     }
 }

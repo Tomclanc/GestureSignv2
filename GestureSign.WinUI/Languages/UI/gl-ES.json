@@ -732,5 +732,18 @@
   "Download unavailable": "Descarga non dispoñible",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "A descarga de GitHub non está dispoñible. Téntao de novo máis tarde ou escolle Instalar desde ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Gardáronse os menús, pero o tempo de execución non confirmou a recarga do atallo.",
-  "Could not start the pie menu preview.": "Non se puido iniciar a vista previa do menú circular."
+  "Could not start the pie menu preview.": "Non se puido iniciar a vista previa do menú circular.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Despois de comezar, debuxa o teu xesto no panel táctil ou na pantalla táctil. Levante todos os dedos despois de cada etapa. O xesto gárdase despois de debuxar todas as fases seleccionadas.",
+  "Could not start GestureSign V2.": "Non se puido iniciar GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete está reservado por Windows e non se pode enviar mediante un xesto.",
+  "Finish or clear the recording first.": "Remata o debuxo ou borra o xesto gravado primeiro.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Actualizouse GestureSign V2, pero non se puido reiniciar automaticamente. Ábreo desde o menú Inicio ou no cartafol de instalación. Detalles: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Debuxa {0} etapas do xesto. Levante todos os dedos despois de cada etapa.",
+  "Recorded {0} stage(s). Save the action to apply.": "Capturaron {0} etapas de xestos. Garda a acción para aplicar.",
+  "Recording canceled.": "Cancelouse a gravación de xestos.",
+  "Recording stages": "Número de etapas de xestos",
+  "Recording timed out": "Esgotouse o tempo de espera da gravación de xestos",
+  "Recording timed out. Start recording again.": "Esgotouse o tempo de espera da gravación de xestos. Debuxa o xesto de novo.",
+  "Start recording again.": "Comeza a debuxar o xesto de novo.",
+  "The application executable was not found: {0}": "Non se atopou o executable da aplicación: {0}"
 }

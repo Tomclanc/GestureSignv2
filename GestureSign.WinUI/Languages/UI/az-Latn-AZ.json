@@ -732,5 +732,18 @@
   "Download unavailable": "Endirmək mümkün deyil",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub endirilməsi mümkün deyil. Daha sonra yenidən cəhd edin və ya ZIP-dən Quraşdır seçin.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyular saxlanıldı, lakin icra müddəti qısayolların yenidən yüklənməsini təsdiq etmədi.",
-  "Could not start the pie menu preview.": "Pasta menyusunun önizləməsini başlatmaq mümkün olmadı."
+  "Could not start the pie menu preview.": "Pasta menyusunun önizləməsini başlatmaq mümkün olmadı.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Başladıqdan sonra jestinizi sensor paneldə və ya sensor ekranda çəkin. Hər mərhələdən sonra bütün barmaqları qaldırın. Bütün seçilmiş mərhələləri çəkdikdən sonra jest saxlanılır.",
+  "Could not start GestureSign V2.": "GestureSign V2-ni başlatmaq mümkün olmadı.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows tərəfindən qorunur və jestlə göndərilə bilməz.",
+  "Finish or clear the recording first.": "Əvvəlcə çəkməyi bitirin və ya qeydə alınmış jesti silin.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 yeniləndi, lakin avtomatik olaraq yenidən başlana bilmədi. Onu Başlat menyusundan və ya quraşdırma qovluğundan açın. Ətraflı: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Jestin {0} mərhələsini çəkin. Hər mərhələdən sonra bütün barmaqları qaldırın.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} jest mərhələsi çəkildi. Tətbiq etmək üçün əməliyyatı yadda saxlayın.",
+  "Recording canceled.": "Jest qeydi ləğv edildi.",
+  "Recording stages": "Jest mərhələlərinin sayı",
+  "Recording timed out": "Jest qeydinin vaxtı bitdi",
+  "Recording timed out. Start recording again.": "Jest qeydinin vaxtı bitdi. Yenidən jesti çəkin.",
+  "Start recording again.": "Yenidən jesti çəkməyə başlayın.",
+  "The application executable was not found: {0}": "İcra olunan proqram tapılmadı: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "ჩამოტვირთვა მიუწვდომელია",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-ის ჩამოტვირთვა მიუწვდომელია. სცადეთ მოგვიანებით ან აირჩიეთ ZIP-დან ინსტალაცია.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "მენიუები შენახული იყო, მაგრამ გაშვების დრომ არ დაადასტურა მალსახმობის გადატვირთვა.",
-  "Could not start the pie menu preview.": "ტორტის მენიუს გადახედვის დაწყება ვერ მოხერხდა."
+  "Could not start the pie menu preview.": "ტორტის მენიუს გადახედვის დაწყება ვერ მოხერხდა.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "დაწყების შემდეგ დახაზეთ თქვენი ჟესტი სენსორულ პანელზე ან სენსორულ ეკრანზე. აწიეთ ყველა თითი ყოველი ეტაპის შემდეგ. ჟესტი შენახულია ყველა არჩეული ეტაპის დახატვის შემდეგ.",
+  "Could not start GestureSign V2.": "GestureSign V2-ის დაწყება ვერ მოხერხდა.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete დაცულია Windows-ის მიერ და მისი გაგზავნა შეუძლებელია ჟესტით.",
+  "Finish or clear the recording first.": "ჯერ დაასრულეთ ხატვა ან გაასუფთავეთ ჩაწერილი ჟესტი.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 განახლდა, ​​მაგრამ ავტომატურად გადატვირთვა ვერ მოხერხდა. გახსენით იგი Start მენიუდან ან ინსტალაციის საქაღალდედან. დეტალები: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "დახაზეთ ჟესტის {0} ეტაპი. აწიეთ ყველა თითი ყოველი ეტაპის შემდეგ.",
+  "Recorded {0} stage(s). Save the action to apply.": "აღბეჭდილია {0} ჟესტების ეტაპი. შეინახეთ მოქმედება გამოსაყენებლად.",
+  "Recording canceled.": "ჟესტების ჩაწერა გაუქმდა.",
+  "Recording stages": "ჟესტების ეტაპების რაოდენობა",
+  "Recording timed out": "ჟესტებით ჩაწერის დრო ამოიწურა",
+  "Recording timed out. Start recording again.": "ჟესტებით ჩაწერის დრო ამოიწურა. ისევ დახაზეთ ჟესტი.",
+  "Start recording again.": "კვლავ დაიწყეთ ჟესტის დახატვა.",
+  "The application executable was not found: {0}": "განაცხადის შესრულებადი ვერ მოიძებნა: {0}"
 }

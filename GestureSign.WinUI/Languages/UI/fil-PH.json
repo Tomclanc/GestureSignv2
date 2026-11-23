@@ -732,5 +732,18 @@
   "Download unavailable": "Hindi available ang pag-download",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Hindi available ang pag-download ng GitHub. Subukang muli sa ibang pagkakataon o piliin ang I-install mula sa ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Na-save ang mga menu, ngunit hindi nakumpirma ng runtime ang shortcut reload.",
-  "Could not start the pie menu preview.": "Hindi masimulan ang preview ng menu ng pie."
+  "Could not start the pie menu preview.": "Hindi masimulan ang preview ng menu ng pie.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Pagkatapos magsimula, iguhit ang iyong galaw sa touchpad o touchscreen. Itaas ang lahat ng mga daliri pagkatapos ng bawat yugto. Ise-save ang galaw pagkatapos mong iguhit ang lahat ng napiling yugto.",
+  "Could not start GestureSign V2.": "Hindi masimulan ang GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ang Ctrl+Alt+Delete ay nakalaan ng Windows at hindi maipapadala sa pamamagitan ng kilos.",
+  "Finish or clear the recording first.": "Tapusin muna ang pagguhit o i-clear ang naitala na kilos.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Ang GetureSign V2 ay na-update, ngunit hindi awtomatikong makapag-restart. Buksan ito mula sa Start menu o sa folder ng pag-install. Mga Detalye: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Gumuhit ng {0} yugto ng kilos. Itaas ang lahat ng mga daliri pagkatapos ng bawat yugto.",
+  "Recorded {0} stage(s). Save the action to apply.": "Nakuha ang {0} na mga yugto ng kilos. I-save ang pagkilos para ilapat.",
+  "Recording canceled.": "Kinansela ang pag-record ng galaw.",
+  "Recording stages": "Bilang ng mga yugto ng kilos",
+  "Recording timed out": "Nag-time out ang pag-record ng galaw",
+  "Recording timed out. Start recording again.": "Nag-time out ang pag-record ng galaw. Iguhit muli ang kilos.",
+  "Start recording again.": "Simulan muli ang pagguhit ng kilos.",
+  "The application executable was not found: {0}": "Ang application executable ay hindi natagpuan: {0}"
 }

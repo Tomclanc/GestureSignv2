@@ -732,5 +732,18 @@
   "Download unavailable": "డౌన్‌లోడ్ అందుబాటులో లేదు",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub డౌన్‌లోడ్ అందుబాటులో లేదు. తర్వాత మళ్లీ ప్రయత్నించండి లేదా జిప్ నుండి ఇన్‌స్టాల్ చేయి ఎంచుకోండి.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "మెనులు సేవ్ చేయబడ్డాయి, కానీ రన్‌టైమ్ షార్ట్‌కట్ రీలోడ్‌ను నిర్ధారించలేదు.",
-  "Could not start the pie menu preview.": "పై మెను ప్రివ్యూను ప్రారంభించడం సాధ్యపడలేదు."
+  "Could not start the pie menu preview.": "పై మెను ప్రివ్యూను ప్రారంభించడం సాధ్యపడలేదు.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ప్రారంభించిన తర్వాత, టచ్‌ప్యాడ్ లేదా టచ్‌స్క్రీన్‌పై మీ సంజ్ఞను గీయండి. ప్రతి దశ తర్వాత అన్ని వేళ్లను ఎత్తండి. మీరు ఎంచుకున్న అన్ని దశలను గీసిన తర్వాత సంజ్ఞ సేవ్ చేయబడుతుంది.",
+  "Could not start GestureSign V2.": "GestureSign V2ని ప్రారంభించడం సాధ్యపడలేదు.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows ద్వారా రిజర్వ్ చేయబడింది మరియు సంజ్ఞ ద్వారా పంపబడదు.",
+  "Finish or clear the recording first.": "ముందుగా డ్రాయింగ్ పూర్తి చేయండి లేదా రికార్డ్ చేసిన సంజ్ఞను క్లియర్ చేయండి.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 నవీకరించబడింది, కానీ స్వయంచాలకంగా పునఃప్రారంభించబడలేదు. దీన్ని ప్రారంభ మెను లేదా ఇన్‌స్టాలేషన్ ఫోల్డర్ నుండి తెరవండి. వివరాలు: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "సంజ్ఞ యొక్క {0} దశలను గీయండి. ప్రతి దశ తర్వాత అన్ని వేళ్లను ఎత్తండి.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} సంజ్ఞ దశలను సంగ్రహించారు. దరఖాస్తు చేయడానికి చర్యను సేవ్ చేయండి.",
+  "Recording canceled.": "సంజ్ఞ రికార్డింగ్ రద్దు చేయబడింది.",
+  "Recording stages": "సంజ్ఞ దశల సంఖ్య",
+  "Recording timed out": "సంజ్ఞ రికార్డింగ్ సమయం ముగిసింది",
+  "Recording timed out. Start recording again.": "సంజ్ఞ రికార్డింగ్ సమయం ముగిసింది. సంజ్ఞను మళ్లీ గీయండి.",
+  "Start recording again.": "సంజ్ఞను మళ్లీ గీయడం ప్రారంభించండి.",
+  "The application executable was not found: {0}": "ఎక్జిక్యూటబుల్ అప్లికేషన్ కనుగొనబడలేదు: {0}"
 }

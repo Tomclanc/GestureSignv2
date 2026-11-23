@@ -732,5 +732,18 @@
   "Download unavailable": "Unduhan tidak tersedia",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Unduhan GitHub tidak tersedia. Coba lagi nanti atau pilih Instal dari ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menu telah disimpan, tetapi runtime tidak mengonfirmasi pemuatan ulang pintasan.",
-  "Could not start the pie menu preview.": "Tidak dapat memulai pratinjau menu pai."
+  "Could not start the pie menu preview.": "Tidak dapat memulai pratinjau menu pai.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Setelah memulai, gambarkan gerakan Anda pada touchpad atau layar sentuh. Angkat semua jari setelah setiap tahap. Gestur tersebut disimpan setelah Anda menggambar semua tahapan yang dipilih.",
+  "Could not start GestureSign V2.": "Tidak dapat memulai GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete dicadangkan oleh Windows dan tidak dapat dikirim dengan isyarat.",
+  "Finish or clear the recording first.": "Selesaikan menggambar atau hapus gerakan yang direkam terlebih dahulu.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 telah diperbarui, tetapi tidak dapat memulai ulang secara otomatis. Buka dari menu Start atau folder instalasi. Detail: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Gambarlah {0} tahapan gerakan tersebut. Angkat semua jari setelah setiap tahap.",
+  "Recorded {0} stage(s). Save the action to apply.": "Menangkap {0} tahapan gerakan. Simpan tindakan untuk diterapkan.",
+  "Recording canceled.": "Rekaman isyarat dibatalkan.",
+  "Recording stages": "Jumlah tahapan isyarat",
+  "Recording timed out": "Waktu perekaman isyarat habis",
+  "Recording timed out. Start recording again.": "Waktu perekaman isyarat habis. Gambarkan isyarat itu lagi.",
+  "Start recording again.": "Mulailah menggambar isyarat itu lagi.",
+  "The application executable was not found: {0}": "Aplikasi yang dapat dieksekusi tidak ditemukan: {0}"
 }

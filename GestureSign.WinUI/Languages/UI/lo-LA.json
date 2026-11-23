@@ -732,5 +732,18 @@
   "Download unavailable": "ບໍ່ສາມາດດາວໂຫລດໄດ້",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "ການດາວໂຫຼດ GitHub ບໍ່ສາມາດໃຊ້ໄດ້. ລອງໃໝ່ໃນພາຍຫຼັງ ຫຼືເລືອກຕິດຕັ້ງຈາກ ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ເມນູຖືກບັນທຶກໄວ້, ແຕ່ເວລາແລ່ນບໍ່ໄດ້ຢືນຢັນການໂຫຼດທາງລັດຄືນໃໝ່.",
-  "Could not start the pie menu preview.": "ບໍ່ສາມາດເລີ່ມການສະແດງຕົວຢ່າງເມນູ pie ໄດ້."
+  "Could not start the pie menu preview.": "ບໍ່ສາມາດເລີ່ມການສະແດງຕົວຢ່າງເມນູ pie ໄດ້.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ຫຼັງຈາກເລີ່ມຕົ້ນ, ແຕ້ມ gesture ຂອງທ່ານໃນ touchpad ຫຼື touchscreen. ຍົກນິ້ວມືທັງຫມົດຫຼັງຈາກແຕ່ລະຂັ້ນຕອນ. ທ່າທາງຖືກບັນທຶກໄວ້ຫຼັງຈາກທີ່ທ່ານແຕ້ມທຸກຂັ້ນຕອນທີ່ເລືອກ.",
+  "Could not start GestureSign V2.": "ບໍ່ສາມາດເລີ່ມ GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ຖືກສະຫງວນໄວ້ໂດຍ Windows ແລະບໍ່ສາມາດສົ່ງໂດຍ gesture ໄດ້.",
+  "Finish or clear the recording first.": "ສຳເລັດການແຕ້ມ ຫຼືລຶບທ່າທາງທີ່ບັນທຶກໄວ້ກ່ອນ.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ຖືກອັບເດດແລ້ວ, ແຕ່ບໍ່ສາມາດຣີສະຕາດອັດຕະໂນມັດໄດ້. ເປີດມັນຈາກເມນູເລີ່ມຕົ້ນຫຼືໂຟນເດີການຕິດຕັ້ງ. ລາຍລະອຽດ: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ແຕ້ມ {0} ຂັ້ນຕອນຂອງທ່າທາງ. ຍົກນິ້ວມືທັງຫມົດຫຼັງຈາກແຕ່ລະຂັ້ນຕອນ.",
+  "Recorded {0} stage(s). Save the action to apply.": "ຈັບໄດ້ {0} ຂັ້ນຕອນ gesture. ບັນທຶກຄຳສັ່ງເພື່ອນຳໃຊ້.",
+  "Recording canceled.": "ຍົກເລີກການບັນທຶກທ່າທາງແລ້ວ.",
+  "Recording stages": "ຈໍານວນຂອງຂັ້ນຕອນ gesture",
+  "Recording timed out": "ໝົດເວລາການບັນທຶກທ່າທາງ",
+  "Recording timed out. Start recording again.": "ໝົດເວລາການບັນທຶກທ່າທາງ. ແຕ້ມ gesture ອີກເທື່ອຫນຶ່ງ.",
+  "Start recording again.": "ເລີ່ມແຕ້ມທ່າທາງອີກຄັ້ງ.",
+  "The application executable was not found: {0}": "ບໍ່ພົບແອັບພລິເຄຊັນທີ່ສາມາດປະຕິບັດໄດ້: {0}"
 }

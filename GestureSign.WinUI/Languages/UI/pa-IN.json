@@ -732,5 +732,18 @@
   "Download unavailable": "ਡਾਊਨਲੋਡ ਅਣਉਪਲਬਧ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ਡਾਊਨਲੋਡ ਅਣਉਪਲਬਧ ਹੈ। ਬਾਅਦ ਵਿੱਚ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਜਾਂ ZIP ਤੋਂ ਸਥਾਪਿਤ ਕਰੋ ਚੁਣੋ।",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ਮੀਨੂ ਸੁਰੱਖਿਅਤ ਕੀਤੇ ਗਏ ਸਨ, ਪਰ ਰਨਟਾਈਮ ਨੇ ਸ਼ਾਰਟਕੱਟ ਰੀਲੋਡ ਦੀ ਪੁਸ਼ਟੀ ਨਹੀਂ ਕੀਤੀ।",
-  "Could not start the pie menu preview.": "ਪਾਈ ਮੀਨੂ ਪੂਰਵਦਰਸ਼ਨ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।"
+  "Could not start the pie menu preview.": "ਪਾਈ ਮੀਨੂ ਪੂਰਵਦਰਸ਼ਨ ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ਸ਼ੁਰੂ ਕਰਨ ਤੋਂ ਬਾਅਦ, ਟੱਚਪੈਡ ਜਾਂ ਟੱਚਸਕ੍ਰੀਨ 'ਤੇ ਆਪਣਾ ਸੰਕੇਤ ਖਿੱਚੋ। ਹਰ ਪੜਾਅ ਤੋਂ ਬਾਅਦ ਸਾਰੀਆਂ ਉਂਗਲਾਂ ਚੁੱਕੋ। ਤੁਹਾਡੇ ਦੁਆਰਾ ਚੁਣੇ ਗਏ ਸਾਰੇ ਪੜਾਵਾਂ ਨੂੰ ਖਿੱਚਣ ਤੋਂ ਬਾਅਦ ਸੰਕੇਤ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕੀਤਾ ਜਾਂਦਾ ਹੈ।",
+  "Could not start GestureSign V2.": "GestureSign V2 ਸ਼ੁਰੂ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ।",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ਵਿੰਡੋਜ਼ ਦੁਆਰਾ ਰਾਖਵਾਂ ਹੈ ਅਤੇ ਇਸ਼ਾਰੇ ਦੁਆਰਾ ਨਹੀਂ ਭੇਜਿਆ ਜਾ ਸਕਦਾ ਹੈ।",
+  "Finish or clear the recording first.": "ਡਰਾਇੰਗ ਨੂੰ ਪੂਰਾ ਕਰੋ ਜਾਂ ਪਹਿਲਾਂ ਰਿਕਾਰਡ ਕੀਤੇ ਇਸ਼ਾਰੇ ਨੂੰ ਸਾਫ਼ ਕਰੋ।",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ਨੂੰ ਅੱਪਡੇਟ ਕੀਤਾ ਗਿਆ ਸੀ, ਪਰ ਆਪਣੇ ਆਪ ਰੀਸਟਾਰਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਇਸਨੂੰ ਸਟਾਰਟ ਮੀਨੂ ਜਾਂ ਇੰਸਟਾਲੇਸ਼ਨ ਫੋਲਡਰ ਤੋਂ ਖੋਲ੍ਹੋ। ਵੇਰਵਾ: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ਸੰਕੇਤ ਦੇ {0} ਪੜਾਅ ਖਿੱਚੋ। ਹਰ ਪੜਾਅ ਤੋਂ ਬਾਅਦ ਸਾਰੀਆਂ ਉਂਗਲਾਂ ਚੁੱਕੋ।",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} ਗਿ੍ਫ਼ਤਾਰ ਕੀਤੇ ਗਏ | ਲਾਗੂ ਕਰਨ ਲਈ ਕਾਰਵਾਈ ਨੂੰ ਸੁਰੱਖਿਅਤ ਕਰੋ।",
+  "Recording canceled.": "ਸੰਕੇਤ ਰਿਕਾਰਡਿੰਗ ਰੱਦ ਕੀਤੀ ਗਈ।",
+  "Recording stages": "ਸੰਕੇਤ ਪੜਾਵਾਂ ਦੀ ਸੰਖਿਆ",
+  "Recording timed out": "ਸੰਕੇਤ ਰਿਕਾਰਡਿੰਗ ਦਾ ਸਮਾਂ ਸਮਾਪਤ ਹੋਇਆ",
+  "Recording timed out. Start recording again.": "ਸੰਕੇਤ ਰਿਕਾਰਡਿੰਗ ਦਾ ਸਮਾਂ ਸਮਾਪਤ ਹੋਇਆ। ਸੰਕੇਤ ਨੂੰ ਦੁਬਾਰਾ ਖਿੱਚੋ।",
+  "Start recording again.": "ਸੰਕੇਤ ਨੂੰ ਦੁਬਾਰਾ ਖਿੱਚਣਾ ਸ਼ੁਰੂ ਕਰੋ।",
+  "The application executable was not found: {0}": "ਐਗਜ਼ੀਕਿਊਟੇਬਲ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਮਿਲੀ: {0}"
 }

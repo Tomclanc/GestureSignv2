@@ -732,5 +732,18 @@
   "Download unavailable": "ডাউনলোড অনুপলব্ধ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ডাউনলোড অনুপলব্ধ. পরে আবার চেষ্টা করুন বা ZIP থেকে ইনস্টল নির্বাচন করুন।",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "মেনু সংরক্ষিত হয়েছে, কিন্তু রানটাইম শর্টকাট পুনরায় লোড নিশ্চিত করেনি।",
-  "Could not start the pie menu preview.": "পাই মেনু পূর্বরূপ শুরু করা যায়নি।"
+  "Could not start the pie menu preview.": "পাই মেনু পূর্বরূপ শুরু করা যায়নি।",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "শুরু করার পরে, টাচপ্যাড বা টাচস্ক্রিনে আপনার অঙ্গভঙ্গি আঁকুন। প্রতিটি পর্যায়ের পরে সমস্ত আঙ্গুল তুলুন। আপনি সমস্ত নির্বাচিত পর্যায় আঁকার পরে অঙ্গভঙ্গি সংরক্ষিত হয়৷",
+  "Could not start GestureSign V2.": "GestureSign V2 শুরু করা যায়নি।",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows দ্বারা সংরক্ষিত এবং একটি অঙ্গভঙ্গি দ্বারা পাঠানো যাবে না।",
+  "Finish or clear the recording first.": "অঙ্কন শেষ করুন বা রেকর্ড করা অঙ্গভঙ্গি প্রথমে সাফ করুন।",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 আপডেট করা হয়েছে, কিন্তু স্বয়ংক্রিয়ভাবে পুনরায় চালু করা যায়নি। স্টার্ট মেনু বা ইনস্টলেশন ফোল্ডার থেকে এটি খুলুন। বিস্তারিত: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "অঙ্গভঙ্গির {0} ধাপ আঁকুন। প্রতিটি পর্যায়ের পরে সমস্ত আঙ্গুল তুলুন।",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} অঙ্গভঙ্গি পর্যায় ক্যাপচার করা হয়েছে। আবেদন করার জন্য ক্রিয়াটি সংরক্ষণ করুন।",
+  "Recording canceled.": "অঙ্গভঙ্গি রেকর্ডিং বাতিল করা হয়েছে৷",
+  "Recording stages": "অঙ্গভঙ্গি পর্যায়ের সংখ্যা",
+  "Recording timed out": "অঙ্গভঙ্গি রেকর্ডিং সময় শেষ হয়েছে",
+  "Recording timed out. Start recording again.": "অঙ্গভঙ্গি রেকর্ডিং সময় শেষ হয়েছে. আবার অঙ্গভঙ্গি আঁকুন।",
+  "Start recording again.": "আবার অঙ্গভঙ্গি আঁকা শুরু করুন।",
+  "The application executable was not found: {0}": "অ্যাপ্লিকেশন এক্সিকিউটেবল পাওয়া যায়নি: {0}"
 }

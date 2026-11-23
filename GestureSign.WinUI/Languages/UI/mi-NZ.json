@@ -732,5 +732,18 @@
   "Download unavailable": "Kāore i te wātea te tikiake",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Ko te tikiake a GitHub kaore i te waatea. Ngana ano i muri mai, whiriwhiria ranei te Tāuta mai i te ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "I tiakina nga tahua, engari karekau te wa whakahaere i whakau i te uta pokatata.",
-  "Could not start the pie menu preview.": "Kāore i taea te tīmata te arokite tahua porowhita."
+  "Could not start the pie menu preview.": "Kāore i taea te tīmata te arokite tahua porowhita.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "I muri i te tiimata, tuhia to tohu ki runga i te papa pa, i te mata pa ranei. Hikitia nga maihao katoa i muri i ia wahanga. Ka tiakina te tohu i muri i to tuhi i nga waahanga kua tohua.",
+  "Could not start GestureSign V2.": "Kāore i taea te tīmata a GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ko Ctrl+Alt+Delete kua rāhuitia e Windows, ā, kāore e taea te tuku mā te tohu.",
+  "Finish or clear the recording first.": "Whakaotihia te tuhi, whakawātea rānei i te tohu kua tuhia i te tuatahi.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "I whakahōuhia a GetureSign V2, engari kaore i taea te whakaara aunoa. Whakatuwheratia mai i te tahua Tīmata, te kōpaki tāutanga. Nga Taipitopito: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tuhia {0} nga wahanga o te tohu. Hikitia nga maihao katoa i muri i ia wahanga.",
+  "Recorded {0} stage(s). Save the action to apply.": "I hopukina {0} nga wahanga tohu. Tiakina te hohenga hei tono.",
+  "Recording canceled.": "Kua whakakorehia te tuhi tohu.",
+  "Recording stages": "Te maha o nga wahanga tohu",
+  "Recording timed out": "Kua pau te wa o te tuhi tohu",
+  "Recording timed out. Start recording again.": "Kua pau te wa o te tuhi tohu. Tuhia ano te tohu.",
+  "Start recording again.": "Tīmatahia te tātuhi anō i te tohu.",
+  "The application executable was not found: {0}": "Kaore i kitea te tono kawe: {0}"
 }

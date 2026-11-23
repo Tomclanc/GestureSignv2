@@ -732,5 +732,18 @@
   "Download unavailable": "Aflaai nie beskikbaar nie",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Die GitHub-aflaai is nie beskikbaar nie. Probeer later weer of kies Installeer vanaf zip.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Spyskaarte is gestoor, maar die looptyd het nie die kortpad-herlaai bevestig nie.",
-  "Could not start the pie menu preview.": "Kon nie die pastei-kieslysvoorskou begin nie."
+  "Could not start the pie menu preview.": "Kon nie die pastei-kieslysvoorskou begin nie.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Nadat jy begin het, teken jou gebaar op die raakpaneel of raakskerm. Lig al die vingers na elke stadium. Die gebaar word gestoor nadat jy alle geselekteerde stadiums geteken het.",
+  "Could not start GestureSign V2.": "Kon nie GestureSign V2 begin nie.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete word deur Windows gereserveer en kan nie deur 'n gebaar gestuur word nie.",
+  "Finish or clear the recording first.": "Maak eers klaar met teken of maak die aangetekende gebaar skoon.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 is opgedateer, maar kon nie outomaties herbegin nie. Maak dit oop vanaf die Start-kieslys of die installasiegids. Besonderhede: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Teken {0} stadiums van die gebaar. Lig al die vingers na elke stadium.",
+  "Recorded {0} stage(s). Save the action to apply.": "Vasgevang {0} gebare stadiums. Stoor die aksie om toe te pas.",
+  "Recording canceled.": "Gebaaropname is gekanselleer.",
+  "Recording stages": "Aantal gebare stadiums",
+  "Recording timed out": "Gebaaropname het uitgetel",
+  "Recording timed out. Start recording again.": "Gebaaropname het uitgetel. Teken die gebaar weer.",
+  "Start recording again.": "Begin weer die gebaar teken.",
+  "The application executable was not found: {0}": "Die uitvoerbare toepassing is nie gevind nie: {0}"
 }

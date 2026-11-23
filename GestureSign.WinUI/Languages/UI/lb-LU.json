@@ -732,5 +732,18 @@
   "Download unavailable": "Download net verfügbar",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "De GitHub Download ass net verfügbar. Probéiert méi spéit nach eng Kéier oder wielt Install aus ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menue goufen gespäichert, awer d'Runtime huet d'Ofkierzung nei Luede net bestätegt.",
-  "Could not start the pie menu preview.": "Konnt d'Virschau vum Pie-Menü net starten."
+  "Could not start the pie menu preview.": "Konnt d'Virschau vum Pie-Menü net starten.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Nodeems Dir ugefaang hutt, zitt Äre Geste um Touchpad oder Touchscreen. Lift all Fanger no all Etapp. De Geste gëtt gespäichert nodeems Dir all ausgewielten Etappe gezeechent hutt.",
+  "Could not start GestureSign V2.": "Konnt GestureSign V2 net starten.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ass vu Windows reservéiert a kann net vun engem Geste geschéckt ginn.",
+  "Finish or clear the recording first.": "Fëllt d'Zeechnen oder läscht déi opgeholl Geste als éischt.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 gouf aktualiséiert, awer konnt net automatesch nei starten. Öffnen et aus dem Startmenü oder aus dem Installatiounsdossier. Detailer: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Zeechnen {0} Etappe vum Geste. Lift all Fanger no all Etapp.",
+  "Recorded {0} stage(s). Save the action to apply.": "Gefaange {0} Gestestadien. Späichert d'Aktioun fir ze bewerben.",
+  "Recording canceled.": "Gesteopnam annuléiert.",
+  "Recording stages": "Zuel vu Gestestadien",
+  "Recording timed out": "Gesteopnam huet Timeout",
+  "Recording timed out. Start recording again.": "Gesteopnam huet Timeout. Zeechnen de Geste nach eng Kéier.",
+  "Start recording again.": "Fänkt un de Geste erëm ze zéien.",
+  "The application executable was not found: {0}": "D'Ausféierbar Applikatioun gouf net fonnt: {0}"
 }

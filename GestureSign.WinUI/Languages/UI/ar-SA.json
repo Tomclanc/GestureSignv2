@@ -732,5 +732,18 @@
   "Download unavailable": "التنزيل غير متاح",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "تنزيل GitHub غير متوفر. حاول مرة أخرى لاحقًا أو اختر التثبيت من ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "تم حفظ القوائم، لكن وقت التشغيل لم يؤكد إعادة تحميل الاختصار.",
-  "Could not start the pie menu preview.": "تعذر بدء معاينة القائمة الدائرية."
+  "Could not start the pie menu preview.": "تعذر بدء معاينة القائمة الدائرية.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "بعد البدء، ارسم إيماءتك على لوحة اللمس أو شاشة اللمس. ارفع جميع الأصابع بعد كل مرحلة. يتم حفظ الإيماءة بعد رسم جميع المراحل المحددة.",
+  "Could not start GestureSign V2.": "تعذر بدء GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete محجوز بواسطة Windows ولا يمكن إرساله عن طريق الإيماءة.",
+  "Finish or clear the recording first.": "قم بإنهاء الرسم أو مسح الإيماءة المسجلة أولاً.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "تم تحديث GestureSign V2، لكن تعذر إعادة التشغيل تلقائيًا. افتحه من قائمة ابدأ أو مجلد التثبيت. التفاصيل: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ارسم {0} مراحل الإيماءة. ارفع جميع الأصابع بعد كل مرحلة.",
+  "Recorded {0} stage(s). Save the action to apply.": "تم التقاط {0} مرحلة من الإيماءات. احفظ الإجراء لتطبيقه.",
+  "Recording canceled.": "تم إلغاء تسجيل الإيماءات.",
+  "Recording stages": "عدد مراحل الإيماءة",
+  "Recording timed out": "انتهت مهلة تسجيل الإيماءات",
+  "Recording timed out. Start recording again.": "انتهت مهلة تسجيل الإيماءات. ارسم الإيماءة مرة أخرى.",
+  "Start recording again.": "ابدأ في رسم الإيماءة مرة أخرى.",
+  "The application executable was not found: {0}": "لم يتم العثور على التطبيق القابل للتنفيذ: {0}"
 }

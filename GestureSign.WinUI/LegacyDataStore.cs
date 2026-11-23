@@ -487,27 +487,24 @@ internal sealed class LegacyDataStore
     }
 
     public string AddGestureFromPointPatterns(string name, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
+        => AddGestureFromStages(name, [pointPatterns]);
+
+    private string AddGestureFromStages(string name, IEnumerable<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> stages)
     {
         var gestureName = GetUniqueGestureName(name);
-        var points = new JsonArray();
-        foreach (var pattern in OrderGestureStrokes(pointPatterns))
-        {
-            var line = new JsonArray();
-            foreach (var point in pattern)
-                line.Add($"{Math.Round(point.X)}, {Math.Round(point.Y)}");
-            points.Add(line);
-        }
-
         _gesturesRoot.Add(new JsonObject
         {
             ["Name"] = gestureName,
-            ["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points, ["OrderByStartPosition"] = true })
+            ["PointPatterns"] = SerializeGestureStages(stages)
         });
         SaveGestures();
         return gestureName;
     }
 
     public string SaveGesturePointPatternsForAction(string name, LegacyAction? action, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
+        => SaveGestureStagesForAction(name, action, [pointPatterns]);
+
+    public string SaveGestureStagesForAction(string name, LegacyAction? action, IEnumerable<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> stages)
     {
         var gestureName = string.IsNullOrWhiteSpace(name) ? "NewGesture" : name.Trim();
         var existingGesture = Gestures.FirstOrDefault(item => string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
@@ -519,9 +516,10 @@ internal sealed class LegacyDataStore
                 string.Equals(candidate.StringValue("GestureName", ""), gestureName, StringComparison.OrdinalIgnoreCase));
 
         if (existingGesture is null || usedByOtherAction)
-            return AddGestureFromPointPatterns(gestureName, pointPatterns);
+            return AddGestureFromStages(gestureName, stages);
 
-        UpdateGesturePointPatterns(existingGesture, pointPatterns);
+        existingGesture.Source["PointPatterns"] = SerializeGestureStages(stages);
+        SaveGestures();
         return gestureName;
     }
 
@@ -536,17 +534,26 @@ internal sealed class LegacyDataStore
 
     public void UpdateGesturePointPatterns(LegacyGesture gesture, IReadOnlyList<IReadOnlyList<(double X, double Y)>> pointPatterns)
     {
-        var points = new JsonArray();
-        foreach (var pattern in OrderGestureStrokes(pointPatterns))
-        {
-            var line = new JsonArray();
-            foreach (var point in pattern)
-                line.Add($"{Math.Round(point.X)}, {Math.Round(point.Y)}");
-            points.Add(line);
-        }
-
-        gesture.Source["PointPatterns"] = new JsonArray(new JsonObject { ["Points"] = points, ["OrderByStartPosition"] = true });
+        gesture.Source["PointPatterns"] = SerializeGestureStages([pointPatterns]);
         SaveGestures();
+    }
+
+    private static JsonArray SerializeGestureStages(IEnumerable<IReadOnlyList<IReadOnlyList<(double X, double Y)>>> stages)
+    {
+        var patterns = new JsonArray();
+        foreach (var stage in stages)
+        {
+            var points = new JsonArray();
+            foreach (var stroke in OrderGestureStrokes(stage))
+            {
+                var line = new JsonArray();
+                foreach (var point in stroke)
+                    line.Add($"{Math.Round(point.X)}, {Math.Round(point.Y)}");
+                points.Add(line);
+            }
+            patterns.Add(new JsonObject { ["Points"] = points, ["OrderByStartPosition"] = true });
+        }
+        return patterns;
     }
 
     private static IReadOnlyList<(double X, double Y)>[] OrderGestureStrokes(IReadOnlyList<IReadOnlyList<(double X, double Y)>> strokes)

@@ -732,5 +732,18 @@
   "Download unavailable": "Download nicht verfügbar",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Der GitHub-Download ist nicht verfügbar. Versuchen Sie es später noch einmal oder wählen Sie „Von ZIP installieren“.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menüs wurden gespeichert, aber die Laufzeit bestätigte das Neuladen der Verknüpfung nicht.",
-  "Could not start the pie menu preview.": "Die Vorschau des Kuchenmenüs konnte nicht gestartet werden."
+  "Could not start the pie menu preview.": "Die Vorschau des Kuchenmenüs konnte nicht gestartet werden.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Zeichnen Sie nach dem Start Ihre Geste auf dem Touchpad oder Touchscreen. Heben Sie nach jeder Stufe alle Finger an. Die Geste wird gespeichert, nachdem Sie alle ausgewählten Stufen gezeichnet haben.",
+  "Could not start GestureSign V2.": "GestureSign V2 konnte nicht gestartet werden.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Strg+Alt+Entf ist für Windows reserviert und kann nicht per Geste gesendet werden.",
+  "Finish or clear the recording first.": "Beenden Sie zuerst das Zeichnen oder löschen Sie die aufgezeichnete Geste.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 wurde aktualisiert, konnte jedoch nicht automatisch neu gestartet werden. Öffnen Sie es über das Startmenü oder den Installationsordner. Details: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Zeichnen Sie {0} Stufen der Geste. Heben Sie nach jeder Stufe alle Finger an.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} Gestenphasen erfasst. Speichern Sie die Aktion, um sie anzuwenden.",
+  "Recording canceled.": "Gestenaufzeichnung abgebrochen.",
+  "Recording stages": "Anzahl der Gestenstufen",
+  "Recording timed out": "Zeitüberschreitung bei der Gestenaufzeichnung",
+  "Recording timed out. Start recording again.": "Zeitüberschreitung bei der Gestenaufzeichnung. Zeichnen Sie die Geste erneut.",
+  "Start recording again.": "Beginnen Sie erneut mit dem Zeichnen der Geste.",
+  "The application executable was not found: {0}": "Die ausführbare Datei der Anwendung wurde nicht gefunden: {0}"
 }

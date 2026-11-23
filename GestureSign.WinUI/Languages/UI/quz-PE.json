@@ -732,5 +732,18 @@
   "Download unavailable": "Descarga mana kanchu",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub uraykachiyqa manam kanchu. Qhipaman wakmanta kallpachakuy utaq ZIP kaqmanta churay akllay.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menúkuna waqaychasqa karqan, ichataq purichiy pachaqa manam llalliq ñanta musuqmanta kargayta takyachirqanchu.",
-  "Could not start the pie menu preview.": "Mana pie menú ñawpaq qhawayta qallariyta atirqanchu."
+  "Could not start the pie menu preview.": "Mana pie menú ñawpaq qhawayta qallariyta atirqanchu.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Qallarispaykiqa, touchpad nisqapi utaq pantalla táctil nisqapi gestoykita siq’iy. Sapa etapa tukukuptin llapa dedokunata hoqariy. Llapan akllasqa etapakunata siq’isqayki qhepamanmi makiwan ruwayqa waqaychasqa.",
+  "Could not start GestureSign V2.": "Mana GestureSign V2 qallariyta atirqanchu.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows kaqwan waqaychasqa kachkan chaymanta mana huk makiwan apachiyta atikunmanchu.",
+  "Finish or clear the recording first.": "Ñawpaqtaqa dibujayta tukuy utaq grabasqa gestota chuyanchay.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 musuqchasqa karqan, ichaqa manam kikillanmanta musuqmanta qallariyta atirqanchu. Kichay qallariy menú nisqamanta utaq churana qillqana mayt'umanta. Detalles: {0} nisqapi",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Siqiy {0} etapas de la gesto. Sapa etapa tukukuptin llapa dedokunata hoqariy.",
+  "Recorded {0} stage(s). Save the action to apply.": "Hap’isqa {0} gesto etapas. Ruwayta waqaychay aplicanaykipaq.",
+  "Recording canceled.": "Señaswan grabacionta cancelasqa.",
+  "Recording stages": "Hayka gesto ruway etapakuna",
+  "Recording timed out": "Grabación de gestos tiempo tukusqa",
+  "Recording timed out. Start recording again.": "Grabación de gestos tiempo tukusqa. Hukmanta chay gestota siq’iy.",
+  "Start recording again.": "Hukmanta chay gestota siq’iyta qallariy.",
+  "The application executable was not found: {0}": "Yanapakuypa rurana atiyninqa manam tarisqachu: {0}"
 }

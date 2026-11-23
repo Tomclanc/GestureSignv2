@@ -732,5 +732,18 @@
   "Download unavailable": "Stahování není k dispozici",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Stažení GitHubu není k dispozici. Zkuste to znovu později nebo zvolte Instalovat ze ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Nabídky byly uloženy, ale běhové prostředí nepotvrdilo opětovné načtení zástupce.",
-  "Could not start the pie menu preview.": "Náhled nabídky koláče nelze spustit."
+  "Could not start the pie menu preview.": "Náhled nabídky koláče nelze spustit.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Po spuštění nakreslete gesto na touchpad nebo dotykovou obrazovku. Po každé fázi zvedněte všechny prsty. Gesto se uloží po nakreslení všech vybraných fází.",
+  "Could not start GestureSign V2.": "Nelze spustit GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete je vyhrazeno systémem Windows a nelze je odeslat gestem.",
+  "Finish or clear the recording first.": "Nejprve dokončete kreslení nebo vymažte zaznamenané gesto.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 byl aktualizován, ale nemohl se automaticky restartovat. Otevřete jej z nabídky Start nebo instalační složky. Podrobnosti: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Nakreslete {0} fází gesta. Po každé fázi zvedněte všechny prsty.",
+  "Recorded {0} stage(s). Save the action to apply.": "Zachyceno {0} fází gest. Uložte akci, kterou chcete použít.",
+  "Recording canceled.": "Nahrávání gest bylo zrušeno.",
+  "Recording stages": "Počet fází gest",
+  "Recording timed out": "Časový limit nahrávání gest vypršel",
+  "Recording timed out. Start recording again.": "Časový limit nahrávání gest vypršel. Nakreslete gesto znovu.",
+  "Start recording again.": "Začněte znovu kreslit gesto.",
+  "The application executable was not found: {0}": "Spustitelný soubor aplikace nebyl nalezen: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Niżżel mhux disponibbli",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "It-tniżżil ta' GitHub mhuwiex disponibbli. Erġa' pprova aktar tard jew agħżel Installa minn ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Il-menus ġew salvati, iżda r-runtime ma kkonfermax it-tagħbija mill-ġdid tas-shortcut.",
-  "Could not start the pie menu preview.": "Ma setgħetx tibda l-preview tal-menu tat-torta."
+  "Could not start the pie menu preview.": "Ma setgħetx tibda l-preview tal-menu tat-torta.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Wara li tibda, iġbed il-ġest tiegħek fuq it-touchpad jew it-touchscreen. Neħħi s-swaba 'kollha wara kull stadju. Il-ġest jiġi ffrankat wara li tiġbed l-istadji kollha magħżula.",
+  "Could not start GestureSign V2.": "Ma setgħetx tibda GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete hija riżervata mill-Windows u ma tistax tintbagħat b'ġest.",
+  "Finish or clear the recording first.": "Lesti tpinġi jew neħħi l-ġest irreġistrat l-ewwel.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ġie aġġornat, iżda ma setax jerġa' jibda awtomatikament. Iftaħ mill-menu Bidu jew mill-folder tal-installazzjoni. Dettalji: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Pinġi {0} stadji tal-ġest. Neħħi s-swaba 'kollha wara kull stadju.",
+  "Recorded {0} stage(s). Save the action to apply.": "Inqabad {0} stadju tal-ġesti. Issejvja l-azzjoni biex tapplika.",
+  "Recording canceled.": "Ir-reġistrazzjoni tal-ġesti kkanċellata.",
+  "Recording stages": "Numru ta 'stadji ta' ġesti",
+  "Recording timed out": "Ir-reġistrazzjoni tal-ġest skaduta",
+  "Recording timed out. Start recording again.": "Ir-reġistrazzjoni tal-ġest skaduta. Iġbed il-ġest mill-ġdid.",
+  "Start recording again.": "Erġa' tibda tpinġi l-ġest.",
+  "The application executable was not found: {0}": "L-eżekutibbli tal-applikazzjoni ma nstabx: {0}"
 }

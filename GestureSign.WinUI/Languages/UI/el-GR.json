@@ -732,5 +732,18 @@
   "Download unavailable": "Η λήψη δεν είναι διαθέσιμη",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Η λήψη του GitHub δεν είναι διαθέσιμη. Δοκιμάστε ξανά αργότερα ή επιλέξτε Εγκατάσταση από ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Τα μενού αποθηκεύτηκαν, αλλά ο χρόνος εκτέλεσης δεν επιβεβαίωσε την επαναφόρτωση της συντόμευσης.",
-  "Could not start the pie menu preview.": "Δεν ήταν δυνατή η έναρξη της προεπισκόπησης του μενού πίτας."
+  "Could not start the pie menu preview.": "Δεν ήταν δυνατή η έναρξη της προεπισκόπησης του μενού πίτας.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Αφού ξεκινήσετε, σχεδιάστε τη χειρονομία σας στην επιφάνεια αφής ή στην οθόνη αφής. Σηκώστε όλα τα δάχτυλα μετά από κάθε στάδιο. Η χειρονομία αποθηκεύεται αφού σχεδιάσετε όλα τα επιλεγμένα στάδια.",
+  "Could not start GestureSign V2.": "Δεν ήταν δυνατή η εκκίνηση του GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Το Ctrl+Alt+Delete είναι δεσμευμένο από τα Windows και δεν μπορεί να σταλεί με χειρονομία.",
+  "Finish or clear the recording first.": "Ολοκληρώστε τη σχεδίαση ή διαγράψτε πρώτα την εγγεγραμμένη χειρονομία.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Το GestureSign V2 ενημερώθηκε, αλλά δεν ήταν δυνατή η αυτόματη επανεκκίνηση. Ανοίξτε το από το μενού Έναρξη ή από το φάκελο εγκατάστασης. Λεπτομέρειες: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Σχεδιάστε {0} στάδια της χειρονομίας. Σηκώστε όλα τα δάχτυλα μετά από κάθε στάδιο.",
+  "Recorded {0} stage(s). Save the action to apply.": "Καταγράφηκαν {0} στάδια χειρονομιών. Αποθηκεύστε την ενέργεια για εφαρμογή.",
+  "Recording canceled.": "Η εγγραφή χειρονομίας ακυρώθηκε.",
+  "Recording stages": "Αριθμός σταδίων χειρονομιών",
+  "Recording timed out": "Λήξη χρόνου εγγραφής χειρονομίας",
+  "Recording timed out. Start recording again.": "Λήξη χρόνου εγγραφής χειρονομίας. Σχεδιάστε ξανά τη χειρονομία.",
+  "Start recording again.": "Αρχίστε να σχεδιάζετε ξανά τη χειρονομία.",
+  "The application executable was not found: {0}": "Δεν βρέθηκε η εκτελέσιμη εφαρμογή: {0}"
 }

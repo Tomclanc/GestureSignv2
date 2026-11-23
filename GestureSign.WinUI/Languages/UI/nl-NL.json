@@ -732,5 +732,18 @@
   "Download unavailable": "Downloaden niet beschikbaar",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "De GitHub-download is niet beschikbaar. Probeer het later opnieuw of kies Installeren vanuit ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menu's zijn opgeslagen, maar de runtime heeft het opnieuw laden van de snelkoppeling niet bevestigd.",
-  "Could not start the pie menu preview.": "Kan het voorbeeld van het taartmenu niet starten."
+  "Could not start the pie menu preview.": "Kan het voorbeeld van het taartmenu niet starten.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Teken na het starten uw gebaar op het touchpad of touchscreen. Til na elke fase alle vingers op. Het gebaar wordt opgeslagen nadat u alle geselecteerde fasen heeft getekend.",
+  "Could not start GestureSign V2.": "Kan GestureSign V2 niet starten.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete is gereserveerd door Windows en kan niet met een gebaar worden verzonden.",
+  "Finish or clear the recording first.": "Beëindig het tekenen of wis eerst het opgenomen gebaar.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 is bijgewerkt, maar kan niet automatisch opnieuw opstarten. Open het vanuit het Start-menu of de installatiemap. Bijzonderheden: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Teken {0} stadia van het gebaar. Til na elke fase alle vingers op.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} gebarenstadia vastgelegd. Sla de actie op die u wilt toepassen.",
+  "Recording canceled.": "Gebarenopname geannuleerd.",
+  "Recording stages": "Aantal gebarenstadia",
+  "Recording timed out": "Er is een time-out opgetreden bij het opnemen van gebaren",
+  "Recording timed out. Start recording again.": "Er is een time-out opgetreden bij het opnemen van gebaren. Teken het gebaar opnieuw.",
+  "Start recording again.": "Begin opnieuw met het tekenen van het gebaar.",
+  "The application executable was not found: {0}": "Het uitvoerbare bestand van de toepassing is niet gevonden: {0}"
 }

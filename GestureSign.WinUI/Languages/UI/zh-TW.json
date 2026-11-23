@@ -732,5 +732,18 @@
   "Download unavailable": "暫時無法下載",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "暫時無法從 GitHub 下載。請稍後再試，或選擇「從 ZIP 安裝」。",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "選單已儲存，背景程式尚未確認重新綁定快速鍵。",
-  "Could not start the pie menu preview.": "無法啟動環形選單預覽。"
+  "Could not start the pie menu preview.": "無法啟動環形選單預覽。",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "開始後，在觸控板或觸控螢幕上繪製手勢。每個階段結束後抬起所有手指。繪製所有選定的階段後，手勢將被保存。",
+  "Could not start GestureSign V2.": "無法啟動 GestureSign V2。",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete 是 Windows 保留的，不能透過手勢發送。",
+  "Finish or clear the recording first.": "先完成繪製或清除錄製的手勢。",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 已更新，但無法自動重新啟動。從“開始”功能表或安裝資料夾打開它。詳情：{0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "繪製 {0} 個手勢階段。每個階段結束後抬起所有手指。",
+  "Recorded {0} stage(s). Save the action to apply.": "捕獲了 {0} 個手勢階段。儲存要套用的操作。",
+  "Recording canceled.": "手勢錄影已取消。",
+  "Recording stages": "手勢階段數",
+  "Recording timed out": "手勢錄製超時",
+  "Recording timed out. Start recording again.": "手勢錄製超時。再次繪製手勢。",
+  "Start recording again.": "再次開始繪製手勢。",
+  "The application executable was not found: {0}": "找不到應用程式可執行檔：{0}"
 }

@@ -2,6 +2,6 @@ namespace GestureSign.Shared
 {
     internal static class ProductVersion
     {
-        public const string Current = "18.4.9";
+        public const string Current = "18.4.11";
     }
 }

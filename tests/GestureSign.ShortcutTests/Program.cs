@@ -8,8 +8,18 @@ static class Program
 {
     static int checks;
     static void Check(bool ok, string name) { if (!ok) throw new Exception(name); checks++; }
-    [STAThread] static void Main()
+    [STAThread] static void Main(string[] args)
     {
+        Check(ShortcutKeys.IsSecureAttentionShortcut(3, null, new[] { 46 }), "Legacy Ctrl+Alt+Delete is reserved");
+        Check(ShortcutKeys.IsSecureAttentionShortcut(0, new[] { 163, 165 }, new[] { 46 }), "Sided Ctrl+Alt+Delete is reserved");
+        Check(ShortcutKeys.IsSecureAttentionShortcut(0, null, new[] { 162, 164, 46 }), "Explicit modifier keys still detect reserved chord");
+        Check(!ShortcutKeys.IsSecureAttentionShortcut(3, null, new[] { 35 }), "Ctrl+Alt+End is not the reserved chord");
+        Check(!ShortcutKeys.IsSecureAttentionShortcut(2, null, new[] { 46 }), "Ctrl+Delete is not the reserved chord");
+        if (args.Contains("--policy-only"))
+        {
+            Console.WriteLine($"PASS {checks} secure shortcut policy checks without injecting input.");
+            return;
+        }
         var session = new ShortcutRecordingSession();
         var box = new object();
         Check(session.Begin(box), "Initial focus starts recorder");

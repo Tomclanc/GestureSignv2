@@ -732,5 +732,18 @@
   "Download unavailable": "Nedlasting utilgjengelig",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub-nedlastingen er utilgjengelig. Prøv igjen senere eller velg Installer fra ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyer ble lagret, men kjøretiden bekreftet ikke innlastingen av snarveien.",
-  "Could not start the pie menu preview.": "Kunne ikke starte forhåndsvisningen av kakemenyen."
+  "Could not start the pie menu preview.": "Kunne ikke starte forhåndsvisningen av kakemenyen.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Etter oppstart tek du opp på styreflata eller berøringsskjermen. Lyft alle fingrane etter kvart steg. Rørsla blir lagra når alle dei valde stega er tekne opp.",
+  "Could not start GestureSign V2.": "Klarte ikkje å starte GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete er reservert av Windows og kan ikkje sendast med ei rørsle.",
+  "Finish or clear the recording first.": "Fullfør eller tøm opptaket først.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 er oppdatert, men kunne ikkje starte på nytt automatisk. Opne programmet frå Start-menyen eller installasjonsmappa. Detaljar: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Ta opp {0} steg. Lyft alle fingrane etter kvart steg.",
+  "Recorded {0} stage(s). Save the action to apply.": "Tok opp {0} steg. Lagre handlinga for å bruke opptaket.",
+  "Recording canceled.": "Opptaket vart avbrote.",
+  "Recording stages": "Steg i opptaket",
+  "Recording timed out": "Opptaket gjekk ut på tid",
+  "Recording timed out. Start recording again.": "Opptaket gjekk ut på tid. Start opptaket på nytt.",
+  "Start recording again.": "Start opptaket på nytt.",
+  "The application executable was not found: {0}": "Fann ikkje programfila: {0}"
 }

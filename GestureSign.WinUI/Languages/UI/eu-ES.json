@@ -732,5 +732,18 @@
   "Download unavailable": "Deskarga ez dago erabilgarri",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub deskarga ez dago erabilgarri. Saiatu berriro geroago edo aukeratu Instalatu ZIPtik.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menuak gorde dira, baina exekuzio-denborak ez du berretsi lasterbideen birkarga.",
-  "Could not start the pie menu preview.": "Ezin izan da tarta menuaren aurrebista hasi."
+  "Could not start the pie menu preview.": "Ezin izan da tarta menuaren aurrebista hasi.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Hasi ondoren, marraztu zure keinua ukipen-pantailan edo ukipen-pantailan. Altxatu hatz guztiak etapa bakoitzaren ondoren. Hautatutako fase guztiak marraztu ondoren gordeko da keinua.",
+  "Could not start GestureSign V2.": "Ezin izan da GestureSign V2 abiarazi.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ktrl+Alt+Ezabatu Windows-ek erreserbatuta dago eta ezin du keinu baten bidez bidali.",
+  "Finish or clear the recording first.": "Amaitu marrazten edo garbitu grabatutako keinua lehenik.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 eguneratu da, baina ezin izan da automatikoki berrabiarazi. Ireki Hasi menutik edo instalazio karpetatik. Xehetasunak: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Marraztu keinuaren {0} etapa. Altxatu hatz guztiak etapa bakoitzaren ondoren.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} keinu-etapa harrapatu ditu. Gorde ekintza aplikatzeko.",
+  "Recording canceled.": "Keinuen grabazioa bertan behera utzi da.",
+  "Recording stages": "Keinu-etapa kopurua",
+  "Recording timed out": "Keinuen grabaketa denbora-muga gainditu da",
+  "Recording timed out. Start recording again.": "Keinuen grabaketa denbora-muga gainditu da. Marraztu keinua berriro.",
+  "Start recording again.": "Hasi berriro keinua marrazten.",
+  "The application executable was not found: {0}": "Aplikazio exekutagarria ez da aurkitu: {0}"
 }

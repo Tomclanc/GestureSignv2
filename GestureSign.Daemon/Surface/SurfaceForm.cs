@@ -35,6 +35,8 @@ namespace GestureSign.Daemon.Surface
         private int _captureGeneration;
         private int _activeCaptureGeneration;
         private int _displayedCaptureGeneration;
+        private bool _trailFramePresented;
+        private bool _trailPresentFailureLogged;
 
         private const Int32 ULW_ALPHA = 0x00000002;
 
@@ -129,6 +131,8 @@ namespace GestureSign.Daemon.Surface
                 return;
 
             _displayedCaptureGeneration = captureGeneration;
+            _trailFramePresented = false;
+            _trailPresentFailureLogged = false;
 
             if (_settingsChanged)
             {
@@ -227,11 +231,11 @@ namespace GestureSign.Daemon.Surface
             if (_penWidth > 0 && !(points.Count == 1 && points[0].Count == 1))
             {
 
-                if (_bitmap == null || _lastStroke == null)
-                {
-                    ClearSurfaces();
-                    EnsureDrawingSurface();
-                }
+                // The first drawable frame has no previous stroke, but can use
+                // the bitmap already allocated when capture started.
+                EnsureDrawingSurface();
+                if (_bitmap == null)
+                    return;
                 DrawSegments(points);
             }
         }
@@ -545,21 +549,24 @@ namespace GestureSign.Daemon.Surface
                     _dirtyGraphicsPath.AddLines(translatedPoints);
                     translatedPointList.Add(new KeyValuePair<int, Point[]>(i, translatedPoints));
                 }
-                _dirtyGraphicsPath.Widen(_dirtyMarkerPen);
-                surfaceGraphics.SetClip(_dirtyGraphicsPath);
-
-                foreach (var item in translatedPointList)
+                if (translatedPointList.Count != 0)
                 {
-                    DrawFeedbackLines(surfaceGraphics, item.Key, item.Value);
+                    _dirtyGraphicsPath.Widen(_dirtyMarkerPen);
+                    surfaceGraphics.SetClip(_dirtyGraphicsPath);
+                    foreach (var item in translatedPointList)
+                        DrawFeedbackLines(surfaceGraphics, item.Key, item.Value);
                 }
 
                 _bitmap.EndDraw();
-                UpdateDraw();
+                if (translatedPointList.Count != 0)
+                    UpdateDraw();
             }
             catch (Exception e)
             {
                 Logging.LogException(e);
                 ClearSurfaces();
+                // When the next frame allocates a fresh bitmap, redraw the whole trail.
+                return;
             }
             // this.CreateGraphics().DrawImage(bmp, 0, 0);
 
@@ -879,13 +886,14 @@ namespace GestureSign.Daemon.Surface
         }
 
 
+        private bool SetDiBitmap(DiBitmap bmp, Rectangle dirtyRect, byte opacity, out int error)
+            => SetHBitmap(bmp.HBitmap, Bounds, Point.Empty, dirtyRect, opacity, out error);
+
         private void SetDiBitmap(DiBitmap bmp, Rectangle dirtyRect, byte opacity = 255)
-        {
-            SetHBitmap(bmp.HBitmap, Bounds, Point.Empty, dirtyRect, opacity);
-        }
+            => SetDiBitmap(bmp, dirtyRect, opacity, out _);
 
         //dirtyRect是绝对坐标（在多屏的情况下）
-        private void SetHBitmap(IntPtr hBitmap, Rectangle newWindowBounds, Point drawAt, Rectangle dirtyRect, byte opacity)
+        private bool SetHBitmap(IntPtr hBitmap, Rectangle newWindowBounds, Point drawAt, Rectangle dirtyRect, byte opacity, out int error)
         {
             // IntPtr screenDc = Win32.GDI32.GetDC(IntPtr.Zero);
 
@@ -926,8 +934,9 @@ namespace GestureSign.Daemon.Surface
                     updateInfo.prcDirty = null;
                 }
 
-                NativeMethods.UpdateLayeredWindowIndirect(Handle, ref updateInfo);
-                // Debug.Assert(NativeMethods.GetLastError() == 0);
+                var presented = NativeMethods.UpdateLayeredWindowIndirect(Handle, ref updateInfo);
+                error = presented ? 0 : Marshal.GetLastWin32Error();
+                return presented;
 
                 //NativeMethods.UpdateLayeredWindow(Handle, IntPtr.Zero, ref topPos, ref size, memDc, ref pointSource, 0, ref blend, GDI32.ULW_ALPHA);
 
@@ -953,7 +962,17 @@ namespace GestureSign.Daemon.Surface
             pathDirty.Intersect(Bounds);
             pathDirty.Offset(-Bounds.X, -Bounds.Y); //挪回来变为基于窗口的坐标
 
-            SetDiBitmap(_bitmap, /*_pathDirtyRect*/pathDirty, 255);
+            if (SetDiBitmap(_bitmap, pathDirty, 255, out var error))
+            {
+                if (_trailFramePresented) return;
+                _trailFramePresented = true;
+                Logging.LogMessage("Visual feedback first trail frame submitted.");
+            }
+            else if (!_trailPresentFailureLogged)
+            {
+                _trailPresentFailureLogged = true;
+                Logging.LogMessage($"Visual feedback trail frame failed. Win32Error={error}");
+            }
         }
 
         private void UpdateFullSurface(byte opacity = 255)

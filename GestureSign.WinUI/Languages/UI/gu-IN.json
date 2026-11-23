@@ -732,5 +732,18 @@
   "Download unavailable": "ડાઉનલોડ અનુપલબ્ધ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ડાઉનલોડ અનુપલબ્ધ છે. પછીથી ફરી પ્રયાસ કરો અથવા ઝીપમાંથી ઇન્સ્ટોલ કરો પસંદ કરો.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "મેનૂ સાચવવામાં આવ્યા હતા, પરંતુ રનટાઇમ શૉર્ટકટ ફરીથી લોડ કરવાની પુષ્ટિ કરતું નથી.",
-  "Could not start the pie menu preview.": "પાઇ મેનૂ પૂર્વાવલોકન શરૂ કરી શકાયું નથી."
+  "Could not start the pie menu preview.": "પાઇ મેનૂ પૂર્વાવલોકન શરૂ કરી શકાયું નથી.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "શરૂ કર્યા પછી, ટચપેડ અથવા ટચસ્ક્રીન પર તમારા હાવભાવ દોરો. દરેક તબક્કા પછી બધી આંગળીઓ ઉપાડો. તમે બધા પસંદ કરેલા તબક્કાઓ દોરો પછી હાવભાવ સાચવવામાં આવે છે.",
+  "Could not start GestureSign V2.": "GestureSign V2 શરૂ કરી શકાયું નથી.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows દ્વારા આરક્ષિત છે અને તેને હાવભાવ દ્વારા મોકલી શકાતું નથી.",
+  "Finish or clear the recording first.": "પહેલા ડ્રોઇંગ સમાપ્ત કરો અથવા રેકોર્ડ કરેલ હાવભાવ સાફ કરો.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 અપડેટ કરવામાં આવ્યું હતું, પરંતુ આપમેળે પુનઃપ્રારંભ થઈ શક્યું નથી. તેને સ્ટાર્ટ મેનૂ અથવા ઇન્સ્ટોલેશન ફોલ્ડરમાંથી ખોલો. વિગતો: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "હાવભાવના {0} તબક્કાઓ દોરો. દરેક તબક્કા પછી બધી આંગળીઓ ઉપાડો.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} જેસ્ચર સ્ટેજ કબજે કર્યા. અરજી કરવાની ક્રિયા સાચવો.",
+  "Recording canceled.": "હાવભાવ રેકોર્ડિંગ રદ કર્યું.",
+  "Recording stages": "હાવભાવના તબક્કાઓની સંખ્યા",
+  "Recording timed out": "હાવભાવ રેકોર્ડિંગનો સમય સમાપ્ત થયો",
+  "Recording timed out. Start recording again.": "હાવભાવ રેકોર્ડિંગનો સમય સમાપ્ત થયો. હાવભાવ ફરીથી દોરો.",
+  "Start recording again.": "ફરીથી હાવભાવ દોરવાનું શરૂ કરો.",
+  "The application executable was not found: {0}": "એક્ઝિક્યુટેબલ એપ્લિકેશન મળી ન હતી: {0}"
 }

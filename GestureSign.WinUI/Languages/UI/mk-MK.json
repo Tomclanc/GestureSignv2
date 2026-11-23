@@ -732,5 +732,18 @@
   "Download unavailable": "Преземањето е недостапно",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Преземањето на GitHub е недостапно. Обидете се повторно подоцна или изберете Инсталирај од ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Менијата беа зачувани, но времето на траење не го потврди повторното вчитување на кратенката.",
-  "Could not start the pie menu preview.": "Не може да се стартува прегледот на менито за пита."
+  "Could not start the pie menu preview.": "Не може да се стартува прегледот на менито за пита.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Откако ќе започнете, нацртајте го вашиот гест на подлогата за допир или на екранот на допир. Подигнете ги сите прсти по секоја фаза. Гестот се зачувува откако ќе ги нацртате сите избрани фази.",
+  "Could not start GestureSign V2.": "Не може да се стартува GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete е резервиран од Windows и не може да се испрати со гест.",
+  "Finish or clear the recording first.": "Прво завршете го цртањето или исчистете го снимениот гест.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 беше ажуриран, но не можеше да се рестартира автоматски. Отворете го од менито Start или папката за инсталација. Детали: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Нацртајте {0} фази на гестот. Подигнете ги сите прсти по секоја фаза.",
+  "Recorded {0} stage(s). Save the action to apply.": "Снимени {0} гестови. Зачувајте го дејството за да аплицирате.",
+  "Recording canceled.": "Снимањето со гестови е откажано.",
+  "Recording stages": "Број на фази на гестови",
+  "Recording timed out": "Истече времето за снимање со гестови",
+  "Recording timed out. Start recording again.": "Истече времето за снимање со гестови. Повторно нацртајте го гестот.",
+  "Start recording again.": "Почнете да го цртате гестот повторно.",
+  "The application executable was not found: {0}": "Извршната апликација не е пронајдена: {0}"
 }

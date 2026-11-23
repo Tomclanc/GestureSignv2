@@ -732,5 +732,18 @@
   "Download unavailable": "ಡೌನ್‌ಲೋಡ್ ಲಭ್ಯವಿಲ್ಲ",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub ಡೌನ್‌ಲೋಡ್ ಲಭ್ಯವಿಲ್ಲ. ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ ಅಥವಾ ZIP ನಿಂದ ಸ್ಥಾಪಿಸಿ ಆಯ್ಕೆಮಾಡಿ.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ಮೆನುಗಳನ್ನು ಉಳಿಸಲಾಗಿದೆ, ಆದರೆ ರನ್‌ಟೈಮ್ ಶಾರ್ಟ್‌ಕಟ್ ಮರುಲೋಡ್ ಅನ್ನು ದೃಢೀಕರಿಸಲಿಲ್ಲ.",
-  "Could not start the pie menu preview.": "ಪೈ ಮೆನು ಪೂರ್ವವೀಕ್ಷಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ."
+  "Could not start the pie menu preview.": "ಪೈ ಮೆನು ಪೂರ್ವವೀಕ್ಷಣೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "ಪ್ರಾರಂಭಿಸಿದ ನಂತರ, ಟಚ್‌ಪ್ಯಾಡ್ ಅಥವಾ ಟಚ್‌ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ನಿಮ್ಮ ಗೆಸ್ಚರ್ ಅನ್ನು ಸೆಳೆಯಿರಿ. ಪ್ರತಿ ಹಂತದ ನಂತರ ಎಲ್ಲಾ ಬೆರಳುಗಳನ್ನು ಮೇಲಕ್ಕೆತ್ತಿ. ನೀವು ಎಲ್ಲಾ ಆಯ್ದ ಹಂತಗಳನ್ನು ಚಿತ್ರಿಸಿದ ನಂತರ ಗೆಸ್ಚರ್ ಅನ್ನು ಉಳಿಸಲಾಗುತ್ತದೆ.",
+  "Could not start GestureSign V2.": "GestureSign V2 ಅನ್ನು ಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete ಅನ್ನು Windows ನಿಂದ ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ ಮತ್ತು ಗೆಸ್ಚರ್ ಮೂಲಕ ಕಳುಹಿಸಲಾಗುವುದಿಲ್ಲ.",
+  "Finish or clear the recording first.": "ರೇಖಾಚಿತ್ರವನ್ನು ಮುಗಿಸಿ ಅಥವಾ ರೆಕಾರ್ಡ್ ಮಾಡಿದ ಗೆಸ್ಚರ್ ಅನ್ನು ಮೊದಲು ತೆರವುಗೊಳಿಸಿ.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ಅನ್ನು ನವೀಕರಿಸಲಾಗಿದೆ, ಆದರೆ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಮರುಪ್ರಾರಂಭಿಸಲು ಸಾಧ್ಯವಾಗಲಿಲ್ಲ. ಪ್ರಾರಂಭ ಮೆನು ಅಥವಾ ಅನುಸ್ಥಾಪನಾ ಫೋಲ್ಡರ್‌ನಿಂದ ಅದನ್ನು ತೆರೆಯಿರಿ. ವಿವರಗಳು: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "ಗೆಸ್ಚರ್‌ನ {0} ಹಂತಗಳನ್ನು ಬರೆಯಿರಿ. ಪ್ರತಿ ಹಂತದ ನಂತರ ಎಲ್ಲಾ ಬೆರಳುಗಳನ್ನು ಮೇಲಕ್ಕೆತ್ತಿ.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} ಗೆಸ್ಚರ್ ಹಂತಗಳನ್ನು ಸೆರೆಹಿಡಿಯಲಾಗಿದೆ. ಅನ್ವಯಿಸಲು ಕ್ರಿಯೆಯನ್ನು ಉಳಿಸಿ.",
+  "Recording canceled.": "ಗೆಸ್ಚರ್ ರೆಕಾರ್ಡಿಂಗ್ ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ.",
+  "Recording stages": "ಗೆಸ್ಚರ್ ಹಂತಗಳ ಸಂಖ್ಯೆ",
+  "Recording timed out": "ಗೆಸ್ಚರ್ ರೆಕಾರ್ಡಿಂಗ್ ಸಮಯ ಮೀರಿದೆ",
+  "Recording timed out. Start recording again.": "ಗೆಸ್ಚರ್ ರೆಕಾರ್ಡಿಂಗ್ ಸಮಯ ಮೀರಿದೆ. ಗೆಸ್ಚರ್ ಅನ್ನು ಮತ್ತೆ ಎಳೆಯಿರಿ.",
+  "Start recording again.": "ಗೆಸ್ಚರ್ ಅನ್ನು ಮತ್ತೆ ಚಿತ್ರಿಸಲು ಪ್ರಾರಂಭಿಸಿ.",
+  "The application executable was not found: {0}": "ಕಾರ್ಯಗತಗೊಳಿಸಬಹುದಾದ ಅಪ್ಲಿಕೇಶನ್ ಕಂಡುಬಂದಿಲ್ಲ: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "Muat turun tidak tersedia",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Muat turun GitHub tidak tersedia. Cuba lagi kemudian atau pilih Pasang daripada ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menu telah disimpan, tetapi masa jalan tidak mengesahkan muat semula pintasan.",
-  "Could not start the pie menu preview.": "Tidak dapat memulakan pratonton menu pai."
+  "Could not start the pie menu preview.": "Tidak dapat memulakan pratonton menu pai.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Selepas bermula, lukis gerak isyarat anda pada pad sentuh atau skrin sentuh. Angkat semua jari selepas setiap peringkat. Gerak isyarat disimpan selepas anda melukis semua peringkat yang dipilih.",
+  "Could not start GestureSign V2.": "Tidak dapat memulakan GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete dikhaskan oleh Windows dan tidak boleh dihantar melalui gerak isyarat.",
+  "Finish or clear the recording first.": "Selesaikan lukisan atau kosongkan gerak isyarat yang dirakam dahulu.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 telah dikemas kini, tetapi tidak dapat dimulakan semula secara automatik. Bukanya dari menu Mula atau folder pemasangan. Butiran: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Lukiskan {0} peringkat gerak isyarat. Angkat semua jari selepas setiap peringkat.",
+  "Recorded {0} stage(s). Save the action to apply.": "Menangkap {0} peringkat gerak isyarat. Simpan tindakan untuk digunakan.",
+  "Recording canceled.": "Rakaman gerak isyarat dibatalkan.",
+  "Recording stages": "Bilangan peringkat gerak isyarat",
+  "Recording timed out": "Rakaman gerak isyarat tamat masa",
+  "Recording timed out. Start recording again.": "Rakaman gerak isyarat tamat masa. Lukis isyarat itu sekali lagi.",
+  "Start recording again.": "Mula melukis gerak isyarat itu semula.",
+  "The application executable was not found: {0}": "Aplikasi boleh laku tidak ditemui: {0}"
 }

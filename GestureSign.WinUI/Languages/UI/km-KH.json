@@ -732,5 +732,18 @@
   "Download unavailable": "មិនអាចទាញយកបានទេ។",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "ការទាញយក GitHub គឺមិនមានទេ។ ព្យាយាមម្តងទៀតនៅពេលក្រោយ ឬជ្រើសរើសដំឡើងពី ZIP ។",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "ម៉ឺនុយ​ត្រូវ​បាន​រក្សា​ទុក ប៉ុន្តែ​ពេល​រត់​មិន​បាន​បញ្ជាក់​ពី​ការ​ផ្ទុក​ផ្លូវកាត់​ឡើង​វិញ​ទេ។",
-  "Could not start the pie menu preview.": "មិន​អាច​ចាប់​ផ្តើ​ម​ការ​មើល​ម៉ឺនុយ​នំ​ជា​មុន​។"
+  "Could not start the pie menu preview.": "មិន​អាច​ចាប់​ផ្តើ​ម​ការ​មើល​ម៉ឺនុយ​នំ​ជា​មុន​។",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "បន្ទាប់ពីចាប់ផ្តើម សូមគូរកាយវិការរបស់អ្នកនៅលើបន្ទះប៉ះ ឬអេក្រង់ប៉ះ។ លើកម្រាមដៃទាំងអស់បន្ទាប់ពីដំណាក់កាលនីមួយៗ។ កាយវិការត្រូវបានរក្សាទុកបន្ទាប់ពីអ្នកគូរដំណាក់កាលដែលបានជ្រើសរើសទាំងអស់។",
+  "Could not start GestureSign V2.": "មិនអាចចាប់ផ្តើម GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "បញ្ជា(Ctrl)+ជំនួស(Alt)+លុប​ត្រូវ​បាន​រក្សា​ទុក​ដោយ Windows ហើយ​មិន​អាច​ផ្ញើ​ដោយ​កាយវិការ​បាន​ទេ។",
+  "Finish or clear the recording first.": "បញ្ចប់ការគូរ ឬសម្អាតកាយវិការដែលបានកត់ត្រាជាមុនសិន។",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ត្រូវបានអាប់ដេត ប៉ុន្តែមិនអាចចាប់ផ្តើមឡើងវិញដោយស្វ័យប្រវត្តិបានទេ។ បើកវាពីម៉ឺនុយចាប់ផ្តើមឬថតដំឡើង។ ព័ត៌មានលម្អិត៖ {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "គូរ {0} ដំណាក់កាលនៃកាយវិការ។ លើកម្រាមដៃទាំងអស់បន្ទាប់ពីដំណាក់កាលនីមួយៗ។",
+  "Recorded {0} stage(s). Save the action to apply.": "ចាប់បាន {0} ដំណាក់កាលកាយវិការ។ រក្សាទុកសកម្មភាពដើម្បីអនុវត្ត។",
+  "Recording canceled.": "ការថតកាយវិការត្រូវបានលុបចោល។",
+  "Recording stages": "ចំនួនដំណាក់កាលនៃកាយវិការ",
+  "Recording timed out": "ការថតកាយវិការបានអស់ពេល",
+  "Recording timed out. Start recording again.": "ការថតកាយវិការបានអស់ពេល។ គូរកាយវិការម្តងទៀត។",
+  "Start recording again.": "ចាប់ផ្តើមគូរកាយវិការម្តងទៀត។",
+  "The application executable was not found: {0}": "រកមិនឃើញកម្មវិធីដែលអាចប្រតិបត្តិបាន៖ {0}"
 }

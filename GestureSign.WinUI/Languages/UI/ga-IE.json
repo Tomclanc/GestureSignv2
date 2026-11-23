@@ -732,5 +732,18 @@
   "Download unavailable": "Íosluchtaigh nach bhfuil ar fáil",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Níl an íoslódáil GitHub ar fáil. Bain triail eile as ar ball nó roghnaigh Suiteáil ó ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Sábháladh biachláir, ach níor dheimhnigh an t-am rite athlódáil an aicearra.",
-  "Could not start the pie menu preview.": "Níorbh fhéidir réamhamharc an roghchláir pie a thosú."
+  "Could not start the pie menu preview.": "Níorbh fhéidir réamhamharc an roghchláir pie a thosú.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Tar éis duit tosú, tarraing do chomhartha ar an touchpad nó ar an scáileán tadhaill. Ardaigh gach méar tar éis gach céime. Sábhálfar an gesture tar éis duit gach céim roghnaithe a tharraingt.",
+  "Could not start GestureSign V2.": "Níorbh fhéidir GestureSign V2 a thosú.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Tá Ctrl+Alt+Delete curtha in áirithe ag Windows agus ní féidir é a sheoladh le gothaí.",
+  "Finish or clear the recording first.": "Críochnaigh an líníocht nó glan an comhartha taifeadta ar dtús.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "Nuashonraíodh GestureSign V2, ach níorbh fhéidir é a atosú go huathoibríoch. Oscail é ón roghchlár Tosaigh nó ón bhfillteán suiteála. Sonraí: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Tarraing {0} céim den gotha. Ardaigh gach méar tar éis gach céime.",
+  "Recorded {0} stage(s). Save the action to apply.": "Gabhadh {0} céimeanna gothaí. Sábháil an gníomh a chur i bhfeidhm.",
+  "Recording canceled.": "Taifeadadh gothaí cealaithe.",
+  "Recording stages": "Líon céimeanna gothaí",
+  "Recording timed out": "Taifeadadh gothaí imithe i léig",
+  "Recording timed out. Start recording again.": "Taifeadadh gothaí imithe i léig. Tarraing an gesture arís.",
+  "Start recording again.": "Tosaigh ag tarraingt an chomhartha arís.",
+  "The application executable was not found: {0}": "Ní bhfuarthas an feidhmchlár inrite: {0}"
 }

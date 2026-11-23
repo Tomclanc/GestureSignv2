@@ -732,5 +732,18 @@
   "Download unavailable": "Upakuaji haupatikani",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "Upakuaji wa GitHub haupatikani. Jaribu tena baadaye au uchague Sakinisha kutoka ZIP.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menyu zilihifadhiwa, lakini muda wa utekelezaji haukuthibitisha upakiaji upya wa njia ya mkato.",
-  "Could not start the pie menu preview.": "Haikuweza kuanzisha onyesho la kukagua menyu ya pai."
+  "Could not start the pie menu preview.": "Haikuweza kuanzisha onyesho la kukagua menyu ya pai.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Baada ya kuanza, chora ishara yako kwenye padi ya kugusa au skrini ya kugusa. Inua vidole vyote baada ya kila hatua. Ishara huhifadhiwa baada ya kuchora hatua zote zilizochaguliwa.",
+  "Could not start GestureSign V2.": "Haikuweza kuanzisha GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete imehifadhiwa na Windows na haiwezi kutumwa kwa ishara.",
+  "Finish or clear the recording first.": "Maliza kuchora au futa ishara iliyorekodiwa kwanza.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 ilisasishwa, lakini haikuweza kuwasha upya kiotomatiki. Fungua kutoka kwa menyu ya Mwanzo au folda ya usakinishaji. Maelezo: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Chora hatua {0} za ishara. Inua vidole vyote baada ya kila hatua.",
+  "Recorded {0} stage(s). Save the action to apply.": "Imenasa hatua {0} za ishara. Hifadhi kitendo cha kuomba.",
+  "Recording canceled.": "Rekodi ya ishara imeghairiwa.",
+  "Recording stages": "Idadi ya hatua za ishara",
+  "Recording timed out": "Muda wa kurekodi kwa ishara umekwisha",
+  "Recording timed out. Start recording again.": "Muda wa kurekodi kwa ishara umekwisha. Chora ishara tena.",
+  "Start recording again.": "Anza kuchora ishara tena.",
+  "The application executable was not found: {0}": "Programu inayoweza kutekelezwa haikupatikana: {0}"
 }

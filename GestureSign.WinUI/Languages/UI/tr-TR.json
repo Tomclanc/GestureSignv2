@@ -732,5 +732,18 @@
   "Download unavailable": "İndirilemiyor",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub indirmesi kullanılamıyor. Daha sonra tekrar deneyin veya ZIP'ten Yükle'yi seçin.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Menüler kaydedildi ancak çalışma zamanı kısayolun yeniden yüklenmesini onaylamadı.",
-  "Could not start the pie menu preview.": "Pasta menüsü önizlemesi başlatılamadı."
+  "Could not start the pie menu preview.": "Pasta menüsü önizlemesi başlatılamadı.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Başladıktan sonra hareketinizi dokunmatik yüzeye veya dokunmatik ekrana çizin. Her aşamadan sonra tüm parmaklarınızı kaldırın. Seçilen tüm aşamaları çizdikten sonra hareket kaydedilir.",
+  "Could not start GestureSign V2.": "GestureSign V2 başlatılamadı.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows tarafından ayrılmıştır ve bir hareketle gönderilemez.",
+  "Finish or clear the recording first.": "Önce çizimi bitirin veya kaydedilen hareketi silin.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 güncellendi ancak otomatik olarak yeniden başlatılamadı. Başlat menüsünden veya kurulum klasöründen açın. Ayrıntılar: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Hareketin {0} aşamasını çizin. Her aşamadan sonra tüm parmaklarınızı kaldırın.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} hareket aşaması yakalandı. Uygulanacak eylemi kaydedin.",
+  "Recording canceled.": "Hareket kaydı iptal edildi.",
+  "Recording stages": "Hareket aşaması sayısı",
+  "Recording timed out": "Hareket kaydı zaman aşımına uğradı",
+  "Recording timed out. Start recording again.": "Hareket kaydı zaman aşımına uğradı. Hareketi tekrar çizin.",
+  "Start recording again.": "Hareketi yeniden çizmeye başlayın.",
+  "The application executable was not found: {0}": "Yürütülebilir uygulama bulunamadı: {0}"
 }

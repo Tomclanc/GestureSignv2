@@ -38,7 +38,7 @@ public sealed partial class MainWindow
             review.StartBringIntoView(new BringIntoViewOptions { AnimationDesired = false, VerticalAlignmentRatio = 0 });
         });
     }
-    private readonly IntentComponentService _intentComponent = new();
+    private readonly IntentComponentService _intentComponent = new(FindRunningDaemon);
     private IntentHostResponse? _lastVetoState;
     private string IntentText(string zh, string en) => IntentFormat(en);
     private string IntentFormat(string english, params object[] args) => GestureSign.Foundation.Localization.IntentLocalization.Format(ResolveUiCultureName(_uiCultureName), english, args);

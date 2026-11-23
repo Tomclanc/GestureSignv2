@@ -7,6 +7,8 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -57,6 +59,8 @@ namespace GestureSign.Updater
         private readonly Label _status = new Label();
         private readonly ProgressBar _progress = new ProgressBar();
         private readonly Button _closeButton = new Button();
+        private int? _msiExitCode;
+        private string _msiLogPath;
 
         public UpdateForm(UpdateOptions options)
         {
@@ -101,12 +105,12 @@ namespace GestureSign.Updater
             _status.ForeColor = subText;
             _status.AutoSize = false;
             _status.Location = new Point(30, 82);
-            _status.Size = new Size(490, 44);
+            _status.Size = new Size(490, 78);
             panel.Controls.Add(_status);
 
             _progress.Style = ProgressBarStyle.Marquee;
             _progress.MarqueeAnimationSpeed = 24;
-            _progress.Location = new Point(30, 140);
+            _progress.Location = new Point(30, 164);
             _progress.Size = new Size(488, 18);
             panel.Controls.Add(_progress);
 
@@ -153,7 +157,21 @@ namespace GestureSign.Updater
                 _title.Text = T("Update completed");
                 _status.Text = T("GestureSign V2 has been updated. Restarting…");
                 await Task.Delay(700);
-                LaunchUpdatedApplication();
+                try
+                {
+                    LaunchUpdatedApplication();
+                }
+                catch (Exception ex)
+                {
+                    var status = string.Format(T("GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}"), ex.Message);
+                    if (_msiExitCode.HasValue)
+                        Trace.TraceWarning("MSI installed (exit {0}, log {1}); relaunch failed: {2}", _msiExitCode, _msiLogPath, ex);
+                    else
+                        Trace.TraceWarning(status);
+                    _status.Text = status;
+                    EnableCloseButton();
+                    return;
+                }
                 _closeButton.Enabled = true;
                 Close();
             }
@@ -162,13 +180,18 @@ namespace GestureSign.Updater
                 _progress.MarqueeAnimationSpeed = 0;
                 _title.Text = T("Update failed");
                 _status.Text = ex.Message;
-                _closeButton.Text = T("Close");
-                _closeButton.Enabled = true;
+                EnableCloseButton();
             }
             finally
             {
                 TryDeleteFile(_options.PackagePath);
             }
+        }
+
+        private void EnableCloseButton()
+        {
+            _closeButton.Text = T("Close");
+            _closeButton.Enabled = true;
         }
 
         private void ValidateOptions()
@@ -231,8 +254,8 @@ namespace GestureSign.Updater
             SetStatus(T("Preserving the installed radial menu component…"));
             PreserveBundledKando(_options.TargetDirectory);
             SetStatus(T("Installing the new version…"));
-            var logPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
-            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{logPath}\"";
+            _msiLogPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
+            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{_msiLogPath}\"";
             using (var process = Process.Start(new ProcessStartInfo("msiexec.exe", arguments)
             {
                 UseShellExecute = false,
@@ -242,8 +265,9 @@ namespace GestureSign.Updater
                 if (process == null)
                     throw new InvalidOperationException(T("Could not start Windows Installer."));
                 process.WaitForExit();
-                if (process.ExitCode != 0 && process.ExitCode != 3010)
-                    throw new InvalidOperationException(string.Format(T("Windows Installer returned {0}. Detailed log: {1}"), process.ExitCode, logPath));
+                _msiExitCode = process.ExitCode;
+                if (_msiExitCode != 0 && _msiExitCode != 3010)
+                    throw new InvalidOperationException(string.Format(T("Windows Installer returned {0}. Detailed log: {1}"), _msiExitCode, _msiLogPath));
             }
         }
 
@@ -355,14 +379,20 @@ namespace GestureSign.Updater
 
         private void LaunchUpdatedApplication()
         {
-            var executable = Path.Combine(_options.TargetDirectory, _options.LaunchExecutable ?? "GestureSignV2.WinUI.exe");
+            var msi = string.Equals(_options.Mode, "msi", StringComparison.OrdinalIgnoreCase);
+            string registeredDirectory = msi ? UpdateLaunch.GetMsiInstallLocation(_options.PackagePath) : null;
+            var executable = UpdateLaunch.ResolveExecutable(_options.TargetDirectory, registeredDirectory, msi);
             if (!File.Exists(executable))
-                throw new FileNotFoundException("更新完成，但找不到启动程序。", executable);
-            Process.Start(new ProcessStartInfo(executable)
+                throw new FileNotFoundException(string.Format(T("The application executable was not found: {0}"), executable), executable);
+            using (var process = Process.Start(new ProcessStartInfo(executable)
             {
                 UseShellExecute = true,
-                WorkingDirectory = _options.TargetDirectory
-            });
+                WorkingDirectory = Path.GetDirectoryName(executable)
+            }))
+            {
+                if (process == null)
+                    throw new InvalidOperationException(T("Could not start GestureSign V2."));
+            }
         }
 
         private void SetStatus(string text)
@@ -414,6 +444,78 @@ namespace GestureSign.Updater
                 return false;
             }
         }
+    }
+
+    internal static class UpdateLaunch
+    {
+        private const string ExecutableName = "GestureSignV2.WinUI.exe";
+
+        internal static string ResolveExecutable(string targetDirectory, string registeredDirectory, bool msi)
+        {
+            // Only a fully qualified local drive path from the exact installed
+            // package can override the launch root. Never scan for matching names.
+            var directory = msi && IsLocalAbsoluteDirectory(registeredDirectory)
+                ? registeredDirectory : targetDirectory;
+            return Path.Combine(Path.GetFullPath(directory), ExecutableName);
+        }
+
+        private static bool IsLocalAbsoluteDirectory(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path) || path.Length < 3 ||
+                !((path[0] >= 'A' && path[0] <= 'Z') || (path[0] >= 'a' && path[0] <= 'z')) ||
+                path[1] != ':' || (path[2] != Path.DirectorySeparatorChar && path[2] != Path.AltDirectorySeparatorChar) || path.IndexOf(':', 2) >= 0)
+                return false;
+            try { return Path.IsPathRooted(Path.GetFullPath(path)); }
+            catch (ArgumentException) { return false; }
+            catch (NotSupportedException) { return false; }
+            catch (PathTooLongException) { return false; }
+        }
+
+        internal static string GetMsiInstallLocation(string packagePath)
+        {
+            uint database = 0, view = 0, record = 0;
+            try
+            {
+                if (MsiOpenDatabase(packagePath, IntPtr.Zero, out database) != 0 ||
+                    MsiDatabaseOpenView(database, "SELECT `Value` FROM `Property` WHERE `Property` = 'ProductCode'", out view) != 0 ||
+                    MsiViewExecute(view, 0) != 0 || MsiViewFetch(view, out record) != 0)
+                    return null;
+                uint size = 39;
+                var productCode = new StringBuilder((int)size);
+                if (MsiRecordGetString(record, 1, productCode, ref size) != 0 ||
+                    !Guid.TryParseExact(productCode.ToString(), "B", out var id))
+                    return null;
+
+                // MSI's current-user/machine installed-product registration for
+                // this exact package, not an unrelated product with a similar name.
+                size = 32768;
+                string code = id.ToString("B").ToUpperInvariant();
+                var installLocation = new StringBuilder((int)size);
+                return MsiGetProductInfo(code, "InstallLocation", installLocation, ref size) == 0 && size != 0
+                    ? installLocation.ToString() : null;
+            }
+            finally
+            {
+                if (record != 0) MsiCloseHandle(record);
+                if (view != 0) MsiCloseHandle(view);
+                if (database != 0) MsiCloseHandle(database);
+            }
+        }
+
+        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+        private static extern uint MsiOpenDatabase(string path, IntPtr persist, out uint database);
+        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+        private static extern uint MsiDatabaseOpenView(uint database, string query, out uint view);
+        [DllImport("msi.dll")]
+        private static extern uint MsiViewExecute(uint view, uint record);
+        [DllImport("msi.dll")]
+        private static extern uint MsiViewFetch(uint view, out uint record);
+        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+        private static extern uint MsiRecordGetString(uint record, uint field, StringBuilder value, ref uint size);
+        [DllImport("msi.dll", CharSet = CharSet.Unicode)]
+        private static extern uint MsiGetProductInfo(string product, string property, StringBuilder value, ref uint size);
+        [DllImport("msi.dll")]
+        private static extern uint MsiCloseHandle(uint handle);
     }
 
     internal sealed class UpdateOptions

@@ -732,5 +732,18 @@
   "Download unavailable": "डाउनलोड अनुपलब्ध",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub डाउनलोड अनुपलब्ध छ। पछि पुन: प्रयास गर्नुहोस् वा ZIP बाट स्थापना चयन गर्नुहोस्।",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "मेनुहरू बचत गरियो, तर रनटाइमले सर्टकट पुन: लोडको पुष्टि गरेन।",
-  "Could not start the pie menu preview.": "पाई मेनु पूर्वावलोकन सुरु गर्न सकिएन।"
+  "Could not start the pie menu preview.": "पाई मेनु पूर्वावलोकन सुरु गर्न सकिएन।",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "सुरु गरेपछि, टचप्याड वा टचस्क्रिनमा आफ्नो इशारा कोर्नुहोस्। प्रत्येक चरण पछि सबै औंलाहरू उठाउनुहोस्। तपाईंले चयन गरिएका सबै चरणहरू कोर्नुभएपछि इशारा बचत हुन्छ।",
+  "Could not start GestureSign V2.": "GestureSign V2 सुरु गर्न सकिएन।",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows द्वारा आरक्षित छ र इशाराद्वारा पठाउन सकिँदैन।",
+  "Finish or clear the recording first.": "रेखाचित्र समाप्त गर्नुहोस् वा पहिले रेकर्ड गरिएको इशारा खाली गर्नुहोस्।",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 अद्यावधिक गरिएको थियो, तर स्वचालित रूपमा पुन: सुरु गर्न सकिएन। यसलाई स्टार्ट मेनु वा स्थापना फोल्डरबाट खोल्नुहोस्। विवरण: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "इशाराको {0} चरणहरू कोर्नुहोस्। प्रत्येक चरण पछि सबै औंलाहरू उठाउनुहोस्।",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} इशारा चरणहरू कब्जा गरियो। लागू गर्न कार्य बचत गर्नुहोस्।",
+  "Recording canceled.": "इशारा रेकर्डिङ रद्द गरियो।",
+  "Recording stages": "इशारा चरणहरूको संख्या",
+  "Recording timed out": "इशारा रेकर्डिङको समय सकियो",
+  "Recording timed out. Start recording again.": "इशारा रेकर्डिङको समय सकियो। इशारा फेरि कोर्नुहोस्।",
+  "Start recording again.": "इशारा फेरि कोर्न सुरु गर्नुहोस्।",
+  "The application executable was not found: {0}": "कार्यान्वयन योग्य अनुप्रयोग फेला परेन: {0}"
 }

@@ -732,5 +732,18 @@
   "Download unavailable": "دانلود در دسترس نیست",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "دانلود GitHub در دسترس نیست. بعداً دوباره امتحان کنید یا Install from ZIP را انتخاب کنید.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "منوها ذخیره شدند، اما زمان اجرا بارگذاری مجدد میانبر را تأیید نکرد.",
-  "Could not start the pie menu preview.": "نمی توان پیش نمایش منوی پای را شروع کرد."
+  "Could not start the pie menu preview.": "نمی توان پیش نمایش منوی پای را شروع کرد.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "پس از شروع، ژست خود را روی صفحه لمسی یا صفحه لمسی بکشید. بعد از هر مرحله تمام انگشتان را بلند کنید. ژست پس از کشیدن تمام مراحل انتخاب شده ذخیره می شود.",
+  "Could not start GestureSign V2.": "GestureSign V2 شروع نشد.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete توسط ویندوز محفوظ است و با حرکت قابل ارسال نیست.",
+  "Finish or clear the recording first.": "ابتدا طراحی را تمام کنید یا ژست ضبط شده را پاک کنید.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 به روز شد، اما نمی تواند به طور خودکار راه اندازی مجدد شود. آن را از منوی Start یا پوشه نصب باز کنید. جزئیات: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "{0} مرحله ژست را رسم کنید. بعد از هر مرحله تمام انگشتان را بلند کنید.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} مرحله ژست گرفته شده است. برای اعمال، اقدام را ذخیره کنید.",
+  "Recording canceled.": "ضبط اشاره لغو شد.",
+  "Recording stages": "تعداد مراحل ژست",
+  "Recording timed out": "زمان ضبط اشاره تمام شد",
+  "Recording timed out. Start recording again.": "زمان ضبط اشاره تمام شد. دوباره ژست را بکشید.",
+  "Start recording again.": "دوباره شروع به کشیدن ژست کنید.",
+  "The application executable was not found: {0}": "برنامه اجرایی یافت نشد: {0}"
 }

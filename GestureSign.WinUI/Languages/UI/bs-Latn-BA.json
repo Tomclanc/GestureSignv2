@@ -732,5 +732,18 @@
   "Download unavailable": "Preuzimanje nije dostupno",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub preuzimanje nije dostupno. Pokušajte ponovo kasnije ili odaberite Instaliraj iz ZIP-a.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "Meniji su sačuvani, ali vrijeme izvođenja nije potvrdilo ponovno učitavanje prečice.",
-  "Could not start the pie menu preview.": "Nije moguće pokrenuti pregled menija kolača."
+  "Could not start the pie menu preview.": "Nije moguće pokrenuti pregled menija kolača.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "Nakon pokretanja, nacrtajte svoj pokret na dodirnoj ploči ili ekranu osjetljivom na dodir. Podignite sve prste nakon svake faze. Pokret se čuva nakon što nacrtate sve odabrane faze.",
+  "Could not start GestureSign V2.": "Nije moguće pokrenuti GestureSign V2.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete je rezervisan za Windows i ne može se poslati pokretom.",
+  "Finish or clear the recording first.": "Prvo završite crtanje ili obrišite snimljeni pokret.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 je ažuriran, ali se nije mogao automatski ponovo pokrenuti. Otvorite ga iz menija Start ili iz instalacione fascikle. Detalji: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "Nacrtajte {0} faza pokreta. Podignite sve prste nakon svake faze.",
+  "Recorded {0} stage(s). Save the action to apply.": "Snimljeno {0} faza pokreta. Sačuvajte akciju da biste se prijavili.",
+  "Recording canceled.": "Snimanje pokreta je otkazano.",
+  "Recording stages": "Broj faza pokreta",
+  "Recording timed out": "Isteklo je vrijeme snimanja pokreta",
+  "Recording timed out. Start recording again.": "Isteklo je vrijeme snimanja pokreta. Ponovo nacrtajte pokret.",
+  "Start recording again.": "Počnite ponovo crtati pokret.",
+  "The application executable was not found: {0}": "Izvršni program aplikacije nije pronađen: {0}"
 }

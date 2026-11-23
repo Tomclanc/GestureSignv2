@@ -732,5 +732,18 @@
   "Download unavailable": "ダウンロード不可",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub のダウンロードは利用できません。後でもう一度試すか、「ZIP からインストール」を選択します。",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "メニューは保存されましたが、ランタイムはショートカットのリロードを確認しませんでした。",
-  "Could not start the pie menu preview.": "円グラフ メニューのプレビューを開始できませんでした。"
+  "Could not start the pie menu preview.": "円グラフ メニューのプレビューを開始できませんでした。",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "開始したら、タッチパッドまたはタッチスクリーン上でジェスチャを描きます。各段階が終了したらすべての指を上げます。選択したすべてのステージを描画すると、ジェスチャが保存されます。",
+  "Could not start GestureSign V2.": "GestureSign V2 を開始できませんでした。",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete は Windows によって予約されており、ジェスチャによって送信することはできません。",
+  "Finish or clear the recording first.": "まず描画を終了するか、記録されたジェスチャをクリアしてください。",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 は更新されましたが、自動的に再起動できませんでした。 [スタート] メニューまたはインストール フォルダーから開きます。詳細: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "{0}段階のジェスチャーを描きます。各段階が終了したらすべての指を上げます。",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} のジェスチャ ステージをキャプチャしました。適用するアクションを保存します。",
+  "Recording canceled.": "ジェスチャーの記録がキャンセルされました。",
+  "Recording stages": "ジェスチャーステージ数",
+  "Recording timed out": "ジェスチャーの記録がタイムアウトしました",
+  "Recording timed out. Start recording again.": "ジェスチャーの記録がタイムアウトしました。ジェスチャを再度描画します。",
+  "Start recording again.": "ジェスチャの描画を再度開始します。",
+  "The application executable was not found: {0}": "アプリケーションの実行可能ファイルが見つかりませんでした: {0}"
 }

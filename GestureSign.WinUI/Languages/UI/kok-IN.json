@@ -732,5 +732,18 @@
   "Download unavailable": "डाउनलोड उपलब्ध ना",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub डाउनलोड उपलब्ध ना. फुडें परतून यत्न करात वा ZIP कडल्यान प्रतिष्ठापीत निवडात.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "मेनू जतनाय घेतले, पूण रनटायमान शॉर्टकट रिलोडाची खात्री करूंक ना.",
-  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन सुरू करूंक शकलो ना."
+  "Could not start the pie menu preview.": "पाई मेनू पूर्वावलोकन सुरू करूंक शकलो ना.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "सुरू केल्या उपरांत टचपॅड वा टचस्क्रीनाचेर तुमचो हावभाव काडचो. दर एका पांवड्या उपरांत सगळीं बोटां उखलचीं. तुमी सगळ्यो निवडिल्लीं टप्पे काडल्या उपरांत हावभाव जतनाय घेता.",
+  "Could not start GestureSign V2.": "GestureSign V2 सुरू करूंक शकलो ना.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete Windows कडल्यान राखून दवरलां आनी हावभावान धाडूंक मेळना.",
+  "Finish or clear the recording first.": "रेखांकन सोंपोवचें वा पयलीं रेकॉर्ड केल्लो हावभाव निवळ करचो.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 अद्ययावत केल्लो, पूण आपोआप परतून सुरू करूंक शकलो ना. सुरू मेनू वा प्रतिष्ठापन फोल्डरा वयल्यान उगडात. तपशील: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "हावभावाचीं {0} अवस्थां काडचीं. दर एका पांवड्या उपरांत सगळीं बोटां उखलचीं.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} हावभाव स्टेज कॅप्चर केल्यात. लागू करपाक कृती जतनाय घेयात.",
+  "Recording canceled.": "हावभाव रेकॉर्डिंग रद्द.",
+  "Recording stages": "हावभावाच्या पांवड्यांची संख्या",
+  "Recording timed out": "हावभाव रेकॉर्डिंग वेळ सोंपलो",
+  "Recording timed out. Start recording again.": "हावभाव रेकॉर्डिंग वेळ सोंपलो. परतून हावभाव काडचो.",
+  "Start recording again.": "परतून हावभाव काडपाक सुरवात करची.",
+  "The application executable was not found: {0}": "ऍप्लिकेशन कार्यान्वयन करपाक येवपी मेळूंक ना: {0}"
 }

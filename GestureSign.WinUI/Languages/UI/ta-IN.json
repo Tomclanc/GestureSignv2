@@ -732,5 +732,18 @@
   "Download unavailable": "பதிவிறக்கம் இல்லை",
   "The GitHub download is unavailable. Try again later or choose Install from ZIP.": "GitHub பதிவிறக்கம் கிடைக்கவில்லை. பிறகு முயற்சிக்கவும் அல்லது ZIP இலிருந்து நிறுவு என்பதைத் தேர்ந்தெடுக்கவும்.",
   "Menus were saved, but the runtime did not confirm the shortcut reload.": "மெனுக்கள் சேமிக்கப்பட்டன, ஆனால் இயக்க நேரம் ஷார்ட்கட் மறுஏற்றத்தை உறுதிப்படுத்தவில்லை.",
-  "Could not start the pie menu preview.": "பை மெனு மாதிரிக்காட்சியைத் தொடங்க முடியவில்லை."
+  "Could not start the pie menu preview.": "பை மெனு மாதிரிக்காட்சியைத் தொடங்க முடியவில்லை.",
+  "After starting, record on the touchpad or touchscreen. Lift all fingers after each stage. The gesture is saved after all selected stages are recorded.": "தொடங்கிய பிறகு, டச்பேட் அல்லது தொடுதிரையில் உங்கள் சைகையை வரையவும். ஒவ்வொரு கட்டத்திற்குப் பிறகும் அனைத்து விரல்களையும் உயர்த்தவும். தேர்ந்தெடுக்கப்பட்ட அனைத்து நிலைகளையும் வரைந்த பிறகு சைகை சேமிக்கப்படும்.",
+  "Could not start GestureSign V2.": "GestureSign V2 ஐத் தொடங்க முடியவில்லை.",
+  "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.": "Ctrl+Alt+Delete விண்டோஸால் ஒதுக்கப்பட்டுள்ளது மற்றும் சைகை மூலம் அனுப்ப முடியாது.",
+  "Finish or clear the recording first.": "முதலில் வரைவதை முடிக்கவும் அல்லது பதிவுசெய்யப்பட்ட சைகையை அழிக்கவும்.",
+  "GestureSign V2 was updated, but could not restart automatically. Open it from the Start menu or the installation folder. Details: {0}": "GestureSign V2 புதுப்பிக்கப்பட்டது, ஆனால் தானாக மறுதொடக்கம் செய்ய முடியவில்லை. தொடக்க மெனு அல்லது நிறுவல் கோப்புறையிலிருந்து அதைத் திறக்கவும். விவரங்கள்: {0}",
+  "Record {0} stage(s), lifting all fingers after each stage.": "சைகையின் {0} நிலைகளை வரையவும். ஒவ்வொரு கட்டத்திற்குப் பிறகும் அனைத்து விரல்களையும் உயர்த்தவும்.",
+  "Recorded {0} stage(s). Save the action to apply.": "{0} சைகை நிலைகள் கைப்பற்றப்பட்டது. விண்ணப்பிக்கும் செயலைச் சேமிக்கவும்.",
+  "Recording canceled.": "சைகை பதிவு ரத்து செய்யப்பட்டது.",
+  "Recording stages": "சைகை நிலைகளின் எண்ணிக்கை",
+  "Recording timed out": "சைகை பதிவு நேரம் முடிந்தது",
+  "Recording timed out. Start recording again.": "சைகை பதிவு நேரம் முடிந்தது. சைகையை மீண்டும் வரையவும்.",
+  "Start recording again.": "சைகையை மீண்டும் வரையத் தொடங்குங்கள்.",
+  "The application executable was not found: {0}": "செயல்படுத்தக்கூடிய பயன்பாடு காணப்படவில்லை: {0}"
 }
