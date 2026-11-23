@@ -242,6 +242,17 @@ internal static class ActionEngineTests
         app.Slots["Inner.1"] = RadialMenuConfig.SubmenuRef("s1");
         Check(!config.ResolveSlots(app, 2).ContainsKey("Inner.1"));
         Check(config.FindMenu("x.exe", "") == app && config.FindMenu("", "") == config.GlobalMenu);
+
+        // Dragging a slot onto an empty slot moves it; onto an occupied slot it swaps.
+        var global = config.GlobalMenu;
+        Check(config.MoveSlot(global, "Inner.1", "Inner.5"));
+        Check(!global.Slots.ContainsKey("Inner.1") && global.Slots["Inner.5"] == "a1");
+        Check(config.MoveSlot(global, "Inner.0", "Inner.5"));
+        Check(global.Slots["Inner.0"] == "a1" && global.Slots["Inner.5"] == "menu:s1");
+        // A swap keeps both values and the submenu reference stays valid.
+        Check(config.ResolveSubmenus(global, 2).ContainsKey("Inner.5"));
+        Check(!config.MoveSlot(global, "Inner.5", "Inner.5"));
+        Check(!config.MoveSlot(global, "Inner.7", "Inner.6"));
     }
 
     public static void TestActionPackage()

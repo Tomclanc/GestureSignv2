@@ -16,6 +16,12 @@ namespace GestureSign.WinUI;
 
 public sealed partial class MainWindow
 {
+    /// <summary>Text prefix marking a drag that moves a wheel slot instead of placing a library action.</summary>
+    private const string SlotDragPrefix = "radial-slot:";
+
+    /// <summary>DataPackage property carrying the source slot key of a slot drag.</summary>
+    private const string SlotDragKeyProperty = "GestureSign.RadialSlotKey";
+
     // ----- wheel (center) -----------------------------------------------
 
     private void RefreshRadialWheel()
@@ -102,6 +108,55 @@ public sealed partial class MainWindow
                     Tag = key
                 };
                 var capturedKey = key;
+                // Drag an occupied slot onto another slot to move (or swap) its action.
+                // Empty and inherited slots stay drop targets only.
+                if (hasOwn)
+                {
+                    // Start the drag only after the pointer moves clearly, so a plain
+                    // tap still opens the slot menu and a double tap still opens folders.
+                    var dragOrigin = new Point();
+                    var dragTracking = false;
+                    sector.PointerPressed += (_, e) =>
+                    {
+                        var point = e.GetCurrentPoint(sector);
+                        if (!point.Properties.IsLeftButtonPressed)
+                            return;
+                        dragOrigin = point.Position;
+                        dragTracking = true;
+                    };
+                    sector.PointerMoved += async (_, e) =>
+                    {
+                        if (!dragTracking)
+                            return;
+                        var point = e.GetCurrentPoint(sector);
+                        if (!point.Properties.IsLeftButtonPressed)
+                        {
+                            dragTracking = false;
+                            return;
+                        }
+                        var dx = point.Position.X - dragOrigin.X;
+                        var dy = point.Position.Y - dragOrigin.Y;
+                        if (dx * dx + dy * dy < 100)
+                            return;
+                        dragTracking = false;
+                        try
+                        {
+                            await sector.StartDragAsync(point);
+                        }
+                        catch
+                        {
+                            // The pointer was released mid-gesture; nothing to drag.
+                        }
+                    };
+                    sector.PointerReleased += (_, _) => dragTracking = false;
+                    sector.PointerCaptureLost += (_, _) => dragTracking = false;
+                    sector.DragStarting += (_, e) =>
+                    {
+                        e.Data.SetText(SlotDragPrefix + capturedKey);
+                        e.Data.Properties[SlotDragKeyProperty] = capturedKey;
+                        e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Move;
+                    };
+                }
                 sector.Tapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
                 sector.RightTapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
                 var openFolder = ownFolder ?? inheritedFolder;
@@ -118,15 +173,34 @@ public sealed partial class MainWindow
                 sector.PointerExited += (_, _) => sector.Stroke = stroke;
                 sector.DragOver += (_, e) =>
                 {
+                    // A slot dragged from another slot shows the move cursor.
+                    if (e.DataView.Properties.ContainsKey(SlotDragKeyProperty))
+                    {
+                        e.AcceptedOperation = DataPackageOperation.Move;
+                        return;
+                    }
                     if (e.DataView.Contains(StandardDataFormats.Text))
                         e.AcceptedOperation = DataPackageOperation.Copy;
                 };
                 sector.Drop += async (_, e) =>
                 {
+                    // Slot-to-slot drag: move the action, swapping when the target is occupied.
+                    if (e.DataView.Properties.ContainsKey(SlotDragKeyProperty) &&
+                        e.DataView.Properties[SlotDragKeyProperty] is string sourceKey)
+                    {
+                        DropRadialSlotOnSlot(menu, sourceKey, capturedKey, config);
+                        return;
+                    }
                     if (!e.DataView.Contains(StandardDataFormats.Text)) return;
-                    var actionId = await e.DataView.GetTextAsync();
-                    if (config.FindAction(actionId) is null) return;
-                    menu.Slots[capturedKey] = actionId;
+                    var payload = await e.DataView.GetTextAsync();
+                    // Fallback for slot drags whose custom property did not survive the drag.
+                    if (payload.StartsWith(SlotDragPrefix, StringComparison.Ordinal))
+                    {
+                        DropRadialSlotOnSlot(menu, payload.Substring(SlotDragPrefix.Length), capturedKey, config);
+                        return;
+                    }
+                    if (config.FindAction(payload) is null) return;
+                    menu.Slots[capturedKey] = payload;
                     SaveRadialConfig();
                     RefreshRadialWheel();
                 };
@@ -203,6 +277,16 @@ public sealed partial class MainWindow
 
         _radialWheelHost.Children.Clear();
         _radialWheelHost.Children.Add(panel);
+    }
+
+    /// <summary>Applies a slot-to-slot drag: moves the action, or swaps when the target is occupied.</summary>
+    private void DropRadialSlotOnSlot(RadialMenuDefinition menu, string sourceKey, string targetKey, RadialMenuConfig config)
+    {
+        if (!config.MoveSlot(menu, sourceKey, targetKey))
+            return;
+        PruneOrphanSubmenus(config);
+        SaveRadialConfig();
+        RefreshRadialWheel();
     }
 
     private static Point WheelPolar(double radius, int index, double angleOffset = 0)

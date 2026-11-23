@@ -152,6 +152,27 @@ public sealed class RadialMenuConfig
     public RadialMenuAction FindAction(string id)
         => string.IsNullOrEmpty(id) ? null : Actions.FirstOrDefault(a => string.Equals(a.Id, id, StringComparison.OrdinalIgnoreCase));
 
+    /// <summary>
+    /// Moves the value of <paramref name="sourceKey"/> into <paramref name="targetKey"/>.
+    /// When the target already has its own value the two slots swap, so dragging one
+    /// slot onto an occupied one never silently drops the target's action.
+    /// Returns true when the slots changed.
+    /// </summary>
+    public bool MoveSlot(RadialMenuDefinition menu, string sourceKey, string targetKey)
+    {
+        if (menu?.Slots is null || string.IsNullOrEmpty(sourceKey) || string.IsNullOrEmpty(targetKey) ||
+            string.Equals(sourceKey, targetKey, StringComparison.OrdinalIgnoreCase))
+            return false;
+        if (!menu.Slots.TryGetValue(sourceKey, out var moving) || string.IsNullOrEmpty(moving))
+            return false;
+        if (menu.Slots.TryGetValue(targetKey, out var existing) && !string.IsNullOrEmpty(existing))
+            menu.Slots[sourceKey] = existing;
+        else
+            menu.Slots.Remove(sourceKey);
+        menu.Slots[targetKey] = moving;
+        return true;
+    }
+
     public RadialMenuDefinition GlobalMenu => Menus.First(m => m.Scope == RadialMenuScope.Global);
 
     /// <summary>
