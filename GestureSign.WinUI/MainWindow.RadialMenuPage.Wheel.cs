@@ -7,9 +7,11 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.UI;
 
 namespace GestureSign.WinUI;
@@ -98,6 +100,11 @@ public sealed partial class MainWindow
                 var hasInherited = inherited is not null || inheritedFolder is not null;
                 var r1 = radii[ring];
                 var r2 = radii[ring + 1];
+                // Computed before the sector so the drag ghost can show the slot's name.
+                var label = own?.Name
+                            ?? (ownFolder is not null ? "▸ " + RadialMenuTitle(ownFolder) : null)
+                            ?? inherited?.Name
+                            ?? (inheritedFolder is not null ? "▸ " + RadialMenuTitle(inheritedFolder) : null);
                 var sector = new Path
                 {
                     Data = WheelSectorGeometry(r1, r2, index),
@@ -112,6 +119,9 @@ public sealed partial class MainWindow
                 // Empty and inherited slots stay drop targets only.
                 if (hasOwn)
                 {
+                    // The drag ghost is a small label chip: snapshotting the sector would drag
+                    // the whole pie slice around.
+                    SlotDragChip? dragChip = null;
                     // Start the drag only after the pointer moves clearly, so a plain
                     // tap still opens the slot menu and a double tap still opens folders.
                     var dragOrigin = new Point();
@@ -139,6 +149,8 @@ public sealed partial class MainWindow
                         if (dx * dx + dy * dy < 100)
                             return;
                         dragTracking = false;
+                        if (!string.IsNullOrWhiteSpace(label))
+                            dragChip = await TryRenderDragChipAsync(label);
                         try
                         {
                             await sector.StartDragAsync(point);
@@ -146,6 +158,18 @@ public sealed partial class MainWindow
                         catch
                         {
                             // The pointer was released mid-gesture; nothing to drag.
+                        }
+                        if (dragChip is not null)
+                        {
+                            try
+                            {
+                                dragChip.Bitmap.Dispose();
+                            }
+                            catch
+                            {
+                                // The drag surface may still hold the bitmap; the finalizer will get it.
+                            }
+                            dragChip = null;
                         }
                     };
                     sector.PointerReleased += (_, _) => dragTracking = false;
@@ -155,6 +179,8 @@ public sealed partial class MainWindow
                         e.Data.SetText(SlotDragPrefix + capturedKey);
                         e.Data.Properties[SlotDragKeyProperty] = capturedKey;
                         e.Data.RequestedOperation = DataPackageOperation.Copy | DataPackageOperation.Move;
+                        if (dragChip is not null && e.DragUI is not null)
+                            e.DragUI.SetContentFromSoftwareBitmap(dragChip.Bitmap, dragChip.Anchor);
                     };
                 }
                 sector.Tapped += (_, e) => ShowRadialSlotMenu(sector, capturedKey, e.GetPosition(sector));
@@ -206,10 +232,6 @@ public sealed partial class MainWindow
                 };
                 canvas.Children.Add(sector);
 
-                var label = own?.Name
-                            ?? (ownFolder is not null ? "▸ " + RadialMenuTitle(ownFolder) : null)
-                            ?? inherited?.Name
-                            ?? (inheritedFolder is not null ? "▸ " + RadialMenuTitle(inheritedFolder) : null);
                 if (string.IsNullOrWhiteSpace(label))
                     continue;
                 var mid = WheelPolar((r1 + r2) / 2, index);
@@ -287,6 +309,74 @@ public sealed partial class MainWindow
         PruneOrphanSubmenus(config);
         SaveRadialConfig();
         RefreshRadialWheel();
+    }
+
+    /// <summary>A drag ghost: the rendered label chip plus the point that follows the pointer.</summary>
+    private sealed record SlotDragChip(SoftwareBitmap Bitmap, Point Anchor);
+
+    /// <summary>
+    /// Renders a small rounded chip holding the slot's name, used as the drag visual so moving a
+    /// slot does not drag the whole sector geometry around.
+    /// </summary>
+    private async Task<SlotDragChip?> TryRenderDragChipAsync(string label)
+    {
+        Brush? background = HighContrast
+            ? SystemBrush("ApplicationPageBackgroundThemeBrush")
+            : IsDark ? new SolidColorBrush(Color.FromArgb(255, 44, 44, 44)) : new SolidColorBrush(Color.FromArgb(255, 250, 252, 255));
+        Brush? foreground = HighContrast
+            ? null
+            : IsDark ? new SolidColorBrush(Color.FromArgb(255, 244, 244, 244)) : new SolidColorBrush(Color.FromArgb(255, 28, 28, 28));
+        var chip = new Border
+        {
+            Background = background,
+            BorderBrush = BorderBrush(),
+            BorderThickness = new Thickness(1),
+            CornerRadius = new CornerRadius(16),
+            Padding = new Thickness(14, 7, 14, 7),
+            Child = new TextBlock
+            {
+                Text = label,
+                FontSize = 13,
+                MaxWidth = 160,
+                TextTrimming = TextTrimming.CharacterEllipsis,
+                TextWrapping = TextWrapping.NoWrap,
+                Foreground = foreground
+            }
+        };
+        // RenderTargetBitmap only captures elements that live in the visual tree, so park the
+        // chip just outside the window, lay it out, snapshot it, then drop it again.
+        var stage = new Canvas { Width = 1, Height = 1, IsHitTestVisible = false };
+        Canvas.SetLeft(chip, -4000);
+        Canvas.SetTop(chip, -4000);
+        stage.Children.Add(chip);
+        Root.Children.Add(stage);
+        try
+        {
+            chip.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            chip.Arrange(new Rect(0, 0, chip.DesiredSize.Width, chip.DesiredSize.Height));
+            chip.UpdateLayout();
+            var bitmap = new RenderTargetBitmap();
+            await bitmap.RenderAsync(chip);
+            if (bitmap.PixelWidth == 0 || bitmap.PixelHeight == 0)
+                return null;
+            var pixels = await bitmap.GetPixelsAsync();
+            var software = SoftwareBitmap.CreateCopyFromBuffer(
+                pixels, BitmapPixelFormat.Bgra8, bitmap.PixelWidth, bitmap.PixelHeight, BitmapAlphaMode.Premultiplied);
+            var scale = Root.XamlRoot?.RasterizationScale ?? 1;
+            if (scale <= 0)
+                scale = 1;
+            // Centre the chip on the pointer.
+            return new SlotDragChip(software, new Point(bitmap.PixelWidth / scale / 2, bitmap.PixelHeight / scale / 2));
+        }
+        catch
+        {
+            // Fall back to the default drag visual rather than failing the drag.
+            return null;
+        }
+        finally
+        {
+            Root.Children.Remove(stage);
+        }
     }
 
     private static Point WheelPolar(double radius, int index, double angleOffset = 0)
