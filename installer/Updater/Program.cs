@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -201,6 +202,20 @@ namespace GestureSign.Updater
         private void StopTargetProcesses()
         {
             var root = NormalizeDirectory(_options.TargetDirectory);
+            // The settings window brings the daemon back when it disappears, so a single pass
+            // can leave a fresh process running and lock the files we are about to replace.
+            for (var round = 0; round < 5; round++)
+            {
+                if (!KillProcessesUnder(root))
+                    return;
+                Thread.Sleep(300);
+            }
+        }
+
+        /// <summary>Kills every process whose image lives under <paramref name="root"/>; returns whether any was killed.</summary>
+        private static bool KillProcessesUnder(string root)
+        {
+            var killed = false;
             foreach (var process in Process.GetProcesses())
             {
                 try
@@ -215,6 +230,7 @@ namespace GestureSign.Updater
                         continue;
                     process.Kill();
                     process.WaitForExit(5000);
+                    killed = true;
                 }
                 catch
                 {
@@ -224,6 +240,7 @@ namespace GestureSign.Updater
                     process.Dispose();
                 }
             }
+            return killed;
         }
 
         private void InstallMsi()
@@ -232,7 +249,7 @@ namespace GestureSign.Updater
             PreserveBundledKando(_options.TargetDirectory);
             SetStatus(T("Installing the new version…"));
             var logPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
-            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{logPath}\"";
+            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart GS_SKIP_START=1 /L*V \"{logPath}\"";
             using (var process = Process.Start(new ProcessStartInfo("msiexec.exe", arguments)
             {
                 UseShellExecute = false,
