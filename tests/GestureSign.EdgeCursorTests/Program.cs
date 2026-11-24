@@ -45,6 +45,7 @@ internal static class Program
     private static void Main(string[] args)
     {
         TestBrightnessAndWin();
+        TestTouchPadEdgeFallback();
         // Isolate the real hook lifecycle and callback without registering HID
         // devices, changing user settings or starting another gesture daemon.
         var type = typeof(PointEventTranslator).Assembly.GetType("GestureSign.Daemon.Input.InputProvider");
@@ -84,6 +85,26 @@ internal static class Program
                 !(bool)Call(provider, "get_SuppressPointerMotion"), "failed begin leaves pointer unlocked");
         }
         finally { hook.Unhook(); }
+    }
+
+    private static void TestTouchPadEdgeFallback()
+    {
+        var type = typeof(PointEventTranslator).Assembly.GetType("GestureSign.Daemon.Triggers.TouchPadEdgeTrigger");
+        var trigger = RuntimeHelpers.GetUninitializedObject(type);
+        Set(trigger, "_sourceDevice", Devices.TouchPad);
+        Set(trigger, "_gesturePrefix", "TouchPadEdge");
+        var screen = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+        var edge = new Point(screen.Left + screen.Width / 2, screen.Bottom - 1);
+        var interior = new Point(edge.X, screen.Top + screen.Height / 2);
+        var edgeStroke = new List<Point> { edge };
+        var interiorStroke = new List<Point> { interior, edge };
+
+        Assert((string)Call(trigger, "GetFallbackEdgeGestureName", new List<List<Point>> { edgeStroke }) ==
+            "TouchPadEdge.Bottom", "single-finger tap at the bottom edge remains eligible");
+        Assert(Call(trigger, "GetFallbackEdgeGestureName", new List<List<Point>> { edgeStroke, interiorStroke }) == null,
+            "two-finger gesture cannot trigger the bottom edge from its first stroke");
+        Assert(Call(trigger, "GetFallbackEdgeGestureName", new List<List<Point>> { interiorStroke }) == null,
+            "moving onto the edge does not count as an edge-origin gesture");
     }
 
     private static bool Move(PointEventTranslator translator, int flags)
