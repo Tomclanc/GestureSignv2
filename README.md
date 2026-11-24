@@ -143,19 +143,9 @@ WinGet 18.4.12 的更新见 [提交记录](https://github.com/microsoft/winget-p
 
 - 修复双指触控板手势松开时可能误触发单指边缘动作的问题。
 
-### 18.4.11
-
-- 新增 2 段和 3 段手势录制，修正单次三指点按误触发双击动作。
-- 改进首个手势轨迹的绘制，并记录首帧提交结果。
-- 改进 MSI 更新后重启时的程序定位，对 Ctrl+Alt+Del 显示明确提示，并修复意图学习组件回归测试的构建。
-
-### 18.4.9
-
-为配合 Microsoft Store 审核，本版本暂时移除了应用界面中对 Kando 的直接引用。「快捷操作」加入了参考 Kando 交互设计的环形菜单组件，并集成了环形菜单编辑器，改进图标选择器翻页、主题布局和高 DPI 渲染。Microsoft Store 版支持可选的 Win+W 快捷操作小组件和系统亮暗主题。界面及小组件提供 90 个语言区域的资源。
-
 ### 历史版本
 
-18.4.7 改进 AI 否决并修复管理员模式下的配置导入与导出；18.4.6 修复连续滑动串动作与音量提示条，并完善 90 种语言适配；18.4.5 修复多屏手势提示，加入脚本选择和手势忽略，恢复连续滑动设置，并改进音量步长、更新流程与多语言支持；18.4.4 简化录制与命令配置，加入桌面边缘滚轮、拖动锁定、配置导入预览与诊断导出；18.4.3 修复左右 Win＋L 录入与锁屏，并改进方向键发送兼容性；18.4.2 修复 AI 否决设置在引擎重启及组件更新时丢失的问题；18.4.1 合入输入健康诊断、恢复与修饰键发送修复；18.4 加入左右修饰键与单按快捷键；18.3.9 增加统一媒体播放/暂停命令；18.3.8 补充独立媒体控制并改进 AI 引擎连接；18.3.7 修复首次设置命令与配置重载，补齐多语言并纳入日语校对；18.3.6 改进弹窗、窗口命令和手势库视图；18.3.5 加入多命令与延时、鼠标按键独立绑定和组合快捷键。更早版本逐步完善多指手势、TipTap、边缘交互、本地 AI、Kando、OneDrive 同步及无障碍功能。详细历史请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.4.11 新增多段手势录制，改进首条手势轨迹和 MSI 更新后重启。更早版本陆续完善环形菜单、多指手势、边缘交互、快捷键、本地意图识别和多语言支持。各版本的详细改动见 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -315,19 +305,9 @@ See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Ap
 
 - Fixed two-finger touchpad gestures incorrectly triggering a single-finger edge action on release.
 
-### What's new in 18.4.11
-
-- Added two- and three-stage recording and fixed a single three-finger tap triggering a double-tap action.
-- Improved first-trail rendering and added first-frame diagnostics.
-- Improved MSI update relaunch, clarified Ctrl+Alt+Del handling, and fixed the build of the intent-component regression tests.
-
-### What's new in 18.4.9
-
-For the Microsoft Store review, direct references to Kando in the app interface have been temporarily removed. Quick Actions now includes a radial-menu component inspired by Kando’s interaction design and an integrated editor with improved icon paging, theme layout, and high-DPI rendering. The Microsoft Store edition offers an optional Win+W Quick Actions widget with system light and dark themes. The interface and widget include resources for 90 locales.
-
 ### Previous releases
 
-18.4.7 improved AI veto and fixed configuration import and export when running as administrator; 18.4.6 fixed anchored-finger continuous gestures and volume flyouts, and completed localization; 18.4.5 fixed multi-monitor gesture hints, added script selection and gesture exclusions, restored continuous-slide settings, and improved volume steps, updating and localization; 18.4.4 simplified recording and command setup and added desktop-edge wheel bindings, drag lock, import preview and diagnostic export; 18.4.3 fixed sided Win+L recording and locking and improved arrow-key compatibility; 18.4.2 preserved AI veto settings across engine restarts and component updates; 18.4.1 added input health diagnostics, recovery and modifier sending fixes; 18.4 added sided and standalone modifier shortcuts; 18.3.9 added combined media Play/Pause; 18.3.8 added discrete media controls and improved AI engine connections; 18.3.7 fixed first-click command settings and configuration reloads and completed localization and Japanese proofreading; 18.3.6 improved dialogs, window commands and gesture-library views; 18.3.5 added command sequences with delays, independent mouse button bindings and combination shortcuts. Earlier releases developed multitouch gestures, TipTap, edge interactions, local AI, Kando, OneDrive sync and accessibility. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full history.
+18.4.11 added multi-stage gesture recording and improved the first gesture trail and relaunch after MSI updates. Earlier releases expanded radial menus, multi-finger gestures, edge actions, shortcuts, local intent recognition, and language support. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full release notes.
 
 ## Installation
 
@@ -493,19 +473,9 @@ WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pull
 
 - 2 本指のタッチパッドジェスチャーを終了したときに、1 本指用の端の操作が誤って実行される問題を修正。
 
-### 18.4.11 の更新内容
-
-- 2 段・3 段のジェスチャー録画に対応し、3 本指のシングルタップでダブルタップの操作が実行される問題を修正。
-- 最初のジェスチャー軌跡の描画を改善し、最初のフレームの診断ログを追加。
-- MSI 更新後の再起動を改善し、Ctrl+Alt+Del に関する案内を追加。意図学習コンポーネントの回帰テストのビルドを修正。
-
-### 18.4.9 の更新内容
-
-Microsoft Store の審査に対応するため、このバージョンではアプリ画面上の Kando への直接の言及を一時的に取り除きました。クイック操作には Kando の操作設計を参考にしたラジアルメニューと統合エディターを追加し、アイコンのページ切り替え、テーマの配置、高 DPI 描画を改善しました。Microsoft Store 版は、ライト／ダークテーマに対応した Win+W ウィジェットを追加できます。画面とウィジェットは 90 のロケールに対応しています。
-
 ### 過去のバージョン
 
-18.4.7 では AI 拒否を改善し、管理者権限での設定のインポートとエクスポートを修正しました。18.4.6 では連続ジェスチャーの誤認識と音量表示を修正し、多言語対応を改善しました。18.4.5 では複数画面のジェスチャー表示を修正し、スクリプト選択とジェスチャー除外、連続スライド設定を追加・復元するとともに、音量の変化量、更新処理、多言語対応を改善しました。18.4.4 では記録とコマンド設定の簡素化、デスクトップ端のホイール操作、ドラッグロック、インポートのプレビュー、診断情報の書き出しを追加しました。18.4.3 では左右の Win+L の記録とロックを修正し、方向キー送信の互換性を改善しました。18.4.2 では AI 拒否設定の保持を修正し、18.4.1 では入力診断・復旧と修飾キー送信を修正し、18.4 では左右の修飾キーと単独ショートカットへの対応、18.3.9 ではメディアの再生・一時停止の切り替え、18.3.8 では個別のメディア操作と AI エンジン接続の改善、18.3.7 では初回のコマンド設定・設定再読み込みの修正と翻訳・日本語校正、18.3.6 ではダイアログ・ウィンドウ操作・ライブラリ表示の改善、18.3.5 では待機時間を含む複数コマンドとマウスボタン別の割り当てを追加しました。それ以前は、複数指ジェスチャー、TipTap、エッジ操作、ローカル AI、Kando、OneDrive 同期、アクセシビリティを順次改善しました。詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.4.11 では複数段階のジェスチャー録画に対応し、最初の軌跡の描画と MSI 更新後の再起動を改善しました。それ以前のバージョンでは、ラジアルメニュー、複数指のジェスチャー、画面端の操作、ショートカット、ローカルでの意図認識、多言語対応を順次改善しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
