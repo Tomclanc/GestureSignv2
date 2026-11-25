@@ -12,8 +12,8 @@ internal static class ActionEngineTests
         public string Selected = "hello";
         public string Clipboard = "";
         public string Answer = "kw";
-        public string WindowTitle => "";
-        public string ProcessName => "";
+        public string WindowTitle { get; set; } = "";
+        public string ProcessName { get; set; } = "";
         public string GetSelectedText() => Selected;
         public string GetClipboardText() => Clipboard;
         public void SetClipboardText(string text) => Calls.Add("setclip:" + text);
@@ -29,7 +29,7 @@ internal static class ActionEngineTests
         }
         public string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow)
         {
-            Calls.Add($"switch:{path}|{arguments}|{whenActive}");
+            Calls.Add($"switch:{path}|{arguments}|{processName}|{whenActive}");
             return "activated";
         }
         public string Http(string method, string url, string body, string contentType) => "";
@@ -131,7 +131,21 @@ internal static class ActionEngineTests
         Check(StepPresets.ForStep(StepCatalog.RunProgram).Count > 20 && StepPresets.ForStep(StepCatalog.Http).Count == 0);
         Check(StepPresets.ForStep(StepCatalog.LaunchOrActivate).Any(p => p.Path == "code" && p.ProcessName == "Code.exe"));
         Check(StepPresets.ForStep(StepCatalog.RunProgram).All(p => p.Path.Length > 0 && p.NameZh.Length > 0 && p.NameEn.Length > 0));
-        Check(RunTemplate("launch-or-switch").Calls.Contains("switch:notepad.exe||minimize"));
+        Check(RunTemplate("launch-or-switch").Calls.Contains("switch:notepad.exe|||minimize"));
+        // The app-switch action defines its own processName, so the gesture's program must not leak in:
+        // otherwise the step looks for the program it was triggered in and minimizes that window.
+        var fromChrome = RunTemplate("launch-or-switch", h => h.ProcessName = "chrome");
+        Check(fromChrome.Calls.Contains("switch:notepad.exe|||minimize"), "a step variable replaces the built-in processName");
+        // Actions without that variable still know the program the gesture came from.
+        var builtIn = new StepProgram
+        {
+            Steps = { Step.Create(StepCatalog.LaunchOrActivate) }
+        };
+        builtIn.Steps[0].Args["Path"] = "notepad.exe";
+        builtIn.Steps[0].Args["ProcessName"] = "{processName}";
+        var builtInHost = new FakeHost { ProcessName = "chrome" };
+        new StepRunner(builtInHost).Run(builtIn);
+        Check(builtInHost.Calls.Contains("switch:notepad.exe||chrome|minimize"), "the built-in processName is still available");
     }
 
     public static void TestStepsAndVariables()

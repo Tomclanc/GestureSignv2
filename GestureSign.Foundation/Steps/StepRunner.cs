@@ -138,8 +138,8 @@ public sealed class StepRunner
     public StepRunResult Run(StepProgram program, StepVariables variables = null)
     {
         variables ??= new StepVariables();
-        if (!variables.Contains("windowTitle")) variables["windowTitle"] = _host.WindowTitle ?? "";
-        if (!variables.Contains("processName")) variables["processName"] = _host.ProcessName ?? "";
+        // The action's own variables are set up first, so that one named windowTitle or processName
+        // takes the place of the built-in value instead of being silently ignored.
         foreach (var definition in program?.Variables ?? new List<StepVariableDef>())
         {
             var name = definition?.Name?.Trim();
@@ -154,6 +154,9 @@ public sealed class StepRunner
                 _ => text
             };
         }
+        // The window the gesture came from, for actions that do not define these themselves.
+        if (!variables.Contains("windowTitle")) variables["windowTitle"] = _host.WindowTitle ?? "";
+        if (!variables.Contains("processName")) variables["processName"] = _host.ProcessName ?? "";
         var result = new StepRunResult { Variables = variables };
         try
         {
