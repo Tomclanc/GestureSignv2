@@ -11,6 +11,7 @@
     <Disable>GestureSign ని అచేతన రుచిలో ఉంచండి</Disable>
     <Enable>GestureSign ని సಕ್ರియం చేయండి</Enable>
     <Settings>సెట్టింగులు</Settings>
+    <Restart>మళ్లీ ప్రారంభించండి</Restart>
     <Exit>బయటకు రండి</Exit>
   </TrayMenu>
 </Language>

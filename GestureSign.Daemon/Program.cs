@@ -29,9 +29,18 @@ namespace GestureSign.Daemon
                 return;
 
             DaemonApplicationContext.ConfigureSelfTest(args);
+            bool restartRequested = args != null && Array.Exists(args, arg => string.Equals(arg, Constants.RestartArgument, StringComparison.OrdinalIgnoreCase));
             bool createdNew;
-            using (new Mutex(true, Constants.Daemon, out createdNew))
+            using (var instanceMutex = new Mutex(true, Constants.Daemon, out createdNew))
             {
+                if (!createdNew && restartRequested)
+                {
+                    // "Restart" starts this copy while the old daemon is still shutting down.
+                    // Wait for it to let go of the instance mutex instead of treating this
+                    // as a second launch that only asks the old instance to open settings.
+                    createdNew = WaitForPreviousInstance(instanceMutex);
+                }
+
                 if (createdNew)
                 {
                     // Must be set before creating NotifyIcon/ContextMenuStrip.
@@ -77,9 +86,32 @@ namespace GestureSign.Daemon
                 {
                     if (DaemonApplicationContext.IsSelfTest)
                         DaemonApplicationContext.ReportFailure(new InvalidOperationException("Another GestureSign daemon is already running."));
-                    else
+                    else if (!restartRequested)
                         NamedPipe.SendMessageAsync(IpcCommands.StartSettings, Constants.Daemon, wait: false).Wait();
+                    // A restart that timed out simply gives up: the running daemon is still
+                    // there, and opening settings behind the user's back would be a surprise.
                 }
+            }
+        }
+
+        /// <summary>
+        /// Waits for the daemon that asked for this restart to exit, then owns the
+        /// single-instance mutex. Returns false when the running instance never exits.
+        /// </summary>
+        private static bool WaitForPreviousInstance(Mutex mutex)
+        {
+            try
+            {
+                return mutex.WaitOne(TimeSpan.FromSeconds(30));
+            }
+            catch (AbandonedMutexException)
+            {
+                // The previous daemon exited without releasing it; ownership is ours.
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 

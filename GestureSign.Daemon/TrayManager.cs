@@ -38,6 +38,7 @@ namespace GestureSign.Daemon
         private ContextMenuStrip _trayMenu;
         private ToolStripMenuItem _disableGesturesMenuItem;
         private ToolStripMenuItem _settingsMenuItem;
+        private ToolStripMenuItem _restartMenuItem;
         private ToolStripMenuItem _exitGestureSignMenuItem;
         private Icon _currentTrayIcon;
         private TouchFriendlyTrayMenu _touchTrayMenu;
@@ -48,6 +49,7 @@ namespace GestureSign.Daemon
         private static DateTime _lastSettingsStartUtc = DateTime.MinValue;
         private static readonly object _settingsStartLock = new object();
         private static int _exitStarted;
+        private static int _restartStarted;
 
         #endregion
 
@@ -66,6 +68,7 @@ namespace GestureSign.Daemon
             _trayMenu.BeginInvoke(new Action(() => Logging.LogMessage("Tray notification dispatcher ready.")));
             _disableGesturesMenuItem = new ToolStripMenuItem();
             _settingsMenuItem = new ToolStripMenuItem();
+            _restartMenuItem = new ToolStripMenuItem();
             _exitGestureSignMenuItem = new ToolStripMenuItem();
 
             _trayIcon.ContextMenuStrip = null;
@@ -76,7 +79,7 @@ namespace GestureSign.Daemon
             _trayIcon.BalloonTipClicked += (o, e) => { if (_aiNotificationVisible) StartSettings("--intent-review"); else OpenPendingUpdateRelease(); };
             SetTrayIcon(TrayIconState.Normal);
 
-            _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _settingsMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
+            _trayMenu.Items.AddRange(new ToolStripItem[] { _disableGesturesMenuItem, new ToolStripSeparator(), _settingsMenuItem, _restartMenuItem, new ToolStripSeparator(), _exitGestureSignMenuItem });
             _trayMenu.Name = "TrayMenu";
             _trayMenu.ShowCheckMargin = false;
             _trayMenu.ShowImageMargin = false;
@@ -100,6 +103,13 @@ namespace GestureSign.Daemon
             _settingsMenuItem.Click += (o, e) =>
             {
                 StartSettings();
+            };
+
+            _restartMenuItem.Name = "RestartGestureSign";
+            _restartMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart");
+            _restartMenuItem.Click += async (o, e) =>
+            {
+                await RestartGestureSignAsync();
             };
 
             _exitGestureSignMenuItem.Name = "ExitGestureSign";
@@ -336,12 +346,14 @@ namespace GestureSign.Daemon
             private const int DWMSBT_MAINWINDOW = 2;
             private const int DWMWCP_ROUND = 2;
             private const int CornerRadius = 10;
+            private const int ItemHeight = 44;
             private readonly Action _disableGestures;
             private readonly Action _openSettings;
+            private readonly Func<Task> _restartGestureSign;
             private readonly Func<Task> _exitGestureSign;
             private readonly Font _menuFont;
             private readonly System.Windows.Forms.Timer _showTimer;
-            private readonly Rectangle[] _itemBounds = new Rectangle[3];
+            private readonly Rectangle[] _itemBounds = new Rectangle[4];
             private bool _lightTheme = true;
             private Color _normalBackColor;
             private Color _selectedBackColor;
@@ -351,6 +363,7 @@ namespace GestureSign.Daemon
             private int _hoverIndex = -1;
             private string _disableText = "";
             private string _controlPanelText = "";
+            private string _restartText = "";
             private string _exitText = "";
             private int _pressedTouchPointerId = -1;
             private int _pressedTouchItemIndex = -1;
@@ -364,10 +377,11 @@ namespace GestureSign.Daemon
             [DllImport("user32.dll")]
             private static extern bool GetPointerType(uint pointerId, out uint pointerType);
 
-            public TouchFriendlyTrayMenu(Action disableGestures, Action openSettings, Func<Task> exitGestureSign)
+            public TouchFriendlyTrayMenu(Action disableGestures, Action openSettings, Func<Task> restartGestureSign, Func<Task> exitGestureSign)
             {
                 _disableGestures = disableGestures;
                 _openSettings = openSettings;
+                _restartGestureSign = restartGestureSign;
                 _exitGestureSign = exitGestureSign;
                 _menuFont = new Font("Microsoft YaHei UI", 10f, FontStyle.Regular, GraphicsUnit.Point);
                 _showTimer = new System.Windows.Forms.Timer { Interval = 120 };
@@ -388,16 +402,19 @@ namespace GestureSign.Daemon
                 DoubleBuffered = true;
                 Padding = new Padding(8);
                 Width = 228;
-                Height = 164;
+                // One row per menu item, plus the same bottom margin the three-item
+                // menu always had (the rounded border needs a little air below the text).
+                Height = Padding.Top + 1 + ItemHeight * _itemBounds.Length + 23;
                 BackColor = Color.FromArgb(245, 248, 252);
                 SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.ResizeRedraw, true);
                 Deactivate += TouchFriendlyTrayMenu_Deactivate;
             }
 
-            public void UpdateItems(string disableText, string controlPanelText, string exitText)
+            public void UpdateItems(string disableText, string controlPanelText, string restartText, string exitText)
             {
                 _disableText = disableText;
                 _controlPanelText = controlPanelText;
+                _restartText = restartText;
                 _exitText = exitText;
                 Invalidate();
             }
@@ -570,13 +587,15 @@ namespace GestureSign.Daemon
                 {
                     var left = Padding.Left + 8;
                     var right = Width - Padding.Right - 8;
+                    // Grouping: enable/disable alone, then settings and restart, then exit.
                     e.Graphics.DrawLine(separator, left, _itemBounds[0].Bottom, right, _itemBounds[0].Bottom);
-                    e.Graphics.DrawLine(separator, left, _itemBounds[1].Bottom, right, _itemBounds[1].Bottom);
+                    e.Graphics.DrawLine(separator, left, _itemBounds[2].Bottom, right, _itemBounds[2].Bottom);
                 }
 
                 DrawMenuText(e.Graphics, _disableText, _itemBounds[0]);
                 DrawMenuText(e.Graphics, _controlPanelText, _itemBounds[1]);
-                DrawMenuText(e.Graphics, _exitText, _itemBounds[2]);
+                DrawMenuText(e.Graphics, _restartText, _itemBounds[2]);
+                DrawMenuText(e.Graphics, _exitText, _itemBounds[3]);
             }
 
             protected override void OnHandleCreated(EventArgs e)
@@ -727,6 +746,9 @@ namespace GestureSign.Daemon
                         _openSettings();
                         break;
                     case 2:
+                        await _restartGestureSign();
+                        break;
+                    case 3:
                         await _exitGestureSign();
                         break;
                 }
@@ -744,15 +766,14 @@ namespace GestureSign.Daemon
 
             private void UpdateItemBounds()
             {
-                const int itemHeight = 44;
                 var x = Padding.Left + 4;
                 var width = Width - Padding.Left - Padding.Right - 16;
                 var y = Padding.Top + 1;
 
                 for (var index = 0; index < _itemBounds.Length; index++)
                 {
-                    _itemBounds[index] = new Rectangle(x, y, width, itemHeight);
-                    y += itemHeight;
+                    _itemBounds[index] = new Rectangle(x, y, width, ItemHeight);
+                    y += ItemHeight;
                 }
             }
 
@@ -859,6 +880,7 @@ namespace GestureSign.Daemon
             _touchTrayMenu.UpdateItems(
                 _disableGesturesMenuItem.Text,
                 LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
+                LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
                 LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
             _touchTrayMenu.ShowNearCursor();
         }
@@ -875,9 +897,11 @@ namespace GestureSign.Daemon
                     _touchTrayMenu.UpdateItems(
                         _disableGesturesMenuItem.Text,
                         LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
+                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
                         LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
                 },
                 StartSettings,
+                async () => await RestartGestureSignAsync(),
                 async () => await ExitGestureSignAsync());
             ApplyTouchTrayMenuTheme();
         }
@@ -1087,12 +1111,14 @@ namespace GestureSign.Daemon
             _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue(
                 recognitionDisabled ? "TrayMenu.Enable" : "TrayMenu.Disable");
             _settingsMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings");
+            _restartMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart");
             _exitGestureSignMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit");
 
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
                 _touchTrayMenu.UpdateItems(
                     _disableGesturesMenuItem.Text,
                     _settingsMenuItem.Text,
+                    _restartMenuItem.Text,
                     _exitGestureSignMenuItem.Text);
         }
 
@@ -1150,13 +1176,52 @@ namespace GestureSign.Daemon
             return candidates.FirstOrDefault(File.Exists) ?? candidates[0];
         }
 
-        internal static async Task ExitGestureSignAsync()
+        internal static Task ExitGestureSignAsync()
         {
             if (Interlocked.Exchange(ref _exitStarted, 1) != 0)
-                return;
+                return Task.CompletedTask;
 
             Logging.LogMessage("ExitGestureSignAsync started.");
+            return ShutdownAsync(restart: false);
+        }
 
+        /// <summary>
+        /// Starts another daemon that takes over once this one is gone, then shuts this one down.
+        /// The settings window is left alone: it talks to whichever daemon is listening.
+        /// </summary>
+        internal static async Task RestartGestureSignAsync()
+        {
+            if (Volatile.Read(ref _exitStarted) != 0 || Interlocked.Exchange(ref _restartStarted, 1) != 0)
+                return;
+
+            Logging.LogMessage("RestartGestureSignAsync started.");
+
+            try
+            {
+                string executable = Application.ExecutablePath;
+                // The replacement waits for the instance mutex this process holds, so the
+                // tray icon and the hooks come back without a second copy staying alive.
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = executable,
+                    Arguments = Constants.RestartArgument,
+                    WorkingDirectory = Path.GetDirectoryName(executable) ?? AppDomain.CurrentDomain.BaseDirectory,
+                    UseShellExecute = false
+                })?.Dispose();
+            }
+            catch (Exception exception)
+            {
+                // Nothing could be started: keep this instance (and its tray icon) alive.
+                Logging.LogException(exception);
+                Interlocked.Exchange(ref _restartStarted, 0);
+                return;
+            }
+
+            await ShutdownAsync(restart: true);
+        }
+
+        private static async Task ShutdownAsync(bool restart)
+        {
             // Release the low-level mouse/keyboard hooks before any potentially
             // blocking cleanup (Kando shutdown, IPC delay, or process waits).
             // Keeping a WH_MOUSE_LL hook alive while the tray process is winding
@@ -1172,34 +1237,38 @@ namespace GestureSign.Daemon
                 Logging.LogException(exception);
             }
 
-            // Process enumeration and module inspection can briefly block when
-            // Kando has renderer children. Run that cleanup off the UI thread
-            // so the tray window can exit with no perceptible delay.
-            _ = Task.Run(() =>
+            if (!restart)
             {
+                // Process enumeration and module inspection can briefly block when
+                // Kando has renderer children. Run that cleanup off the UI thread
+                // so the tray window can exit with no perceptible delay.
+                _ = Task.Run(() =>
+                {
+                    try
+                    {
+                        KandoLauncher.Stop();
+                    }
+                    catch (Exception exception)
+                    {
+                        Logging.LogException(exception);
+                    }
+                });
+
                 try
                 {
-                    KandoLauncher.Stop();
+                    await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.Settings, wait: false);
                 }
                 catch (Exception exception)
                 {
                     Logging.LogException(exception);
                 }
-            });
 
-            try
-            {
-                await NamedPipe.SendMessageAsync(IpcCommands.Exit, Constants.Settings, wait: false);
-            }
-            catch (Exception exception)
-            {
-                Logging.LogException(exception);
+                await Task.Delay(25);
+                CloseOtherGestureSignProcesses();
             }
 
-            await Task.Delay(25);
-            CloseOtherGestureSignProcesses();
             Application.DoEvents();
-            Logging.LogMessage("ExitGestureSignAsync calling Application.Exit.");
+            Logging.LogMessage($"Shutdown calling Application.Exit. Restart={restart}");
             Application.Exit();
         }
 
@@ -1321,6 +1390,7 @@ namespace GestureSign.Daemon
                 _touchTrayMenu.UpdateItems(
                     _disableGesturesMenuItem.Text,
                     LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
+                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
                     LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
         }
 

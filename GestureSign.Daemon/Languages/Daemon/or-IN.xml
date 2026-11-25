@@ -11,6 +11,7 @@
     <Disable>GestureSign ଅକ୍ଷମ କରନ୍ତୁ</Disable>
     <Enable>GestureSign ସକ୍ରିୟ କରନ୍ତୁ</Enable>
     <Settings>ସେଟିଙ୍ଗସ</Settings>
+    <Restart>ପୁନଃ ଆରମ୍ଭ କରନ୍ତୁ</Restart>
     <Exit>ପ୍ରସ୍ଥାନ</Exit>
   </TrayMenu>
 </Language>

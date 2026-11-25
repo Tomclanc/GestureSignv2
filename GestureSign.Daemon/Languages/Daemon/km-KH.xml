@@ -11,6 +11,7 @@
     <Disable>បិទ GestureSign</Disable>
     <Enable>បើក GestureSign</Enable>
     <Settings>ការកំណត់</Settings>
+    <Restart>ចាប់ផ្ដើមឡើងវិញ</Restart>
     <Exit>ចាកចេញ</Exit>
   </TrayMenu>
 </Language>

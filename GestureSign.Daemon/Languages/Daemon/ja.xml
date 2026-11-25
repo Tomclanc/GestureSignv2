@@ -11,6 +11,7 @@
     <Disable>ジェスチャー認識を無効にする</Disable>
     <Enable>ジェスチャー認識を有効にする</Enable>
     <Settings>設定</Settings>
+    <Restart>再起動</Restart>
     <Exit>終了</Exit>
   </TrayMenu>
 </Language>

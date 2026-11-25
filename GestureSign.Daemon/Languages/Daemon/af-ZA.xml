@@ -11,6 +11,7 @@
     <Disable>Deaktiveer GestureSign</Disable>
     <Enable>Aktiveer GestureSign</Enable>
     <Settings>Instellings</Settings>
+    <Restart>Herbegin</Restart>
     <Exit>Verlaat</Exit>
   </TrayMenu>
 </Language>

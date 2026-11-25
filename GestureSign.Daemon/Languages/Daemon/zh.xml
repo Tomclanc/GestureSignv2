@@ -11,6 +11,7 @@
     <Disable>关闭手势识别</Disable>
     <Enable>启用手势识别</Enable>
     <Settings>设置</Settings>
+    <Restart>重新启动</Restart>
     <Exit>退出</Exit>
   </TrayMenu>
 </Language>

@@ -11,6 +11,7 @@
     <Disable>የእጅ ምልክት ምልክትን አሰናክል</Disable>
     <Enable>የ GestureSignን አንቃ</Enable>
     <Settings>ማሰናጃዎች</Settings>
+    <Restart>እንደገና አስጀምር</Restart>
     <Exit>ውጣ</Exit>
   </TrayMenu>
 </Language>

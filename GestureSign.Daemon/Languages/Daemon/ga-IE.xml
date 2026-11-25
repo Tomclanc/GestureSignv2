@@ -11,6 +11,7 @@
     <Disable>Múch GestureSign</Disable>
     <Enable>Cumasaigh GestureSign</Enable>
     <Settings>Socruithe</Settings>
+    <Restart>Atosaigh</Restart>
     <Exit>Scoir</Exit>
   </TrayMenu>
 </Language>

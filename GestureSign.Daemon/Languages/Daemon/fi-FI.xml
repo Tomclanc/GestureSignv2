@@ -11,6 +11,7 @@
     <Disable>Poista GestureSign käytöstä</Disable>
     <Enable>Ota GestureSign käyttöön</Enable>
     <Settings>Asetukset</Settings>
+    <Restart>Käynnistä uudelleen</Restart>
     <Exit>Poistu</Exit>
   </TrayMenu>
 </Language>

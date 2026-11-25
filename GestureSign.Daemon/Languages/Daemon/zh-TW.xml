@@ -11,6 +11,7 @@
     <Disable>關閉手勢辨識</Disable>
     <Enable>啟用手勢辨識</Enable>
     <Settings>設定</Settings>
+    <Restart>重新啟動</Restart>
     <Exit>結束</Exit>
   </TrayMenu>
 </Language>

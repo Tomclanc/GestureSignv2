@@ -11,6 +11,7 @@
     <Disable>GestureSign নিষ্ক্রিয় করুন</Disable>
     <Enable>GestureSign সক্রিয় করুন</Enable>
     <Settings>সেটিংস</Settings>
+    <Restart>পুনরায় চালু করুন</Restart>
     <Exit>প্রস্থান</Exit>
   </TrayMenu>
 </Language>

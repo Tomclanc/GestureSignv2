@@ -11,6 +11,7 @@
     <Disable>Išjungti GestureSign</Disable>
     <Enable>Įjungti GestureSign</Enable>
     <Settings>Nustatymai</Settings>
+    <Restart>Paleisti iš naujo</Restart>
     <Exit>Išeiti</Exit>
   </TrayMenu>
 </Language>
