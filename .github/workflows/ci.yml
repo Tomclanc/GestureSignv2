@@ -63,6 +63,8 @@ jobs:
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Test native edge-click ownership
         run: dotnet run --project tests/GestureSign.EdgeClickTests/GestureSign.EdgeClickTests.csproj -c Release
+      - name: Test touchpad edge release and cursor suppression
+        run: dotnet run --project tests/GestureSign.EdgeCursorTests/GestureSign.EdgeCursorTests.csproj -c Release
       - name: Test optional local intent learning and daemon bridge
         run: |
           dotnet run --project tests/GestureSign.IntentTests/GestureSign.IntentTests.csproj -c Release

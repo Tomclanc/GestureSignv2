@@ -18,6 +18,7 @@ public sealed partial class MainWindow
 {
     private MenuEditSession? _pieDraft;
     private string? _pieDraftExecutable;
+    private string? _pieRepairAttemptedPath;
     private bool _pieInstalling;
     private readonly SemaphoreSlim _pieRecordingLock = new(1, 1);
 
@@ -28,11 +29,24 @@ public sealed partial class MainWindow
         if (_currentNavigationPage != "quickActions") ShowPage("quickActions");
     }
 
-    private FrameworkElement NewPieMenuComponentCard(bool installed, out ToggleSwitch enabled)
+    private FrameworkElement NewPieMenuComponentCard(bool installed, bool needsRepair, out ToggleSwitch enabled)
     {
         var options = _legacyData.Options;
         enabled = NewKandoQuickActionsToggle(options.KandoEnabled);
         enabled.Header = T("环形菜单", "Pie menu");
+        if (needsRepair)
+        {
+            var repairing = _pieInstalling ||
+                !string.Equals(_pieRepairAttemptedPath, options.KandoExecutablePath, StringComparison.OrdinalIgnoreCase);
+            return new InfoBar
+            {
+                IsOpen = true,
+                IsClosable = false,
+                Severity = repairing ? InfoBarSeverity.Informational : InfoBarSeverity.Warning,
+                Title = enabled.Header?.ToString(),
+                Message = repairing ? T("下载中", "Downloading") : T("暂时无法下载", "Download unavailable")
+            };
+        }
         if (installed && PieMenuComponentService.IsCurrent(options.KandoExecutablePath))
             return enabled;
 
@@ -87,26 +101,7 @@ public sealed partial class MainWindow
                 executable = await PieMenuComponentService.InstallAsync(zip, timeout.Token);
             }
 
-            await FlushPendingOptionUpdatesAsync();
-            var old = LegacyDataStore.Load().Options;
-            if (!string.Equals(old.KandoExecutablePath, executable, StringComparison.OrdinalIgnoreCase))
-            {
-                try
-                {
-                    if (old.KandoEnabled)
-                        await UpdateOptionAndWaitAsync("KandoEnabled", "False");
-                    if (KandoComponentPaths.IsNativePieMenu(old.KandoExecutablePath))
-                        await Kando.StopNativeAndWaitAsync(old);
-                    else if (old.KandoEnabled)
-                        StopKandoProcesses(old);
-                    await UpdateOptionAndWaitAsync("KandoExecutablePath", executable);
-                }
-                finally
-                {
-                    if (old.KandoEnabled)
-                        await EnableKandoQuickActionsAsync();
-                }
-            }
+            await UsePieMenuComponentAsync(executable);
             ShowSelectedPage();
         }
         catch (Exception error) when (fromGitHub && error is HttpRequestException or OperationCanceledException)
@@ -121,6 +116,77 @@ public sealed partial class MainWindow
             download.Content = label;
             download.IsEnabled = import.IsEnabled = true;
             _pieInstalling = false;
+        }
+    }
+
+    private async Task RepairPieMenuAsync()
+    {
+        var options = LegacyDataStore.Load().Options;
+        var path = options.KandoExecutablePath;
+        if (_pieInstalling || _isExitingApplication ||
+            string.Equals(_pieRepairAttemptedPath, path, StringComparison.OrdinalIgnoreCase) ||
+            !PieMenuComponentService.NeedsManagedRepair(path, KandoComponentPaths.PieMenuInstallDirectory))
+            return;
+
+        _pieInstalling = true;
+        _pieRepairAttemptedPath = path;
+        try
+        {
+            if (_currentNavigationPage == "quickActions") ShowSelectedPage();
+            using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+            var executable = await PieMenuComponentService.DownloadAsync(new Progress<double>(), timeout.Token,
+                () => Kando.StopNativeAndWaitAsync(options));
+            if (executable is null)
+            {
+                LogWinUiDaemonMessage("Automatic pie menu repair: component release was not available.");
+                return;
+            }
+
+            if (!_isExitingApplication)
+            {
+                await UsePieMenuComponentAsync(executable, expectedPath: path, restart: true);
+                _legacyData = LegacyDataStore.Load();
+            }
+        }
+        catch (Exception error)
+        {
+            LogException(error);
+        }
+        finally
+        {
+            _pieInstalling = false;
+            if (!_isExitingApplication && _currentNavigationPage == "quickActions") ShowSelectedPage();
+        }
+    }
+
+    private async Task UsePieMenuComponentAsync(string executable, string? expectedPath = null, bool restart = false)
+    {
+        await FlushPendingOptionUpdatesAsync();
+        var old = LegacyDataStore.Load().Options;
+        if (expectedPath is not null && !string.Equals(old.KandoExecutablePath, expectedPath, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        if (string.Equals(old.KandoExecutablePath, executable, StringComparison.OrdinalIgnoreCase))
+        {
+            if (restart && old.KandoEnabled)
+                StartKando(old, "--background");
+            return;
+        }
+
+        try
+        {
+            if (old.KandoEnabled)
+                await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+            if (KandoComponentPaths.IsNativePieMenu(old.KandoExecutablePath))
+                await Kando.StopNativeAndWaitAsync(old);
+            else if (old.KandoEnabled)
+                StopKandoProcesses(old);
+            await UpdateOptionAndWaitAsync("KandoExecutablePath", executable);
+        }
+        finally
+        {
+            if (old.KandoEnabled)
+                await EnableKandoQuickActionsAsync();
         }
     }
 

@@ -451,7 +451,7 @@ namespace GestureSign.Uninstaller
                && Directory.Exists(directory)
                && (File.Exists(Path.Combine(directory, "GestureSignV2.WinUI.exe")) || File.Exists(Path.Combine(directory, "GestureSignV2.exe")) || File.Exists(Path.Combine(directory, "GestureSign.WinUI.exe")))
                && File.Exists(Path.Combine(directory, "GestureSign-Uninstall.exe"))
-               && (File.Exists(Path.Combine(directory, "Backend", "GestureSignV2Daemon.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSignV2.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSign.exe")));
+               && (File.Exists(Path.Combine(directory, "GestureSignV2Daemon.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSignV2Daemon.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSignV2.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSign.exe")));
 
         private static bool SameDirectory(string left, string right)
             => !string.IsNullOrWhiteSpace(left)

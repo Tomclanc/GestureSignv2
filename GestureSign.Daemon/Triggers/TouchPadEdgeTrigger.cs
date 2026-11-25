@@ -115,7 +115,7 @@ namespace GestureSign.Daemon.Triggers
             if (_pendingEdgeTrigger == null ||
                 PointCapture.Instance.Mode == CaptureMode.Training ||
                 PointCapture.Instance.SourceDevice != _sourceDevice ||
-                e?.Points == null || e.Points.Count != 1 ||
+                e?.Points == null || e.Points.Count != 1 || e.TouchPadHadMultipleContacts ||
                 e.Points[0] == null || e.Points[0].Count == 0)
             {
                 return;
@@ -238,6 +238,15 @@ namespace GestureSign.Daemon.Triggers
 
             if (_pendingEdgeTrigger != null)
             {
+                if (e.TouchPadHadMultipleContacts)
+                {
+                    Logging.LogMessage($"{_logPrefix} edge trigger canceled. Reason=AdditionalTouchPadContact");
+                    _pendingEdgeTrigger = null;
+                    _continuousActionAnchor = null;
+                    _continuousActionFired = false;
+                    return;
+                }
+
                 if (_continuousActionFired)
                 {
                     Logging.LogMessage($"{_logPrefix} edge trigger completed after continuous action. Edge={_pendingEdgeTrigger.Edge}");
@@ -274,7 +283,7 @@ namespace GestureSign.Daemon.Triggers
                 return;
             }
 
-            var edgeGestureName = GetFallbackEdgeGestureName(e.Points);
+            var edgeGestureName = GetFallbackEdgeGestureName(e);
             if (edgeGestureName == null)
                 return;
 
@@ -293,15 +302,15 @@ namespace GestureSign.Daemon.Triggers
             return points?.Select(stroke => stroke?.ToList() ?? new List<Point>()).ToList();
         }
 
-        private string GetFallbackEdgeGestureName(List<List<Point>> strokes)
+        private string GetFallbackEdgeGestureName(PointsCapturedEventArgs capture)
         {
             // A touchpad edge action is a single-contact gesture. Without an
             // accepted edge capture, one finger of a multi-contact gesture
             // must not be eligible on its own at release.
-            if (_sourceDevice == Devices.TouchPad && strokes.Count != 1)
+            if (_sourceDevice == Devices.TouchPad && (capture.Points.Count != 1 || capture.TouchPadHadMultipleContacts))
                 return null;
 
-            var points = strokes[0];
+            var points = capture.Points[0];
             var edge = GetStartEdge(points.First());
             return edge == null ? null : GetEdgeGestureName(edge.Value, points);
         }

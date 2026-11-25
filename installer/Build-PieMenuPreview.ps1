@@ -17,9 +17,13 @@ $artifacts = foreach($arch in @('x64','arm64')) {
     if ($LASTEXITCODE) { throw "Pie Menu publish failed: $arch" }
     Get-ChildItem -LiteralPath $payload -File -Filter '*.pdb' | Remove-Item
     Copy-Item -LiteralPath "$repo/GestureSign.PieMenu/README.md","$repo/LICENSE" -Destination $payload
-    foreach($name in @('GestureSignV2.PieMenu.exe','GestureSignV2.PieMenu.dll','App.xbf','GestureSignV2.PieMenu.pri','WindowsInput.dll','KandoWeb/renderer.js','KandoWeb/catalog.json','KandoWeb/locales/en/translation.json','KandoWeb/windows-key-codes.json','KandoWeb/native-icons.json','EditorAssets/PieMenu.ico','EditorAssets/PieMenu.png','EditorAssets/editor-strings.json')) {
+    foreach($name in @('GestureSignV2.PieMenu.exe','GestureSignV2.PieMenu.dll','App.xbf','GestureSignV2.PieMenu.pri','WindowsInput.dll','KandoWeb/renderer.js','KandoWeb/catalog.json','KandoWeb/locales/en/translation.json','KandoWeb/windows-key-codes.json','KandoWeb/native-icons.zip','EditorAssets/PieMenu.ico','EditorAssets/PieMenu.png','EditorAssets/editor-strings.json')) {
         if (!(Test-Path -LiteralPath (Join-Path $payload $name))) { throw "$arch package missing $name" }
     }
+    $inventory = Get-ChildItem -LiteralPath $payload -Recurse -File -Force | ForEach-Object {
+        $_.FullName.Substring($payload.Length + 1).Replace('\', '/')
+    } | Sort-Object
+    [IO.File]::WriteAllLines((Join-Path $payload 'payload-files.txt'), [string[]]$inventory)
     [IO.Compression.ZipFile]::CreateFromDirectory($payload,$zip,[IO.Compression.CompressionLevel]::Optimal,$false)
     (Get-FileHash -LiteralPath $zip).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($zip)
 }

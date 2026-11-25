@@ -1,8 +1,8 @@
-# GestureSign 环形菜单 · 开发预览 0.7.9
+# GestureSign 环形菜单 · 开发预览 0.7.12
 
 Windows x64 或 ARM64。需要 .NET 10、Windows App Runtime 2 和 Microsoft Edge WebView2 Runtime。
 
-配合本次提供的 GestureSign 主程序，打开「快捷操作」，选「下载组件」或「从 ZIP 安装」并选择对应架构的 0.7.9 组件包。配置项直接排列在页面上。主题可先用「预览菜单」查看，再用「保存菜单」应用到快捷键触发的菜单。
+配合本次提供的 GestureSign 主程序，打开「快捷操作」，选「下载组件」或「从 ZIP 安装」并选择对应架构的 0.7.12 组件包。配置项直接排列在页面上。主题可先用「预览菜单」查看，再用「保存菜单」应用到快捷键触发的菜单。
 
 点击「菜单图标」或「菜单项图标」行中的图标，打开可搜索的图标库。内置 Kando SVG、Material Symbols Rounded、Simple Icons 单色和彩色版及 Emoji。Base64 选项可选择本地图片或从 EXE 提取图标。
 

@@ -24,7 +24,9 @@ public sealed partial class MainWindow
         var options = _legacyData.Options;
         if (_nativeQuickActionsPage is { } cached &&
             string.Equals(cached.Executable, options.KandoExecutablePath, StringComparison.OrdinalIgnoreCase) &&
-            cached.Culture == _uiCultureName && cached.Toggle.IsOn == options.KandoEnabled && File.Exists(cached.Executable))
+            cached.Culture == _uiCultureName && cached.Toggle.IsOn == options.KandoEnabled &&
+            PieMenuComponentService.IsCompatible(cached.Executable) &&
+            !PieMenuComponentService.NeedsManagedRepair(cached.Executable, KandoComponentPaths.PieMenuInstallDirectory))
         {
             ApplyPieMenuSearch(cached.Editor);
             return cached.View;
@@ -39,8 +41,14 @@ public sealed partial class MainWindow
     {
         var root = NewSection();
         var options = _legacyData.Options;
-        var native = PieMenuComponentService.IsCompatible(options.KandoExecutablePath);
-        root.Children.Add(MarkSearchTarget(NewPieMenuComponentCard(native, out var enabled), "quick-actions-component"));
+        var needsRepair = PieMenuComponentService.NeedsManagedRepair(options.KandoExecutablePath, KandoComponentPaths.PieMenuInstallDirectory);
+        var native = !needsRepair && PieMenuComponentService.IsCompatible(options.KandoExecutablePath);
+        root.Children.Add(MarkSearchTarget(NewPieMenuComponentCard(native, needsRepair, out var enabled), "quick-actions-component"));
+        if (needsRepair)
+        {
+            DispatcherQueue.TryEnqueue(() => _ = RepairPieMenuAsync());
+            return root;
+        }
         if (native)
         {
             root.Children.Add(BuildPieMenuEditorRegion(options.KandoExecutablePath, enabled, out var editor));

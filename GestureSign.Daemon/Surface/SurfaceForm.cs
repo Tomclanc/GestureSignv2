@@ -21,7 +21,6 @@ namespace GestureSign.Daemon.Surface
         private Pen _dirtyMarkerPen;
         private float _penWidth;
         int[] _lastStroke;
-        bool _actionHintDrawn;
         Size _screenOffset = default(Size);
         DiBitmap _bitmap;
         private GraphicsPath _graphicsPath = new GraphicsPath();
@@ -134,6 +133,11 @@ namespace GestureSign.Daemon.Surface
             _displayedCaptureGeneration = captureGeneration;
             _trailFramePresented = false;
             _trailPresentFailureLogged = false;
+            // A hidden layered window can retain its last submitted pixels.
+            // Keep it hidden until a frame for this capture is submitted.
+            HideSurface();
+            StopGestureHintTimers();
+            ClearSurfaces();
 
             if (_settingsChanged)
             {
@@ -151,10 +155,7 @@ namespace GestureSign.Daemon.Surface
                 }
             }
 
-            StopGestureHintTimers();
-            ClearSurfaces();
             EnsureDrawingSurface();
-            EnsureSurfaceVisible();
 
             var palette = VisualFeedbackPalette();
             _drawingPen.Color = ApplyVisualFeedbackAlpha(palette != null && palette.Length > 0 ? palette[0] : AppConfig.VisualFeedbackColor);
@@ -198,11 +199,10 @@ namespace GestureSign.Daemon.Surface
                 return;
 
             _displayedCaptureGeneration = 0;
-            if (_bitmap == null && _lastStroke == null)
-                return;
             StopGestureHintTimers();
-            ClearSurfaces();
             HideSurface();
+
+            ClearSurfaces();
         }
 
         public void DrawPoints(List<List<Point>> points, int captureGeneration)
@@ -275,9 +275,6 @@ namespace GestureSign.Daemon.Surface
                 Logging.LogMessage("Visual feedback redraw skipped: drawing surface unavailable.");
                 return;
             }
-            if (!Visible)
-                EnsureSurfaceVisible();
-
             // Keep the layered window and its native bitmap alive while the
             // touchpad path is being rescaled. Recreating/showing the window on
             // every point causes visible flicker on Windows.
@@ -324,7 +321,8 @@ namespace GestureSign.Daemon.Surface
             StopGestureHintTimers();
             ClearSurfaces();
             EnsureDrawingSurface();
-            EnsureSurfaceVisible();
+            if (_bitmap == null)
+                return;
 
             if (_penWidth <= 0)
                 InitializePen();
@@ -369,7 +367,8 @@ namespace GestureSign.Daemon.Surface
             StopGestureHintTimers();
             ClearSurfaces();
             EnsureDrawingSurface();
-            EnsureSurfaceVisible();
+            if (_bitmap == null)
+                return;
 
             if (_penWidth <= 0)
                 InitializePen();
@@ -418,7 +417,6 @@ namespace GestureSign.Daemon.Surface
             }
 
             EnsureDrawingSurface();
-            EnsureSurfaceVisible();
             DrawCompleteGesture(points);
             UpdateFullSurface(255);
         }
@@ -496,8 +494,8 @@ namespace GestureSign.Daemon.Surface
 
             if (_gestureHintFadingOut)
             {
-                ClearSurfaces();
                 HideSurface();
+                ClearSurfaces();
                 return;
             }
 
@@ -519,8 +517,6 @@ namespace GestureSign.Daemon.Surface
 
         private void DrawSegments(List<List<Point>> points)
         {
-            // Ensure that surface is visible
-            EnsureSurfaceVisible();
             if (_lastStroke == null || _lastStroke.Length != points.Count)
             {
                 _lastStroke = new int[points.Count];
@@ -564,6 +560,7 @@ namespace GestureSign.Daemon.Surface
             catch (Exception e)
             {
                 Logging.LogException(e);
+                HideSurface();
                 ClearSurfaces();
                 // When the next frame allocates a fresh bitmap, redraw the whole trail.
                 return;
@@ -577,19 +574,8 @@ namespace GestureSign.Daemon.Surface
 
         private void EnsureSurfaceVisible()
         {
-            // A hidden layered window keeps the last frame it showed, and
-            // updates made while it was hidden are not reliably shown. Push the
-            // whole current surface (normally still empty here) before showing
-            // it, so the previous gesture and its action hint never flash back.
-            var wasHidden = !Visible;
-            if (wasHidden && _bitmap != null && _bitmap.HBitmap != IntPtr.Zero)
-                SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height));
             TopMost = true;
             Show();
-            // Push it once more right after showing, in the same UI pass, in
-            // case the update made while hidden was dropped.
-            if (wasHidden && _bitmap != null && _bitmap.HBitmap != IntPtr.Zero)
-                SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height));
             NativeMethods.SetWindowPos(
                 Handle,
                 new IntPtr(-1),
@@ -651,8 +637,7 @@ namespace GestureSign.Daemon.Surface
             Name = "SurfaceForm";
             ShowIcon = false;
             StartPosition = FormStartPosition.Manual;
-            Show();
-            Hide();
+            HideSurface();
 
 
             // Combine monitor screen sizes and set form size to combined size
@@ -750,9 +735,6 @@ namespace GestureSign.Daemon.Surface
 
         private void DrawActionHint(string text)
         {
-            // The hint box is not part of the stroke path, so the next clear
-            // must wipe the whole surface (see ClearSurfaces).
-            _actionHintDrawn = true;
             var graphics = _bitmap.BeginDraw();
             graphics.SmoothingMode = SmoothingMode.AntiAlias;
             graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
@@ -861,59 +843,15 @@ namespace GestureSign.Daemon.Surface
         private void ClearSurfaces()
         {
             _lastStroke = null;
-            // An action hint lies outside the stroke path. Clearing only the path
-            // would leave the hint in the layered window, and it would reappear
-            // the next time the surface is shown (e.g. on the next right press).
-            if (_actionHintDrawn)
-            {
-                _actionHintDrawn = false;
-                _graphicsPath.Reset();
-                _dirtyGraphicsPath.Reset();
-            }
-            if (_bitmap != null)
-            {
-                using (_bitmap)
-                {
-                    var g = _bitmap.BeginDraw();
-
-                    if (_graphicsPath.PointCount > 0)
-                    {
-                        _graphicsPath.Widen(_dirtyMarkerPen);
-                        g.SetClip(_graphicsPath);
-                        g.Clear(Color.Transparent);
-                    }
-                    else
-                    {
-                        g.Clear(Color.Transparent);
-                    }
-                    _bitmap.EndDraw();
-
-                    var pathDirty = _graphicsPath.PointCount > 0
-                        ? Rectangle.Ceiling(_graphicsPath.GetBounds())
-                        : new Rectangle(0, 0, Width, Height);
-                    if (_graphicsPath.PointCount > 0)
-                    {
-                        pathDirty.Offset(Bounds.Location);
-                        pathDirty.Intersect(Bounds);
-                        pathDirty.Offset(-Bounds.X, -Bounds.Y); //挪回来变为基于窗口的坐标
-                    }
-
-                    SetDiBitmap(_bitmap, pathDirty);
-
-                    _graphicsPath.Reset();
-                    _dirtyGraphicsPath.Reset();
-
-                }
-                _bitmap = null;
-            }
+            _bitmap?.Dispose();
+            _bitmap = null;
+            _graphicsPath.Reset();
+            _dirtyGraphicsPath.Reset();
         }
 
 
         private bool SetDiBitmap(DiBitmap bmp, Rectangle dirtyRect, byte opacity, out int error)
             => SetHBitmap(bmp.HBitmap, Bounds, Point.Empty, dirtyRect, opacity, out error);
-
-        private void SetDiBitmap(DiBitmap bmp, Rectangle dirtyRect, byte opacity = 255)
-            => SetDiBitmap(bmp, dirtyRect, opacity, out _);
 
         //dirtyRect是绝对坐标（在多屏的情况下）
         private bool SetHBitmap(IntPtr hBitmap, Rectangle newWindowBounds, Point drawAt, Rectangle dirtyRect, byte opacity, out int error)
@@ -987,6 +925,7 @@ namespace GestureSign.Daemon.Surface
 
             if (SetDiBitmap(_bitmap, pathDirty, 255, out var error))
             {
+                if (!Visible) EnsureSurfaceVisible();
                 if (_trailFramePresented) return;
                 _trailFramePresented = true;
                 Logging.LogMessage("Visual feedback first trail frame submitted.");
@@ -1002,7 +941,8 @@ namespace GestureSign.Daemon.Surface
         {
             if (_bitmap == null || _bitmap.HBitmap == IntPtr.Zero)
                 return;
-            SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), opacity);
+            if (SetDiBitmap(_bitmap, new Rectangle(0, 0, Width, Height), opacity, out _) && !Visible)
+                EnsureSurfaceVisible();
         }
 
         #endregion

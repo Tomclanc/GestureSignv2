@@ -1,0 +1,34 @@
+<Project>
+  <PropertyGroup>
+    <_UpdaterRepoDirectory>$(MSBuildThisFileDirectory)..\..</_UpdaterRepoDirectory>
+    <_UpdaterUiCatalogDirectory>$(_UpdaterRepoDirectory)\GestureSign.WinUI\Languages\UI</_UpdaterUiCatalogDirectory>
+    <_UpdaterCatalogTool>$(_UpdaterRepoDirectory)\tools\LocalizationAudit\LocalizationAudit.csproj</_UpdaterCatalogTool>
+  </PropertyGroup>
+  <ItemGroup>
+    <_UpdaterUiCatalogFile Include="$(_UpdaterUiCatalogDirectory)\*.json;$(MSBuildThisFileDirectory)*.cs;$(_UpdaterCatalogTool);$(_UpdaterRepoDirectory)\tools\LocalizationAudit\Program.cs" />
+  </ItemGroup>
+
+  <Target Name="TrackUpdaterUiCatalogInputs">
+    <PropertyGroup>
+      <_UpdaterUiCatalogArchive>$(IntermediateOutputPath)UpdaterUiCatalogs.zip</_UpdaterUiCatalogArchive>
+      <_UpdaterUiCatalogInputList>$(IntermediateOutputPath)UpdaterUiCatalogs.inputs</_UpdaterUiCatalogInputList>
+    </PropertyGroup>
+    <MakeDir Directories="$(IntermediateOutputPath)" />
+    <WriteLinesToFile File="$(_UpdaterUiCatalogInputList)" Lines="@(_UpdaterUiCatalogFile)"
+                      Overwrite="true" WriteOnlyWhenDifferent="true" />
+  </Target>
+
+  <Target Name="BuildUpdaterUiCatalogArchive" DependsOnTargets="TrackUpdaterUiCatalogInputs"
+          Inputs="$(_UpdaterUiCatalogInputList);@(_UpdaterUiCatalogFile);$(MSBuildThisFileFullPath)"
+          Outputs="$(_UpdaterUiCatalogArchive)">
+    <Exec Command="dotnet run --project &quot;$(_UpdaterCatalogTool)&quot; -c Release -- --build-updater-catalog &quot;$(_UpdaterRepoDirectory)&quot; &quot;$(_UpdaterUiCatalogArchive)&quot;" />
+  </Target>
+
+  <Target Name="EmbedUpdaterUiCatalogArchive" BeforeTargets="AssignTargetPaths"
+          DependsOnTargets="BuildUpdaterUiCatalogArchive">
+    <ItemGroup>
+      <EmbeddedResource Include="$(_UpdaterUiCatalogArchive)" LogicalName="UI.Catalogs.zip" WithCulture="false" />
+      <FileWrites Include="$(_UpdaterUiCatalogArchive);$(_UpdaterUiCatalogInputList)" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1168,6 +1168,7 @@ namespace GestureSign.Daemon
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string[] candidates =
             {
+                Path.Combine(baseDirectory, "GestureSignV2.WinUI.exe"),
                 Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSignV2.WinUI.exe")),
                 Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSignV2.exe")),
                 Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSign.WinUI.exe")),

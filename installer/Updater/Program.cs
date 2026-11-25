@@ -333,11 +333,13 @@ namespace GestureSign.Updater
 
         private static void ValidatePortableDirectory(string directory)
         {
-            foreach (var relative in new[] { "GestureSignV2.WinUI.exe", @"Backend\GestureSignV2Daemon.exe" })
-            {
-                if (!File.Exists(Path.Combine(directory, relative)))
-                    throw new InvalidDataException(string.Format(T("The update package is missing a required file: {0}"), relative));
-            }
+            const string settings = "GestureSignV2.WinUI.exe";
+            const string daemon = "GestureSignV2Daemon.exe";
+            if (!File.Exists(Path.Combine(directory, settings)))
+                throw new InvalidDataException(string.Format(T("The update package is missing a required file: {0}"), settings));
+            if (!File.Exists(Path.Combine(directory, daemon)) &&
+                !File.Exists(Path.Combine(directory, "Backend", daemon)))
+                throw new InvalidDataException(string.Format(T("The update package is missing a required file: {0}"), daemon));
         }
 
         private static void PreserveBundledKando(string applicationDirectory)
