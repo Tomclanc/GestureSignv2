@@ -247,6 +247,15 @@ namespace GestureSign.Daemon.RadialMenu
             if (PointCapture.Instance.Mode != CaptureMode.Normal || PointCapture.Instance.State != CaptureState.Ready)
                 return false;
 
+            // The optional Quick Actions component draws its own menu in another
+            // process; there the middle button selects an item. Opening the
+            // built-in menu as well would stack two wheels on one click.
+            if (QuickActionsPresence.IsMenuOpen())
+            {
+                Logging.LogMessage("Radial menu skipped. Reason=QuickActionsMenuOpen");
+                return false;
+            }
+
             Dictionary<string, IAction> slots;
             try
             {
