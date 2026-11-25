@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
@@ -185,7 +188,7 @@ namespace GestureSign.CorePlugins.Steps
             return text;
         }
 
-        public void Notify(string text) => _pointInfo.Invoke(() => StepToast.ShowMessage(text));
+        public void Notify(string text, string kind) => _pointInfo.Invoke(() => StepToast.ShowMessage(text, kind));
 
         public bool ShowMessageBox(string title, string text, string buttons)
         {
@@ -778,33 +781,56 @@ namespace GestureSign.CorePlugins.Steps
         }
     }
 
-    /// <summary>A small click-through message near the bottom-right corner that fades after a moment.</summary>
+    /// <summary>
+    /// A short message floating above the taskbar, centered on the screen the pointer is on.
+    /// The card is drawn with per-pixel transparency, so its rounded corners, icon and soft
+    /// shadow stay smooth at any DPI; a thin line along the bottom counts down the time left.
+    /// </summary>
     internal sealed class StepToast : Form
     {
-        private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer { Interval = 2500 };
+        private const int ShadowRoom = 14;
+        private const int CornerRadius = 8;
+        private const int PadX = 18;
+        private const int PadY = 12;
+        private const int IconSize = 20;
+        private const int IconGap = 10;
+        private const int MinWidth = 120;
+        private const int MaxWidth = 480;
+        private const int AboveTaskbar = 24;
+        private const int RisePixels = 8;
+        private const int MaxLines = 5;
+        private const int ShowMs = 2500;
+        private const int FadeInMs = 140;
+        private const int FadeOutMs = 180;
 
-        private StepToast(string text)
+        private static StepToast _current;
+        private static string _fontFamily;
+
+        private readonly System.Windows.Forms.Timer _timer = new System.Windows.Forms.Timer { Interval = 16 };
+        private readonly Stopwatch _clock = new Stopwatch();
+        private readonly string _text;
+        private readonly string _kind;
+
+        private Bitmap _layer;
+        private Color _accent;
+        private float _scale = 1f;
+        private int _width;
+        private int _height;
+        private int _cardWidth;
+        private int _cardHeight;
+        private int _left;
+        private int _top;
+
+        private StepToast(string text, string kind)
         {
+            _text = text;
+            _kind = kind;
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
             TopMost = true;
             StartPosition = FormStartPosition.Manual;
-            BackColor = Color.FromArgb(40, 40, 40);
-            ForeColor = Color.White;
-            Opacity = 0.92;
-            Padding = new Padding(14, 10, 14, 10);
-            var label = new Label
-            {
-                Text = text.Length > 500 ? text.Substring(0, 500) + "…" : text,
-                AutoSize = true,
-                MaximumSize = new Size(420, 0),
-                Font = new Font("Microsoft YaHei UI", 10f),
-                ForeColor = Color.White
-            };
-            Controls.Add(label);
-            AutoSize = true;
-            AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            _timer.Tick += (_, __) => Close();
+            BackColor = Color.Black;
+            _timer.Tick += OnTick;
         }
 
         protected override bool ShowWithoutActivation => true;
@@ -814,21 +840,386 @@ namespace GestureSign.CorePlugins.Steps
             get
             {
                 var p = base.CreateParams;
-                p.ExStyle |= 0x08000000 /* NOACTIVATE */ | 0x00000080 /* TOOLWINDOW */ | 0x00000008 /* TOPMOST */;
+                // Layered for per-pixel alpha, transparent so clicks reach whatever is behind,
+                // noactivate so the gesture never moves the focus away from the user's window.
+                p.ExStyle |= 0x00080000 /* LAYERED */ | 0x00000020 /* TRANSPARENT */
+                           | 0x08000000 /* NOACTIVATE */ | 0x00000080 /* TOOLWINDOW */;
                 return p;
             }
         }
 
-        public static void ShowMessage(string text)
+        public static void ShowMessage(string text, string kind)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return;
-            var toast = new StepToast(text);
-            toast.FormClosed += (_, __) => { toast._timer.Dispose(); toast.Dispose(); };
-            toast.Show();
-            var area = Screen.FromPoint(Cursor.Position).WorkingArea;
-            toast.Location = new Point(area.Right - toast.Width - 16, area.Bottom - toast.Height - 16);
-            toast._timer.Start();
+
+            var previous = _current;
+            _current = null;
+            if (previous is { IsDisposed: false })
+                previous.CloseNow();
+
+            var toast = new StepToast(text, kind);
+            _current = toast;
+            toast.Present();
         }
+
+        private void Present()
+        {
+            // Move to the pointer's screen first, so the device DPI belongs to that monitor.
+            var area = Screen.FromPoint(Cursor.Position).WorkingArea;
+            Location = new Point(area.Left, area.Top);
+            _ = Handle;
+            _scale = Math.Max(1f, DeviceDpi / 96f);
+
+            using (var measure = Graphics.FromHwnd(IntPtr.Zero))
+                BuildLayer(measure);
+            if (_layer == null)
+            {
+                Dispose();
+                return;
+            }
+
+            _left = area.Left + (area.Width - _width) / 2;
+            _top = area.Bottom - (int)Math.Round(AboveTaskbar * _scale) - _cardHeight - ShadowRoom;
+            Size = new Size(_width, _height);
+
+            Render(0f, (int)Math.Round(RisePixels * _scale), 0f);
+            Show();
+            _clock.Restart();
+            _timer.Start();
+        }
+
+        private void OnTick(object sender, EventArgs e)
+        {
+            var elapsed = (float)_clock.Elapsed.TotalMilliseconds;
+            float alpha;
+            var rise = 0;
+            if (elapsed < FadeInMs)
+            {
+                var k = elapsed / FadeInMs;
+                alpha = k;
+                rise = (int)Math.Round((1f - k) * RisePixels * _scale);
+            }
+            else if (elapsed < FadeInMs + ShowMs)
+            {
+                alpha = 1f;
+            }
+            else
+            {
+                var k = (elapsed - FadeInMs - ShowMs) / FadeOutMs;
+                if (k >= 1f)
+                {
+                    CloseNow();
+                    return;
+                }
+                alpha = 1f - k;
+            }
+
+            var progress = Math.Clamp((elapsed - FadeInMs) / ShowMs, 0f, 1f);
+            Render(alpha, rise, progress);
+        }
+
+        private void CloseNow()
+        {
+            _timer.Stop();
+            Close();
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            _timer.Stop();
+            _timer.Dispose();
+            _layer?.Dispose();
+            _layer = null;
+            if (ReferenceEquals(_current, this))
+                _current = null;
+            base.OnFormClosed(e);
+        }
+
+        private void BuildLayer(Graphics measure)
+        {
+            var light = IsLightTheme();
+            var background = light ? Color.FromArgb(255, 255, 255) : Color.FromArgb(44, 44, 44);
+            var border = light ? Color.FromArgb(20, 0, 0, 0) : Color.FromArgb(28, 255, 255, 255);
+            var foreground = light ? Color.FromArgb(27, 27, 27) : Color.FromArgb(243, 243, 243);
+            _accent = _kind switch
+            {
+                "warn" => light ? Color.FromArgb(186, 117, 23) : Color.FromArgb(239, 159, 39),
+                "error" => light ? Color.FromArgb(163, 45, 45) : Color.FromArgb(240, 149, 149),
+                _ => light ? Color.FromArgb(24, 95, 165) : Color.FromArgb(133, 183, 235)
+            };
+
+            using var font = new Font(FontFamilyName(), 14f * _scale, FontStyle.Regular, GraphicsUnit.Pixel);
+            using var format = new StringFormat(StringFormat.GenericDefault) { LineAlignment = StringAlignment.Center };
+
+            var textWidth = MaxWidth * _scale - (PadX * 2 + IconSize + IconGap) * _scale;
+            var lineHeight = measure.MeasureString("国", font).Height;
+            var text = FitLines(measure, _text.Trim(), font, textWidth, format, lineHeight * MaxLines);
+            var measured = measure.MeasureString(text, font, (int)Math.Ceiling(textWidth), format);
+
+            var contentWidth = Math.Min(textWidth, Math.Max(measured.Width, 1f) + 1f);
+            var cardWidth = Math.Min(MaxWidth * _scale, Math.Max(MinWidth * _scale, contentWidth + (IconSize + IconGap + PadX * 2) * _scale));
+            var cardHeight = Math.Max(40f * _scale, measured.Height + PadY * 2f);
+            _cardWidth = (int)Math.Ceiling(cardWidth);
+            _cardHeight = (int)Math.Ceiling(cardHeight);
+            _width = _cardWidth + ShadowRoom * 2;
+            _height = _cardHeight + ShadowRoom * 2;
+
+            var layer = new Bitmap(_width, _height, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(layer))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                g.Clear(Color.Transparent);
+                var card = new RectangleF(ShadowRoom, ShadowRoom, _cardWidth, _cardHeight);
+
+                // Barely-there lift under the card: two soft passes, no glow around the sides.
+                var strength = light ? 5 : 7;
+                for (var i = 2; i >= 1; i--)
+                {
+                    var drop = i * 1.3f * _scale;
+                    var rect = RectangleF.Inflate(card, drop * 0.4f, 0f);
+                    rect.Offset(0f, drop);
+                    using var shadow = Rounded(rect, CornerRadius * _scale);
+                    using var brush = new SolidBrush(Color.FromArgb(strength, 0, 0, 0));
+                    g.FillPath(brush, shadow);
+                }
+
+                using (var fill = Rounded(card, CornerRadius * _scale))
+                using (var brush = new SolidBrush(background))
+                    g.FillPath(brush, fill);
+
+                using (var edge = Rounded(RectangleF.Inflate(card, -0.5f, -0.5f), CornerRadius * _scale - 0.5f))
+                using (var pen = new Pen(border, 1f))
+                    g.DrawPath(pen, edge);
+
+                DrawIcon(g, new RectangleF(card.Left + PadX * _scale, card.Top + (_cardHeight - IconSize * _scale) / 2f, IconSize * _scale, IconSize * _scale));
+
+                using (var brush = new SolidBrush(foreground))
+                    g.DrawString(text, font, brush, new RectangleF(card.Left + (PadX + IconSize + IconGap) * _scale, card.Top, textWidth, _cardHeight), format);
+            }
+
+            _layer?.Dispose();
+            _layer = layer;
+        }
+
+        private void DrawIcon(Graphics g, RectangleF box)
+        {
+            var state = g.Save();
+            g.TranslateTransform(box.Left, box.Top);
+            g.ScaleTransform(box.Width / 20f, box.Height / 20f);
+            using var pen = new Pen(_accent, 1.6f) { StartCap = LineCap.Round, EndCap = LineCap.Round };
+            using var brush = new SolidBrush(_accent);
+            g.DrawEllipse(pen, 1.4f, 1.4f, 17.2f, 17.2f);
+            switch (_kind)
+            {
+                case "warn":
+                    g.DrawLine(pen, 10f, 5.2f, 10f, 11.4f);
+                    g.FillEllipse(brush, 9f, 13.4f, 2f, 2f);
+                    break;
+                case "error":
+                    g.DrawLine(pen, 6.8f, 6.8f, 13.2f, 13.2f);
+                    g.DrawLine(pen, 13.2f, 6.8f, 6.8f, 13.2f);
+                    break;
+                default:
+                    g.DrawLine(pen, 10f, 9.2f, 10f, 14.6f);
+                    g.FillEllipse(brush, 9f, 5.4f, 2f, 2f);
+                    break;
+            }
+            g.Restore(state);
+        }
+
+        private void Render(float alpha, int rise, float progress)
+        {
+            if (_layer == null)
+                return;
+
+            using var frame = new Bitmap(_width, _height, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(frame))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                DrawBitmap(g, _layer, alpha);
+                if (progress > 0f && progress < 1f)
+                    DrawCountdown(g, alpha, progress);
+            }
+            Push(frame, _left, _top + rise);
+        }
+
+        private void DrawCountdown(Graphics g, float alpha, float progress)
+        {
+            var card = new RectangleF(ShadowRoom, ShadowRoom, _cardWidth, _cardHeight);
+            var height = Math.Max(2f, 1.75f * _scale);
+            var width = card.Width * (1f - progress);
+            if (width <= 1f)
+                return;
+
+            using var path = Rounded(card, CornerRadius * _scale);
+            var previous = g.Clip;
+            g.SetClip(path);
+            using var brush = new SolidBrush(Color.FromArgb((int)Math.Round(125 * alpha), _accent));
+            g.FillRectangle(brush, card.Left, card.Bottom - height, width, height);
+            g.Clip = previous;
+        }
+
+        private void Push(Bitmap frame, int left, int top)
+        {
+            var screen = GetDC(IntPtr.Zero);
+            var memory = CreateCompatibleDC(screen);
+            var bitmap = frame.GetHbitmap(Color.FromArgb(0));
+            var previous = SelectObject(memory, bitmap);
+            try
+            {
+                var size = new SIZE(frame.Width, frame.Height);
+                var source = new POINT(0, 0);
+                var destination = new POINT(left, top);
+                var blend = new BLENDFUNCTION { BlendOp = 0, BlendFlags = 0, SourceConstantAlpha = 255, AlphaFormat = 1 };
+                UpdateLayeredWindow(Handle, screen, ref destination, ref size, memory, ref source, 0, ref blend, 2);
+            }
+            finally
+            {
+                SelectObject(memory, previous);
+                DeleteObject(bitmap);
+                DeleteDC(memory);
+                ReleaseDC(IntPtr.Zero, screen);
+            }
+        }
+
+        private static void DrawBitmap(Graphics g, Image image, float alpha)
+        {
+            if (alpha >= 0.999f)
+            {
+                g.DrawImageUnscaled(image, 0, 0);
+                return;
+            }
+            var matrix = new ColorMatrix { Matrix33 = alpha };
+            using var attributes = new ImageAttributes();
+            attributes.SetColorMatrix(matrix);
+            g.DrawImage(image, new Rectangle(0, 0, image.Width, image.Height), 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, attributes);
+        }
+
+        private static string FitLines(Graphics g, string text, Font font, float width, StringFormat format, float maxHeight)
+        {
+            var limit = (int)Math.Ceiling(width);
+            if (g.MeasureString(text, font, limit, format).Height <= maxHeight)
+                return text;
+
+            var low = 0;
+            var high = text.Length;
+            while (low < high)
+            {
+                var middle = (low + high + 1) / 2;
+                var candidate = text.Substring(0, middle).TrimEnd() + "…";
+                if (g.MeasureString(candidate, font, limit, format).Height <= maxHeight)
+                    low = middle;
+                else
+                    high = middle - 1;
+            }
+            return text.Substring(0, low).TrimEnd() + "…";
+        }
+
+        private static GraphicsPath Rounded(RectangleF rect, float radius)
+        {
+            var path = new GraphicsPath();
+            var size = radius * 2f;
+            path.AddArc(rect.Left, rect.Top, size, size, 180f, 90f);
+            path.AddArc(rect.Right - size, rect.Top, size, size, 270f, 90f);
+            path.AddArc(rect.Right - size, rect.Bottom - size, size, size, 0f, 90f);
+            path.AddArc(rect.Left, rect.Bottom - size, size, size, 90f, 90f);
+            path.CloseFigure();
+            return path;
+        }
+
+        private static bool IsLightTheme()
+        {
+            try
+            {
+                using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
+                return key?.GetValue("AppsUseLightTheme") is not int value || value != 0;
+            }
+            catch
+            {
+                return true;
+            }
+        }
+
+        /// <summary>YaHei keeps Chinese text crisp; other systems fall back to their own UI font.</summary>
+        private static string FontFamilyName()
+        {
+            if (_fontFamily != null)
+                return _fontFamily;
+
+            _fontFamily = SystemFonts.MessageBoxFont?.FontFamily.Name ?? "Segoe UI";
+            try
+            {
+                using var families = new InstalledFontCollection();
+                foreach (var family in families.Families)
+                {
+                    if (!string.Equals(family.Name, "Microsoft YaHei UI", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    _fontFamily = family.Name;
+                    break;
+                }
+            }
+            catch
+            {
+            }
+            return _fontFamily;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct POINT
+        {
+            public int X;
+            public int Y;
+
+            public POINT(int x, int y)
+            {
+                X = x;
+                Y = y;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SIZE
+        {
+            public int Width;
+            public int Height;
+
+            public SIZE(int width, int height)
+            {
+                Width = width;
+                Height = height;
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        private struct BLENDFUNCTION
+        {
+            public byte BlendOp;
+            public byte BlendFlags;
+            public byte SourceConstantAlpha;
+            public byte AlphaFormat;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool UpdateLayeredWindow(IntPtr hwnd, IntPtr destinationDc, ref POINT destination, ref SIZE size, IntPtr sourceDc, ref POINT source, int colorKey, ref BLENDFUNCTION blend, int flags);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetDC(IntPtr hwnd);
+
+        [DllImport("user32.dll")]
+        private static extern int ReleaseDC(IntPtr hwnd, IntPtr dc);
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr CreateCompatibleDC(IntPtr dc);
+
+        [DllImport("gdi32.dll")]
+        private static extern bool DeleteDC(IntPtr dc);
+
+        [DllImport("gdi32.dll")]
+        private static extern IntPtr SelectObject(IntPtr dc, IntPtr obj);
+
+        [DllImport("gdi32.dll")]
+        private static extern bool DeleteObject(IntPtr obj);
     }
 }

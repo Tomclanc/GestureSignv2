@@ -35,7 +35,7 @@ public static class ActionTemplates
 
     private static string Z(bool zh, string chinese, string english) => zh ? chinese : english;
 
-    private static Step NoSelection(bool zh) => S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文字", "No text is selected")));
+    private static Step NoSelection(bool zh) => S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文字", "No text is selected")), ("Kind", "warn"));
 
     /// <summary>Gets the selection into {text}; stops with a message when nothing is selected.</summary>
     private static Step RequireSelection(bool zh)
@@ -98,7 +98,7 @@ public static class ActionTemplates
                 S(StepCatalog.RegexExtract, ("Input", "{text}"), ("Pattern", @"https?://[^\s""'<>]+|www\.[^\s""'<>]+"), ("Output", "link")),
                 S(StepCatalog.If, ("Condition", "link != \"\"")).With(
                     new[] { S(StepCatalog.OpenUrl, ("Url", "{link}")) },
-                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "选中的文字里没有网址", "The selection contains no link"))) }))),
+                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "选中的文字里没有网址", "The selection contains no link")), ("Kind", "warn")) }))),
 
         // AI (uses the AI settings: API address, key and model)
         new ActionTemplate("ai-translate", "AI", "AI", "AI 翻译选中文字", "AI: translate selection",
@@ -208,7 +208,7 @@ public static class ActionTemplates
                     new[] { S(StepCatalog.JoinList, ("List", "{files}"), ("Separator", @"\r\n"), ("Output", "paths")),
                             S(StepCatalog.SetClipboard, ("Text", "{paths}")),
                             S(StepCatalog.Notify, ("Text", Z(zh, "已复制路径：\n{paths}", "Copied:\n{paths}"))) },
-                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文件", "No files are selected"))) }))),
+                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文件", "No files are selected")), ("Kind", "warn")) }))),
 
         // Files
         new ActionTemplate("open-with", "文件", "Files", "用指定程序打开选中文件", "Open selected files with a program",
@@ -218,7 +218,7 @@ public static class ActionTemplates
                 S(StepCatalog.GetSelectedFiles, ("Output", "files")),
                 S(StepCatalog.If, ("Condition", "files.length > 0")).With(
                     new[] { S(StepCatalog.RunProgram, ("Path", "{program}"), ("Arguments", "{extraArguments} {files:quote}")) },
-                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文件", "No files are selected"))) }))),
+                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文件", "No files are selected")), ("Kind", "warn")) }))),
         new ActionTemplate("terminal-here", "文件", "Files", "在当前文件夹打开终端", "Open a terminal here",
             "在资源管理器当前打开的文件夹中启动 Windows 终端。用 cmd.exe 时把参数改成 /k cd /d {folder:quote}。", "Starts Windows Terminal in the folder open in File Explorer. For cmd.exe use the arguments /k cd /d {folder:quote}.", "\uE756",
             zh => P(new[] { Var("terminal", "wt.exe", Z(zh, "终端程序", "Terminal program")),
@@ -233,7 +233,7 @@ public static class ActionTemplates
                 S(StepCatalog.GetExplorerFolder, ("Output", "folder")),
                 S(StepCatalog.If, ("Condition", "folder != \"\"")).With(
                     new[] { S(StepCatalog.RunProgram, ("Path", "{program}"), ("Arguments", "{folder:quote}")) },
-                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有找到当前文件夹", "No folder is open"))) }))),
+                    new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有找到当前文件夹", "No folder is open")), ("Kind", "warn")) }))),
 
         // System
         new ActionTemplate("system-tool", "系统", "System", "打开系统设置或工具", "Open a Windows setting or tool",

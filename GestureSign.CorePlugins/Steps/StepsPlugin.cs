@@ -36,7 +36,7 @@ namespace GestureSign.CorePlugins.Steps
             Logging.LogMessage($"Step program finished. Steps={result.StepsExecuted}, Stopped={result.Stopped}, Error={result.Error ?? "None"}");
             if (result.Error != null && result.Error != "Canceled")
             {
-                try { actionPoint.Invoke(() => StepToast.ShowMessage("GestureSign: " + result.Error)); }
+                try { actionPoint.Invoke(() => StepToast.ShowMessage(result.Error, "error")); }
                 catch (Exception ex) { Logging.LogException(ex); }
             }
             return result.Error == null;

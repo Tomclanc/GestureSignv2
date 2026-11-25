@@ -33,7 +33,7 @@ internal static class ActionEngineTests
             return "activated";
         }
         public string Http(string method, string url, string body, string contentType) => "";
-        public void Notify(string text) => Calls.Add("notify:" + text);
+        public void Notify(string text, string kind) => Calls.Add("notify:" + kind + ":" + text);
         public bool ShowMessageBox(string title, string text, string buttons) => true;
         public string AskText(string prompt, string defaultValue, bool multiline) => Answer;
         public IReadOnlyList<int> AskChoice(string prompt, IReadOnlyList<string> labels, bool multiple)
@@ -110,7 +110,8 @@ internal static class ActionEngineTests
                 Check(StepCatalog.Find(step.Type) != null);
 
         Check(RunTemplate("search-selection", h => h.Selected = "a b").Calls.Contains("run:https://www.bing.com/search?q=a%20b"));
-        Check(RunTemplate("search-selection", h => h.Selected = " ").Calls.Any(c => c.StartsWith("notify:")));
+        var noText = RunTemplate("search-selection", h => h.Selected = " ");
+        Check(noText.Calls.Any(c => c.StartsWith("notify:warn:")), "a missing selection warns");
         var canceled = RunTemplate("ask-search", h => h.Answer = null);
         Check(!canceled.Calls.Any(c => c.StartsWith("run") || c.StartsWith("ERROR")));
         Check(RunTemplate("zh-convert", h => h.Selected = "簡体").Calls.Contains("paste:简体"));
@@ -179,7 +180,7 @@ internal static class ActionEngineTests
         group.Body.Add(notify);
         var host = new FakeHost();
         new StepRunner(host).Run(new StepProgram { Steps = { group, Step.Create(StepCatalog.Comment) } });
-        Check(host.Calls.Contains("notify:in group"));
+        Check(host.Calls.Contains("notify:info:in group"), "the default kind is info");
 
         // Choices written as label|value: the label is shown, the value is kept.
         var select = Step.Create(StepCatalog.UserSelect);

@@ -129,8 +129,10 @@ public static class StepCatalog
 
         // Interaction
         Type("interact", Notify, "提示消息", "Show message", "",
-            new[] { new StepParameter("Text", "内容", "Text", StepParameterKind.MultilineText, "{text}") },
-            descriptionZh: "在屏幕右下角短暂显示一条消息。", descriptionEn: "Briefly shows a message at the bottom right of the screen."),
+            new[] { new StepParameter("Text", "内容", "Text", StepParameterKind.MultilineText, "{text}"),
+                    new StepParameter("Kind", "类型", "Kind", StepParameterKind.Choice, "info", new[] { "info", "warn", "error" },
+                        ChoiceNamesZh: new[] { "信息", "提醒", "失败" }, ChoiceNamesEn: new[] { "Info", "Warning", "Error" }) },
+            descriptionZh: "在屏幕底部中间短暂显示一条消息，位置在任务栏上方。", descriptionEn: "Briefly shows a message at the bottom center of the screen, above the taskbar."),
         Type("interact", MessageBox, "弹窗提示或确认", "Message box", "",
             new[] { new StepParameter("Title", "标题", "Title", StepParameterKind.Text, "GestureSign"),
                     new StepParameter("Text", "内容", "Text", StepParameterKind.MultilineText, ""),

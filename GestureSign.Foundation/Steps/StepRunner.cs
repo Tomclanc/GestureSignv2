@@ -29,7 +29,8 @@ public interface IStepHost
     /// </summary>
     string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow);
     string Http(string method, string url, string body, string contentType);
-    void Notify(string text);
+    /// <summary>Shows a short message; kind is "info", "warn" or "error".</summary>
+    void Notify(string text, string kind = "info");
     /// <summary>Shows a message box; buttons are "OK", "OKCancel" or "YesNo". Returns true for OK/Yes.</summary>
     bool ShowMessageBox(string title, string text, string buttons);
     /// <summary>Asks for text; returns null when cancelled.</summary>
@@ -363,7 +364,7 @@ public sealed class StepRunner
                 break;
 
             case StepCatalog.Notify:
-                _host.Notify(Arg("Text"));
+                _host.Notify(Arg("Text"), step.Arg("Kind").Trim());
                 break;
 
             case StepCatalog.MessageBox:
