@@ -62,6 +62,8 @@ namespace GestureSign.Updater
         private readonly Button _closeButton = new Button();
         private int? _msiExitCode;
         private string _msiLogPath;
+        /// <summary>Set once the app has been stopped, so a failed update knows to start it again.</summary>
+        private bool _targetsStopped;
 
         public UpdateForm(UpdateOptions options)
         {
@@ -146,6 +148,7 @@ namespace GestureSign.Updater
                     WaitForMainProcess();
                     SetStatus(T("Closing the background service and quick actions…"));
                     StopTargetProcesses();
+                    _targetsStopped = true;
 
                     if (string.Equals(_options.Mode, "msi", StringComparison.OrdinalIgnoreCase))
                         InstallMsi();
@@ -180,7 +183,14 @@ namespace GestureSign.Updater
             {
                 _progress.MarqueeAnimationSpeed = 0;
                 _title.Text = T("Update failed");
-                _status.Text = ex.Message;
+                // The app was already stopped before the install ran. A cancelled
+                // (1602) or failed (1603) install rolls the previous version back,
+                // so start that build again instead of leaving the user with
+                // nothing running. Only try when we were the ones who stopped it.
+                var relaunched = _targetsStopped && TryRelaunchAfterFailure();
+                _status.Text = relaunched
+                    ? ex.Message
+                    : ex.Message + " " + T("Could not start GestureSign V2.");
                 EnableCloseButton();
             }
             finally
@@ -193,6 +203,26 @@ namespace GestureSign.Updater
         {
             _closeButton.Text = T("Close");
             _closeButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// Starts the installed build after a failed or cancelled update. The files still
+        /// belong to the previous version because Windows Installer rolled back, so this is
+        /// the same executable the update was meant to replace.
+        /// </summary>
+        private bool TryRelaunchAfterFailure()
+        {
+            try
+            {
+                LaunchUpdatedApplication();
+                return true;
+            }
+            catch (Exception error)
+            {
+                // Nothing else to do: the message already tells the user to open the app by hand.
+                Trace.TraceWarning("Relaunch after a failed update did not work: {0}", error);
+                return false;
+            }
         }
 
         private void ValidateOptions()
