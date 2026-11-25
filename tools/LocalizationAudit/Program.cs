@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -8,6 +9,51 @@ using GestureSign.WinUI;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+if (args is ["--build-updater-catalog", var catalogRoot, var archivePath])
+{
+    var keys = UpdaterCatalogKeys(catalogRoot);
+    var source = Path.Combine(catalogRoot, "GestureSign.WinUI", "Languages", "UI");
+    using var file = File.Create(archivePath);
+    using var archive = new ZipArchive(file, ZipArchiveMode.Create);
+    foreach (var path in Directory.EnumerateFiles(source, "*.json").Order(StringComparer.Ordinal))
+    {
+        var entry = archive.CreateEntry(Path.GetFileName(path), CompressionLevel.Optimal);
+        // Make the archive independent of when the build runs.
+        entry.LastWriteTime = new DateTimeOffset(1980, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        using var stream = entry.Open();
+        JsonSerializer.Serialize(stream, ReadUpdaterTranslations(path, keys),
+            new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+    }
+    return 0;
+}
+
+static HashSet<string> UpdaterCatalogKeys(string root)
+{
+    var keys = new HashSet<string>(StringComparer.Ordinal);
+    foreach (var file in Directory.EnumerateFiles(Path.Combine(root, "installer", "Updater"), "*.cs"))
+    {
+        var syntax = CSharpSyntaxTree.ParseText(File.ReadAllText(file));
+        foreach (var call in syntax.GetRoot().DescendantNodes().OfType<InvocationExpressionSyntax>())
+        {
+            if (call.Expression is not IdentifierNameSyntax { Identifier.ValueText: "T" } &&
+                call.Expression is not MemberAccessExpressionSyntax { Name.Identifier.ValueText: "T" })
+                continue;
+            if (call.ArgumentList.Arguments.FirstOrDefault()?.Expression is not LiteralExpressionSyntax key ||
+                !key.IsKind(SyntaxKind.StringLiteralExpression))
+                throw new InvalidDataException($"Updater translation key must be a string literal in {file}: {call}");
+            keys.Add(key.Token.ValueText);
+        }
+    }
+    if (keys.Count == 0) throw new InvalidDataException("No updater translation keys found.");
+    return keys;
+}
+
+static Dictionary<string, string> ReadUpdaterTranslations(string path, HashSet<string> keys) =>
+    JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path))!
+        .Where(pair => keys.Contains(pair.Key))
+        .OrderBy(pair => pair.Key, StringComparer.Ordinal)
+        .ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
 
 var repo = Path.GetFullPath(args.FirstOrDefault() ?? ".");
 var output = Path.GetFullPath(args.Skip(1).FirstOrDefault() ?? "localization-audit.json");
@@ -151,11 +197,28 @@ if (payload is not null)
     else
     {
         var resources = EmbeddedResources(updaterPath);
+        using var catalog = resources.TryGetValue("UI.Catalogs.zip", out var archiveBytes)
+            ? new ZipArchive(new MemoryStream(archiveBytes, writable: false), ZipArchiveMode.Read)
+            : null;
+        var updaterKeys = catalog is null ? null : UpdaterCatalogKeys(repo);
         foreach (var culture in cultures)
         {
-            if (!resources.TryGetValue("UI." + culture + ".json", out var bytes) ||
-                !bytes.SequenceEqual(File.ReadAllBytes(Path.Combine(repo, "GestureSign.WinUI", "Languages", "UI", culture + ".json"))))
-                payloadIssues.Add("Missing or stale published updater catalog: " + culture);
+            var sourcePath = Path.Combine(repo, "GestureSign.WinUI", "Languages", "UI", culture + ".json");
+            if (catalog is null)
+            {
+                if (!resources.TryGetValue("UI." + culture + ".json", out var bytes) ||
+                    !bytes.SequenceEqual(File.ReadAllBytes(sourcePath)))
+                    payloadIssues.Add("Missing or stale published updater catalog: " + culture);
+            }
+            else
+            {
+                using var entry = catalog.GetEntry(culture + ".json")?.Open();
+                var published = entry is null ? null : JsonSerializer.Deserialize<Dictionary<string, string>>(entry);
+                var expected = ReadUpdaterTranslations(sourcePath, updaterKeys!);
+                if (published is null || published.Count != expected.Count ||
+                    expected.Any(pair => !published.TryGetValue(pair.Key, out var value) || value != pair.Value))
+                    payloadIssues.Add("Missing or stale published updater catalog: " + culture);
+            }
         }
     }
 }

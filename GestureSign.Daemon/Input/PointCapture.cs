@@ -68,6 +68,7 @@ namespace GestureSign.Daemon.Input
         SynchronizationContext _currentContext;
 
         private Dictionary<int, List<Point>> _pointsCaptured;
+        private bool _touchPadHadMultipleContacts;
         private List<int> _touchScreenContactOrder;
         private Dictionary<int, Point> _touchScreenUpPoints;
         private bool _touchScreenBlockedUntilRelease;
@@ -1047,6 +1048,7 @@ namespace GestureSign.Daemon.Input
         private bool TryBeginCapture(List<InputPoint> firstPoint)
         {
             ReleasePointerMotionSuppression("NewCapture");
+            _touchPadHadMultipleContacts = false;
             _captureSession = new CaptureSession();
             Logging.LogMessage($"Gesture capture started. Device={SourceDevice}, Mode={Mode}, Contacts={firstPoint.Count}, DrawingButton={AppConfig.DrawingButton}");
 
@@ -1151,7 +1153,10 @@ namespace GestureSign.Daemon.Input
 
             // Create points capture event args, to be used to send off to event subscribers or to simulate original Point event
             PointsCapturedEventArgs pointsInformation = SourceDevice == Devices.TouchPad ?
-                new PointsCapturedEventArgs(_pointsCaptured.Values.ToList(), new List<Point>() { _touchPadStartPoint }) :
+                new PointsCapturedEventArgs(_pointsCaptured.Values.ToList(), new List<Point>() { _touchPadStartPoint })
+                {
+                    TouchPadHadMultipleContacts = _touchPadHadMultipleContacts
+                } :
                 new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), _pointsCaptured.Values.Select(p => p.FirstOrDefault()).ToList());
 
             // Notify subscribers that capture has ended （draw end）
@@ -1263,6 +1268,7 @@ namespace GestureSign.Daemon.Input
         {
             ReleasePointerMotionSuppression("CaptureReset");
             _pointsCaptured?.Clear();
+            _touchPadHadMultipleContacts = false;
             _touchScreenContactOrder = null;
             _touchScreenUpPoints = null;
             _requiredContactCount = 1;
@@ -1480,6 +1486,9 @@ namespace GestureSign.Daemon.Input
 
         private void AddPoint(List<InputPoint> point)
         {
+            if (SourceDevice == Devices.TouchPad && ObserveTouchPadContacts(point))
+                ReleasePointerMotionSuppression("AdditionalTouchPadContact");
+
             if (Mode == CaptureMode.Training && SourceDevice == Devices.TouchPad && _pointsCaptured?.Count > 1 && point.Count > 1)
             {
                 AddTrainingPointByNearestStroke(point);
@@ -1516,10 +1525,27 @@ namespace GestureSign.Daemon.Input
             }
         }
 
+        private bool ObserveTouchPadContacts(List<InputPoint> points)
+        {
+            // Late contacts can appear in a frame without being added to the
+            // tracked strokes. Keep that evidence until this capture ends.
+            if (_touchPadHadMultipleContacts || _pointsCaptured.Count == 0 ||
+                (_pointsCaptured.Count == 1 && points.All(p => _pointsCaptured.ContainsKey(p.ContactIdentifier))))
+            {
+                return false;
+            }
+
+            _touchPadHadMultipleContacts = true;
+            return true;
+        }
+
         private PointsCapturedEventArgs CreateTouchPadVisualPoints(List<InputPoint> rawPoints)
         {
             if (_touchPadVisualPoints == null)
-                return new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), rawPoints.Select(p => p.Point).ToList());
+                return new PointsCapturedEventArgs(new List<List<Point>>(_pointsCaptured.Values), rawPoints.Select(p => p.Point).ToList())
+                {
+                    TouchPadHadMultipleContacts = _touchPadHadMultipleContacts
+                };
 
             foreach (var raw in rawPoints)
             {
@@ -1538,7 +1564,10 @@ namespace GestureSign.Daemon.Input
 
             return new PointsCapturedEventArgs(
                 _touchPadVisualPoints.Values.Select(points => new List<Point>(points)).ToList(),
-                _touchPadVisualPoints.Values.Select(points => points.FirstOrDefault()).ToList());
+                _touchPadVisualPoints.Values.Select(points => points.FirstOrDefault()).ToList())
+            {
+                TouchPadHadMultipleContacts = _touchPadHadMultipleContacts
+            };
         }
 
         private static PointF GetTouchPadVisualOrigin(List<InputPoint> points)

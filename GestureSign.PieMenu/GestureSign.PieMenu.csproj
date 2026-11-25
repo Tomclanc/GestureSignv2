@@ -16,7 +16,7 @@
     <WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>true</WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>0.7.11</Version>
+    <Version>0.7.12</Version>
     <DefaultLanguage>en</DefaultLanguage>
     <ApplicationIcon>EditorAssets\PieMenu.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -39,7 +39,7 @@
     <Compile Remove="MenuEditor*.cs;MenuEditSession.cs" />
     <Compile Include="MenuEditor.WindowsApplicationIcons.cs" />
     <Content Include="EditorAssets\**\*" Exclude="EditorAssets\Locales\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-    <Content Include="KandoWeb\**\*" Exclude="KandoWeb\locales\nb-NO\translation.json;KandoWeb\locales\pt-BR\translation.json"
+    <Content Include="KandoWeb\**\*" Exclude="KandoWeb\native-icons.json;KandoWeb\locales\nb-NO\translation.json;KandoWeb\locales\pt-BR\translation.json"
       CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <Compile Remove="MenuEditor*.cs;MenuEditSession.cs" />
     <Compile Include="MenuEditor.WindowsApplicationIcons.cs" />
@@ -54,6 +54,21 @@
   <Target Name="UseOnlyWebView2Core" BeforeTargets="ResolveAssemblyReferences">
     <ItemGroup>
       <Reference Remove="@(Reference)" Condition="'%(Reference.Filename)' == 'Microsoft.Web.WebView2.Wpf' or '%(Reference.Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
+    </ItemGroup>
+  </Target>
+  <Target Name="BuildNativeIconArchive"
+          Inputs="KandoWeb\native-icons.json;$(MSBuildProjectFullPath)"
+          Outputs="$(IntermediateOutputPath)native-icons.zip">
+    <MakeDir Directories="$(IntermediateOutputPath)native-icon-archive" />
+    <Copy SourceFiles="KandoWeb\native-icons.json" DestinationFolder="$(IntermediateOutputPath)native-icon-archive" />
+    <ZipDirectory SourceDirectory="$(IntermediateOutputPath)native-icon-archive"
+                  DestinationFile="$(IntermediateOutputPath)native-icons.zip" Overwrite="true" />
+  </Target>
+  <Target Name="IncludeNativeIconArchive" BeforeTargets="AssignTargetPaths" DependsOnTargets="BuildNativeIconArchive">
+    <ItemGroup>
+      <Content Include="$(IntermediateOutputPath)native-icons.zip" Link="KandoWeb\native-icons.zip"
+               CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+      <FileWrites Include="$(IntermediateOutputPath)native-icons.zip;$(IntermediateOutputPath)native-icon-archive\native-icons.json" />
     </ItemGroup>
   </Target>
   <Target Name="CopyAppResources" AfterTargets="Publish">

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -37,7 +38,7 @@ internal sealed class MenuIcons
 
     private MenuIcons(string rootDirectory)
     {
-        using var json = JsonDocument.Parse(File.ReadAllBytes(Path.Combine(rootDirectory, "KandoWeb", "native-icons.json")));
+        using var json = ReadCatalog(rootDirectory);
         var root = json.RootElement;
         _materialUnits = root.GetProperty("materialUnits").GetInt32();
         _simpleUnits = root.GetProperty("simpleUnits").GetInt32();
@@ -65,6 +66,23 @@ internal sealed class MenuIcons
             var name = descriptors.FirstOrDefault()?.Replace('_', ' ') ?? entry.Name;
             return new Icon(entry.Name, name, Normalize(string.Join(' ', descriptors)));
         }).ToDictionary(icon => icon.Id);
+    }
+
+    private static JsonDocument ReadCatalog(string root)
+    {
+        var assets = Path.Combine(root, "KandoWeb");
+        var archivePath = Path.Combine(assets, "native-icons.zip");
+        if (File.Exists(archivePath))
+        {
+            using var archive = ZipFile.OpenRead(archivePath);
+            var entry = archive.GetEntry("native-icons.json")
+                ?? throw new InvalidDataException("The native icon archive is missing its catalog.");
+            using var stream = entry.Open();
+            return JsonDocument.Parse(stream);
+        }
+
+        using var legacy = File.OpenRead(Path.Combine(assets, "native-icons.json"));
+        return JsonDocument.Parse(legacy);
     }
 
     internal static Task<MenuIcons> GetAsync(string root)

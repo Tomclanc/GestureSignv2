@@ -8,7 +8,7 @@ internal static class KandoInstallation
 {
     // Keep the previous application and settings until replacement and startup
     // validation both succeed. Download/extraction happen before entering here.
-    public static async Task ReplaceAsync(string payload, string destination, string userData,
+    public static async Task ReplaceAsync(string payload, string destination, string? userData,
         Func<Task>? beforeReplace, Func<Task>? validate, Func<Task>? stop, Func<Task>? restore)
     {
         var backup = destination + ".backup-" + Guid.NewGuid().ToString("N");
@@ -25,7 +25,7 @@ internal static class KandoInstallation
             if (beforeReplace is not null) await beforeReplace();
             await Task.Run(() =>
             {
-                if (hadData) CopyDirectory(userData, dataBackup);
+                if (hadData) CopyDirectory(userData!, dataBackup);
                 settingsSaved = true;
                 if (hadApplication)
                 {
@@ -46,7 +46,7 @@ internal static class KandoInstallation
                 {
                     if (replaced) Directory.Delete(destination, true);
                     if (movedOld) Directory.Move(backup, destination);
-                    if (replaced && settingsSaved)
+                    if (userData is not null && replaced && settingsSaved)
                     {
                         if (Directory.Exists(userData)) Directory.Delete(userData, true);
                         if (hadData) CopyDirectory(dataBackup, userData);

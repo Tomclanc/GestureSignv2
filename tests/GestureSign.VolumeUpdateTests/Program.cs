@@ -1,4 +1,5 @@
 using System;
+using System.IO.Compression;
 using GestureSign.CorePlugins.Volume;
 using GestureSign.Updater;
 internal static class Checks
@@ -14,12 +15,14 @@ internal static class Checks
                 if (Math.Abs(actual * 100 - Math.Clamp(current + step, 0, 100)) > .0001) throw new Exception("Inexact volume step");
                 checks++;
             }
-        var resources = typeof(Checks).Assembly.GetManifestResourceNames();
+        using var resource = typeof(Checks).Assembly.GetManifestResourceStream(UpdateText.CatalogResourceName)
+            ?? throw new Exception("Updater catalog archive is missing.");
+        using var catalog = new ZipArchive(resource, ZipArchiveMode.Read);
         int cultures = 0;
-        foreach (var resource in resources)
+        foreach (var entry in catalog.Entries)
         {
-            if (!resource.StartsWith("UI.") || !resource.EndsWith(".json")) continue;
-            var culture = resource.Substring(3, resource.Length - 8);
+            if (!entry.Name.EndsWith(".json", StringComparison.Ordinal)) continue;
+            var culture = System.IO.Path.GetFileNameWithoutExtension(entry.Name);
             UpdateText.SetCulture(culture);
             var translated = UpdateText.T("Update GestureSign V2");
             if (string.IsNullOrWhiteSpace(translated) || (culture != "en-US" && culture != "en-GB" && translated == "Update GestureSign V2")) throw new Exception("Updater language fallback: " + culture);
@@ -28,6 +31,10 @@ internal static class Checks
             cultures++;
         }
         if (cultures != 90) throw new Exception("Updater language resources missing: " + cultures);
+        UpdateText.SetCulture("en-US");
+        var english = UpdateText.T("Update GestureSign V2");
+        UpdateText.SetCulture("undetermined-test-locale");
+        if (UpdateText.T("Update GestureSign V2") != english) throw new Exception("Updater language fallback changed.");
         Console.WriteLine("PASS updater uses all 90 embedded languages and preserves error placeholders.");
         var options = UpdateOptions.Parse(new[] { "--mode", "portable", "--ready", @"C:\Temp Folder\ready", "--wait-pid", "123", "--from-temp" });
         if (options.ReadyPath != @"C:\Temp Folder\ready" || options.WaitProcessId != 123 || !options.FromTemp) throw new Exception("Update handoff arguments lost");

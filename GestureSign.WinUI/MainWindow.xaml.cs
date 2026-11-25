@@ -229,6 +229,7 @@ public sealed partial class MainWindow : Window
         // settings window in the foreground. Keep migration/installation in
         // the WinUI process, but let the daemon be the single startup owner.
         _ = PreserveKandoInstallationAsync();
+        DispatcherQueue.TryEnqueue(() => _ = RepairPieMenuAsync());
         _daemonWatchdogTimer.Start();
         _recognitionStateTimer.Start();
         _windowModeRefreshTimer.Start();
@@ -7237,6 +7238,7 @@ public sealed partial class MainWindow : Window
         var packageDirectory = Environment.GetEnvironmentVariable("GESTURESIGN_PACKAGE_DIR");
         var candidates = new List<string>
         {
+            Path.Combine(baseDirectory, "GestureSignV2Daemon.exe"),
             Path.Combine(baseDirectory, "Backend", "GestureSignV2Daemon.exe"),
             Path.Combine(baseDirectory, "Backend", "GestureSignV2.exe"),
             Path.Combine(baseDirectory, "Backend", "GestureSign.exe"),
@@ -7247,6 +7249,7 @@ public sealed partial class MainWindow : Window
 
         if (!string.IsNullOrWhiteSpace(packageDirectory))
         {
+            candidates.Insert(0, Path.Combine(packageDirectory, "GestureSignV2Daemon.exe"));
             candidates.Insert(2, Path.Combine(packageDirectory, "Backend", "GestureSignV2.exe"));
             candidates.Insert(2, Path.Combine(packageDirectory, "Backend", "GestureSignV2Daemon.exe"));
             candidates.Insert(1, Path.Combine(packageDirectory, "Backend", "GestureSign.exe"));

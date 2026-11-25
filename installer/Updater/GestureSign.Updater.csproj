@@ -32,7 +32,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="UpdateText.cs" />
-    <EmbeddedResource Include="..\..\GestureSign.WinUI\Languages\UI\*.json"><LogicalName>UI.%(Filename)%(Extension)</LogicalName><WithCulture>false</WithCulture></EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="UiCatalogs.targets" />
 </Project>

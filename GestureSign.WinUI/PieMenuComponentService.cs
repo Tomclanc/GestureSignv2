@@ -16,24 +16,49 @@ namespace GestureSign.WinUI;
 
 internal static class PieMenuComponentService
 {
-    internal const string VersionId = "0.7.11";
+    internal const string VersionId = "0.7.12";
+    private const string PayloadInventory = "payload-files.txt";
     private const int MaxArchiveSize = 48 * 1024 * 1024;
     private static readonly HttpClient Client = new() { Timeout = TimeSpan.FromMinutes(4) };
     private static readonly Version MinimumVersion = new(0, 7, 0);
     private static readonly Version CurrentVersion = Version.Parse(VersionId);
     private static readonly string[] RequiredFiles =
     [
-
         "App.xbf", "KandoWeb/index.html", "KandoWeb/renderer.js",
-        "KandoWeb/catalog.json", "KandoWeb/windows-key-codes.json", "KandoWeb/native-icons.json", "KandoWeb/locales/en/translation.json",
+        "KandoWeb/catalog.json", "KandoWeb/windows-key-codes.json", "KandoWeb/locales/en/translation.json",
+        "KandoWeb/renderer.css", "KandoWeb/material-symbols-rounded.woff2", "KandoWeb/SimpleIcons.woff2",
+        "Microsoft.Windows.SDK.NET.dll", "Microsoft.WinUI.dll", "Microsoft.Web.WebView2.Core.dll",
         "EditorAssets/editor-strings.json", "EditorAssets/PieMenu.ico", "EditorAssets/example-windows.json"
     ];
-    private static string VersionDirectory => Path.Combine(KandoComponentPaths.PieMenuInstallDirectory, VersionId);
     private static string Name => $"GestureSign-PieMenu-{VersionId}-preview-win-{RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant()}.zip";
 
     static PieMenuComponentService() => Client.DefaultRequestHeaders.UserAgent.ParseAdd("GestureSign-PieMenu");
 
     internal static bool IsCompatible(string? executable) => IsCompatible(executable, MinimumVersion);
+
+    internal static bool NeedsManagedRepair(string? executable, string installRoot)
+    {
+        if (string.IsNullOrWhiteSpace(executable)) return false;
+        try
+        {
+            var fullPath = Path.GetFullPath(executable);
+            var versionDirectory = Path.GetDirectoryName(fullPath);
+            if (versionDirectory is null ||
+                !string.Equals(Path.GetDirectoryName(versionDirectory), Path.TrimEndingDirectorySeparator(Path.GetFullPath(installRoot)), StringComparison.OrdinalIgnoreCase) ||
+                !Version.TryParse(Path.GetFileName(versionDirectory), out var version))
+                return false;
+
+            var filename = Path.GetFileName(fullPath);
+            if (!filename.Equals("GestureSignV2.PieMenu.exe", StringComparison.OrdinalIgnoreCase) &&
+                !filename.Equals("GestureSign.PieMenu.exe", StringComparison.OrdinalIgnoreCase))
+                return false;
+
+            return version <= CurrentVersion && (version == CurrentVersion ? !IsCurrent(fullPath) : !IsCompatible(fullPath));
+        }
+        catch (ArgumentException) { return false; }
+        catch (NotSupportedException) { return false; }
+        catch (PathTooLongException) { return false; }
+    }
 
     internal static bool IsCurrent(string? executable) =>
         IsCompatible(executable, CurrentVersion) &&
@@ -49,20 +74,46 @@ internal static class PieMenuComponentService
             return expectedMachine != 0 && KandoExecutableCompatibility.ReadMachine(executable) == expectedMachine &&
                 Version.TryParse(FileVersionInfo.GetVersionInfo(executable).FileVersion, out var version) &&
                 version >= minimumVersion &&
-                HasRuntimeFiles(executable) && RequiredFiles.All(file => File.Exists(Path.Combine(Path.GetDirectoryName(executable)!, file)));
+                HasRuntimeFiles(executable) && HasRequiredAssets(Path.GetDirectoryName(executable)!);
         }
         catch (IOException) { return false; }
         catch (UnauthorizedAccessException) { return false; }
+        catch (ArgumentException) { return false; }
+        catch (NotSupportedException) { return false; }
+    }
+
+    private static bool HasRequiredAssets(string directory)
+    {
+        if (!RequiredFiles.All(file => File.Exists(Path.Combine(directory, file))) ||
+            (!File.Exists(Path.Combine(directory, "KandoWeb", "native-icons.zip")) &&
+             !File.Exists(Path.Combine(directory, "KandoWeb", "native-icons.json"))))
+            return false;
+
+        // New packages list every delivered file. Older releases use the fixed requirements above.
+        var inventory = Path.Combine(directory, PayloadInventory);
+        if (!File.Exists(inventory)) return true;
+        var prefix = Path.TrimEndingDirectorySeparator(Path.GetFullPath(directory)) + Path.DirectorySeparatorChar;
+        foreach (var entry in File.ReadLines(inventory))
+        {
+            if (string.IsNullOrWhiteSpace(entry) || Path.IsPathRooted(entry)) return false;
+            var file = Path.GetFullPath(entry, prefix);
+            if (!file.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) || !File.Exists(file))
+                return false;
+        }
+        return true;
     }
 
     private static bool HasRuntimeFiles(string executable)
     {
         var stem = Path.Combine(Path.GetDirectoryName(executable)!, Path.GetFileNameWithoutExtension(executable));
-        return File.Exists(stem + ".dll") && File.Exists(stem + ".runtimeconfig.json") &&
+        return File.Exists(stem + ".dll") && File.Exists(stem + ".runtimeconfig.json") && File.Exists(stem + ".deps.json") &&
                File.Exists(stem + ".pri");
     }
 
-    internal static async Task<string?> DownloadAsync(IProgress<double> progress, CancellationToken token)
+    internal static Task<string?> DownloadAsync(IProgress<double> progress, CancellationToken token, Func<Task>? beforeReplace = null) =>
+        DownloadIntoDirectoryAsync(KandoComponentPaths.PieMenuInstallDirectory, progress, token, beforeReplace);
+
+    internal static async Task<string?> DownloadIntoDirectoryAsync(string installRoot, IProgress<double> progress, CancellationToken token, Func<Task>? beforeReplace = null)
     {
         if (RuntimeInformation.OSArchitecture is not (Architecture.X64 or Architecture.Arm64))
             throw new PlatformNotSupportedException("The pie menu supports Windows x64 and ARM64.");
@@ -79,8 +130,8 @@ internal static class PieMenuComponentService
         var digest = entries.FirstOrDefault(entry => entry.Length == 2 && entry[1] == Name)?[0];
         if (digest is null || digest.Length != 64 || !digest.All(Uri.IsHexDigit))
             throw new InvalidDataException("The release is missing a valid component SHA-256 digest.");
-        Directory.CreateDirectory(KandoComponentPaths.PieMenuInstallDirectory);
-        var temporary = Path.Combine(KandoComponentPaths.PieMenuInstallDirectory, $"{Guid.NewGuid():N}.zip");
+        Directory.CreateDirectory(installRoot);
+        var temporary = Path.Combine(installRoot, $"{Guid.NewGuid():N}.zip");
         try
         {
             var url = new Uri(release + Name);
@@ -90,20 +141,24 @@ internal static class PieMenuComponentService
                 if (!Convert.ToHexString(await SHA256.HashDataAsync(archive, token)).Equals(digest, StringComparison.OrdinalIgnoreCase))
                     throw new InvalidDataException("The downloaded component does not match the release checksum.");
             }
-            return await InstallAsync(temporary, token);
+            return await InstallInDirectoryAsync(temporary, installRoot, token, beforeReplace);
         }
         finally { File.Delete(temporary); }
     }
 
     internal static Task<string> InstallAsync(string archivePath, CancellationToken token = default) =>
-        Task.Run(() =>
+        InstallInDirectoryAsync(archivePath, KandoComponentPaths.PieMenuInstallDirectory, token);
+
+    internal static Task<string> InstallInDirectoryAsync(string archivePath, string installRoot, CancellationToken token = default, Func<Task>? beforeReplace = null) =>
+        Task.Run(async () =>
         {
             var filename = "GestureSignV2.PieMenu.exe";
-            var installed = Path.Combine(VersionDirectory, filename);
-            Directory.CreateDirectory(KandoComponentPaths.PieMenuInstallDirectory);
-            using var lease = KandoComponentPaths.AcquireUpdateLease(Path.Combine(KandoComponentPaths.PieMenuInstallDirectory, ".installing"));
+            var versionDirectory = Path.Combine(installRoot, VersionId);
+            var installed = Path.Combine(versionDirectory, filename);
+            Directory.CreateDirectory(installRoot);
+            using var lease = KandoComponentPaths.AcquireUpdateLease(Path.Combine(installRoot, ".installing"));
             if (IsCurrent(installed)) return installed;
-            var staging = Path.Combine(KandoComponentPaths.PieMenuInstallDirectory, $".install-{Guid.NewGuid():N}");
+            var staging = Path.Combine(installRoot, $".install-{Guid.NewGuid():N}");
             try
             {
                 if (new FileInfo(archivePath).Length > MaxArchiveSize) throw new InvalidDataException("The component ZIP is too large.");
@@ -114,7 +169,8 @@ internal static class PieMenuComponentService
                 if (!IsCurrent(Path.Combine(staging, filename)))
                     throw new InvalidDataException($"Use the complete Pie Menu {VersionId} ZIP for your Windows architecture.");
                 token.ThrowIfCancellationRequested();
-                Directory.Move(staging, VersionDirectory);
+                await KandoInstallation.ReplaceAsync(staging, versionDirectory, userData: null,
+                    beforeReplace, validate: null, stop: null, restore: null);
                 return installed;
             }
             finally

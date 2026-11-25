@@ -21,11 +21,12 @@ if ($files.Count -lt $MinimumFileCount) {
     throw "Portable package contains $($files.Count) files; expected at least $MinimumFileCount."
 }
 
+$daemonDirectory = if (Test-Path -LiteralPath (Join-Path $resolvedPackagePath 'GestureSignV2Daemon.exe') -PathType Leaf) { '.' } else { 'Backend' }
 $requiredFiles = @(
     'GestureSignV2.WinUI.exe',
-    'Backend\GestureSignV2Daemon.exe',
+    (Join-Path $daemonDirectory 'GestureSignV2Daemon.exe'),
     'GestureSignV2.WinUI.dll',
-    'Backend\GestureSignV2Daemon.dll',
+    (Join-Path $daemonDirectory 'GestureSignV2Daemon.dll'),
     'Collect-SupportInfo.ps1',
     'Recover-Input.ps1'
 )
@@ -59,7 +60,7 @@ if ($SharedRuntimeOnly) {
     if ($bundledRuntimes.Count -gt 0) {
         throw "Shared-runtime package contains bundled runtime files: $($bundledRuntimes.Name -join ', ')"
     }
-    foreach ($configuration in @('GestureSignV2.WinUI.runtimeconfig.json','Backend\GestureSignV2Daemon.runtimeconfig.json')) {
+    foreach ($configuration in @('GestureSignV2.WinUI.runtimeconfig.json', (Join-Path $daemonDirectory 'GestureSignV2Daemon.runtimeconfig.json'))) {
         $runtimeOptions = (Get-Content -LiteralPath (Join-Path $resolvedPackagePath $configuration) -Raw | ConvertFrom-Json).runtimeOptions
         if (!$runtimeOptions.framework -and !$runtimeOptions.frameworks) {
             throw "Shared-runtime package lacks framework dependencies: $configuration"
