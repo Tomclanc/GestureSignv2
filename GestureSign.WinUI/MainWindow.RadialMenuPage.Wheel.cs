@@ -36,23 +36,62 @@ public sealed partial class MainWindow
         var isSubmenu = menu.Scope == RadialMenuScope.Submenu;
         // Only top-level application/taskbar/desktop wheels inherit empty slots from the global wheel.
         var inherits = !isGlobal && !isSubmenu;
-        var panel = new StackPanel { Spacing = 10, HorizontalAlignment = HorizontalAlignment.Stretch };
+        // Toolbar, title and hints above a stage that grows to fill the card, the way the
+        // Quick Actions editor frames its pie preview.
+        var panel = new Grid { RowSpacing = 10 };
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        panel.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        var header = new StackPanel { Spacing = 6 };
 
-        var path = new[] { RadialMenuTitle(TopRadialMenu()) }
-            .Concat(_radialSubmenuPath.Select(id => config.FindMenuById(id)).Where(m => m is not null).Select(m => RadialMenuTitle(m!)));
-        panel.Children.Add(new TextBlock { Text = string.Join("  ›  ", path), Style = BodyStrongTextBlockStyle, HorizontalAlignment = HorizontalAlignment.Center, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center });
+        // Editor toolbar, laid out like the Quick Actions editor: icon buttons above the
+        // preview stage instead of captions under the wheel.
+        var tools = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 6 };
         if (isSubmenu)
         {
-            var back = NewPillButton(T("返回上级", "Back"), false);
-            back.HorizontalAlignment = HorizontalAlignment.Center;
+            var back = NewRadialToolButton(Symbol.Back, T("返回上级", "Back"));
             back.Click += (_, _) =>
             {
                 if (_radialSubmenuPath.Count > 0)
                     _radialSubmenuPath.RemoveAt(_radialSubmenuPath.Count - 1);
                 RefreshRadialWheel();
             };
-            panel.Children.Add(back);
-            panel.Children.Add(new TextBlock
+            tools.Children.Add(back);
+        }
+        var copy = NewRadialToolButton(Symbol.Copy, L("复制", "Copy", "複製", "복사"));
+        copy.Click += (_, _) => _radialCopiedSlots = new Dictionary<string, string>(menu.Slots, StringComparer.OrdinalIgnoreCase);
+        tools.Children.Add(copy);
+        var paste = NewRadialToolButton(Symbol.Paste, L("粘贴", "Paste", "貼上", "붙여넣기"));
+        paste.Click += (_, _) =>
+        {
+            if (_radialCopiedSlots is null) return;
+            menu.Slots = new Dictionary<string, string>(_radialCopiedSlots, StringComparer.OrdinalIgnoreCase);
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        };
+        tools.Children.Add(paste);
+        var clear = NewRadialToolButton(Symbol.Delete, L("清除", "Clear", "清除", "지우기"));
+        clear.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            if (menu.Slots.Count == 0) return;
+            if (!await ConfirmDialogAsync(L("清除", "Clear", "清除", "지우기"), RadialMenuTitle(menu), L("清除", "Clear", "清除", "지우기")))
+                return;
+            menu.Slots.Clear();
+            PruneOrphanSubmenus(config);
+            SaveRadialConfig();
+            RefreshRadialWheel();
+        });
+        tools.Children.Add(clear);
+        Grid.SetRow(tools, 0);
+        panel.Children.Add(tools);
+
+        var path = new[] { RadialMenuTitle(TopRadialMenu()) }
+            .Concat(_radialSubmenuPath.Select(id => config.FindMenuById(id)).Where(m => m is not null).Select(m => RadialMenuTitle(m!)));
+        header.Children.Add(new TextBlock { Text = string.Join("  ›  ", path), Style = BodyStrongTextBlockStyle, HorizontalAlignment = HorizontalAlignment.Center, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center });
+        if (isSubmenu)
+        {
+            header.Children.Add(new TextBlock
             {
                 Text = T("使用时：在文件夹格子上停一下打开子菜单，在中心停一下返回上级。", "In use: rest on a folder slot to open it; rest in the center to go back."),
                 Opacity = 0.6,
@@ -72,8 +111,10 @@ public sealed partial class MainWindow
                 RefreshRadialMenuList();
                 RefreshRadialWheel();
             };
-            panel.Children.Add(disable);
+            header.Children.Add(disable);
         }
+        Grid.SetRow(header, 1);
+        panel.Children.Add(header);
 
         var canvas = new Canvas { Width = WheelSize, Height = WheelSize, Opacity = menu.Disabled ? 0.4 : 1 };
         var accent = new SolidColorBrush(Color.FromArgb(255, 0, 120, 212));
@@ -268,46 +309,41 @@ public sealed partial class MainWindow
         Canvas.SetLeft(center, WheelSize / 2 - WheelDeadZone);
         Canvas.SetTop(center, WheelSize / 2 - WheelDeadZone);
         canvas.Children.Add(center);
-        // Shrink (never enlarge) the wheel to the column width, so a narrow
-        // window does not push it under the action library.
-        panel.Children.Add(new Viewbox
+        // The wheel sits on a tinted stage, the same way the Quick Actions editor frames
+        // its pie preview. The Viewbox only shrinks, so a narrow column never clips it.
+        var stage = new Border
         {
-            Child = canvas,
-            Stretch = Stretch.Uniform,
-            StretchDirection = StretchDirection.DownOnly,
-            MaxWidth = WheelSize,
-            MaxHeight = WheelSize
-        });
+            Padding = new Thickness(10),
+            CornerRadius = new CornerRadius(10),
+            VerticalAlignment = VerticalAlignment.Stretch,
+            Background = new LinearGradientBrush
+            {
+                StartPoint = new Point(0, 0),
+                EndPoint = new Point(1, 1),
+                GradientStops =
+                {
+                    new GradientStop { Offset = 0, Color = Color.FromArgb(40, 42, 127, 186) },
+                    new GradientStop { Offset = 1, Color = Color.FromArgb(12, 89, 113, 172) }
+                }
+            },
+            Child = new Viewbox
+            {
+                Child = canvas,
+                Stretch = Stretch.Uniform,
+                StretchDirection = StretchDirection.DownOnly,
+                MaxWidth = WheelSize,
+                MaxHeight = WheelSize
+            }
+        };
+        Grid.SetRow(stage, 2);
+        panel.Children.Add(stage);
 
         if (inherits)
-            panel.Children.Add(new TextBlock { Text = T("空格子沿用全局轮盘的动作。", "Empty slots use the global wheel."), Opacity = 0.6, HorizontalAlignment = HorizontalAlignment.Center });
-
-        var copy = NewPillButton(L("复制", "Copy", "複製", "복사"), false);
-        copy.Click += (_, _) => _radialCopiedSlots = new Dictionary<string, string>(menu.Slots, StringComparer.OrdinalIgnoreCase);
-        var paste = NewPillButton(L("粘贴", "Paste", "貼上", "붙여넣기"), false);
-        paste.Click += (_, _) =>
         {
-            if (_radialCopiedSlots is null) return;
-            menu.Slots = new Dictionary<string, string>(_radialCopiedSlots, StringComparer.OrdinalIgnoreCase);
-            SaveRadialConfig();
-            RefreshRadialWheel();
-        };
-        var clear = NewPillButton(L("清除", "Clear", "清除", "지우기"), false);
-        clear.Click += async (_, _) => await RunUiActionAsync(async () =>
-        {
-            if (menu.Slots.Count == 0) return;
-            if (!await ConfirmDialogAsync(L("清除", "Clear", "清除", "지우기"), RadialMenuTitle(menu), L("清除", "Clear", "清除", "지우기")))
-                return;
-            menu.Slots.Clear();
-            PruneOrphanSubmenus(config);
-            SaveRadialConfig();
-            RefreshRadialWheel();
-        });
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8, HorizontalAlignment = HorizontalAlignment.Center };
-        buttons.Children.Add(copy);
-        buttons.Children.Add(paste);
-        buttons.Children.Add(clear);
-        panel.Children.Add(buttons);
+            var hint = new TextBlock { Text = T("空格子沿用全局轮盘的动作。", "Empty slots use the global wheel."), Opacity = 0.6, HorizontalAlignment = HorizontalAlignment.Center };
+            Grid.SetRow(hint, 3);
+            panel.Children.Add(hint);
+        }
 
         _radialWheelHost.Children.Clear();
         _radialWheelHost.Children.Add(panel);
@@ -618,15 +654,32 @@ public sealed partial class MainWindow
             RefreshRadialWheel();
             RefreshRadialLibrary();
         });
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
-        buttons.Children.Add(add);
-        buttons.Children.Add(edit);
-        buttons.Children.Add(delete);
+        var buttons = new Grid { ColumnSpacing = 8 };
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        foreach (var (button, column) in new[] { (add, 0), (edit, 1), (delete, 2) })
+        {
+            button.HorizontalAlignment = HorizontalAlignment.Stretch;
+            Grid.SetColumn(button, column);
+            buttons.Children.Add(button);
+        }
 
-        var panel = new StackPanel { Spacing = 8 };
-        panel.Children.Add(new TextBlock { Text = T("动作库", "Action library"), Style = BodyStrongTextBlockStyle });
+        // Title, filter, list and buttons share the card: the list scrolls in the leftover
+        // space and the buttons stay pinned to the bottom.
+        var panel = new Grid { RowSpacing = 8 };
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        panel.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        var title = new TextBlock { Text = T("动作库", "Action library"), Style = BodyStrongTextBlockStyle };
+        Grid.SetRow(title, 0);
+        panel.Children.Add(title);
+        Grid.SetRow(filter, 1);
         panel.Children.Add(filter);
+        Grid.SetRow(list, 2);
         panel.Children.Add(list);
+        Grid.SetRow(buttons, 3);
         panel.Children.Add(buttons);
         _radialLibraryHost.Children.Clear();
         _radialLibraryHost.Children.Add(panel);

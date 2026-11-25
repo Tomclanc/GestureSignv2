@@ -54,36 +54,51 @@ public sealed partial class MainWindow
         var root = NewSection();
         var switches = NewRadialMenuSwitchesBar();
 
-        var columns = new Grid { ColumnSpacing = 16, RowSpacing = 16 };
+        // Three cards, laid out like the Quick Actions editor: applications on the left,
+        // the wheel in the middle, the action library on the right. A narrow window stacks
+        // them in one column. Only widths and positions change on resize - the definitions
+        // are created once and never cleared, which is what used to crash XAML mid-layout.
+        var workspace = new Grid { ColumnSpacing = 10, RowSpacing = 10 };
+        for (var index = 0; index < 3; index++)
+        {
+            workspace.ColumnDefinitions.Add(new ColumnDefinition());
+            workspace.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        }
+
         _radialMenuListHost = new Grid();
         _radialWheelHost = new Grid();
         _radialLibraryHost = new Grid();
-        columns.Children.Add(_radialMenuListHost);
-        columns.Children.Add(_radialWheelHost);
-        columns.Children.Add(_radialLibraryHost);
-        _radialColumns = columns;
+        _radialListCard = NewCard(_radialMenuListHost, new Thickness(14));
+        _radialWheelCard = NewCard(_radialWheelHost, new Thickness(14));
+        _radialLibraryCard = NewCard(_radialLibraryHost, new Thickness(14));
+        workspace.Children.Add(_radialListCard);
+        workspace.Children.Add(_radialWheelCard);
+        workspace.Children.Add(_radialLibraryCard);
+
+        _radialWorkspace = workspace;
         _radialSwitches = switches;
         _radialLayoutMode = -1;
         _radialLayoutQueued = false;
         ApplyRadialPageLayout(double.PositiveInfinity);
-        // Wide: list | wheel | library. Medium: list | wheel, library below. Narrow: one column.
-        // The width is only known once the page is measured, and rewriting the row/column
-        // definitions while the grid is laying out crashes XAML, so the re-layout is queued.
-        columns.SizeChanged += (_, e) => QueueRadialPageLayout(e.NewSize.Width);
-        root.Loaded += (_, _) => QueueRadialPageLayout(columns.ActualWidth);
+        // The width is only known once the page is measured; rewriting the layout while the
+        // grid is laying out itself crashes XAML, so the re-layout is queued.
+        workspace.SizeChanged += (_, e) => QueueRadialPageLayout(e.NewSize.Width);
+        root.Loaded += (_, _) => QueueRadialPageLayout(workspace.ActualWidth);
 
         var content = new StackPanel { Spacing = 16 };
         content.Children.Add(switches);
-        content.Children.Add(new Border { Height = 1, Background = SubtleBrush(), Opacity = 0.6 });
-        content.Children.Add(columns);
-        root.Children.Add(NewCard(content));
+        content.Children.Add(workspace);
+        root.Children.Add(content);
 
         RefreshRadialPage();
         return root;
     }
 
     private int _radialLayoutMode = -1;
-    private Grid? _radialColumns;
+    private Grid? _radialWorkspace;
+    private Border? _radialListCard;
+    private Border? _radialWheelCard;
+    private Border? _radialLibraryCard;
     private StackPanel? _radialSwitches;
     private double _radialPendingWidth;
     private bool _radialLayoutQueued;
@@ -104,7 +119,7 @@ public sealed partial class MainWindow
         DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
         {
             _radialLayoutQueued = false;
-            if (_radialColumns is null || _radialSwitches is null)
+            if (_radialWorkspace is null || _radialSwitches is null)
                 return;
             ApplyRadialPageLayout(_radialPendingWidth);
         });
@@ -112,51 +127,48 @@ public sealed partial class MainWindow
 
     private void ApplyRadialPageLayout(double width)
     {
-        var columns = _radialColumns;
-        var switches = _radialSwitches;
-        if (columns is null || switches is null)
+        var workspace = _radialWorkspace;
+        if (workspace is null || double.IsNaN(width) || width <= 0)
             return;
-        var mode = width >= 900 ? 2 : width >= 560 ? 1 : 0;
-        switches.Orientation = width >= 420 ? Orientation.Horizontal : Orientation.Vertical;
-        if (mode == _radialLayoutMode || _radialMenuListHost is null || _radialWheelHost is null || _radialLibraryHost is null)
+        _radialSwitches!.Orientation = width >= 420 ? Orientation.Horizontal : Orientation.Vertical;
+        // Wide: applications | wheel | library, in the same proportions as the Quick Actions
+        // editor. Narrow: one column, library last.
+        var wide = width >= 810;
+        if (_radialLayoutMode == (wide ? 1 : 0))
             return;
-        _radialLayoutMode = mode;
-        columns.ColumnDefinitions.Clear();
-        columns.RowDefinitions.Clear();
-        void Place(FrameworkElement element, int row, int column, int columnSpan = 1)
+        if (_radialListCard is null || _radialWheelCard is null || _radialLibraryCard is null)
+            return;
+        _radialLayoutMode = wide ? 1 : 0;
+        workspace.ColumnDefinitions[0].Width = wide ? new GridLength(1, GridUnitType.Star) : new GridLength(0);
+        workspace.ColumnDefinitions[1].Width = new GridLength(wide ? 2.25 : 1, GridUnitType.Star);
+        workspace.ColumnDefinitions[2].Width = wide ? new GridLength(1.5, GridUnitType.Star) : new GridLength(0);
+        Place(_radialListCard, 0, wide ? 0 : 1);
+        Place(_radialWheelCard, wide ? 0 : 1, 1);
+        Place(_radialLibraryCard, wide ? 0 : 2, wide ? 2 : 1);
+
+        static void Place(FrameworkElement element, int row, int column)
         {
             Grid.SetRow(element, row);
             Grid.SetColumn(element, column);
-            Grid.SetColumnSpan(element, columnSpan);
+            Grid.SetColumnSpan(element, 1);
         }
-        switch (mode)
+    }
+
+    /// <summary>Compact icon button for the wheel toolbar; the caption lives in a tooltip.</summary>
+    private Button NewRadialToolButton(Symbol symbol, string label)
+    {
+        var button = new Button
         {
-            case 2:
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star), MinWidth = 320 });
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(260) });
-                Place(_radialMenuListHost, 0, 0);
-                Place(_radialWheelHost, 0, 1);
-                Place(_radialLibraryHost, 0, 2);
-                break;
-            case 1:
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(200) });
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                Place(_radialMenuListHost, 0, 0);
-                Place(_radialWheelHost, 0, 1);
-                Place(_radialLibraryHost, 1, 0, 2);
-                break;
-            default:
-                columns.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                for (var row = 0; row < 3; row++)
-                    columns.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                Place(_radialMenuListHost, 0, 0);
-                Place(_radialWheelHost, 1, 0);
-                Place(_radialLibraryHost, 2, 0);
-                break;
-        }
+            Content = new SymbolIcon(symbol),
+            Width = 36,
+            Height = 34,
+            Padding = new Thickness(0),
+            CornerRadius = new CornerRadius(8),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(button, label);
+        ToolTipService.SetToolTip(button, label);
+        return button;
     }
 
     /// <summary>Enable / outer ring / third ring as one compact row (a column when very narrow).</summary>
@@ -434,13 +446,29 @@ public sealed partial class MainWindow
         add.Click += async (_, _) => await RunUiActionAsync(AddRadialApplicationMenuAsync);
         var delete = NewPillButton(L("删除", "Delete", "刪除", "삭제"), false);
         delete.Click += async (_, _) => await RunUiActionAsync(DeleteSelectedRadialMenuAsync);
-        var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        var buttons = new Grid { ColumnSpacing = 8 };
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        buttons.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        add.HorizontalAlignment = HorizontalAlignment.Stretch;
+        delete.HorizontalAlignment = HorizontalAlignment.Stretch;
+        if (add.Content is string caption)
+            add.Content = "+  " + caption;
         buttons.Children.Add(add);
+        Grid.SetColumn(delete, 1);
         buttons.Children.Add(delete);
 
-        var panel = new StackPanel { Spacing = 8 };
-        panel.Children.Add(new TextBlock { Text = L("程序", "Applications", "程式", "프로그램"), Style = BodyStrongTextBlockStyle });
+        // Title, list and buttons share the card like the Quick Actions menu list: the list
+        // takes the leftover height and scrolls inside it, the buttons stay at the bottom.
+        var panel = new Grid { RowSpacing = 8 };
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        panel.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+        panel.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+        var title = new TextBlock { Text = L("程序", "Applications", "程式", "프로그램"), Style = BodyStrongTextBlockStyle };
+        Grid.SetRow(title, 0);
+        panel.Children.Add(title);
+        Grid.SetRow(list, 1);
         panel.Children.Add(list);
+        Grid.SetRow(buttons, 2);
         panel.Children.Add(buttons);
         _radialMenuListHost.Children.Clear();
         _radialMenuListHost.Children.Add(panel);

@@ -340,24 +340,32 @@ else {
     "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallInitialize`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
 }
 
-# After an upgrade the background service is started again, so gestures keep working
-# without the user reopening the app. The in-app updater passes GS_SKIP_START=1 because
-# it launches GestureSign itself once the install finishes.
-$daemonFileId = Get-StableId "FILE_" "Backend\GestureSign.exe"
-$daemonInPayload = (Test-Path -LiteralPath (Join-Path $publishPath "Backend\GestureSign.exe")) -and
-    (($components -join "`n").Contains("<File Id=`"$daemonFileId`""))
-$startDaemonXml = if ($daemonInPayload) {
-    "    <Property Id=`"GS_SKIP_START`" Value=`"0`" />`r`n    <CustomAction Id=`"StartGestureSignDaemon`" FileRef=`"$daemonFileId`" ExeCommand=`"`" Execute=`"immediate`" Impersonate=`"yes`" Return=`"asyncNoWait`" />"
-}
-else {
-    "    <Property Id=`"GS_SKIP_START`" Value=`"0`" />"
-}
-$startDaemonSeqXml = if ($daemonInPayload) {
-    "      <Custom Action=`"StartGestureSignDaemon`" After=`"InstallFinalize`" Condition=`"WIX_UPGRADE_DETECTED AND GS_SKIP_START&lt;&gt;&quot;1&quot;`" />"
-}
-else {
-    "      <!-- Backend\GestureSign.exe is not part of this payload, so nothing is started after the upgrade. -->"
-}
+# The installer closes GestureSign before it touches the installed files (otherwise Windows
+# Installer asks the user to close it by hand), so it has to bring the app back once the new
+# files are in place - an update must not leave the user with nothing running. Only upgrades
+# relaunch: a first install stays quiet, and the in-app updater passes GS_SKIP_START=1
+# because it starts GestureSign itself when the install finishes.
+#
+# The executable names matter: they are GestureSignV2.WinUI.exe / GestureSignV2Daemon.exe,
+# not the older GestureSign.WinUI.exe / GestureSign.exe. With the wrong names taskkill
+# matched nothing and Restart Manager had to close the app instead.
+#
+# The relaunch goes through Explorer rather than a direct child of msiexec: msiexec's
+# custom action job would take the new process down with it when the install ends, while
+# Explorer hands the request to the already running shell and the app ends up detached.
+$restartXml = @'
+    <Property Id="GS_SKIP_START" Value="0" />
+    <CustomAction Id="RestartGestureSign" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="asyncNoWait" ExeCommand="explorer.exe &quot;[INSTALLFOLDER]GestureSignV2.WinUI.exe&quot;" />
+'@
+$restartSeqXml = @'
+      <!-- Close the app before Windows Installer validates the files, otherwise the install
+           waits for the user to close GestureSign by hand. The settings window goes first so
+           its watchdog cannot restart the daemon behind our back. -->
+      <Custom Action="StopGestureSignUi" Before="StopGestureSignDaemon" />
+      <Custom Action="StopGestureSignDaemon" Before="InstallValidate" />
+      <!-- Bring the app back on upgrades only; the in-app updater relaunches it itself. -->
+      <Custom Action="RestartGestureSign" After="InstallFinalize" Condition="WIX_UPGRADE_DETECTED AND GS_SKIP_START&lt;&gt;&quot;1&quot;" />
+'@
 
 $wxs = @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -371,18 +379,13 @@ $majorUpgradeXml
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
     <CustomAction Id="CleanupAllGestureSignData" Directory="SystemFolder" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$p=`$env:LOCALAPPDATA+'\GestureSign V2',`$env:APPDATA+'\GestureSign V2','HKCU:\Software\GestureSign V2'; Remove-Item -LiteralPath `$p -Recurse -Force -EA 0&quot;" />
     <CustomAction Id="PreserveExistingKando" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$s='[INSTALLFOLDER]Kando';`$r=`$env:LOCALAPPDATA+'\GestureSign V2\Components';`$d=`$r+'\Kando';`$m=`$r+'\Kando.removed';if((Test-Path -LiteralPath `$s) -and !(Test-Path -LiteralPath `$d) -and !(Test-Path -LiteralPath `$m)){New-Item -ItemType Directory -Path `$r -Force|Out-Null;Copy-Item -LiteralPath `$s -Destination `$d -Recurse -Force}&quot;" />
-    <CustomAction Id="StopGestureSignUi" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="taskkill.exe /F /T /IM GestureSign.WinUI.exe" />
-    <CustomAction Id="StopGestureSignDaemon" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="taskkill.exe /F /T /IM GestureSign.exe" />
-$startDaemonXml
+    <CustomAction Id="StopGestureSignUi" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="taskkill.exe /F /T /IM GestureSignV2.WinUI.exe" />
+    <CustomAction Id="StopGestureSignDaemon" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="taskkill.exe /F /T /IM GestureSignV2Daemon.exe" />
+$restartXml
     <InstallExecuteSequence>
       <Custom Action="PreserveExistingKando" Before="RemoveExistingProducts" Condition="WIX_UPGRADE_DETECTED" />
       <Custom Action="CleanupAllGestureSignData" After="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND CLEANALL=&quot;1&quot; AND NOT UPGRADINGPRODUCTCODE" />
-      <!-- Close the running app before Windows Installer validates the files; otherwise the
-           install waits for the user to close GestureSign by hand. The settings window goes
-           first so its watchdog cannot restart the daemon behind our back. -->
-      <Custom Action="StopGestureSignUi" Before="StopGestureSignDaemon" />
-      <Custom Action="StopGestureSignDaemon" Before="InstallValidate" />
-$startDaemonSeqXml
+$restartSeqXml
     </InstallExecuteSequence>
 
     <StandardDirectory Id="$installRootDirectory">
