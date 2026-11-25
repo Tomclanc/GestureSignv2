@@ -272,6 +272,10 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        public static string AiEndpoint => GetValue(nameof(AiEndpoint), "");
+        public static string AiApiKey => GestureSign.Foundation.Security.SecretStore.Reveal(GetValue(nameof(AiApiKey), ""));
+        public static string AiModel => GetValue(nameof(AiModel), "");
+
         public static bool RegisterTouchPad
         {
             get

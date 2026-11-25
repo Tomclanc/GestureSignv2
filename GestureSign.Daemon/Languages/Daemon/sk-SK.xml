@@ -11,6 +11,7 @@
     <Disable>Deaktivovať GestureSign</Disable>
     <Enable>Aktivovať GestureSign</Enable>
     <Settings>Nastavenia</Settings>
+    <Restart>Reštartovať</Restart>
     <Exit>Ukončiť</Exit>
   </TrayMenu>
 </Language>

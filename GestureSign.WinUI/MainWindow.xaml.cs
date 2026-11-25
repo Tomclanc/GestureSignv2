@@ -174,6 +174,10 @@ public sealed partial class MainWindow : Window
             args.SetObserved();
         };
         _legacyData = LegacyDataStore.Load();
+        // WinUI routes exceptions thrown on the UI thread to its own event and then ends the
+        // process; without this the settings window vanishes without any trace in the log.
+        Application.Current.UnhandledException += (_, args) =>
+            LogException(new Exception($"Unhandled UI exception on thread {Environment.CurrentManagedThreadId}", args.Exception));
         _uiCultureName = _legacyData.Options.CultureName;
         ApplyUiCulture(_uiCultureName);
         ApplyUiFlowDirection();
@@ -186,6 +190,7 @@ public sealed partial class MainWindow : Window
             }));
         _optionSaveTimer.Interval = TimeSpan.FromMilliseconds(350);
         _optionSaveTimer.Tick += OptionSaveTimer_Tick;
+        ProtectPlainSecrets();
         _windowModeRefreshTimer.Interval = TimeSpan.FromSeconds(1);
         _windowModeRefreshTimer.Tick += (_, _) => ApplyXboxBigScreenTitleBarMode();
         _actionsScopeRefreshTimer.Interval = TimeSpan.FromMilliseconds(16);
@@ -1981,19 +1986,76 @@ public sealed partial class MainWindow : Window
             ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
         };
 
-        var grid = new Grid
-        {
-            Margin = new Thickness(0, 8, 0, 0),
-            ColumnSpacing = 8,
-            // Retain the actual selector so save handlers can commit the
-            // visible selection even if SelectionChanged was delayed.
-            Tag = combo
-        };
+        var grid = new Grid { ColumnSpacing = 8 };
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
         grid.Children.Add(combo);
         Grid.SetColumn(browse, 1);
         grid.Children.Add(browse);
+
+        return new StackPanel
+        {
+            Margin = new Thickness(0, 8, 0, 0),
+            // Retain the actual selector so save handlers can commit the
+            // visible selection even if SelectionChanged was delayed.
+            Tag = combo,
+            Children = { grid, NewLibraryActionPicker(settings) }
+        };
+    }
+
+    /// <summary>Chooser for the "Library action" command; writes {"ActionId":"..."} into the settings box.</summary>
+    private FrameworkElement NewLibraryActionPicker(TextBox settings)
+    {
+        EnsureRadialConfig();
+        var combo = new ComboBox
+        {
+            PlaceholderText = T("选择动作库中的动作", "Choose an action from the library"),
+            HorizontalAlignment = HorizontalAlignment.Stretch
+        };
+        var actions = _radialConfig!.Actions.OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase).ToList();
+        foreach (var action in actions)
+            combo.Items.Add(string.IsNullOrWhiteSpace(action.Category) ? action.Name : $"{action.Name}  ·  {action.Category}");
+        var updating = false;
+        void SyncFromSettings()
+        {
+            updating = true;
+            var id = JsonStringValue(settings.Text, "ActionId", "");
+            combo.SelectedIndex = actions.FindIndex(a => string.Equals(a.Id, id, StringComparison.Ordinal));
+            updating = false;
+        }
+        combo.SelectionChanged += (_, _) =>
+        {
+            if (updating || combo.SelectedIndex < 0) return;
+            settings.Text = new JsonObject { ["ActionId"] = actions[combo.SelectedIndex].Id }.ToJsonString();
+        };
+        settings.TextChanged += (_, _) => { if (!updating) SyncFromSettings(); };
+        SyncFromSettings();
+        var open = NewPillButton(T("动作库", "Action library"), false);
+        open.Click += async (_, _) => await RunUiActionAsync(async () =>
+        {
+            var current = combo.SelectedIndex >= 0 ? actions[combo.SelectedIndex] : null;
+            // Opens the editor window directly: the gallery is a dialog, and this
+            // picker usually lives inside an open command dialog.
+            var edited = await OpenActionEditorAsync(current, null);
+            if (edited is null) return;
+            if (current is null)
+            {
+                actions.Add(edited);
+                combo.Items.Add(edited.Name);
+                combo.SelectedIndex = actions.Count - 1;
+            }
+            else
+            {
+                combo.Items[combo.SelectedIndex] = edited.Name;
+            }
+        });
+        ToolTipService.SetToolTip(open, T("新建或编辑动作", "Create or edit the action"));
+        var grid = new Grid { ColumnSpacing = 8 };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        grid.Children.Add(combo);
+        Grid.SetColumn(open, 1);
+        grid.Children.Add(open);
         return grid;
     }
 
@@ -2004,6 +2066,10 @@ public sealed partial class MainWindow : Window
         TextBox settings)
     {
         if (appPicker.Tag is not ComboBox combo || combo.SelectedItem is not AppCommandChoice choice)
+            return false;
+        // Only commit the application choice while the application chooser is shown.
+        if (appPicker.Visibility != Visibility.Visible
+            || (appPicker is Panel { Children.Count: 2 } parts && parts.Children[0].Visibility != Visibility.Visible))
             return false;
 
         ApplyAppCommandChoice(choice, plugin, pluginClass, settings);
@@ -2226,6 +2292,26 @@ public sealed partial class MainWindow : Window
             runCommandText.Text = GestureSign.Shared.ScriptInvocation.PowerShellCommand(path);
         };
         runCommandPanel.Children.Add(chooseScript);
+        // Placeholders expanded by the RunCommand plugin. The selected-text
+        // variables are also exported as environment variables, so PowerShell
+        // scripts can read them safely as $env:GS_SelectedText.
+        var commandVariable = new ComboBox { Width = 220, SelectedIndex = 0 };
+        foreach (var item in new[] { "%GS_SelectedText%", "%GS_SelectedTextUrl%", "%GS_Clipboard%", "%GS_Title%", "%GS_ClassName%", "%GS_PID%", "%GS_WindowHandle%" })
+            commandVariable.Items.Add(item);
+        commandVariable.SelectedIndex = 0;
+        var insertCommandVariable = NewPillButton(T("插入变量", "Insert variable"), false);
+        insertCommandVariable.Click += (_, _) =>
+        {
+            var token = commandVariable.SelectedItem as string ?? string.Empty;
+            var index = Math.Clamp(runCommandText.SelectionStart, 0, runCommandText.Text.Length);
+            runCommandText.Text = runCommandText.Text.Insert(index, token);
+            runCommandText.SelectionStart = index + token.Length;
+            runCommandText.Focus(FocusState.Programmatic);
+        };
+        var commandVariableRow = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+        commandVariableRow.Children.Add(commandVariable);
+        commandVariableRow.Children.Add(insertCommandVariable);
+        runCommandPanel.Children.Add(commandVariableRow);
         runCommandPanel.Children.Add(new TextBlock
         {
             Text = T("支持 PowerShell、CMD/BAT、Python 和 AutoHotkey；需安装相应解释器，可编辑命令添加参数。", "Supports PowerShell, CMD/BAT, Python and AutoHotkey. Install the required interpreter and edit the command to add arguments."),
@@ -2964,9 +3050,18 @@ public sealed partial class MainWindow : Window
         var isAppLauncher = pluginClass.Contains("LaunchApp", StringComparison.OrdinalIgnoreCase);
         pluginClassBox.Visibility = isCustom ? Visibility.Visible : Visibility.Collapsed;
         hotkeyBox.Visibility = isHotKey ? Visibility.Visible : Visibility.Collapsed;
-        settingsBox.Visibility = isHotKey || isSettingsFree || isAppLauncher || hasTypedSettings ? Visibility.Collapsed : Visibility.Visible;
+        var isLibraryAction = string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal);
+        settingsBox.Visibility = isHotKey || isSettingsFree || isAppLauncher || hasTypedSettings || isLibraryAction ? Visibility.Collapsed : Visibility.Visible;
         if (appPicker is not null)
-            appPicker.Visibility = isAppLauncher ? Visibility.Visible : Visibility.Collapsed;
+        {
+            appPicker.Visibility = isAppLauncher || isLibraryAction ? Visibility.Visible : Visibility.Collapsed;
+            // The picker holds the application chooser and the library action chooser.
+            if (appPicker is Panel { Children.Count: 2 } parts)
+            {
+                parts.Children[0].Visibility = isAppLauncher ? Visibility.Visible : Visibility.Collapsed;
+                parts.Children[1].Visibility = isLibraryAction ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
     }
 
     private static bool IsSettingsFreePlugin(string pluginClass)
@@ -3041,6 +3136,30 @@ public sealed partial class MainWindow : Window
 
         var sidedName = GestureSign.Shortcuts.ShortcutKeys.Name(keyCode);
         if (sidedName is not null) return sidedName;
+        // Media and browser keys are missing from VirtualKey and showed as bare numbers ("175").
+        var mediaName = keyCode switch
+        {
+            0xA6 => "Browser Back",
+            0xA7 => "Browser Forward",
+            0xA8 => "Browser Refresh",
+            0xA9 => "Browser Stop",
+            0xAA => "Browser Search",
+            0xAB => "Browser Favorites",
+            0xAC => "Browser Home",
+            0xAD => "Volume Mute",
+            0xAE => "Volume Down",
+            0xAF => "Volume Up",
+            0xB0 => "Next Track",
+            0xB1 => "Previous Track",
+            0xB2 => "Stop Media",
+            0xB3 => "Play/Pause",
+            0xB4 => "Mail",
+            0xB5 => "Media Select",
+            0xB6 => "Launch App 1",
+            0xB7 => "Launch App 2",
+            _ => null
+        };
+        if (mediaName is not null) return mediaName;
         var key = (VirtualKey)keyCode;
         return key switch
         {
@@ -4243,7 +4362,9 @@ public sealed partial class MainWindow : Window
             "Raw input registered",
             "Keyboard hook started",
             "Mouse hook started",
-            "Tray notification dispatcher"
+            "Tray notification dispatcher",
+            "warm-up",
+            "Slow mouse hook"
         };
 
         var lines = text.Replace("\r\n", "\n").Split('\n');
@@ -4984,11 +5105,16 @@ public sealed partial class MainWindow : Window
 
         isTouchScreen = string.Equals(parts[0], "TouchScreenEdge", StringComparison.OrdinalIgnoreCase);
         isTouchPad = string.Equals(parts[0], "TouchPadEdge", StringComparison.OrdinalIgnoreCase);
-        if (!isTouchScreen && !isTouchPad)
+        // DesktopEdge.<edge>.WheelUp/WheelDown: mouse wheel at a screen edge,
+        // drawn as a monitor with an up/down arrow at that edge.
+        var isDesktop = string.Equals(parts[0], "DesktopEdge", StringComparison.OrdinalIgnoreCase);
+        if (!isTouchScreen && !isTouchPad && !isDesktop)
             return false;
 
         edge = parts[1];
         direction = parts.Length >= 3 ? parts[2] : "";
+        if (isDesktop)
+            direction = direction.Equals("WheelDown", StringComparison.OrdinalIgnoreCase) ? "Down" : "Up";
         return edge.Equals("Top", StringComparison.OrdinalIgnoreCase)
             || edge.Equals("Bottom", StringComparison.OrdinalIgnoreCase)
             || edge.Equals("Left", StringComparison.OrdinalIgnoreCase)
@@ -6523,6 +6649,10 @@ public sealed partial class MainWindow : Window
     {
         if (string.IsNullOrWhiteSpace(pluginClass))
             return L("插件命令", "Plugin Command", "外掛命令", "플러그인 명령");
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return T("动作库动作", "Library action");
+        if (string.Equals(pluginClass, StepsPluginClass, StringComparison.Ordinal))
+            return T("步骤", "Steps");
 
         if (pluginClass.StartsWith("GestureSign.CorePlugins.MediaControl.", StringComparison.Ordinal))
             return pluginClass[(pluginClass.LastIndexOf('.') + 1)..] switch
@@ -6689,6 +6819,7 @@ public sealed partial class MainWindow : Window
         // Preserve existing indexes (including custom plugin = 17).
         for (var index = 18; index <= 24; index++)
             plugin.Items.Add(PluginName(PluginClassFromIndex(index)));
+        plugin.Items.Add(PluginName(PluginClassFromIndex(25)));
     }
 
     private static string PluginClassFromIndex(int index)
@@ -6718,11 +6849,14 @@ public sealed partial class MainWindow : Window
             22 => "GestureSign.CorePlugins.MediaControl.MediaNext",
             23 => "GestureSign.CorePlugins.MediaControl.MediaPrevious",
             24 => "GestureSign.CorePlugins.MediaControl.MediaPlayPause",
+            25 => LibraryActionPluginClass,
             _ => "GestureSign.CorePlugins.HotKey.HotKeyPlugin"
         };
 
     private static int PluginIndex(string pluginClass)
     {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return 25;
         for (var index = 18; index <= 24; index++)
             if (string.Equals(pluginClass, PluginClassFromIndex(index), StringComparison.Ordinal)) return index;
         if (pluginClass.Contains("DefaultBrowser", StringComparison.OrdinalIgnoreCase))
@@ -6770,6 +6904,8 @@ public sealed partial class MainWindow : Window
 
     private static string PluginSettingsTemplate(string pluginClass)
     {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+            return "{\"ActionId\":\"\"}";
         if (pluginClass.Contains("HotKey", StringComparison.OrdinalIgnoreCase))
             return "{\"Windows\":false,\"Control\":true,\"Shift\":false,\"Alt\":false,\"KeyCode\":[67],\"SendByKeybdEvent\":false}";
         if (pluginClass.Contains("Volume", StringComparison.OrdinalIgnoreCase))
@@ -7880,7 +8016,8 @@ public sealed partial class MainWindow : Window
         Ping = 13,
         InputHealth = 15,
         StartTeachingTwoStages = 16,
-        StartTeachingThreeStages = 17
+        StartTeachingThreeStages = 17,
+        RunTestAction = 18
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);

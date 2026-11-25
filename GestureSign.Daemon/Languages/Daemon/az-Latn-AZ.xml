@@ -11,6 +11,7 @@
     <Disable>GestureSign-i deaktiv et</Disable>
     <Enable>GestureSign-i aktiv et</Enable>
     <Settings>Parametrlər</Settings>
+    <Restart>Yenidən başlat</Restart>
     <Exit>Çıxış</Exit>
   </TrayMenu>
 </Language>

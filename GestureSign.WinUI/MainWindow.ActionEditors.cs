@@ -281,6 +281,8 @@ public sealed partial class MainWindow
         };
         commandSettings.TextChanged += (_, _) => RefreshCommandPreview();
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);
@@ -424,6 +426,9 @@ public sealed partial class MainWindow
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
+    // ContentDialog's default maximum width (548) minus its 24 px side padding.
+    private const double ActionDialogContentWidth = 500;
+
     private async Task EditActionAsync(LegacyAction action)
     {
         var originalApp = FindApplicationForAction(action);
@@ -493,6 +498,8 @@ public sealed partial class MainWindow
             });
         };
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);
@@ -522,6 +529,46 @@ public sealed partial class MainWindow
         advanced.Children.Add(deviceSelector.Content);
         advanced.Children.Add(hotkeyRecorder);
         panel.Children.Add(NewContinuousGestureEditor(continuousGestureJson));
+
+        // The command (when the action has at most one): same choices as for a
+        // new action, including "Library action". Several commands are edited
+        // on the action card instead.
+        var editsCommand = action.Commands.Count <= 1;
+        var existingCommand = action.Commands.FirstOrDefault();
+        var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch };
+        AddPluginItems(commandPlugin);
+        commandPlugin.SelectedIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass);
+        var commandPluginDescription = NewPluginDescriptionTextBlock();
+        var commandPluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = existingCommand?.PluginClass ?? PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var commandSettings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Text = existingCommand?.Settings ?? "", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var commandHotkey = NewHotKeyCommandEditor(commandSettings, existingCommand?.Settings ?? "");
+        var commandAppPicker = NewCommandAppPicker(commandPlugin, commandPluginClass, commandSettings);
+        var commandTypedSettings = NewTypedCommandSettingsEditor(commandPluginClass, commandSettings);
+        commandPlugin.SelectionChanged += (_, _) =>
+        {
+            var knownClass = PluginClassFromIndex(commandPlugin.SelectedIndex);
+            if (!string.IsNullOrWhiteSpace(knownClass))
+                commandPluginClass.Text = knownClass;
+            commandSettings.Text = commandPluginClass.Text.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(commandPluginClass.Text);
+            UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, commandPluginClass.Text);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
+        };
+        if (editsCommand)
+        {
+            panel.Children.Add(new TextBlock { Text = T("2. 命令：选择要执行的操作", "2. Command: choose an action"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
+            panel.Children.Add(commandPlugin);
+            panel.Children.Add(commandPluginDescription);
+            panel.Children.Add(commandHotkey);
+            panel.Children.Add(commandAppPicker);
+            panel.Children.Add(commandTypedSettings);
+            advanced.Children.Add(commandPluginClass);
+            advanced.Children.Add(commandSettings);
+            UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, commandPluginClass.Text);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
+        }
+
         panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
@@ -579,6 +626,26 @@ public sealed partial class MainWindow
 
         var savedName = name.Text == displayName ? action.Name : name.Text;
         _legacyData.UpdateAction(action, savedName, ResolveGestureName(gesture, mouseHotkey.SelectedIndex > 0 ? "" : savedName), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text, ActionMouseGestureButtonValue(mouseGestureButton));
+        if (editsCommand)
+        {
+            CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
+            var newClass = commandPluginClass.Text.Trim();
+            var newSettings = commandSettings.Text;
+            // action may have been reloaded above (after saving the pattern); use its current command.
+            var current = action.Commands.FirstOrDefault();
+            if (current is not null)
+            {
+                if (!string.Equals(current.PluginClass, newClass, StringComparison.Ordinal) || !string.Equals(current.Settings, newSettings, StringComparison.Ordinal))
+                {
+                    var commandLabel = string.Equals(current.PluginClass, newClass, StringComparison.Ordinal) ? current.Name : CommandDisplayName(newClass, newSettings);
+                    _legacyData.UpdateCommand(current, commandLabel, newClass, newSettings, current.IsEnabled);
+                }
+            }
+            else if (ShouldCreateCommand(newClass, newSettings))
+            {
+                _legacyData.AddCommand(action, CommandDisplayName(newClass, newSettings), newClass, newSettings);
+            }
+        }
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
@@ -665,7 +732,7 @@ public sealed partial class MainWindow
             if (tipTapPicker is not null)
             {
                 var index = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-                tipTapPicker.SelectedIndex = index >= 25 ? index - 24 : 0;
+                tipTapPicker.SelectedIndex = index >= 25 && index <= 36 ? index - 24 : 0;
             }
             onBuiltInGestureSelected?.Invoke();
         });
@@ -687,7 +754,7 @@ public sealed partial class MainWindow
         for (var index = 25; index <= 36; index++)
             tipTapPicker.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         var selectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-        tipTapPicker.SelectedIndex = selectedIndex >= 25 ? selectedIndex - 24 : 0;
+        tipTapPicker.SelectedIndex = selectedIndex >= 25 && selectedIndex <= 36 ? selectedIndex - 24 : 0;
         tipTapPicker.SelectionChanged += (_, _) =>
         {
             if (tipTapPicker.SelectedIndex <= 0) return;
@@ -1025,7 +1092,7 @@ public sealed partial class MainWindow
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
@@ -1049,12 +1116,27 @@ public sealed partial class MainWindow
         await ManageCommandsAsync(action);
     }
 
+    /// <summary>Name for a command: the library action's name for a library command, otherwise the operation name.</summary>
+    private string CommandDisplayName(string pluginClass, string settings)
+    {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+        {
+            EnsureRadialConfig();
+            var id = JsonStringValue(settings, "ActionId", "");
+            var libraryAction = _radialConfig!.FindAction(id);
+            if (!string.IsNullOrWhiteSpace(libraryAction?.Name))
+                return libraryAction!.Name;
+        }
+        return PluginName(pluginClass);
+    }
+
     private async Task EditCommandAsync(LegacyCommand command)
     {
         var displayName = DisplayName(command.Name);
         var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = displayName };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
+        plugin.SelectedIndex = PluginIndex(command.PluginClass);
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "JSON", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
@@ -1073,7 +1155,7 @@ public sealed partial class MainWindow
         };
         var enabled = new CheckBox { Content = IntentText("启用", "Enabled"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);

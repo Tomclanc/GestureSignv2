@@ -1183,6 +1183,9 @@ internal sealed class LegacyDataStore
                 ShowGlobalSearch = settings.BoolValue("ShowGlobalSearch", true),
                 SendErrorReport = settings.BoolValue("SendErrorReport", true),
                 RegisterTouchPad = settings.BoolValue("RegisterTouchPad", true),
+                AiEndpoint = settings.StringValue("AiEndpoint", ""),
+                AiApiKey = settings.StringValue("AiApiKey", ""),
+                AiModel = settings.StringValue("AiModel", ""),
                 PreferWindowsTouchPadGestures = settings.BoolValue("PreferWindowsTouchPadGestures", false),
                 RegisterTouchScreen = settings.BoolValue("RegisterTouchScreen", true),
                 TouchScreenBlockLeftPercent = Math.Clamp(settings.IntValue("TouchScreenBlockLeftPercent", 0), 0, 45),
@@ -1396,6 +1399,9 @@ internal sealed record LegacyOptions
     public bool ShowGlobalSearch { get; init; } = true;
     public bool SendErrorReport { get; init; } = true;
     public bool RegisterTouchPad { get; init; } = true;
+    public string AiEndpoint { get; init; } = "";
+    public string AiApiKey { get; init; } = "";
+    public string AiModel { get; init; } = "";
     public bool PreferWindowsTouchPadGestures { get; init; }
     public bool RegisterTouchScreen { get; init; } = true;
     public int TouchScreenBlockLeftPercent { get; init; }

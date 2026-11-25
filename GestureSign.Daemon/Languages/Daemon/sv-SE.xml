@@ -11,6 +11,7 @@
     <Disable>Inaktivera GestureSign</Disable>
     <Enable>Aktivera GestureSign</Enable>
     <Settings>Inställningar</Settings>
+    <Restart>Starta om</Restart>
     <Exit>Avsluta</Exit>
   </TrayMenu>
 </Language>

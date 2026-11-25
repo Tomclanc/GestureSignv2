@@ -76,8 +76,26 @@ namespace GestureSign.CorePlugins.RunCommand
 
             string clipboardString = string.Empty;
             var parser = new EnvironmentVariablesParser(pointInfo);
-            string command = parser.ExpandEnvironmentVariables(_Settings.Command);
+            // The selected text is handed to the shell as environment variables
+            // (%GS_SelectedText% in cmd, $env:GS_SelectedText in PowerShell) so
+            // quotes or newlines in the selection cannot break the command.
+            // Elevated processes do not inherit custom variables, so for them
+            // the text is substituted into the command instead.
+            var selectedText = parser.CaptureSelectedTextIfNeeded(_Settings.Command);
+            // An environment block is limited to 32767 characters per value.
+            if (selectedText != null && selectedText.Length > 30000)
+                selectedText = selectedText.Substring(0, 30000);
+            var passAsVariable = selectedText != null && !_Settings.RunAsAdministrator;
+            string command = parser.ExpandEnvironmentVariables(_Settings.Command, replaceSelectedText: !passAsVariable);
             bool usePowerShell = string.Equals(_Settings.Shell, "PowerShell", StringComparison.OrdinalIgnoreCase);
+            if (passAsVariable && usePowerShell)
+            {
+                // PowerShell does not expand %NAME%; map the placeholders to the
+                // environment variables (works bare and inside double quotes).
+                command = command
+                    .Replace("%" + EnvironmentVariablesParser.SelectedTextUrlVariable + "%", "$($env:" + EnvironmentVariablesParser.SelectedTextUrlVariable + ")", StringComparison.OrdinalIgnoreCase)
+                    .Replace("%" + EnvironmentVariablesParser.SelectedTextVariable + "%", "$($env:" + EnvironmentVariablesParser.SelectedTextVariable + ")", StringComparison.OrdinalIgnoreCase);
+            }
 
             using (Process process = new Process())
             {
@@ -90,6 +108,11 @@ namespace GestureSign.CorePlugins.RunCommand
                 process.StartInfo.UseShellExecute = _Settings.RunAsAdministrator;
                 if (_Settings.RunAsAdministrator)
                     process.StartInfo.Verb = "runas";
+                if (passAsVariable)
+                {
+                    process.StartInfo.Environment[EnvironmentVariablesParser.SelectedTextVariable] = selectedText;
+                    process.StartInfo.Environment[EnvironmentVariablesParser.SelectedTextUrlVariable] = EnvironmentVariablesParser.UrlEncode(selectedText);
+                }
                 process.Start();
             }
 

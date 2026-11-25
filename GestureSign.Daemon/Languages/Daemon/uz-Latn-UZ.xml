@@ -11,6 +11,7 @@
     <Disable>GestureSign’ni o‘chirib qo‘yish</Disable>
     <Enable>GestureSign’ni yoqish</Enable>
     <Settings>Sozlamalar</Settings>
+    <Restart>Qayta ishga tushirish</Restart>
     <Exit>Chiqish</Exit>
   </TrayMenu>
 </Language>

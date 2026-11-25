@@ -11,6 +11,7 @@
     <Disable>GestureSign ஐ நிறுத்தவும்</Disable>
     <Enable>GestureSign ஐ இயக்கவும்</Enable>
     <Settings>அமைப்புகள்</Settings>
+    <Restart>மீண்டும் தொடங்கு</Restart>
     <Exit>வெளியேறு</Exit>
   </TrayMenu>
 </Language>

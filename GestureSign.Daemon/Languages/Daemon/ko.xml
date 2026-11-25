@@ -11,6 +11,7 @@
     <Disable>제스처 인식 끄기</Disable>
     <Enable>제스처 인식 켜기</Enable>
     <Settings>설정</Settings>
+    <Restart>다시 시작</Restart>
     <Exit>종료</Exit>
   </TrayMenu>
 </Language>

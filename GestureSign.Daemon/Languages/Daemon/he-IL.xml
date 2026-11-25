@@ -11,6 +11,7 @@
     <Disable>تعطيل GestureSign</Disable>
     <Enable>הפעל GestureSign</Enable>
     <Settings>הגדרות</Settings>
+    <Restart>הפעלה מחדש</Restart>
     <Exit>יציאה</Exit>
   </TrayMenu>
 </Language>

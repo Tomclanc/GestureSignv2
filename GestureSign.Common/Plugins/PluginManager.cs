@@ -304,7 +304,10 @@ namespace GestureSign.Common.Plugins
 
         public IPluginInfo FindPluginByClassAndFilename(string PluginClass, string PluginFilename)
         {
-            // Get reference to plugin using PluginClass and PluginFilename
+            // Get reference to plugin using PluginClass and PluginFilename. Commands
+            // from the radial menu library may omit the file name; match by class then.
+            if (string.IsNullOrEmpty(PluginFilename))
+                return _Plugins.FirstOrDefault(p => p.Class == PluginClass);
             return _Plugins.FirstOrDefault(p => p.Class == PluginClass && p.Filename == PluginFilename);
         }
 

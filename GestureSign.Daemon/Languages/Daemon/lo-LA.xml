@@ -11,6 +11,7 @@
     <Disable>ປິດ GestureSign</Disable>
     <Enable>ເປີດໃຊ້ GestureSign</Enable>
     <Settings>ການຕັ້ງຄ່າ</Settings>
+    <Restart>ເລີ່ມຄືນໃໝ່</Restart>
     <Exit>ອອກ</Exit>
   </TrayMenu>
 </Language>

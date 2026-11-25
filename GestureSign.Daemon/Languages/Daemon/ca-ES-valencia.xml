@@ -11,6 +11,7 @@
     <Disable>Desactivar GestureSign</Disable>
     <Enable>Activar GestureSign</Enable>
     <Settings>Configuració</Settings>
+    <Restart>Reinicia</Restart>
     <Exit>Sortir</Exit>
   </TrayMenu>
 </Language>

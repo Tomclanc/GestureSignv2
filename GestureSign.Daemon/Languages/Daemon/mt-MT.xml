@@ -11,6 +11,7 @@
     <Disable>Ipprojbixxi GestureSign</Disable>
     <Enable>Ħalli GestureSign attiv</Enable>
     <Settings>Settings</Settings>
+    <Restart>Ibda mill-ġdid</Restart>
     <Exit>Iċċedi</Exit>
   </TrayMenu>
 </Language>

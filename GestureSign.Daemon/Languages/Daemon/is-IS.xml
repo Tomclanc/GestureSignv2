@@ -11,6 +11,7 @@
     <Disable>Slökkva á GestureSign</Disable>
     <Enable>Kveikja á GestureSign</Enable>
     <Settings>Stillingar</Settings>
+    <Restart>Endurræsa</Restart>
     <Exit>Hætta</Exit>
   </TrayMenu>
 </Language>

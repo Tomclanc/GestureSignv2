@@ -11,6 +11,7 @@
     <Disable>Отключить распознавание жестов</Disable>
     <Enable>Включить распознавание жестов</Enable>
     <Settings>Параметры</Settings>
+    <Restart>Перезапустить</Restart>
     <Exit>Выход</Exit>
   </TrayMenu>
 </Language>

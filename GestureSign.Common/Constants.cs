@@ -14,5 +14,7 @@
         public const string Settings = ProductName + "Settings";
         public const string Daemon = ProductName + "Daemon";
         public const string DaemonFileName = ProductName + ".exe";
+        /// <summary>Starts a daemon that waits for the running one to exit before taking over.</summary>
+        public const string RestartArgument = "--restart";
     }
 }

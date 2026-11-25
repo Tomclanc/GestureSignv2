@@ -174,7 +174,9 @@ namespace GestureSign.Daemon.Input
             {
                 DispatchPendingMouseMove();
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
+                var upWatch = System.Diagnostics.Stopwatch.StartNew();
                 OnPointUp(args);
+                LogSlowHook("Up", upWatch);
                 handled = args.Handled;
             }
             _pressedMouseButton.Remove(button);
@@ -265,7 +267,9 @@ namespace GestureSign.Daemon.Input
                 var drawingButton = (MouseActions)mouseMessage.Button;
                 var args = new InputPointsEventArgs(new List<InputPoint>(new[] { new InputPoint(1, mouseMessage.Point) }), Devices.Mouse);
                 _activeMouseDrawingButton = drawingButton;
-OnPointDown(args);
+                var downWatch = System.Diagnostics.Stopwatch.StartNew();
+                OnPointDown(args);
+                LogSlowHook("Down", downWatch);
                 // Mouse gestures own the complete button cycle immediately.
                 // Keep the capture provisional until movement is observed;
                 // PointCapture will re-inject a normal click on button-up when
@@ -340,6 +344,14 @@ OnPointDown(args);
             OnPointUp(args);
             Logging.LogMessage($"Mouse gesture polling fallback released. Button={drawingButton}, Active={_mousePollingFallbackActive}, Point={point.X},{point.Y}");
             ResetMouseGestureTracking();
+        }
+
+        // Windows skips a low-level hook that takes longer than LowLevelHooksTimeout (about 300 ms
+        // by default), so the button press then reaches the application and the gesture is lost.
+        private static void LogSlowHook(string phase, System.Diagnostics.Stopwatch watch)
+        {
+            if (watch.ElapsedMilliseconds >= 100)
+                Logging.LogMessage($"Slow mouse hook handling. Phase={phase}, ElapsedMs={watch.ElapsedMilliseconds}");
         }
 
         private static bool IsDrawingButton(MouseActions button) => button != MouseActions.None && (AppConfig.DrawingButton & button) == button;

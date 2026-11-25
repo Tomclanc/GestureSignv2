@@ -68,6 +68,10 @@ namespace GestureSign.Daemon
                 Stage("Plugins", () => PluginManager.Instance.Load(host, uiContext));
                 Stage("IPC", () => NamedPipe.Instance.RunNamedPipeServer(Constants.Daemon, new MessageProcessor(uiContext)));
                 Logging.LogMessage("Daemon startup completed. Input, tray and IPC ready.");
+                StartWarmUp();
+                // The step engine (a plugin) cannot reach KandoLauncher, so the
+                // "open the radial menu component" step goes through this hook.
+                GestureSign.Foundation.Components.QuickActionsLauncher.Register(KandoLauncher.ShowMenu);
                 ThreadPool.QueueUserWorkItem(_ => KandoLauncher.StartIfEnabled());
                 if (_selfTestReport != null)
                 {
@@ -124,6 +128,37 @@ namespace GestureSign.Daemon
             }
         }
 
+        private System.Windows.Forms.Timer _warmUpTimer;
+
+        /// <summary>
+        /// Compile the hot input path ahead of the first gesture: JIT the gesture types on a
+        /// worker thread, then run the button-down checks once on the UI thread.
+        /// </summary>
+        private void StartWarmUp()
+        {
+            if (_selfTestReport != null)
+                return;
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                var count = JitWarmUp.Prepare(
+                    typeof(PointCapture), typeof(PointEventTranslator), typeof(Surface.SurfaceForm), typeof(Surface.DiBitmap),
+                    typeof(ApplicationManager), typeof(GestureManager), typeof(PluginManager),
+                    typeof(GestureSign.Common.Gestures.PointPattern), typeof(GestureSign.PointPatterns.PointPatternAnalyzer));
+                Logging.LogMessage($"JIT warm-up completed. Methods={count}, ElapsedMs={watch.ElapsedMilliseconds}");
+            });
+            // After the mouse hook is installed (InputProvider waits 1 s) and the tray has settled.
+            _warmUpTimer = new System.Windows.Forms.Timer { Interval = 1500 };
+            _warmUpTimer.Tick += (_, _) =>
+            {
+                _warmUpTimer?.Stop();
+                _warmUpTimer?.Dispose();
+                _warmUpTimer = null;
+                _capture?.WarmUp();
+            };
+            _warmUpTimer.Start();
+        }
+
         internal static void ReportFailure(Exception ex)
         {
             Logging.LogMessage("Daemon startup failed.");
@@ -136,7 +171,7 @@ namespace GestureSign.Daemon
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { _selfTestTimer?.Dispose(); _dispatcher.Dispose(); }
+            if (disposing) { _selfTestTimer?.Dispose(); _warmUpTimer?.Dispose(); _dispatcher.Dispose(); }
             base.Dispose(disposing);
         }
     }

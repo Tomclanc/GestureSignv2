@@ -662,6 +662,36 @@ namespace GestureSign.Common.Applications
             return newName;
         }
 
+        private GestureSign.Foundation.RadialMenus.RadialMenuConfig _radialMenuConfig;
+        private DateTime _radialMenuConfigWriteTimeUtc;
+
+        public GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
+        {
+            try
+            {
+                var path = GestureSign.Foundation.RadialMenus.RadialMenuConfig.PathIn(AppConfig.ApplicationDataPath);
+                if (!File.Exists(path))
+                {
+                    _radialMenuConfig = null;
+                    return null;
+                }
+                var writeTime = File.GetLastWriteTimeUtc(path);
+                if (_radialMenuConfig == null || writeTime != _radialMenuConfigWriteTimeUtc)
+                {
+                    _radialMenuConfig = GestureSign.Foundation.RadialMenus.RadialMenuConfig.Load(path);
+                    _radialMenuConfigWriteTimeUtc = writeTime;
+                    Logging.LogMessage($"Radial menu configuration loaded. Actions={_radialMenuConfig?.Actions.Count ?? 0}, Menus={_radialMenuConfig?.Menus.Count ?? 0}");
+                }
+                return _radialMenuConfig;
+            }
+            catch (Exception ex)
+            {
+                // A damaged action library must not interrupt gesture recognition.
+                Logging.LogException(ex);
+                return null;
+            }
+        }
+
         public IApplication AddApplication<TApp>(TApp app, string executablefilePath) where TApp : IApplication
         {
             var versionInfo = System.Diagnostics.FileVersionInfo.GetVersionInfo(executablefilePath);

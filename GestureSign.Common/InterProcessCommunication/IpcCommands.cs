@@ -19,6 +19,8 @@ namespace GestureSign.Common.InterProcessCommunication
         RecoverInput,
         InputHealth,
         StartTeachingTwoStages,
-        StartTeachingThreeStages
+        StartTeachingThreeStages,
+        /// <summary>Run TestAction.json (written by the action editor) in the active window.</summary>
+        RunTestAction
     }
 }

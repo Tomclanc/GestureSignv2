@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.4.13",
+    [string]$PackageVersion = "18.4.14",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -340,6 +340,29 @@ else {
     "    <MajorUpgrade AllowSameVersionUpgrades=`"yes`" Schedule=`"afterInstallInitialize`" DowngradeErrorMessage=`"A newer version of GestureSign is already installed.`" />"
 }
 
+# The installer closes GestureSign before it touches the installed files (otherwise Windows
+# Installer asks the user to close it by hand), so it has to bring the app back once the new
+# files are in place - an update must not leave the user with nothing running. Only upgrades
+# relaunch: a first install stays quiet, and the in-app updater passes GS_SKIP_START=1
+# because it starts GestureSign itself when the install finishes.
+#
+# The relaunch goes through Explorer rather than a direct child of msiexec: msiexec's
+# custom action job would take the new process down with it when the install ends, while
+# Explorer hands the request to the already running shell and the app ends up detached.
+$restartXml = @'
+    <Property Id="GS_SKIP_START" Value="0" Secure="yes" />
+    <CustomAction Id="StopInstalledGestureSign" Directory="INSTALLFOLDER" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="&quot;[SystemFolder]WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -NonInteractive -WindowStyle Hidden -Command &quot;$root=$PWD.Path; foreach($relative in 'GestureSignV2.WinUI.exe','Backend\GestureSignV2Daemon.exe','GestureSignV2Daemon.exe') { $expected=Join-Path $root $relative; Get-Process -Name ((Split-Path -Leaf $relative) -replace '\.exe$','') -ErrorAction SilentlyContinue | ForEach-Object { try { if($_.MainModule.FileName -ieq $expected -and (-not $_.CloseMainWindow() -or -not $_.WaitForExit(3000))){ $_.Kill(); $null=$_.WaitForExit(3000) } } catch {} } }&quot;" />
+    <CustomAction Id="RestartGestureSign" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="asyncNoWait" ExeCommand="explorer.exe &quot;[INSTALLFOLDER]GestureSignV2.WinUI.exe&quot;" />
+'@
+$restartSeqXml = @'
+      <!-- Close the app before Windows Installer validates the files, otherwise the install
+           waits for the user to close GestureSign by hand. The settings window goes first so
+           its watchdog cannot restart the daemon behind our back. -->
+      <Custom Action="StopInstalledGestureSign" Before="InstallValidate" Condition="WIX_UPGRADE_DETECTED AND GS_SKIP_START&lt;&gt;&quot;1&quot;" />
+      <!-- Bring the app back on upgrades only; the in-app updater relaunches it itself. -->
+      <Custom Action="RestartGestureSign" After="InstallFinalize" Condition="WIX_UPGRADE_DETECTED AND GS_SKIP_START&lt;&gt;&quot;1&quot;" />
+'@
+
 $wxs = @"
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
@@ -352,9 +375,11 @@ $majorUpgradeXml
     <SetProperty Id="ARPINSTALLLOCATION" Value="[INSTALLFOLDER]" After="CostFinalize" Sequence="execute" />
     <CustomAction Id="CleanupAllGestureSignData" Directory="SystemFolder" Execute="deferred" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$p=`$env:LOCALAPPDATA+'\GestureSign V2',`$env:APPDATA+'\GestureSign V2','HKCU:\Software\GestureSign V2'; Remove-Item -LiteralPath `$p -Recurse -Force -EA 0&quot;" />
     <CustomAction Id="PreserveExistingKando" Directory="SystemFolder" Execute="immediate" Impersonate="yes" Return="ignore" ExeCommand="powershell.exe -NoP -W Hidden -C &quot;`$s='[INSTALLFOLDER]Kando';`$r=`$env:LOCALAPPDATA+'\GestureSign V2\Components';`$d=`$r+'\Kando';`$m=`$r+'\Kando.removed';if((Test-Path -LiteralPath `$s) -and !(Test-Path -LiteralPath `$d) -and !(Test-Path -LiteralPath `$m)){New-Item -ItemType Directory -Path `$r -Force|Out-Null;Copy-Item -LiteralPath `$s -Destination `$d -Recurse -Force}&quot;" />
+$restartXml
     <InstallExecuteSequence>
       <Custom Action="PreserveExistingKando" Before="RemoveExistingProducts" Condition="WIX_UPGRADE_DETECTED" />
       <Custom Action="CleanupAllGestureSignData" After="RemoveFiles" Condition="REMOVE=&quot;ALL&quot; AND CLEANALL=&quot;1&quot; AND NOT UPGRADINGPRODUCTCODE" />
+$restartSeqXml
     </InstallExecuteSequence>
 
     <StandardDirectory Id="$installRootDirectory">

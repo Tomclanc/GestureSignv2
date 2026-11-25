@@ -11,6 +11,7 @@
     <Disable>Vô hiệu hóa GestureSign</Disable>
     <Enable>Bật GestureSign</Enable>
     <Settings>Cài đặt</Settings>
+    <Restart>Khởi động lại</Restart>
     <Exit>Thoát</Exit>
   </TrayMenu>
 </Language>

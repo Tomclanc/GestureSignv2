@@ -11,6 +11,7 @@
     <Disable>Онемогући GestureSign</Disable>
     <Enable>Омогући GestureSign</Enable>
     <Settings>Подешавања</Settings>
+    <Restart>Поново покрени</Restart>
     <Exit>Излаз</Exit>
   </TrayMenu>
 </Language>

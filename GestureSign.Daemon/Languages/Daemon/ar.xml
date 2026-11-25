@@ -11,6 +11,7 @@
     <Disable>تعطيل التعرّف على الإيماءات</Disable>
     <Enable>تمكين التعرّف على الإيماءات</Enable>
     <Settings>الإعدادات</Settings>
+    <Restart>إعادة التشغيل</Restart>
     <Exit>خروج</Exit>
   </TrayMenu>
 </Language>

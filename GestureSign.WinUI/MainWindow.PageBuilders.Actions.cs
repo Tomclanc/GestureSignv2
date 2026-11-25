@@ -27,7 +27,10 @@ public sealed partial class MainWindow
             RegisterPage("actions", L("动作", "Actions", "動作", "동작"), L("按程序管理手势动作。", "Manage gesture actions by application.", "依程式管理手勢動作。", "프로그램별로 제스처 동작을 관리합니다."), BuildActionsPage),
             RegisterPage("ignored", L("忽略", "Ignored", "忽略", "무시"), T("设置程序忽略和手势忽略规则。", "Configure application and gesture exclusions."), BuildIgnoredPageFromService),
             RegisterPage("gestures", L("手势", "Gestures", "手勢", "제스처"), L("查看、导入和整理可用手势。", "View, import, and organize available gestures.", "檢視、匯入與整理可用手勢。", "사용 가능한 제스처를 보고 가져오고 정리합니다."), BuildGesturesPageFromService),
-            RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), L("用独立快捷键唤起环形菜单。", "Open the radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出環形選單。", "전용 단축키로 원형 메뉴를 엽니다."), BuildQuickActionsPageFromService),
+            RegisterPage("actionLibrary", T("动作库", "Action library"), T("可复用的动作，手势和边缘交互都可以调用。", "Reusable actions for the radial menu, gestures and edge swipes."), BuildActionLibraryPage),
+            // Subtitle reuses the translated "Pie menu · optional component" caption so
+            // the two ring-menu pages stay distinguishable in every locale.
+            RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), T("环形菜单 · 可选组件", "Pie menu · optional component"), BuildQuickActionsPageFromService),
             RegisterPage("touchpad", L("边缘交互", "Edge Interaction", "邊緣互動", "가장자리 상호작용"), L("设置触控板和触摸屏边缘点击、滑动动作。", "Configure touchpad and touchscreen edge taps and swipes.", "設定觸控板與觸控螢幕邊緣點擊、滑動動作。", "터치패드와 터치스크린 가장자리 탭 및 스와이프 동작을 설정합니다."), BuildTouchPadPageFromService),
             RegisterPage(IntentLearningPageTag, IntentLearningPageTitle, IntentLearningPageSubtitle, BuildIntentLearningPage),
             RegisterPage("options", L("选项", "Options", "選項", "옵션"), L("调整识别方式、轨迹反馈、启动项和设备开关。", "Adjust recognition, visual feedback, startup, and device switches.", "調整辨識方式、軌跡回饋、啟動項與裝置開關。", "인식 방식, 궤적 표시, 시작 항목 및 장치 스위치를 조정합니다."), BuildOptionsPageFromService),
@@ -305,17 +308,33 @@ public sealed partial class MainWindow
         var mode = _pendingOptionUpdates.TryGetValue("GestureLibraryViewMode", out var pendingMode)
             && int.TryParse(pendingMode, out var pendingIndex) ? Math.Clamp(pendingIndex, 0, 2) : _legacyData.Options.GestureLibraryViewMode;
         viewMode.SelectedIndex = mode;
-        header.Children.Add(viewMode);
+        // Selection toolbar, finger filter and search sit above the gesture groups.
+        // groups is assigned before the toolbar's callback captures RenderGroups (CS0165).
         var groups = NewSection();
+        var toolbar = NewGestureLibraryToolbar(viewMode, () => RenderGroups());
+        root.Children.Add(toolbar);
         void RenderGroups()
         {
             groups.Children.Clear();
-            var gestures = _legacyData.Gestures;
-            groups.Children.Add(NewGestureGroup(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), gestures.Where(g => g.FingerCount <= 2).ToArray(), viewMode.SelectedIndex));
-            groups.Children.Add(NewGestureGroup(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), gestures.Where(g => g.FingerCount == 3).ToArray(), viewMode.SelectedIndex));
+            _gestureTiles.Clear();
+            var gestures = _legacyData.Gestures.Where(GestureMatchesLibraryFilter).ToArray();
+            var filtered = _gestureFingerFilter != 0 || !string.IsNullOrWhiteSpace(_gestureSearch);
+            void Group(string title, LegacyGesture[] items)
+            {
+                // While filtering, empty groups are noise.
+                if (filtered && items.Length == 0) return;
+                groups.Children.Add(viewMode.SelectedIndex == 0
+                    ? NewGestureGroup(title, items, 0)
+                    : NewGestureTileGroup(title, items, viewMode.SelectedIndex));
+            }
+            Group(L("1-2 指手势", "1-2 Finger Gestures", "1-2 指手勢", "1-2 손가락 제스처"), gestures.Where(g => g.FingerCount <= 2).ToArray());
+            Group(L("3 指手势", "3 Finger Gestures", "3 指手勢", "3 손가락 제스처"), gestures.Where(g => g.FingerCount == 3).ToArray());
             var more = gestures.Where(g => g.FingerCount >= 4).ToArray();
             if (more.Length > 0)
-                groups.Children.Add(NewGestureGroup(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), more, viewMode.SelectedIndex));
+                Group(L("更多手势", "More Gestures", "更多手勢", "더 많은 제스처"), more);
+            if (filtered && groups.Children.Count == 0)
+                groups.Children.Add(new TextBlock { Text = T("没有符合条件的手势", "No matching gestures"), Opacity = 0.68, Margin = new Thickness(4, 8, 4, 8) });
+            UpdateGestureSelectionToolbar();
         }
         RenderGroups();
         viewMode.SelectionChanged += (_, _) =>
