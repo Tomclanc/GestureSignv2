@@ -374,6 +374,7 @@ namespace GestureSign.Daemon.Input
                 }
                 else if (usage == NativeMethods.TouchScreenUsage)
                 {
+                    _touchscreenReports++;
                     if (_penLastActivity != null && Environment.TickCount - _penLastActivity < 100)
                         return;
                     if (_sourceDevice == Devices.None)
@@ -405,6 +406,7 @@ namespace GestureSign.Daemon.Input
                 }
                 else if (usage == NativeMethods.TouchPadUsage)
                 {
+                    _touchpadReports++;
                     if (_sourceDevice == Devices.None)
                     {
                         _currentScr = Screen.FromPoint(Cursor.Position);
@@ -435,6 +437,8 @@ namespace GestureSign.Daemon.Input
                 if (_requiringContactCount == 0 && PointsIntercepted != null)
                 {
                     _completeFrames++;
+                    if (_sourceDevice == Devices.TouchPad) _touchpadFrames++;
+                    if (_sourceDevice == Devices.TouchScreen) _touchscreenFrames++;
                     PointsIntercepted(this, new RawPointsDataMessageEventArgs(_outputTouchs, _sourceDevice,
                         completeContactFrame: _sourceDevice == Devices.TouchScreen));
                     if (_outputTouchs.TrueForAll(rd => rd.State == DeviceStates.None))

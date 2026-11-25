@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Trình duyệt tệp",
+      "paint": "Paint",
+      "submenu": "Ứng dụng",
+      "terminal": "Terminal",
+      "web-browser": "Trình duyệt web"
+    },
+    "audio": {
+      "mute": "Tắt tiếng",
+      "next-track": "Bài nhạc tiếp theo",
+      "play-pause": "Phát / Tạm dừng",
+      "previous-track": "Bản nhạc trước",
+      "submenu": "Âm thanh"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Tài liệu",
+      "downloads": "Tải xuống",
+      "home": "Nhà",
+      "music": "Âm nhạc",
+      "pictures": "Hình ảnh",
+      "submenu": "Dấu trang",
+      "videos": "Video"
+    },
+    "clipboard": {
+      "copy": "Sao chép",
+      "cut": "Cắt",
+      "paste": "Dán",
+      "submenu": "Bộ nhớ tạm"
+    },
+    "name": "Menu mẫu",
+    "next-workspace": "Không gian làm việc tiếp theo",
+    "previous-workspace": "Không gian làm việc trước đó",
+    "web-links": {
+      "kando-on-discord": "Kando trên Discord",
+      "kando-on-github": "Kando trên GitHub",
+      "kando-on-kofi": "Kando trên Ko-fi",
+      "kando-on-youtube": "Kando trên YouTube",
+      "submenu": "Liên Kết Web"
+    },
+    "windows": {
+      "close-window": "Đóng cửa sổ",
+      "submenu": "Cửa sổ",
+      "tile-left": "Xếp trái",
+      "tile-right": "Xếp phải",
+      "toggle-maximize": "Bật/Tắt toàn màn hình"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Đóng trình đơn"
+    },
+    "close-submenu": {
+      "name": "Đóng menu con"
+    },
+    "delay": {
+      "name": "Trì hoãn"
+    },
+    "execute-command": {
+      "name": "Chạy lệnh"
+    },
+    "execute-macro": {
+      "name": "Thực thi macro"
+    },
+    "focus-window": {
+      "name": "Cửa sổ lấy nét"
+    },
+    "inhibit-shortcuts": {
+      "name": "Ức chế phím tắt"
+    },
+    "open-file": {
+      "name": "Mở tệp"
+    },
+    "open-menu": {
+      "name": "Chuyển hướng"
+    },
+    "open-settings": {
+      "name": "Mở Cài đặt"
+    },
+    "open-uri": {
+      "name": "Mở URI"
+    },
+    "send-tcp-message": {
+      "name": "Gửi tin nhắn TCP"
+    },
+    "send-websocket-message": {
+      "name": "Gửi tin nhắn WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Đặt bảng nhớ tạm"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Phím tắt",
+      "name": "Mô phỏng phím tắt",
+      "recording-placeholder": "Nhập phím tắt…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Menu con"
+    }
+  },
+  "native": {
+    "action": "hành động",
+    "action-value": "Lối tắt, đường dẫn, URL, văn bản hoặc JSON",
+    "choose-icon": "Chọn biểu tượng",
+    "condition-invalid": "Nhập một cửa sổ hoặc điều kiện ứng dụng hợp lệ, ví dụ /notepad/i.",
+    "configuration": "Cấu hình Menu Pie",
+    "editor": "Trình chỉnh sửa menu bánh",
+    "exported": "Đã xuất sang {0}",
+    "fixed-angle": "Góc cố định (0° = lên)",
+    "fixed-x": "Đã sửa lỗi X (0–1 trên màn hình)",
+    "fixed-y": "Đã sửa lỗi Y (0–1 xuống màn hình)",
+    "icon-invalid-image": "Chọn hình ảnh PNG, JPEG, GIF, WebP hoặc ICO có kích thước tối đa 192 KB.",
+    "icon-library": "Thư viện biểu tượng",
+    "icon-next": "Biểu tượng tiếp theo",
+    "icon-no-results": "Không tìm thấy biểu tượng nào.",
+    "icon-pick-file": "Chọn hình ảnh hoặc ứng dụng",
+    "icon-previous": "Biểu tượng trước đó",
+    "icon-use-image": "Sử dụng hình ảnh",
+    "imported": "Đã nhập {0} menu. Xem lại các lệnh đã nhập trước khi sử dụng, sau đó lưu lại.",
+    "item-icon": "Biểu tượng mục",
+    "item-order": "Thứ tự mặt hàng",
+    "label": "Nhãn",
+    "move-down": "Di chuyển xuống",
+    "move-up": "Di chuyển lên",
+    "name": "Tên thực đơn",
+    "new-menu": "Thực đơn mới",
+    "off": "Tắt",
+    "on": "Bật",
+    "palette": "Bảng màu",
+    "preview": "Trình đơn xem trước",
+    "remove": "Xóa",
+    "save": "Lưu menu",
+    "saved": "Đã lưu cấu hình menu.",
+    "shortcut-clear": "Xóa phím tắt",
+    "shortcut-cleared": "Đã xóa lối tắt.",
+    "shortcut-config-changed": "Cấu hình menu đã thay đổi trên đĩa. Lưu các menu hiện tại để áp dụng phím tắt này.",
+    "shortcut-in-use": "Windows báo cáo rằng phím tắt này đã được sử dụng.",
+    "shortcut-invalid": "Nhập một phím, cộng với bất kỳ công cụ sửa đổi nào được phép cho phím tắt này.",
+    "shortcut-record": "Ghi phím tắt",
+    "shortcut-save-new-menu": "Lưu menu mới này để kích hoạt phím tắt của nó.",
+    "shortcut-saved": "Đã lưu phím tắt: {0}. Sử dụng nó để mở menu khi Tác vụ nhanh được bật.",
+    "shortcut-stop": "Dừng ghi",
+    "shortcut-unavailable": "Windows không thể đăng ký lối tắt này."
+  },
+  "settings": {
+    "add-menu-items": "Thêm Các Mục Menu",
+    "all-menus": "Tất cả menu",
+    "anchored-mode": "Chế độ neo",
+    "app-condition": "GiớI hạn ở các ứng dụng cụ thể",
+    "area-condition-bottom-placeholder": "Dưới",
+    "area-condition-left-placeholder": "Trái",
+    "area-condition-right-placeholder": "Phải",
+    "area-condition-top-placeholder": "Trên",
+    "cancel": "Hủy",
+    "create-menu-button": "Menu mới",
+    "delete-menu": "Xóa menu",
+    "delete-menu-item": "Xóa mục menu",
+    "edit-submenu": "Chỉnh sửa menu con",
+    "export-menu": "Xuất menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Bật Chế độ đánh dấu",
+      "close-menu": "Đóng menu",
+      "do-nothing": "Không làm gì cả",
+      "enable-marking-mode-info": "Khi bật Chế độ đánh dấu, bạn có thể chọn các mục bằng cách kéo chuột qua chúng.",
+      "enable-turbo-mode": "Bật Chế độ turbo",
+      "enable-turbo-mode-info": "Khi bật Chế độ turbo, bạn có thể thực hiện cử chỉ miễn là bạn giữ phím bổ trợ như Shift hoặc Ctrl.",
+      "interaction-modes": "Chế độ tương tác",
+      "middle-mouse-button-behavior": "Nút chuột giữa",
+      "middle-mouse-button-behavior-info": "Điều này xác định điều gì xảy ra khi nhấn nút chuột giữa trong khi menu được hiển thị.",
+      "move-pointer-to-menu-center": "Di chuyển con trỏ đến giữa menu",
+      "move-pointer-to-menu-center-info": "Nếu được chọn, con trỏ chuột sẽ được di chuyển đến giữa menu hoặc menu con khi cần thiết. Điều này có thể xảy ra nếu một menu được mở quá gần mép màn hình hoặc nếu một menu được mở ở Chế Độ Trung Tâm.",
+      "require-click-for-hover-mode": "Yêu cầu nhấp chuột để lựa chọn Chế độ di chuột",
+      "require-click-for-hover-mode-info": "Nếu bỏ chọn, các mục sẽ được chọn ngay lập tức khi di chuột qua chúng cho các menu sử dụng Chế độ di chuột.",
+      "right-mouse-button-behavior": "Nút chuột phải",
+      "right-mouse-button-behavior-info": "Điều này xác định điều gì xảy ra khi nhấn nút chuột phải trong khi menu được hiển thị.",
+      "select-item": "Chọn mục",
+      "select-parent": "Điều hướng lên một cấp độ",
+      "trigger-center-click-on-key-release": "Đóng menu khi nhả phím tắt ở giữa",
+      "trigger-center-click-on-key-release-info": "Điều này sẽ kích hoạt quy trình làm việc bằng cách nhấp chuột vào giữa khi một phím được thả ra trong khi di chuột qua giữa menu."
+    },
+    "hover-mode": "Chế độ di chuột",
+    "icon-picker-dialog": {
+      "search-placeholder": "Biểu tượng tìm kiếm…"
+    },
+    "import-menu": "Nhập menu",
+    "menu-behavior": "Hành vi menu",
+    "menu-conditions": "Điều kiện menu",
+    "menu-themes-dialog": {
+      "default-colors": "Màu mặc định",
+      "enable-menu-animations": "Menu ảnh động",
+      "title": "Chủ đề menu"
+    },
+    "no-matching-menus": "Không tìm thấy menu nào.",
+    "no-menus": "Bạn không có menu nào.",
+    "not-bound": "Không ràng buộc",
+    "quick-select-key-label": "Phím chọn nhanh",
+    "quick-select-key-recording": "Chọn phím…",
+    "shortcut-info": "Phím tắt này sẽ mở menu. Nó phải chứa một phím thông thường và bất kỳ số lượng sửa đổi nào như Ctrl, Alt hoặc Shift. Khi ghi âm, bạn không nhất thiết phải nhấn tất cả các phím cùng một lúc mà có thể nhấn lần lượt từng phím. Điều này rất hữu ích nếu một phím tắt đã được liên kết với một menu khác!",
+    "shortcut-label": "Phím tắt",
+    "shortcut-recording": "Nhấn phím tắt…",
+    "window-condition": "Giới Hạn Tiêu Đề Cửa Sổ Cụ Thể",
+    "workflow-editor": {
+      "add-action": "Thêm hành động",
+      "select-workflow-name": "Chọn quy trình làm việc"
+    },
+    "anchored-mode-info": "Mở các menu con ở cùng vị trí với menu chính. Việc kiểm tra điều này sẽ tắt Chế độ đánh dấu và Chế độ turbo.",
+    "fixed-position-mode": "Chế độ vị trí cố định",
+    "fixed-position-mode-info": "Mở menu tại vị trí cố định trên màn hình, thay vì tại con trỏ.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Đặt vị trí ở dưới cùng bên trái",
+      "bottom-right-preset-tooltip": "Đặt vị trí ở dưới cùng bên phải",
+      "centered-preset-tooltip": "Đặt vị trí thành trung tâm",
+      "confirm": "Sử dụng vị trí này",
+      "top-left-preset-tooltip": "Đặt vị trí ở trên cùng bên trái",
+      "top-right-preset-tooltip": "Đặt vị trí ở trên cùng bên phải"
+    },
+    "fixed-position-tooltip": "Chọn vị trí cố định",
+    "hover-mode-info": "Dành riêng cho người dùng chuyên nghiệp! Chọn mục bằng cách di chuột qua chúng."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Mặc định",
+      "clean-circle": "Vòng tròn đơn giản",
+      "neon-lights": "Đèn neon",
+      "purity": "Tinh khiết",
+      "rainbow-labels": "Nhãn cầu vồng"
+    },
+    "presets": {
+      "Blue Glass": "Kính xanh lam",
+      "Dark Night": "Đêm tối",
+      "Cotton Candy": "Kẹo bông",
+      "Dark and Cozy": "Tối và ấm cúng",
+      "Blue Glow": "Ánh sáng xanh lam",
+      "Green Glow": "Ánh sáng xanh lá",
+      "Electric": "Ánh điện",
+      "Orange": "Cam",
+      "Pink": "Hồng",
+      "Bright Prism": "Lăng kính rực sáng",
+      "Kando Default": "Màu mặc định"
+    }
+  }
+}

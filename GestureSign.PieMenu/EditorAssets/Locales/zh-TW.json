@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "電子郵件",
+      "file-browser": "檔案瀏覽器",
+      "paint": "小畫家",
+      "submenu": "應用程式",
+      "terminal": "終端機",
+      "web-browser": "網頁瀏覽器"
+    },
+    "audio": {
+      "mute": "靜音",
+      "next-track": "下一首",
+      "play-pause": "播放 / 暫停",
+      "previous-track": "上一首",
+      "submenu": "音訊控制"
+    },
+    "bookmarks": {
+      "desktop": "桌面",
+      "documents": "文件",
+      "downloads": "下載",
+      "home": "家目錄",
+      "music": "音樂",
+      "pictures": "圖片",
+      "submenu": "書籤",
+      "videos": "影片"
+    },
+    "clipboard": {
+      "copy": "複製",
+      "cut": "剪下",
+      "paste": "貼上",
+      "submenu": "剪貼簿"
+    },
+    "name": "範例選單",
+    "next-workspace": "下一個工作區",
+    "previous-workspace": "上一個工作區",
+    "web-links": {
+      "kando-on-discord": "Kando 的 Discord",
+      "kando-on-github": "Kando 的 GitHub",
+      "kando-on-kofi": "Kando 的 Ko-fi",
+      "kando-on-youtube": "Kando 的 YouTube",
+      "submenu": "網頁連結"
+    },
+    "windows": {
+      "close-window": "關閉視窗",
+      "submenu": "視窗",
+      "tile-left": "向左貼齊",
+      "tile-right": "向右貼齊",
+      "toggle-maximize": "切換最大化"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "關閉選單"
+    },
+    "close-submenu": {
+      "name": "關閉子選單"
+    },
+    "delay": {
+      "name": "延遲"
+    },
+    "execute-command": {
+      "name": "執行命令"
+    },
+    "execute-macro": {
+      "name": "執行巨集"
+    },
+    "focus-window": {
+      "name": "聚焦視窗"
+    },
+    "inhibit-shortcuts": {
+      "name": "暫停快捷鍵"
+    },
+    "open-file": {
+      "name": "開啟檔案"
+    },
+    "open-menu": {
+      "name": "開啟選單"
+    },
+    "open-settings": {
+      "name": "開啟設定"
+    },
+    "open-uri": {
+      "name": "開啟 URI"
+    },
+    "send-tcp-message": {
+      "name": "傳送 TCP 訊息"
+    },
+    "send-websocket-message": {
+      "name": "傳送 WebSocket 訊息"
+    },
+    "set-clipboard": {
+      "name": "寫入剪貼簿"
+    },
+    "simulate-hotkey": {
+      "hotkey": "快捷鍵",
+      "name": "模擬快捷鍵",
+      "recording-placeholder": "輸入快捷鍵…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "子選單"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "中心點擊工作流程",
+      "center-workflow-description": "點擊根選單中央後，依序執行下列動作。",
+      "appearance": "外觀與動畫",
+      "menu-size": "選單大小",
+      "fade-in": "淡入時間（毫秒）",
+      "fade-out": "淡出時間（毫秒）",
+      "dark-palette": "深色預設",
+      "dark-theme": "深色主題",
+      "pointer-shortcuts": "指標與快速鍵",
+      "theme-credits": "主題來源與授權",
+      "back-up-menus": "備份選單",
+      "restore-menus": "還原選單",
+      "back-up-settings": "備份設定",
+      "restore-settings": "還原設定",
+      "open-config-folder": "開啟設定資料夾",
+      "restored": "已還原至編輯器。儲存後生效。",
+      "collapse": "收合設定"
+    },
+    "action": "動作",
+    "action-value": "快速鍵、路徑、URL、文字或 JSON",
+    "choose-icon": "選擇圖示",
+    "condition-invalid": "請輸入有效的視窗或應用程式條件，例如 /notepad/i。",
+    "configuration": "環形選單設定",
+    "editor": "環形選單編輯器",
+    "exported": "已匯出至 {0}",
+    "fixed-angle": "固定角度（0° 朝上）",
+    "fixed-x": "固定 X（螢幕橫向 0–1）",
+    "fixed-y": "固定 Y（螢幕縱向 0–1）",
+    "icon-invalid-image": "請選擇不超過 192 KB 的 PNG、JPEG、GIF、WebP 或 ICO 圖片。",
+    "icon-library": "圖示庫",
+    "icon-next": "下一頁圖示",
+    "icon-no-results": "找不到圖示。",
+    "icon-pick-file": "選擇圖片或程式",
+    "icon-previous": "上一頁圖示",
+    "icon-use-image": "使用圖片",
+    "imported": "已匯入 {0} 個選單。請先檢查其中的命令，再儲存。",
+    "item-icon": "選單項目圖示",
+    "item-order": "選單項目順序",
+    "label": "名稱",
+    "move-down": "向下移動",
+    "move-up": "向上移動",
+    "name": "選單名稱",
+    "new-menu": "新選單",
+    "off": "關",
+    "on": "開",
+    "palette": "配色方案",
+    "preview": "預覽選單",
+    "remove": "移除",
+    "save": "儲存選單",
+    "saved": "已儲存選單設定。",
+    "shortcut-clear": "清除快速鍵",
+    "shortcut-cleared": "已清除快速鍵。",
+    "shortcut-config-changed": "磁碟上的選單設定已變更。請儲存目前的選單以套用快速鍵。",
+    "shortcut-in-use": "Windows 回報此快速鍵已被占用。",
+    "shortcut-invalid": "請輸入一個主鍵，可加上此快速鍵支援的修飾鍵。",
+    "shortcut-record": "錄製快速鍵",
+    "shortcut-save-new-menu": "請先儲存這個新選單，快速鍵才會生效。",
+    "shortcut-saved": "已儲存快速鍵 {0}。啟用快速操作後即可使用。",
+    "shortcut-stop": "停止錄製",
+    "shortcut-unavailable": "Windows 無法註冊此快速鍵。"
+  },
+  "settings": {
+    "add-menu-items": "新增選單項目",
+    "all-menus": "所有選單",
+    "anchored-mode": "錨定模式",
+    "app-condition": "指定應用程式",
+    "area-condition-bottom-placeholder": "下",
+    "area-condition-left-placeholder": "左",
+    "area-condition-right-placeholder": "右",
+    "area-condition-top-placeholder": "上",
+    "cancel": "取消",
+    "create-menu-button": "新增選單",
+    "delete-menu": "刪除選單",
+    "delete-menu-item": "刪除選單項目",
+    "edit-submenu": "編輯子選單",
+    "export-menu": "匯出選單",
+    "general-settings-dialog": {
+      "enable-marking-mode": "啟用畫筆模式",
+      "close-menu": "關閉選單",
+      "do-nothing": "無動作",
+      "enable-marking-mode-info": "啟用畫筆模式後，可透過拖曳滑鼠來選取項目。",
+      "enable-turbo-mode": "啟用極速模式",
+      "enable-turbo-mode-info": "啟用極速模式後，只需按住 Shift 或 Ctrl 等修飾鍵，即可進行手勢操作。",
+      "interaction-modes": "互動模式",
+      "middle-mouse-button-behavior": "滑鼠中鍵",
+      "middle-mouse-button-behavior-info": "當選單顯示時，按下滑鼠中鍵的行為。",
+      "move-pointer-to-menu-center": "將指標移至選單中心",
+      "move-pointer-to-menu-center-info": "啟用後，滑鼠指標將在必要時被移至選單或子選單的中心。例如，當選單在太靠近螢幕邊緣的位置開啟，或是在置中模式下開啟時，便會觸發此行為。",
+      "require-click-for-hover-mode": "懸停模式下需點擊選取",
+      "require-click-for-hover-mode-info": "停用後，當滑鼠指標移動至項目上時，該項目將會被立即選取。適用於使用懸停模式的選單。",
+      "right-mouse-button-behavior": "滑鼠右鍵",
+      "right-mouse-button-behavior-info": "當選單顯示時，按下滑鼠右鍵的行為。",
+      "select-item": "選取項目",
+      "select-parent": "返回上一層",
+      "trigger-center-click-on-key-release": "在中心放開快捷鍵時關閉選單",
+      "trigger-center-click-on-key-release-info": "當滑鼠指標懸停在選單中心時放開按鍵，將會觸發中心點擊工作流程。"
+    },
+    "hover-mode": "懸停模式",
+    "icon-picker-dialog": {
+      "search-placeholder": "搜尋圖示…"
+    },
+    "import-menu": "匯入選單",
+    "menu-behavior": "選單行為",
+    "menu-conditions": "選單條件",
+    "menu-themes-dialog": {
+      "default-colors": "預設色彩",
+      "enable-menu-animations": "選單動畫",
+      "title": "選單主題"
+    },
+    "no-matching-menus": "找不到選單。",
+    "no-menus": "您沒有任何選單。",
+    "not-bound": "未綁定",
+    "quick-select-key-label": "快速選取鍵",
+    "quick-select-key-recording": "按下按鍵…",
+    "shortcut-info": "開啟此選單的快捷鍵。必須包含一個普通按鍵以及任意數量的修飾鍵，如 Ctrl、Alt 或 Shift。錄製時，不需一次按下所有按鍵，可一個接一個地按。當快捷鍵已綁定至另一個選單時，此功能會有所幫助！",
+    "shortcut-label": "快捷鍵",
+    "shortcut-recording": "按下快捷鍵…",
+    "window-condition": "指定視窗標題",
+    "workflow-editor": {
+      "add-action": "新增動作",
+      "select-workflow-name": "選取工作流程"
+    },
+    "anchored-mode-info": "在與上層選單相同的位置開啟子選單。啟用後，將停用畫筆模式及極速模式。",
+    "fixed-position-mode": "固定位置模式",
+    "fixed-position-mode-info": "在螢幕上的固定位置開啟選單，而非在指標位置。",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "將位置設為左下角",
+      "bottom-right-preset-tooltip": "將位置設為右下角",
+      "centered-preset-tooltip": "將位置設為置中",
+      "confirm": "使用此位置",
+      "top-left-preset-tooltip": "將位置設為左上角",
+      "top-right-preset-tooltip": "將位置設為右上角"
+    },
+    "fixed-position-tooltip": "選擇固定位置",
+    "hover-mode-info": "僅供進階使用者使用！透過懸停在項目上來選取它們。"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "預設",
+      "clean-circle": "簡潔圓環",
+      "neon-lights": "霓虹燈",
+      "purity": "純淨",
+      "rainbow-labels": "彩虹標籤"
+    },
+    "presets": {
+      "Blue Glass": "藍色玻璃",
+      "Dark Night": "深夜",
+      "Cotton Candy": "棉花糖",
+      "Dark and Cozy": "深色暖調",
+      "Blue Glow": "藍色輝光",
+      "Green Glow": "綠色輝光",
+      "Electric": "電光",
+      "Orange": "橙色",
+      "Pink": "粉紅色",
+      "Bright Prism": "明亮稜鏡",
+      "Kando Default": "預設色彩"
+    }
+  }
+}

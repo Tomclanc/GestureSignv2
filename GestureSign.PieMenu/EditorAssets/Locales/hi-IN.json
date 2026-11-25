@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ई-मेल",
+      "file-browser": "फ़ाइल ब्राउज़र",
+      "paint": "पेंट",
+      "submenu": "ऐप्स",
+      "terminal": "टर्मिनल",
+      "web-browser": "वेब ब्राउज़र"
+    },
+    "audio": {
+      "mute": "मूक",
+      "next-track": "अगला ट्रैक",
+      "play-pause": "चलाएं/रोकें",
+      "previous-track": "पिछला ट्रैक",
+      "submenu": "ऑडियो"
+    },
+    "bookmarks": {
+      "desktop": "डेस्कटॉप",
+      "documents": "दस्तावेज़",
+      "downloads": "डाउनलोड",
+      "home": "घर",
+      "music": "संगीत",
+      "pictures": "चित्र",
+      "submenu": "बुकमार्क",
+      "videos": "वीडियो"
+    },
+    "clipboard": {
+      "copy": "कॉपी करें",
+      "cut": "कट करें",
+      "paste": "चिपकाएँ",
+      "submenu": "क्लिपबोर्ड"
+    },
+    "name": "उदाहरण मेनू",
+    "next-workspace": "अगला कार्यक्षेत्र",
+    "previous-workspace": "पिछला कार्यक्षेत्र",
+    "web-links": {
+      "kando-on-discord": "कलह पर कैंडो",
+      "kando-on-github": "गिटहब पर कांडो",
+      "kando-on-kofi": "को-फाई पर कांडो",
+      "kando-on-youtube": "यूट्यूब पर कांडो",
+      "submenu": "वेब लिंक"
+    },
+    "windows": {
+      "close-window": "विंडो बंद करें",
+      "submenu": "खिड़कियाँ",
+      "tile-left": "बाईं ओर टाइल",
+      "tile-right": "सही टाइल",
+      "toggle-maximize": "अधिकतमीकरण टॉगल करें"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "मेनू बंद करें"
+    },
+    "close-submenu": {
+      "name": "सबमेनू बंद करें"
+    },
+    "delay": {
+      "name": "देरी"
+    },
+    "execute-command": {
+      "name": "आदेश निष्पादित करें"
+    },
+    "execute-macro": {
+      "name": "मैक्रो निष्पादित करें"
+    },
+    "focus-window": {
+      "name": "फोकस विंडो"
+    },
+    "inhibit-shortcuts": {
+      "name": "शॉर्टकट रोकें"
+    },
+    "open-file": {
+      "name": "फ़ाइल खोलें"
+    },
+    "open-menu": {
+      "name": "मेनू खोलें"
+    },
+    "open-settings": {
+      "name": "सेटिंग्स खोलें"
+    },
+    "open-uri": {
+      "name": "यूआरआई खोलें"
+    },
+    "send-tcp-message": {
+      "name": "टीसीपी संदेश भेजें"
+    },
+    "send-websocket-message": {
+      "name": "वेबसॉकेट संदेश भेजें"
+    },
+    "set-clipboard": {
+      "name": "क्लिपबोर्ड सेट करें"
+    },
+    "simulate-hotkey": {
+      "hotkey": "हॉटकी",
+      "name": "हॉटकी का अनुकरण करें",
+      "recording-placeholder": "हॉटकी टाइप करें..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "सबमेनू"
+    }
+  },
+  "native": {
+    "action": "कार्रवाई",
+    "action-value": "शॉर्टकट, पथ, URL, टेक्स्ट, या JSON",
+    "choose-icon": "आइकन चुनें",
+    "condition-invalid": "एक वैध विंडो या ऐप शर्त दर्ज करें, उदाहरण के लिए /नोटपैड/आई।",
+    "configuration": "पाई मेनू कॉन्फ़िगरेशन",
+    "editor": "पाई मेनू संपादक",
+    "exported": "{0} पर निर्यात किया गया",
+    "fixed-angle": "निश्चित कोण (0° = ऊपर)",
+    "fixed-x": "फिक्स्ड एक्स (मॉनिटर पर 0-1)",
+    "fixed-y": "फिक्स्ड वाई (मॉनिटर के नीचे 0-1)",
+    "icon-invalid-image": "192 KB तक की PNG, JPEG, GIF, WebP, या ICO छवि चुनें।",
+    "icon-library": "चिह्न पुस्तकालय",
+    "icon-next": "अगले चिह्न",
+    "icon-no-results": "कोई चिह्न नहीं मिला.",
+    "icon-pick-file": "छवि या ऐप चुनें",
+    "icon-previous": "पिछला चिह्न",
+    "icon-use-image": "छवि का प्रयोग करें",
+    "imported": "आयातित {0} मेनू. आयातित आदेशों का उपयोग करने से पहले उनकी समीक्षा करें, फिर सहेजें।",
+    "item-icon": "आइटम आइकन",
+    "item-order": "आइटम क्रम",
+    "label": "लेबल",
+    "move-down": "नीचे जाएँ",
+    "move-up": "ऊपर बढ़ो",
+    "name": "मेनू का नाम",
+    "new-menu": "नया मेनू",
+    "off": "बंद",
+    "on": "चालू",
+    "palette": "रंग पैलेट",
+    "preview": "पूर्वावलोकन मेनू",
+    "remove": "हटाओ",
+    "save": "मेनू सहेजें",
+    "saved": "मेनू कॉन्फ़िगरेशन सहेजा गया.",
+    "shortcut-clear": "शॉर्टकट साफ़ करें",
+    "shortcut-cleared": "शॉर्टकट साफ़ हो गया.",
+    "shortcut-config-changed": "डिस्क पर मेनू कॉन्फ़िगरेशन बदल गया. इस शॉर्टकट को लागू करने के लिए वर्तमान मेनू सहेजें।",
+    "shortcut-in-use": "विंडोज़ रिपोर्ट करता है कि यह शॉर्टकट पहले से ही उपयोग में है।",
+    "shortcut-invalid": "एक कुंजी, साथ ही इस शॉर्टकट के लिए अनुमत कोई भी संशोधक दर्ज करें।",
+    "shortcut-record": "शॉर्टकट रिकॉर्ड करें",
+    "shortcut-save-new-menu": "इसके शॉर्टकट को सक्रिय करने के लिए इस नए मेनू को सहेजें।",
+    "shortcut-saved": "शॉर्टकट सहेजा गया: {0}. त्वरित कार्यवाही सक्षम होने पर मेनू खोलने के लिए इसका उपयोग करें।",
+    "shortcut-stop": "रिकॉर्डिंग बंद करो",
+    "shortcut-unavailable": "विंडोज़ इस शॉर्टकट को पंजीकृत नहीं कर सका।"
+  },
+  "settings": {
+    "add-menu-items": "मेनू आइटम जोड़ें",
+    "all-menus": "सभी मेनू",
+    "anchored-mode": "एंकर्ड मोड",
+    "app-condition": "विशिष्ट ऐप्स तक सीमित रहें",
+    "area-condition-bottom-placeholder": "नीचे",
+    "area-condition-left-placeholder": "बाएं",
+    "area-condition-right-placeholder": "दायाँ",
+    "area-condition-top-placeholder": "शीर्ष",
+    "cancel": "रद्द करें",
+    "create-menu-button": "मेनू जोड़ें",
+    "delete-menu": "मेनू हटाएँ",
+    "delete-menu-item": "मेनू आइटम हटाएँ",
+    "edit-submenu": "सबमेनू संपादित करें",
+    "export-menu": "निर्यात मेनू",
+    "general-settings-dialog": {
+      "enable-marking-mode": "मार्किंग मोड सक्षम करें",
+      "close-menu": "मेनू बंद करें",
+      "do-nothing": "कुछ मत करो",
+      "enable-marking-mode-info": "मार्किंग मोड सक्षम होने पर, आप आइटम पर माउस खींचकर उनका चयन कर सकते हैं।",
+      "enable-turbo-mode": "टर्बो मोड सक्षम करें",
+      "enable-turbo-mode-info": "टर्बो मोड सक्षम होने पर, आप तब तक इशारे कर सकते हैं जब तक आप Shift या Ctrl जैसी संशोधक कुंजी दबाए रखते हैं।",
+      "interaction-modes": "इंटरेक्शन मोड",
+      "middle-mouse-button-behavior": "मध्य माउस बटन",
+      "middle-mouse-button-behavior-info": "यह निर्धारित करता है कि मेनू दिखाए जाने के दौरान मध्य माउस बटन दबाने पर क्या होता है।",
+      "move-pointer-to-menu-center": "पॉइंटर को मेनू केंद्र पर ले जाएं",
+      "move-pointer-to-menu-center-info": "यदि चेक किया गया है, तो आवश्यकता पड़ने पर माउस पॉइंटर को मेनू या सबमेनू के केंद्र में ले जाया जाएगा। यह स्थिति हो सकती है यदि कोई मेनू स्क्रीन के किनारे के बहुत करीब खोला जाता है या यदि कोई मेनू केंद्रित मोड में खोला जाता है।",
+      "require-click-for-hover-mode": "होवर मोड चयन के लिए क्लिक की आवश्यकता है",
+      "require-click-for-hover-mode-info": "यदि अनचेक किया गया है, तो होवर मोड का उपयोग करके मेनू के लिए माउस ले जाने पर आइटम तुरंत चयनित हो जाएंगे।",
+      "right-mouse-button-behavior": "दायां माउस बटन",
+      "right-mouse-button-behavior-info": "यह निर्धारित करता है कि जब मेनू दिखाया जाता है तो दायां माउस बटन दबाने पर क्या होता है।",
+      "select-item": "आइटम चुनें",
+      "select-parent": "एक स्तर ऊपर नेविगेट करें",
+      "trigger-center-click-on-key-release": "केंद्र पर शॉर्टकट रिलीज़ पर मेनू बंद करें",
+      "trigger-center-click-on-key-release-info": "जब मेनू के केंद्र पर मँडराते समय एक कुंजी जारी की जाती है तो यह केंद्र-क्लिक वर्कफ़्लो को ट्रिगर करेगा।"
+    },
+    "hover-mode": "होवर मोड",
+    "icon-picker-dialog": {
+      "search-placeholder": "आइकॉनस ढूंढे…"
+    },
+    "import-menu": "मेनू आयात करें",
+    "menu-behavior": "मेनू व्यवहार",
+    "menu-conditions": "मेनू शर्तें",
+    "menu-themes-dialog": {
+      "default-colors": "डिफ़ॉल्ट रंग",
+      "enable-menu-animations": "मेनू एनिमेशन",
+      "title": "थीम्स"
+    },
+    "no-matching-menus": "कोई मेनू नहीं मिला.",
+    "no-menus": "आपके पास कोई मेनू नहीं है.",
+    "not-bound": "बाध्य नहीं",
+    "quick-select-key-label": "शीघ्र-चयन कुंजी",
+    "quick-select-key-recording": "कुंजी चुनें...",
+    "shortcut-info": "यह शॉर्टकट मेनू खोलता है. इसमें एक सामान्य कुंजी और Ctrl, Alt, या Shift जैसे कई संशोधक होने चाहिए। रिकॉर्डिंग करते समय आपको सभी कुंजियाँ एक साथ दबाने की ज़रूरत नहीं है, आप उन्हें एक के बाद एक भी दबा सकते हैं। यदि कोई शॉर्टकट पहले से ही किसी अन्य मेनू से जुड़ा हुआ है तो यह उपयोगी है!",
+    "shortcut-label": "शॉर्टकट",
+    "shortcut-recording": "एक शॉर्टकट दबाएँ...",
+    "window-condition": "विशिष्ट विंडो शीर्षकों तक सीमित रहें",
+    "workflow-editor": {
+      "add-action": "क्रिया जोड़ें",
+      "select-workflow-name": "वर्कफ़्लो चुनें"
+    },
+    "anchored-mode-info": "सबमेनू को मूल मेनू के समान स्थान पर खोलें। इसे चेक करने पर मार्किंग मोड और टर्बो मोड डिसेबल हो जाएगा।",
+    "fixed-position-mode": "निश्चित स्थिति मोड",
+    "fixed-position-mode-info": "मेनू को कर्सर के बजाय स्क्रीन पर एक निश्चित स्थान पर खोलें।",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "स्थिति को नीचे बाईं ओर सेट करें",
+      "bottom-right-preset-tooltip": "स्थिति को नीचे दाईं ओर सेट करें",
+      "centered-preset-tooltip": "स्थिति को केंद्र में सेट करें",
+      "confirm": "इस स्थिति का प्रयोग करें",
+      "top-left-preset-tooltip": "स्थिति को ऊपर बाईं ओर सेट करें",
+      "top-right-preset-tooltip": "स्थिति को ऊपर दाईं ओर सेट करें"
+    },
+    "fixed-position-tooltip": "एक निश्चित स्थान चुनें",
+    "hover-mode-info": "केवल बिजली उपयोगकर्ताओं के लिए! वस्तुओं पर मँडराकर उनका चयन करें।"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "डिफ़ॉल्ट",
+      "clean-circle": "सादा वृत्त",
+      "neon-lights": "नियॉन रोशनी",
+      "purity": "शुद्धता",
+      "rainbow-labels": "इंद्रधनुषी लेबल"
+    },
+    "presets": {
+      "Blue Glass": "नीला काँच",
+      "Dark Night": "अँधेरी रात",
+      "Cotton Candy": "बुढ़िया के बाल",
+      "Dark and Cozy": "अँधेरा और सुकूनभरा",
+      "Blue Glow": "नीली चमक",
+      "Green Glow": "हरी चमक",
+      "Electric": "विद्युत",
+      "Orange": "नारंगी",
+      "Pink": "गुलाबी",
+      "Bright Prism": "चमकीला प्रिज़्म",
+      "Kando Default": "डिफ़ॉल्ट रंग"
+    }
+  }
+}

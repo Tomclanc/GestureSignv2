@@ -52,11 +52,11 @@ File.WriteAllText(Path.Combine(target, "Runtime", "onnxruntime.dll"), "old hardw
 IntentComponentPackage.Install(Path.Combine(root, cpu.FileName), cpu, target);
 Check(!File.Exists(Path.Combine(target, "Runtime", "onnxruntime.dll")) && IntentFiles.Read<IntentComponentManifest>(Path.Combine(target, "component.json"))?.Backend == "Cpu", "Switching to CPU retained old hardware payload.");
 using var missingHttp = new HttpClient(new FakeHandler(HttpStatusCode.NotFound, []));
-var service = new IntentComponentService(missingHttp, valid); string? error = null;
+var service = new IntentComponentService(() => null, missingHttp, valid); string? error = null;
 try { await service.DownloadAsync(new Progress<double>(), CancellationToken.None); } catch (IOException ex) { error = ex.Message; }
 Check(error?.Contains("GitHub Releases") == true, "Unpublished download did not offer offline import.");
 using var oversizedHttp = new HttpClient(new FakeHandler(HttpStatusCode.OK, new byte[4096]));
-service = new IntentComponentService(oversizedHttp, valid with { Bytes = 1 }); error = null;
+service = new IntentComponentService(() => null, oversizedHttp, valid with { Bytes = 1 }); error = null;
 try { await service.DownloadAsync(new Progress<double>(), CancellationToken.None); } catch (InvalidDataException ex) { error = ex.Message; }
 Check(error != null, "Oversized download accepted.");
 Check(!Directory.EnumerateDirectories(root, ".Intent-*").Any(), "Failed validation left temporary payloads.");

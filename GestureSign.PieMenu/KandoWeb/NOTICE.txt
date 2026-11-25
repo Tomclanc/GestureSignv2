@@ -1,0 +1,4 @@
+Kando renderer and artworks from https://github.com/kando-menu/kando/tree/6df468a66695ac504afebfff2c581a42296511b4
+Upstream TypeScript, CSS, assets and MIT-licensed localizations are retained. Electron preload calls are adapted to WebView2.
+Native icon paths derived from the same pinned Material Symbols and Simple Icons fonts.
+See Kando-Licenses, EditorAssets notices, per-theme SPDX files and Dependency-Notices.

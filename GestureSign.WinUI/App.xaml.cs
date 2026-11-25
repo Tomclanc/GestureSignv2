@@ -14,6 +14,7 @@ namespace GestureSign.WinUI;
 
 public partial class App : Application
 {
+    internal const string QuickActionsUri = "gesturesignv2://quick-actions/";
     private const string SingleInstanceKeyBase = "GestureSign.WinUI.Settings";
     private const string SingleInstanceMutexNameBase = "Local\\TransposonY.GestureSign.WinUI.Settings";
     private const string LegacySingleInstanceMutexNameBase = "Local\\GestureSignWinUI";
@@ -57,8 +58,7 @@ public partial class App : Application
         mainInstance.Activated += (_, activation) => dispatcherQueue.TryEnqueue(() =>
         {
             ActivateCurrentWindow();
-            if (activation.Data is Windows.ApplicationModel.Activation.ILaunchActivatedEventArgs launch)
-                HandleIntentNavigation(launch.Arguments);
+            HandleActivationNavigation(activation);
         });
 
         if (ActivateExistingWindow(closeDuplicates: true))
@@ -91,13 +91,27 @@ public partial class App : Application
             _legacySingleInstanceMutex?.Dispose();
         };
         _window.Activate();
-        HandleIntentNavigation(args.Arguments);
+        var startupActivation = currentInstance.GetActivatedEventArgs();
+        if (startupActivation.Kind == ExtendedActivationKind.Protocol)
+            HandleActivationNavigation(startupActivation);
+        else
+            HandleLaunchNavigation(string.Join(" ", Environment.GetCommandLineArgs()));
     }
 
-    private void HandleIntentNavigation(string arguments)
+    private void HandleActivationNavigation(AppActivationArguments activation)
     {
-        if (arguments?.Contains("--intent-review", StringComparison.Ordinal) == true && _window is MainWindow main)
-            main.OpenIntentReview();
+        if (activation.Data is Windows.ApplicationModel.Activation.ILaunchActivatedEventArgs launch)
+            HandleLaunchNavigation(launch.Arguments);
+        else if (activation.Data is Windows.ApplicationModel.Activation.IProtocolActivatedEventArgs protocol &&
+                 protocol.Uri == new Uri(QuickActionsUri) && _window is MainWindow main)
+            main.OpenQuickActions();
+    }
+
+    private void HandleLaunchNavigation(string arguments)
+    {
+        if (_window is not MainWindow main) return;
+        if (arguments?.Contains("--intent-review", StringComparison.Ordinal) == true) main.OpenIntentReview();
+        if (arguments?.Contains("--quick-actions", StringComparison.Ordinal) == true) main.OpenQuickActions();
     }
 
     private void ActivateCurrentWindow()
@@ -219,6 +233,8 @@ public partial class App : Application
 
             var titleLooksRight = title.Contains("GestureSign", StringComparison.OrdinalIgnoreCase);
             var processLooksRight =
+                fileName.Equals("GestureSignV2.WinUI.exe", StringComparison.OrdinalIgnoreCase) ||
+                fileName.Equals("GestureSignV2.exe", StringComparison.OrdinalIgnoreCase) ||
                 processName.Equals("GestureSign.WinUI", StringComparison.OrdinalIgnoreCase) ||
                 fileName.Equals("GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase);
 
@@ -238,7 +254,7 @@ public partial class App : Application
     {
         var executablePath = Environment.ProcessPath;
         if (string.IsNullOrWhiteSpace(executablePath))
-            executablePath = Path.Combine(AppContext.BaseDirectory, "GestureSign.WinUI.exe");
+            executablePath = Path.Combine(AppContext.BaseDirectory, "GestureSignV2.WinUI.exe");
 
         var normalizedPath = Path.GetFullPath(executablePath).TrimEnd(Path.DirectorySeparatorChar).ToUpperInvariant();
         var hash = SHA256.HashData(Encoding.UTF8.GetBytes(normalizedPath));

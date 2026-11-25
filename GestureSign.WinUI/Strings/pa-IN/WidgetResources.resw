@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>ਤੇਜ਼ ਕਾਰਵਾਈਆਂ</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>ਸਮਰਪਿਤ ਸ਼ਾਰਟਕੱਟ ਨਾਲ ਰੇਡੀਅਲ ਮੀਨੂ ਖੋਲ੍ਹੋ।</value>
+  </data>
+</root>

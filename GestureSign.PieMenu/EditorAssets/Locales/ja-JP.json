@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "File Browser",
+      "paint": "ペイント",
+      "submenu": "アプリ",
+      "terminal": "ターミナル",
+      "web-browser": "ウェブブラウザ"
+    },
+    "audio": {
+      "mute": "ミュート",
+      "next-track": "次の曲",
+      "play-pause": "再生 / 一時停止",
+      "previous-track": "前の曲",
+      "submenu": "オーディオ"
+    },
+    "bookmarks": {
+      "desktop": "デスクトップ",
+      "documents": "書類",
+      "downloads": "ダウンロード",
+      "home": "ホーム",
+      "music": "音楽",
+      "pictures": "写真",
+      "submenu": "ブックマーク",
+      "videos": "動画"
+    },
+    "clipboard": {
+      "copy": "コピー",
+      "cut": "切り取り",
+      "paste": "貼り付け",
+      "submenu": "クリップボード"
+    },
+    "name": "Example Menu",
+    "next-workspace": "次のワークスペース",
+    "previous-workspace": "前のワークスペース",
+    "web-links": {
+      "kando-on-discord": "Kando on Discord",
+      "kando-on-github": "Kando on GitHub",
+      "kando-on-kofi": "Kando on Ko-fi",
+      "kando-on-youtube": "Kando on YouTube",
+      "submenu": "ウェブリンク"
+    },
+    "windows": {
+      "close-window": "ウィンドウを閉じる",
+      "submenu": "ウィンドウ",
+      "tile-left": "左に並べて表示",
+      "tile-right": "右にタイル表示",
+      "toggle-maximize": "最大化/元に戻す"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "メニューを閉じる"
+    },
+    "close-submenu": {
+      "name": "サブメニューを閉じる"
+    },
+    "delay": {
+      "name": "遅延"
+    },
+    "execute-command": {
+      "name": "コマンドを実行"
+    },
+    "execute-macro": {
+      "name": "マクロを実行"
+    },
+    "focus-window": {
+      "name": "フォーカスウィンドウ"
+    },
+    "inhibit-shortcuts": {
+      "name": "ショートカットの禁止"
+    },
+    "open-file": {
+      "name": "ファイルを開く"
+    },
+    "open-menu": {
+      "name": "リダイレクト"
+    },
+    "open-settings": {
+      "name": "設定を開く"
+    },
+    "open-uri": {
+      "name": "URIを開く"
+    },
+    "send-tcp-message": {
+      "name": "TCPメッセージを送信する"
+    },
+    "send-websocket-message": {
+      "name": "WebSocketメッセージを送信する"
+    },
+    "set-clipboard": {
+      "name": "クリップボードの設定"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ショートカットキー",
+      "name": "ショートカットキーをシミュレート",
+      "recording-placeholder": "ショートカットキーを入力…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "サブメニュー"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "中央クリックのワークフロー",
+      "center-workflow-description": "ルートメニューの中央をクリックすると、以下の操作が順に実行されます。",
+      "appearance": "外観とアニメーション",
+      "menu-size": "メニューのサイズ",
+      "fade-in": "フェードイン（ミリ秒）",
+      "fade-out": "フェードアウト（ミリ秒）",
+      "dark-palette": "ダーク配色",
+      "dark-theme": "ダークテーマ",
+      "pointer-shortcuts": "ポインターとショートカット",
+      "theme-credits": "テーマのクレジットとライセンス",
+      "back-up-menus": "メニューをバックアップ",
+      "restore-menus": "メニューを復元",
+      "back-up-settings": "設定をバックアップ",
+      "restore-settings": "設定を復元",
+      "open-config-folder": "構成フォルダーを開く",
+      "restored": "エディターに復元しました。保存すると適用されます。",
+      "collapse": "設定を折りたたむ"
+    },
+    "action": "アクション",
+    "action-value": "ショートカット、パス、URL、テキスト、または JSON",
+    "choose-icon": "アイコンを選択",
+    "condition-invalid": "有効なウィンドウまたはアプリの条件 (/notepad/i など) を入力します。",
+    "configuration": "パイメニューの構成",
+    "editor": "円グラフメニューエディタ",
+    "exported": "{0} にエクスポートされました",
+    "fixed-angle": "固定角度 (0° = 上)",
+    "fixed-x": "固定 X (モニター全体で 0 ～ 1)",
+    "fixed-y": "固定 Y (モニターの下に 0 ～ 1)",
+    "icon-invalid-image": "最大 192 KB の PNG、JPEG、GIF、WebP、または ICO 画像を選択します。",
+    "icon-library": "アイコンライブラリ",
+    "icon-next": "次のアイコン",
+    "icon-no-results": "アイコンが見つかりませんでした。",
+    "icon-pick-file": "画像またはアプリを選択してください",
+    "icon-previous": "以前のアイコン",
+    "icon-use-image": "使用イメージ",
+    "imported": "{0} 個のメニューをインポートしました。インポートされたコマンドを使用する前に確認し、保存します。",
+    "item-icon": "アイテムアイコン",
+    "item-order": "アイテムの注文",
+    "label": "ラベル",
+    "move-down": "下に移動",
+    "move-up": "上に移動",
+    "name": "メニュー名",
+    "new-menu": "新メニュー",
+    "off": "オフ",
+    "on": "オン",
+    "palette": "カラーパレット",
+    "preview": "プレビューメニュー",
+    "remove": "削除",
+    "save": "メニューの保存",
+    "saved": "メニュー構成が保存されました。",
+    "shortcut-clear": "ショートカットをクリアする",
+    "shortcut-cleared": "ショートカットがクリアされました。",
+    "shortcut-config-changed": "ディスク上のメニュー構成が変更されました。このショートカットを適用するには、現在のメニューを保存します。",
+    "shortcut-in-use": "Windows は、このショートカットがすでに使用されていると報告しています。",
+    "shortcut-invalid": "1 つのキーと、このショートカットに許可されている修飾子を入力します。",
+    "shortcut-record": "録音ショートカット",
+    "shortcut-save-new-menu": "この新しいメニューを保存してショートカットをアクティブにします。",
+    "shortcut-saved": "ショートカットが保存されました: {0}。クイック アクションが有効な場合、これを使用してメニューを開きます。",
+    "shortcut-stop": "録音を停止する",
+    "shortcut-unavailable": "Windows はこのショートカットを登録できませんでした。"
+  },
+  "settings": {
+    "add-menu-items": "メニュー項目を追加",
+    "all-menus": "すべてのメニュー",
+    "anchored-mode": "アンカーモード",
+    "app-condition": "特定のアプリに制限する",
+    "area-condition-bottom-placeholder": "下",
+    "area-condition-left-placeholder": "左",
+    "area-condition-right-placeholder": "右",
+    "area-condition-top-placeholder": "上",
+    "cancel": "キャンセル",
+    "create-menu-button": "新しいメニュー",
+    "delete-menu": "メニューを削除",
+    "delete-menu-item": "メニュー項目を削除",
+    "edit-submenu": "サブメニューの編集",
+    "export-menu": "エクスポートメニュー",
+    "general-settings-dialog": {
+      "enable-marking-mode": "マーキングモードを有効化",
+      "close-menu": "メニューを閉じる",
+      "do-nothing": "何もしない",
+      "enable-marking-mode-info": "マーキングモードを有効化するとマウスをドラッグで項目を選択できます。",
+      "enable-turbo-mode": "ターボモードを有効化",
+      "enable-turbo-mode-info": "ターボモードを有効化すると Shift キーや Ctrl キーなどの修飾キーを押し続けている限り、ジェスチャーを実行できます。",
+      "interaction-modes": "インタラクションモード",
+      "middle-mouse-button-behavior": "マウスの中ボタン",
+      "middle-mouse-button-behavior-info": "これは、メニューが表示されているときにマウスの中ボタンが押されたときに何が起こるかを決定します。",
+      "move-pointer-to-menu-center": "ポインターをメニューの中央に移動",
+      "move-pointer-to-menu-center-info": "チェックを入れると必要に応じてマウスポインターがメニューまたは、サブメニューの中央に移動します。これは、メニューが画面端に近すぎる位置に開かれた場合やメニューが中央表示モードで開かれた場合などで動作します。",
+      "require-click-for-hover-mode": "ホバーモードの選択時にクリックを必要とする",
+      "require-click-for-hover-mode-info": "チェックを外すとホバーモードを使用するメニューで、マウスを項目の上に移動するとその項目が即座に選択されます。",
+      "right-mouse-button-behavior": "マウスの右ボタン",
+      "right-mouse-button-behavior-info": "これは、メニューが表示されているときにマウスの右ボタンが押されたときに何が起こるかを決定します。",
+      "select-item": "項目を選択",
+      "select-parent": "1 つ上のレベルに移動する",
+      "trigger-center-click-on-key-release": "中央でショートカットを離すとメニューを閉じる",
+      "trigger-center-click-on-key-release-info": "これにより、メニューの中央にカーソルを合わせたときにキーが放されたときに、センタークリックのワークフローがトリガーされます。"
+    },
+    "hover-mode": "ホバーモード",
+    "icon-picker-dialog": {
+      "search-placeholder": "アイコンを検索…"
+    },
+    "import-menu": "インポートメニュー",
+    "menu-behavior": "メニューの動作",
+    "menu-conditions": "メニューの条件",
+    "menu-themes-dialog": {
+      "default-colors": "デフォルトの色",
+      "enable-menu-animations": "メニューアニメーション",
+      "title": "メニューテーマ"
+    },
+    "no-matching-menus": "メニューが見つかりませんでした。",
+    "no-menus": "メニューがありません。",
+    "not-bound": "未設定",
+    "quick-select-key-label": "クイックセレクトキー",
+    "quick-select-key-recording": "キーを選択してください…",
+    "shortcut-info": "このショートカットはメニューを開きます。通常キー1つと、Ctrl、Alt、Shiftなどの修飾キーのいずれか1つ以上を含める必要があります。記録時には、すべてのキーを同時に押す必要はありません。順番に押すことも可能です。これは、ショートカットが別のメニューに既に割り当てられている場合に役立ちます！",
+    "shortcut-label": "ショートカット",
+    "shortcut-recording": "ショートカットキーを入力…",
+    "window-condition": "特定のウィンドウタイトルに制限する",
+    "workflow-editor": {
+      "add-action": "アクションの追加",
+      "select-workflow-name": "ワークフローの選択"
+    },
+    "anchored-mode-info": "親メニューと同じ位置でサブメニューを開きます。これをチェックすると、マーキングモードとターボモードが無効になります。",
+    "fixed-position-mode": "固定位置モード",
+    "fixed-position-mode-info": "カーソルではなく、画面上の固定位置でメニューを開きます。",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "位置を左下に設定",
+      "bottom-right-preset-tooltip": "位置を右下に設定",
+      "centered-preset-tooltip": "位置を中央に設定",
+      "confirm": "この位置を使用してください",
+      "top-left-preset-tooltip": "位置を左上に設定",
+      "top-right-preset-tooltip": "位置を右上に設定"
+    },
+    "fixed-position-tooltip": "固定位置を選択してください",
+    "hover-mode-info": "上級者向け！項目にカーソルを合わせると選択できます。"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "既定",
+      "clean-circle": "シンプルな円",
+      "neon-lights": "ネオンライト",
+      "purity": "ピュア",
+      "rainbow-labels": "虹色ラベル"
+    },
+    "presets": {
+      "Blue Glass": "青いガラス",
+      "Dark Night": "深い夜",
+      "Cotton Candy": "綿あめ",
+      "Dark and Cozy": "暗く落ち着いた色",
+      "Blue Glow": "青い輝き",
+      "Green Glow": "緑の輝き",
+      "Electric": "エレクトリック",
+      "Orange": "オレンジ",
+      "Pink": "ピンク",
+      "Bright Prism": "明るいプリズム",
+      "Kando Default": "既定の色"
+    }
+  }
+}

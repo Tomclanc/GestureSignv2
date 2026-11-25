@@ -41,7 +41,7 @@ $info = [ordered]@{
     OSArchitecture = $env:PROCESSOR_ARCHITECTURE
     ShellArchitecture = $env:PROCESSOR_ARCHITEW6432
     PackageDirectory = $PSScriptRoot
-    Processes = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @('GestureSign','GestureSign.WinUI') } | ForEach-Object {
+    Processes = @(Get-Process -ErrorAction SilentlyContinue | Where-Object { $_.ProcessName -in @('GestureSignV2.WinUI','GestureSignV2Daemon','GestureSignV2.PieMenu','GestureSignV2.IntentDlc','GestureSignV2','GestureSign','GestureSign.WinUI') } | ForEach-Object {
         [ordered]@{ Id=$_.Id; Name=$_.ProcessName; Path=$_.Path }
     })
 }

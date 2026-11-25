@@ -34,23 +34,27 @@
     "Backend",
     "Note",
     "Type",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "uz-Latn-UZ": [
     "Global",
     "Import",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "hr-HR": [
     "Start",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "gl-ES": [
     "Global",
     "Normal",
     "Volume",
     "Backend",
-    "Variables"
+    "Variables",
+    "Emoji"
   ],
   "ca-ES": [
     "Editors",
@@ -62,7 +66,8 @@
     "Backend",
     "Text",
     "Variables",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "ca-ES-valencia": [
     "Editors",
@@ -74,14 +79,16 @@
     "Backend",
     "Text",
     "Variables",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "af-ZA": [
     "Later",
     "Pen",
     "Volume",
     "items",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "lb-LU": [
     "Browser",
@@ -102,7 +109,8 @@
     "Taskbar",
     "Desktop",
     "All",
-    "Text"
+    "Text",
+    "Emoji"
   ],
   "id-ID": [
     "Global",
@@ -110,18 +118,21 @@
     "Label",
     "Desktop",
     "Model",
-    "Submenu"
+    "Submenu",
+    "Emoji"
   ],
   "tr-TR": [
     "Normal",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "cy-GB": [
     "Pen",
     "System",
     "Grid",
     "Model",
-    "Help"
+    "Help",
+    "Emoji"
   ],
   "de-DE": [
     "1 finger",
@@ -138,7 +149,8 @@
     "apps",
     "Backend",
     "Desktop",
-    "Text"
+    "Text",
+    "Emoji"
   ],
   "it-IT": [
     "Backup",
@@ -147,7 +159,8 @@
     "Touchpad",
     "Volume",
     "Backend",
-    "Desktop"
+    "Desktop",
+    "Emoji"
   ],
   "nb-NO": [
     "1 finger",
@@ -156,21 +169,24 @@
     "Start",
     "System",
     "Backend",
-    "Type"
+    "Type",
+    "Emoji"
   ],
   "nn-NO": [
     "1 finger",
     "Cyan",
     "Start",
     "System",
-    "Type"
+    "Type",
+    "Emoji"
   ],
   "cs-CZ": [
     "Tip",
     "Touchpad",
     "Backend",
     "Text",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "sk-SK": [
     "Tip",
@@ -178,7 +194,8 @@
     "Backend",
     "Filter",
     "Text",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "el-GR": [
     "Touchpad",
@@ -219,7 +236,8 @@
   "pl-PL": [
     "System",
     "Touchpad",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "sv-SE": [
     "1 finger",
@@ -231,7 +249,8 @@
     "System",
     "Version",
     "Backend",
-    "Text"
+    "Text",
+    "Emoji"
   ],
   "ro-RO": [
     "Backup",
@@ -244,7 +263,8 @@
     "Backend",
     "Desktop",
     "Text",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "nl-NL": [
     "Browser",
@@ -258,7 +278,8 @@
     "Type",
     "Model",
     "Submenu",
-    "Help"
+    "Help",
+    "Emoji"
   ],
   "pt-BR": [
     "Backup",
@@ -267,7 +288,8 @@
     "Touchpad",
     "Volume",
     "apps",
-    "Submenu"
+    "Submenu",
+    "Emoji"
   ],
   "pt-PT": [
     "Backup",
@@ -275,7 +297,8 @@
     "Touchpad",
     "Volume",
     "apps",
-    "Submenu"
+    "Submenu",
+    "Emoji"
   ],
   "es-MX": [
     "Global",
@@ -292,13 +315,15 @@
   ],
   "az-Latn-AZ": [
     "Normal",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "sq-AL": [
     "Feedback",
     "Global",
     "Touchpad",
-    "Backend"
+    "Backend",
+    "Emoji"
   ],
   "ms-MY": [
     "Edit",
@@ -310,7 +335,8 @@
     "Label",
     "Desktop",
     "Model",
-    "Submenu"
+    "Submenu",
+    "Emoji"
   ],
   "mt-MT": [
     "Backup",
@@ -322,25 +348,54 @@
     "apps",
     "Backend",
     "Desktop",
-    "Presets"
+    "Presets",
+    "Emoji"
   ],
   "bs-Latn-BA": [
     "Filter",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "fil-PH": [
     "Taskbar",
     "Desktop",
     "API key",
     "Provider",
-    "Submenu"
+    "Submenu",
+    "Emoji"
   ],
   "sl-SI": [
     "Filter",
-    "Model"
+    "Model",
+    "Emoji"
   ],
   "sr-Latn-RS": [
     "Filter",
-    "Model"
+    "Model",
+    "Emoji"
+  ],
+  "is-IS": [
+    "Emoji"
+  ],
+  "hu-HU": [
+    "Emoji"
+  ],
+  "sw-KE": [
+    "Emoji"
+  ],
+  "mi-NZ": [
+    "Emoji"
+  ],
+  "ga-IE": [
+    "Emoji"
+  ],
+  "fi-FI": [
+    "Emoji"
+  ],
+  "gd-GB": [
+    "Emoji"
+  ],
+  "ha-Latn-NG": [
+    "Emoji"
   ]
 }

@@ -24,12 +24,13 @@ namespace GestureSign.Shared
             RoamingAppDataFolderId,
             Environment.SpecialFolder.ApplicationData);
 
-        public static string ComponentsRoot => Path.Combine(
-            ComponentDataRoot,
-            ProductFolderName,
-            "Components");
+        public static string ProductDataDirectory => Path.Combine(ComponentDataRoot, ProductFolderName);
+        public static string ComponentsRoot => Path.Combine(ProductDataDirectory, "Components");
 
         public static string InstallDirectory => Path.Combine(ComponentsRoot, "Kando");
+        public static string PieMenuInstallDirectory => Path.Combine(ComponentsRoot, "PieMenu");
+        public static string PieMenuConfigurationDirectory =>
+            Path.Combine(ProductDataDirectory, "PieMenu", "Integrated");
 
         public static string RemovedMarkerPath => Path.Combine(ComponentsRoot, "Kando.removed");
 
@@ -62,6 +63,18 @@ namespace GestureSign.Shared
                 StringComparison.OrdinalIgnoreCase) && IsUpdateLeaseActive(UpdateLeasePath);
 
         public static string UserDataDirectory => Path.Combine(NativeRoamingApplicationData, "kando");
+
+        public static bool IsNativePieMenu(string executable) =>
+            string.Equals(Path.GetFileName(executable), "GestureSign.PieMenu.exe", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(Path.GetFileName(executable), "GestureSignV2.PieMenu.exe", StringComparison.OrdinalIgnoreCase) ||
+            (string.Equals(Path.GetFileName(executable), "GestureSignV2.exe", StringComparison.OrdinalIgnoreCase) &&
+             File.Exists(Path.Combine(Path.GetDirectoryName(executable) ?? "", "KandoWeb", "renderer.js")));
+
+        public static string NativeArguments(string arguments, string? hostExecutable, string? hostConfiguration = null) =>
+            $"--config-dir \"{PieMenuConfigurationDirectory}\"" +
+            (string.IsNullOrWhiteSpace(hostExecutable) ? "" : $" --host \"{hostExecutable}\"") +
+            (string.IsNullOrWhiteSpace(hostConfiguration) ? "" : $" --host-config \"{hostConfiguration}\"") +
+            (string.IsNullOrWhiteSpace(arguments) ? "" : " " + arguments);
 
         private static string ComponentDataRoot
         {

@@ -37,7 +37,7 @@ public sealed partial class MainWindow
             var dialog = new ContentDialog
             {
                 XamlRoot = Root.XamlRoot,
-                Title = IntentText("设置命令", "Set Command") + " · " + action.Name,
+                Title = IntentText("设置命令", "Set Command") + " · " + DisplayName(action.Name),
                 CloseButtonText = IntentText("完成", "Close"),
                 Content = new ScrollViewer { Content = panel, MaxHeight = 500 }
             };

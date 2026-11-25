@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ই-মেইল",
+      "file-browser": "ফাইল ব্ৰাউজাৰ",
+      "paint": "ৰং কৰা",
+      "submenu": "এপসমূহ",
+      "terminal": "টাৰ্মিনেল",
+      "web-browser": "ৱেব ব্ৰাউজাৰ"
+    },
+    "audio": {
+      "mute": "নিৰৱ",
+      "next-track": "পৰৱৰ্তী ট্রেক",
+      "play-pause": "খেলা / বিৰতি",
+      "previous-track": "পূৰ্বৰ ট্রেক",
+      "submenu": "অডিঅ'"
+    },
+    "bookmarks": {
+      "desktop": "ডেস্কটপ",
+      "documents": "নথিপত্ৰ",
+      "downloads": "ডাউনলোডসমূহ",
+      "home": "ঘৰ",
+      "music": "সংগীত",
+      "pictures": "ছবি",
+      "submenu": "বুকমাৰ্ক",
+      "videos": "ভিডিঅ'"
+    },
+    "clipboard": {
+      "copy": "কপি কৰক",
+      "cut": "কাট কৰক",
+      "paste": "পেষ্ট",
+      "submenu": "ক্লিপবোৰ্ড"
+    },
+    "name": "উদাহৰণ মেনু",
+    "next-workspace": "পৰৱৰ্তী কাৰ্য্যস্থান",
+    "previous-workspace": "পূৰ্বৰ কাৰ্য্যস্থান",
+    "web-links": {
+      "kando-on-discord": "ডিচকৰ্ডৰ ওপৰত কাণ্ডো",
+      "kando-on-github": "GitHub ত কাণ্ডো",
+      "kando-on-kofi": "কো-ফাইৰ ওপৰত কাণ্ডো",
+      "kando-on-youtube": "ইউটিউবত কাণ্ডো",
+      "submenu": "ৱেব লিংকসমূহ"
+    },
+    "windows": {
+      "close-window": "উইণ্ডো বন্ধ কৰক",
+      "submenu": "উইণ্ড'জ",
+      "tile-left": "টাইল বাওঁফালে",
+      "tile-right": "টাইল ৰাইট",
+      "toggle-maximize": "টগল সৰ্বাধিক কৰক"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "মেনু বন্ধ কৰক"
+    },
+    "close-submenu": {
+      "name": "উপমেনু বন্ধ কৰক"
+    },
+    "delay": {
+      "name": "বিলম্ব"
+    },
+    "execute-command": {
+      "name": "আদেশ এক্সিকিউট কৰক"
+    },
+    "execute-macro": {
+      "name": "মেক্ৰ' এক্সিকিউট কৰক"
+    },
+    "focus-window": {
+      "name": "ফ'কাচ উইণ্ড'"
+    },
+    "inhibit-shortcuts": {
+      "name": "চৰ্টকাটসমূহ বাধা দিয়ক"
+    },
+    "open-file": {
+      "name": "ফাইল খোলক"
+    },
+    "open-menu": {
+      "name": "মেনু খোলক"
+    },
+    "open-settings": {
+      "name": "ছেটিংছ খোলক"
+    },
+    "open-uri": {
+      "name": "URI খোলক"
+    },
+    "send-tcp-message": {
+      "name": "TCP বাৰ্তা প্ৰেৰণ কৰক"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket বাৰ্তা প্ৰেৰণ কৰক"
+    },
+    "set-clipboard": {
+      "name": "ক্লিপবোৰ্ড ছেট কৰক"
+    },
+    "simulate-hotkey": {
+      "hotkey": "হটকি",
+      "name": "হটকি অনুকৰণ কৰক",
+      "recording-placeholder": "এটা হটকি টাইপ কৰক..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "উপমেনু"
+    }
+  },
+  "native": {
+    "action": "ক্ৰিয়া",
+    "action-value": "চৰ্টকাট, পথ, URL, লিখনী, বা JSON",
+    "choose-icon": "আইকন বাছক",
+    "condition-invalid": "এটা বৈধ উইন্ডো বা এপ অৱস্থা সুমুৱাওক, যেনে /notepad/i ।",
+    "configuration": "পাই মেনু বিন্যাস",
+    "editor": "পাই মেনু সম্পাদক",
+    "exported": "{0} লৈ ৰপ্তানি কৰা হৈছে",
+    "fixed-angle": "নিৰ্দিষ্ট কোণ (০° = ওপৰলৈ)",
+    "fixed-x": "X স্থিৰ কৰা হৈছে (মনিটৰৰ ওপৰেৰে 0–1)",
+    "fixed-y": "Y স্থিৰ কৰা হৈছে (মনিটৰৰ তলত 0–1)",
+    "icon-invalid-image": "এটা PNG, JPEG, GIF, WebP, বা ICO ছবি 192 KB লৈকে নিৰ্ব্বাচন কৰক।",
+    "icon-library": "আইকন লাইব্ৰেৰী",
+    "icon-next": "পৰৱৰ্তী আইকনসমূহ",
+    "icon-no-results": "কোনো আইকন পোৱা নগ'ল।",
+    "icon-pick-file": "ছবি বা এপ বাছক",
+    "icon-previous": "পূৰ্বৰ আইকনসমূহ",
+    "icon-use-image": "ছবি ব্যৱহাৰ কৰক",
+    "imported": "আমদানি কৰা হৈছে {0} মেনু(সমূহ)। আমদানি কৰা আদেশসমূহ ব্যৱহাৰ কৰাৰ আগতে পুনৰীক্ষণ কৰক, তাৰ পিছত সংৰক্ষণ কৰক।",
+    "item-icon": "আইটেম আইকন",
+    "item-order": "আইটেম অৰ্ডাৰ",
+    "label": "লেবেল",
+    "move-down": "তললৈ যোৱা",
+    "move-up": "ওপৰলৈ উঠি যাওক",
+    "name": "মেনুৰ নাম",
+    "new-menu": "নতুন মেনু",
+    "off": "বন্ধ",
+    "on": "খোলা",
+    "palette": "ৰঙৰ পেলেট",
+    "preview": "পূৰ্বদৰ্শন মেনু",
+    "remove": "আঁতৰাই পেলাওক",
+    "save": "মেনুসমূহ সংৰক্ষণ কৰক",
+    "saved": "মেনু বিন্যাস সংৰক্ষণ কৰা হৈছে।",
+    "shortcut-clear": "চৰ্টকাট পৰিষ্কাৰ কৰক",
+    "shortcut-cleared": "চৰ্টকাট ক্লিয়াৰ কৰা হৈছে।",
+    "shortcut-config-changed": "মেনু বিন্যাস ডিষ্কত সলনি কৰা হৈছে । এই চৰ্টকাট প্ৰয়োগ কৰিবলে বৰ্তমান মেনুসমূহ সংৰক্ষণ কৰক।",
+    "shortcut-in-use": "উইণ্ড'জে ৰিপৰ্ট কৰিছে যে এই চৰ্টকাট ইতিমধ্যে ব্যৱহাৰ কৰা হৈছে।",
+    "shortcut-invalid": "এটা চাবি সুমুৱাওক, লগতে এই চৰ্টকাটৰ বাবে অনুমোদিত যিকোনো পৰিবৰ্তক।",
+    "shortcut-record": "ৰেকৰ্ড চৰ্টকাট",
+    "shortcut-save-new-menu": "এই নতুন মেনু সংৰক্ষণ কৰক ইয়াৰ চৰ্টকাট সক্ৰিয় কৰিবলে।",
+    "shortcut-saved": "চৰ্টকাট সংৰক্ষণ কৰা হৈছে: {0}। দ্ৰুত কাৰ্য্যসমূহ সামৰ্থবান হ'লে মেনু খোলিবলৈ ইয়াক ব্যৱহাৰ কৰক।",
+    "shortcut-stop": "ৰেকৰ্ডিং বন্ধ কৰক",
+    "shortcut-unavailable": "উইণ্ড'জে এই চৰ্টকাট পঞ্জীয়ন কৰিব পৰা নাছিল।"
+  },
+  "settings": {
+    "add-menu-items": "মেনু বস্তু যোগ কৰক",
+    "all-menus": "সকলো মেনু",
+    "anchored-mode": "এংকৰ কৰা মোড",
+    "app-condition": "নিৰ্দিষ্ট এপসমূহৰ মাজত সীমাবদ্ধ",
+    "area-condition-bottom-placeholder": "তল",
+    "area-condition-left-placeholder": "বাওঁ",
+    "area-condition-right-placeholder": "সোঁ",
+    "area-condition-top-placeholder": "শীৰ্ষ",
+    "cancel": "ৰদ কৰক",
+    "create-menu-button": "মেনু যোগ কৰক",
+    "delete-menu": "মেনু মচি পেলাওক",
+    "delete-menu-item": "মেনু বস্তু মচি পেলাওক",
+    "edit-submenu": "উপমেনু সম্পাদনা কৰক",
+    "export-menu": "ৰপ্তানি মেনু",
+    "general-settings-dialog": {
+      "enable-marking-mode": "চিহ্নিতকৰণ ধৰণ সামৰ্থবান কৰক",
+      "close-menu": "মেনু বন্ধ কৰক",
+      "do-nothing": "একো নকৰিবা",
+      "enable-marking-mode-info": "চিহ্নিতকৰণ অৱস্থা সামৰ্থবান কৰি, আপুনি বস্তুসমূহ নিৰ্ব্বাচন কৰিব পাৰিব মাউছক সিহতৰ ওপৰত টানি।",
+      "enable-turbo-mode": "টাৰ্বো মোড সামৰ্থবান কৰক",
+      "enable-turbo-mode-info": "টাৰ্বো অৱস্থা সামৰ্থবান কৰি, আপুনি ইংগিতসমূহ সম্পাদন কৰিব পাৰিব যেতিয়ালৈকে আপুনি এটা পৰিবৰ্তক কি যেনে Shift বা Ctrl ধৰি ৰাখে।",
+      "interaction-modes": "পাৰস্পৰিক ক্ৰিয়াৰ ধৰণ",
+      "middle-mouse-button-behavior": "মাউছৰ মাজৰ বুটাম",
+      "middle-mouse-button-behavior-info": "ই নিৰ্ধাৰণ কৰে যেতিয়া এটা মেনু দেখুওৱাৰ সময়ত মাজৰ মাউছ বুটাম টিপিলে কি হয়।",
+      "move-pointer-to-menu-center": "পইণ্টাৰক মেনু কেন্দ্ৰলৈ লৈ যাওক",
+      "move-pointer-to-menu-center-info": "যদি নিৰীক্ষণ কৰা হয়, মাউছ পইণ্টাৰক এটা মেনু বা উপমেনুৰ কেন্দ্ৰলৈ স্থানান্তৰ কৰা হ'ব যেতিয়া প্ৰয়োজন হয় । এইটো হ'ব পাৰে যদি এটা মেনু পৰ্দাৰ প্ৰান্তৰ অতি ওচৰত খোলা হয় বা যদি এটা মেনু কেন্দ্ৰীভূত অৱস্থাত খোলা হয়।",
+      "require-click-for-hover-mode": "হ'ভাৰ মোড নিৰ্বাচনসমূহৰ বাবে ক্লিক কৰাৰ প্ৰয়োজন",
+      "require-click-for-hover-mode-info": "যদি নিৰীক্ষণ কৰা নহয়, বস্তুসমূহ তৎক্ষণাত নিৰ্ব্বাচিত হ'ব যেতিয়া মাউছক সিহতৰ ওপৰত স্থানান্তৰ কৰা হয় হ'ভাৰ ধৰণ ব্যৱহাৰ কৰা মেনুসমূহৰ বাবে।",
+      "right-mouse-button-behavior": "মাউছৰ সোঁ বুটাম",
+      "right-mouse-button-behavior-info": "ই নিৰ্ধাৰণ কৰে যেতিয়া এটা মেনু দেখুওৱাৰ সময়ত সোঁ মাউছ বুটাম টিপিলে কি হয়।",
+      "select-item": "বস্তু নিৰ্বাচন কৰক",
+      "select-parent": "এটা স্তৰ ওপৰলৈ নেভিগেট কৰক",
+      "trigger-center-click-on-key-release": "কেন্দ্ৰৰ ওপৰত চৰ্টকাট মুক্তিত মেনু বন্ধ কৰক",
+      "trigger-center-click-on-key-release-info": "ই কেন্দ্ৰ-ক্লিক কাৰ্য্যপ্ৰবাহ ট্ৰিগাৰ কৰিব যেতিয়া এটা চাবি মুকলি কৰা হয় এটা মেনুৰ কেন্দ্ৰৰ ওপৰত উৰি থকাৰ সময়ত।"
+    },
+    "hover-mode": "হোভাৰ মোড",
+    "icon-picker-dialog": {
+      "search-placeholder": "অনুসন্ধান আইকন..."
+    },
+    "import-menu": "আমদানি মেনু",
+    "menu-behavior": "মেনু আচৰণ",
+    "menu-conditions": "মেনু চৰ্তসমূহ",
+    "menu-themes-dialog": {
+      "default-colors": "অবিকল্পিত ৰংসমূহ",
+      "enable-menu-animations": "মেনু এনিমেচন",
+      "title": "মেনু থিমসমূহ"
+    },
+    "no-matching-menus": "কোনো মেনু পোৱা নগ'ল।",
+    "no-menus": "আপোনাৰ কোনো মেনু নাই।",
+    "not-bound": "নট বাউণ্ড",
+    "quick-select-key-label": "দ্ৰুত-নিৰ্বাচন কি'",
+    "quick-select-key-recording": "কী নিৰ্বাচন কৰক...",
+    "shortcut-info": "এই চৰ্টকাটে মেনু খোলে। ইয়াত এটা সাধাৰণ কি' আৰু যিকোনো সংখ্যক পৰিবৰ্তক যেনে Ctrl, Alt, বা Shift থাকিব লাগিব। ৰেকৰ্ডিং কৰাৰ সময়ত আপুনি সকলো কি একেলগে টিপিব নালাগে, আপুনি ইটোৰ পিছত সিটোও টিপিব পাৰে। যদি এটা চৰ্টকাট ইতিমধ্যে অন্য মেনুৰ সৈতে বান্ধ খাই আছে তেন্তে এইটো উপযোগী!",
+    "shortcut-label": "চৰ্টকাট",
+    "shortcut-recording": "এটা চৰ্টকাট টিপক...",
+    "window-condition": "নিৰ্দিষ্ট উইণ্ড' শিৰোনামসমূহৰ বাবে সীমাবদ্ধ",
+    "workflow-editor": {
+      "add-action": "ক্ৰিয়া যোগ কৰক",
+      "select-workflow-name": "কাৰ্য্যপ্ৰবাহ নিৰ্ব্বাচন কৰক"
+    },
+    "anchored-mode-info": "মূল মেনুৰ দৰে একে অৱস্থানত উপমেনুসমূহ খোলক। এইটো পৰীক্ষা কৰিলে, চিহ্নিতকৰণ ধৰণ আৰু টাৰ্বো ধৰণ নিষ্ক্ৰিয় হ'ব।",
+    "fixed-position-mode": "ফিক্সড পজিচন মোড",
+    "fixed-position-mode-info": "কাৰ্চাৰত নহয়, পৰ্দাৰ এটা নিৰ্দিষ্ট স্থানত মেনু খোলক।",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "তলৰ বাওঁফালে অৱস্থান নিৰ্ধাৰণ কৰক",
+      "bottom-right-preset-tooltip": "অৱস্থান তলৰ সোঁফালে নিৰ্ধাৰণ কৰক",
+      "centered-preset-tooltip": "অৱস্থান কেন্দ্ৰলৈ নিৰ্ধাৰণ কৰক",
+      "confirm": "এই অৱস্থানটো ব্যৱহাৰ কৰক",
+      "top-left-preset-tooltip": "স্থানটো ওপৰৰ বাওঁফালে নিৰ্ধাৰণ কৰক",
+      "top-right-preset-tooltip": "স্থানটো ওপৰৰ সোঁফালে নিৰ্ধাৰণ কৰক"
+    },
+    "fixed-position-tooltip": "এটা নিৰ্দিষ্ট অৱস্থান নিৰ্বাচন কৰক",
+    "hover-mode-info": "কেৱল শক্তি ব্যৱহাৰকাৰীৰ বাবে! বস্তুবোৰৰ ওপৰত হুভাৰ কৰি নিৰ্বাচন কৰক।"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "অবিকল্পিত",
+      "clean-circle": "পৰিষ্কাৰ বৃত্ত",
+      "neon-lights": "নিয়ন লাইট",
+      "purity": "বিশুদ্ধতা",
+      "rainbow-labels": "ৰামধেনু লেবেল"
+    },
+    "presets": {
+      "Blue Glass": "ব্লু গ্লাছ",
+      "Dark Night": "ডাৰ্ক নাইট",
+      "Cotton Candy": "কটন কেণ্ডি",
+      "Dark and Cozy": "ডাৰ্ক এণ্ড কজি",
+      "Blue Glow": "ব্লু গ্লো",
+      "Green Glow": "গ্ৰীণ গ্লো",
+      "Electric": "বৈদ্যুতিক",
+      "Orange": "কমলা",
+      "Pink": "গোলাপী",
+      "Bright Prism": "উজ্জ্বল প্ৰিজম",
+      "Kando Default": "অবিকল্পিত ৰংসমূহ"
+    }
+  }
+}

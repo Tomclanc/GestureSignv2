@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using GestureSign.WinUI.Services;
@@ -28,8 +29,9 @@ public sealed partial class MainWindow
             RegisterPage("gestures", L("手势", "Gestures", "手勢", "제스처"), L("查看、导入和整理可用手势。", "View, import, and organize available gestures.", "檢視、匯入與整理可用手勢。", "사용 가능한 제스처를 보고 가져오고 정리합니다."), BuildGesturesPageFromService),
             RegisterPage("actionLibrary", T("动作库", "Action library"), T("可复用的动作，轮盘、手势和边缘交互都可以调用。", "Reusable actions for the radial menu, gestures and edge swipes."), BuildActionLibraryPage),
             RegisterPage("radialMenu", L("环形菜单", "Radial menu", "環形選單", "원형 메뉴"), T("按程序设置环形菜单。", "Set radial menus per application."), BuildRadialMenuPage),
-            RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), L("用独立快捷键唤起 Kando 圆环菜单。", "Open the Kando radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出 Kando 環形選單。", "전용 단축키로 Kando 원형 메뉴를 엽니다."), BuildQuickActionsPageFromService),
+            RegisterPage("quickActions", L("快捷操作", "Quick Actions", "快捷操作", "빠른 작업"), L("用独立快捷键唤起环形菜单。", "Open the radial menu with dedicated shortcuts.", "使用獨立快速鍵叫出環形選單。", "전용 단축키로 원형 메뉴를 엽니다."), BuildQuickActionsPageFromService),
             RegisterPage("touchpad", L("边缘交互", "Edge Interaction", "邊緣互動", "가장자리 상호작용"), L("设置触控板和触摸屏边缘点击、滑动动作。", "Configure touchpad and touchscreen edge taps and swipes.", "設定觸控板與觸控螢幕邊緣點擊、滑動動作。", "터치패드와 터치스크린 가장자리 탭 및 스와이프 동작을 설정합니다."), BuildTouchPadPageFromService),
+            RegisterPage(IntentLearningPageTag, IntentLearningPageTitle, IntentLearningPageSubtitle, BuildIntentLearningPage),
             RegisterPage("options", L("选项", "Options", "選項", "옵션"), L("调整识别方式、轨迹反馈、启动项和设备开关。", "Adjust recognition, visual feedback, startup, and device switches.", "調整辨識方式、軌跡回饋、啟動項與裝置開關。", "인식 방식, 궤적 표시, 시작 항목 및 장치 스위치를 조정합니다."), BuildOptionsPageFromService),
             RegisterPage("about", L("关于", "About", "關於", "정보"), L("GestureSign 的版本、项目和维护信息。", "Version, project, and maintenance information for GestureSign.", "GestureSign 的版本、專案與維護資訊。", "GestureSign의 버전, 프로젝트 및 유지 관리 정보입니다."), BuildAboutPage)
         }, "actions");
@@ -70,7 +72,7 @@ public sealed partial class MainWindow
                     (app.Source.BoolValue("IsEnabled", true) ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"), async button => await ToggleApplicationEnabledAsync(app, button)),
                     (L("新动作", "New Action", "新增動作", "새 동작"), async _ => await AddActionAsync(app)),
                     (L("删除", "Delete", "刪除", "삭제"), async _ => await DeleteApplicationAsync(app)));
-                AddActionScopeRow(appsPanel, appKey, NewApplicationRow(ApplicationDisplayName(app.Name), $"{MatchSummary(app)} · {CountText(app.Actions.Count, L("个动作", "actions", "個動作", "개 동작"))}", buttons, _selectedActionScope == appKey, () => SelectActionScope(appKey)));
+                AddActionScopeRow(appsPanel, appKey, MarkSearchTarget(NewApplicationRow(ApplicationDisplayName(app), $"{MatchSummary(app)} · {CountText(app.Actions.Count, L("个动作", "actions", "個動作", "개 동작"))}", buttons, _selectedActionScope == appKey, () => SelectActionScope(appKey)), app.Source));
             }
         }
 
@@ -162,7 +164,7 @@ public sealed partial class MainWindow
         IReadOnlyDictionary<string, double>? scrollOffsetsToRestore = null,
         double? mainScrollOffsetToRestore = null)
     {
-        if (renderVersion != _actionsScopeRenderVersion)
+        if (renderVersion != _actionsScopeRenderVersion || _currentNavigationPage != "actions")
             return;
 
         const int batchSize = 3;
@@ -176,7 +178,8 @@ public sealed partial class MainWindow
             return;
         }
 
-        DispatcherQueue.TryEnqueue(() => PopulateActionRowsInBatches(actionList, actions, renderVersion, endIndex, scrollOffsetsToRestore, mainScrollOffsetToRestore));
+        DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
+            PopulateActionRowsInBatches(actionList, actions, renderVersion, endIndex, scrollOffsetsToRestore, mainScrollOffsetToRestore));
     }
 
     private void RestoreActionsPageScrollOffsetsAfterRender(
@@ -187,29 +190,17 @@ public sealed partial class MainWindow
         if (scrollOffsetsToRestore is null && mainScrollOffsetToRestore is null)
             return;
 
-        void Restore()
+        DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () =>
         {
-            if (renderVersion != _actionsScopeRenderVersion)
+            if (renderVersion != _actionsScopeRenderVersion || _currentNavigationPage != "actions")
                 return;
 
+            PageHost.UpdateLayout();
             if (scrollOffsetsToRestore is not null)
                 RestoreActionsPageScrollOffsets(PageHost, scrollOffsetsToRestore);
-            if (mainScrollOffsetToRestore is not null)
+            if (mainScrollOffsetToRestore is > 0 && MainContentScrollViewer.VerticalOffset == 0)
                 MainContentScrollViewer.ChangeView(null, mainScrollOffsetToRestore.Value, null, disableAnimation: true);
-        }
-
-        Restore();
-        DispatcherQueue.TryEnqueue(Restore);
-        var restoreAttempts = 0;
-        var restoreTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(50) };
-        restoreTimer.Tick += (_, _) =>
-        {
-            restoreAttempts++;
-            Restore();
-            if (restoreAttempts >= 8 || renderVersion != _actionsScopeRenderVersion)
-                restoreTimer.Stop();
-        };
-        restoreTimer.Start();
+        });
     }
 
     private UIElement BuildIgnoredPageCore()
@@ -221,14 +212,14 @@ public sealed partial class MainWindow
         var ignoredApps = _legacyData.Applications.Where(app => app.Type == "忽略" && string.IsNullOrWhiteSpace(app.IgnoredGesture)).ToList();
         table.Children.Add(NewTableHeader([L("启用", "Enabled", "啟用", "사용"), L("匹配类型", "Match Type", "比對類型", "매칭 유형"), L("程序名称", "App Name", "程式名稱", "프로그램 이름"), L("匹配文本", "Match Text", "比對文字", "매칭 텍스트"), L("正则", "Regex", "正則", "정규식")]));
         foreach (var app in ignoredApps)
-            table.Children.Add(NewTableRow([app.IsEnabled ? L("开", "On", "開", "켬") : L("关", "Off", "關", "끔"), MatchUsingText(app.MatchUsing), app.Name, app.MatchString, app.IsRegEx ? L("是", "Yes", "是", "예") : L("否", "No", "否", "아니요")], false, NewInlineButtonsWithContext(
+            table.Children.Add(MarkSearchTarget(NewTableRow([app.IsEnabled ? L("开", "On", "開", "켬") : L("关", "Off", "關", "끔"), MatchUsingText(app.MatchUsing), ApplicationDisplayName(app), app.MatchString, app.IsRegEx ? L("是", "Yes", "是", "예") : L("否", "No", "否", "아니요")], false, NewInlineButtonsWithContext(
                 (L("编辑", "Edit", "編輯", "편집"), async _ => await EditApplicationAsync(app)),
                 (app.IsEnabled ? L("停用", "Disable", "停用", "사용 안 함") : L("启用", "Enable", "啟用", "사용"), async button =>
                 {
                     await ToggleApplicationEnabledAsync(app, button);
                     ReloadData();
                 }),
-                (L("删除", "Delete", "刪除", "삭제"), async _ => await DeleteApplicationAsync(app)))));
+                (L("删除", "Delete", "刪除", "삭제"), async _ => await DeleteApplicationAsync(app)))), app.Source));
         if (ignoredApps.Count == 0)
             table.Children.Add(NewTableRow(["-", "-", L("暂无忽略项", "No ignored items", "暫無忽略項", "무시 항목 없음"), L("可以从这里添加窗口标题、类名或 exe 匹配", "Add title, class, or exe matches here.", "可在此新增標題、類別或 exe 比對。", "여기서 제목, 클래스 또는 exe 매칭을 추가할 수 있습니다."), "-"]));
         table.Children.Add(NewSmallCommandBar([(L("导入", "Import", "匯入", "가져오기"), "导入"), (L("导出", "Export", "匯出", "내보내기"), "导出"), (L("下载列表", "Download List", "下載清單", "목록 다운로드"), "下载列表")]));
@@ -257,7 +248,9 @@ public sealed partial class MainWindow
             return $"{_selectedActionScope["group:".Length..]} {L("分组", "Group", "群組", "그룹")}";
 
         if (_selectedActionScope.StartsWith("app:", StringComparison.Ordinal))
-            return ApplicationDisplayName(applications.FirstOrDefault(app => string.Equals(ActionScopeKey(app), _selectedActionScope, StringComparison.Ordinal))?.Name ?? "") ?? L("程序动作", "App Actions", "程式動作", "프로그램 동작");
+            return applications.FirstOrDefault(app => string.Equals(ActionScopeKey(app), _selectedActionScope, StringComparison.Ordinal)) is { } app
+                ? ApplicationDisplayName(app)
+                : L("程序动作", "App Actions", "程式動作", "프로그램 동작");
 
         return L("全部动作", "All Actions", "全部動作", "모든 동작");
     }

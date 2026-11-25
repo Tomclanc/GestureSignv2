@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ອີເມລ",
+      "file-browser": "ຕົວທ່ອງເວັບຂອງໄຟລ໌",
+      "paint": "ສີ",
+      "submenu": "ແອັບ",
+      "terminal": "ສະຖານີ",
+      "web-browser": "ເວັບບຣາວເຊີ"
+    },
+    "audio": {
+      "mute": "ປິດສຽງ",
+      "next-track": "ເພງຕໍ່ໄປ",
+      "play-pause": "ຫຼິ້ນ / ຢຸດຊົ່ວຄາວ",
+      "previous-track": "ເພງກ່ອນຫນ້ານີ້",
+      "submenu": "ສຽງ"
+    },
+    "bookmarks": {
+      "desktop": "ເດັສທັອບ",
+      "documents": "ເອກະສານ",
+      "downloads": "ດາວໂຫຼດ",
+      "home": "ບ້ານ",
+      "music": "ດົນຕີ",
+      "pictures": "ຮູບພາບ",
+      "submenu": "ບຸກມາກ",
+      "videos": "ວິດີໂອ"
+    },
+    "clipboard": {
+      "copy": "ສໍາເນົາ",
+      "cut": "ຕັດ",
+      "paste": "ວາງ",
+      "submenu": "ຄລິບບອດ"
+    },
+    "name": "ເມນູຕົວຢ່າງ",
+    "next-workspace": "ພື້ນທີ່ເຮັດວຽກຕໍ່ໄປ",
+    "previous-workspace": "ພື້ນທີ່ເຮັດວຽກທີ່ຜ່ານມາ",
+    "web-links": {
+      "kando-on-discord": "Kando ສຸດ Discord",
+      "kando-on-github": "Kando ໃນ GitHub",
+      "kando-on-kofi": "Kando ໃນ Ko-fi",
+      "kando-on-youtube": "Kando ໃນ YouTube",
+      "submenu": "ລິ້ງເວັບ"
+    },
+    "windows": {
+      "close-window": "ປິດຫນ້າຕ່າງ",
+      "submenu": "Windows",
+      "tile-left": "ກະເບື້ອງຊ້າຍ",
+      "tile-right": "ກະເບື້ອງຂວາ",
+      "toggle-maximize": "ສະຫຼັບການຂະຫຍາຍສູງສຸດ"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ປິດເມນູ"
+    },
+    "close-submenu": {
+      "name": "ປິດເມນູຍ່ອຍ"
+    },
+    "delay": {
+      "name": "ການໜ່ວງເວລາ"
+    },
+    "execute-command": {
+      "name": "ປະຕິບັດຄໍາສັ່ງ"
+    },
+    "execute-macro": {
+      "name": "ປະຕິບັດ Macro"
+    },
+    "focus-window": {
+      "name": "ໜ້າຈໍໂຟກັສ"
+    },
+    "inhibit-shortcuts": {
+      "name": "ຍັບຍັ້ງທາງລັດ"
+    },
+    "open-file": {
+      "name": "ເປີດໄຟລ໌"
+    },
+    "open-menu": {
+      "name": "ເປີດເມນູ"
+    },
+    "open-settings": {
+      "name": "ເປີດການຕັ້ງຄ່າ"
+    },
+    "open-uri": {
+      "name": "ເປີດ URI"
+    },
+    "send-tcp-message": {
+      "name": "ສົ່ງຂໍ້ຄວາມ TCP"
+    },
+    "send-websocket-message": {
+      "name": "ສົ່ງຂໍ້ຄວາມ WebSocket"
+    },
+    "set-clipboard": {
+      "name": "ຕັ້ງຄລິບບອດ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ປຸ່ມລັດ",
+      "name": "ຈຳລອງ Hotkey",
+      "recording-placeholder": "ພິມປຸ່ມດ່ວນ..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ເມນູຍ່ອຍ"
+    }
+  },
+  "native": {
+    "action": "ການປະຕິບັດ",
+    "action-value": "ທາງລັດ, ເສັ້ນທາງ, URL, ຂໍ້ຄວາມ, ຫຼື JSON",
+    "choose-icon": "ເລືອກໄອຄອນ",
+    "condition-invalid": "ໃສ່ເງື່ອນໄຂຂອງປ່ອງຢ້ຽມຫຼືແອັບຯທີ່ຖືກຕ້ອງ, ຕົວຢ່າງ /notepad/i.",
+    "configuration": "ການຕັ້ງຄ່າເມນູ Pie",
+    "editor": "ບັນນາທິການເມນູ Pie",
+    "exported": "ສົ່ງອອກໄປ {0}",
+    "fixed-angle": "ມຸມຄົງທີ່ (0° = ຂຶ້ນ)",
+    "fixed-x": "ແກ້ໄຂ X (0–1 ໃນທົ່ວຈໍພາບ)",
+    "fixed-y": "ແກ້ໄຂ Y (0–1 ລົງຈໍພາບ)",
+    "icon-invalid-image": "ເລືອກຮູບ PNG, JPEG, GIF, WebP, ຫຼື ICO ສູງສຸດ 192 KB.",
+    "icon-library": "ໄອຄອນຫ້ອງສະໝຸດ",
+    "icon-next": "ໄອຄອນຕໍ່ໄປ",
+    "icon-no-results": "ບໍ່ພົບໄອຄອນ.",
+    "icon-pick-file": "ເລືອກຮູບ ຫຼືແອັບ",
+    "icon-previous": "ໄອຄອນທີ່ຜ່ານມາ",
+    "icon-use-image": "ໃຊ້ຮູບພາບ",
+    "imported": "ນຳເຂົ້າແລ້ວ {0} ເມນູ. ກວດເບິ່ງຄໍາສັ່ງທີ່ນໍາເຂົ້າກ່ອນທີ່ຈະນໍາໃຊ້ພວກມັນ, ຫຼັງຈາກນັ້ນບັນທຶກ.",
+    "item-icon": "ໄອຄອນລາຍການ",
+    "item-order": "ລາຍການສັ່ງຊື້",
+    "label": "ປ້າຍກຳກັບ",
+    "move-down": "ຍ້າຍລົງ",
+    "move-up": "ຍ້າຍຂຶ້ນ",
+    "name": "ຊື່ເມນູ",
+    "new-menu": "ເມນູໃໝ່",
+    "off": "ປິດ",
+    "on": "ເປີດ",
+    "palette": "palette ສີ",
+    "preview": "ເມນູຕົວຢ່າງ",
+    "remove": "ເອົາອອກ",
+    "save": "ບັນທຶກເມນູ",
+    "saved": "ບັນທຶກການຕັ້ງຄ່າເມນູແລ້ວ.",
+    "shortcut-clear": "ລຶບທາງລັດ",
+    "shortcut-cleared": "ລຶບທາງລັດແລ້ວ.",
+    "shortcut-config-changed": "ການຕັ້ງຄ່າເມນູໄດ້ປ່ຽນຢູ່ໃນແຜ່ນ. ບັນທຶກເມນູປັດຈຸບັນເພື່ອນຳໃຊ້ທາງລັດນີ້.",
+    "shortcut-in-use": "Windows ລາຍງານວ່າທາງລັດນີ້ຖືກໃຊ້ແລ້ວ.",
+    "shortcut-invalid": "ໃສ່ກະແຈອັນດຽວ, ບວກກັບຕົວແກ້ໄຂທີ່ອະນຸຍາດໃຫ້ສໍາລັບທາງລັດນີ້.",
+    "shortcut-record": "ບັນທຶກທາງລັດ",
+    "shortcut-save-new-menu": "ບັນທຶກເມນູໃໝ່ນີ້ເພື່ອເປີດໃຊ້ທາງລັດຂອງມັນ.",
+    "shortcut-saved": "ບັນທຶກທາງລັດແລ້ວ: {0}. ໃຊ້ມັນເພື່ອເປີດເມນູເມື່ອເປີດໃຊ້ງານດ່ວນ.",
+    "shortcut-stop": "ຢຸດການບັນທຶກ",
+    "shortcut-unavailable": "Windows ບໍ່ສາມາດລົງທະບຽນທາງລັດນີ້ໄດ້."
+  },
+  "settings": {
+    "add-menu-items": "ເພີ່ມລາຍການເມນູ",
+    "all-menus": "ເມນູທັງໝົດ",
+    "anchored-mode": "ໂໝດສະມໍ",
+    "app-condition": "ຈຳກັດສະເພາະແອັບ",
+    "area-condition-bottom-placeholder": "ລຸ່ມ",
+    "area-condition-left-placeholder": "ຊ້າຍ",
+    "area-condition-right-placeholder": "ແມ່ນແລ້ວ",
+    "area-condition-top-placeholder": "ເທິງ",
+    "cancel": "ຍົກເລີກ",
+    "create-menu-button": "ເພີ່ມເມນູ",
+    "delete-menu": "ລຶບເມນູ",
+    "delete-menu-item": "ລຶບລາຍການເມນູ",
+    "edit-submenu": "ແກ້ໄຂເມນູຍ່ອຍ",
+    "export-menu": "ເມນູສົ່ງອອກ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ເປີດໃຊ້ໂໝດເຄື່ອງໝາຍ",
+      "close-menu": "ປິດເມນູ",
+      "do-nothing": "ບໍ່ເຮັດຫຍັງ",
+      "enable-marking-mode-info": "ດ້ວຍການເປີດໃຊ້ໂໝດເຄື່ອງໝາຍ, ທ່ານສາມາດເລືອກລາຍການໂດຍການລາກເມົ້າໄປໃສ່ພວກມັນ.",
+      "enable-turbo-mode": "ເປີດໃຊ້ໂໝດ Turbo",
+      "enable-turbo-mode-info": "ດ້ວຍການເປີດໃຊ້ໂໝດ Turbo, ທ່ານສາມາດເຮັດທ່າທາງໄດ້ຕາບໃດທີ່ທ່ານກົດປຸ່ມຕົວແກ້ໄຂຄ້າງໄວ້ເຊັ່ນ Shift ຫຼື Ctrl.",
+      "interaction-modes": "ຮູບແບບການໂຕ້ຕອບ",
+      "middle-mouse-button-behavior": "ປຸ່ມຫນູກາງ",
+      "middle-mouse-button-behavior-info": "ນີ້ກໍານົດສິ່ງທີ່ຈະເກີດຂຶ້ນໃນເວລາທີ່ກົດປຸ່ມຫນູກາງຖືກກົດຂື້ນໃນຂະນະທີ່ເມນູສະແດງ.",
+      "move-pointer-to-menu-center": "ຍ້າຍຕົວຊີ້ໄປຫາສູນກາງເມນູ",
+      "move-pointer-to-menu-center-info": "ຖ້າໝາຍຖືກ, ຕົວຊີ້ເມົ້າຈະຖືກຍ້າຍໄປຢູ່ໃຈກາງຂອງເມນູ ຫຼືເມນູຍ່ອຍເມື່ອຈຳເປັນ. ນີ້ອາດຈະເປັນກໍລະນີຖ້າເມນູເປີດຢູ່ໃກ້ກັບຂອບຂອງຫນ້າຈໍເກີນໄປຫຼືຖ້າເມນູເປີດຢູ່ໃນໂໝດກາງ.",
+      "require-click-for-hover-mode": "ຕ້ອງການຄລິກສໍາລັບການເລືອກ Hover Mode",
+      "require-click-for-hover-mode-info": "ຖ້າບໍ່ໄດ້ເລືອກ, ລາຍການຕ່າງໆຈະຖືກເລືອກໃນທັນທີເມື່ອເມົາສ໌ຖືກຍ້າຍໄປເທິງພວກມັນສຳລັບເມນູທີ່ໃຊ້ໂຫມດເລື່ອນ.",
+      "right-mouse-button-behavior": "ປຸ່ມຫນູຂວາ",
+      "right-mouse-button-behavior-info": "ນີ້ກໍານົດສິ່ງທີ່ເກີດຂຶ້ນເມື່ອກົດປຸ່ມຫນູຂວາຖືກກົດໃນຂະນະທີ່ເມນູສະແດງ.",
+      "select-item": "ເລືອກລາຍການ",
+      "select-parent": "ນຳທາງຂຶ້ນໜຶ່ງລະດັບ",
+      "trigger-center-click-on-key-release": "ປິດເມນູໃນການປ່ອຍທາງລັດຢູ່ເທິງກາງ",
+      "trigger-center-click-on-key-release-info": "ນີ້ຈະກະຕຸ້ນຂະບວນການເຮັດວຽກໂດຍການຄລິກກາງເມື່ອກະແຈຖືກປ່ອຍອອກມາໃນຂະນະທີ່ເລື່ອນຢູ່ເທິງກາງຂອງເມນູ."
+    },
+    "hover-mode": "ໂໝດເລື່ອນ",
+    "icon-picker-dialog": {
+      "search-placeholder": "ໄອຄອນຊອກຫາ..."
+    },
+    "import-menu": "ເມນູນໍາເຂົ້າ",
+    "menu-behavior": "ພຶດຕິກຳເມນູ",
+    "menu-conditions": "ເງື່ອນໄຂເມນູ",
+    "menu-themes-dialog": {
+      "default-colors": "ສີເລີ່ມຕົ້ນ",
+      "enable-menu-animations": "ການເຄື່ອນໄຫວເມນູ",
+      "title": "ຫົວຂໍ້ເມນູ"
+    },
+    "no-matching-menus": "ບໍ່ພົບເມນູ.",
+    "no-menus": "ທ່ານບໍ່ມີເມນູ.",
+    "not-bound": "ບໍ່ຜູກມັດ",
+    "quick-select-key-label": "ປຸ່ມເລືອກດ່ວນ",
+    "quick-select-key-recording": "ເລືອກກະແຈ...",
+    "shortcut-info": "ທາງລັດນີ້ຈະເປີດເມນູ. ມັນຕ້ອງມີໜຶ່ງກະແຈທຳມະດາ ແລະຕົວແກ້ໄຂຈຳນວນໜຶ່ງເຊັ່ນ Ctrl, Alt, ຫຼື Shift. ໃນ​ເວ​ລາ​ທີ່​ການ​ບັນ​ທຶກ​, ທ່ານ​ບໍ່​ຈໍາ​ເປັນ​ຕ້ອງ​ກົດ​ປຸ່ມ​ທັງ​ຫມົດ​ໃນ​ເວ​ລາ​ດຽວ​, ທ່ານ​ຍັງ​ສາ​ມາດ​ກົດ​ໃຫ້​ເຂົາ​ເຈົ້າ​ຫນຶ່ງ​ຫຼັງ​ຈາກ​ທີ່​ອື່ນ​. ອັນນີ້ເປັນປະໂຫຍດຖ້າທາງລັດຖືກຜູກມັດກັບເມນູອື່ນແລ້ວ!",
+    "shortcut-label": "ທາງລັດ",
+    "shortcut-recording": "ກົດທາງລັດ…",
+    "window-condition": "ຈຳກັດຊື່ໜ້າຕ່າງສະເພາະ",
+    "workflow-editor": {
+      "add-action": "ເພີ່ມການປະຕິບັດ",
+      "select-workflow-name": "ເລືອກ Workflow"
+    },
+    "anchored-mode-info": "ເປີດເມນູຍ່ອຍຢູ່ຕຳແໜ່ງດຽວກັນກັບເມນູຫຼັກ. ການກວດສອບນີ້, ຈະປິດການທໍາງານ Marking Mode ແລະ Turbo Mode.",
+    "fixed-position-mode": "ໂໝດຕັ້ງຄົງທີ່",
+    "fixed-position-mode-info": "ເປີດເມນູຢູ່ໃນຕໍາແຫນ່ງຄົງທີ່ໃນຫນ້າຈໍ, ແທນທີ່ຈະຢູ່ໃນຕົວກະພິບ.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "ຕັ້ງຕໍາແຫນ່ງໄປທາງຊ້າຍລຸ່ມ",
+      "bottom-right-preset-tooltip": "ຕັ້ງຕໍາແຫນ່ງໄປທາງລຸ່ມຂວາ",
+      "centered-preset-tooltip": "ຕັ້ງຕໍາແຫນ່ງຢູ່ກາງ",
+      "confirm": "ໃຊ້ຕໍາແຫນ່ງນີ້",
+      "top-left-preset-tooltip": "ຕັ້ງຕໍາແຫນ່ງໄປທາງຊ້າຍເທິງ",
+      "top-right-preset-tooltip": "ຕັ້ງຕໍາແຫນ່ງໄປທາງຂວາເທິງ"
+    },
+    "fixed-position-tooltip": "ເລືອກຕໍາແຫນ່ງຄົງທີ່",
+    "hover-mode-info": "ສໍາລັບຜູ້ໃຊ້ພະລັງງານເທົ່ານັ້ນ! ເລືອກລາຍການໂດຍການເລື່ອນໃສ່ພວກມັນ."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ຄ່າເລີ່ມຕົ້ນ",
+      "clean-circle": "ສະອາດ Circle",
+      "neon-lights": "ແສງນີອອນ",
+      "purity": "ຄວາມບໍລິສຸດ",
+      "rainbow-labels": "ປ້າຍ Rainbow"
+    },
+    "presets": {
+      "Blue Glass": "ແກ້ວສີຟ້າ",
+      "Dark Night": "ກາງຄືນມືດ",
+      "Cotton Candy": "ເຂົ້າໜົມຝ້າຍ",
+      "Dark and Cozy": "ມືດ ແລະສະດວກສະບາຍ",
+      "Blue Glow": "ແສງສີຟ້າ",
+      "Green Glow": "ແສງສີຂຽວ",
+      "Electric": "ໄຟຟ້າ",
+      "Orange": "ສີສົ້ມ",
+      "Pink": "ສີບົວ",
+      "Bright Prism": "Prism ສົດໃສ",
+      "Kando Default": "ສີເລີ່ມຕົ້ນ"
+    }
+  }
+}

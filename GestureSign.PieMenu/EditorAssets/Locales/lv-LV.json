@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-pasts",
+      "file-browser": "Failu pārlūkprogramma",
+      "paint": "Krāsa",
+      "submenu": "Lietotnes",
+      "terminal": "Terminālis",
+      "web-browser": "Web pārlūkprogramma"
+    },
+    "audio": {
+      "mute": "Izslēgt skaņu",
+      "next-track": "Nākamā dziesma",
+      "play-pause": "Atskaņot / Pauzēt",
+      "previous-track": "Iepriekšējā dziesma",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Darbvirsma",
+      "documents": "Dokumenti",
+      "downloads": "Lejupielādes",
+      "home": "Sākums",
+      "music": "Mūzika",
+      "pictures": "Bildes",
+      "submenu": "Grāmatzīmes",
+      "videos": "Videoklipi"
+    },
+    "clipboard": {
+      "copy": "Sapratu",
+      "cut": "Izgriezt",
+      "paste": "Ielīmēt",
+      "submenu": "Starpliktuve"
+    },
+    "name": "Piemēra izvēlne",
+    "next-workspace": "Nākamā darbvieta",
+    "previous-workspace": "Iepriekšējā darbvieta",
+    "web-links": {
+      "kando-on-discord": "Kando vietnē Discord",
+      "kando-on-github": "Kando vietnē GitHub",
+      "kando-on-kofi": "Kando uz Ko-fi",
+      "kando-on-youtube": "Kando vietnē YouTube",
+      "submenu": "Tīmekļa saites"
+    },
+    "windows": {
+      "close-window": "Aizvērt logu",
+      "submenu": "Windows",
+      "tile-left": "Flīze pa kreisi",
+      "tile-right": "Pa labi",
+      "toggle-maximize": "Pārslēgt Maksimizēt"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Aizveriet izvēlni"
+    },
+    "close-submenu": {
+      "name": "Aizvērt apakšizvēlni"
+    },
+    "delay": {
+      "name": "Aizkavēšanās"
+    },
+    "execute-command": {
+      "name": "Izpildiet komandu"
+    },
+    "execute-macro": {
+      "name": "Izpildīt makro"
+    },
+    "focus-window": {
+      "name": "Fokusa logs"
+    },
+    "inhibit-shortcuts": {
+      "name": "Aizliegt īsinājumtaustiņus"
+    },
+    "open-file": {
+      "name": "Atvērt failu"
+    },
+    "open-menu": {
+      "name": "Atveriet izvēlni"
+    },
+    "open-settings": {
+      "name": "Atveriet iestatījumus"
+    },
+    "open-uri": {
+      "name": "Atveriet URI"
+    },
+    "send-tcp-message": {
+      "name": "Nosūtiet TCP ziņojumu"
+    },
+    "send-websocket-message": {
+      "name": "Nosūtiet WebSocket ziņojumu"
+    },
+    "set-clipboard": {
+      "name": "Iestatīt starpliktuvi"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Ātrā taustiņu kombinācija",
+      "name": "Simulēt karsto taustiņu",
+      "recording-placeholder": "Ierakstiet karsto taustiņu…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Apakšizvēlne"
+    }
+  },
+  "native": {
+    "action": "Darbība",
+    "action-value": "Saīsne, ceļš, URL, teksts vai JSON",
+    "choose-icon": "Izvēlieties ikonu",
+    "condition-invalid": "Ievadiet derīgu loga vai lietotnes nosacījumu, piemēram, /notepad/i.",
+    "configuration": "Pie Menu konfigurācija",
+    "editor": "Pie izvēlnes redaktors",
+    "exported": "Eksportēts uz {0}",
+    "fixed-angle": "Fiksēts leņķis (0° = uz augšu)",
+    "fixed-x": "Fiksēts X (0–1 visā monitorā)",
+    "fixed-y": "Fiksēts Y (0–1 uz leju monitorā)",
+    "icon-invalid-image": "Izvēlieties PNG, JPEG, GIF, WebP vai ICO attēlu līdz 192 KB.",
+    "icon-library": "Ikonu bibliotēka",
+    "icon-next": "Nākamās ikonas",
+    "icon-no-results": "Nav atrasta neviena ikona.",
+    "icon-pick-file": "Izvēlieties attēlu vai lietotni",
+    "icon-previous": "Iepriekšējās ikonas",
+    "icon-use-image": "Izmantojiet attēlu",
+    "imported": "Importētas {0} izvēlnes(-es). Pārskatiet importētās komandas pirms to izmantošanas un pēc tam saglabājiet.",
+    "item-icon": "Vienuma ikona",
+    "item-order": "Preču pasūtījums",
+    "label": "Etiķete",
+    "move-down": "Pārvietojieties uz leju",
+    "move-up": "Pārvietojieties uz augšu",
+    "name": "Izvēlnes nosaukums",
+    "new-menu": "Jauna izvēlne",
+    "off": "Izslēgts",
+    "on": "Ieslēgts",
+    "palette": "Krāsu palete",
+    "preview": "Priekšskatījuma izvēlne",
+    "remove": "Noņemt",
+    "save": "Saglabājiet izvēlnes",
+    "saved": "Izvēlnes konfigurācija saglabāta.",
+    "shortcut-clear": "Notīrīt saīsni",
+    "shortcut-cleared": "Saīsne notīrīta.",
+    "shortcut-config-changed": "Diskā mainīta izvēlnes konfigurācija. Saglabājiet pašreizējās izvēlnes, lai lietotu šo saīsni.",
+    "shortcut-in-use": "Windows ziņo, ka šī saīsne jau tiek izmantota.",
+    "shortcut-invalid": "Ievadiet vienu taustiņu, kā arī visus šim saīsnei atļautos modifikatorus.",
+    "shortcut-record": "Ierakstīt saīsni",
+    "shortcut-save-new-menu": "Saglabājiet šo jauno izvēlni, lai aktivizētu tās saīsni.",
+    "shortcut-saved": "Saīsne saglabāta: {0}. Izmantojiet to, lai atvērtu izvēlni, kad ir iespējota ātrās darbības.",
+    "shortcut-stop": "Pārtraukt ierakstīšanu",
+    "shortcut-unavailable": "Windows nevarēja reģistrēt šo saīsni."
+  },
+  "settings": {
+    "add-menu-items": "Pievienot izvēlnes vienumus",
+    "all-menus": "Visas izvēlnes",
+    "anchored-mode": "Noenkurotais režīms",
+    "app-condition": "Ierobežot līdz noteiktām lietotnēm",
+    "area-condition-bottom-placeholder": "Apakša",
+    "area-condition-left-placeholder": "Pa kreisi",
+    "area-condition-right-placeholder": "Pa labi",
+    "area-condition-top-placeholder": "Augšā",
+    "cancel": "Atcelt",
+    "create-menu-button": "Pievienot izvēlni",
+    "delete-menu": "Dzēst izvēlni",
+    "delete-menu-item": "Dzēst izvēlnes vienumu",
+    "edit-submenu": "Rediģēt apakšizvēlni",
+    "export-menu": "Eksportēšanas izvēlne",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Iespējot marķēšanas režīmu",
+      "close-menu": "Aizvērt izvēlni",
+      "do-nothing": "Nedari neko",
+      "enable-marking-mode-info": "Ja ir iespējots iezīmēšanas režīms, varat atlasīt vienumus, velkot virs tiem peli.",
+      "enable-turbo-mode": "Iespējot Turbo režīmu",
+      "enable-turbo-mode-info": "Ja ir iespējots Turbo režīms, varat veikt žestus, kamēr turat nospiestu modifikācijas taustiņu, piemēram, Shift vai Ctrl.",
+      "interaction-modes": "Mijiedarbības režīmi",
+      "middle-mouse-button-behavior": "Vidējā peles poga",
+      "middle-mouse-button-behavior-info": "Tas nosaka, kas notiek, kad tiek nospiesta vidējā peles poga, kamēr tiek rādīta izvēlne.",
+      "move-pointer-to-menu-center": "Pārvietojiet rādītāju uz izvēlnes centru",
+      "move-pointer-to-menu-center-info": "Ja ir atzīmēta izvēles rūtiņa, peles kursors vajadzības gadījumā tiks pārvietots uz izvēlnes vai apakšizvēlnes centru. Tas var notikt, ja izvēlne tiek atvērta pārāk tuvu ekrāna malai vai ja izvēlne tiek atvērta centrētajā režīmā.",
+      "require-click-for-hover-mode": "Lai atlasītu kursora novietošanas režīmu, ir jānoklikšķina",
+      "require-click-for-hover-mode-info": "Ja šī izvēles rūtiņa nav atzīmēta, vienumi tiks atlasīti uzreiz, kad peles kursors tiek pārvietots virs tiem, lai atvērtu izvēlnes, izmantojot kursora novietošanas režīmu.",
+      "right-mouse-button-behavior": "Peles labā poga",
+      "right-mouse-button-behavior-info": "Tas nosaka, kas notiek, kad tiek nospiesta labā peles poga, kamēr tiek rādīta izvēlne.",
+      "select-item": "Izvēlieties vienumu",
+      "select-parent": "Virzieties vienu līmeni uz augšu",
+      "trigger-center-click-on-key-release": "Aizveriet izvēlni, atlaižot īsinājumtaustiņu centrā",
+      "trigger-center-click-on-key-release-info": "Tas aktivizēs centra klikšķa darbplūsmu, kad taustiņš tiks atlaists, virzot kursoru virs izvēlnes centra."
+    },
+    "hover-mode": "Kursora novietošanas režīms",
+    "icon-picker-dialog": {
+      "search-placeholder": "Meklēt ikonas…"
+    },
+    "import-menu": "Importēšanas izvēlne",
+    "menu-behavior": "Izvēlnes uzvedība",
+    "menu-conditions": "Izvēlnes nosacījumi",
+    "menu-themes-dialog": {
+      "default-colors": "Noklusējuma krāsas",
+      "enable-menu-animations": "Izvēlnes animācijas",
+      "title": "Izvēlnes motīvi"
+    },
+    "no-matching-menus": "Nav atrasta neviena izvēlne.",
+    "no-menus": "Jums nav ēdienkartes.",
+    "not-bound": "Nav Saistīts",
+    "quick-select-key-label": "Ātrās izvēles taustiņš",
+    "quick-select-key-recording": "Izvēlieties taustiņu…",
+    "shortcut-info": "Šis īsceļš atver izvēlni. Tam jāsatur viens parastais taustiņš un neierobežots skaits modifikatoru, piemēram, Ctrl, Alt vai Shift. Ierakstot nav jāspiež visi taustiņi uzreiz, tos var spiest arī vienu pēc otra. Tas ir noderīgi, ja saīsne jau ir saistīta ar citu izvēlni!",
+    "shortcut-label": "Īsceļš",
+    "shortcut-recording": "Nospiediet saīsni…",
+    "window-condition": "Ierobežojiet līdz konkrētiem logu nosaukumiem",
+    "workflow-editor": {
+      "add-action": "Pievienot darbību",
+      "select-workflow-name": "Atlasiet Darbplūsma"
+    },
+    "anchored-mode-info": "Atveriet apakšizvēlnes tajā pašā pozīcijā kā vecākizvēlne. Atzīmējot šo opciju, tiks atspējots marķēšanas režīms un turbo režīms.",
+    "fixed-position-mode": "Fiksētas pozīcijas režīms",
+    "fixed-position-mode-info": "Atveriet izvēlni noteiktā vietā uz ekrāna, nevis kursorā.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Iestatiet pozīciju pa kreisi apakšā",
+      "bottom-right-preset-tooltip": "Iestatiet pozīciju labajā apakšējā stūrī",
+      "centered-preset-tooltip": "Iestatiet pozīciju uz centru",
+      "confirm": "Izmantojiet šo pozīciju",
+      "top-left-preset-tooltip": "Iestatiet pozīciju augšējā kreisajā stūrī",
+      "top-right-preset-tooltip": "Iestatiet pozīciju augšējā labajā stūrī"
+    },
+    "fixed-position-tooltip": "Izvēlieties fiksētu pozīciju",
+    "hover-mode-info": "Tikai jaudas lietotājiem! Atlasiet vienumus, virzot kursoru virs tiem."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Noklusējums",
+      "clean-circle": "Tīrs aplis",
+      "neon-lights": "Neona gaismas",
+      "purity": "Tīrība",
+      "rainbow-labels": "Varavīksnes etiķetes"
+    },
+    "presets": {
+      "Blue Glass": "Zilais stikls",
+      "Dark Night": "Tumšā nakts",
+      "Cotton Candy": "Cukurvati",
+      "Dark and Cozy": "Tumšs un mājīgs",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Zaļais mirdzums",
+      "Electric": "Elektriskā",
+      "Orange": "Oranžs",
+      "Pink": "Rozā",
+      "Bright Prism": "Spilgta prizma",
+      "Kando Default": "Noklusējuma krāsas"
+    }
+  }
+}

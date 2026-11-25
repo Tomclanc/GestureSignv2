@@ -12,8 +12,7 @@ public sealed partial class MainWindow
     {
         var root = NewSection();
         var options = _legacyData.Options;
-        root.Children.Add(NewAccessibilitySettings());
-        root.Children.Add(NewIntentLearningSettings());
+        root.Children.Add(MarkSearchTarget(NewAccessibilitySettings(), "accessibility"));
         root.Children.Add(NewSettingsGroup(L("视觉反馈", "Visual Feedback", "視覺回饋", "시각 피드백"),
         [
             NewToggleRow(L("显示手势轨迹", "Show gesture trail", "顯示手勢軌跡", "제스처 궤적 표시"), options.VisualFeedbackWidth > 0, "VisualFeedbackWidth", options.VisualFeedbackWidth == 0 ? "9" : options.VisualFeedbackWidth.ToString(), "0"),
@@ -21,7 +20,7 @@ public sealed partial class MainWindow
             NewSliderRow(L("轨迹透明度", "Trail opacity", "軌跡透明度", "궤적 투명도"), options.Opacity, 0.05, 1, 0.01, "Opacity", value => value.ToString("0.00", CultureInfo.InvariantCulture), value => $"{Math.Round(value * 100)}%"),
             NewSliderRow(L("轨迹宽度", "Trail width", "軌跡寬度", "궤적 너비"), options.VisualFeedbackWidth, 0, 30, 1, "VisualFeedbackWidth", value => ((int)Math.Round(value)).ToString(CultureInfo.InvariantCulture), value => $"{(int)Math.Round(value)} px"),
             NewSliderRow(L("最小点距离", "Minimum point distance", "最小點距離", "최소 지점 거리"), options.MinimumPointDistance, 1, 100, 1, "MinimumPointDistance", value => ((int)Math.Round(value)).ToString(CultureInfo.InvariantCulture), value => $"{(int)Math.Round(value)} px"),
-            NewVisualFeedbackColorRow(options.VisualFeedbackColor)
+            MarkSearchTarget(NewVisualFeedbackColorRow(options.VisualFeedbackColor), "trail-color")
         ]));
         root.Children.Add(NewSettingsGroup(L("输入设备", "Input Devices", "輸入裝置", "입력 장치"),
         [
@@ -32,26 +31,29 @@ public sealed partial class MainWindow
             NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "터치패드 제스처 사용"), options.RegisterTouchPad, "RegisterTouchPad"),
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows 터치패드 제스처 우선 사용"), options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures"),
             NewToggleRow(L("启用触控笔手势", "Enable pen gestures", "啟用觸控筆手勢", "펜 제스처 사용"), options.PenGestureButton != 0, "PenGestureButton", options.PenGestureButton == 0 ? "5" : options.PenGestureButton.ToString(CultureInfo.InvariantCulture), "0"),
-            NewPenButtonRow(options.PenGestureButton)
+            MarkSearchTarget(NewPenButtonRow(options.PenGestureButton), "pen-buttons")
         ]));
         var languageValues = new[] { "" }.Concat(UiTranslationCatalog.SupportedCultureNames).ToArray();
         var languageItems = new[] { L("跟随系统", "Follow system", "跟隨系統", "시스템 설정 따르기") }.Concat(UiTranslationCatalog.SupportedCultureNames.Select(UiTranslationCatalog.GetNativeDisplayName)).ToArray();
         var systemRows = new List<FrameworkElement>
         {
             NewComboRow(L("语言", "Language", "語言", "언어"), languageItems, languageValues, "CultureName", CultureIndex(_uiCultureName)),
+            NewGlobalSearchToggleRow(),
             NewToggleRow(L("启用初始超时", "Enable initial timeout", "啟用初始逾時", "초기 시간 제한 사용"), options.InitialTimeout > 0, "InitialTimeout", options.InitialTimeout == 0 ? "1000" : options.InitialTimeout.ToString(), "0"),
             NewSliderRow(L("初始超时", "Initial timeout", "初始逾時", "초기 시간 제한"), options.InitialTimeout / 1000d, 0, 2, 0.1, "InitialTimeout", value => ((int)Math.Round(value * 1000)).ToString(CultureInfo.InvariantCulture), value => $"{value:0.0} {L("秒", "sec", "秒", "초")}"),
-            NewStartupToggleRow(), NewAdminStartupToggleRow(),
+            MarkSearchTarget(NewStartupToggleRow(), "startup"), MarkSearchTarget(NewAdminStartupToggleRow(), "admin-startup"),
             NewToggleRow(L("排除全屏游戏/应用", "Ignore fullscreen games/apps", "排除全螢幕遊戲/應用程式", "전체 화면 게임/앱 제외"), options.IgnoreFullScreen, "IgnoreFullScreen"),
             NewToggleRow(L("排除全屏播放视频（试验）", "Ignore fullscreen video playback (experimental)", "排除全螢幕影片播放（實驗）", "전체 화면 동영상 재생 제외(실험)"), options.IgnoreFullScreenVideo, "IgnoreFullScreenVideo"),
             NewToggleRow(L("使用笔时忽略触摸输入", "Ignore touch input while using pen", "使用筆時忽略觸控輸入", "펜 사용 중 터치 입력 무시"), options.IgnoreTouchInputWhenUsingPen, "IgnoreTouchInputWhenUsingPen"),
             NewToggleRow(L("显示托盘图标", "Show tray icon", "顯示系統匣圖示", "트레이 아이콘 표시"), options.ShowTrayIcon, "ShowTrayIcon"),
-            NewOneDriveSyncRow(), NewOpenSettingsHotKeyRow(options.OpenSettingsHotKey),
+            MarkSearchTarget(NewOneDriveSyncRow(), "onedrive"), MarkSearchTarget(NewOpenSettingsHotKeyRow(options.OpenSettingsHotKey), "open-settings"),
             NewToggleRow(L("错误日志提示", "Error log notifications", "錯誤記錄提示", "오류 로그 알림"), options.SendErrorReport, "SendErrorReport"),
-            NewButtonRow(L("配置文件", "Configuration files", "設定檔", "구성 파일"), [L("备份", "Backup", "備份", "백업"), L("恢复", "Restore", "還原", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "구성 폴더 열기")], ["config.backup", "config.restore", "config.open-folder"]),
+            MarkSearchTarget(NewButtonRow(L("配置文件", "Configuration files", "設定檔", "구성 파일"), [L("备份", "Backup", "備份", "백업"), L("恢复", "Restore", "還原", "복원"), L("打开配置文件夹", "Open config folder", "開啟設定檔資料夾", "구성 폴더 열기")], ["config.backup", "config.restore", "config.open-folder"]), "configuration"),
             NewButtonRow(L("退出", "Exit", "結束", "종료"), [L("退出", "Exit", "結束", "종료")], ["Exit"])
         };
-        if (!IsPackagedInstallation()) systemRows.Insert(systemRows.Count - 2, NewUpdateSettingsRow(options));
+        if (_adminStartupToggle is { } adminStartup)
+            PublishStartupDiagnostic(adminStartup.IsOn);
+        if (!IsPackagedInstallation()) systemRows.Insert(systemRows.Count - 2, MarkSearchTarget(NewUpdateSettingsRow(options), "updates"));
         root.Children.Add(NewSettingsGroup(L("系统", "System", "系統", "시스템"), systemRows.ToArray()));
         return root;
     }

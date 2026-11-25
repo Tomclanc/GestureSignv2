@@ -592,7 +592,9 @@ namespace GestureSign.Daemon.Input
             try
             {
                 ApplicationManager.GetWindowInfo(window, out _, out var title, out var fileName);
-                if (string.Equals(fileName, "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase) ||
+                if (string.Equals(fileName, "GestureSignV2.WinUI.exe", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(fileName, "GestureSignV2.WinUI", StringComparison.OrdinalIgnoreCase) ||
+                    string.Equals(fileName, "GestureSign.WinUI.exe", StringComparison.OrdinalIgnoreCase) ||
                     string.Equals(fileName, "GestureSign.WinUI", StringComparison.OrdinalIgnoreCase))
                     return true;
 

@@ -274,7 +274,7 @@ namespace GestureSign.Daemon.Triggers
                 return;
             }
 
-            var edgeGestureName = GetEdgeGestureName(e.Points[0]);
+            var edgeGestureName = GetFallbackEdgeGestureName(e.Points);
             if (edgeGestureName == null)
                 return;
 
@@ -293,8 +293,15 @@ namespace GestureSign.Daemon.Triggers
             return points?.Select(stroke => stroke?.ToList() ?? new List<Point>()).ToList();
         }
 
-        private string GetEdgeGestureName(List<Point> points)
+        private string GetFallbackEdgeGestureName(List<List<Point>> strokes)
         {
+            // A touchpad edge action is a single-contact gesture. Without an
+            // accepted edge capture, one finger of a multi-contact gesture
+            // must not be eligible on its own at release.
+            if (_sourceDevice == Devices.TouchPad && strokes.Count != 1)
+                return null;
+
+            var points = strokes[0];
             var edge = GetStartEdge(points.First());
             return edge == null ? null : GetEdgeGestureName(edge.Value, points);
         }

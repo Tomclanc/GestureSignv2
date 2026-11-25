@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Elektron pochta",
+      "file-browser": "Fayl brauzeri",
+      "paint": "Bo'yoq",
+      "submenu": "Ilovalar",
+      "terminal": "Terminal",
+      "web-browser": "Veb-brauzer"
+    },
+    "audio": {
+      "mute": "Oʻchirish",
+      "next-track": "Keyingi trek",
+      "play-pause": "O'ynatish / to'xtatib turish",
+      "previous-track": "Oldingi trek",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Ish stoli",
+      "documents": "Hujjatlar",
+      "downloads": "Yuklashlar",
+      "home": "Uy",
+      "music": "Musiqa",
+      "pictures": "Rasmlar",
+      "submenu": "Xatcho‘plar",
+      "videos": "Videolar"
+    },
+    "clipboard": {
+      "copy": "Nusxa olish",
+      "cut": "Kesish",
+      "paste": "Joylashtirish",
+      "submenu": "Bufer"
+    },
+    "name": "Misol menyusi",
+    "next-workspace": "Keyingi ish maydoni",
+    "previous-workspace": "Oldingi ish maydoni",
+    "web-links": {
+      "kando-on-discord": "Discordda Kando",
+      "kando-on-github": "GitHub-da Kando",
+      "kando-on-kofi": "Ko-fi ustida kando",
+      "kando-on-youtube": "YouTube'da Kando",
+      "submenu": "Veb havolalar"
+    },
+    "windows": {
+      "close-window": "Oynani yopish",
+      "submenu": "Windows",
+      "tile-left": "Chapga plitka",
+      "tile-right": "O'ngga plitka",
+      "toggle-maximize": "Kattalashtirish-ni yoqing"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menyuni yopish"
+    },
+    "close-submenu": {
+      "name": "Pastki menyuni yopish"
+    },
+    "delay": {
+      "name": "Kechikish"
+    },
+    "execute-command": {
+      "name": "Buyruqni bajarish"
+    },
+    "execute-macro": {
+      "name": "Makrosni bajaring"
+    },
+    "focus-window": {
+      "name": "Fokus oynasi"
+    },
+    "inhibit-shortcuts": {
+      "name": "Yorliqlarni taqiqlash"
+    },
+    "open-file": {
+      "name": "Faylni ochish"
+    },
+    "open-menu": {
+      "name": "Menyuni ochish"
+    },
+    "open-settings": {
+      "name": "Sozlamalarni oching"
+    },
+    "open-uri": {
+      "name": "URI ni oching"
+    },
+    "send-tcp-message": {
+      "name": "TCP xabarini yuborish"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket xabarini yuboring"
+    },
+    "set-clipboard": {
+      "name": "Vaqtinchalik vaqtinchalik xotirani o‘rnating"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Tezkor tugma",
+      "name": "Qisqa tugmachani simulyatsiya qilish",
+      "recording-placeholder": "Tezkor tugmani kiriting…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Pastki menyu"
+    }
+  },
+  "native": {
+    "action": "Harakat",
+    "action-value": "Yorliq, yoʻl, URL, matn yoki JSON",
+    "choose-icon": "Belgini tanlang",
+    "condition-invalid": "Yaroqli oyna yoki ilova shartini kiriting, masalan /notepad/i.",
+    "configuration": "Pirog menyusi konfiguratsiyasi",
+    "editor": "Pirog menyu muharriri",
+    "exported": "{0} ga eksport qilindi",
+    "fixed-angle": "Ruxsat etilgan burchak (0 ° = yuqoriga)",
+    "fixed-x": "Ruxsat etilgan X (monitor bo'ylab 0–1)",
+    "fixed-y": "Ruxsat etilgan Y (monitordan 0–1 pastga)",
+    "icon-invalid-image": "PNG, JPEG, GIF, WebP yoki 192 KB gacha bo'lgan ICO tasvirni tanlang.",
+    "icon-library": "Belgilar kutubxonasi",
+    "icon-next": "Keyingi piktogramma",
+    "icon-no-results": "Hech qanday piktogramma topilmadi.",
+    "icon-pick-file": "Rasm yoki ilovani tanlang",
+    "icon-previous": "Oldingi piktogrammalar",
+    "icon-use-image": "Rasmdan foydalaning",
+    "imported": "Import qilingan {0} ta menyu. Import qilingan buyruqlarni ishlatishdan oldin ularni ko'rib chiqing, keyin saqlang.",
+    "item-icon": "Element belgisi",
+    "item-order": "Element tartibi",
+    "label": "Yorliq",
+    "move-down": "Pastga siljiting",
+    "move-up": "Yuqoriga siljiting",
+    "name": "Menyu nomi",
+    "new-menu": "Yangi menyu",
+    "off": "Oʻchirildi",
+    "on": "Yoqildi",
+    "palette": "Ranglar palitrasi",
+    "preview": "Ko'rib chiqish menyusi",
+    "remove": "O'chirish",
+    "save": "Menyularni saqlash",
+    "saved": "Menyu konfiguratsiyasi saqlandi.",
+    "shortcut-clear": "Yorliqni tozalash",
+    "shortcut-cleared": "Yorliq tozalandi.",
+    "shortcut-config-changed": "Diskdagi menyu konfiguratsiyasi o'zgartirildi. Ushbu yorliqni qo'llash uchun joriy menyularni saqlang.",
+    "shortcut-in-use": "Windows ushbu yorliq allaqachon ishlatilayotganligini xabar qiladi.",
+    "shortcut-invalid": "Bu yorliq uchun ruxsat etilgan har qanday modifikator va bitta tugmani kiriting.",
+    "shortcut-record": "Yozib olish yorlig'i",
+    "shortcut-save-new-menu": "Yorliqni faollashtirish uchun ushbu yangi menyuni saqlang.",
+    "shortcut-saved": "Yorliq saqlandi: {0}. Tez harakatlar yoqilganda menyuni ochish uchun undan foydalaning.",
+    "shortcut-stop": "Yozishni to'xtating",
+    "shortcut-unavailable": "Windows bu yorliqni ro'yxatdan o'tkaza olmadi."
+  },
+  "settings": {
+    "add-menu-items": "Menyu elementlarini qo'shish",
+    "all-menus": "Barcha menyular",
+    "anchored-mode": "Ankraj rejimi",
+    "app-condition": "Muayyan ilovalar bilan cheklash",
+    "area-condition-bottom-placeholder": "Past",
+    "area-condition-left-placeholder": "Chap",
+    "area-condition-right-placeholder": "O'ng",
+    "area-condition-top-placeholder": "Yuqori",
+    "cancel": "Bekor qilish",
+    "create-menu-button": "Menyu qo'shish",
+    "delete-menu": "Menyuni o'chirish",
+    "delete-menu-item": "Menyu bandini o'chirish",
+    "edit-submenu": "Pastki menyuni tahrirlash",
+    "export-menu": "Eksport menyusi",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Belgilash rejimini yoqing",
+      "close-menu": "Menyuni yopish",
+      "do-nothing": "Hech narsa qilmang",
+      "enable-marking-mode-info": "Belgilash rejimi yoqilgan bo'lsa, sichqonchani ularning ustiga sudrab, elementlarni tanlashingiz mumkin.",
+      "enable-turbo-mode": "Turbo rejimini yoqing",
+      "enable-turbo-mode-info": "Turbo rejimi yoqilgan bo'lsa, Shift yoki Ctrl kabi o'zgartirish tugmachasini bosib ushlab tursangiz, imo-ishoralarni bajarishingiz mumkin.",
+      "interaction-modes": "O'zaro aloqa rejimlari",
+      "middle-mouse-button-behavior": "Sichqonchaning o'rta tugmasi",
+      "middle-mouse-button-behavior-info": "Bu menyu ko'rsatilganda sichqonchaning o'rta tugmasi bosilganda nima sodir bo'lishini aniqlaydi.",
+      "move-pointer-to-menu-center": "Ko'rsatkichni menyu markaziga olib boring",
+      "move-pointer-to-menu-center-info": "Belgilansa, sichqoncha ko'rsatkichi kerak bo'lganda menyu yoki pastki menyuning o'rtasiga ko'chiriladi. Agar menyu ekran chetiga juda yaqin ochilgan bo'lsa yoki menyu markazlashtirilgan rejimda ochilgan bo'lsa, shunday bo'lishi mumkin.",
+      "require-click-for-hover-mode": "Hover rejimini tanlash uchun bosishni talab qiling",
+      "require-click-for-hover-mode-info": "Belgilanmagan bo'lsa, Hover rejimidan foydalangan holda menyular uchun sichqonchani ularning ustiga surilganda elementlar darhol tanlanadi.",
+      "right-mouse-button-behavior": "Sichqonchaning o'ng tugmasi",
+      "right-mouse-button-behavior-info": "Bu menyu ko'rsatilganda sichqonchaning o'ng tugmasi bosilganda nima sodir bo'lishini aniqlaydi.",
+      "select-item": "Elementni tanlang",
+      "select-parent": "Bir daraja yuqoriga o'ting",
+      "trigger-center-click-on-key-release": "Markazdagi yorliqni bo'shatishda menyuni yoping",
+      "trigger-center-click-on-key-release-info": "Bu menyuning o'rtasiga sichqonchani olib kelganda tugma bo'shatilganda markazni bosish ish jarayonini ishga tushiradi."
+    },
+    "hover-mode": "Hover rejimi",
+    "icon-picker-dialog": {
+      "search-placeholder": "Belgilarni qidirish…"
+    },
+    "import-menu": "Import menyusi",
+    "menu-behavior": "Menyu harakati",
+    "menu-conditions": "Menyu shartlari",
+    "menu-themes-dialog": {
+      "default-colors": "Standart ranglar",
+      "enable-menu-animations": "Menyu animatsiyalari",
+      "title": "Menyu mavzulari"
+    },
+    "no-matching-menus": "Hech qanday menyu topilmadi.",
+    "no-menus": "Sizda menyu yo'q.",
+    "not-bound": "Bog'lanmagan",
+    "quick-select-key-label": "Tez tanlash tugmasi",
+    "quick-select-key-recording": "Kalitni tanlang…",
+    "shortcut-info": "Ushbu yorliq menyuni ochadi. U bitta oddiy kalitni va Ctrl, Alt yoki Shift kabi istalgan sonni o'z ichiga olishi kerak. Yozish paytida barcha tugmachalarni birdaniga bosishingiz shart emas, ularni birin-ketin bosishingiz ham mumkin. Agar yorliq allaqachon boshqa menyuga bog'langan bo'lsa, bu foydali!",
+    "shortcut-label": "Yorliq",
+    "shortcut-recording": "Yorliqni bosing…",
+    "window-condition": "Maxsus oyna sarlavhalari bilan cheklash",
+    "workflow-editor": {
+      "add-action": "Amal qo'shish",
+      "select-workflow-name": "Ish jarayonini tanlang"
+    },
+    "anchored-mode-info": "Pastki menyularni asosiy menyu bilan bir xil joyda oching. Buni tekshirish, Belgilash rejimi va Turbo rejimini o'chiradi.",
+    "fixed-position-mode": "Ruxsat etilgan joylashuv rejimi",
+    "fixed-position-mode-info": "Menyuni kursorda emas, balki ekranning belgilangan joyida oching.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Pastki chapga pozitsiyani o'rnating",
+      "bottom-right-preset-tooltip": "Pastki o'ngga pozitsiyani o'rnating",
+      "centered-preset-tooltip": "Joyni markazga o'rnating",
+      "confirm": "Ushbu pozitsiyadan foydalaning",
+      "top-left-preset-tooltip": "Yuqori chapga pozitsiyani o'rnating",
+      "top-right-preset-tooltip": "Joyni yuqori o'ngga o'rnating"
+    },
+    "fixed-position-tooltip": "Ruxsat etilgan pozitsiyani tanlang",
+    "hover-mode-info": "Faqat kuchli foydalanuvchilar uchun! Elementlarni ularning ustiga olib borish orqali tanlang."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standart",
+      "clean-circle": "Toza doira",
+      "neon-lights": "Neon chiroqlar",
+      "purity": "Poklik",
+      "rainbow-labels": "Kamalak yorliqlari"
+    },
+    "presets": {
+      "Blue Glass": "Moviy shisha",
+      "Dark Night": "Qorong'i tun",
+      "Cotton Candy": "Paxta konfeti",
+      "Dark and Cozy": "Qorong'i va qulay",
+      "Blue Glow": "Moviy nur",
+      "Green Glow": "Yashil nur",
+      "Electric": "Elektr",
+      "Orange": "Sariq",
+      "Pink": "Pushti",
+      "Bright Prism": "Yorqin prizma",
+      "Kando Default": "Standart ranglar"
+    }
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Correo electrónico",
+      "file-browser": "Explorador de ficheiros",
+      "paint": "Pintar",
+      "submenu": "Aplicacións",
+      "terminal": "Terminal",
+      "web-browser": "Navegador web"
+    },
+    "audio": {
+      "mute": "Silenciar",
+      "next-track": "Pista seguinte",
+      "play-pause": "Reproducir/Pausa",
+      "previous-track": "Pista anterior",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Escritorio",
+      "documents": "Documentos",
+      "downloads": "Descargas",
+      "home": "Casa",
+      "music": "Música",
+      "pictures": "Imaxes",
+      "submenu": "Marcadores",
+      "videos": "Vídeos"
+    },
+    "clipboard": {
+      "copy": "Copiado",
+      "cut": "Corte",
+      "paste": "Pegar",
+      "submenu": "Portapapeis"
+    },
+    "name": "Menú de exemplo",
+    "next-workspace": "Próximo espazo de traballo",
+    "previous-workspace": "Espazo de traballo anterior",
+    "web-links": {
+      "kando-on-discord": "Kando en Discord",
+      "kando-on-github": "Kando en GitHub",
+      "kando-on-kofi": "Kando en Ko-fi",
+      "kando-on-youtube": "Kando en YouTube",
+      "submenu": "Ligazóns web"
+    },
+    "windows": {
+      "close-window": "Pechar fiestra",
+      "submenu": "Windows",
+      "tile-left": "Mosaico Esquerdo",
+      "tile-right": "Azulexo dereito",
+      "toggle-maximize": "Activar/desactivar Maximizar"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Pechar menú"
+    },
+    "close-submenu": {
+      "name": "Pechar o submenú"
+    },
+    "delay": {
+      "name": "Atraso"
+    },
+    "execute-command": {
+      "name": "Executar o comando"
+    },
+    "execute-macro": {
+      "name": "Executar macro"
+    },
+    "focus-window": {
+      "name": "Fiestra de foco"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibir atallos"
+    },
+    "open-file": {
+      "name": "Abrir ficheiro"
+    },
+    "open-menu": {
+      "name": "Abrir o menú"
+    },
+    "open-settings": {
+      "name": "Abre Configuración"
+    },
+    "open-uri": {
+      "name": "Abrir URI"
+    },
+    "send-tcp-message": {
+      "name": "Enviar mensaxe TCP"
+    },
+    "send-websocket-message": {
+      "name": "Enviar mensaxe de WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Establecer portapapeis"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Atallo",
+      "name": "Simular tecla de acceso rápido",
+      "recording-placeholder": "Escribe unha tecla de acceso rápido..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenú"
+    }
+  },
+  "native": {
+    "action": "Acción",
+    "action-value": "Atallo, ruta, URL, texto ou JSON",
+    "choose-icon": "Escolla icona",
+    "condition-invalid": "Introduza unha condición de ventá ou aplicación válida, por exemplo /notepad/i.",
+    "configuration": "Configuración do menú Pie",
+    "editor": "Editor de menús circulares",
+    "exported": "Exportouse a {0}",
+    "fixed-angle": "Ángulo fixo (0° = arriba)",
+    "fixed-x": "X corrixida (0–1 en todo o monitor)",
+    "fixed-y": "Y corrixido (0–1 abaixo do monitor)",
+    "icon-invalid-image": "Escolle unha imaxe PNG, JPEG, GIF, WebP ou ICO de ata 192 KB.",
+    "icon-library": "Biblioteca de iconas",
+    "icon-next": "Seguintes iconas",
+    "icon-no-results": "Non se atopou ningunha icona.",
+    "icon-pick-file": "Escolla imaxe ou aplicación",
+    "icon-previous": "Iconas anteriores",
+    "icon-use-image": "Usa imaxe",
+    "imported": "Importáronse {0} menús. Revisa os comandos importados antes de utilizalos e despois gárdaos.",
+    "item-icon": "Icona do elemento",
+    "item-order": "Orde do artigo",
+    "label": "Etiqueta",
+    "move-down": "Mover cara abaixo",
+    "move-up": "Mover arriba",
+    "name": "Nome do menú",
+    "new-menu": "Novo menú",
+    "off": "Apagado",
+    "on": "Acendido",
+    "palette": "Paleta de cores",
+    "preview": "Menú de vista previa",
+    "remove": "Eliminar",
+    "save": "Gardar menús",
+    "saved": "Gardouse a configuración do menú.",
+    "shortcut-clear": "Limpar o atallo",
+    "shortcut-cleared": "Borrouse o atallo.",
+    "shortcut-config-changed": "A configuración do menú cambiou no disco. Garda os menús actuais para aplicar este atallo.",
+    "shortcut-in-use": "Windows informa de que este atallo xa está en uso.",
+    "shortcut-invalid": "Introduce unha tecla, máis os modificadores permitidos para este atallo.",
+    "shortcut-record": "Atallo de gravación",
+    "shortcut-save-new-menu": "Garda este novo menú para activar o seu atallo.",
+    "shortcut-saved": "Gardouse o atallo: {0}. Utilízao para abrir o menú cando as accións rápidas estean activadas.",
+    "shortcut-stop": "Deter a gravación",
+    "shortcut-unavailable": "Windows non puido rexistrar este atallo."
+  },
+  "settings": {
+    "add-menu-items": "Engadir elementos do menú",
+    "all-menus": "Todos os menús",
+    "anchored-mode": "Modo ancorado",
+    "app-condition": "Limitar a aplicacións específicas",
+    "area-condition-bottom-placeholder": "Fondo",
+    "area-condition-left-placeholder": "Esquerda",
+    "area-condition-right-placeholder": "Dereita",
+    "area-condition-top-placeholder": "Superior",
+    "cancel": "Cancelar",
+    "create-menu-button": "Engadir menú",
+    "delete-menu": "Eliminar menú",
+    "delete-menu-item": "Eliminar elemento do menú",
+    "edit-submenu": "Editar submenú",
+    "export-menu": "Menú Exportar",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Activa o modo de marcado",
+      "close-menu": "Pechar menú",
+      "do-nothing": "Non facer nada",
+      "enable-marking-mode-info": "Co modo de marcación activado, pode seleccionar elementos arrastrando o rato sobre eles.",
+      "enable-turbo-mode": "Activa o modo Turbo",
+      "enable-turbo-mode-info": "Co modo Turbo activado, podes realizar xestos sempre que manteñas premida unha tecla modificadora como Maiúsculas ou Ctrl.",
+      "interaction-modes": "Modos de interacción",
+      "middle-mouse-button-behavior": "Botón medio do rato",
+      "middle-mouse-button-behavior-info": "Isto determina o que ocorre cando se preme o botón central do rato mentres se mostra un menú.",
+      "move-pointer-to-menu-center": "Move o punteiro ao centro do menú",
+      "move-pointer-to-menu-center-info": "Se está marcado, o punteiro do rato moverase ao centro dun menú ou submenú cando sexa necesario. Este podería ser o caso se un menú se abre demasiado preto do bordo da pantalla ou se se abre un menú no modo centrado.",
+      "require-click-for-hover-mode": "Require facer clic para seleccionar o modo Hover",
+      "require-click-for-hover-mode-info": "Se está desmarcado, os elementos seleccionaranse inmediatamente cando se move o rato sobre eles para os menús que usan o modo Hover.",
+      "right-mouse-button-behavior": "Botón dereito do rato",
+      "right-mouse-button-behavior-info": "Isto determina o que ocorre cando se preme o botón dereito do rato mentres se mostra un menú.",
+      "select-item": "Seleccione elemento",
+      "select-parent": "Sube un nivel",
+      "trigger-center-click-on-key-release": "Pecha o menú ao soltar o atallo no centro",
+      "trigger-center-click-on-key-release-info": "Isto activará o fluxo de traballo do clic central cando se solta unha tecla mentres se pasa o rato sobre o centro dun menú."
+    },
+    "hover-mode": "Modo Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Buscar iconas..."
+    },
+    "import-menu": "Menú de importación",
+    "menu-behavior": "Comportamento do menú",
+    "menu-conditions": "Condicións do menú",
+    "menu-themes-dialog": {
+      "default-colors": "Cores predeterminadas",
+      "enable-menu-animations": "Animacións do menú",
+      "title": "Temas do menú"
+    },
+    "no-matching-menus": "Non se atoparon menús.",
+    "no-menus": "Non tes menús.",
+    "not-bound": "Non Atado",
+    "quick-select-key-label": "Tecla de selección rápida",
+    "quick-select-key-recording": "Selecciona a tecla...",
+    "shortcut-info": "Este atallo abre o menú. Debe conter unha tecla normal e calquera número de modificadores como Ctrl, Alt ou Maiús. Ao gravar, non tes que premer todas as teclas á vez, tamén podes premelas unha tras outra. Isto é útil se un atallo xa está ligado a outro menú.",
+    "shortcut-label": "Atallo",
+    "shortcut-recording": "Preme un atallo...",
+    "window-condition": "Limitar a títulos específicos da fiestra",
+    "workflow-editor": {
+      "add-action": "Engadir acción",
+      "select-workflow-name": "Seleccione Fluxo de traballo"
+    },
+    "anchored-mode-info": "Abre os submenús na mesma posición que o menú principal. Marcando isto, desactivarase o modo de marcado e o modo turbo.",
+    "fixed-position-mode": "Modo de posición fixa",
+    "fixed-position-mode-info": "Abre o menú nunha posición fixa da pantalla, en lugar de no cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Establece a posición na parte inferior esquerda",
+      "bottom-right-preset-tooltip": "Establece a posición na parte inferior dereita",
+      "centered-preset-tooltip": "Establece a posición no centro",
+      "confirm": "Use esta posición",
+      "top-left-preset-tooltip": "Establece a posición na parte superior esquerda",
+      "top-right-preset-tooltip": "Establece a posición na parte superior dereita"
+    },
+    "fixed-position-tooltip": "Seleccione unha posición fixa",
+    "hover-mode-info": "Só para usuarios avanzados! Selecciona elementos pasando o rato sobre eles."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Por defecto",
+      "clean-circle": "Círculo Limpo",
+      "neon-lights": "Luces de neón",
+      "purity": "Pureza",
+      "rainbow-labels": "Etiquetas do arco da vella"
+    },
+    "presets": {
+      "Blue Glass": "Vidro Azul",
+      "Dark Night": "Noite Escura",
+      "Cotton Candy": "Algodón de azucre",
+      "Dark and Cozy": "Escuro e acolledor",
+      "Blue Glow": "Resplandor azul",
+      "Green Glow": "Resplandor verde",
+      "Electric": "Eléctrico",
+      "Orange": "Laranxa",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma Brillante",
+      "Kando Default": "Cores predeterminadas"
+    }
+  }
+}

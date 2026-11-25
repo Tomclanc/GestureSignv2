@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using GestureSign.Common.Gestures;
+using GestureSign.Common.Input;
 using GestureSign.Foundation.Intent;
 using GestureSign.PointPatterns;
 
@@ -35,4 +36,61 @@ foreach (int fingers in new[] { 1, 2, 3, 4 })
 }
 try { IntentGestureCorrections.Save(root, new IntentSample(), "Bad"); throw new Exception("Invalid trace accepted"); }
 catch (ArgumentException) { checks++; }
-Console.WriteLine($"PASS: {checks} correction storage and actual recognizer checks.");
+// Drive the real event handlers without registering raw input or launching the daemon.
+Set("_intentCorrections", Array.Empty<IntentGestureCorrection>());
+Set("_correctionTemplates", null);
+var loaded = GestureManager.LoadGesturesFromFile(Path.Combine(AppContext.BaseDirectory, "Defaults", "Gestures.gest"), throwException: true);
+var doubleTap = loaded.Single(g => g.Name == "三指双击");
+var singleTap = loaded.Single(g => g.Name == "三指点按");
+var rightSwipe = loaded.Single(g => g.Name == "三指右滑");
+var tapThenSwipe = new Gesture("Tap then swipe", new[] { doubleTap.PointPatterns[0], rightSwipe.PointPatterns[0] });
+Set("_Gestures", new List<IGesture> { doubleTap, singleTap, rightSwipe, tapThenSwipe });
+var tap = doubleTap.PointPatterns[0].Points;
+var swipe = rightSwipe.PointPatterns[0].Points;
+var source = new SyntheticTouchPad();
+manager.Load(source);
+string Complete(Point[][] points, params string[] actions)
+{
+    source.Release(points);
+    return manager.PreviewCompletedGestureName(points, actions);
+}
+
+var pairMatches = 0;
+for (var i = 0; i < 3; ++i)
+{
+    Check(Complete(tap, doubleTap.Name) == null, "First contact release must not be recognized twice as a double tap");
+    Check(manager.PreviewCompletedGestureName(tap, new[] { singleTap.Name }) == singleTap.Name,
+        "Final action-aware preview should still select a bound single tap");
+    Check(manager.PreviewGestureName(tap, new[] { doubleTap.Name }) == doubleTap.Name,
+        "Live preview for the following capture should still use the pending second stage");
+    if (Complete(tap, doubleTap.Name) == doubleTap.Name) pairMatches++;
+}
+Check(pairMatches == 3, "Three tap pairs should dispatch exactly three double taps");
+Check(Complete(tap, tapThenSwipe.Name) == null, "Tap should only arm tap-then-swipe");
+Check(Complete(swipe, tapThenSwipe.Name) == tapThenSwipe.Name, "Swipe should complete an armed tap-then-swipe");
+Check(Complete(swipe, rightSwipe.Name) == rightSwipe.Name, "Independent swipes should remain usable");
+Check(Complete(tap, doubleTap.Name) == null, "First tap should arm the timeout test");
+Set("_lastGestureTime", unchecked(Environment.TickCount - 801));
+Check(Complete(tap, doubleTap.Name) == null, "First tap after the existing timeout must not complete an expired sequence");
+Console.WriteLine($"PASS: {checks} correction storage, multi-stage, and actual recognizer checks.");
+
+file sealed class SyntheticTouchPad : IPointCapture
+{
+    public event PointsCapturedEventHandler CaptureStarted;
+    public event PointsCapturedEventHandler BeforePointsCaptured;
+    event PointsCapturedEventHandler IPointCapture.AfterPointsCaptured { add { } remove { } }
+    event PointsCapturedEventHandler IPointCapture.PointCaptured { add { } remove { } }
+    event EventHandler IPointCapture.CaptureEnded { add { } remove { } }
+    event RecognitionEventHandler IPointCapture.GestureRecognized { add { } remove { } }
+    public bool TemporarilyDisableCapture { get; set; }
+    public Devices SourceDevice => Devices.TouchPad;
+    public CaptureState State { get; set; }
+    public CaptureMode Mode { get; set; } = CaptureMode.Normal;
+
+    public void Release(Point[][] points)
+    {
+        var args = new PointsCapturedEventArgs(points.Select(stroke => stroke.ToList()).ToList(), new List<Point> { points[0][0] });
+        CaptureStarted?.Invoke(this, args);
+        BeforePointsCaptured?.Invoke(this, args);
+    }
+}

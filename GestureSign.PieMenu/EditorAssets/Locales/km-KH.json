@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "អ៊ីមែល",
+      "file-browser": "កម្មវិធីរុករកឯកសារ",
+      "paint": "លាប",
+      "submenu": "កម្មវិធី",
+      "terminal": "ស្ថានីយ",
+      "web-browser": "កម្មវិធីរុករកបណ្ដាញ"
+    },
+    "audio": {
+      "mute": "បិទសម្លេង",
+      "next-track": "តន្ត្រីបន្ទាប់",
+      "play-pause": "លេង / ផ្អាក",
+      "previous-track": "ត្រេកមុន",
+      "submenu": "អូឌីយ៉ូ"
+    },
+    "bookmarks": {
+      "desktop": "ផ្ទៃតុ",
+      "documents": "ឯកសារ",
+      "downloads": "ការទាញយក",
+      "home": "ផ្ទះ",
+      "music": "តន្ត្រី",
+      "pictures": "រូបភាព",
+      "submenu": "ចំណាំ",
+      "videos": "វីដេអូ"
+    },
+    "clipboard": {
+      "copy": "ចម្លង",
+      "cut": "កាត់",
+      "paste": "បិទ",
+      "submenu": "ក្ដារតម្បៀតខ្ទាស់"
+    },
+    "name": "ម៉ឺនុយឧទាហរណ៍",
+    "next-workspace": "កន្លែងធ្វើការបន្ទាប់",
+    "previous-workspace": "កន្លែងធ្វើការពីមុន",
+    "web-links": {
+      "kando-on-discord": "Kando នៅលើ Discord",
+      "kando-on-github": "Kando នៅលើ GitHub",
+      "kando-on-kofi": "Kando នៅលើ Ko-fi",
+      "kando-on-youtube": "Kando នៅលើ YouTube",
+      "submenu": "បណ្តាញភ្ជាប់"
+    },
+    "windows": {
+      "close-window": "បិទបង្អួច",
+      "submenu": "វីនដូ",
+      "tile-left": "ក្រឡាក្បឿងខាងឆ្វេង",
+      "tile-right": "ក្បឿងខាងស្តាំ",
+      "toggle-maximize": "បិទ/បើក អតិបរមា"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "បិទម៉ឺនុយ"
+    },
+    "close-submenu": {
+      "name": "បិទម៉ឺនុយរង"
+    },
+    "delay": {
+      "name": "ការពន្យារពេល"
+    },
+    "execute-command": {
+      "name": "ប្រតិបត្តិពាក្យបញ្ជា"
+    },
+    "execute-macro": {
+      "name": "ប្រតិបត្តិម៉ាក្រូ"
+    },
+    "focus-window": {
+      "name": "បង្អួចផ្តោត"
+    },
+    "inhibit-shortcuts": {
+      "name": "រារាំងផ្លូវកាត់"
+    },
+    "open-file": {
+      "name": "បើកឯកសារ"
+    },
+    "open-menu": {
+      "name": "បើកម៉ឺនុយ"
+    },
+    "open-settings": {
+      "name": "បើកការកំណត់"
+    },
+    "open-uri": {
+      "name": "បើក URI"
+    },
+    "send-tcp-message": {
+      "name": "ផ្ញើសារ TCP"
+    },
+    "send-websocket-message": {
+      "name": "ផ្ញើសារ WebSocket"
+    },
+    "set-clipboard": {
+      "name": "កំណត់ក្ដារតម្បៀតខ្ទាស់"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ក្តារចុចលើក្តីអំណោយ",
+      "name": "ក្លែងធ្វើ Hotkey",
+      "recording-placeholder": "វាយ hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ម៉ឺនុយរង"
+    }
+  },
+  "native": {
+    "action": "សកម្មភាព",
+    "action-value": "ផ្លូវកាត់ ផ្លូវ URL អត្ថបទ ឬ JSON",
+    "choose-icon": "ជ្រើសរើសរូបតំណាង",
+    "condition-invalid": "បញ្ចូលលក្ខខណ្ឌកម្មវិធី ឬវិនដូត្រឹមត្រូវ ឧទាហរណ៍ /notepad/i.",
+    "configuration": "ការកំណត់រចនាសម្ព័ន្ធម៉ឺនុយ Pie",
+    "editor": "កម្មវិធីនិពន្ធម៉ឺនុយ Pie",
+    "exported": "នាំចេញទៅ {0}",
+    "fixed-angle": "មុំថេរ (0° = ឡើង)",
+    "fixed-x": "ជួសជុល X (0–1 នៅទូទាំងម៉ូនីទ័រ)",
+    "fixed-y": "ជួសជុល Y (0–1 ចុះក្រោមម៉ូនីទ័រ)",
+    "icon-invalid-image": "ជ្រើសរើសរូបភាព PNG, JPEG, GIF, WebP ឬ ICO រហូតដល់ 192 KB ។",
+    "icon-library": "រូបតំណាងបណ្ណាល័យ",
+    "icon-next": "រូបតំណាងបន្ទាប់",
+    "icon-no-results": "រកមិនឃើញរូបតំណាងទេ។",
+    "icon-pick-file": "ជ្រើសរើសរូបភាព ឬកម្មវិធី",
+    "icon-previous": "រូបតំណាងពីមុន",
+    "icon-use-image": "ប្រើរូបភាព",
+    "imported": "បាន​នាំចូល​ម៉ឺនុយ {0} ។ ពិនិត្យពាក្យបញ្ជាដែលបាននាំចូលមុនពេលប្រើពួកវា បន្ទាប់មករក្សាទុក។",
+    "item-icon": "រូបតំណាងធាតុ",
+    "item-order": "លំដាប់ធាតុ",
+    "label": "ស្លាក",
+    "move-down": "ផ្លាស់ទីចុះក្រោម",
+    "move-up": "ផ្លាស់ទីឡើងលើ",
+    "name": "ឈ្មោះម៉ឺនុយ",
+    "new-menu": "ម៉ឺនុយថ្មី។",
+    "off": "បិទ",
+    "on": "បើក",
+    "palette": "ក្ដារលាយពណ៌",
+    "preview": "ម៉ឺនុយមើលជាមុន",
+    "remove": "ដកចេញ",
+    "save": "រក្សាទុកម៉ឺនុយ",
+    "saved": "បានរក្សាទុកការកំណត់រចនាសម្ព័ន្ធម៉ឺនុយ។",
+    "shortcut-clear": "ជម្រះផ្លូវកាត់",
+    "shortcut-cleared": "ផ្លូវកាត់ត្រូវបានសម្អាត។",
+    "shortcut-config-changed": "ការកំណត់រចនាសម្ព័ន្ធម៉ឺនុយបានផ្លាស់ប្តូរនៅលើថាស។ រក្សាទុកម៉ឺនុយបច្ចុប្បន្ន ដើម្បីអនុវត្តផ្លូវកាត់នេះ។",
+    "shortcut-in-use": "Windows រាយការណ៍ថាផ្លូវកាត់នេះត្រូវបានប្រើប្រាស់រួចហើយ។",
+    "shortcut-invalid": "បញ្ចូលសោមួយ បូកនឹងការកែប្រែណាមួយដែលអនុញ្ញាតសម្រាប់ផ្លូវកាត់នេះ។",
+    "shortcut-record": "ផ្លូវកាត់ថត",
+    "shortcut-save-new-menu": "រក្សាទុកម៉ឺនុយថ្មីនេះ ដើម្បីដំណើរការផ្លូវកាត់របស់វា។",
+    "shortcut-saved": "ផ្លូវកាត់ត្រូវបានរក្សាទុក៖ {0} ។ ប្រើវាដើម្បីបើកម៉ឺនុយ នៅពេលដែលសកម្មភាពរហ័សត្រូវបានបើក។",
+    "shortcut-stop": "ឈប់ថត",
+    "shortcut-unavailable": "Windows មិនអាចចុះឈ្មោះផ្លូវកាត់នេះបានទេ។"
+  },
+  "settings": {
+    "add-menu-items": "បន្ថែមធាតុម៉ឺនុយ",
+    "all-menus": "ម៉ឺនុយទាំងអស់។",
+    "anchored-mode": "របៀបយុថ្កា",
+    "app-condition": "កំណត់ចំពោះកម្មវិធីជាក់លាក់",
+    "area-condition-bottom-placeholder": "ខាងក្រោម",
+    "area-condition-left-placeholder": "ឆ្វេង",
+    "area-condition-right-placeholder": "ស្តាំ",
+    "area-condition-top-placeholder": "ខាងលើ",
+    "cancel": "បោះបង់",
+    "create-menu-button": "បន្ថែមម៉ឺនុយ",
+    "delete-menu": "លុបម៉ឺនុយ",
+    "delete-menu-item": "លុបធាតុម៉ឺនុយ",
+    "edit-submenu": "កែសម្រួលម៉ឺនុយរង",
+    "export-menu": "នាំចេញម៉ឺនុយ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "បើករបៀបសម្គាល់",
+      "close-menu": "បិទម៉ឺនុយ",
+      "do-nothing": "មិនធ្វើអ្វីសោះ",
+      "enable-marking-mode-info": "ដោយបើករបៀបសម្គាល់ អ្នកអាចជ្រើសរើសធាតុដោយអូសកណ្ដុរលើពួកវា។",
+      "enable-turbo-mode": "បើកមុខងារ Turbo",
+      "enable-turbo-mode-info": "ជាមួយនឹងការបើករបៀប Turbo អ្នកអាចអនុវត្តកាយវិការដរាបណាអ្នកសង្កត់គ្រាប់ចុចកែប្រែដូចជា Shift ឬ Ctrl ។",
+      "interaction-modes": "របៀបអន្តរកម្ម",
+      "middle-mouse-button-behavior": "ប៊ូតុងកណ្ដុរកណ្តាល",
+      "middle-mouse-button-behavior-info": "វាកំណត់ថាតើមានអ្វីកើតឡើងនៅពេលដែលប៊ូតុងកណ្ដុរកណ្តាលត្រូវបានចុចខណៈពេលដែលម៉ឺនុយត្រូវបានបង្ហាញ។",
+      "move-pointer-to-menu-center": "ផ្លាស់ទីទ្រនិចទៅកណ្តាលម៉ឺនុយ",
+      "move-pointer-to-menu-center-info": "ប្រសិនបើបានធីក ទ្រនិចកណ្ដុរនឹងត្រូវបានផ្លាស់ទីទៅកណ្តាលនៃម៉ឺនុយ ឬម៉ឺនុយរងនៅពេលចាំបាច់។ នេះអាចជាករណីប្រសិនបើម៉ឺនុយត្រូវបានបើកនៅជិតគែមអេក្រង់ពេក ឬប្រសិនបើម៉ឺនុយត្រូវបានបើកនៅក្នុងរបៀបកណ្តាល។",
+      "require-click-for-hover-mode": "តម្រូវឱ្យចុចសម្រាប់ការជ្រើសរើសរបៀបដាក់",
+      "require-click-for-hover-mode-info": "ប្រសិនបើមិនបានធីក ធាតុនឹងត្រូវបានជ្រើសរើសភ្លាមៗ នៅពេលដែលកណ្តុរត្រូវបានផ្លាស់ទីពីលើពួកវាសម្រាប់ម៉ឺនុយដោយប្រើរបៀបដាក់។",
+      "right-mouse-button-behavior": "ប៊ូតុងកណ្ដុរខាងស្ដាំ",
+      "right-mouse-button-behavior-info": "វាកំណត់ថាតើមានអ្វីកើតឡើងនៅពេលដែលចុចប៊ូតុងកណ្ដុរខាងស្ដាំ ខណៈពេលដែលម៉ឺនុយត្រូវបានបង្ហាញ។",
+      "select-item": "ជ្រើសរើសធាតុ",
+      "select-parent": "រុករកឡើងមួយកម្រិត",
+      "trigger-center-click-on-key-release": "បិទម៉ឺនុយនៅលើការចេញផ្សាយផ្លូវកាត់នៅលើកណ្តាល",
+      "trigger-center-click-on-key-release-info": "វា​នឹង​កេះ​លំហូរ​ការងារ​ចុច​កណ្តាល​នៅ​ពេល​ដែល​គន្លឹះ​មួយ​ត្រូវ​បាន​បញ្ចេញ​ខណៈ​ពេល​ដែល​ដាក់​លើ​កណ្តាល​ម៉ឺនុយ។"
+    },
+    "hover-mode": "របៀបដាក់សំកាំង",
+    "icon-picker-dialog": {
+      "search-placeholder": "ស្វែងរករូបតំណាង..."
+    },
+    "import-menu": "ម៉ឺនុយនាំចូល",
+    "menu-behavior": "ឥរិយាបថម៉ឺនុយ",
+    "menu-conditions": "លក្ខខណ្ឌម៉ឺនុយ",
+    "menu-themes-dialog": {
+      "default-colors": "ពណ៌លំនាំដើម",
+      "enable-menu-animations": "ចលនាម៉ឺនុយ",
+      "title": "ស្បែកម៉ឺនុយ"
+    },
+    "no-matching-menus": "រកមិនឃើញម៉ឺនុយទេ។",
+    "no-menus": "អ្នកមិនមានម៉ឺនុយទេ។",
+    "not-bound": "មិនបានចង",
+    "quick-select-key-label": "គន្លឹះជ្រើសរើសរហ័ស",
+    "quick-select-key-recording": "ជ្រើសរើសគន្លឹះ…",
+    "shortcut-info": "ផ្លូវកាត់នេះបើកម៉ឺនុយ។ វាត្រូវតែមានកូនសោធម្មតាមួយ និងចំនួននៃកម្មវិធីកែប្រែដូចជា Ctrl, Alt ឬ Shift ។ នៅពេលថត អ្នកមិនចាំបាច់ចុចគ្រាប់ចុចទាំងអស់ក្នុងពេលតែមួយទេ អ្នកក៏អាចចុចវាម្តងមួយៗផងដែរ។ វាមានប្រយោជន៍ប្រសិនបើផ្លូវកាត់ត្រូវបានភ្ជាប់ទៅម៉ឺនុយផ្សេងទៀតរួចហើយ!",
+    "shortcut-label": "ផ្លូវកាត់",
+    "shortcut-recording": "ចុចផ្លូវកាត់…",
+    "window-condition": "កំណត់ចំពោះចំណងជើងបង្អួចជាក់លាក់",
+    "workflow-editor": {
+      "add-action": "បន្ថែមសកម្មភាព",
+      "select-workflow-name": "ជ្រើសរើសលំហូរការងារ"
+    },
+    "anchored-mode-info": "បើកម៉ឺនុយរងនៅទីតាំងដូចគ្នានឹងម៉ឺនុយមេ។ ការពិនិត្យមើលវានឹងបិទរបៀបសម្គាល់ និងរបៀប Turbo ។",
+    "fixed-position-mode": "របៀបទីតាំងថេរ",
+    "fixed-position-mode-info": "បើកម៉ឺនុយនៅទីតាំងថេរមួយនៅលើអេក្រង់ ជំនួសឱ្យទស្សន៍ទ្រនិច។",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "កំណត់ទីតាំងទៅបាតខាងឆ្វេង",
+      "bottom-right-preset-tooltip": "កំណត់ទីតាំងនៅខាងស្តាំខាងក្រោម",
+      "centered-preset-tooltip": "កំណត់ទីតាំងទៅកណ្តាល",
+      "confirm": "ប្រើទីតាំងនេះ។",
+      "top-left-preset-tooltip": "កំណត់ទីតាំងទៅខាងឆ្វេងខាងលើ",
+      "top-right-preset-tooltip": "កំណត់ទីតាំងនៅខាងស្តាំខាងលើ"
+    },
+    "fixed-position-tooltip": "ជ្រើសរើសទីតាំងថេរ",
+    "hover-mode-info": "សម្រាប់តែអ្នកប្រើប្រាស់ថាមពល! ជ្រើសរើសធាតុដោយដាក់លើពួកវា។"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "លំនាំដើម",
+      "clean-circle": "រង្វង់ស្អាត",
+      "neon-lights": "ពន្លឺអ៊ីយូតា",
+      "purity": "ភាពបរិសុទ្ធ",
+      "rainbow-labels": "ស្លាកឥន្ទធនូ"
+    },
+    "presets": {
+      "Blue Glass": "កញ្ចក់ខៀវ",
+      "Dark Night": "យប់ងងឹត",
+      "Cotton Candy": "ស្ករគ្រាប់កប្បាស",
+      "Dark and Cozy": "ងងឹតនិងកក់ក្ដៅ",
+      "Blue Glow": "ពន្លឺពណ៌ខៀវ",
+      "Green Glow": "ពន្លឺពណ៌បៃតង",
+      "Electric": "អគ្គិសនី",
+      "Orange": "ពណ៌ទឹកក្រូច",
+      "Pink": "ពណ៌ផ្កាឈូក",
+      "Bright Prism": "ព្រីមភ្លឺ",
+      "Kando Default": "ពណ៌លំនាំដើម"
+    }
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Пошта",
+      "file-browser": "Файловий браузер",
+      "paint": "Paint",
+      "submenu": "Додатки",
+      "terminal": "Термінал",
+      "web-browser": "Веб-браузер"
+    },
+    "audio": {
+      "mute": "Вимкнути звук",
+      "next-track": "Наступний трек",
+      "play-pause": "Відтворення / Пауза",
+      "previous-track": "Попередній трек",
+      "submenu": "Аудіо"
+    },
+    "bookmarks": {
+      "desktop": "Робочий стіл",
+      "documents": "Документи",
+      "downloads": "Завантаження",
+      "home": "Домашня папка",
+      "music": "Музика",
+      "pictures": "Зображення",
+      "submenu": "Закладки",
+      "videos": "Відео"
+    },
+    "clipboard": {
+      "copy": "Копіювати",
+      "cut": "Вирізати",
+      "paste": "Вставити",
+      "submenu": "Буфер обміну"
+    },
+    "name": "Приклад Меню",
+    "next-workspace": "Наступний робочий простір",
+    "previous-workspace": "Попередній робочий простір",
+    "web-links": {
+      "kando-on-discord": "Kando в Discord",
+      "kando-on-github": "Kando на GitHub",
+      "kando-on-kofi": "Kando на Ko-fi",
+      "kando-on-youtube": "Kando на YouTube",
+      "submenu": "Веб-посилання"
+    },
+    "windows": {
+      "close-window": "Закрити вікно",
+      "submenu": "Вікна",
+      "tile-left": "Плитка ліворуч",
+      "tile-right": "Плитка праворуч",
+      "toggle-maximize": "Перемикач Розгорнути"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Закрити меню"
+    },
+    "close-submenu": {
+      "name": "Закрити підменю"
+    },
+    "delay": {
+      "name": "Затримка"
+    },
+    "execute-command": {
+      "name": "Запустити команду"
+    },
+    "execute-macro": {
+      "name": "Імітація макросу"
+    },
+    "focus-window": {
+      "name": "Вікно фокусу"
+    },
+    "inhibit-shortcuts": {
+      "name": "Заборонити ярлики"
+    },
+    "open-file": {
+      "name": "Відкрити Файл"
+    },
+    "open-menu": {
+      "name": "Перенаправлення"
+    },
+    "open-settings": {
+      "name": "Відкрити Налаштування"
+    },
+    "open-uri": {
+      "name": "Відкрити посилання"
+    },
+    "send-tcp-message": {
+      "name": "Надіслати повідомлення TCP"
+    },
+    "send-websocket-message": {
+      "name": "Надіслати повідомлення WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Встановити буфер обміну"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Гаряча клавіша",
+      "name": "Імітація гарячої клавіші",
+      "recording-placeholder": "Натисніть гарячу клавішу…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Підменю"
+    }
+  },
+  "native": {
+    "action": "Дія",
+    "action-value": "Ярлик, шлях, URL-адреса, текст або JSON",
+    "choose-icon": "Виберіть значок",
+    "condition-invalid": "Введіть дійсну умову вікна або програми, наприклад /notepad/i.",
+    "configuration": "Конфігурація кругового меню",
+    "editor": "Редактор кругового меню",
+    "exported": "Експортовано в {0}",
+    "fixed-angle": "Фіксований кут (0° = вгору)",
+    "fixed-x": "Фіксований X (0–1 на моніторі)",
+    "fixed-y": "Виправлено Y (0–1 на моніторі)",
+    "icon-invalid-image": "Виберіть зображення PNG, JPEG, GIF, WebP або ICO розміром до 192 КБ.",
+    "icon-library": "Бібліотека значків",
+    "icon-next": "Наступні значки",
+    "icon-no-results": "Значок не знайдено.",
+    "icon-pick-file": "Виберіть зображення або додаток",
+    "icon-previous": "Попередні значки",
+    "icon-use-image": "Використовуйте зображення",
+    "imported": "Імпортовано меню ({0}). Перегляньте імпортовані команди, перш ніж використовувати їх, а потім збережіть.",
+    "item-icon": "Значок елемента",
+    "item-order": "Порядок предметів",
+    "label": "Мітка",
+    "move-down": "Рухатися вниз",
+    "move-up": "Рухатися вгору",
+    "name": "Назва меню",
+    "new-menu": "Нове меню",
+    "off": "Вимкнено",
+    "on": "Увімкнено",
+    "palette": "Колірна палітра",
+    "preview": "Меню попереднього перегляду",
+    "remove": "видалити",
+    "save": "Зберегти меню",
+    "saved": "Конфігурацію меню збережено.",
+    "shortcut-clear": "Очистити ярлик",
+    "shortcut-cleared": "Ярлик видалено.",
+    "shortcut-config-changed": "Змінено конфігурацію меню на диску. Збережіть поточні меню, щоб застосувати цей ярлик.",
+    "shortcut-in-use": "Windows повідомляє, що цей ярлик уже використовується.",
+    "shortcut-invalid": "Введіть одну клавішу та будь-які модифікатори, дозволені для цього ярлика.",
+    "shortcut-record": "Ярлик запису",
+    "shortcut-save-new-menu": "Збережіть це нове меню, щоб активувати його ярлик.",
+    "shortcut-saved": "Ярлик збережено: {0}. Використовуйте його, щоб відкрити меню, коли ввімкнено швидкі дії.",
+    "shortcut-stop": "Зупинити запис",
+    "shortcut-unavailable": "Windows не вдалося зареєструвати цей ярлик."
+  },
+  "settings": {
+    "add-menu-items": "Додати елементи меню",
+    "all-menus": "Всі меню",
+    "anchored-mode": "Якірний Режим",
+    "app-condition": "Обмеження для певних програм",
+    "area-condition-bottom-placeholder": "Низ",
+    "area-condition-left-placeholder": "Ліво",
+    "area-condition-right-placeholder": "Право",
+    "area-condition-top-placeholder": "Верх",
+    "cancel": "Скасувати",
+    "create-menu-button": "Нове меню",
+    "delete-menu": "Видалити меню",
+    "delete-menu-item": "Видалити пункт меню",
+    "edit-submenu": "Редагувати підменю",
+    "export-menu": "Експорт меню",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Увімкнути режим маркування",
+      "close-menu": "Закрити меню",
+      "do-nothing": "Нічого не робити",
+      "enable-marking-mode-info": "Якщо ввімкнено режим маркування, ви можете вибирати елементи, перетягуючи на них мишу.",
+      "enable-turbo-mode": "Увімкнути Турбо-режим",
+      "enable-turbo-mode-info": "Якщо ввімкнено режим Турбо, ви можете виконувати жести, утримуючи клавішу-модифікатор, таку як Shift або Ctrl.",
+      "interaction-modes": "Режими навігації",
+      "middle-mouse-button-behavior": "Середня кнопка миші",
+      "middle-mouse-button-behavior-info": "Це визначає, що станеться, якщо натиснути середню кнопку миші під час показу меню.",
+      "move-pointer-to-menu-center": "Перемістити курсор у центр меню",
+      "move-pointer-to-menu-center-info": "Якщо позначено, вказівник миші буде переміщено до центру меню або підменю за потреби. Це може статися, якщо меню відкрито занадто близько до краю екрана або якщо меню відкрито в центрованому режимі.",
+      "require-click-for-hover-mode": "Вимагати клацання для вибору в режимі наведення курсора",
+      "require-click-for-hover-mode-info": "Якщо позначку знято, елементи будуть вибрані негайно, коли на них буде наведено курсор миші для меню, що використовується в режимі наведення курсора.",
+      "right-mouse-button-behavior": "Права кнопка миші",
+      "right-mouse-button-behavior-info": "Це визначає, що станеться, коли натиснуто праву кнопку миші під час показу меню.",
+      "select-item": "Виберіть елемент",
+      "select-parent": "Перейти на один рівень вгору",
+      "trigger-center-click-on-key-release": "Закривати меню при відпусканні сполучення клавіш у центрі",
+      "trigger-center-click-on-key-release-info": "Це запустить дію клацання по центру під час відпускання клавіші, коли курсор миші перебуває по центру меню."
+    },
+    "hover-mode": "Режим наведення",
+    "icon-picker-dialog": {
+      "search-placeholder": "Пошук значків…"
+    },
+    "import-menu": "Меню імпорту",
+    "menu-behavior": "Поведінка меню",
+    "menu-conditions": "Умови Меню",
+    "menu-themes-dialog": {
+      "default-colors": "Кольори за замовчуванням",
+      "enable-menu-animations": "Анімації у меню",
+      "title": "Теми меню"
+    },
+    "no-matching-menus": "Жодних меню не було знайдено.",
+    "no-menus": "Ти не маєш жодних меню.",
+    "not-bound": "Не зв'язаний",
+    "quick-select-key-label": "Клавіша швидкого вибору",
+    "quick-select-key-recording": "Виберіть клавішу…",
+    "shortcut-info": "Це скорочення відкриває меню. Воно повинно містити одну звичайну клавішу та будь-яку кількість клавіш-модифікаторів, таких як Ctrl, Alt або Shift. Під час запису не потрібно натискати всі клавіші одночасно, можна натискати їх одну за одною. Це корисно, якщо скорочення вже прив’язане до іншого меню!",
+    "shortcut-label": "Ярлик",
+    "shortcut-recording": "Натисніть ярлик…",
+    "window-condition": "Обмеження на певні заголовки вікон",
+    "workflow-editor": {
+      "add-action": "Додати дію",
+      "select-workflow-name": "Виберіть Робочий процес"
+    },
+    "anchored-mode-info": "Відкривати підменю в тій самій позиції, що й батьківське меню. Якщо позначити цей пункт, режим маркування буде вимкнено.",
+    "fixed-position-mode": "Режим фіксованого положення",
+    "fixed-position-mode-info": "Відкрийте меню у фіксованому місці на екрані, а не під курсором.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Встановіть положення внизу ліворуч",
+      "bottom-right-preset-tooltip": "Встановіть положення внизу праворуч",
+      "centered-preset-tooltip": "Установіть положення по центру",
+      "confirm": "Використовуйте це положення",
+      "top-left-preset-tooltip": "Встановіть положення вгорі ліворуч",
+      "top-right-preset-tooltip": "Встановіть положення вгорі праворуч"
+    },
+    "fixed-position-tooltip": "Виберіть фіксоване положення",
+    "hover-mode-info": "Тільки для досвідчених користувачів! Виберіть елементи, навівши на них курсор."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Типова",
+      "clean-circle": "Просте коло",
+      "neon-lights": "Неонові вогні",
+      "purity": "Чистота",
+      "rainbow-labels": "Веселкові підписи"
+    },
+    "presets": {
+      "Blue Glass": "Синє скло",
+      "Dark Night": "Темна ніч",
+      "Cotton Candy": "Цукрова вата",
+      "Dark and Cozy": "Темно й затишно",
+      "Blue Glow": "Синє сяйво",
+      "Green Glow": "Зелене сяйво",
+      "Electric": "Електрична",
+      "Orange": "Помаранчева",
+      "Pink": "Рожева",
+      "Bright Prism": "Яскрава призма",
+      "Kando Default": "Типові кольори"
+    }
+  }
+}

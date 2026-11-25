@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ایمیل",
+      "file-browser": "مرورگر فایل",
+      "paint": "رنگ کنید",
+      "submenu": "برنامه ها",
+      "terminal": "ترمینال",
+      "web-browser": "مرورگر وب"
+    },
+    "audio": {
+      "mute": "بی‌صدا",
+      "next-track": "آهنگ بعدی",
+      "play-pause": "پخش / مکث",
+      "previous-track": "ترک قبلی",
+      "submenu": "صوتی"
+    },
+    "bookmarks": {
+      "desktop": "دسکتاپ",
+      "documents": "اسناد",
+      "downloads": "دانلودها",
+      "home": "صفحه اصلی",
+      "music": "موسیقی",
+      "pictures": "تصاویر",
+      "submenu": "نشانک ها",
+      "videos": "ویدیوها"
+    },
+    "clipboard": {
+      "copy": "کپی",
+      "cut": "برش",
+      "paste": "چسباندن",
+      "submenu": "کلیپ بورد"
+    },
+    "name": "منوی مثال",
+    "next-workspace": "فضای کاری بعدی",
+    "previous-workspace": "فضای کاری قبلی",
+    "web-links": {
+      "kando-on-discord": "کاندو در دیسکورد",
+      "kando-on-github": "کاندو در GitHub",
+      "kando-on-kofi": "کاندو در کو-فی",
+      "kando-on-youtube": "کاندو در یوتیوب",
+      "submenu": "لینک های وب"
+    },
+    "windows": {
+      "close-window": "بستن پنجره",
+      "submenu": "ویندوز",
+      "tile-left": "کاشی سمت چپ",
+      "tile-right": "کاشی سمت راست",
+      "toggle-maximize": "حداکثر کردن را تغییر دهید"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "بستن منو"
+    },
+    "close-submenu": {
+      "name": "منوی فرعی را ببندید"
+    },
+    "delay": {
+      "name": "تأخیر"
+    },
+    "execute-command": {
+      "name": "اجرای دستور"
+    },
+    "execute-macro": {
+      "name": "شبیه سازی ماکرو"
+    },
+    "focus-window": {
+      "name": "پنجره فوکوس"
+    },
+    "inhibit-shortcuts": {
+      "name": "مهار کردن میانبرها"
+    },
+    "open-file": {
+      "name": "فایل را باز کنید"
+    },
+    "open-menu": {
+      "name": "منو را باز کنید"
+    },
+    "open-settings": {
+      "name": "تنظیمات را باز کنید"
+    },
+    "open-uri": {
+      "name": "URI را باز کنید"
+    },
+    "send-tcp-message": {
+      "name": "ارسال پیام TCP"
+    },
+    "send-websocket-message": {
+      "name": "ارسال پیام WebSocket"
+    },
+    "set-clipboard": {
+      "name": "تنظیم کلیپ بورد"
+    },
+    "simulate-hotkey": {
+      "hotkey": "کلید میانبر",
+      "name": "شبیه سازی میانبر",
+      "recording-placeholder": "یک کلید میانبر تایپ کنید…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "منوی فرعی"
+    }
+  },
+  "native": {
+    "action": "اقدام",
+    "action-value": "میانبر، مسیر، URL، متن یا JSON",
+    "choose-icon": "نماد را انتخاب کنید",
+    "condition-invalid": "یک پنجره یا شرایط برنامه معتبر، به عنوان مثال /notepad/i وارد کنید.",
+    "configuration": "پیکربندی منوی پای",
+    "editor": "ویرایشگر منوی پای",
+    "exported": "به {0} صادر شد",
+    "fixed-angle": "زاویه ثابت (0 درجه = بالا)",
+    "fixed-x": "X ثابت (0–1 در سراسر مانیتور)",
+    "fixed-y": "Y ثابت (0–1 پایین مانیتور)",
+    "icon-invalid-image": "یک تصویر PNG، JPEG، GIF، WebP یا ICO تا 192 کیلوبایت انتخاب کنید.",
+    "icon-library": "کتابخانه آیکون",
+    "icon-next": "نمادهای بعدی",
+    "icon-no-results": "هیچ نمادی پیدا نشد",
+    "icon-pick-file": "تصویر یا برنامه را انتخاب کنید",
+    "icon-previous": "نمادهای قبلی",
+    "icon-use-image": "از تصویر استفاده کنید",
+    "imported": "{0} منو(های) وارد شد. دستورات وارد شده را قبل از استفاده مرور کنید، سپس ذخیره کنید.",
+    "item-icon": "نماد مورد",
+    "item-order": "سفارش آیتم",
+    "label": "برچسب بزنید",
+    "move-down": "به پایین حرکت کنید",
+    "move-up": "حرکت به بالا",
+    "name": "نام منو",
+    "new-menu": "منوی جدید",
+    "off": "خاموش",
+    "on": "روشن",
+    "palette": "پالت رنگ",
+    "preview": "منوی پیش نمایش",
+    "remove": "حذف کنید",
+    "save": "ذخیره منوها",
+    "saved": "پیکربندی منو ذخیره شد.",
+    "shortcut-clear": "میانبر را پاک کنید",
+    "shortcut-cleared": "میانبر پاک شد.",
+    "shortcut-config-changed": "پیکربندی منو روی دیسک تغییر کرد. برای اعمال این میانبر، منوهای فعلی را ذخیره کنید.",
+    "shortcut-in-use": "ویندوز گزارش می دهد که این میانبر در حال حاضر در حال استفاده است.",
+    "shortcut-invalid": "یک کلید به اضافه هر تغییر دهنده مجاز برای این میانبر وارد کنید.",
+    "shortcut-record": "میانبر ضبط",
+    "shortcut-save-new-menu": "این منوی جدید را ذخیره کنید تا میانبر آن فعال شود.",
+    "shortcut-saved": "میانبر ذخیره شد: {0}. هنگامی که Quick Actions فعال است، از آن برای باز کردن منو استفاده کنید.",
+    "shortcut-stop": "ضبط را متوقف کنید",
+    "shortcut-unavailable": "ویندوز نتوانست این میانبر را ثبت کند."
+  },
+  "settings": {
+    "add-menu-items": "افزودن آیتم های منو",
+    "all-menus": "همه منوها",
+    "anchored-mode": "حالت لنگر",
+    "app-condition": "محدود به برنامه های خاص",
+    "area-condition-bottom-placeholder": "پایین",
+    "area-condition-left-placeholder": "چپ",
+    "area-condition-right-placeholder": "راست",
+    "area-condition-top-placeholder": "بالا",
+    "cancel": "لغو",
+    "create-menu-button": "افزودن منو",
+    "delete-menu": "حذف منو",
+    "delete-menu-item": "حذف آیتم منو",
+    "edit-submenu": "ویرایش منوی فرعی",
+    "export-menu": "منوی صادرات",
+    "general-settings-dialog": {
+      "enable-marking-mode": "حالت علامت گذاری را فعال کنید",
+      "close-menu": "بستن منو",
+      "do-nothing": "هیچ کاری نکن",
+      "enable-marking-mode-info": "با فعال بودن حالت علامت گذاری، می توانید موارد را با کشیدن ماوس روی آنها انتخاب کنید.",
+      "enable-turbo-mode": "حالت توربو را فعال کنید",
+      "enable-turbo-mode-info": "با فعال کردن حالت توربو، می‌توانید تا زمانی که یک کلید اصلاح‌کننده مانند Shift یا Ctrl را نگه دارید، ژست‌ها را انجام دهید.",
+      "interaction-modes": "حالت های تعامل",
+      "middle-mouse-button-behavior": "دکمه وسط ماوس",
+      "middle-mouse-button-behavior-info": "این مشخص می کند که وقتی دکمه وسط ماوس فشار داده می شود در حالی که یک منو نشان داده می شود چه اتفاقی می افتد.",
+      "move-pointer-to-menu-center": "نشانگر را به مرکز منو منتقل کنید",
+      "move-pointer-to-menu-center-info": "اگر علامت زده شود، نشانگر ماوس در صورت لزوم به مرکز یک منو یا زیر منو منتقل می شود. اگر یک منو خیلی نزدیک به لبه صفحه باز شود یا اگر یک منو در حالت مرکز باز شود، ممکن است این اتفاق بیفتد.",
+      "require-click-for-hover-mode": "برای انتخاب حالت شناور کلیک کنید",
+      "require-click-for-hover-mode-info": "اگر تیک آن را بردارید، هنگامی که ماوس روی آن‌ها برای منوها با استفاده از حالت شناور حرکت می‌کند، موارد بلافاصله انتخاب می‌شوند.",
+      "right-mouse-button-behavior": "دکمه سمت راست ماوس",
+      "right-mouse-button-behavior-info": "با فشار دادن دکمه سمت راست ماوس در حین نمایش منو، مشخص می‌شود که چه اتفاقی می‌افتد.",
+      "select-item": "مورد را انتخاب کنید",
+      "select-parent": "یک سطح به بالا حرکت کنید",
+      "trigger-center-click-on-key-release": "منوی انتشار میانبر را در مرکز ببندید",
+      "trigger-center-click-on-key-release-info": "هنگامی که یک کلید در حالی که ماوس را بر روی مرکز یک منو قرار می‌دهید، جریان کار مرکز کلیک را فعال می‌کند."
+    },
+    "hover-mode": "حالت شناور",
+    "icon-picker-dialog": {
+      "search-placeholder": "نمادهای جستجو…"
+    },
+    "import-menu": "منوی واردات",
+    "menu-behavior": "رفتار منو",
+    "menu-conditions": "شرایط منو",
+    "menu-themes-dialog": {
+      "default-colors": "رنگ های پیش فرض",
+      "enable-menu-animations": "انیمیشن های منو",
+      "title": "تم های منو"
+    },
+    "no-matching-menus": "هیچ منویی پیدا نشد",
+    "no-menus": "شما هیچ منویی ندارید.",
+    "not-bound": "مقید نیست",
+    "quick-select-key-label": "کلید انتخاب سریع",
+    "quick-select-key-recording": "انتخاب کلید…",
+    "shortcut-info": "این میانبر منو را باز می کند. باید شامل یک کلید معمولی و هر تعداد اصلاح کننده مانند Ctrl، Alt یا Shift باشد. هنگام ضبط، لازم نیست همه کلیدها را یکجا فشار دهید، همچنین می توانید آنها را یکی پس از دیگری فشار دهید. اگر یک میانبر از قبل به منوی دیگری متصل شده باشد، مفید است!",
+    "shortcut-label": "میانبر",
+    "shortcut-recording": "یک میانبر را فشار دهید…",
+    "window-condition": "محدود به عناوین پنجره خاص",
+    "workflow-editor": {
+      "add-action": "افزودن اکشن",
+      "select-workflow-name": "Workflow را انتخاب کنید"
+    },
+    "anchored-mode-info": "منوهای فرعی را در همان موقعیت منوی والد باز کنید. با بررسی این حالت، حالت علامت گذاری و حالت توربو غیرفعال می شود.",
+    "fixed-position-mode": "حالت موقعیت ثابت",
+    "fixed-position-mode-info": "منو را به جای مکان نما، در یک موقعیت ثابت روی صفحه باز کنید.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "موقعیت را به سمت چپ پایین تنظیم کنید",
+      "bottom-right-preset-tooltip": "موقعیت را در پایین سمت راست تنظیم کنید",
+      "centered-preset-tooltip": "موقعیت را روی مرکز تنظیم کنید",
+      "confirm": "از این موقعیت استفاده کنید",
+      "top-left-preset-tooltip": "موقعیت را در سمت چپ بالا تنظیم کنید",
+      "top-right-preset-tooltip": "موقعیت را در بالا سمت راست تنظیم کنید"
+    },
+    "fixed-position-tooltip": "یک موقعیت ثابت را انتخاب کنید",
+    "hover-mode-info": "فقط برای کاربران قدرتمند! موارد را با نگه داشتن ماوس روی آنها انتخاب کنید."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "پیش‌فرض",
+      "clean-circle": "دایرهٔ ساده",
+      "neon-lights": "چراغ‌های نئون",
+      "purity": "خلوص",
+      "rainbow-labels": "برچسب‌های رنگین‌کمانی"
+    },
+    "presets": {
+      "Blue Glass": "شیشهٔ آبی",
+      "Dark Night": "شب تاریک",
+      "Cotton Candy": "پشمک",
+      "Dark and Cozy": "تیره و دلنشین",
+      "Blue Glow": "درخشش آبی",
+      "Green Glow": "درخشش سبز",
+      "Electric": "الکتریکی",
+      "Orange": "نارنجی",
+      "Pink": "صورتی",
+      "Bright Prism": "منشور درخشان",
+      "Kando Default": "رنگ‌های پیش‌فرض"
+    }
+  }
+}

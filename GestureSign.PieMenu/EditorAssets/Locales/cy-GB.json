@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-bost",
+      "file-browser": "Porwr Ffeil",
+      "paint": "Paent",
+      "submenu": "Apiau",
+      "terminal": "Terfynell",
+      "web-browser": "Porwr Gwe"
+    },
+    "audio": {
+      "mute": "Tawelwch",
+      "next-track": "Trac Nesaf",
+      "play-pause": "Chwarae / Saib",
+      "previous-track": "Trac Blaenorol",
+      "submenu": "Sain"
+    },
+    "bookmarks": {
+      "desktop": "Bwrdd gwaith",
+      "documents": "Dogfennau",
+      "downloads": "Lawrlwythiadau",
+      "home": "Cartref",
+      "music": "Cerddoriaeth",
+      "pictures": "Lluniau",
+      "submenu": "Llyfrnodau",
+      "videos": "Fideos"
+    },
+    "clipboard": {
+      "copy": "Copïo",
+      "cut": "Torri",
+      "paste": "Gludo",
+      "submenu": "Clipfwrdd"
+    },
+    "name": "Dewislen Enghreifftiol",
+    "next-workspace": "Gweithle Nesaf",
+    "previous-workspace": "Gweithle Blaenorol",
+    "web-links": {
+      "kando-on-discord": "Kando ar Discord",
+      "kando-on-github": "Kando ar GitHub",
+      "kando-on-kofi": "Kando ar Ko-fi",
+      "kando-on-youtube": "Kando ar YouTube",
+      "submenu": "Cysylltiadau Gwe"
+    },
+    "windows": {
+      "close-window": "Caewch Ffenestr",
+      "submenu": "Ffenestri",
+      "tile-left": "Teil Chwith",
+      "tile-right": "Teil Iawn",
+      "toggle-maximize": "Toglo Mwyhau"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Cau'r ddewislen"
+    },
+    "close-submenu": {
+      "name": "Cau'r Is-ddewislen"
+    },
+    "delay": {
+      "name": "Oedi"
+    },
+    "execute-command": {
+      "name": "Gweithredu Gorchymyn"
+    },
+    "execute-macro": {
+      "name": "Gweithredu Macro"
+    },
+    "focus-window": {
+      "name": "Ffenestr Ffocws"
+    },
+    "inhibit-shortcuts": {
+      "name": "Atal llwybrau byr"
+    },
+    "open-file": {
+      "name": "Agor Ffeil"
+    },
+    "open-menu": {
+      "name": "Dewislen Agored"
+    },
+    "open-settings": {
+      "name": "Agor Gosodiadau"
+    },
+    "open-uri": {
+      "name": "Agor URI"
+    },
+    "send-tcp-message": {
+      "name": "Anfon Neges TCP"
+    },
+    "send-websocket-message": {
+      "name": "Anfon Neges WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Gosod Clipfwrdd"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Allwedd byr",
+      "name": "Efelychu Hotkey",
+      "recording-placeholder": "Teipiwch allwedd poeth…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Isddewislen"
+    }
+  },
+  "native": {
+    "action": "Gweithred",
+    "action-value": "Llwybr byr, llwybr, URL, testun, neu JSON",
+    "choose-icon": "Dewiswch eicon",
+    "condition-invalid": "Rhowch amod ffenestr neu ap dilys, er enghraifft /notepad/i.",
+    "configuration": "Ffurfweddiad Dewislen Pei",
+    "editor": "Golygydd Dewislen Pei",
+    "exported": "Wedi'i allforio i {0}",
+    "fixed-angle": "Ongl sefydlog (0° = i fyny)",
+    "fixed-x": "X sefydlog (0-1 ar draws y monitor)",
+    "fixed-y": "Sefydlog Y (0-1 i lawr y monitor)",
+    "icon-invalid-image": "Dewiswch ddelwedd PNG, JPEG, GIF, WebP, neu ICO hyd at 192 KB.",
+    "icon-library": "Llyfrgell eiconau",
+    "icon-next": "Eiconau nesaf",
+    "icon-no-results": "Heb ganfod eiconau.",
+    "icon-pick-file": "Dewiswch ddelwedd neu ap",
+    "icon-previous": "Eiconau blaenorol",
+    "icon-use-image": "Defnyddio delwedd",
+    "imported": "Mewnforiwyd {0} dewislen. Adolygwch orchmynion a fewnforiwyd cyn eu defnyddio, yna cadwch.",
+    "item-icon": "Eicon eitem",
+    "item-order": "Gorchymyn eitem",
+    "label": "Label",
+    "move-down": "Symud i lawr",
+    "move-up": "Symud i fyny",
+    "name": "Enw dewislen",
+    "new-menu": "Bwydlen newydd",
+    "off": "I ffwrdd",
+    "on": "Ar",
+    "palette": "Palet lliw",
+    "preview": "Dewislen rhagolwg",
+    "remove": "Dileu",
+    "save": "Cadw bwydlenni",
+    "saved": "Cadwyd ffurfwedd y ddewislen.",
+    "shortcut-clear": "Llwybr byr clir",
+    "shortcut-cleared": "Llwybr byr wedi'i glirio.",
+    "shortcut-config-changed": "Newidiodd cyfluniad y ddewislen ar ddisg. Cadwch y dewislenni cyfredol i gymhwyso'r llwybr byr hwn.",
+    "shortcut-in-use": "Mae Windows yn adrodd bod y llwybr byr hwn eisoes yn cael ei ddefnyddio.",
+    "shortcut-invalid": "Rhowch un allwedd, ynghyd ag unrhyw addaswyr a ganiateir ar gyfer y llwybr byr hwn.",
+    "shortcut-record": "Cofnodi llwybr byr",
+    "shortcut-save-new-menu": "Cadwch y ddewislen newydd hon i actifadu ei llwybr byr.",
+    "shortcut-saved": "Llwybr byr wedi'i gadw: {0}. Defnyddiwch ef i agor y ddewislen pan fydd Camau Cyflym wedi'u galluogi.",
+    "shortcut-stop": "Stopio recordio",
+    "shortcut-unavailable": "Ni allai Windows gofrestru'r llwybr byr hwn."
+  },
+  "settings": {
+    "add-menu-items": "Ychwanegu Eitemau Dewislen",
+    "all-menus": "Pob Bwydlen",
+    "anchored-mode": "Modd Angori",
+    "app-condition": "Cyfyngiad i Apiau Penodol",
+    "area-condition-bottom-placeholder": "Isaf",
+    "area-condition-left-placeholder": "Chwith",
+    "area-condition-right-placeholder": "Dde",
+    "area-condition-top-placeholder": "Brig",
+    "cancel": "Diddymu",
+    "create-menu-button": "Ychwanegu Dewislen",
+    "delete-menu": "Dileu dewislen",
+    "delete-menu-item": "Dileu eitem dewislen",
+    "edit-submenu": "Golygu is-ddewislen",
+    "export-menu": "Dewislen allforio",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Galluogi Modd Marcio",
+      "close-menu": "Cau'r ddewislen",
+      "do-nothing": "Gwneud dim",
+      "enable-marking-mode-info": "Gyda'r Modd Marcio wedi'i alluogi, gallwch ddewis eitemau trwy lusgo'r llygoden drostynt.",
+      "enable-turbo-mode": "Galluogi Modd Turbo",
+      "enable-turbo-mode-info": "Gyda Modd Turbo wedi'i alluogi, gallwch berfformio ystumiau cyn belled â'ch bod yn dal allwedd addasu fel Shift neu Ctrl i lawr.",
+      "interaction-modes": "Dulliau Rhyngweithio",
+      "middle-mouse-button-behavior": "Botwm canol y llygoden",
+      "middle-mouse-button-behavior-info": "Mae hyn yn pennu beth sy'n digwydd pan fydd botwm canol y llygoden yn cael ei wasgu tra dangosir dewislen.",
+      "move-pointer-to-menu-center": "Symudwch y pwyntydd i'r ganolfan ddewislen",
+      "move-pointer-to-menu-center-info": "Os caiff ei wirio, bydd pwyntydd y llygoden yn cael ei symud i ganol dewislen neu is-ddewislen pan fo angen. Gallai hyn fod yn wir os caiff dewislen ei hagor yn rhy agos at ymyl y sgrin neu os caiff dewislen ei hagor yn y Modd Canolog.",
+      "require-click-for-hover-mode": "Ei gwneud yn ofynnol clicio ar gyfer dewisiadau Modd Hofran",
+      "require-click-for-hover-mode-info": "Os na chânt eu gwirio, bydd eitemau'n cael eu dewis ar unwaith pan fydd y llygoden yn cael ei symud drostynt ar gyfer bwydlenni gan ddefnyddio Modd Hofran.",
+      "right-mouse-button-behavior": "Botwm de'r llygoden",
+      "right-mouse-button-behavior-info": "Mae hyn yn pennu beth sy'n digwydd pan fydd botwm de'r llygoden yn cael ei wasgu tra bod dewislen yn cael ei dangos.",
+      "select-item": "Dewiswch eitem",
+      "select-parent": "Llywiwch i fyny un lefel",
+      "trigger-center-click-on-key-release": "Cau'r ddewislen ar ryddhad llwybr byr dros y ganolfan",
+      "trigger-center-click-on-key-release-info": "Bydd hyn yn sbarduno llif gwaith clic-canol pan fydd allwedd yn cael ei rhyddhau wrth hofran dros ganol dewislen."
+    },
+    "hover-mode": "Modd Hofran",
+    "icon-picker-dialog": {
+      "search-placeholder": "Chwilio eiconau…"
+    },
+    "import-menu": "Mewnforio ddewislen",
+    "menu-behavior": "Ymddygiad Dewislen",
+    "menu-conditions": "Amodau'r Ddewislen",
+    "menu-themes-dialog": {
+      "default-colors": "Lliwiau diofyn",
+      "enable-menu-animations": "Animeiddiadau Dewislen",
+      "title": "Themâu Bwydlen"
+    },
+    "no-matching-menus": "Ni chanfuwyd dewislenni.",
+    "no-menus": "Nid oes gennych unrhyw fwydlenni.",
+    "not-bound": "Heb ei Rhwymo",
+    "quick-select-key-label": "Cyflym-dewis allwedd",
+    "quick-select-key-recording": "Dewiswch allwedd…",
+    "shortcut-info": "Mae'r llwybr byr hwn yn agor y ddewislen. Rhaid iddo gynnwys un allwedd arferol ac unrhyw nifer o addaswyr fel Ctrl, Alt, neu Shift. Wrth recordio, nid oes rhaid i chi wasgu'r holl allweddi ar unwaith, gallwch hefyd eu pwyso un ar ôl y llall. Mae hyn yn ddefnyddiol os yw llwybr byr eisoes wedi'i rwymo i ddewislen arall!",
+    "shortcut-label": "Llwybr byr",
+    "shortcut-recording": "Pwyswch lwybr byr…",
+    "window-condition": "Cyfyngu ar Deitlau Ffenestr Penodol",
+    "workflow-editor": {
+      "add-action": "Ychwanegu Gweithred",
+      "select-workflow-name": "Dewiswch Llif Gwaith"
+    },
+    "anchored-mode-info": "Agor is-ddewislen yn yr un safle â'r ddewislen rhiant. Bydd gwirio hyn yn analluogi Modd Marcio a Modd Turbo.",
+    "fixed-position-mode": "Modd Sefyllfa Sefydlog",
+    "fixed-position-mode-info": "Agorwch y ddewislen mewn man sefydlog ar y sgrin, yn lle wrth y cyrchwr.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Gosodwch y safle i'r chwith isaf",
+      "bottom-right-preset-tooltip": "Gosodwch y safle i'r gwaelod ar y dde",
+      "centered-preset-tooltip": "Gosodwch y safle i'r canol",
+      "confirm": "Defnyddiwch y sefyllfa hon",
+      "top-left-preset-tooltip": "Gosodwch y safle ar y chwith uchaf",
+      "top-right-preset-tooltip": "Gosodwch y safle ar y dde uchaf"
+    },
+    "fixed-position-tooltip": "Dewiswch safle sefydlog",
+    "hover-mode-info": "Ar gyfer defnyddwyr pŵer yn unig! Dewiswch eitemau trwy hofran drostynt."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Diofyn",
+      "clean-circle": "Cylch Glan",
+      "neon-lights": "Goleuadau Neon",
+      "purity": "Purdeb",
+      "rainbow-labels": "Labeli Enfys"
+    },
+    "presets": {
+      "Blue Glass": "Gwydr Glas",
+      "Dark Night": "Noson Dywyll",
+      "Cotton Candy": "Candy Cotwm",
+      "Dark and Cozy": "Tywyll a Chlyd",
+      "Blue Glow": "Glow Glas",
+      "Green Glow": "Glow Gwyrdd",
+      "Electric": "Trydan",
+      "Orange": "Oren",
+      "Pink": "Pinc",
+      "Bright Prism": "Prism Disglair",
+      "Kando Default": "Lliwiau diofyn"
+    }
+  }
+}

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "דואר אלקטרוני",
+      "file-browser": "דפדפן קבצים",
+      "paint": "צבע",
+      "submenu": "אפליקציות",
+      "terminal": "טרמינל",
+      "web-browser": "דפדפן אינטרנט"
+    },
+    "audio": {
+      "mute": "השתק",
+      "next-track": "רצועה הבאה",
+      "play-pause": "הפעל / השהה",
+      "previous-track": "מסלול קודם",
+      "submenu": "אודיו"
+    },
+    "bookmarks": {
+      "desktop": "שולחן העבודה",
+      "documents": "מסמכים",
+      "downloads": "הורדות",
+      "home": "בית",
+      "music": "מוזיקה",
+      "pictures": "תמונות",
+      "submenu": "סימניות",
+      "videos": "סרטונים"
+    },
+    "clipboard": {
+      "copy": "העתק",
+      "cut": "חתוך",
+      "paste": "הדבק",
+      "submenu": "לוח כתיבה"
+    },
+    "name": "תפריט לדוגמה",
+    "next-workspace": "סביבת העבודה הבאה",
+    "previous-workspace": "סביבת עבודה קודמת",
+    "web-links": {
+      "kando-on-discord": "קנדו על דיסקורד",
+      "kando-on-github": "Kando ב-GitHub",
+      "kando-on-kofi": "קנדו על קו-פי",
+      "kando-on-youtube": "קנדו ביוטיוב",
+      "submenu": "קישורי אינטרנט"
+    },
+    "windows": {
+      "close-window": "סגור חלון",
+      "submenu": "חלונות",
+      "tile-left": "אריח שמאלה",
+      "tile-right": "אריח ימינה",
+      "toggle-maximize": "החלף את מקסם"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "סגור את התפריט"
+    },
+    "close-submenu": {
+      "name": "סגור תפריט משנה"
+    },
+    "delay": {
+      "name": "עיכוב"
+    },
+    "execute-command": {
+      "name": "בצע פקודה"
+    },
+    "execute-macro": {
+      "name": "הפעל מאקרו"
+    },
+    "focus-window": {
+      "name": "חלון פוקוס"
+    },
+    "inhibit-shortcuts": {
+      "name": "מניעת קיצורי דרך"
+    },
+    "open-file": {
+      "name": "פתח קובץ"
+    },
+    "open-menu": {
+      "name": "פתח את התפריט"
+    },
+    "open-settings": {
+      "name": "פתח את ההגדרות"
+    },
+    "open-uri": {
+      "name": "פתח את URI"
+    },
+    "send-tcp-message": {
+      "name": "שלח הודעת TCP"
+    },
+    "send-websocket-message": {
+      "name": "שלח הודעת WebSocket"
+    },
+    "set-clipboard": {
+      "name": "הגדר לוח"
+    },
+    "simulate-hotkey": {
+      "hotkey": "מקש קיצור",
+      "name": "הדמיית מקש קיצור",
+      "recording-placeholder": "הקלד מקש קיצור..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "תפריט משנה"
+    }
+  },
+  "native": {
+    "action": "פעולה",
+    "action-value": "קיצור דרך, נתיב, כתובת אתר, טקסט או JSON",
+    "choose-icon": "בחר סמל",
+    "condition-invalid": "הזן חלון או תנאי אפליקציה חוקיים, למשל /notepad/i.",
+    "configuration": "תצורת תפריט פאי",
+    "editor": "עורך תפריט פאי",
+    "exported": "מיוצא אל {0}",
+    "fixed-angle": "זווית קבועה (0° = למעלה)",
+    "fixed-x": "X קבוע (0–1 על פני הצג)",
+    "fixed-y": "Y קבוע (0-1 במורד הצג)",
+    "icon-invalid-image": "בחר תמונת PNG, JPEG, GIF, WebP או ICO עד 192 KB.",
+    "icon-library": "ספריית אייקונים",
+    "icon-next": "הסמלים הבאים",
+    "icon-no-results": "לא נמצאו אייקונים.",
+    "icon-pick-file": "בחר תמונה או אפליקציה",
+    "icon-previous": "אייקונים קודמים",
+    "icon-use-image": "השתמש בתמונה",
+    "imported": "{0} תפריטים יובאו. סקור פקודות מיובאות לפני השימוש בהן, ולאחר מכן שמור.",
+    "item-icon": "סמל פריט",
+    "item-order": "הזמנת פריט",
+    "label": "תווית",
+    "move-down": "לזוז למטה",
+    "move-up": "לזוז למעלה",
+    "name": "שם התפריט",
+    "new-menu": "תפריט חדש",
+    "off": "כבוי",
+    "on": "פועל",
+    "palette": "פלטת צבעים",
+    "preview": "תפריט תצוגה מקדימה",
+    "remove": "הסר",
+    "save": "שמור תפריטים",
+    "saved": "תצורת התפריט נשמרה.",
+    "shortcut-clear": "קיצור דרך נקה",
+    "shortcut-cleared": "קיצור הדרך נוקה.",
+    "shortcut-config-changed": "תצורת התפריט השתנתה בדיסק. שמור את התפריטים הנוכחיים כדי להחיל קיצור זה.",
+    "shortcut-in-use": "Windows מדווח שקיצור זה כבר נמצא בשימוש.",
+    "shortcut-invalid": "הזן מקש אחד, בתוספת כל השינויים המותרים עבור קיצור זה.",
+    "shortcut-record": "קיצור דרך להקלטה",
+    "shortcut-save-new-menu": "שמור את התפריט החדש הזה כדי להפעיל את קיצור הדרך שלו.",
+    "shortcut-saved": "קיצור דרך נשמר: {0}. השתמש בו כדי לפתוח את התפריט כאשר פעולות מהירות מופעלות.",
+    "shortcut-stop": "תפסיק להקליט",
+    "shortcut-unavailable": "Windows לא הצליח לרשום קיצור דרך זה."
+  },
+  "settings": {
+    "add-menu-items": "הוסף פריטי תפריט",
+    "all-menus": "כל התפריטים",
+    "anchored-mode": "מצב מעוגן",
+    "app-condition": "הגבלה לאפליקציות ספציפיות",
+    "area-condition-bottom-placeholder": "חלק תחתון",
+    "area-condition-left-placeholder": "שמאל",
+    "area-condition-right-placeholder": "ימינה",
+    "area-condition-top-placeholder": "למעלה",
+    "cancel": "ביטול",
+    "create-menu-button": "הוסף תפריט",
+    "delete-menu": "מחק תפריט",
+    "delete-menu-item": "מחק פריט בתפריט",
+    "edit-submenu": "ערוך תפריט משנה",
+    "export-menu": "תפריט ייצוא",
+    "general-settings-dialog": {
+      "enable-marking-mode": "הפעל מצב סימון",
+      "close-menu": "סגור תפריט",
+      "do-nothing": "אל תעשה כלום",
+      "enable-marking-mode-info": "כאשר מצב סימון מופעל, תוכל לבחור פריטים על ידי גרירת העכבר מעליהם.",
+      "enable-turbo-mode": "הפעל מצב טורבו",
+      "enable-turbo-mode-info": "כאשר מצב טורבו מופעל, אתה יכול לבצע מחוות כל עוד אתה מחזיק מקש שינוי כגון Shift או Ctrl.",
+      "interaction-modes": "מצבי אינטראקציה",
+      "middle-mouse-button-behavior": "כפתור עכבר אמצעי",
+      "middle-mouse-button-behavior-info": "זה קובע מה קורה כאשר לחצן העכבר האמצעי נלחץ בזמן הצגת תפריט.",
+      "move-pointer-to-menu-center": "הזז את המצביע למרכז התפריט",
+      "move-pointer-to-menu-center-info": "אם מסומן, מצביע העכבר יועבר למרכז תפריט או תפריט משנה בעת הצורך. זה יכול להיות המקרה אם תפריט נפתח קרוב מדי לקצה המסך או אם תפריט נפתח במצב מרכזי.",
+      "require-click-for-hover-mode": "דרוש לחיצה לבחירות מצב ריחוף",
+      "require-click-for-hover-mode-info": "אם לא מסומן, פריטים ייבחרו מיד כאשר העכבר מועבר מעליהם עבור תפריטים באמצעות מצב ריחוף.",
+      "right-mouse-button-behavior": "כפתור ימני בעכבר",
+      "right-mouse-button-behavior-info": "זה קובע מה קורה כאשר לחצן העכבר הימני נלחץ בזמן שהתפריט מוצג.",
+      "select-item": "בחר פריט",
+      "select-parent": "נווט למעלה רמה אחת",
+      "trigger-center-click-on-key-release": "סגור תפריט בשחרור קיצור דרך מעל המרכז",
+      "trigger-center-click-on-key-release-info": "זה יפעיל את זרימת העבודה בלחיצה מרכזת כאשר מקש משוחרר תוך כדי ריחוף מעל מרכז התפריט."
+    },
+    "hover-mode": "מצב ריחוף",
+    "icon-picker-dialog": {
+      "search-placeholder": "חיפוש אייקונים..."
+    },
+    "import-menu": "תפריט ייבוא",
+    "menu-behavior": "התנהגות תפריט",
+    "menu-conditions": "תנאי תפריט",
+    "menu-themes-dialog": {
+      "default-colors": "צבעי ברירת מחדל",
+      "enable-menu-animations": "אנימציות תפריט",
+      "title": "ערכות נושא של תפריט"
+    },
+    "no-matching-menus": "לא נמצאו תפריטים.",
+    "no-menus": "אין לך תפריטים.",
+    "not-bound": "לא קשור",
+    "quick-select-key-label": "מקש בחירה מהירה",
+    "quick-select-key-recording": "בחר מקש...",
+    "shortcut-info": "קיצור זה פותח את התפריט. הוא חייב להכיל מקש רגיל אחד ומספר כל מיני שינויים כגון Ctrl, Alt או Shift. בעת הקלטה, אין צורך ללחוץ על כל המקשים בבת אחת, ניתן גם ללחוץ עליהם בזה אחר זה. זה שימושי אם קיצור דרך כבר קשור לתפריט אחר!",
+    "shortcut-label": "קיצור דרך",
+    "shortcut-recording": "הקש על קיצור דרך...",
+    "window-condition": "הגבלה לכותרות חלון ספציפיות",
+    "workflow-editor": {
+      "add-action": "הוסף פעולה",
+      "select-workflow-name": "בחר זרימת עבודה"
+    },
+    "anchored-mode-info": "פתח תפריטי משנה באותו מיקום כמו תפריט האב. סימון זה ישבית את מצב סימון ומצב טורבו.",
+    "fixed-position-mode": "מצב מיקום קבוע",
+    "fixed-position-mode-info": "פתח את התפריט במיקום קבוע על המסך, במקום בסמן.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "הגדר את המיקום לשמאל למטה",
+      "bottom-right-preset-tooltip": "הגדר את המיקום לימין למטה",
+      "centered-preset-tooltip": "הגדר את המיקום למרכז",
+      "confirm": "השתמש בעמדה זו",
+      "top-left-preset-tooltip": "הגדר את המיקום לשמאל למעלה",
+      "top-right-preset-tooltip": "הגדר את המיקום לימין למעלה"
+    },
+    "fixed-position-tooltip": "בחר מיקום קבוע",
+    "hover-mode-info": "למשתמשים חזקים בלבד! בחר פריטים על ידי ריחוף מעליהם."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ברירת מחדל",
+      "clean-circle": "מעגל נקי",
+      "neon-lights": "אורות ניאון",
+      "purity": "טוהר",
+      "rainbow-labels": "תוויות קשת"
+    },
+    "presets": {
+      "Blue Glass": "זכוכית כחולה",
+      "Dark Night": "לילה אפל",
+      "Cotton Candy": "צמר גפן מתוק",
+      "Dark and Cozy": "חשוך ונעים",
+      "Blue Glow": "זוהר כחול",
+      "Green Glow": "ירוק זוהר",
+      "Electric": "חשמלי",
+      "Orange": "כתום",
+      "Pink": "ורוד",
+      "Bright Prism": "פריזמה בהירה",
+      "Kando Default": "צבעי ברירת מחדל"
+    }
+  }
+}

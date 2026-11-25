@@ -1,0 +1,63 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>GestureSignV2.PieMenu</AssemblyName>
+    <AssemblyTitle>GestureSignV2.PieMenu</AssemblyTitle>
+    <Description>GestureSignV2.PieMenu</Description>
+    <TargetFramework>net10.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <ApplicationManifest>..\GestureSign.WinUI\app.manifest</ApplicationManifest>
+    <Platforms>x64;ARM64</Platforms>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == '' and '$(Platform)' == 'ARM64'">win-arm64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    <UseWinUI>true</UseWinUI>
+    <WinUISDKReferences>false</WinUISDKReferences>
+    <WindowsPackageType>None</WindowsPackageType>
+    <WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>true</WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Version>0.7.11</Version>
+    <DefaultLanguage>en</DefaultLanguage>
+    <ApplicationIcon>EditorAssets\PieMenu.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <WebView2EnableCsWinRTProjection>false</WebView2EnableCsWinRTProjection>
+    <WebView2UseWinRT>false</WebView2UseWinRT>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.2526" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.WinUI" Version="2.3.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Foundation" Version="2.3.5" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.InteractiveExperiences" Version="2.1.3" />
+    <PackageReference Include="Microsoft.WindowsAppSDK.Runtime" Version="2.3.1" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools.WinApp" Version="0.5.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3719.77" />
+    <Compile Include="..\GestureSign.WinUI\UiTranslationCatalog.cs" Link="UiTranslationCatalog.cs" />
+    <ProjectReference Include="..\WindowsInput\WindowsInput.csproj" />
+    <ProjectReference Include="..\GestureSign.Foundation\GestureSign.Foundation.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="MenuEditor*.cs;MenuEditSession.cs" />
+    <Compile Include="MenuEditor.WindowsApplicationIcons.cs" />
+    <Content Include="EditorAssets\**\*" Exclude="EditorAssets\Locales\*.json" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="KandoWeb\**\*" Exclude="KandoWeb\locales\nb-NO\translation.json;KandoWeb\locales\pt-BR\translation.json"
+      CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Compile Remove="MenuEditor*.cs;MenuEditSession.cs" />
+    <Compile Include="MenuEditor.WindowsApplicationIcons.cs" />
+    <Content Include="EditorAssets\Locales\*.json" Link="KandoWeb\locales\%(Filename)\translation.json"
+      CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\GestureSign.WinUI\Languages\UI\*.json" Link="Languages\UI\%(Filename)%(Extension)"
+      CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+  <Target Name="RequireSupportedWindowsArchitecture" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(RuntimeIdentifier)' != 'win-x64' and '$(RuntimeIdentifier)' != 'win-arm64'" Text="Pie Menu supports Windows x64 and ARM64." />
+  </Target>
+  <Target Name="UseOnlyWebView2Core" BeforeTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <Reference Remove="@(Reference)" Condition="'%(Reference.Filename)' == 'Microsoft.Web.WebView2.Wpf' or '%(Reference.Filename)' == 'Microsoft.Web.WebView2.WinForms'" />
+    </ItemGroup>
+  </Target>
+  <Target Name="CopyAppResources" AfterTargets="Publish">
+    <ItemGroup><AppResources Include="$(OutDir)App.xbf;$(OutDir)$(AssemblyName).pri" /></ItemGroup>
+    <Copy SourceFiles="@(AppResources)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('%(AppResources.Identity)')" />
+  </Target>
+</Project>

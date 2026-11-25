@@ -969,6 +969,7 @@ namespace GestureSign.Daemon
                 SetTrayIcon(TrayIconState.Normal);
 
             _trayIcon.Visible = AppConfig.ShowTrayIcon;
+            DaemonDiagnostics.RecordTray(_trayIcon.Visible);
             _updateChecker.Configure();
         }
 
@@ -1167,6 +1168,8 @@ namespace GestureSign.Daemon
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string[] candidates =
             {
+                Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSignV2.WinUI.exe")),
+                Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSignV2.exe")),
                 Path.GetFullPath(Path.Combine(baseDirectory, "..", "GestureSign.WinUI.exe")),
                 Path.Combine(baseDirectory, "GestureSign.WinUI.exe"),
                 Path.Combine(baseDirectory, "GestureSign-WinUI-Preview", "GestureSign.WinUI.exe"),
@@ -1344,7 +1347,8 @@ namespace GestureSign.Daemon
                 return false;
 
             string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(name);
-            return fileNameWithoutExtension.StartsWith(Constants.ProductName, StringComparison.OrdinalIgnoreCase)
+            return fileNameWithoutExtension.Equals("GestureSignV2", StringComparison.OrdinalIgnoreCase)
+                   || fileNameWithoutExtension.StartsWith(Constants.ProductName, StringComparison.OrdinalIgnoreCase)
                    || fileNameWithoutExtension.StartsWith("GestureSign2", StringComparison.OrdinalIgnoreCase);
         }
 

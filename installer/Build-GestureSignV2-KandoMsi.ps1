@@ -4,7 +4,7 @@ param(
     [ValidateSet("x64", "arm64")]
     [string]$Architecture = "x64",
     [string]$PackageName = "GestureSign V2",
-    [string]$PackageVersion = "18.4.8",
+    [string]$PackageVersion = "18.4.12",
     [string]$UpgradeCode = "6FBC49C5-1E7F-4C2E-9C68-02BA42C3B5E1",
     [string]$InstallFolderName = "GestureSign V2",
     [string]$CompressionLevel = "high",
@@ -107,8 +107,8 @@ if ($LASTEXITCODE -ne 0) {
     throw ".NET 10 $Architecture backend publish failed with exit code $LASTEXITCODE"
 }
 
-if (!(Test-Path -LiteralPath (Join-Path $backendOutputPath "GestureSign.exe"))) {
-    throw "Backend build output is missing GestureSign.exe: $backendOutputPath"
+if (!(Test-Path -LiteralPath (Join-Path $backendOutputPath "GestureSignV2Daemon.exe"))) {
+    throw "Backend build output is missing GestureSignV2Daemon.exe: $backendOutputPath"
 }
 
 if (Test-Path -LiteralPath $publishPath) {
@@ -126,20 +126,20 @@ if ($LASTEXITCODE -ne 0) {
     throw "WinUI build failed with exit code $LASTEXITCODE"
 }
 
-if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSign.WinUI.exe"))) {
-    throw "WinUI build output is missing GestureSign.WinUI.exe: $winUiOutputPath"
+if (!(Test-Path -LiteralPath (Join-Path $winUiOutputPath "GestureSignV2.WinUI.exe"))) {
+    throw "WinUI build output is missing GestureSignV2.WinUI.exe: $winUiOutputPath"
 }
 
 Copy-Item -Path (Join-Path $winUiOutputPath "*") -Destination $publishPath -Recurse -Force
 New-Item -ItemType Directory -Path $publishBackendPath | Out-Null
 Copy-Item -Path (Join-Path $backendOutputPath "*") -Destination $publishBackendPath -Recurse -Force
-foreach ($requiredBackendFile in @("GestureSign.exe", "GestureSign.Common.dll", "GestureSign.CorePlugins.dll", "ManagedWinapi.dll", "WindowsInput.dll")) {
+foreach ($requiredBackendFile in @("GestureSignV2Daemon.exe", "GestureSign.Common.dll", "GestureSign.CorePlugins.dll", "ManagedWinapi.dll", "WindowsInput.dll")) {
     if (!(Test-Path -LiteralPath (Join-Path $publishBackendPath $requiredBackendFile))) {
         throw "Backend file is missing from publish directory: $requiredBackendFile"
     }
 }
 
-foreach ($requiredWinUiFile in @("GestureSign.WinUI.exe", "GestureSign.WinUI.dll")) {
+foreach ($requiredWinUiFile in @("GestureSignV2.WinUI.exe", "GestureSignV2.WinUI.dll")) {
     if (!(Test-Path -LiteralPath (Join-Path $publishPath $requiredWinUiFile))) {
         throw "WinUI file is missing from publish directory: $requiredWinUiFile"
     }
@@ -397,13 +397,13 @@ $($directoryXml -join "`r`n")
 
 $($components -join "`r`n")
     <Component Id="StartMenuShortcutComponent" Directory="ProgramMenuDir" Guid="*">
-      <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
+      <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuDir" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSignV2.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RemoveFolder Id="RemoveProgramMenuDir" Directory="ProgramMenuDir" On="uninstall" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="startMenuShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>
 
     <Component Id="DesktopShortcutComponent" Directory="DesktopFolder" Guid="*">
-      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSign.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
+      <Shortcut Id="DesktopShortcut" Directory="DesktopFolder" Name="$(Escape-Xml $PackageName)" Target="[INSTALLFOLDER]GestureSignV2.WinUI.exe" WorkingDirectory="INSTALLFOLDER" Icon="GestureSignIcon" />
       <RegistryValue Root="$shortcutRegistryRoot" Key="Software\GestureSign V2" Name="desktopShortcut" Type="integer" Value="1" KeyPath="yes" />
     </Component>
 

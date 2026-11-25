@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "File Browser",
+      "paint": "Żebgħa",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Web Browser"
+    },
+    "audio": {
+      "mute": "Ikmutja",
+      "next-track": "Trakka Li Jmiss",
+      "play-pause": "Play / Pawża",
+      "previous-track": "Track preċedenti",
+      "submenu": "Awdjo"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Dokumenti",
+      "downloads": "Downloads",
+      "home": "Dar",
+      "music": "Mużika",
+      "pictures": "Stampi",
+      "submenu": "Bookmarks",
+      "videos": "Vidjows"
+    },
+    "clipboard": {
+      "copy": "Ikkopja",
+      "cut": "Qaċċ",
+      "paste": "Imbiżżel",
+      "submenu": "Clipboard"
+    },
+    "name": "Eżempju Menu",
+    "next-workspace": "L-Ispazju tax-Xogħol li jmiss",
+    "previous-workspace": "Spazju tax-Xogħol Preċedenti",
+    "web-links": {
+      "kando-on-discord": "Kando fuq Discord",
+      "kando-on-github": "Kando fuq GitHub",
+      "kando-on-kofi": "Kando fuq Ko-fi",
+      "kando-on-youtube": "Kando fuq YouTube",
+      "submenu": "Web Links"
+    },
+    "windows": {
+      "close-window": "Agħlaq Tieqa",
+      "submenu": "Windows",
+      "tile-left": "Tile Xellug",
+      "tile-right": "Tile Dritt",
+      "toggle-maximize": "Toggle timmassimizza"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Agħlaq il-Menu"
+    },
+    "close-submenu": {
+      "name": "Agħlaq is-Submenu"
+    },
+    "delay": {
+      "name": "Stennija"
+    },
+    "execute-command": {
+      "name": "Eżegwixxi Kmand"
+    },
+    "execute-macro": {
+      "name": "Eżegwixxi Makro"
+    },
+    "focus-window": {
+      "name": "Tieqa Focus"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inibixxi Shortcuts"
+    },
+    "open-file": {
+      "name": "Iftaħ il-Fajl"
+    },
+    "open-menu": {
+      "name": "Iftaħ il-Menu"
+    },
+    "open-settings": {
+      "name": "Iftaħ Settings"
+    },
+    "open-uri": {
+      "name": "Iftaħ l-URI"
+    },
+    "send-tcp-message": {
+      "name": "Ibgħat Messaġġ TCP"
+    },
+    "send-websocket-message": {
+      "name": "Ibgħat Messaġġ WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Issettja Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hotkey",
+      "name": "Simula Hotkey",
+      "recording-placeholder": "Ittajpja hotkey..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "Azzjoni",
+    "action-value": "Shortcut, mogħdija, URL, test, jew JSON",
+    "choose-icon": "Agħżel l-ikona",
+    "condition-invalid": "Daħħal tieqa valida jew kundizzjoni ta' app, pereżempju /notepad/i.",
+    "configuration": "Konfigurazzjoni tal-Menu Pie",
+    "editor": "Editur tal-Menu Pie",
+    "exported": "Esportat lejn {0}",
+    "fixed-angle": "Angolu fiss (0° = 'il fuq)",
+    "fixed-x": "X fiss (0–1 madwar il-monitor)",
+    "fixed-y": "Y fiss (0–1 'l isfel mill-monitor)",
+    "icon-invalid-image": "Agħżel immaġni PNG, JPEG, GIF, WebP jew ICO sa 192 KB.",
+    "icon-library": "Librerija tal-ikoni",
+    "icon-next": "Ikoni li jmiss",
+    "icon-no-results": "L-ebda ikona ma nstabet.",
+    "icon-pick-file": "Agħżel immaġni jew app",
+    "icon-previous": "Ikoni preċedenti",
+    "icon-use-image": "Uża immaġni",
+    "imported": "Menù/i importati {0}. Irrevedi l-kmandi importati qabel tużahom, imbagħad issalva.",
+    "item-icon": "Ikona tal-oġġett",
+    "item-order": "Ordni tal-oġġett",
+    "label": "Tikketta",
+    "move-down": "Nimxu 'l isfel",
+    "move-up": "Nimxu 'l fuq",
+    "name": "Isem il-menu",
+    "new-menu": "Menu ġdid",
+    "off": "Mitfi",
+    "on": "Fuq",
+    "palette": "Paletta tal-kulur",
+    "preview": "Preview menu",
+    "remove": "Neħħi",
+    "save": "Ħlief menus",
+    "saved": "Konfigurazzjoni tal-menu salvata.",
+    "shortcut-clear": "Shortcut ċar",
+    "shortcut-cleared": "Shortcut approvat.",
+    "shortcut-config-changed": "Il-konfigurazzjoni tal-menu nbidlet fuq id-diska. Issejvja l-menus attwali biex tapplika din is-shortcut.",
+    "shortcut-in-use": "Windows jirrapporta li din is-shortcut diġà qed tintuża.",
+    "shortcut-invalid": "Daħħal ċavetta waħda, flimkien ma' kwalunkwe modifikaturi permessi għal din is-shortcut.",
+    "shortcut-record": "Irreġistra shortcut",
+    "shortcut-save-new-menu": "Issejvja dan il-menu ġdid biex tattiva s-shortcut tiegħu.",
+    "shortcut-saved": "Shortcut salvat: {0}. Użaha biex tiftaħ il-menu meta Azzjonijiet Quick tkun attivata.",
+    "shortcut-stop": "Waqqaf ir-reġistrazzjoni",
+    "shortcut-unavailable": "Windows ma setgħetx tirreġistra din is-shortcut."
+  },
+  "settings": {
+    "add-menu-items": "Żid Oġġetti tal-Menu",
+    "all-menus": "Il-Menus kollha",
+    "anchored-mode": "Modalità Ankrata",
+    "app-condition": "Limitu għal Apps Speċifiċi",
+    "area-condition-bottom-placeholder": "Isfel",
+    "area-condition-left-placeholder": "Tax-xellug",
+    "area-condition-right-placeholder": "Lemin",
+    "area-condition-top-placeholder": "Fuq",
+    "cancel": "Kansella",
+    "create-menu-button": "Żid il-Menu",
+    "delete-menu": "Ħassar il-menu",
+    "delete-menu-item": "Ħassar l-oġġett tal-menu",
+    "edit-submenu": "Editja s-submenu",
+    "export-menu": "Esportazzjoni menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Ippermetti l-Modalità tal-Immarkar",
+      "close-menu": "Agħlaq il-menu",
+      "do-nothing": "Tagħmel xejn",
+      "enable-marking-mode-info": "Bil-Modalità tal-Immarkar attivata, tista' tagħżel oġġetti billi tkaxkru l-maws fuqhom.",
+      "enable-turbo-mode": "Ippermetti Turbo Mode",
+      "enable-turbo-mode-info": "Bil-Modalità Turbo attivata, tista' twettaq ġesti sakemm iżżomm buttuna modifikatur bħal Shift jew Ctrl.",
+      "interaction-modes": "Modi ta' Interazzjoni",
+      "middle-mouse-button-behavior": "Buttuna tan-nofs tal-maws",
+      "middle-mouse-button-behavior-info": "Dan jiddetermina x'jiġri meta l-buttuna tan-nofs tal-maws tiġi ppressata waqt li jintwera menu.",
+      "move-pointer-to-menu-center": "Mexxi pointer lejn iċ-ċentru tal-menu",
+      "move-pointer-to-menu-center-info": "Jekk jiġi ċċekkjat, il-pointer tal-maws jiġi mċaqlaq lejn iċ-ċentru ta' menu jew submenu meta meħtieġ. Dan jista' jkun il-każ jekk menu jinfetaħ qrib wisq tat-tarf tal-iskrin jew jekk menu jinfetaħ fil-Modalità Ċentrat.",
+      "require-click-for-hover-mode": "Jeħtieġ ikklikkja għal selezzjonijiet tal-Modalità Hover",
+      "require-click-for-hover-mode-info": "Jekk ma tkunx ikkontrollata, l-oġġetti jintgħażlu immedjatament meta l-maws jitmexxa fuqhom għall-menus bl-użu tal-Modalità Hover.",
+      "right-mouse-button-behavior": "Buttuna tal-lemin tal-maws",
+      "right-mouse-button-behavior-info": "Dan jiddetermina x'jiġri meta l-buttuna tal-lemin tal-maws tiġi ppressata waqt li jintwera menu.",
+      "select-item": "Agħżel l-oġġett",
+      "select-parent": "Innaviga 'l fuq livell wieħed",
+      "trigger-center-click-on-key-release": "Agħlaq il-menu fuq ir-rilaxx ta' shortcut fuq iċ-ċentru",
+      "trigger-center-click-on-key-release-info": "Dan se jqanqal il-fluss tax-xogħol tal-ikklikkja ċentrali meta ċavetta tiġi rilaxxata waqt li tittajjar fuq iċ-ċentru ta 'menu."
+    },
+    "hover-mode": "Modalità Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Fittex ikoni..."
+    },
+    "import-menu": "Import menu",
+    "menu-behavior": "Imġieba tal-Menu",
+    "menu-conditions": "Kundizzjonijiet tal-Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Kuluri default",
+      "enable-menu-animations": "Menu Animazzjonijiet",
+      "title": "Temi tal-menu"
+    },
+    "no-matching-menus": "Ma nstab l-ebda menu.",
+    "no-menus": "M'għandekx menus.",
+    "not-bound": "Mhux Marbut",
+    "quick-select-key-label": "Agħżel malajr ċavetta",
+    "quick-select-key-recording": "Agħżel iċ-ċavetta...",
+    "shortcut-info": "Din is-shortcut tiftaħ il-menu. Għandu jkun fiha ċavetta normali waħda u kwalunkwe numru ta 'modifikaturi bħal Ctrl, Alt, jew Shift. Meta tirrekordja, m'għandekx għalfejn tagħfas iċ-ċwievet kollha f'daqqa, tista 'wkoll tagħfashom waħda wara l-oħra. Dan huwa utli jekk shortcut tkun diġà marbuta ma' menu ieħor!",
+    "shortcut-label": "Shortcut",
+    "shortcut-recording": "Agħfas shortcut...",
+    "window-condition": "Limitu għal Titoli Speċifiċi tat-Tieqa",
+    "workflow-editor": {
+      "add-action": "Żid Azzjoni",
+      "select-workflow-name": "Agħżel Workflow"
+    },
+    "anchored-mode-info": "Iftaħ submenus fl-istess pożizzjoni bħall-menu ġenitur. Iċċekkja dan, se tiddiżattiva l-Modalità tal-Immarkar u l-Modalità Turbo.",
+    "fixed-position-mode": "Modalità Pożizzjoni Fiss",
+    "fixed-position-mode-info": "Iftaħ il-menu f'pożizzjoni fissa fuq l-iskrin, minflok fil-cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Issettja l-pożizzjoni fil-qiegħ tax-xellug",
+      "bottom-right-preset-tooltip": "Issettja l-pożizzjoni fil-lemin t'isfel",
+      "centered-preset-tooltip": "Issettja l-pożizzjoni lejn iċ-ċentru",
+      "confirm": "Uża din il-pożizzjoni",
+      "top-left-preset-tooltip": "Issettja l-pożizzjoni fuq ix-xellug ta 'fuq",
+      "top-right-preset-tooltip": "Issettja l-pożizzjoni fuq il-lemin ta 'fuq"
+    },
+    "fixed-position-tooltip": "Agħżel pożizzjoni fissa",
+    "hover-mode-info": "Għall-utenti tal-qawwa biss! Agħżel oġġetti billi tgħaddi fuqhom."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Ċirku Nadif",
+      "neon-lights": "Dwal tan-Neon",
+      "purity": "Purità",
+      "rainbow-labels": "Tikketti tal-Qawsalla"
+    },
+    "presets": {
+      "Blue Glass": "Ħġieġ Blu",
+      "Dark Night": "Lejl Dlam",
+      "Cotton Candy": "Qoton Candy",
+      "Dark and Cozy": "Skur u Cozy",
+      "Blue Glow": "Tiddix blu",
+      "Green Glow": "Green Glow",
+      "Electric": "Elettriku",
+      "Orange": "Oranġjo",
+      "Pink": "Roża",
+      "Bright Prism": "Priżma Bright",
+      "Kando Default": "Kuluri default"
+    }
+  }
+}

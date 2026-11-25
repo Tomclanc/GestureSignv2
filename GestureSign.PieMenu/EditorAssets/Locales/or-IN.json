@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ଇ-ମେଲ୍",
+      "file-browser": "ଫାଇଲ୍ ବ୍ରାଉଜର୍",
+      "paint": "ରଙ୍ଗ କରନ୍ତୁ",
+      "submenu": "ଅନୁପ୍ରୟୋଗଗୁଡିକ",
+      "terminal": "ଟର୍ମିନାଲ୍",
+      "web-browser": "ୱେବ୍ ବ୍ରାଉଜର୍"
+    },
+    "audio": {
+      "mute": "ମ୍ୟୁଟ୍",
+      "next-track": "ପରବର୍ତ୍ତୀ ଟ୍ରାକ୍",
+      "play-pause": "ଖେଳ / ବିରତି",
+      "previous-track": "ପୂର୍ବତନ ଟ୍ରାକ୍",
+      "submenu": "ଅଡିଓ"
+    },
+    "bookmarks": {
+      "desktop": "ଡେସ୍କଟପ୍",
+      "documents": "ଡକ୍ୟୁମେଣ୍ଟ୍",
+      "downloads": "ଡାଉନଲୋଡ୍",
+      "home": "ଘର",
+      "music": "ସଙ୍ଗୀତ",
+      "pictures": "ଛବିଗୁଡିକ",
+      "submenu": "ବୁକମାର୍କଗୁଡିକ",
+      "videos": "ଭିଡିଓଗୁଡିକ"
+    },
+    "clipboard": {
+      "copy": "କପି",
+      "cut": "କଟ୍",
+      "paste": "ପେଷ୍ଟ",
+      "submenu": "କ୍ଲିପବୋର୍ଡ"
+    },
+    "name": "ଉଦାହରଣ ମେନୁ",
+    "next-workspace": "ପରବର୍ତ୍ତୀ କାର୍ଯ୍ୟକ୍ଷେତ୍ର",
+    "previous-workspace": "ପୂର୍ବ କାର୍ଯ୍ୟକ୍ଷେତ୍ର",
+    "web-links": {
+      "kando-on-discord": "ଡିସକର୍ଡରେ କାଣ୍ଡୋ",
+      "kando-on-github": "GitHub ରେ କାଣ୍ଡୋ",
+      "kando-on-kofi": "କୋ-ଫାଇରେ କାଣ୍ଡୋ",
+      "kando-on-youtube": "ୟୁଟ୍ୟୁବରେ କାଣ୍ଡୋ",
+      "submenu": "ୱେବ୍ ଲିଙ୍କ୍"
+    },
+    "windows": {
+      "close-window": "ଜଣ୍ଡା ବନ୍ଦ କରନ୍ତୁ",
+      "submenu": "ୱିଣ୍ଡୋଜ୍",
+      "tile-left": "ଟାଇଲ୍ ବାମ",
+      "tile-right": "ଟାଇଲ୍ ଡାହାଣ",
+      "toggle-maximize": "ସର୍ବାଧିକ ଟୋଗଲ୍ କରନ୍ତୁ"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ମେନୁ ବନ୍ଦ କରନ୍ତୁ"
+    },
+    "close-submenu": {
+      "name": "ସବମେନୁ ବନ୍ଦ କରନ୍ତୁ"
+    },
+    "delay": {
+      "name": "ବିଳମ୍ବ"
+    },
+    "execute-command": {
+      "name": "କମାଣ୍ଡ୍ ଏକଜେକ୍ୟୁଟ୍ କରନ୍ତୁ"
+    },
+    "execute-macro": {
+      "name": "ମାକ୍ରୋ ଏକଜେକ୍ୟୁଟ୍ କରନ୍ତୁ"
+    },
+    "focus-window": {
+      "name": "ଫୋକସ୍ ୱିଣ୍ଡୋ"
+    },
+    "inhibit-shortcuts": {
+      "name": "ସର୍ଟକଟ୍ ପ୍ରତିରୋଧ କରନ୍ତୁ"
+    },
+    "open-file": {
+      "name": "ଫାଇଲ୍ ଖୋଲନ୍ତୁ"
+    },
+    "open-menu": {
+      "name": "ମେନୁ ଖୋଲନ୍ତୁ"
+    },
+    "open-settings": {
+      "name": "ସେଟିଂସମୂହ ଖୋଲନ୍ତୁ"
+    },
+    "open-uri": {
+      "name": "URI ଖୋଲନ୍ତୁ"
+    },
+    "send-tcp-message": {
+      "name": "TCP ବାର୍ତ୍ତା ପଠାନ୍ତୁ"
+    },
+    "send-websocket-message": {
+      "name": "ୱେବ୍ ସକେଟ୍ ବାର୍ତ୍ତା ପଠାନ୍ତୁ"
+    },
+    "set-clipboard": {
+      "name": "କ୍ଲିପବୋର୍ଡ ସେଟ୍ କରନ୍ତୁ"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ହଟକୀ",
+      "name": "ହଟ୍କିକୁ ଅନୁକରଣ କରନ୍ତୁ",
+      "recording-placeholder": "ଏକ ହଟ୍କି ଟାଇପ୍ କରନ୍ତୁ…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ସବମେନୁ"
+    }
+  },
+  "native": {
+    "action": "କାର୍ଯ୍ୟ",
+    "action-value": "ସର୍ଟକଟ୍, ପଥ, URL, ପାଠ୍ୟ, କିମ୍ବା JSON",
+    "choose-icon": "ଆଇକନ୍ ବାଛନ୍ତୁ",
+    "condition-invalid": "ଏକ ବ valid ଧ ୱିଣ୍ଡୋ କିମ୍ବା ଆପ୍ ସ୍ଥିତି ପ୍ରବେଶ କରନ୍ତୁ, ଉଦାହରଣ ସ୍ୱରୂପ / ନୋଟପ୍ୟାଡ୍ / i",
+    "configuration": "ପାଇ ମେନୁ ବିନ୍ୟାସକରଣ",
+    "editor": "ପାଇ ମେନୁ ଏଡିଟର୍",
+    "exported": "{0} କୁ ରପ୍ତାନି ହୋଇଛି।",
+    "fixed-angle": "ସ୍ଥିର କୋଣ (0 ° = ଉପର)",
+    "fixed-x": "ସ୍ଥିର X (ମନିଟରରେ 0–1)",
+    "fixed-y": "ଫିକ୍ସଡ୍ Y (ମନିଟର ତଳକୁ 0–1)",
+    "icon-invalid-image": "192 KB ପର୍ଯ୍ୟନ୍ତ ଏକ PNG, JPEG, GIF, WebP, କିମ୍ବା ICO ପ୍ରତିଛବି ବାଛନ୍ତୁ",
+    "icon-library": "ଆଇକନ୍ ଲାଇବ୍ରେରୀ",
+    "icon-next": "ପରବର୍ତ୍ତୀ ଆଇକନ୍ଗୁଡ଼ିକ",
+    "icon-no-results": "କ ic ଣସି ଆଇକନ୍ ମିଳିଲା ନାହିଁ",
+    "icon-pick-file": "ପ୍ରତିଛବି କିମ୍ବା ଆପ୍ ବାଛନ୍ତୁ",
+    "icon-previous": "ପୂର୍ବ ଆଇକନ୍",
+    "icon-use-image": "ପ୍ରତିଛବି ବ୍ୟବହାର କରନ୍ତୁ",
+    "imported": "ଆମଦାନୀ {0} ମେନୁ (ଗୁଡିକ) | ସେଗୁଡିକ ବ୍ୟବହାର କରିବା ପୂର୍ବରୁ ଆମଦାନୀ ହୋଇଥିବା ନିର୍ଦ୍ଦେଶଗୁଡ଼ିକୁ ସମୀକ୍ଷା କରନ୍ତୁ, ତାପରେ ସଞ୍ଚୟ କରନ୍ତୁ",
+    "item-icon": "ଆଇଟମ୍ ଆଇକନ୍",
+    "item-order": "ଆଇଟମ୍ କ୍ରମ",
+    "label": "ଲେବଲ୍",
+    "move-down": "ତଳକୁ ଯାଅ",
+    "move-up": "ଉପରକୁ ଯାଅ",
+    "name": "ମେନୁ ନାମ",
+    "new-menu": "ନୂତନ ମେନୁ",
+    "off": "ବନ୍ଦ",
+    "on": "ଚାଲୁ",
+    "palette": "ରଙ୍ଗ ପ୍ୟାଲେଟ୍",
+    "preview": "ପୂର୍ବାବଲୋକନ ମେନୁ",
+    "remove": "ଅପସାରଣ କରନ୍ତୁ",
+    "save": "ମେନୁଗୁଡିକ ସଞ୍ଚୟ କରନ୍ତୁ",
+    "saved": "ମେନୁ ବିନ୍ୟାସ ସଞ୍ଚୟ ହୋଇଛି",
+    "shortcut-clear": "ସର୍ଟକଟ୍ ସଫା କରନ୍ତୁ",
+    "shortcut-cleared": "ସର୍ଟକଟ୍ ସଫା ହେଲା",
+    "shortcut-config-changed": "ଡିସ୍କରେ ମେନୁ ବିନ୍ୟାସକରଣ ବଦଳିଗଲା | ଏହି ସର୍ଟକଟ୍ ପ୍ରୟୋଗ କରିବାକୁ ସାମ୍ପ୍ରତିକ ମେନୁଗୁଡ଼ିକୁ ସେଭ୍ କରନ୍ତୁ",
+    "shortcut-in-use": "ୱିଣ୍ଡୋଜ୍ ରିପୋର୍ଟ କରେ ଯେ ଏହି ସର୍ଟକଟ୍ ପୂର୍ବରୁ ବ୍ୟବହାର ହୋଇସାରିଛି",
+    "shortcut-invalid": "ଏହି ସର୍ଟକଟ୍ ପାଇଁ ଅନୁମତି ପ୍ରାପ୍ତ ଯେକ any ଣସି ପରିବର୍ତ୍ତନକାରୀ ଗୋଟିଏ ଚାବି ପ୍ରବେଶ କରନ୍ତୁ",
+    "shortcut-record": "ସର୍ଟକଟ୍ ରେକର୍ଡ କରନ୍ତୁ",
+    "shortcut-save-new-menu": "ଏହାର ସର୍ଟକଟ୍ ସକ୍ରିୟ କରିବାକୁ ଏହି ନୂତନ ମେନୁକୁ ସେଭ୍ କରନ୍ତୁ",
+    "shortcut-saved": "ସର୍ଟକଟ୍ ସଞ୍ଚୟ ହୋଇଛି: {0} | ଦ୍ରୁତ କ୍ରିୟାଗୁଡ଼ିକ ସକ୍ଷମ ହେଲେ ମେନୁ ଖୋଲିବାକୁ ଏହାକୁ ବ୍ୟବହାର କରନ୍ତୁ",
+    "shortcut-stop": "ରେକର୍ଡିଂ ବନ୍ଦ କରନ୍ତୁ",
+    "shortcut-unavailable": "ୱିଣ୍ଡୋଜ୍ ଏହି ସର୍ଟକଟ୍ ପଞ୍ଜିକରଣ କରିପାରିଲା ନାହିଁ"
+  },
+  "settings": {
+    "add-menu-items": "ମେନୁ ଆଇଟମ୍ ଯୋଡନ୍ତୁ",
+    "all-menus": "ସମସ୍ତ ମେନୁଗୁଡ଼ିକ",
+    "anchored-mode": "ଲଙ୍ଗର ମୋଡ୍",
+    "app-condition": "ନିର୍ଦ୍ଦିଷ୍ଟ ଆପ୍ସ ପାଇଁ ସୀମିତ",
+    "area-condition-bottom-placeholder": "ତଳ",
+    "area-condition-left-placeholder": "ବାମ",
+    "area-condition-right-placeholder": "ସଠିକ୍",
+    "area-condition-top-placeholder": "ଶୀର୍ଷ",
+    "cancel": "ରଦ୍ଦ",
+    "create-menu-button": "ମେନୁ ଯୋଡନ୍ତୁ",
+    "delete-menu": "ମେନୁ ଡିଲିଟ୍ କରନ୍ତୁ",
+    "delete-menu-item": "ମେନୁ ଆଇଟମ୍ ଡିଲିଟ୍ କରନ୍ତୁ",
+    "edit-submenu": "ଉପମେନୁ ସଂପାଦନ କରନ୍ତୁ",
+    "export-menu": "ରପ୍ତାନି ମେନୁ",
+    "general-settings-dialog": {
+      "enable-marking-mode": "ମାର୍କିଂ ମୋଡ୍ ସକ୍ଷମ କରନ୍ତୁ",
+      "close-menu": "ମେନୁ ବନ୍ଦ କରନ୍ତୁ",
+      "do-nothing": "କିଛି କର ନାହିଁ",
+      "enable-marking-mode-info": "ମାର୍କିଂ ମୋଡ୍ ସକ୍ଷମ ହେବା ସହିତ, ଆପଣ ସେମାନଙ୍କ ଉପରେ ମାଉସ୍ ଡ୍ରାଗ୍ କରି ଆଇଟମ୍ ଚୟନ କରିପାରିବେ",
+      "enable-turbo-mode": "ଟର୍ବୋ ମୋଡ୍ ସକ୍ଷମ କରନ୍ତୁ",
+      "enable-turbo-mode-info": "With Turbo Mode enabled, you can perform gestures as long as you hold down a modifier key such as Shift or Ctrl.",
+      "interaction-modes": "ପାରସ୍ପରିକ ଧାରା",
+      "middle-mouse-button-behavior": "ମଧ୍ୟମ ମାଉସ୍ ବଟନ୍",
+      "middle-mouse-button-behavior-info": "ଏକ ମେନୁ ଦେଖାଯିବାବେଳେ ମଧ୍ୟମ ମାଉସ୍ ବଟନ୍ ଦବାଇଲେ ଏହା କ’ଣ ହୁଏ ତାହା ନିର୍ଣ୍ଣୟ କରେ",
+      "move-pointer-to-menu-center": "ସୂଚକକୁ ମେନୁ ସେଣ୍ଟରକୁ ଘୁଞ୍ଚାନ୍ତୁ",
+      "move-pointer-to-menu-center-info": "ଯଦି ଯାଞ୍ଚ କରାଯାଏ, ଆବଶ୍ୟକ ସମୟରେ ମାଉସ୍ ସୂଚକ ଏକ ମେନୁ କିମ୍ବା ସବମେନୁର କେନ୍ଦ୍ରକୁ ସ୍ଥାନାନ୍ତରିତ ହେବ | ସ୍କ୍ରିନର ଧାରରେ ଯଦି ଏକ ମେନୁ ଖୋଲାଯାଏ କିମ୍ବା ସେଣ୍ଟର୍ ମୋଡ୍ ରେ ଏକ ମେନୁ ଖୋଲାଯାଏ ତେବେ ଏହା ହୋଇପାରେ",
+      "require-click-for-hover-mode": "ହୋଭର ମୋଡ୍ ଚୟନ ପାଇଁ କ୍ଲିକ୍ ଆବଶ୍ୟକ",
+      "require-click-for-hover-mode-info": "ଯଦି ଯାଞ୍ଚ ହୋଇନଥାଏ, ହୋଭର ମୋଡ୍ ବ୍ୟବହାର କରି ମେନୁଗୁଡ଼ିକ ପାଇଁ ମାଉସ୍ ସେମାନଙ୍କ ଉପରେ ଘୁଞ୍ଚାଯିବା ପରେ ଆଇଟମଗୁଡିକ ତୁରନ୍ତ ଚୟନ କରାଯିବ",
+      "right-mouse-button-behavior": "ଡାହାଣ ମାଉସ୍ ବଟନ୍",
+      "right-mouse-button-behavior-info": "ଏକ ମେନୁ ଦେଖାଯିବାବେଳେ ଡାହାଣ ମାଉସ୍ ବଟନ୍ ଦବାଇଲେ ଏହା କ’ଣ ହୁଏ ତାହା ନିର୍ଣ୍ଣୟ କରେ",
+      "select-item": "ଆଇଟମ୍ ଚୟନ କରନ୍ତୁ",
+      "select-parent": "ଗୋଟିଏ ସ୍ତରକୁ ନେଭିଗେଟ୍ କରନ୍ତୁ",
+      "trigger-center-click-on-key-release": "କେନ୍ଦ୍ର ଉପରେ ସର୍ଟକଟ୍ ରିଲିଜ୍ ଉପରେ ମେନୁ ବନ୍ଦ କରନ୍ତୁ",
+      "trigger-center-click-on-key-release-info": "ଏକ ମେନୁର ମଧ୍ୟଭାଗରେ ବୁଲିବାବେଳେ ଏକ ଚାବି ମୁକ୍ତ ହେବାବେଳେ ଏହା ସେଣ୍ଟର୍-କ୍ଲିକ୍ ୱାର୍କଫ୍ଲୋକୁ ଟ୍ରିଗର କରିବ"
+    },
+    "hover-mode": "ହୋଭର୍ ମୋଡ୍",
+    "icon-picker-dialog": {
+      "search-placeholder": "ଆଇକନ୍ ସନ୍ଧାନ…"
+    },
+    "import-menu": "ମେନୁ ଆମଦାନି କରନ୍ତୁ",
+    "menu-behavior": "ମେନୁ ଆଚରଣ",
+    "menu-conditions": "ମେନୁ ସର୍ତ୍ତ",
+    "menu-themes-dialog": {
+      "default-colors": "ଡିଫଲ୍ଟ ରଙ୍ଗ",
+      "enable-menu-animations": "ମେନୁ ଆନିମେସନ୍ସ",
+      "title": "ମେନୁ ଥିମ୍ସ"
+    },
+    "no-matching-menus": "କ men ଣସି ମେନୁ ମିଳିଲା ନାହିଁ",
+    "no-menus": "ଆପଣଙ୍କର କ men ଣସି ମେନୁ ନାହିଁ",
+    "not-bound": "ସୀମା ନୁହେଁ",
+    "quick-select-key-label": "ଶୀଘ୍ର ଚୟନ କି",
+    "quick-select-key-recording": "ଚାବି ବାଛନ୍ତୁ…",
+    "shortcut-info": "ଏହି ସର୍ଟକଟ୍ ମେନୁ ଖୋଲିବ | ଏଥିରେ ଗୋଟିଏ ସାଧାରଣ ଚାବି ଏବଂ ଯେକ number ଣସି ସଂଖ୍ୟକ ମୋଡିଫାୟର୍ ଯେପରିକି Ctrl, Alt, କିମ୍ବା Shift ଧାରଣ କରିବା ଜରୁରୀ | ରେକର୍ଡିଂ କରିବାବେଳେ, ତୁମକୁ ସମସ୍ତ ଚାବିକୁ ଏକାଥରକେ ଦବାଇବାକୁ ପଡିବ ନାହିଁ, ତୁମେ ସେମାନଙ୍କୁ ଗୋଟିଏ ପରେ ଗୋଟିଏ ଦବାଇ ପାରିବ | ଯଦି ଏକ ସର୍ଟକଟ୍ ଅନ୍ୟ ମେନୁରେ ବନ୍ଧା ହୋଇଥିବ ତେବେ ଏହା ଉପଯୋଗୀ!",
+    "shortcut-label": "ସର୍ଟକଟ୍",
+    "shortcut-recording": "ଏକ ସର୍ଟକଟ୍ ଦବାନ୍ତୁ…",
+    "window-condition": "ନିର୍ଦ୍ଦିଷ୍ଟ ୱିଣ୍ଡୋ ଆଖ୍ୟାଗୁଡିକରେ ସୀମିତ",
+    "workflow-editor": {
+      "add-action": "କ୍ରିୟା ଯୋଗକର",
+      "select-workflow-name": "ୱାର୍କଫ୍ଲୋ ଚୟନ କରନ୍ତୁ"
+    },
+    "anchored-mode-info": "ପ୍ୟାରେଣ୍ଟ୍ ମେନୁ ସହିତ ସମାନ ଅବସ୍ଥାରେ ସବମେନସ୍ ଖୋଲନ୍ତୁ | ଏହାକୁ ଯାଞ୍ଚ କରିବା ଦ୍ୱାରା ମାର୍କିଂ ମୋଡ୍ ଏବଂ ଟର୍ବୋ ମୋଡ୍ ଅକ୍ଷମ ହେବ",
+    "fixed-position-mode": "ସ୍ଥିର ଅବସ୍ଥାନ ମୋଡ୍",
+    "fixed-position-mode-info": "କର୍ସର୍ ପରିବର୍ତ୍ତେ ପରଦାରେ ଏକ ସ୍ଥିର ସ୍ଥିତିରେ ମେନୁ ଖୋଲ",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "ନିମ୍ନ ବାମକୁ ସ୍ଥିତି ସେଟ୍ କରନ୍ତୁ",
+      "bottom-right-preset-tooltip": "ଡାହାଣକୁ ଡାହାଣକୁ ସ୍ଥିତି ସେଟ୍ କରନ୍ତୁ",
+      "centered-preset-tooltip": "କେନ୍ଦ୍ରକୁ ସ୍ଥିତି ସେଟ୍ କରନ୍ତୁ",
+      "confirm": "ଏହି ଅବସ୍ଥାନ ବ୍ୟବହାର କରନ୍ତୁ",
+      "top-left-preset-tooltip": "ଉପର ବାମକୁ ସ୍ଥିତି ସେଟ୍ କରନ୍ତୁ",
+      "top-right-preset-tooltip": "ଉପର ଡାହାଣକୁ ସ୍ଥିତି ସେଟ୍ କରନ୍ତୁ"
+    },
+    "fixed-position-tooltip": "ଏକ ସ୍ଥିର ସ୍ଥିତି ଚୟନ କରନ୍ତୁ",
+    "hover-mode-info": "କେବଳ ଶକ୍ତି ବ୍ୟବହାରକାରୀଙ୍କ ପାଇଁ! ସେଗୁଡ଼ିକ ଉପରେ ଚ by ି ଆଇଟମ୍ ଚୟନ କରନ୍ତୁ"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ଡିଫଲ୍ଟ",
+      "clean-circle": "ପରିଷ୍କାର ସର୍କଲ୍",
+      "neon-lights": "ନିନ୍ ଲାଇଟ୍",
+      "purity": "ଶୁଦ୍ଧତା",
+      "rainbow-labels": "ଇନ୍ଦ୍ରଧନୁ ଲେବଲ୍"
+    },
+    "presets": {
+      "Blue Glass": "ନୀଳ ଗ୍ଲାସ୍",
+      "Dark Night": "ଅନ୍ଧାର ରାତି",
+      "Cotton Candy": "କପା କାଣ୍ଡ",
+      "Dark and Cozy": "ଗା ark ଏବଂ ଆରାମଦାୟକ",
+      "Blue Glow": "ବ୍ଲୁ ଗ୍ଲୋ",
+      "Green Glow": "ସବୁଜ ଗ୍ଲୋ",
+      "Electric": "ଇଲେକ୍ଟ୍ରିକ୍",
+      "Orange": "କମଳାବର୍ଣ୍ଣ",
+      "Pink": "ଗୁଲାବୀ",
+      "Bright Prism": "ଉଜ୍ଜ୍ୱଳ ପ୍ରିଜିମ୍",
+      "Kando Default": "ଡିଫଲ୍ଟ ରଙ୍ଗ"
+    }
+  }
+}

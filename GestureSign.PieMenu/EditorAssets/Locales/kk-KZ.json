@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Электрондық пошта",
+      "file-browser": "Файл шолғышы",
+      "paint": "Бояу",
+      "submenu": "Қолданбалар",
+      "terminal": "Терминал",
+      "web-browser": "Веб-шолғыш"
+    },
+    "audio": {
+      "mute": "Дыбысты өшіру",
+      "next-track": "Келесі трек",
+      "play-pause": "Ойнату / Кідірту",
+      "previous-track": "Алдыңғы трек",
+      "submenu": "Аудио"
+    },
+    "bookmarks": {
+      "desktop": "Жұмыс үстелі",
+      "documents": "Құжаттар",
+      "downloads": "Жүктеулер",
+      "home": "Үй",
+      "music": "Музыка",
+      "pictures": "Суреттер",
+      "submenu": "Бетбелгілер",
+      "videos": "Бейнелер"
+    },
+    "clipboard": {
+      "copy": "Көшіру",
+      "cut": "Кесу",
+      "paste": "Қою",
+      "submenu": "Алмасу буфері"
+    },
+    "name": "Мысал мәзірі",
+    "next-workspace": "Келесі жұмыс кеңістігі",
+    "previous-workspace": "Алдыңғы жұмыс кеңістігі",
+    "web-links": {
+      "kando-on-discord": "Discord-тағы Кандо",
+      "kando-on-github": "GitHub сайтындағы Kando",
+      "kando-on-kofi": "Ко-фидегі Кандо",
+      "kando-on-youtube": "Кандо YouTube сайтында",
+      "submenu": "Веб сілтемелері"
+    },
+    "windows": {
+      "close-window": "Терезені жабу",
+      "submenu": "Windows",
+      "tile-left": "Сол жақ тақта",
+      "tile-right": "Оң жақ тақта",
+      "toggle-maximize": "Үлкейтуді ауыстырып-қосқыш"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Мәзірді жабу"
+    },
+    "close-submenu": {
+      "name": "Ішкі мәзірді жабу"
+    },
+    "delay": {
+      "name": "Кешіктірілген"
+    },
+    "execute-command": {
+      "name": "Пәрменді орындау"
+    },
+    "execute-macro": {
+      "name": "Макросты орындау"
+    },
+    "focus-window": {
+      "name": "Фокус терезесі"
+    },
+    "inhibit-shortcuts": {
+      "name": "Таңбашаларды бөгеу"
+    },
+    "open-file": {
+      "name": "Файлды ашу"
+    },
+    "open-menu": {
+      "name": "Мәзірді ашу"
+    },
+    "open-settings": {
+      "name": "Параметрлерді ашыңыз"
+    },
+    "open-uri": {
+      "name": "URI ашыңыз"
+    },
+    "send-tcp-message": {
+      "name": "TCP хабарламасын жіберу"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket хабарын жіберу"
+    },
+    "set-clipboard": {
+      "name": "Алмасу буферін орнату"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Жылдам перне",
+      "name": "Жылдам пернені имитациялау",
+      "recording-placeholder": "Жылдам пернені теріңіз…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Ішкі мәзір"
+    }
+  },
+  "native": {
+    "action": "Әрекет",
+    "action-value": "Таңбаша, жол, URL, мәтін немесе JSON",
+    "choose-icon": "Белгішені таңдаңыз",
+    "condition-invalid": "Жарамды терезені немесе қолданба жағдайын енгізіңіз, мысалы /блокнот/i.",
+    "configuration": "Pie мәзірінің конфигурациясы",
+    "editor": "Pie мәзірінің редакторы",
+    "exported": "{0} файлына экспортталды",
+    "fixed-angle": "Тұрақты бұрыш (0° = жоғары)",
+    "fixed-x": "Бекітілген X (мониторда 0–1)",
+    "fixed-y": "Бекітілген Y (монитордан 0–1 төмен)",
+    "icon-invalid-image": "PNG, JPEG, GIF, WebP немесе 192 Кбайт дейінгі ICO кескінін таңдаңыз.",
+    "icon-library": "Белгіше кітапханасы",
+    "icon-next": "Келесі белгішелер",
+    "icon-no-results": "Ешбір белгішелер табылмады.",
+    "icon-pick-file": "Кескінді немесе қолданбаны таңдаңыз",
+    "icon-previous": "Алдыңғы белгішелер",
+    "icon-use-image": "Суретті пайдаланыңыз",
+    "imported": "Импортталған {0} мәзір(лер). Импортталған пәрмендерді қолданбас бұрын қарап шығыңыз, содан кейін сақтаңыз.",
+    "item-icon": "Элемент белгішесі",
+    "item-order": "Элемент реті",
+    "label": "Белгі",
+    "move-down": "Төмен жылжытыңыз",
+    "move-up": "Жоғары жылжытыңыз",
+    "name": "Мәзір атауы",
+    "new-menu": "Жаңа мәзір",
+    "off": "Өшірулі",
+    "on": "Қосулы",
+    "palette": "Түс палитрасы",
+    "preview": "Алдын ала қарау мәзірі",
+    "remove": "Жою",
+    "save": "Мәзірлерді сақтау",
+    "saved": "Мәзір конфигурациясы сақталды.",
+    "shortcut-clear": "Таңбашаны өшіру",
+    "shortcut-cleared": "Таңбаша өшірілді.",
+    "shortcut-config-changed": "Дискідегі мәзір конфигурациясы өзгертілді. Осы таңбашаны қолдану үшін ағымдағы мәзірлерді сақтаңыз.",
+    "shortcut-in-use": "Windows бұл таңбаша бұрыннан қолданыста екенін хабарлайды.",
+    "shortcut-invalid": "Бір пернені және осы таңбаша үшін рұқсат етілген кез келген өзгерткіштерді енгізіңіз.",
+    "shortcut-record": "Жазу таңбашасы",
+    "shortcut-save-new-menu": "Таңбашаны белсендіру үшін осы жаңа мәзірді сақтаңыз.",
+    "shortcut-saved": "Таңбаша сақталды: {0}. Жылдам әрекеттер қосылғанда мәзірді ашу үшін оны пайдаланыңыз.",
+    "shortcut-stop": "Жазуды тоқтату",
+    "shortcut-unavailable": "Windows бұл таңбашаны тіркей алмады."
+  },
+  "settings": {
+    "add-menu-items": "Мәзір элементтерін қосу",
+    "all-menus": "Барлық мәзірлер",
+    "anchored-mode": "Бекітілген режим",
+    "app-condition": "Арнайы қолданбалармен шектеңіз",
+    "area-condition-bottom-placeholder": "Төмен",
+    "area-condition-left-placeholder": "Солға",
+    "area-condition-right-placeholder": "Оң",
+    "area-condition-top-placeholder": "Жоғары",
+    "cancel": "Болдырмау",
+    "create-menu-button": "Мәзір қосу",
+    "delete-menu": "Мәзірді жою",
+    "delete-menu-item": "Мәзір элементін жою",
+    "edit-submenu": "Өңдеу ішкі мәзірі",
+    "export-menu": "Экспорт мәзірі",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Белгілеу режимін қосыңыз",
+      "close-menu": "Мәзірді жабу",
+      "do-nothing": "Ештеңе жасама",
+      "enable-marking-mode-info": "Белгілеу режимі қосылған кезде элементтерді олардың үстіне тінтуірді сүйреу арқылы таңдауға болады.",
+      "enable-turbo-mode": "Турбо режимін қосыңыз",
+      "enable-turbo-mode-info": "Турбо режимі қосылғанда, Shift немесе Ctrl сияқты модификатор пернесін басып тұрғанда қимылдарды орындауға болады.",
+      "interaction-modes": "Өзара әрекеттесу режимдері",
+      "middle-mouse-button-behavior": "Тінтуірдің ортаңғы түймесі",
+      "middle-mouse-button-behavior-info": "Бұл мәзір көрсетілген кезде тінтуірдің ортаңғы түймесі басылғанда не болатынын анықтайды.",
+      "move-pointer-to-menu-center": "Меңзерді мәзір орталығына жылжытыңыз",
+      "move-pointer-to-menu-center-info": "Белгі қойылған болса, тінтуір меңзері қажет болғанда мәзірдің немесе ішкі мәзірдің ортасына жылжытылады. Бұл мәзір экранның шетіне тым жақын ашылғанда немесе мәзір Орталықтандырылған режимде ашылғанда болуы мүмкін.",
+      "require-click-for-hover-mode": "Hover Mode таңдаулары үшін басу қажет",
+      "require-click-for-hover-mode-info": "Белгі алынып тасталса, тінтуірдің үстіне апару режимі арқылы мәзірлер үшін жылжытқанда элементтер дереу таңдалады.",
+      "right-mouse-button-behavior": "Тінтуірдің оң жақ түймешігі",
+      "right-mouse-button-behavior-info": "Бұл мәзір көрсетілген кезде тінтуірдің оң жақ түймешігі басылғанда не болатынын анықтайды.",
+      "select-item": "Элементті таңдаңыз",
+      "select-parent": "Бір деңгейге дейін шарлаңыз",
+      "trigger-center-click-on-key-release": "Ортасында пернелер тіркесімін босату мәзірін жабыңыз",
+      "trigger-center-click-on-key-release-info": "Бұл мәзірдің ортасына апарып тұрғанда перне босатылған кезде тінтуірдің ортасын басу жұмыс процесін іске қосады."
+    },
+    "hover-mode": "Hover режимі",
+    "icon-picker-dialog": {
+      "search-placeholder": "Белгішелерді іздеу…"
+    },
+    "import-menu": "Импорттау мәзірі",
+    "menu-behavior": "Мәзір әрекеті",
+    "menu-conditions": "Мәзір шарттары",
+    "menu-themes-dialog": {
+      "default-colors": "Әдепкі түстер",
+      "enable-menu-animations": "Мәзір анимациялары",
+      "title": "Мәзір тақырыптары"
+    },
+    "no-matching-menus": "Ешқандай мәзір табылмады.",
+    "no-menus": "Сізде мәзір жоқ.",
+    "not-bound": "Байланбаған",
+    "quick-select-key-label": "Жылдам таңдау пернесі",
+    "quick-select-key-recording": "Кілтті таңдау…",
+    "shortcut-info": "Бұл таңбаша мәзірді ашады. Онда бір қалыпты кілт және Ctrl, Alt немесе Shift сияқты кез келген модификаторлар болуы керек. Жазу кезінде барлық пернелерді бірден басу қажет емес, оларды бірінен соң бірі басуға болады. Бұл таңбаша басқа мәзірге байланған болса пайдалы!",
+    "shortcut-label": "Таңбаша",
+    "shortcut-recording": "Таңбашаны басыңыз…",
+    "window-condition": "Арнайы терезе тақырыптарын шектеңіз",
+    "workflow-editor": {
+      "add-action": "Әрекет қосу",
+      "select-workflow-name": "Жұмыс процесі тармағын таңдаңыз"
+    },
+    "anchored-mode-info": "Ішкі мәзірлерді негізгі мәзірмен бірдей жерде ашыңыз. Бұны тексеру, Белгілеу режимі мен Турбо режимін өшіреді.",
+    "fixed-position-mode": "Бекітілген позиция режимі",
+    "fixed-position-mode-info": "Мәзірді курсордың орнына экранның бекітілген орнында ашыңыз.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Орынды төменгі сол жаққа орнатыңыз",
+      "bottom-right-preset-tooltip": "Позицияны төменгі оң жаққа орнатыңыз",
+      "centered-preset-tooltip": "Орынды ортаға қойыңыз",
+      "confirm": "Осы позицияны пайдаланыңыз",
+      "top-left-preset-tooltip": "Орынды жоғарғы солға орнатыңыз",
+      "top-right-preset-tooltip": "Орынды жоғарғы оң жаққа орнатыңыз"
+    },
+    "fixed-position-tooltip": "Бекітілген орынды таңдаңыз",
+    "hover-mode-info": "Тек қуатты пайдаланушылар үшін! Меңзерді үстіне апару арқылы элементтерді таңдаңыз."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Әдепкі",
+      "clean-circle": "Таза шеңбер",
+      "neon-lights": "Неон шамдары",
+      "purity": "Тазалық",
+      "rainbow-labels": "Кемпірқосақ жапсырмалары"
+    },
+    "presets": {
+      "Blue Glass": "Көк шыны",
+      "Dark Night": "Қараңғы түн",
+      "Cotton Candy": "Мақта кәмпит",
+      "Dark and Cozy": "Қараңғы және жайлы",
+      "Blue Glow": "Көк жарқырау",
+      "Green Glow": "Жасыл жарқырау",
+      "Electric": "Электр",
+      "Orange": "Сары",
+      "Pink": "Қызғылт",
+      "Bright Prism": "Жарқын призма",
+      "Kando Default": "Әдепкі түстер"
+    }
+  }
+}

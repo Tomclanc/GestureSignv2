@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Mabilis na Mga Aksyon</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Buksan ang radial menu na may mga nakalaang shortcut.</value>
+  </data>
+</root>

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Е-пошта",
+      "file-browser": "Прелистувач на датотеки",
+      "paint": "Боја",
+      "submenu": "Апликации",
+      "terminal": "Терминал",
+      "web-browser": "Веб-прелистувач"
+    },
+    "audio": {
+      "mute": "Искути звук",
+      "next-track": "Следна песна",
+      "play-pause": "Репродукција / Пауза",
+      "previous-track": "Претходна песна",
+      "submenu": "Аудио"
+    },
+    "bookmarks": {
+      "desktop": "Работна површина",
+      "documents": "Документи",
+      "downloads": "Преземања",
+      "home": "Дома",
+      "music": "Музика",
+      "pictures": "Слики",
+      "submenu": "Обележувачи",
+      "videos": "Видеа"
+    },
+    "clipboard": {
+      "copy": "Копирај",
+      "cut": "Исечи",
+      "paste": "Залепи",
+      "submenu": "Таблата со исечоци"
+    },
+    "name": "Пример мени",
+    "next-workspace": "Следен работен простор",
+    "previous-workspace": "Претходен работен простор",
+    "web-links": {
+      "kando-on-discord": "Кандо на раздор",
+      "kando-on-github": "Кандо на GitHub",
+      "kando-on-kofi": "Кандо на Ко-фи",
+      "kando-on-youtube": "Кандо на YouTube",
+      "submenu": "Веб врски"
+    },
+    "windows": {
+      "close-window": "Затвори прозорец",
+      "submenu": "Windows",
+      "tile-left": "Плочка Лево",
+      "tile-right": "Плочка Десно",
+      "toggle-maximize": "Вклучи Максимизирај"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Затвори го менито"
+    },
+    "close-submenu": {
+      "name": "Затворете го подменито"
+    },
+    "delay": {
+      "name": "Закаснување"
+    },
+    "execute-command": {
+      "name": "Изврши команда"
+    },
+    "execute-macro": {
+      "name": "Извршете макро"
+    },
+    "focus-window": {
+      "name": "Прозорец за фокусирање"
+    },
+    "inhibit-shortcuts": {
+      "name": "Инхибирајте ги кратенките"
+    },
+    "open-file": {
+      "name": "Отвори датотека"
+    },
+    "open-menu": {
+      "name": "Отворете го менито"
+    },
+    "open-settings": {
+      "name": "Отворете Поставки"
+    },
+    "open-uri": {
+      "name": "Отворете URI"
+    },
+    "send-tcp-message": {
+      "name": "Испрати TCP порака"
+    },
+    "send-websocket-message": {
+      "name": "Испрати порака на WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Поставете таблата со исечоци"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Пречка за тастатура",
+      "name": "Симулирајте Hotkey",
+      "recording-placeholder": "Напишете копче..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Подмени"
+    }
+  },
+  "native": {
+    "action": "Акција",
+    "action-value": "Кратенка, патека, URL, текст или JSON",
+    "choose-icon": "Изберете икона",
+    "condition-invalid": "Внесете важечки услов за прозорец или апликација, на пример /notepad/i.",
+    "configuration": "Конфигурација на менито за пита",
+    "editor": "Уредувач на мени за пита",
+    "exported": "Извезено во {0}",
+    "fixed-angle": "Фиксен агол (0° = нагоре)",
+    "fixed-x": "Фиксиран X (0–1 низ мониторот)",
+    "fixed-y": "Поправено Y (0–1 надолу на мониторот)",
+    "icon-invalid-image": "Изберете слика PNG, JPEG, GIF, WebP или ICO до 192 KB.",
+    "icon-library": "Библиотека со икони",
+    "icon-next": "Следни икони",
+    "icon-no-results": "Не се пронајдени икони.",
+    "icon-pick-file": "Изберете слика или апликација",
+    "icon-previous": "Претходни икони",
+    "icon-use-image": "Користете слика",
+    "imported": "Увезени {0} мени(и). Прегледајте ги увезените команди пред да ги користите, а потоа зачувајте.",
+    "item-icon": "Икона за ставка",
+    "item-order": "Редослед на ставки",
+    "label": "Етикета",
+    "move-down": "Движете се надолу",
+    "move-up": "Движете се нагоре",
+    "name": "Име на менито",
+    "new-menu": "Ново мени",
+    "off": "Исклучено",
+    "on": "Вклучено",
+    "palette": "Палета на бои",
+    "preview": "Мени за преглед",
+    "remove": "Отстрани",
+    "save": "Зачувајте менија",
+    "saved": "Конфигурацијата на менито е зачувана.",
+    "shortcut-clear": "Исчистете ја кратенката",
+    "shortcut-cleared": "Кратенката е исчистена.",
+    "shortcut-config-changed": "Конфигурацијата на менито се смени на дискот. Зачувајте ги тековните менија за да ја примените оваа кратенка.",
+    "shortcut-in-use": "Windows известува дека оваа кратенка веќе се користи.",
+    "shortcut-invalid": "Внесете едно копче, плус сите дозволени модификатори за оваа кратенка.",
+    "shortcut-record": "Кратенка за снимање",
+    "shortcut-save-new-menu": "Зачувајте го ова ново мени за да ја активирате неговата кратенка.",
+    "shortcut-saved": "Зачувана е кратенката: {0}. Користете го за да го отворите менито кога е овозможено Брзи дејства.",
+    "shortcut-stop": "Стоп за снимање",
+    "shortcut-unavailable": "Windows не можеше да ја регистрира оваа кратенка."
+  },
+  "settings": {
+    "add-menu-items": "Додадете ставки од менито",
+    "all-menus": "Сите менија",
+    "anchored-mode": "Закотвен режим",
+    "app-condition": "Ограничување на специфични апликации",
+    "area-condition-bottom-placeholder": "Дно",
+    "area-condition-left-placeholder": "Лево",
+    "area-condition-right-placeholder": "Десно",
+    "area-condition-top-placeholder": "Врв",
+    "cancel": "Откажи",
+    "create-menu-button": "Додај мени",
+    "delete-menu": "Избриши го менито",
+    "delete-menu-item": "Избришете ја ставката од менито",
+    "edit-submenu": "Подмени за уредување",
+    "export-menu": "Мени за извоз",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Овозможете го режимот за обележување",
+      "close-menu": "Затворете го менито",
+      "do-nothing": "Не правете ништо",
+      "enable-marking-mode-info": "Со овозможен режим на обележување, можете да изберете ставки со влечење на глувчето над нив.",
+      "enable-turbo-mode": "Овозможете турбо режим",
+      "enable-turbo-mode-info": "Со овозможен турбо режим, можете да изведувате гестови сè додека држите копче за модификатор, како што се Shift или Ctrl.",
+      "interaction-modes": "Режими на интеракција",
+      "middle-mouse-button-behavior": "Средно копче на глувчето",
+      "middle-mouse-button-behavior-info": "Ова одредува што се случува кога ќе се притисне средното копче на глувчето додека се прикажува менито.",
+      "move-pointer-to-menu-center": "Поместете го покажувачот во центарот на менито",
+      "move-pointer-to-menu-center-info": "Ако е означено, покажувачот на глувчето ќе се премести во центарот на менито или подменито кога е потребно. Ова може да биде случај ако менито е отворено премногу блиску до работ на екранот или ако менито е отворено во централен режим.",
+      "require-click-for-hover-mode": "Потребен е клик за избор на режим на лебдење",
+      "require-click-for-hover-mode-info": "Ако не е штиклирано, ставките ќе се изберат веднаш кога ќе се премести глувчето над нив за менијата користејќи го режимот на лебдење.",
+      "right-mouse-button-behavior": "Десно копче на глувчето",
+      "right-mouse-button-behavior-info": "Ова одредува што се случува кога ќе се притисне десното копче на глувчето додека се прикажува менито.",
+      "select-item": "Изберете ставка",
+      "select-parent": "Навигирајте едно ниво нагоре",
+      "trigger-center-click-on-key-release": "Затворете го менито за ослободување на кратенката над центарот",
+      "trigger-center-click-on-key-release-info": "Ова ќе го активира работниот тек на централниот клик кога ќе се ослободи копче додека лебдите над центарот на менито."
+    },
+    "hover-mode": "Режим на лебдење",
+    "icon-picker-dialog": {
+      "search-placeholder": "Пребарајте икони…"
+    },
+    "import-menu": "Мени за увоз",
+    "menu-behavior": "Однесување на менито",
+    "menu-conditions": "Услови на менито",
+    "menu-themes-dialog": {
+      "default-colors": "Стандардни бои",
+      "enable-menu-animations": "Анимации на менито",
+      "title": "Теми на менито"
+    },
+    "no-matching-menus": "Не се пронајдени менија.",
+    "no-menus": "Немате менија.",
+    "not-bound": "Не е врзан",
+    "quick-select-key-label": "Копче за брзо избирање",
+    "quick-select-key-recording": "Изберете го копчето…",
+    "shortcut-info": "Оваа кратенка го отвора менито. Мора да содржи едно нормално копче и кој било број на модификатори како што се Ctrl, Alt или Shift. Кога снимате, не мора да ги притискате сите копчиња одеднаш, исто така можете да ги притискате едно по друго. Ова е корисно ако кратенката е веќе врзана за друго мени!",
+    "shortcut-label": "Кратенка",
+    "shortcut-recording": "Притиснете кратенка…",
+    "window-condition": "Ограничување на специфични наслови на прозорци",
+    "workflow-editor": {
+      "add-action": "Додадете акција",
+      "select-workflow-name": "Изберете Workflow"
+    },
+    "anchored-mode-info": "Отворете ги подменија на истата позиција како и родителското мени. Ако го проверите ова, ќе ги оневозможите Режимот за обележување и турбо режимот.",
+    "fixed-position-mode": "Режим на фиксна позиција",
+    "fixed-position-mode-info": "Отворете го менито на фиксна позиција на екранот, наместо на курсорот.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Поставете ја позицијата доле лево",
+      "bottom-right-preset-tooltip": "Поставете ја позицијата доле десно",
+      "centered-preset-tooltip": "Поставете ја позицијата во центарот",
+      "confirm": "Користете ја оваа позиција",
+      "top-left-preset-tooltip": "Поставете ја позицијата горе лево",
+      "top-right-preset-tooltip": "Поставете ја позицијата горе десно"
+    },
+    "fixed-position-tooltip": "Изберете фиксна позиција",
+    "hover-mode-info": "Само за моќни корисници! Изберете ставки со лебдење над нив."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Стандардно",
+      "clean-circle": "Чист круг",
+      "neon-lights": "Неонски светла",
+      "purity": "Чистота",
+      "rainbow-labels": "Етикети на виножито"
+    },
+    "presets": {
+      "Blue Glass": "Сино стакло",
+      "Dark Night": "Темна ноќ",
+      "Cotton Candy": "Памук бонбони",
+      "Dark and Cozy": "Темно и пријатно",
+      "Blue Glow": "Син сјај",
+      "Green Glow": "Зелен сјај",
+      "Electric": "Електрични",
+      "Orange": "Портокалова",
+      "Pink": "Розова",
+      "Bright Prism": "Светла призма",
+      "Kando Default": "Стандардни бои"
+    }
+  }
+}

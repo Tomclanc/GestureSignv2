@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Արագ գործողություններ</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Բացել ռադիալ մենյու հատուկ կարճ ուղիներով:</value>
+  </data>
+</root>

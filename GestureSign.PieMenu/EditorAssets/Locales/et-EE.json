@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-post",
+      "file-browser": "Failibrauser",
+      "paint": "Värvige",
+      "submenu": "Rakendused",
+      "terminal": "Terminal",
+      "web-browser": "Veebibrauser"
+    },
+    "audio": {
+      "mute": "Vaigista",
+      "next-track": "Järgmine lugu",
+      "play-pause": "Esita / Paus",
+      "previous-track": "Eelmine lugu",
+      "submenu": "Heli"
+    },
+    "bookmarks": {
+      "desktop": "Töölaud",
+      "documents": "Dokumendid",
+      "downloads": "Allalaadimised",
+      "home": "Kodu",
+      "music": "Muusika",
+      "pictures": "Pildid",
+      "submenu": "Järjehoidjad",
+      "videos": "Videod"
+    },
+    "clipboard": {
+      "copy": "Kopeeri",
+      "cut": "Lõika",
+      "paste": "Kleepige",
+      "submenu": "Lõikelaud"
+    },
+    "name": "Näidismenüü",
+    "next-workspace": "Järgmine tööruum",
+    "previous-workspace": "Eelmine tööruum",
+    "web-links": {
+      "kando-on-discord": "Kando Discordis",
+      "kando-on-github": "Kando GitHubis",
+      "kando-on-kofi": "Kando on Ko-fi",
+      "kando-on-youtube": "Kando YouTube'is",
+      "submenu": "Veebilingid"
+    },
+    "windows": {
+      "close-window": "Sule aken",
+      "submenu": "Windows",
+      "tile-left": "Plaat vasakul",
+      "tile-right": "Parem plaat",
+      "toggle-maximize": "Lülitage Maksimeeri sisse"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Sulgege menüü"
+    },
+    "close-submenu": {
+      "name": "Sulgege alammenüü"
+    },
+    "delay": {
+      "name": "Viivitus"
+    },
+    "execute-command": {
+      "name": "Käivita käsk"
+    },
+    "execute-macro": {
+      "name": "Käivitage makro"
+    },
+    "focus-window": {
+      "name": "Fookuse aken"
+    },
+    "inhibit-shortcuts": {
+      "name": "Keela otseteed"
+    },
+    "open-file": {
+      "name": "Ava fail"
+    },
+    "open-menu": {
+      "name": "Avage menüü"
+    },
+    "open-settings": {
+      "name": "Avage Seaded"
+    },
+    "open-uri": {
+      "name": "Avage URI"
+    },
+    "send-tcp-message": {
+      "name": "Saada TCP-sõnum"
+    },
+    "send-websocket-message": {
+      "name": "Saada WebSocketi sõnum"
+    },
+    "set-clipboard": {
+      "name": "Määra lõikelaud"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Kiirklahv",
+      "name": "Kiirklahvi simuleerimine",
+      "recording-placeholder": "Tippige kiirklahv…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Alammenüü"
+    }
+  },
+  "native": {
+    "action": "Tegevus",
+    "action-value": "Otsetee, tee, URL, tekst või JSON",
+    "choose-icon": "Valige ikoon",
+    "condition-invalid": "Sisestage kehtiv akna või rakenduse tingimus, näiteks /notepad/i.",
+    "configuration": "Pie Menüü konfiguratsioon",
+    "editor": "Pie Menüü redaktor",
+    "exported": "Eksporditud asukohta {0}",
+    "fixed-angle": "Fikseeritud nurk (0° = üles)",
+    "fixed-x": "Parandatud X (0–1 üle monitori)",
+    "fixed-y": "Fikseeritud Y (0–1 monitori all)",
+    "icon-invalid-image": "Valige kuni 192 KB PNG-, JPEG-, GIF-, WebP- või ICO-pilt.",
+    "icon-library": "Ikoonide raamatukogu",
+    "icon-next": "Järgmised ikoonid",
+    "icon-no-results": "Ikoone ei leitud.",
+    "icon-pick-file": "Valige pilt või rakendus",
+    "icon-previous": "Eelmised ikoonid",
+    "icon-use-image": "Kasutage pilti",
+    "imported": "Imporditud {0} menüü(t). Vaadake imporditud käsud enne nende kasutamist üle ja seejärel salvestage.",
+    "item-icon": "Üksuse ikoon",
+    "item-order": "Kauba järjekord",
+    "label": "Silt",
+    "move-down": "Liigu alla",
+    "move-up": "Liigu üles",
+    "name": "Menüü nimi",
+    "new-menu": "Uus menüü",
+    "off": "Väljas",
+    "on": "Peal",
+    "palette": "Värvipalett",
+    "preview": "Eelvaate menüü",
+    "remove": "Eemalda",
+    "save": "Salvestage menüüd",
+    "saved": "Menüü konfiguratsioon on salvestatud.",
+    "shortcut-clear": "Tühjenda otsetee",
+    "shortcut-cleared": "Otsetee on kustutatud.",
+    "shortcut-config-changed": "Menüü konfiguratsiooni muudeti kettal. Selle otsetee rakendamiseks salvestage praegused menüüd.",
+    "shortcut-in-use": "Windows teatab, et see otsetee on juba kasutusel.",
+    "shortcut-invalid": "Sisestage üks klahv ja kõik selle otsetee jaoks lubatud modifikaatorid.",
+    "shortcut-record": "Salvesta otsetee",
+    "shortcut-save-new-menu": "Salvestage see uus menüü selle otsetee aktiveerimiseks.",
+    "shortcut-saved": "Otsetee on salvestatud: {0}. Kasutage seda menüü avamiseks, kui kiirtoimingud on lubatud.",
+    "shortcut-stop": "Lõpetage salvestamine",
+    "shortcut-unavailable": "Windows ei saanud seda otseteed registreerida."
+  },
+  "settings": {
+    "add-menu-items": "Lisage menüüelemente",
+    "all-menus": "Kõik menüüd",
+    "anchored-mode": "Ankurdatud režiim",
+    "app-condition": "Piirake konkreetsete rakendustega",
+    "area-condition-bottom-placeholder": "Alumine",
+    "area-condition-left-placeholder": "Vasak",
+    "area-condition-right-placeholder": "Parem",
+    "area-condition-top-placeholder": "Üles",
+    "cancel": "Tühista",
+    "create-menu-button": "Lisa menüü",
+    "delete-menu": "Kustuta menüü",
+    "delete-menu-item": "Kustuta menüüelement",
+    "edit-submenu": "Redigeeri alammenüüd",
+    "export-menu": "Ekspordi menüü",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Luba märgistusrežiim",
+      "close-menu": "Sule menüü",
+      "do-nothing": "Ära tee midagi",
+      "enable-marking-mode-info": "Kui märgistusrežiim on lubatud, saate valida üksusi, lohistades nende kohal hiirt.",
+      "enable-turbo-mode": "Luba turborežiim",
+      "enable-turbo-mode-info": "Kui turborežiim on lubatud, saate žeste sooritada seni, kuni hoiate all muuteklahvi (nt Shift või Ctrl).",
+      "interaction-modes": "Interaktsioonirežiimid",
+      "middle-mouse-button-behavior": "Hiire keskmine nupp",
+      "middle-mouse-button-behavior-info": "See määrab, mis juhtub, kui menüü kuvamise ajal vajutatakse hiire keskmist nuppu.",
+      "move-pointer-to-menu-center": "Liigutage kursor menüükeskusesse",
+      "move-pointer-to-menu-center-info": "Kui see on märgitud, viiakse hiirekursor vajadusel menüü või alammenüü keskele. See võib juhtuda siis, kui menüü avatakse liiga lähedal ekraani servale või kui menüü avatakse tsentreeritud režiimis.",
+      "require-click-for-hover-mode": "Hõljutusrežiimi valimiseks tuleb klõpsata",
+      "require-click-for-hover-mode-info": "Kui see on märkimata, valitakse üksused kohe pärast hiirekursorit nende kohal hõljutusrežiimi kasutavate menüüde jaoks.",
+      "right-mouse-button-behavior": "Hiire parem nupp",
+      "right-mouse-button-behavior-info": "See määrab, mis juhtub, kui menüü kuvamise ajal vajutatakse hiire paremat nuppu.",
+      "select-item": "Valige üksus",
+      "select-parent": "Liikuge ühe taseme võrra üles",
+      "trigger-center-click-on-key-release": "Sulgege menüü otsetee vabastamisel keskuse kohal",
+      "trigger-center-click-on-key-release-info": "See käivitab keskel klõpsamise töövoo, kui klahv vabastatakse, hõljutades kursorit menüü keskkoha kohal."
+    },
+    "hover-mode": "Hõljutusrežiim",
+    "icon-picker-dialog": {
+      "search-placeholder": "Otsi ikoone…"
+    },
+    "import-menu": "Impordi menüü",
+    "menu-behavior": "Menüü käitumine",
+    "menu-conditions": "Menüü tingimused",
+    "menu-themes-dialog": {
+      "default-colors": "Vaikevärvid",
+      "enable-menu-animations": "Menüü animatsioonid",
+      "title": "Menüüteemad"
+    },
+    "no-matching-menus": "Menüüd ei leitud.",
+    "no-menus": "Teil pole menüüsid.",
+    "not-bound": "Pole seotud",
+    "quick-select-key-label": "Kiirvaliku klahv",
+    "quick-select-key-recording": "Vali võti…",
+    "shortcut-info": "See otsetee avab menüü. See peab sisaldama ühte tavalist klahvi ja suvalist arvu modifikaatoreid, nagu Ctrl, Alt või Shift. Salvestades ei pea kõiki klahve korraga vajutama, neid saab vajutada ka üksteise järel. See on kasulik, kui otsetee on juba mõne teise menüüga seotud!",
+    "shortcut-label": "Otsetee",
+    "shortcut-recording": "Vajutage otseteed…",
+    "window-condition": "Piirake konkreetsete aknapealkirjadega",
+    "workflow-editor": {
+      "add-action": "Lisa toiming",
+      "select-workflow-name": "Valige Töövoog"
+    },
+    "anchored-mode-info": "Avage alammenüüd samas kohas, kus vanemmenüü. Selle kontrollimisel keelatakse märgistusrežiim ja turborežiim.",
+    "fixed-position-mode": "Fikseeritud positsiooni režiim",
+    "fixed-position-mode-info": "Avage menüü kursori asemel ekraani kindlas kohas.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Seadke asukoht vasakule all",
+      "bottom-right-preset-tooltip": "Seadke asend paremale alla",
+      "centered-preset-tooltip": "Seadke asend keskele",
+      "confirm": "Kasutage seda asendit",
+      "top-left-preset-tooltip": "Seadke asukoht üleval vasakul",
+      "top-right-preset-tooltip": "Seadke positsioon üleval paremal"
+    },
+    "fixed-position-tooltip": "Valige fikseeritud asend",
+    "hover-mode-info": "Ainult energiakasutajatele! Valige üksused, hõljutades kursorit nende kohal."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Vaikimisi",
+      "clean-circle": "Puhas ring",
+      "neon-lights": "Neoontuled",
+      "purity": "Puhtus",
+      "rainbow-labels": "Vikerkaare sildid"
+    },
+    "presets": {
+      "Blue Glass": "Sinine klaas",
+      "Dark Night": "Pime öö",
+      "Cotton Candy": "Suhkruvatt",
+      "Dark and Cozy": "Tume ja hubane",
+      "Blue Glow": "Sinine sära",
+      "Green Glow": "Roheline sära",
+      "Electric": "Elektriline",
+      "Orange": "Oranž",
+      "Pink": "Roosa",
+      "Bright Prism": "Hele prisma",
+      "Kando Default": "Vaikevärvid"
+    }
+  }
+}

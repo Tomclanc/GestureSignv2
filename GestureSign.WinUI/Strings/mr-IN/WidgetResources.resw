@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>जलद क्रियाकलाप</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>समर्पित शॉर्टकटसह रेडियल मेनू उघडा</value>
+  </data>
+</root>

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Post",
+      "file-browser": "Filutforsker",
+      "paint": "Paint",
+      "submenu": "Apper",
+      "terminal": "Terminal",
+      "web-browser": "Nettleser"
+    },
+    "audio": {
+      "mute": "Demp",
+      "next-track": "Spill neste",
+      "play-pause": "Spill / Pause",
+      "previous-track": "Spill Forrige",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Skrivebord",
+      "documents": "Dokumenter",
+      "downloads": "Nedlastinger",
+      "home": "Hjem",
+      "music": "Musikk",
+      "pictures": "Bilder",
+      "submenu": "Bokmerker",
+      "videos": "Videoer"
+    },
+    "clipboard": {
+      "copy": "Kopier",
+      "cut": "Klipp Ut",
+      "paste": "Lim inn",
+      "submenu": "Utklippstavle"
+    },
+    "name": "Eksempelmeny",
+    "next-workspace": "Neste Arbeidsområde",
+    "previous-workspace": "Forrige Arbeidsområde",
+    "web-links": {
+      "kando-on-discord": "Kando på Discord",
+      "kando-on-github": "Kando på GitHub",
+      "kando-on-kofi": "Kando på Ko-fi",
+      "kando-on-youtube": "Kando på YouTube",
+      "submenu": "Weblenker"
+    },
+    "windows": {
+      "close-window": "Lukk Vindu",
+      "submenu": "Vinduer",
+      "tile-left": "Plasser til Venstre",
+      "tile-right": "Plasser Til Høyre",
+      "toggle-maximize": "Maksimer"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Lukk menyen"
+    },
+    "close-submenu": {
+      "name": "Lukk undermenyen"
+    },
+    "delay": {
+      "name": "Forsinkelse"
+    },
+    "execute-command": {
+      "name": "Kjør Commando"
+    },
+    "execute-macro": {
+      "name": "Kjør Makro"
+    },
+    "focus-window": {
+      "name": "Fokusvindu"
+    },
+    "inhibit-shortcuts": {
+      "name": "Hindre snarveier"
+    },
+    "open-file": {
+      "name": "Åpne Fil"
+    },
+    "open-menu": {
+      "name": "Omdirigering"
+    },
+    "open-settings": {
+      "name": "Åpne innstillinger"
+    },
+    "open-uri": {
+      "name": "Åpne URI"
+    },
+    "send-tcp-message": {
+      "name": "Send TCP-melding"
+    },
+    "send-websocket-message": {
+      "name": "Send WebSocket-melding"
+    },
+    "set-clipboard": {
+      "name": "Sett utklippstavlen"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Hurtigtast",
+      "name": "Simuler Hurtigtast",
+      "recording-placeholder": "Skriv en hurtigtast…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Undermeny"
+    }
+  },
+  "native": {
+    "action": "Handling",
+    "action-value": "Snarvei, bane, URL, tekst eller JSON",
+    "choose-icon": "Velg ikon",
+    "condition-invalid": "Skriv inn et gyldig vindu eller appbetingelse, for eksempel /notepad/i.",
+    "configuration": "Kakemenyen konfigurasjon",
+    "editor": "Pai Meny Editor",
+    "exported": "Eksportert til {0}",
+    "fixed-angle": "Fast vinkel (0° = opp)",
+    "fixed-x": "Fast X (0–1 over skjermen)",
+    "fixed-y": "Fast Y (0–1 nedover skjermen)",
+    "icon-invalid-image": "Velg et PNG-, JPEG-, GIF-, WebP- eller ICO-bilde på opptil 192 KB.",
+    "icon-library": "Ikonbibliotek",
+    "icon-next": "Neste ikoner",
+    "icon-no-results": "Ingen ikoner funnet.",
+    "icon-pick-file": "Velg bilde eller app",
+    "icon-previous": "Tidligere ikoner",
+    "icon-use-image": "Bruk bilde",
+    "imported": "Importerte {0} meny(er). Se gjennom importerte kommandoer før du bruker dem, og lagre deretter.",
+    "item-icon": "Vareikon",
+    "item-order": "Varebestilling",
+    "label": "Etikett",
+    "move-down": "Flytt ned",
+    "move-up": "Flytt opp",
+    "name": "Menynavn",
+    "new-menu": "Ny meny",
+    "off": "Av",
+    "on": "På",
+    "palette": "Fargepalett",
+    "preview": "Forhåndsvisningsmeny",
+    "remove": "Fjern",
+    "save": "Lagre menyer",
+    "saved": "Menykonfigurasjon lagret.",
+    "shortcut-clear": "Fjern snarvei",
+    "shortcut-cleared": "Snarvei fjernet.",
+    "shortcut-config-changed": "Menykonfigurasjonen er endret på disken. Lagre gjeldende menyer for å bruke denne snarveien.",
+    "shortcut-in-use": "Windows rapporterer at denne snarveien allerede er i bruk.",
+    "shortcut-invalid": "Skriv inn én tast, pluss eventuelle modifikatorer som er tillatt for denne snarveien.",
+    "shortcut-record": "Ta opp snarvei",
+    "shortcut-save-new-menu": "Lagre denne nye menyen for å aktivere snarveien.",
+    "shortcut-saved": "Snarvei lagret: {0}. Bruk den til å åpne menyen når hurtighandlinger er aktivert.",
+    "shortcut-stop": "Stopp opptaket",
+    "shortcut-unavailable": "Windows kunne ikke registrere denne snarveien."
+  },
+  "settings": {
+    "add-menu-items": "Legg til menyalternativer",
+    "all-menus": "Alle Menyer",
+    "anchored-mode": "Forankret Modus",
+    "app-condition": "Begrens til Spesifikke Apper",
+    "area-condition-bottom-placeholder": "Bunn",
+    "area-condition-left-placeholder": "Venstre",
+    "area-condition-right-placeholder": "Høyre",
+    "area-condition-top-placeholder": "Topp",
+    "cancel": "Avbryt",
+    "create-menu-button": "Ny meny",
+    "delete-menu": "Slett meny",
+    "delete-menu-item": "Slett menyalternativ",
+    "edit-submenu": "Rediger undermeny",
+    "export-menu": "Eksportmenyen",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Bruk Markeringsmodus",
+      "close-menu": "Lukk menyen",
+      "do-nothing": "Gjør ingenting",
+      "enable-marking-mode-info": "Når Markeringsmodus er påslått, kan du velge menyalternativer ved å dra musepekeren over dem.",
+      "enable-turbo-mode": "Slå På Turbomodus",
+      "enable-turbo-mode-info": "Med Turbomodus påslått, kan du gjøre musebevegelser så lenge du holder inne en modifikatortast slik som Skift eller CTRL.",
+      "interaction-modes": "Interaksjonsmoduser",
+      "middle-mouse-button-behavior": "Midterste museknapp",
+      "middle-mouse-button-behavior-info": "Dette bestemmer hva som skjer når den midterste museknappen trykkes ned mens en meny vises.",
+      "move-pointer-to-menu-center": "Flytt musepekeren til midten av menyen",
+      "move-pointer-to-menu-center-info": "Hvis påslått, vil musepekeren flytter sil midten av an meny eller undermeny når nødvendig. Dette kan være tilfellet hvis en meny åpnes for nærme kanten av skjermen, eller hvis en meny åpnes i Sentermodus.",
+      "require-click-for-hover-mode": "Krev klikk for Hover-modusvalg",
+      "require-click-for-hover-mode-info": "Hvis ikke avkrysset, vil menyalternativer bli valgt umiddelbart når musepekeren flyttes over dem for menyer som bruker Hover-Modus.",
+      "right-mouse-button-behavior": "Høyre museknapp",
+      "right-mouse-button-behavior-info": "Dette bestemmer hva som skjer når høyre museknapp trykkes mens en meny vises.",
+      "select-item": "Velg element",
+      "select-parent": "Naviger opp ett nivå",
+      "trigger-center-click-on-key-release": "Lukk menyen på snarveislipp over midten",
+      "trigger-center-click-on-key-release-info": "Dette vil utløse arbeidsflyten for midt-klikk når en tast slippes mens du holder musepekeren over midten av en meny."
+    },
+    "hover-mode": "Hover-modus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Søk ikoner…"
+    },
+    "import-menu": "Import-menyen",
+    "menu-behavior": "Menyoppførsel",
+    "menu-conditions": "menybetingelser",
+    "menu-themes-dialog": {
+      "default-colors": "Standardfarger",
+      "enable-menu-animations": "Menyanimasjoner",
+      "title": "Menytemaer"
+    },
+    "no-matching-menus": "Fant ingen menyer.",
+    "no-menus": "Du har ingen menyer.",
+    "not-bound": "Ikke Satt",
+    "quick-select-key-label": "Hurtigvalgtast",
+    "quick-select-key-recording": "Velg nøkkel...",
+    "shortcut-info": "Denne hurtigtasten åpner menyen. Den må inneholde én normal tast og minst én modifikatortast slik som CTRL, Alt, eller Skift. Når du tar opp hurtigtasten, trenger du ikke å holde alle tastene samtidig, du kan også trykke på dem en etter en. Dette er nyttig hvis en hurtigtest er allerede satt til en annen meny!",
+    "shortcut-label": "Hurtigtast",
+    "shortcut-recording": "Trykk en hurtigtast…",
+    "window-condition": "Begrens til Spesifikke Vindutitler",
+    "workflow-editor": {
+      "add-action": "Legg til handling",
+      "select-workflow-name": "Velg Arbeidsflyt"
+    },
+    "anchored-mode-info": "Åpne undermenyer på samme posisjon som overmenyen. Hvis du slår dette på slås Markeringsmodus og Turbomodus av.",
+    "fixed-position-mode": "Modus med fast posisjon",
+    "fixed-position-mode-info": "Åpne menyen på en fast plassering på skjermen, i stedet for ved markøren.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Sett posisjon nederst til venstre",
+      "bottom-right-preset-tooltip": "Sett posisjon nederst til høyre",
+      "centered-preset-tooltip": "Sett posisjonen til midten",
+      "confirm": "Bruk denne posisjonen",
+      "top-left-preset-tooltip": "Sett posisjon øverst til venstre",
+      "top-right-preset-tooltip": "Sett posisjon øverst til høyre"
+    },
+    "fixed-position-tooltip": "Velg en fast posisjon",
+    "hover-mode-info": "Kun for eksperter! Velg menyalternativer ved å hovere over dem."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standard",
+      "clean-circle": "Enkel sirkel",
+      "neon-lights": "Neonlys",
+      "purity": "Renhet",
+      "rainbow-labels": "Regnbueetiketter"
+    },
+    "presets": {
+      "Blue Glass": "Blått glass",
+      "Dark Night": "Mørk natt",
+      "Cotton Candy": "Sukkerspinn",
+      "Dark and Cozy": "Mørkt og koselig",
+      "Blue Glow": "Blå glød",
+      "Green Glow": "Grønn glød",
+      "Electric": "Elektrisk",
+      "Orange": "Oransje",
+      "Pink": "Rosa",
+      "Bright Prism": "Lysende prisme",
+      "Kando Default": "Standardfarger"
+    }
+  }
+}

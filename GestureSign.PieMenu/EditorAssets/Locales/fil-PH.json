@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "File Browser",
+      "paint": "Kulayan",
+      "submenu": "Mga app",
+      "terminal": "Terminal",
+      "web-browser": "Web Browser"
+    },
+    "audio": {
+      "mute": "Patayin ang tunog",
+      "next-track": "Susunod na Track",
+      "play-pause": "I-play / I-pause",
+      "previous-track": "Nakaraang Track",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Mga dokumento",
+      "downloads": "Mga download",
+      "home": "Bahay",
+      "music": "Musika",
+      "pictures": "Mga larawan",
+      "submenu": "Mga bookmark",
+      "videos": "Mga video"
+    },
+    "clipboard": {
+      "copy": "Kopya",
+      "cut": "Gupitin",
+      "paste": "I-paste",
+      "submenu": "Clipboard"
+    },
+    "name": "Halimbawang Menu",
+    "next-workspace": "Susunod na Workspace",
+    "previous-workspace": "Nakaraang Workspace",
+    "web-links": {
+      "kando-on-discord": "Kando sa Discord",
+      "kando-on-github": "Kando sa GitHub",
+      "kando-on-kofi": "Kando sa Ko-fi",
+      "kando-on-youtube": "Kando sa YouTube",
+      "submenu": "Mga Link sa Web"
+    },
+    "windows": {
+      "close-window": "Isara ang Window",
+      "submenu": "Windows",
+      "tile-left": "Tile sa Kaliwa",
+      "tile-right": "Tile Right",
+      "toggle-maximize": "I-toggle ang I-maximize"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Isara ang Menu"
+    },
+    "close-submenu": {
+      "name": "Isara ang Submenu"
+    },
+    "delay": {
+      "name": "Pagkaantala"
+    },
+    "execute-command": {
+      "name": "Ipatupad ang Utos"
+    },
+    "execute-macro": {
+      "name": "Isagawa ang Macro"
+    },
+    "focus-window": {
+      "name": "Window ng Focus"
+    },
+    "inhibit-shortcuts": {
+      "name": "I-inhibit ang Mga Shortcut"
+    },
+    "open-file": {
+      "name": "Buksan ang File"
+    },
+    "open-menu": {
+      "name": "Buksan ang Menu"
+    },
+    "open-settings": {
+      "name": "Buksan ang Mga Setting"
+    },
+    "open-uri": {
+      "name": "Buksan ang URI"
+    },
+    "send-tcp-message": {
+      "name": "Magpadala ng TCP Message"
+    },
+    "send-websocket-message": {
+      "name": "Magpadala ng Mensahe sa WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Itakda ang Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Mga shortcut key",
+      "name": "Gayahin ang Hotkey",
+      "recording-placeholder": "Mag-type ng hotkey…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "Aksyon",
+    "action-value": "Shortcut, path, URL, text, o JSON",
+    "choose-icon": "Pumili ng icon",
+    "condition-invalid": "Maglagay ng wastong window o kundisyon ng app, halimbawa /notepad/i.",
+    "configuration": "Configuration ng Menu ng Pie",
+    "editor": "Editor ng Menu ng Pie",
+    "exported": "Na-export sa {0}",
+    "fixed-angle": "Nakapirming anggulo (0° = pataas)",
+    "fixed-x": "Inayos ang X (0–1 sa buong monitor)",
+    "fixed-y": "Inayos ang Y (0–1 pababa sa monitor)",
+    "icon-invalid-image": "Pumili ng PNG, JPEG, GIF, WebP, o ICO na imahe hanggang sa 192 KB.",
+    "icon-library": "Icon na library",
+    "icon-next": "Mga susunod na icon",
+    "icon-no-results": "Walang nakitang icon.",
+    "icon-pick-file": "Pumili ng larawan o app",
+    "icon-previous": "Mga nakaraang icon",
+    "icon-use-image": "Gumamit ng imahe",
+    "imported": "Nag-import ng {0} (na) menu. Suriin ang mga na-import na command bago gamitin ang mga ito, pagkatapos ay i-save.",
+    "item-icon": "icon ng item",
+    "item-order": "pagkakasunud-sunod ng item",
+    "label": "Label",
+    "move-down": "Ilipat pababa",
+    "move-up": "Umakyat",
+    "name": "Pangalan ng menu",
+    "new-menu": "Bagong menu",
+    "off": "Patay",
+    "on": "Buksan",
+    "palette": "Palette ng kulay",
+    "preview": "I-preview ang menu",
+    "remove": "Alisin",
+    "save": "I-save ang mga menu",
+    "saved": "Na-save ang configuration ng menu.",
+    "shortcut-clear": "I-clear ang shortcut",
+    "shortcut-cleared": "Na-clear ang shortcut.",
+    "shortcut-config-changed": "Binago ang configuration ng menu sa disk. I-save ang kasalukuyang mga menu para ilapat ang shortcut na ito.",
+    "shortcut-in-use": "Iniuulat ng Windows na ginagamit na ang shortcut na ito.",
+    "shortcut-invalid": "Maglagay ng isang key, kasama ang anumang mga modifier na pinapayagan para sa shortcut na ito.",
+    "shortcut-record": "Mag-record ng shortcut",
+    "shortcut-save-new-menu": "I-save ang bagong menu na ito para i-activate ang shortcut nito.",
+    "shortcut-saved": "Na-save ang shortcut: {0}. Gamitin ito para buksan ang menu kapag naka-enable ang Quick Actions.",
+    "shortcut-stop": "Itigil ang pagre-record",
+    "shortcut-unavailable": "Hindi mairehistro ng Windows ang shortcut na ito."
+  },
+  "settings": {
+    "add-menu-items": "Magdagdag ng Mga Item sa Menu",
+    "all-menus": "Lahat ng Menu",
+    "anchored-mode": "Naka-angkla na Mode",
+    "app-condition": "Limitahan sa Mga Partikular na App",
+    "area-condition-bottom-placeholder": "Ibaba",
+    "area-condition-left-placeholder": "Kaliwa",
+    "area-condition-right-placeholder": "Kanan",
+    "area-condition-top-placeholder": "Itaas",
+    "cancel": "Kanselahin",
+    "create-menu-button": "Magdagdag ng Menu",
+    "delete-menu": "Tanggalin ang menu",
+    "delete-menu-item": "Tanggalin ang item sa menu",
+    "edit-submenu": "I-edit ang submenu",
+    "export-menu": "I-export ang menu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Paganahin ang Marking Mode",
+      "close-menu": "Isara ang menu",
+      "do-nothing": "walang gawin",
+      "enable-marking-mode-info": "Kapag pinagana ang Marking Mode, maaari kang pumili ng mga item sa pamamagitan ng pag-drag ng mouse sa ibabaw ng mga ito.",
+      "enable-turbo-mode": "Paganahin ang Turbo Mode",
+      "enable-turbo-mode-info": "Kapag pinagana ang Turbo Mode, maaari kang magsagawa ng mga galaw hangga't pinipigilan mo ang isang modifier key gaya ng Shift o Ctrl.",
+      "interaction-modes": "Mga Mode ng Pakikipag-ugnayan",
+      "middle-mouse-button-behavior": "Gitnang pindutan ng mouse",
+      "middle-mouse-button-behavior-info": "Tinutukoy nito kung ano ang mangyayari kapag pinindot ang gitnang pindutan ng mouse habang ipinapakita ang isang menu.",
+      "move-pointer-to-menu-center": "Ilipat ang pointer sa menu center",
+      "move-pointer-to-menu-center-info": "Kung may check, ang mouse pointer ay ililipat sa gitna ng isang menu o submenu kung kinakailangan. Ito ay maaaring mangyari kung ang isang menu ay binuksan nang masyadong malapit sa gilid ng screen o kung ang isang menu ay binuksan sa Centered Mode.",
+      "require-click-for-hover-mode": "Nangangailangan ng pag-click para sa mga pagpipilian sa Hover Mode",
+      "require-click-for-hover-mode-info": "Kung alisan ng check, ang mga item ay pipiliin kaagad kapag ang mouse ay inilipat sa ibabaw ng mga ito para sa mga menu gamit ang Hover Mode.",
+      "right-mouse-button-behavior": "Kanang pindutan ng mouse",
+      "right-mouse-button-behavior-info": "Tinutukoy nito kung ano ang mangyayari kapag pinindot ang kanang pindutan ng mouse habang ipinapakita ang isang menu.",
+      "select-item": "Pumili ng item",
+      "select-parent": "Mag-navigate sa isang antas",
+      "trigger-center-click-on-key-release": "Isara ang menu sa paglabas ng shortcut sa gitna",
+      "trigger-center-click-on-key-release-info": "Ito ay magti-trigger ng center-click na workflow kapag ang isang key ay inilabas habang nagho-hover sa gitna ng isang menu."
+    },
+    "hover-mode": "Hover Mode",
+    "icon-picker-dialog": {
+      "search-placeholder": "Mga icon ng paghahanap…"
+    },
+    "import-menu": "Mag-import ng menu",
+    "menu-behavior": "Gawi sa Menu",
+    "menu-conditions": "Mga Kundisyon ng Menu",
+    "menu-themes-dialog": {
+      "default-colors": "Mga default na kulay",
+      "enable-menu-animations": "Mga Animasyon ng Menu",
+      "title": "Mga Tema ng Menu"
+    },
+    "no-matching-menus": "Walang nakitang menu.",
+    "no-menus": "Wala kang mga menu.",
+    "not-bound": "Hindi Nakatali",
+    "quick-select-key-label": "Mabilis na piliin ang key",
+    "quick-select-key-recording": "Piliin ang key…",
+    "shortcut-info": "Binubuksan ng shortcut na ito ang menu. Dapat itong maglaman ng isang normal na key at anumang bilang ng mga modifier tulad ng Ctrl, Alt, o Shift. Kapag nagre-record, hindi mo kailangang pindutin ang lahat ng mga key nang sabay-sabay, maaari mo ring pindutin ang mga ito nang sunud-sunod. Ito ay kapaki-pakinabang kung ang isang shortcut ay nakatali na sa isa pang menu!",
+    "shortcut-label": "Shortcut",
+    "shortcut-recording": "Pindutin ang isang shortcut...",
+    "window-condition": "Limitahan sa Mga Partikular na Pamagat ng Window",
+    "workflow-editor": {
+      "add-action": "Magdagdag ng Aksyon",
+      "select-workflow-name": "Piliin ang Daloy ng Trabaho"
+    },
+    "anchored-mode-info": "Buksan ang mga submenus sa parehong posisyon tulad ng parent menu. Kapag sinusuri ito, idi-disable ang Marking Mode at Turbo Mode.",
+    "fixed-position-mode": "Nakapirming Posisyon Mode",
+    "fixed-position-mode-info": "Buksan ang menu sa isang nakapirming posisyon sa screen, sa halip na sa cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Itakda ang posisyon sa kaliwang ibaba",
+      "bottom-right-preset-tooltip": "Itakda ang posisyon sa kanang ibaba",
+      "centered-preset-tooltip": "Itakda ang posisyon sa gitna",
+      "confirm": "Gamitin ang posisyong ito",
+      "top-left-preset-tooltip": "Itakda ang posisyon sa kaliwang itaas",
+      "top-right-preset-tooltip": "Itakda ang posisyon sa kanang tuktok"
+    },
+    "fixed-position-tooltip": "Pumili ng isang nakapirming posisyon",
+    "hover-mode-info": "Para sa mga power user lang! Pumili ng mga item sa pamamagitan ng pag-hover sa mga ito."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Default",
+      "clean-circle": "Malinis na Bilog",
+      "neon-lights": "Mga Ilaw ng Neon",
+      "purity": "Kadalisayan",
+      "rainbow-labels": "Mga Label ng Rainbow"
+    },
+    "presets": {
+      "Blue Glass": "Asul na Salamin",
+      "Dark Night": "Madilim na Gabi",
+      "Cotton Candy": "Cotton Candy",
+      "Dark and Cozy": "Madilim at Maaliwalas",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Green Glow",
+      "Electric": "Electric",
+      "Orange": "Kahel",
+      "Pink": "Rosas",
+      "Bright Prism": "Maliwanag na Prisma",
+      "Kando Default": "Mga default na kulay"
+    }
+  }
+}

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI;
@@ -14,7 +15,7 @@ public sealed partial class MainWindow
 {
     private enum TouchPadEdgeMarker { None, Horizontal, Vertical }
     private sealed record TouchPadEdgeZone(string Title, TouchPadEdgeMarker Marker, IReadOnlyList<TouchPadEdgeAction> Actions);
-    private sealed record TouchPadEdgeAction(string Title, string GestureName);
+    private sealed record TouchPadEdgeAction(string Title, string GestureName, string? DialogTitle = null);
 
     private UIElement BuildTouchPadPageCore()
     {
@@ -25,10 +26,12 @@ public sealed partial class MainWindow
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows 터치패드 시스템 제스처 우선 사용"), _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
         ]));
 
-        root.Children.Add(NewTipTapCard());
-        root.Children.Add(NewTouchPadMapCard());
-        root.Children.Add(NewTouchScreenMapCard());
-        root.Children.Add(NewDesktopEdgeWheelCard());
+        root.Children.Add(MarkSearchTarget(NewTipTapCard(), "tiptap"));
+        root.Children.Add(MarkSearchTarget(NewTouchPadMapCard(), "touchpad-map"));
+        root.Children.Add(MarkSearchTarget(NewTouchScreenMapCard(), "touchscreen-map"));
+        // The desktop edge card keeps its richer table, diagram and presets; the
+        // search anchor stays the same so global search still lands on it.
+        root.Children.Add(MarkSearchTarget(NewDesktopEdgeWheelCard(), "desktop-wheel-map"));
         return root;
     }
 
@@ -122,69 +125,7 @@ public sealed partial class MainWindow
             Style = BodyStrongTextBlockStyle
         });
 
-        var map = new Grid
-        {
-            ColumnSpacing = 12,
-            RowSpacing = 12,
-            MinHeight = 700
-        };
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.7, GridUnitType.Star) });
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(270) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
-
-        var edges = TouchPadEdges();
-        var top = NewTouchPadZone(edges[0]);
-        var bottom = NewTouchPadZone(edges[1]);
-        var left = NewTouchPadZone(edges[2]);
-        var right = NewTouchPadZone(edges[3]);
-
-        Grid.SetColumn(top, 1);
-        map.Children.Add(top);
-
-        Grid.SetRow(left, 1);
-        map.Children.Add(left);
-
-        var center = NewTouchPadCenter();
-        Grid.SetColumn(center, 1);
-        Grid.SetRow(center, 1);
-        map.Children.Add(center);
-
-        Grid.SetColumn(right, 2);
-        Grid.SetRow(right, 1);
-        map.Children.Add(right);
-
-        Grid.SetColumn(bottom, 1);
-        Grid.SetRow(bottom, 2);
-        map.Children.Add(bottom);
-
-        var cornerCells = new[]
-        {
-            (Column: 0, Row: 0),
-            (Column: 2, Row: 0),
-            (Column: 0, Row: 2),
-            (Column: 2, Row: 2)
-        };
-        foreach (var cell in cornerCells)
-        {
-            var corner = NewTouchPadMapFiller();
-            Grid.SetColumn(corner, cell.Column);
-            Grid.SetRow(corner, cell.Row);
-            map.Children.Add(corner);
-        }
-
-        panel.Children.Add(new Border
-        {
-            Background = TouchPadSurfaceBrush(),
-            BorderBrush = BorderBrush(),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(12),
-            Padding = new Thickness(14),
-            Child = map
-        });
-
+        panel.Children.Add(NewEdgeMap(TouchPadEdges(), NewTouchPadCenter()));
         return NewCard(panel, new Thickness(14));
     }
 
@@ -196,61 +137,32 @@ public sealed partial class MainWindow
             Text = L("触摸屏边缘", "Touchscreen Edges", "觸控螢幕邊緣", "터치스크린 가장자리"),
             Style = BodyStrongTextBlockStyle
         });
+        panel.Children.Add(NewEdgeMap(TouchScreenEdges(), NewTouchScreenCenter()));
+        return NewCard(panel, new Thickness(14));
+    }
 
-        var map = new Grid
-        {
-            ColumnSpacing = 12,
-            RowSpacing = 12,
-            MinHeight = 700
-        };
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1.7, GridUnitType.Star) });
-        map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(270) });
-        map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(210) });
+    private FrameworkElement NewEdgeMap(
+        IReadOnlyList<TouchPadEdgeZone> edges, FrameworkElement center, bool usePhysicalEdgeOrder = false)
+    {
+        var map = new Grid { ColumnSpacing = 12, RowSpacing = 12 };
+        foreach (var width in new[] { 1d, 1.7, 1d })
+            map.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(width, GridUnitType.Star) });
+        foreach (var height in new[] { 210, 270, 210 })
+            map.RowDefinitions.Add(new RowDefinition { Height = new GridLength(height) });
+        if (usePhysicalEdgeOrder)
+            map.FlowDirection = FlowDirection.LeftToRight;
 
-        var edges = TouchScreenEdges();
-        var top = NewTouchPadZone(edges[0]);
-        var bottom = NewTouchPadZone(edges[1]);
-        var left = NewTouchPadZone(edges[2]);
-        var right = NewTouchPadZone(edges[3]);
+        Place(NewTouchPadZone(edges[0]), 1, 0);
+        Place(NewTouchPadZone(edges[2]), 0, 1);
+        Place(center, 1, 1);
+        Place(NewTouchPadZone(edges[3]), 2, 1);
+        Place(NewTouchPadZone(edges[1]), 1, 2);
+        Place(NewTouchPadMapFiller(), 0, 0);
+        Place(NewTouchPadMapFiller(), 2, 0);
+        Place(NewTouchPadMapFiller(), 0, 2);
+        Place(NewTouchPadMapFiller(), 2, 2);
 
-        Grid.SetColumn(top, 1);
-        map.Children.Add(top);
-
-        Grid.SetRow(left, 1);
-        map.Children.Add(left);
-
-        var center = NewTouchScreenCenter();
-        Grid.SetColumn(center, 1);
-        Grid.SetRow(center, 1);
-        map.Children.Add(center);
-
-        Grid.SetColumn(right, 2);
-        Grid.SetRow(right, 1);
-        map.Children.Add(right);
-
-        Grid.SetColumn(bottom, 1);
-        Grid.SetRow(bottom, 2);
-        map.Children.Add(bottom);
-
-        var cornerCells = new[]
-        {
-            (Column: 0, Row: 0),
-            (Column: 2, Row: 0),
-            (Column: 0, Row: 2),
-            (Column: 2, Row: 2)
-        };
-        foreach (var cell in cornerCells)
-        {
-            var corner = NewTouchPadMapFiller();
-            Grid.SetColumn(corner, cell.Column);
-            Grid.SetRow(corner, cell.Row);
-            map.Children.Add(corner);
-        }
-
-        panel.Children.Add(new Border
+        return new Border
         {
             Background = TouchPadSurfaceBrush(),
             BorderBrush = BorderBrush(),
@@ -258,9 +170,13 @@ public sealed partial class MainWindow
             CornerRadius = new CornerRadius(12),
             Padding = new Thickness(14),
             Child = map
-        });
-
-        return NewCard(panel, new Thickness(14));
+        };
+        void Place(FrameworkElement element, int column, int row)
+        {
+            Grid.SetColumn(element, column);
+            Grid.SetRow(element, row);
+            map.Children.Add(element);
+        }
     }
 
     private FrameworkElement NewTouchPadZone(TouchPadEdgeZone zone)
@@ -345,7 +261,7 @@ public sealed partial class MainWindow
             Text = item.Title,
             Style = ResourceStyle("BodyTextBlockStyle"),
             TextAlignment = TextAlignment.Center,
-            TextWrapping = TextWrapping.NoWrap
+            TextWrapping = item.DialogTitle is null ? TextWrapping.NoWrap : TextWrapping.Wrap
         };
         var summary = new TextBlock
         {
@@ -374,54 +290,38 @@ public sealed partial class MainWindow
             HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch
         };
-        button.Click += async (_, _) => await RunUiActionAsync(() => ConfigureTouchPadEdgeCommandAsync(item.GestureName, item.Title));
+        var dialogTitle = item.DialogTitle ?? item.Title;
+        if (item.DialogTitle is not null)
+        {
+            AutomationProperties.SetName(button, dialogTitle);
+            AutomationProperties.SetHelpText(button, summary.Text);
+        }
+        button.Click += async (_, _) => await RunUiActionAsync(() => ConfigureTouchPadEdgeCommandAsync(item.GestureName, dialogTitle));
         return button;
     }
 
     private FrameworkElement NewTouchPadCenter()
-    {
-        var panel = NewCardPanel(8);
-        panel.HorizontalAlignment = HorizontalAlignment.Center;
-        panel.VerticalAlignment = VerticalAlignment.Center;
-        panel.Children.Add(new FontIcon
-        {
-            Glyph = "\uE815",
-            FontSize = 26,
-            HorizontalAlignment = HorizontalAlignment.Center
-        });
-        panel.Children.Add(new TextBlock
-        {
-            Text = L("触控板", "Touchpad", "觸控板", "터치패드"),
-            TextAlignment = TextAlignment.Center,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            Style = ResourceStyle("SubtitleTextBlockStyle")
-        });
-
-        return new Border
-        {
-            Background = TouchPadCenterBrush(),
-            BorderBrush = BorderBrush(),
-            BorderThickness = new Thickness(1),
-            CornerRadius = new CornerRadius(8),
-            Child = panel
-        };
-    }
+        => NewEdgeMapCenter(L("触控板", "Touchpad", "觸控板", "터치패드"), "\uEFA5");
 
     private FrameworkElement NewTouchScreenCenter()
+        => NewEdgeMapCenter(L("触摸屏", "Touchscreen", "觸控螢幕", "터치스크린"), "\uE70A");
+
+    private FrameworkElement NewEdgeMapCenter(string title, string glyph)
     {
         var panel = NewCardPanel(8);
         panel.HorizontalAlignment = HorizontalAlignment.Center;
         panel.VerticalAlignment = VerticalAlignment.Center;
         panel.Children.Add(new FontIcon
         {
-            Glyph = "\uE815",
+            Glyph = glyph,
             FontSize = 26,
             HorizontalAlignment = HorizontalAlignment.Center
         });
         panel.Children.Add(new TextBlock
         {
-            Text = L("触摸屏", "Touchscreen", "觸控螢幕", "터치스크린"),
+            Text = title,
             TextAlignment = TextAlignment.Center,
+            TextWrapping = TextWrapping.Wrap,
             HorizontalAlignment = HorizontalAlignment.Center,
             Style = ResourceStyle("SubtitleTextBlockStyle")
         });

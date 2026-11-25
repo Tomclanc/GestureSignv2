@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Hành Động Nhanh</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Mở menu vòng với các phím tắt chuyên dụng.</value>
+  </data>
+</root>

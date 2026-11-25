@@ -312,7 +312,7 @@ namespace GestureSign.Daemon.Native
         public static extern bool DeleteObject([In] IntPtr hObject);
 
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport(User32Dll)]
+        [DllImport(User32Dll, SetLastError = true)]
         public static extern bool UpdateLayeredWindowIndirect(IntPtr hwnd, ref UPDATELAYEREDWINDOWINFO pULWInfo);
 
         #endregion

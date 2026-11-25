@@ -10,12 +10,13 @@ namespace GestureSign.Daemon.Input;
 public partial class MessageWindow
 {
     private long _rawMessages, _completeFrames, _inputErrors, _invalidDevices;
+    private long _touchpadReports, _touchscreenReports, _touchpadFrames, _touchscreenFrames;
     private long _lastRawTick;
 
     [DllImport("user32.dll", SetLastError = true)]
     private static extern uint GetRegisteredRawInputDevices([Out] RAWINPUTDEVICE[] devices, ref uint count, uint size);
 
-    internal bool ReadInputHealth(out Dictionary<string, object> snapshot)
+    internal bool ReadInputHealth(out Dictionary<string, object> snapshot, bool includeDevices = false)
     {
         var actual = Array.Empty<RAWINPUTDEVICE>();
         bool success = false;
@@ -47,6 +48,21 @@ public partial class MessageWindow
             ["RegistrationMismatch"] = repair, ["ExpectedUsages"] = _registeredDeviceList.ToArray(),
             ["Registrations"] = actual.Select(r => new RawInputRegistrationStatus(r.usUsagePage, r.usUsage, r.dwFlags, r.hwndTarget.ToInt64())).ToArray()
         };
+        if (includeDevices)
+        {
+            snapshot["TouchpadInput"] = DescribeTouch(NativeMethods.TouchPadUsage, _touchpadReports, _touchpadFrames);
+            snapshot["TouchscreenInput"] = DescribeTouch(NativeMethods.TouchScreenUsage, _touchscreenReports, _touchscreenFrames);
+        }
         return repair;
+
+        object DescribeTouch(ushort usage, long reports, long frames) => new
+        {
+            RawInputUsage = usage,
+            RegistrationExpected = _registeredDeviceList.Contains(usage),
+            Registered = success ? (bool?)actual.Any(device =>
+                device.usUsagePage == NativeMethods.DigitizerUsagePage && device.usUsage == usage && device.hwndTarget == Handle) : null,
+            Reports = reports,
+            FramesDelivered = frames
+        };
     }
 }

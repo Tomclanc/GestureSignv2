@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Posta",
+      "file-browser": "Dosya Tarayıcısı",
+      "paint": "Paint",
+      "submenu": "Uygulamalar",
+      "terminal": "Terminal",
+      "web-browser": "Web Tarayıcısı"
+    },
+    "audio": {
+      "mute": "Sessiz",
+      "next-track": "Sonraki Parça",
+      "play-pause": "Oynat / Duraklat",
+      "previous-track": "Önceki Parça",
+      "submenu": "Ses"
+    },
+    "bookmarks": {
+      "desktop": "Masaüstü",
+      "documents": "Belgeler",
+      "downloads": "İndirilenler",
+      "home": "Ana Sayfa",
+      "music": "Müzik",
+      "pictures": "Resimler",
+      "submenu": "Yer İmleri",
+      "videos": "Videolar"
+    },
+    "clipboard": {
+      "copy": "Kopyala",
+      "cut": "Kes",
+      "paste": "Yapıştır",
+      "submenu": "Pano"
+    },
+    "name": "Örnek Menü",
+    "next-workspace": "Sonraki Çalışma Alanı",
+    "previous-workspace": "Önceki Çalışma Alanı",
+    "web-links": {
+      "kando-on-discord": "Discord'da Kando",
+      "kando-on-github": "GitHub'da Kando",
+      "kando-on-kofi": "Ko-fi'de Kando",
+      "kando-on-youtube": "YouTube'da Kando",
+      "submenu": "Web Bağlantıları"
+    },
+    "windows": {
+      "close-window": "Pencereyi Kapat",
+      "submenu": "Pencereler",
+      "tile-left": "Sola Döşe",
+      "tile-right": "Sağa Döşe",
+      "toggle-maximize": "Büyütmeyi Aç/Kapat"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menüyü Kapat"
+    },
+    "close-submenu": {
+      "name": "Alt Menüyü Kapat"
+    },
+    "delay": {
+      "name": "Gecikme"
+    },
+    "execute-command": {
+      "name": "Komut Çalıştır"
+    },
+    "execute-macro": {
+      "name": "Makro Simüle Et"
+    },
+    "focus-window": {
+      "name": "Odak Penceresi"
+    },
+    "inhibit-shortcuts": {
+      "name": "Kısayolları Engelle"
+    },
+    "open-file": {
+      "name": "Dosya Aç"
+    },
+    "open-menu": {
+      "name": "Yönlendirme"
+    },
+    "open-settings": {
+      "name": "Ayarları Aç"
+    },
+    "open-uri": {
+      "name": "URI Aç"
+    },
+    "send-tcp-message": {
+      "name": "TCP Mesajı Gönder"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket Mesajı Gönder"
+    },
+    "set-clipboard": {
+      "name": "Panoyu Ayarla"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Kısayol Tuşu",
+      "name": "Kısayol Tuşu Simüle Et",
+      "recording-placeholder": "Bir kısayol tuşuna basın…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Alt Menü"
+    }
+  },
+  "native": {
+    "action": "Eylem",
+    "action-value": "Kısayol, yol, URL, metin veya JSON",
+    "choose-icon": "Simge seç",
+    "condition-invalid": "Geçerli bir pencere veya uygulama koşulu girin; örneğin /notepad/i.",
+    "configuration": "Pasta Menü yapılandırması",
+    "editor": "Pasta Menü Düzenleyicisi",
+    "exported": "{0} ülkesine aktarıldı",
+    "fixed-angle": "Sabit açı (0° = yukarı)",
+    "fixed-x": "Sabit X (monitörde 0–1)",
+    "fixed-y": "Sabit Y (monitörde 0-1 aşağı)",
+    "icon-invalid-image": "192 KB'a kadar bir PNG, JPEG, GIF, WebP veya ICO görüntüsü seçin.",
+    "icon-library": "Simge kitaplığı",
+    "icon-next": "Sonraki simgeler",
+    "icon-no-results": "Hiçbir simge bulunamadı.",
+    "icon-pick-file": "Resim veya uygulamayı seçin",
+    "icon-previous": "Önceki simgeler",
+    "icon-use-image": "Resmi kullan",
+    "imported": "{0} menü içe aktarıldı. İçe aktarılan komutları kullanmadan önce gözden geçirin ve ardından kaydedin.",
+    "item-icon": "Öğe simgesi",
+    "item-order": "Ürün sırası",
+    "label": "Etiket",
+    "move-down": "Aşağı taşı",
+    "move-up": "Yukarı taşı",
+    "name": "Menü adı",
+    "new-menu": "Yeni menü",
+    "off": "Kapalı",
+    "on": "Açık",
+    "palette": "Renk paleti",
+    "preview": "Önizleme menüsü",
+    "remove": "Kaldır",
+    "save": "Menüleri kaydet",
+    "saved": "Menü yapılandırması kaydedildi.",
+    "shortcut-clear": "Kısayolu temizle",
+    "shortcut-cleared": "Kısayol temizlendi.",
+    "shortcut-config-changed": "Diskteki menü yapılandırması değişti. Bu kısayolu uygulamak için mevcut menüleri kaydedin.",
+    "shortcut-in-use": "Windows bu kısayolun zaten kullanımda olduğunu bildiriyor.",
+    "shortcut-invalid": "Bir tuşun yanı sıra bu kısayol için izin verilen değiştiricileri girin.",
+    "shortcut-record": "Kısayolu kaydet",
+    "shortcut-save-new-menu": "Kısayolunu etkinleştirmek için bu yeni menüyü kaydedin.",
+    "shortcut-saved": "Kısayol kaydedildi: {0}. Hızlı İşlemler etkinleştirildiğinde menüyü açmak için bunu kullanın.",
+    "shortcut-stop": "Kaydı durdur",
+    "shortcut-unavailable": "Windows bu kısayolu kaydedemedi."
+  },
+  "settings": {
+    "add-menu-items": "Menü Öğeleri Ekle",
+    "all-menus": "Tüm Menüler",
+    "anchored-mode": "Sabitlenmiş Mod",
+    "app-condition": "Belirli Uygulamalarla Sınırla",
+    "area-condition-bottom-placeholder": "Alt",
+    "area-condition-left-placeholder": "Sol",
+    "area-condition-right-placeholder": "Sağ",
+    "area-condition-top-placeholder": "Üst",
+    "cancel": "İptal",
+    "create-menu-button": "Menü Ekle",
+    "delete-menu": "Menüyü sil",
+    "delete-menu-item": "Menü öğesini sil",
+    "edit-submenu": "Alt menüyü düzenle",
+    "export-menu": "Dışa aktarma menüsü",
+    "general-settings-dialog": {
+      "enable-marking-mode": "İşaretleme Modunu Etkinleştir",
+      "close-menu": "Menüyü kapat",
+      "do-nothing": "Hiçbir şey yapma",
+      "enable-marking-mode-info": "İşaretleme Modu etkinken, fareyi üzerlerine sürükleyerek öğeleri seçebilirsiniz.",
+      "enable-turbo-mode": "Turbo Modu Etkinleştir",
+      "enable-turbo-mode-info": "Turbo Modu etkinken, Shift veya Ctrl gibi bir değiştirici tuşu basılı tuttuğunuz sürece hareketleri gerçekleştirebilirsiniz.",
+      "interaction-modes": "Etkileşim Modları",
+      "middle-mouse-button-behavior": "Orta fare düğmesi",
+      "middle-mouse-button-behavior-info": "Bu, bir menü gösterilirken farenin orta tuşuna basıldığında ne olacağını belirler.",
+      "move-pointer-to-menu-center": "İşaretçiyi menü merkezine taşı",
+      "move-pointer-to-menu-center-info": "İşaretlenirse, fare işaretçisi gerektiğinde bir menünün veya alt menünün ortasına taşınacaktır. Bir menünün ekranın kenarına çok yakın açılması veya bir menünün Ortalanmış Modda açılması durumunda bu durum söz konusu olabilir.",
+      "require-click-for-hover-mode": "Vurgu Modu seçimleri için tıklamayı zorunlu kıl",
+      "require-click-for-hover-mode-info": "İşaretlenmezse, Vurgu Modunun kullanıldığı menüler için fare üzerlerine getirildiğinde öğeler hemen seçilecektir.",
+      "right-mouse-button-behavior": "Sağ fare düğmesi",
+      "right-mouse-button-behavior-info": "Bu, bir menü gösterilirken farenin sağ tuşuna basıldığında ne olacağını belirler.",
+      "select-item": "Öğeyi seç",
+      "select-parent": "Bir seviye yukarı git",
+      "trigger-center-click-on-key-release": "Ortadaki kısayol serbest bırakıldığında menüyü kapat",
+      "trigger-center-click-on-key-release-info": "Bu, bir menünün merkezi üzerinde gezinirken bir tuş bırakıldığında orta tıklama iş akışını tetikleyecektir."
+    },
+    "hover-mode": "Üzerine Gelme Modu",
+    "icon-picker-dialog": {
+      "search-placeholder": "Simgeleri ara…"
+    },
+    "import-menu": "İçe aktarma menüsü",
+    "menu-behavior": "Menü Davranışı",
+    "menu-conditions": "Menü Koşulları",
+    "menu-themes-dialog": {
+      "default-colors": "Varsayılan renkler",
+      "enable-menu-animations": "Menü Animasyonları",
+      "title": "Menü Temaları"
+    },
+    "no-matching-menus": "Menü bulunamadı.",
+    "no-menus": "Menünüz yok.",
+    "not-bound": "Bağlı Değil",
+    "quick-select-key-label": "Hızlı seçim tuşu",
+    "quick-select-key-recording": "Anahtar seç…",
+    "shortcut-info": "Bu kısayol menüyü açar. Bir normal tuş ve Ctrl, Alt veya Shift gibi herhangi bir sayıda değiştirici içermelidir. Kayıt yaparken tüm tuşlara aynı anda basmanız gerekmiyor, arka arkaya da basabilirsiniz. Bir kısayol zaten başka bir menüye bağlıysa bu kullanışlıdır!",
+    "shortcut-label": "Kısayol",
+    "shortcut-recording": "Bir kısayola basın…",
+    "window-condition": "Belirli Pencere Başlıklarına Sınırla",
+    "workflow-editor": {
+      "add-action": "Eylem Ekle",
+      "select-workflow-name": "İş Akışını Seçin"
+    },
+    "anchored-mode-info": "Alt menüleri ana menüyle aynı konumda açın. Bunu işaretlemek İşaretleme Modunu ve Turbo Modunu devre dışı bırakacaktır.",
+    "fixed-position-mode": "Sabit Pozisyon Modu",
+    "fixed-position-mode-info": "Menüyü imleç yerine ekranın sabit bir konumunda açın.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Konumu sol alta ayarla",
+      "bottom-right-preset-tooltip": "Konumu sağ alta ayarla",
+      "centered-preset-tooltip": "Konumu merkeze ayarla",
+      "confirm": "Bu konumu kullan",
+      "top-left-preset-tooltip": "Konumu sol üste ayarla",
+      "top-right-preset-tooltip": "Konumu sağ üste ayarla"
+    },
+    "fixed-position-tooltip": "Sabit bir konum seçin",
+    "hover-mode-info": "Sadece güçlü kullanıcılar için! Öğelerin üzerine gelerek seçin."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Varsayılan",
+      "clean-circle": "Sade Daire",
+      "neon-lights": "Neon Işıklar",
+      "purity": "Saflık",
+      "rainbow-labels": "Gökkuşağı Etiketleri"
+    },
+    "presets": {
+      "Blue Glass": "Mavi Cam",
+      "Dark Night": "Karanlık Gece",
+      "Cotton Candy": "Pamuk Şeker",
+      "Dark and Cozy": "Karanlık ve Sıcak",
+      "Blue Glow": "Mavi Parıltı",
+      "Green Glow": "Yeşil Parıltı",
+      "Electric": "Elektrik",
+      "Orange": "Turuncu",
+      "Pink": "Pembe",
+      "Bright Prism": "Parlak Prizma",
+      "Kando Default": "Varsayılan renkler"
+    }
+  }
+}

@@ -22,10 +22,10 @@ if ($files.Count -lt $MinimumFileCount) {
 }
 
 $requiredFiles = @(
-    'GestureSign.WinUI.exe',
-    'Backend\GestureSign.exe',
-    'GestureSign.WinUI.dll',
-    'Backend\GestureSign.dll',
+    'GestureSignV2.WinUI.exe',
+    'Backend\GestureSignV2Daemon.exe',
+    'GestureSignV2.WinUI.dll',
+    'Backend\GestureSignV2Daemon.dll',
     'Collect-SupportInfo.ps1',
     'Recover-Input.ps1'
 )
@@ -42,7 +42,7 @@ foreach ($requiredFile in $requiredFiles) {
 # System.Diagnostics assemblies are required framework libraries in the self-contained intent component.
 $forbidden = @($files | Where-Object {
     $_.FullName.Substring($resolvedPackagePath.Length + 1) -match '(?i)(^|[\\/])Components[\\/]IntentDlc([\\/]|$)' -or
-    $_.Name -match '(?i)^(GestureSign\.(IntentDlc|IntentLearning)|Microsoft\.(ML\.OnnxRuntime|Windows\.AI\.MachineLearning)|onnxruntime|DirectML).*\.(exe|dll|zip)$' -or
+    $_.Name -match '(?i)^(GestureSign(?:V2)?\.(IntentDlc|IntentLearning)|Microsoft\.(ML\.OnnxRuntime|Windows\.AI\.MachineLearning)|onnxruntime|DirectML).*\.(exe|dll|zip)$' -or
     $_.Extension -in '.pdb', '.dmp', '.diag' -or
     $_.Name -match '(?i)^kando.*\.(exe|dll|zip)$' -or
     ($_.Name -match '(?i)(diagnostic|diagnostics|trace|crashdump)' -and $_.Name -notmatch '^System\.Diagnostics\.[A-Za-z.]+\.dll$')
@@ -59,7 +59,7 @@ if ($SharedRuntimeOnly) {
     if ($bundledRuntimes.Count -gt 0) {
         throw "Shared-runtime package contains bundled runtime files: $($bundledRuntimes.Name -join ', ')"
     }
-    foreach ($configuration in @('GestureSign.WinUI.runtimeconfig.json','Backend\GestureSign.runtimeconfig.json')) {
+    foreach ($configuration in @('GestureSignV2.WinUI.runtimeconfig.json','Backend\GestureSignV2Daemon.runtimeconfig.json')) {
         $runtimeOptions = (Get-Content -LiteralPath (Join-Path $resolvedPackagePath $configuration) -Raw | ConvertFrom-Json).runtimeOptions
         if (!$runtimeOptions.framework -and !$runtimeOptions.frameworks) {
             throw "Shared-runtime package lacks framework dependencies: $configuration"

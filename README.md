@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.8">
+  <a href="https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.12">
     <img alt="Release" src="https://img.shields.io/github/v/release/Tomclanc/GestureSignv2?style=flat-square">
   </a>
   <a href="https://winstall.app/apps/Tomclanc.GestureSignV2">
@@ -65,17 +65,17 @@ GestureSign V2 达到 **50 Stars** 了！感谢每一位点亮 Star、试用软�
 
 ### 快捷操作 / Quick Actions / クイックアクション
 
-在应用内管理 Kando 可选组件、检查更新，并设置独立唤起快捷键。
+在应用内管理可选环形菜单组件，并设置独立唤起快捷键。
 
-![Kando 可选组件与快捷操作页面](docs/assets/screenshots/quick-actions.png)
+![环形菜单组件与快捷操作页面](docs/assets/screenshots/quick-actions.png)
 
-### Kando 径向菜单演示
+### 环形菜单交互演示（旧版）
 
-通过“快捷操作”按需下载 Kando，用独立快捷键唤起径向菜单。下图展示 Kando 菜单交互，主程序包不捆绑该组件。
+通过「快捷操作」按需下载环形菜单组件，并用独立快捷键唤起。下图是旧版交互演示。
 
-![Kando 径向菜单交互演示（可选组件）](GestureSign.WinUI/Assets/kando-preview.gif)
+![旧版环形菜单交互演示](docs/assets/kando-preview.gif)
 
-以上截图来自 18.3.4 商店版；Kando 动图为组件功能演示。具体布局和可用功能以安装版本为准。
+以上截图来自 18.3.4 商店版；动图展示旧版环形菜单交互。具体布局和可用功能以安装版本为准。
 
 ## 项目简介
 
@@ -92,7 +92,7 @@ GestureSign V2 是基于经典开源项目 [TransposonY/GestureSign](https://git
 - WinUI 3 重构界面，适配 Windows 11 圆角、Mica 风格、深色 / 亮色模式动态切换。
 - 适配 Windows 上的 Xbox 大屏模式，自动调整窗口边框和标题栏显示，方便在掌机与大屏游戏环境中使用。
 - 支持触控板手势、触摸屏手势、鼠标手势、手势轨迹显示和手势缩略图预览。
-- 新增“快捷操作”页面，可按需下载 Kando 可选组件，并用独立快捷键唤起径向菜单。
+- 新增“快捷操作”页面，可按需下载环形菜单组件，并用独立快捷键唤起径向菜单。
 - 新增“边缘交互”页面，可为触控板和触摸屏上 / 下 / 左 / 右边缘点击与边缘滑动单独绑定动作。
 - 边缘手势可作为普通动作加入任意程序分组，当前应用动作优先，未命中时自动回退全局动作。
 - 本地意图学习与 AI 否决，支持手动纠正误判；可用推理后端及回退情况在设置中显示。
@@ -120,32 +120,32 @@ GestureSign V2 已发布到 Windows Package Manager，可以直接通过 winget 
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.8) 下载最新便携版。
+也可以前往 [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.12) 下载最新便携版。
 
-GitHub 当前版本为 **18.4.8**；Microsoft Store 和 WinGet 的上架进度可能不同，获取此版本请使用下方 GitHub 附件。
+GitHub 当前版本为 **18.4.12**；Microsoft Store 和 WinGet 的上架进度可能不同，获取此版本请使用下方 GitHub 附件。
 
 当前版本：
 
 | 架构 | MSI 安装包 | 便携版 ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64-portable.zip) |
 
-MSI 约 21 MB，便携 ZIP 约 28 MB。主程序包剔除 .NET / WinUI 运行环境包；Kando 和 AI 组件均为可选 DLC，独立下载。便携版解压后运行 `GestureSign.WinUI.exe`，升级前退出旧版设置窗口和托盘后台。
+MSI 约 21 MB，便携 ZIP 约 28 MB。主程序包剔除 .NET / WinUI 运行环境包；环形菜单和 AI 组件均为可选 DLC，独立下载。便携版解压后运行 `GestureSign.WinUI.exe`，升级前退出旧版设置窗口和托盘后台。
 
 运行需要对应架构的 .NET 10 Desktop Runtime 和 Windows App SDK Runtime。WinGet 会按清单安装依赖；手动安装或使用便携版时，请先安装所需运行环境。NPU 另需兼容硬件、驱动与 Windows ML 官方执行提供程序。
 
-WinGet 18.4.8 的更新见 [提交记录](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.8)。若源中尚未同步此版本，请使用上方 GitHub 下载。
+WinGet 18.4.12 的更新见 [提交记录](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.12)。若源中尚未同步此版本，请使用上方 GitHub 下载。
 
 ## 更新内容
 
-### 18.4.8
+### 18.4.12
 
-修复部分电脑开启管理员自启动后开关立即弹回的问题。保存失败时会提示并记录原因。
+- 修复双指触控板手势松开时可能误触发单指边缘动作的问题。
 
 ### 历史版本
 
-18.4.7 改进 AI 否决并修复管理员模式下的配置导入与导出；18.4.6 修复连续滑动串动作与音量提示条，并完善 90 种语言适配；18.4.5 修复多屏手势提示，加入脚本选择和手势忽略，恢复连续滑动设置，并改进音量步长、更新流程与多语言支持；18.4.4 简化录制与命令配置，加入桌面边缘滚轮、拖动锁定、配置导入预览与诊断导出；18.4.3 修复左右 Win＋L 录入与锁屏，并改进方向键发送兼容性；18.4.2 修复 AI 否决设置在引擎重启及组件更新时丢失的问题；18.4.1 合入输入健康诊断、恢复与修饰键发送修复；18.4 加入左右修饰键与单按快捷键；18.3.9 增加统一媒体播放/暂停命令；18.3.8 补充独立媒体控制并改进 AI 引擎连接；18.3.7 修复首次设置命令与配置重载，补齐多语言并纳入日语校对；18.3.6 改进弹窗、窗口命令和手势库视图；18.3.5 加入多命令与延时、鼠标按键独立绑定和组合快捷键。更早版本逐步完善多指手势、TipTap、边缘交互、本地 AI、Kando、OneDrive 同步及无障碍功能。详细历史请参阅 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
+18.4.11 新增多段手势录制，改进首条手势轨迹和 MSI 更新后重启。更早版本陆续完善环形菜单、多指手势、边缘交互、快捷键、本地意图识别和多语言支持。各版本的详细改动见 [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases)。
 
 ## 安装
 
@@ -189,21 +189,21 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 - “动作”：管理全局动作、程序动作、分组、手势和命令。
 - “忽略”：添加不参与识别的程序、窗口或匹配规则。
 - “手势”：查看、导入、导出、重训和整理手势库。
-- “快捷操作”：选择 Kando 菜单、同步唤起快捷键、打开 Kando 设置或测试弹出菜单。
+- “快捷操作”：选择或编辑环形菜单、设置唤起快捷键、打开菜单设置或预览菜单。
 - “边缘交互”：设置触控板和触摸屏四边点击与边缘滑动动作，以及触控板 TipTap 动作：按住 1、2 或 3 个手指，再用另一指在按住的手指组左、右、上、下轻点，可分别绑定共 12 种动作，支持连续轻点。
 - “选项”：调整轨迹颜色、宽度、透明度、输入设备、全屏排除和启动项，并管理本地意图学习、AI 否决、样本纠正及推理组件。
 - “关于”：查看版本、项目链接、日志和维护信息。
 
-## Kando 可选 DLC 与更新
+## 可选环形菜单组件与更新
 
-在“快捷操作”的 Kando 设置中按需下载组件，自动选择 GitHub 最新正式版及对应架构。主程序安装包和便携包均不捆绑 Kando。
+在「快捷操作」中按需下载环形菜单组件。应用从 GestureSign V2 的 GitHub 发布页下载对应架构的组件。
 
-由 GestureSign 下载管理的 Kando，可通过“检查更新”查看当前版本、可更新版本和更新说明，再执行更新。更新显示进度，保留菜单、设置和手势绑定，完成后恢复运行；失败时恢复旧版。自行指定的外部 Kando 提供更新指引，由用户按原安装方式更新。
+「快捷操作」会在有新版组件时显示更新入口。也可以通过「从 ZIP 安装」选择对应架构的组件包。
 
 ## 兼容性
 
 - 推荐系统：Windows 11 x64 / ARM64。
-- GitHub 18.4.8 同时提供 x64 / ARM64 的 MSI 和便携 ZIP；请按设备架构选择，不提供 x86 包。
+- GitHub 18.4.12 同时提供 x64 / ARM64 的 MSI 和便携 ZIP；请按设备架构选择，不提供 x86 包。
 - Windows 10 理论上可运行部分功能，但主要适配目标是 Windows 11。
 
 ## 反馈问题
@@ -224,7 +224,7 @@ winget install --id Tomclanc.GestureSignV2 --source winget
 
 感谢原项目 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) 以及 HighSign、MahApps.Metro、WGestures 等项目。GestureSign V2 仍然站在这些工作的基础上继续前进。
 
-“快捷操作”可以按需下载 [Kando](https://github.com/kando-menu/kando) 圆环菜单可选组件。Kando 默认不包含在 GestureSign 安装包中，可在应用内单独下载或卸载；Kando 是遵循 MIT License 的独立开源项目，组件保留其自带的 `LICENSE` 和 Chromium 相关许可证文件。
+**特别鸣谢 [Kando](https://github.com/kando-menu/kando) 及其作者 Simon Schneegans。** 感谢 Kando 开源环形菜单项目为快捷操作提供交互设计参考。随组件分发的上游资源保留相应许可证和署名。
 
 ## 赞赏
 
@@ -242,7 +242,7 @@ GestureSign V2 has reached **50 stars**! Thank you to everyone who has starred t
 
 ### Screenshots and demo
 
-The [gallery above](#软件展示) shows action management, the gesture library, TipTap, input devices, accessibility settings and Quick Actions, followed by a demo of the optional Kando radial menu. Screenshots are from the 18.3.4 Store build. Kando is downloaded separately; layout and available features depend on the installed version.
+The [gallery above](#软件展示) shows action management, the gesture library, TipTap, input devices, accessibility settings and Quick Actions, followed by a demo of the earlier radial-menu interaction. Screenshots are from the 18.3.4 Store build. Layout and available features depend on the installed version.
 
 GestureSign V2 is a Windows 11 focused rebuild of the classic open-source project [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign).
 
@@ -257,7 +257,7 @@ I'm available for paid custom software development. To discuss a project, contac
 - Rebuilt WinUI 3 interface with Windows 11 rounded corners, Mica styling, and light / dark theme support.
 - Adapts to Xbox full-screen experience on Windows by automatically adjusting window borders and title-bar visibility for handheld and big-screen gaming environments.
 - Touchpad, touchscreen, and mouse gestures with gesture trails and thumbnail previews.
-- New Quick Actions page with an optional on-demand Kando component and dedicated hotkey triggers.
+- New Quick Actions page with an optional radial-menu component and dedicated hotkey triggers.
 - New Edge Interaction page for touchpad and touchscreen edge taps and edge swipes.
 - Edge gestures can also be added to regular app groups; app-specific actions take priority and fall back to global actions when no executable app action is found.
 - Local intent learning and AI veto with manual corrections and visible inference backend/fallback status.
@@ -284,30 +284,30 @@ GestureSign V2 is available from Windows Package Manager. Install it with winget
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.8).
+You can also get the latest portable build from [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.12).
 
-The current GitHub release is **18.4.8**. Microsoft Store and WinGet availability may differ; use the GitHub assets below for this version.
+The current GitHub release is **18.4.12**. Microsoft Store and WinGet availability may differ; use the GitHub assets below for this version.
 
 Current version:
 
 | Architecture | MSI installer | Portable ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64-portable.zip) |
 
-MSI downloads are about 21 MB and portable ZIPs about 28 MB. The packages use shared .NET / WinUI runtimes. Kando and AI components are separate optional downloads. Extract the portable ZIP and run `GestureSign.WinUI.exe`; exit the old settings window and tray daemon before upgrading.
+MSI downloads are about 21 MB and portable ZIPs about 28 MB. The packages use shared .NET / WinUI runtimes. The radial-menu and AI components are separate optional downloads. Extract the portable ZIP and run `GestureSign.WinUI.exe`; exit the old settings window and tray daemon before upgrading.
 
 The matching .NET 10 Desktop Runtime and Windows App SDK Runtime are required. WinGet installs the declared dependencies; install them separately when using the MSI manually or the portable ZIP. NPU use also requires compatible hardware, drivers and an official Windows ML execution provider.
 
-See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.8). Use the GitHub downloads above if your source has not yet received 18.4.8.
+See [WinGet submissions](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.12). Use the GitHub downloads above if your source has not yet received 18.4.12.
 
-### What's new in 18.4.8
+### What's new in 18.4.12
 
-Fix the administrator startup switch reverting on some PCs. Show and log startup registration failures.
+- Fixed two-finger touchpad gestures incorrectly triggering a single-finger edge action on release.
 
 ### Previous releases
 
-18.4.7 improved AI veto and fixed configuration import and export when running as administrator; 18.4.6 fixed anchored-finger continuous gestures and volume flyouts, and completed localization; 18.4.5 fixed multi-monitor gesture hints, added script selection and gesture exclusions, restored continuous-slide settings, and improved volume steps, updating and localization; 18.4.4 simplified recording and command setup and added desktop-edge wheel bindings, drag lock, import preview and diagnostic export; 18.4.3 fixed sided Win+L recording and locking and improved arrow-key compatibility; 18.4.2 preserved AI veto settings across engine restarts and component updates; 18.4.1 added input health diagnostics, recovery and modifier sending fixes; 18.4 added sided and standalone modifier shortcuts; 18.3.9 added combined media Play/Pause; 18.3.8 added discrete media controls and improved AI engine connections; 18.3.7 fixed first-click command settings and configuration reloads and completed localization and Japanese proofreading; 18.3.6 improved dialogs, window commands and gesture-library views; 18.3.5 added command sequences with delays, independent mouse button bindings and combination shortcuts. Earlier releases developed multitouch gestures, TipTap, edge interactions, local AI, Kando, OneDrive sync and accessibility. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full history.
+18.4.11 added multi-stage gesture recording and improved the first gesture trail and relaunch after MSI updates. Earlier releases expanded radial menus, multi-finger gestures, edge actions, shortcuts, local intent recognition, and language support. See [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) for the full release notes.
 
 ## Installation
 
@@ -357,21 +357,21 @@ If an app already has system-level or built-in gestures, such as Windows 11 touc
 - Actions: Manage global actions, app actions, groups, gestures, and commands.
 - Ignore: Exclude apps, windows, or matching rules from gesture recognition.
 - Gestures: View, import, export, retrain, and organize the gesture library.
-- Quick Actions: Select Kando menus, sync hotkeys, open Kando settings, or test the radial menu.
+- Quick Actions: Select or edit radial menus, configure their shortcuts, open menu settings, or preview a menu.
 - Edge Interaction: Configure taps and swipes along all four edges of the touchpad and touchscreen, plus touchpad TipTap actions: hold one, two, or three fingers and tap with another finger to the left, right, above, or below the held finger group. Each of the 12 combinations can have its own action, and repeated taps are supported.
 - Options: Adjust trail color, width, opacity, input devices, fullscreen exclusions, and startup behavior; manage local intent learning, AI veto, sample corrections, and inference components.
 - About: View the version, project links, logs, and maintenance information.
 
-## Optional Kando component and updates
+## Optional radial-menu component and updates
 
-Download Kando from its settings in Quick Actions. GestureSign selects the latest stable GitHub release for your architecture. Kando is a separate optional component.
+Download the optional radial-menu component in Quick Actions. GestureSign V2 downloads the component for your architecture from its GitHub releases.
 
-For installations managed by GestureSign, check for updates to view installed and available versions and release notes, then update with progress reporting. Menus, settings and gesture bindings are preserved; Kando restarts afterward, and failed updates restore the previous version. External installations receive update guidance using their original installation method.
+Quick Actions shows an update option when a newer component is available. You can also use “Install from ZIP” with a component package for your architecture.
 
 ## Compatibility
 
 - Recommended OS: Windows 11 x64 / ARM64.
-- GitHub 18.4.8 provides x64 / ARM64 MSI and portable ZIP packages. Choose the architecture matching your device; x86 is not supported.
+- GitHub 18.4.12 provides x64 / ARM64 MSI and portable ZIP packages. Choose the architecture matching your device; x86 is not supported.
 - Windows 10 may run some features, but Windows 11 is the primary target.
 
 ## Feedback
@@ -392,7 +392,7 @@ Special thanks to [Lambchop1020](https://github.com/Lambchop1020) for contributi
 
 Thanks to [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign), HighSign, MahApps.Metro, WGestures, and the projects this work builds on.
 
-Quick Actions can download the [Kando](https://github.com/kando-menu/kando) radial-menu component on demand. Kando is not bundled with GestureSign by default and can be installed or removed separately in the app. Kando remains an independent MIT-licensed project, and the downloaded component retains its `LICENSE` and Chromium license files.
+**Special thanks to [Kando](https://github.com/kando-menu/kando) and its author, Simon Schneegans.** The open-source radial menu inspired the interaction design in Quick Actions. Upstream resources distributed with the component retain their licenses and attribution.
 
 ## Support the project
 
@@ -410,7 +410,7 @@ GestureSign V2 が **50 Stars** に到達しました！Star を付けてくだ�
 
 ### 画面とデモ
 
-[上のギャラリー](#软件展示)では、アクション管理、ジェスチャーライブラリ、TipTap、入力デバイス、アクセシビリティ設定、クイックアクションと、Kando 円形メニューのデモを紹介しています。画面は 18.3.4 のストア版です。Kando は別途ダウンロードするコンポーネントで、実際の配置や利用できる機能はインストールしたバージョンによって異なります。
+[上のギャラリー](#软件展示)では、アクション管理、ジェスチャーライブラリ、TipTap、入力デバイス、アクセシビリティ設定、クイックアクションと、旧版のラジアルメニューのデモを紹介しています。画面は 18.3.4 のストア版です。実際の配置や利用できる機能はインストールしたバージョンによって異なります。
 
 GestureSign V2 は、クラシックなオープンソースプロジェクト [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign) を Windows 11 向けに再構築したバージョンです。
 
@@ -425,7 +425,7 @@ GestureSign V2 は、クラシックなオープンソースプロジェクト [
 - Windows 11 の角丸、Mica スタイル、ライト / ダークテーマに対応した WinUI 3 インターフェイス。
 - Windows の Xbox 全画面エクスペリエンスに対応し、ウィンドウ枠とタイトルバーの表示を自動調整。携帯型ゲーミング PC や大画面のゲーム環境で利用できます。
 - タッチパッド、タッチスクリーン、マウスジェスチャー、ジェスチャー軌跡、ジェスチャーサムネイルプレビュー。
-- Kando のオプションコンポーネントを必要なときにダウンロードできる Quick Actions ページと、専用ホットキーによる呼び出し。
+- ラジアルメニューのオプションコンポーネントを必要なときにダウンロードできる Quick Actions ページと、専用ホットキーによる呼び出し。
 - タッチパッドとタッチスクリーンのエッジタップ / エッジスワイプを設定できる Edge Interaction ページ。
 - エッジジェスチャーは通常のアプリグループにも追加でき、アプリ別アクションを優先し、見つからない場合はグローバルアクションへフォールバックします。
 - ローカル意図学習と AI 拒否、誤判定の手動修正、推論バックエンドとフォールバック状態の表示。
@@ -452,30 +452,30 @@ GestureSign V2 は Windows Package Manager からインストールできます:
 winget install --id Tomclanc.GestureSignV2 --source winget
 ```
 
-最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.8) からも入手できます。
+最新のポータブル版は [Releases](https://github.com/Tomclanc/GestureSignv2/releases/tag/v18.4.12) からも入手できます。
 
-GitHub の現在のリリースは **18.4.8** です。Microsoft Store と WinGet では公開時期が異なる場合があるため、このバージョンは以下の GitHub 添付ファイルから入手してください。
+GitHub の現在のリリースは **18.4.12** です。Microsoft Store と WinGet では公開時期が異なる場合があるため、このバージョンは以下の GitHub 添付ファイルから入手してください。
 
 現在のバージョン:
 
 | アーキテクチャ | MSI インストーラー | ポータブル ZIP |
 | --- | --- | --- |
-| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-x64-portable.zip) |
-| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.8/GestureSign-V2-18.4.8-arm64-portable.zip) |
+| x64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-x64-portable.zip) |
+| ARM64 | [MSI](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64.msi) | [ZIP](https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.12/GestureSign-V2-18.4.12-arm64-portable.zip) |
 
-MSI は約 21 MB、ポータブル ZIP は約 28 MB です。.NET / WinUI の実行環境は同梱せず、システムの共有ランタイムを使用します。Kando と AI は任意の追加ダウンロードです。ZIP を展開し、`GestureSign.WinUI.exe` を実行してください。更新前に旧版の設定画面とトレイのバックグラウンドプロセスを終了します。
+MSI は約 21 MB、ポータブル ZIP は約 28 MB です。.NET / WinUI の実行環境は同梱せず、システムの共有ランタイムを使用します。ラジアルメニューと AI コンポーネントは任意の追加ダウンロードです。ZIP を展開し、`GestureSign.WinUI.exe` を実行してください。更新前に旧版の設定画面とトレイのバックグラウンドプロセスを終了します。
 
 対応アーキテクチャの .NET 10 Desktop Runtime と Windows App SDK Runtime が必要です。WinGet は宣言された依存関係をインストールします。MSI を手動でインストールする場合やポータブル版を使用する場合は、必要なランタイムを別途インストールしてください。NPU の利用には対応ハードウェア、ドライバー、Windows ML 公式実行プロバイダーも必要です。
 
-WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.8) をご覧ください。18.4.8 がまだ配信されていない場合は、上記の GitHub ダウンロードをご利用ください。
+WinGet の更新は [提出記録](https://github.com/microsoft/winget-pkgs/pulls?q=is%3Apr+Tomclanc.GestureSignV2+18.4.12) をご覧ください。18.4.12 がまだ配信されていない場合は、上記の GitHub ダウンロードをご利用ください。
 
-### 18.4.8 の更新内容
+### 18.4.12 の更新内容
 
-管理者権限での自動起動を有効にするとスイッチが元に戻る問題を修正しました。登録に失敗した場合は通知し、ログに記録します。
+- 2 本指のタッチパッドジェスチャーを終了したときに、1 本指用の端の操作が誤って実行される問題を修正。
 
 ### 過去のバージョン
 
-18.4.7 では AI 拒否を改善し、管理者権限での設定のインポートとエクスポートを修正しました。18.4.6 では連続ジェスチャーの誤認識と音量表示を修正し、多言語対応を改善しました。18.4.5 では複数画面のジェスチャー表示を修正し、スクリプト選択とジェスチャー除外、連続スライド設定を追加・復元するとともに、音量の変化量、更新処理、多言語対応を改善しました。18.4.4 では記録とコマンド設定の簡素化、デスクトップ端のホイール操作、ドラッグロック、インポートのプレビュー、診断情報の書き出しを追加しました。18.4.3 では左右の Win+L の記録とロックを修正し、方向キー送信の互換性を改善しました。18.4.2 では AI 拒否設定の保持を修正し、18.4.1 では入力診断・復旧と修飾キー送信を修正し、18.4 では左右の修飾キーと単独ショートカットへの対応、18.3.9 ではメディアの再生・一時停止の切り替え、18.3.8 では個別のメディア操作と AI エンジン接続の改善、18.3.7 では初回のコマンド設定・設定再読み込みの修正と翻訳・日本語校正、18.3.6 ではダイアログ・ウィンドウ操作・ライブラリ表示の改善、18.3.5 では待機時間を含む複数コマンドとマウスボタン別の割り当てを追加しました。それ以前は、複数指ジェスチャー、TipTap、エッジ操作、ローカル AI、Kando、OneDrive 同期、アクセシビリティを順次改善しました。詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
+18.4.11 では複数段階のジェスチャー録画に対応し、最初の軌跡の描画と MSI 更新後の再起動を改善しました。それ以前のバージョンでは、ラジアルメニュー、複数指のジェスチャー、画面端の操作、ショートカット、ローカルでの意図認識、多言語対応を順次改善しました。各バージョンの詳細は [GitHub Releases](https://github.com/Tomclanc/GestureSignv2/releases) をご覧ください。
 
 ## インストール
 
@@ -525,21 +525,21 @@ OneDrive 同期を有効にした場合、設定ファイルは次の場所に�
 - Actions: グローバルアクション、アプリアクション、グループ、ジェスチャー、コマンドを管理します。
 - Ignore: ジェスチャー認識から除外するアプリ、ウィンドウ、マッチングルールを設定します。
 - Gestures: ジェスチャーライブラリの表示、インポート、エクスポート、再学習、整理を行います。
-- Quick Actions: Kando メニューの選択、ホットキー同期、Kando 設定の起動、ラジアルメニューのテストを行います。
+- Quick Actions: ラジアルメニューの選択と編集、ホットキーの設定、メニュー設定の表示、プレビューができます。
 - Edge Interaction: タッチパッドとタッチスクリーンの四辺でのタップ／スワイプに加え、タッチパッドの TipTap アクションを設定します。1 本、2 本、または 3 本の指を置いたまま、別の指でその指のグループの左・右・上・下を軽くタップすると、合計 12 通りの操作にそれぞれアクションを割り当てられます。連続タップにも対応しています。
 - Options: 軌跡の色、幅、透明度、入力デバイス、全画面除外、起動動作を調整し、ローカル意図学習、AI 拒否、サンプル修正、推論コンポーネントを管理します。
 - About: バージョン、プロジェクトリンク、ログ、メンテナンス情報を確認します。
 
-## Kando の任意ダウンロードと更新
+## ラジアルメニューコンポーネントのダウンロードと更新
 
-Quick Actions の Kando 設定から必要に応じてダウンロードできます。GitHub の最新安定版と対応アーキテクチャを自動選択し、主プログラムには同梱しません。
+Quick Actions から必要に応じてダウンロードできます。GestureSign V2 の GitHub リリースから、デバイスのアーキテクチャに合ったコンポーネントを取得します。
 
-GestureSign が管理する Kando は、更新確認で現在のバージョン、更新可能なバージョン、リリースノートを確認して更新できます。進捗を表示し、メニュー、設定、ジェスチャーの割り当てを保持して再起動します。更新に失敗した場合は旧版を復元します。外部の Kando は元のインストール方法で更新するための案内を表示します。
+新しいコンポーネントがある場合は Quick Actions に更新操作が表示されます。対応するコンポーネントの ZIP を選んでインストールすることもできます。
 
 ## 互換性
 
 - 推奨 OS: Windows 11 x64 / ARM64。
-- GitHub 18.4.8 は x64 / ARM64 の MSI とポータブル ZIP を提供します。デバイスに合うアーキテクチャを選択してください。x86 は提供しません。
+- GitHub 18.4.12 は x64 / ARM64 の MSI とポータブル ZIP を提供します。デバイスに合うアーキテクチャを選択してください。x86 は提供しません。
 - Windows 10 でも一部機能は動作する可能性がありますが、主な対象は Windows 11 です。
 
 ## ポータブルパッケージの検証
@@ -550,7 +550,7 @@ GestureSign が管理する Kando は、更新確認で現在のバージョン�
 .\tools\Test-PortablePackage.ps1 -PackagePath .\publish\portable -MinimumFileCount 200 -SharedRuntimeOnly
 ```
 
-この検証では必須ファイルと共有ランタイムへの依存を確認し、同梱された .NET / WinUI ランタイム、Kando / AI コンポーネント、PDB / ダンプ / 診断ログを拒否します。
+この検証では必須ファイルと共有ランタイムへの依存を確認し、同梱された .NET / WinUI ランタイム、ラジアルメニュー / AI コンポーネント、PDB / ダンプ / 診断ログを拒否します。
 MSI を生成せず、検証済みのポータブル Payload だけを作成する場合は、次を使用できます。
 
 ```powershell
@@ -587,7 +587,7 @@ dotnet build GestureSign.WinUI/GestureSign.WinUI.csproj -c Release *> winui-buil
 
 [TransposonY/GestureSign](https://github.com/TransposonY/GestureSign)、HighSign、MahApps.Metro、WGestures、および本プロジェクトの基礎となった各プロジェクトに感謝します。
 
-Quick Actions では、[Kando](https://github.com/kando-menu/kando) のラジアルメニューをオプションコンポーネントとして必要なときにダウンロードできます。Kando は GestureSign に既定では同梱されず、アプリ内で個別にインストールまたは削除できます。Kando は MIT License の独立したオープンソースプロジェクトで、ダウンロードしたコンポーネントには `LICENSE` と Chromium 関連のライセンスファイルが保持されます。
+**[Kando](https://github.com/kando-menu/kando) と作者の Simon Schneegans さんに特別な感謝を申し上げます。** オープンソースのラジアルメニューを、Quick Actions の操作設計の参考にしました。コンポーネントに含まれる上流のリソースには、元のライセンスとクレジットを保持しています。
 
 ## プロジェクトを支援
 

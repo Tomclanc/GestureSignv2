@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>விரைவு செயல்கள்</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>குறித்த திறவுகோல்கள் மூலம் சுற்று மெனுவை திறக்கவும்.</value>
+  </data>
+</root>

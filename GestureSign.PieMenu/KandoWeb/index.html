@@ -1,0 +1,37 @@
+<!-- ----------------------------------------------------------------------------------- #
+#    _  _ ____ _  _ ___  ____                                                            #
+#    |_/  |__| |\ | |  \ |  |    This file belongs to Kando, the cross-platform          #
+#    | \_ |  | | \| |__/ |__|    pie menu. Read more on github.com/kando-menu/kando      #
+#                                                                                        #
+# -------------------------------------------------------------------------------------- #
+
+SPDX-FileCopyrightText: Simon Schneegans <code@simonschneegans.de>
+SPDX-License-Identifier: MIT
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kando Menu</title>
+  
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self' blob:">
+    <link rel="stylesheet" href="renderer.css">
+    <script defer src="renderer.js"></script>
+  </head>
+
+  <body>
+    <!--
+      This is the main container for the menu. It will be filled with the menu's
+      content by the renderer process.
+    -->
+    <div id="kando-menu"></div>
+
+    <!--
+      This is the settings button. When clicked, it will open the settings window.
+    -->
+    <div id="settings-button" class="hidden">
+      <i class="material-symbols-rounded">settings</i>
+    </div>
+  </body>
+</html>

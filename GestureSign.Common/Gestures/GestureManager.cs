@@ -55,6 +55,7 @@ namespace GestureSign.Common.Gestures
         private bool _isGestureStackTimeout;
         private int? _lastGestureTime;
         private List<IGesture> _gestureMatchResult;
+        private (List<IGesture> Source, int Level) _completedCaptureStage;
 
         #endregion
 
@@ -133,6 +134,9 @@ namespace GestureSign.Common.Gestures
             }
             if (pointCapture.SourceDevice == Devices.Mouse)
                 LogMouseMatchDiagnostics(e.Points.Select(l => l.ToArray()).ToArray(), sourceGesture, _gestureLevel);
+            // Final action-aware selection must evaluate this same capture at
+            // the stage it actually processed, not at the stage it just opened.
+            _completedCaptureStage = (sourceGesture, _gestureLevel);
             GestureName = GetGestureSetNameMatch(e.Points.Select(l => l.ToArray()).ToArray(), sourceGesture, _gestureLevel, out _gestureMatchResult);
 
             if (pointCapture.Mode != CaptureMode.Training)
@@ -513,6 +517,18 @@ namespace GestureSign.Common.Gestures
         }
 
         public string PreviewGestureName(Point[][] points, IEnumerable<string> preferredGestureNames, int probabilityThreshold)
+            => PreviewPreferredGestureName(points, preferredGestureNames, probabilityThreshold,
+                _gestureLevel == 0 ? _Gestures : _gestureMatchResult, _gestureLevel);
+
+        public string PreviewCompletedGestureName(Point[][] points, IEnumerable<string> preferredGestureNames)
+            => PreviewCompletedGestureName(points, preferredGestureNames, ProbabilityThreshold);
+
+        public string PreviewCompletedGestureName(Point[][] points, IEnumerable<string> preferredGestureNames, int probabilityThreshold)
+            => PreviewPreferredGestureName(points, preferredGestureNames, probabilityThreshold,
+                _completedCaptureStage.Source, _completedCaptureStage.Level);
+
+        private string PreviewPreferredGestureName(Point[][] points, IEnumerable<string> preferredGestureNames,
+            int probabilityThreshold, List<IGesture> sourceGesture, int level)
         {
             if (preferredGestureNames == null)
                 return null;
@@ -523,21 +539,20 @@ namespace GestureSign.Common.Gestures
             if (preferredNames.Count == 0)
                 return null;
 
-            var sourceGesture = _gestureLevel == 0 ? _Gestures : _gestureMatchResult;
             var preferredGestures = sourceGesture?
                 .Where(gesture => preferredNames.Contains(gesture.Name))
                 .ToList();
 
-            var gestureName = GetGestureSetNameMatch(points, preferredGestures, _gestureLevel, out _, probabilityThreshold);
+            var gestureName = GetGestureSetNameMatch(points, preferredGestures, level, out _, probabilityThreshold);
             if (string.IsNullOrWhiteSpace(gestureName))
                 return null;
 
             var matchedGesture = preferredGestures?
                 .FirstOrDefault(gesture => string.Equals(gesture.Name, gestureName, StringComparison.OrdinalIgnoreCase));
-            if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= _gestureLevel)
+            if (matchedGesture?.PointPatterns == null || matchedGesture.PointPatterns.Length <= level)
                 return null;
 
-            var pattern = matchedGesture.PointPatterns[_gestureLevel];
+            var pattern = matchedGesture.PointPatterns[level];
             return HasComparableShapeExtents(PointPattern.ForComparison(points, AppConfig.IsOrderByLocation || pattern.OrderByStartPosition), pattern.GetComparisonPoints(AppConfig.IsOrderByLocation))
                 ? gestureName
                 : null;

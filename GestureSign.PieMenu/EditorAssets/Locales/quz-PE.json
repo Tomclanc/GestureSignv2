@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Correo electrónico nisqawan",
+      "file-browser": "Willañiqi maskaq",
+      "paint": "Pintay",
+      "submenu": "Apps nisqakuna",
+      "terminal": "Terminal nisqa",
+      "web-browser": "Web Navegador nisqa"
+    },
+    "audio": {
+      "mute": "Upallalla",
+      "next-track": "Qatiqnin Pista",
+      "play-pause": "Pukllay / Pausa",
+      "previous-track": "Ñawpaq Pista",
+      "submenu": "Audio nisqa"
+    },
+    "bookmarks": {
+      "desktop": "Escritorio",
+      "documents": "Qillqakuna",
+      "downloads": "Descargas nisqakuna",
+      "home": "Wasi",
+      "music": "Musiku",
+      "pictures": "Siqikuna",
+      "submenu": "Marcadores nisqakuna",
+      "videos": "Videokuna"
+    },
+    "clipboard": {
+      "copy": "Mirachiy",
+      "cut": "Kuchuy",
+      "paste": "Laqay",
+      "submenu": "Clipboard nisqa"
+    },
+    "name": "Ejemplo Menú nisqa",
+    "next-workspace": "Qatiqnin Llamkana Wasi",
+    "previous-workspace": "Ñawpaq Llamkana Wasi",
+    "web-links": {
+      "kando-on-discord": "Kando sobre Discord",
+      "kando-on-github": "Kando GitHub nisqapi",
+      "kando-on-kofi": "Kando en Ko-fi",
+      "kando-on-youtube": "Kando YouTube nisqapi",
+      "submenu": "Web nisqapi T'inkikuna"
+    },
+    "windows": {
+      "close-window": "Ventanata wichqay",
+      "submenu": "Windows",
+      "tile-left": "Azulejo Ichuq",
+      "tile-right": "Azulejo Paña",
+      "toggle-maximize": "Toggle Maximizar nisqa"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menú nisqa wichq’ay"
+    },
+    "close-submenu": {
+      "name": "Submenú nisqapi wichq’ay"
+    },
+    "delay": {
+      "name": "Unayay"
+    },
+    "execute-command": {
+      "name": "Kamachiyta Ruway"
+    },
+    "execute-macro": {
+      "name": "Macro nisqa ruway"
+    },
+    "focus-window": {
+      "name": "Ventana de Enfoque nisqa"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibir Cortocircuitos nisqakunata"
+    },
+    "open-file": {
+      "name": "Archivota kichay"
+    },
+    "open-menu": {
+      "name": "Menú nisqa kichay"
+    },
+    "open-settings": {
+      "name": "Ajustes nisqakunata kichay"
+    },
+    "open-uri": {
+      "name": "URI kichay"
+    },
+    "send-tcp-message": {
+      "name": "TCP Willayta apachiy"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket Willayta apachiy"
+    },
+    "set-clipboard": {
+      "name": "Clipboard nisqa churay"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Llapalla",
+      "name": "Simular Hotkey nisqa",
+      "recording-placeholder": "Huk llave de caliente nisqa qillqay..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenú nisqa"
+    }
+  },
+  "native": {
+    "action": "Ruray",
+    "action-value": "Pisi ñan, ñan, URL, qillqa utaq JSON",
+    "choose-icon": "Icono nisqa akllay",
+    "condition-invalid": "Huk allin ventanata utaq ruwana condicionta qillqay, kayhina /notepad/i.",
+    "configuration": "Pie Menú nisqa wakichiy",
+    "editor": "Pie Menú Editor nisqa",
+    "exported": "{0} nisqaman hawaman apachisqa.",
+    "fixed-angle": "Tayasqa k'uchu (0° = wichayman) .",
+    "fixed-x": "X allichasqa (0–1 qhawaqpa chimpanpi) .",
+    "fixed-y": "Y allichasqa (0–1 uray monitor) .",
+    "icon-invalid-image": "PNG, JPEG, GIF, WebP utaq ICO siq'ita 192 KB nisqakama akllay.",
+    "icon-library": "Icon biblioteca",
+    "icon-next": "Qatiqnin iconokuna",
+    "icon-no-results": "Mana ima iconokuna tarisqachu.",
+    "icon-pick-file": "Imahinata utaq app nisqatapas akllay",
+    "icon-previous": "Ñawpaq iconokuna",
+    "icon-use-image": "Imahinata llamk’achiy",
+    "imported": "Hawamanta apamusqa {0} menú(s). Manaraq llamk'achkaspa hawamanta apamusqa kamachiykunata qhaway, chaymanta waqaychay.",
+    "item-icon": "Icono de artículo",
+    "item-order": "Artículo orden",
+    "label": "Etiqueta",
+    "move-down": "Urayman kuyuy",
+    "move-up": "Wichayman kuyuy",
+    "name": "Menú suti",
+    "new-menu": "Musuq menú",
+    "off": "Wañuchisqa",
+    "on": "Kawsachisqa",
+    "palette": "Paleta de colores nisqa",
+    "preview": "Ñawpaq qhaway menú",
+    "remove": "Qulluy",
+    "save": "Menús nisqakunata waqaychay",
+    "saved": "Menú nisqa wakichiy waqaychasqa.",
+    "shortcut-clear": "Chuya llalliq ñan",
+    "shortcut-cleared": "Pisi ñanta chuyanchasqa.",
+    "shortcut-config-changed": "Discopi menú nisqapa ruwayninqa tikrakurqa. Kunan menúkunata waqaychay kay llalliq ñanta ruwanapaq.",
+    "shortcut-in-use": "Windows willan kay llalliq ñan llamk'achisqaña kasqanmanta.",
+    "shortcut-invalid": "Huk llaveta qillqay, chaymanta ima tikraqkunatapas kay llalliq ñanpaq saqisqa.",
+    "shortcut-record": "Grabacionpa llalliqnin",
+    "shortcut-save-new-menu": "Kay musuq menúta waqaychay, llalliq ñanninta llamk'achinapaq.",
+    "shortcut-saved": "Waqaychasqa pisi ñan: {0}. Chayta llamk'achiy menú kichaypaq mayk'aq Utqaylla Ruwaykuna atichisqa.",
+    "shortcut-stop": "Grabacionta saqey",
+    "shortcut-unavailable": "Windows mana kay llalliq ñanta qillqachiyta atirqanchu."
+  },
+  "settings": {
+    "add-menu-items": "Menú nisqapi kaqkunata yapay",
+    "all-menus": "Tukuy Menúkuna",
+    "anchored-mode": "Modo Anclado nisqa",
+    "app-condition": "Límite nisqa Apps Específicos nisqaman",
+    "area-condition-bottom-placeholder": "Uray",
+    "area-condition-left-placeholder": "keyboard label",
+    "area-condition-right-placeholder": "keyboard label",
+    "area-condition-top-placeholder": "Hanaq",
+    "cancel": "Sayachiy...",
+    "create-menu-button": "Menú nisqatapas yapay",
+    "delete-menu": "Menú de borrar nisqa",
+    "delete-menu-item": "Menú nisqapi kaq elementota chinkachiy",
+    "edit-submenu": "Submenú nisqapi llamk'apuy",
+    "export-menu": "Hawaman apachiy menú",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Modo de Marcamiento nisqa atichiy",
+      "close-menu": "Menú wisq’ay",
+      "do-nothing": "Ama imatapas ruwaychu",
+      "enable-marking-mode-info": "Modo de marcación nisqa atichisqa kaptinqa, imakunatapas akllayta atinkim, chaypa hawanpi siqiwan aysaspa.",
+      "enable-turbo-mode": "Modo Turbo nisqa atichiy",
+      "enable-turbo-mode-info": "Modo Turbo atichisqa kaqwan, makiwan ruwaykunata ruwayta atikunki mayk'aq huk llave modificador ñit'iykunki kayhina Shift utaq Ctrl.",
+      "interaction-modes": "Modos de Interacción nisqa",
+      "middle-mouse-button-behavior": "Chawpi siqi ñit’ina",
+      "middle-mouse-button-behavior-info": "Kayqa huk menú rikuchisqa kachkaptin chawpi siqi ñit'isqa kaptin imachus kananta kamachin.",
+      "move-pointer-to-menu-center": "Puntadorta menú chawpiman kuyuchiy",
+      "move-pointer-to-menu-center-info": "Sichus qhawasqa kanqa, siqi rikuchiq huk menú utaq submenú chawpiman astasqa kanqa necesario kaqtin. Kayqa kanmanmi sichus huk menú pantallapa kantunman llumpay hichpallapi kichasqa kaptinqa utaq huk menú Modo Centrado nisqapi kichasqa kaptinqa.",
+      "require-click-for-hover-mode": "Modo de Hover akllanakunapaq ñit'iy mañakuy",
+      "require-click-for-hover-mode-info": "Mana qhawasqa kaqtinqa, imakuna chaylla akllasqa kanqa mayk'aqchus mouse chay pataman kuyuchisqa kanqa menús kaqpaq Modo de Hover kaqwan.",
+      "right-mouse-button-behavior": "Paña siqi ñit’ina",
+      "right-mouse-button-behavior-info": "Kayqa huk menú rikuchisqa kachkaptin paña siqi ñit'isqa kaptin imachus pasananta kamachin.",
+      "select-item": "Imatapas akllay",
+      "select-parent": "Huk pataman wichayman puriy",
+      "trigger-center-click-on-key-release": "Chawpi hawapi llalliq ñan kachariypi menú wichq'ay",
+      "trigger-center-click-on-key-release-info": "Kayqa chawpi ñit'iy llamkana puriyta llamk'achinqa mayk'aq huk llave kacharisqa huk menú chawpipi kuyurichkaptin."
+    },
+    "hover-mode": "Modo de Hover nisqa",
+    "icon-picker-dialog": {
+      "search-placeholder": "Maskay iconokuna..."
+    },
+    "import-menu": "Importación nisqa menú",
+    "menu-behavior": "Menú nisqapi puriy",
+    "menu-conditions": "Condiciones de Menú nisqa",
+    "menu-themes-dialog": {
+      "default-colors": "Ñawpaqmanta churasqa llimp’ikuna",
+      "enable-menu-animations": "Menú Animaciones nisqa",
+      "title": "Menú nisqamanta Temas"
+    },
+    "no-matching-menus": "Mana menúkuna tarisqachu.",
+    "no-menus": "Mana menúkunayuqchu kanki.",
+    "not-bound": "Mana Watasqa",
+    "quick-select-key-label": "Utqaylla akllay llave",
+    "quick-select-key-recording": "Akllay llave...",
+    "shortcut-info": "Kay llalliq ñanqa menú nisqatam kichan. Huk normal llaveyuq kanan tiyan chaymanta mayqin yupay tikraqkunapas Ctrl, Alt utaq Shift hina. Grabaspaqa manan huk kutillapichu llapa teclakunata ñit’inayki, aswanpas hukmanta hukmantan ñit’inayki. Kayqa allinmi sichus huk llalliq ñan huk menúman watasqaña kachkan!",
+    "shortcut-label": "Pisi rimay",
+    "shortcut-recording": "Huk llalliq ñanta ñit'iy...",
+    "window-condition": "Límite a Titulos Específicos de Ventanas nisqaman",
+    "workflow-editor": {
+      "add-action": "Ruwayta yapay",
+      "select-workflow-name": "Llamkanakuna akllay"
+    },
+    "anchored-mode-info": "Submenúkunata kichay kikin posiciónpi tayta menú kaqwan. Kayta qhawaspa, Modo de Marcamiento chaymanta Modo Turbo mana llamk'achinqachu.",
+    "fixed-position-mode": "Modo de Posición Fija nisqa",
+    "fixed-position-mode-info": "Menú nisqataqa pantallapi takyasqa cheqaspin kichay, manan cursor nisqapichu.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Posicionta uray pañaman churay",
+      "bottom-right-preset-tooltip": "Posicionta uray pañaman churay",
+      "centered-preset-tooltip": "Posicionta chawpiman churay",
+      "confirm": "Kay posiciónta llamk’achiy",
+      "top-left-preset-tooltip": "Posicionta paña pataman churay",
+      "top-right-preset-tooltip": "Posicionta paña pataman churay"
+    },
+    "fixed-position-tooltip": "Huk takyasqa posiciónta akllay",
+    "hover-mode-info": "¡Poder usuariokunapaqlla! Imakunatapas akllay chaypa hawanpi kuyurichispa."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Ñawpaqmanta churasqa",
+      "clean-circle": "Ch’uya Muyu",
+      "neon-lights": "Neón K'anchaykuna",
+      "purity": "Ch’uya kay",
+      "rainbow-labels": "Arco Iris Etiquetas"
+    },
+    "presets": {
+      "Blue Glass": "Azul Vidrio",
+      "Dark Night": "Tuta Tuta",
+      "Cotton Candy": "Algodón Misk’i",
+      "Dark and Cozy": "Tuta y Acogedor",
+      "Blue Glow": "Azul K'anchay",
+      "Green Glow": "Verde Glow",
+      "Electric": "Eléctrica nisqa",
+      "Orange": "Chilina",
+      "Pink": "Llanqha",
+      "Bright Prism": "K'anchariq Prisma",
+      "Kando Default": "Ñawpaqmanta churasqa llimp’ikuna"
+    }
+  }
+}

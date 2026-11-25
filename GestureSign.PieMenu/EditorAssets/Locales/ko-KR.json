@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "이메일",
+      "file-browser": "파일 브라우저",
+      "paint": "그림판",
+      "submenu": "앱",
+      "terminal": "터미널",
+      "web-browser": "웹 브라우저"
+    },
+    "audio": {
+      "mute": "음소거하기",
+      "next-track": "다음 트랙 재생하기",
+      "play-pause": "재생하기 / 일시정지",
+      "previous-track": "이전 트랙 재생하기",
+      "submenu": "오디오"
+    },
+    "bookmarks": {
+      "desktop": "데스크탑",
+      "documents": "문서",
+      "downloads": "다운로드",
+      "home": "홈",
+      "music": "음악",
+      "pictures": "사진",
+      "submenu": "즐겨찾기",
+      "videos": "영상"
+    },
+    "clipboard": {
+      "copy": "복사하기",
+      "cut": "자르기",
+      "paste": "붙여넣기",
+      "submenu": "클립보드"
+    },
+    "name": "예시 메뉴",
+    "next-workspace": "다음 워크스페이스",
+    "previous-workspace": "이전 타일",
+    "web-links": {
+      "kando-on-discord": "Kando의 Discord",
+      "kando-on-github": "Kando의 GitHub 페이지",
+      "kando-on-kofi": "Kando의 Ko-fi",
+      "kando-on-youtube": "Kando의 유튜브",
+      "submenu": "웹 링크"
+    },
+    "windows": {
+      "close-window": "창 닫기",
+      "submenu": "윈도우",
+      "tile-left": "왼쪽 타일",
+      "tile-right": "오른쪽 타일",
+      "toggle-maximize": "최대화 토글"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "메뉴 닫기"
+    },
+    "close-submenu": {
+      "name": "하위 메뉴 닫기"
+    },
+    "delay": {
+      "name": "지연"
+    },
+    "execute-command": {
+      "name": "명령어 실행하기"
+    },
+    "execute-macro": {
+      "name": "매크로 실행하기"
+    },
+    "focus-window": {
+      "name": "초점 창"
+    },
+    "inhibit-shortcuts": {
+      "name": "바로가기 금지"
+    },
+    "open-file": {
+      "name": "파일 열기"
+    },
+    "open-menu": {
+      "name": "리다이렉트"
+    },
+    "open-settings": {
+      "name": "설정 열기"
+    },
+    "open-uri": {
+      "name": "URI 열기"
+    },
+    "send-tcp-message": {
+      "name": "TCP 메시지 보내기"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket 메시지 보내기"
+    },
+    "set-clipboard": {
+      "name": "클립보드 설정"
+    },
+    "simulate-hotkey": {
+      "hotkey": "단축키",
+      "name": "단축키 실행하기",
+      "recording-placeholder": "단축키를 눌러주세요…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "서브메뉴"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "가운데 클릭 워크플로",
+      "center-workflow-description": "루트 메뉴 가운데를 클릭하면 다음 동작이 순서대로 실행됩니다.",
+      "appearance": "모양 및 애니메이션",
+      "menu-size": "메뉴 크기",
+      "fade-in": "페이드 인(ms)",
+      "fade-out": "페이드 아웃(ms)",
+      "dark-palette": "어두운 색 구성표",
+      "dark-theme": "어두운 테마",
+      "pointer-shortcuts": "포인터 및 단축키",
+      "theme-credits": "테마 출처 및 라이선스",
+      "back-up-menus": "메뉴 백업",
+      "restore-menus": "메뉴 복원",
+      "back-up-settings": "설정 백업",
+      "restore-settings": "설정 복원",
+      "open-config-folder": "구성 폴더 열기",
+      "restored": "편집기에 복원했습니다. 저장하면 적용됩니다.",
+      "collapse": "설정 접기"
+    },
+    "action": "액션",
+    "action-value": "바로가기, 경로, URL, 텍스트 또는 JSON",
+    "choose-icon": "아이콘 선택",
+    "condition-invalid": "유효한 창 또는 앱 조건(예: /notepad/i)을 입력하세요.",
+    "configuration": "파이 메뉴 구성",
+    "editor": "파이 메뉴 편집기",
+    "exported": "{0}(으)로 내보냈습니다.",
+    "fixed-angle": "고정 각도(0° = 위쪽)",
+    "fixed-x": "고정 X(모니터 전체에서 0-1)",
+    "fixed-y": "고정 Y(모니터 아래로 0-1)",
+    "icon-invalid-image": "최대 192KB의 PNG, JPEG, GIF, WebP 또는 ICO 이미지를 선택하세요.",
+    "icon-library": "아이콘 라이브러리",
+    "icon-next": "다음 아이콘",
+    "icon-no-results": "아이콘을 찾을 수 없습니다.",
+    "icon-pick-file": "이미지 또는 앱 선택",
+    "icon-previous": "이전 아이콘",
+    "icon-use-image": "이미지 사용",
+    "imported": "{0}개의 메뉴를 가져왔습니다. 가져온 명령을 사용하기 전에 검토한 후 저장하세요.",
+    "item-icon": "아이템 아이콘",
+    "item-order": "품목 순서",
+    "label": "라벨",
+    "move-down": "아래로 이동",
+    "move-up": "위로 이동",
+    "name": "메뉴명",
+    "new-menu": "새로운 메뉴",
+    "off": "끔",
+    "on": "켬",
+    "palette": "색상 팔레트",
+    "preview": "미리보기 메뉴",
+    "remove": "제거",
+    "save": "메뉴 저장",
+    "saved": "메뉴 구성이 저장되었습니다.",
+    "shortcut-clear": "바로가기 지우기",
+    "shortcut-cleared": "바로가기가 삭제되었습니다.",
+    "shortcut-config-changed": "디스크에서 메뉴 구성이 변경되었습니다. 이 단축키를 적용하려면 현재 메뉴를 저장하세요.",
+    "shortcut-in-use": "Windows에서는 이 바로 가기가 이미 사용 중이라고 보고합니다.",
+    "shortcut-invalid": "하나의 키와 이 단축키에 허용되는 모든 수정자를 입력하세요.",
+    "shortcut-record": "녹음 바로가기",
+    "shortcut-save-new-menu": "바로가기를 활성화하려면 이 새 메뉴를 저장하세요.",
+    "shortcut-saved": "바로가기가 저장되었습니다: {0}. 빠른 작업이 활성화된 경우 메뉴를 열 때 사용합니다.",
+    "shortcut-stop": "녹음 중지",
+    "shortcut-unavailable": "Windows에서 이 바로가기를 등록할 수 없습니다."
+  },
+  "settings": {
+    "add-menu-items": "메뉴 항목을 추가하세요",
+    "all-menus": "모든 메뉴",
+    "anchored-mode": "고정 모드",
+    "app-condition": "특정 앱으로 제한하기",
+    "area-condition-bottom-placeholder": "아래",
+    "area-condition-left-placeholder": "왼쪽",
+    "area-condition-right-placeholder": "오른쪽",
+    "area-condition-top-placeholder": "위",
+    "cancel": "취소",
+    "create-menu-button": "새 메뉴 만들기",
+    "delete-menu": "메뉴 삭제하기",
+    "delete-menu-item": "메뉴 항목 삭제하기",
+    "edit-submenu": "하위 메뉴 편집",
+    "export-menu": "내보내기 메뉴",
+    "general-settings-dialog": {
+      "enable-marking-mode": "마킹 모드 활성화하기",
+      "close-menu": "메뉴 닫기",
+      "do-nothing": "아무것도 하지 않기",
+      "enable-marking-mode-info": "이 옵션을 선택하면, 마우스를 드래그해서 항목을 선택할 수 있어요.",
+      "enable-turbo-mode": "터보 모드 활성화하기",
+      "enable-turbo-mode-info": "이 옵션을 선택하면, 쉬프트나 컨트롤 같은 보조 키(modifier key)를 누른 상태로 제스처를 사용할 수 있어요.",
+      "interaction-modes": "상호작용 모드",
+      "middle-mouse-button-behavior": "마우스 가운데 버튼",
+      "middle-mouse-button-behavior-info": "메뉴가 표시되는 동안 마우스 가운데 버튼을 눌렀을 때 발생하는 상황을 결정합니다.",
+      "move-pointer-to-menu-center": "마우스 포인터를 메뉴 중앙으로 옮기기",
+      "move-pointer-to-menu-center-info": "이 옵션을 선택하면, 메뉴가 화면 가장자리 근처에 열리거나 중앙 정렬 모드로 열릴 때 마우스 포인터가 메뉴의 중앙으로 이동해요.",
+      "require-click-for-hover-mode": "호버 모드에서 항목 선택에 클릭 요구하기",
+      "require-click-for-hover-mode-info": "이 옵션을 해제하면, 호버 모드를 사용하는 메뉴에서 마우스를 항목 위로 이동하는 즉시 항목이 선택돼요.",
+      "right-mouse-button-behavior": "마우스 오른쪽 버튼",
+      "right-mouse-button-behavior-info": "메뉴가 표시된 동안 마우스 오른쪽 버튼을 눌렀을 때 발생하는 상황을 결정합니다.",
+      "select-item": "항목 선택",
+      "select-parent": "한 수준 위로 탐색",
+      "trigger-center-click-on-key-release": "중앙에 바로가기 놓기 메뉴 닫기",
+      "trigger-center-click-on-key-release-info": "메뉴 중앙 위로 마우스를 가져가는 동안 키를 놓으면 중앙 클릭 작업 흐름이 트리거됩니다."
+    },
+    "hover-mode": "호버 모드",
+    "icon-picker-dialog": {
+      "search-placeholder": "아이콘을 검색하세요…"
+    },
+    "import-menu": "가져오기 메뉴",
+    "menu-behavior": "메뉴 작동방식",
+    "menu-conditions": "메뉴 조건",
+    "menu-themes-dialog": {
+      "default-colors": "기본 색상",
+      "enable-menu-animations": "메뉴 애니메이션",
+      "title": "메뉴 테마"
+    },
+    "no-matching-menus": "발견된 메뉴가 없어요.",
+    "no-menus": "메뉴가 없어요.",
+    "not-bound": "할당되지 않음",
+    "quick-select-key-label": "빠른 선택 키",
+    "quick-select-key-recording": "키 선택…",
+    "shortcut-info": "이 단축키로 메뉴를 열어요. 단축키는 하나의 일반 키 및 컨트롤, 알트, 쉬프트 같은 여러 개의 보조 키(modifier key)를 포함해야 해요. 단축키를 기록할 때 모든 키를 한 번에 입력하는 대신 하나씩 차례차례 입력할 수 있는데, 이 방식은 단축키가 이미 다른 메뉴에 할당돼 있을 때 유용하답니다!",
+    "shortcut-label": "단축키",
+    "shortcut-recording": "단축키를 눌러주세요…",
+    "window-condition": "특정 창 제목으로 제한하기",
+    "workflow-editor": {
+      "add-action": "액션 추가",
+      "select-workflow-name": "워크플로 선택"
+    },
+    "anchored-mode-info": "하위 메뉴를 상위 메뉴와 같은 위치에 열어요. 체크하면, 마킹 모드와 터보 모드가 비활성화돼요.",
+    "fixed-position-mode": "고정 위치 모드",
+    "fixed-position-mode-info": "커서가 아닌 화면의 고정된 위치에서 메뉴를 엽니다.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "위치를 왼쪽 하단으로 설정",
+      "bottom-right-preset-tooltip": "위치를 오른쪽 하단으로 설정",
+      "centered-preset-tooltip": "위치를 중앙으로 설정",
+      "confirm": "이 위치를 사용하십시오",
+      "top-left-preset-tooltip": "위치를 왼쪽 상단으로 설정",
+      "top-right-preset-tooltip": "위치를 오른쪽 상단으로 설정"
+    },
+    "fixed-position-tooltip": "고정 위치 선택",
+    "hover-mode-info": "숙련된 사용자 전용! 항목 위로 호버링해서 선택해요."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "기본",
+      "clean-circle": "깔끔한 원",
+      "neon-lights": "네온 조명",
+      "purity": "순수",
+      "rainbow-labels": "무지개 레이블"
+    },
+    "presets": {
+      "Blue Glass": "푸른 유리",
+      "Dark Night": "어두운 밤",
+      "Cotton Candy": "솜사탕",
+      "Dark and Cozy": "어둡고 아늑함",
+      "Blue Glow": "파란 빛",
+      "Green Glow": "초록 빛",
+      "Electric": "전기빛",
+      "Orange": "주황색",
+      "Pink": "분홍색",
+      "Bright Prism": "밝은 프리즘",
+      "Kando Default": "기본 색상"
+    }
+  }
+}

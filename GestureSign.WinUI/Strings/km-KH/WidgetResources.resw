@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>សកម្មភាពរហ័ស</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>បើកមឺនុយវិល ដោយមានផ្លូវកាត់ឯករាជ្យ។</value>
+  </data>
+</root>

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ఇ-మెయిల్",
+      "file-browser": "ఫైల్ బ్రౌజర్",
+      "paint": "పెయింట్ చేయండి",
+      "submenu": "యాప్‌లు",
+      "terminal": "టెర్మినల్",
+      "web-browser": "వెబ్ బ్రౌజర్"
+    },
+    "audio": {
+      "mute": "మ్యూట్",
+      "next-track": "తదుపరి ట్రాక్",
+      "play-pause": "ప్లే / పాజ్ చేయండి",
+      "previous-track": "ముందు ట్రాక్",
+      "submenu": "ఆడియో"
+    },
+    "bookmarks": {
+      "desktop": "డెస్క్‌టాప్",
+      "documents": "పత్రాలు",
+      "downloads": "డౌన్‌లోడ్‌లు",
+      "home": "హోమ్",
+      "music": "సంగీతం",
+      "pictures": "చిత్రాలు",
+      "submenu": "బుక్‌మార్క్‌లు",
+      "videos": "వీడియోలు"
+    },
+    "clipboard": {
+      "copy": "కాపీ",
+      "cut": "కట్",
+      "paste": "పेस्टు చేయండి",
+      "submenu": "క్లిప్‌బోర్డ్"
+    },
+    "name": "ఉదాహరణ మెను",
+    "next-workspace": "తదుపరి కార్యస్థలం",
+    "previous-workspace": "మునుపటి కార్యస్థలం",
+    "web-links": {
+      "kando-on-discord": "కాండో ఆన్ డిస్కార్డ్",
+      "kando-on-github": "GitHubలో కండో",
+      "kando-on-kofi": "కో-ఫైలో కండో",
+      "kando-on-youtube": "యూట్యూబ్‌లో కండో",
+      "submenu": "వెబ్ లింక్‌లు"
+    },
+    "windows": {
+      "close-window": "విండో మూసివేయి",
+      "submenu": "విండోస్",
+      "tile-left": "టైల్ ఎడమ",
+      "tile-right": "టైల్ కుడి",
+      "toggle-maximize": "గరిష్టీకరించడాన్ని టోగుల్ చేయండి"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "మెనుని మూసివేయండి"
+    },
+    "close-submenu": {
+      "name": "ఉపమెనుని మూసివేయండి"
+    },
+    "delay": {
+      "name": "వాయిదా"
+    },
+    "execute-command": {
+      "name": "ఆదేశాన్ని అమలు చేయండి"
+    },
+    "execute-macro": {
+      "name": "మాక్రోని అమలు చేయండి"
+    },
+    "focus-window": {
+      "name": "ఫోకస్ విండో"
+    },
+    "inhibit-shortcuts": {
+      "name": "సత్వరమార్గాలను నిరోధించండి"
+    },
+    "open-file": {
+      "name": "ఫైల్‌ను తెరవండి"
+    },
+    "open-menu": {
+      "name": "మెనుని తెరవండి"
+    },
+    "open-settings": {
+      "name": "సెట్టింగ్‌లను తెరవండి"
+    },
+    "open-uri": {
+      "name": "URIని తెరవండి"
+    },
+    "send-tcp-message": {
+      "name": "TCP సందేశాన్ని పంపండి"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket సందేశాన్ని పంపండి"
+    },
+    "set-clipboard": {
+      "name": "క్లిప్‌బోర్డ్‌ని సెట్ చేయండి"
+    },
+    "simulate-hotkey": {
+      "hotkey": "హాట్‌కీ",
+      "name": "హాట్‌కీని అనుకరించండి",
+      "recording-placeholder": "హాట్‌కీని టైప్ చేయండి..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ఉపమెను"
+    }
+  },
+  "native": {
+    "action": "చర్య",
+    "action-value": "సత్వరమార్గం, మార్గం, URL, వచనం లేదా JSON",
+    "choose-icon": "చిహ్నాన్ని ఎంచుకోండి",
+    "condition-invalid": "చెల్లుబాటు అయ్యే విండో లేదా యాప్ షరతును నమోదు చేయండి, ఉదాహరణకు /notepad/i.",
+    "configuration": "పై మెనూ కాన్ఫిగరేషన్",
+    "editor": "పై మెనూ ఎడిటర్",
+    "exported": "{0}కి ఎగుమతి చేయబడింది",
+    "fixed-angle": "స్థిర కోణం (0° = పైకి)",
+    "fixed-x": "స్థిర X (మానిటర్ అంతటా 0–1)",
+    "fixed-y": "స్థిర Y (మానిటర్ దిగువన 0–1)",
+    "icon-invalid-image": "192 KB వరకు PNG, JPEG, GIF, WebP లేదా ICO చిత్రాన్ని ఎంచుకోండి.",
+    "icon-library": "ఐకాన్ లైబ్రరీ",
+    "icon-next": "తదుపరి చిహ్నాలు",
+    "icon-no-results": "చిహ్నాలు ఏవీ కనుగొనబడలేదు.",
+    "icon-pick-file": "చిత్రం లేదా యాప్‌ని ఎంచుకోండి",
+    "icon-previous": "మునుపటి చిహ్నాలు",
+    "icon-use-image": "చిత్రాన్ని ఉపయోగించండి",
+    "imported": "{0} మెను(లు) దిగుమతి చేయబడింది. దిగుమతి చేసుకున్న ఆదేశాలను ఉపయోగించే ముందు వాటిని సమీక్షించి, ఆపై సేవ్ చేయండి.",
+    "item-icon": "అంశం చిహ్నం",
+    "item-order": "వస్తువు క్రమం",
+    "label": "లేబుల్",
+    "move-down": "క్రిందికి తరలించు",
+    "move-up": "పైకి కదలండి",
+    "name": "మెనూ పేరు",
+    "new-menu": "కొత్త మెనూ",
+    "off": "ఆఫ్",
+    "on": "ఆన్",
+    "palette": "రంగుల పాలెట్",
+    "preview": "ప్రివ్యూ మెను",
+    "remove": "తొలగించు",
+    "save": "మెనులను సేవ్ చేయండి",
+    "saved": "మెను కాన్ఫిగరేషన్ సేవ్ చేయబడింది.",
+    "shortcut-clear": "సత్వరమార్గాన్ని క్లియర్ చేయండి",
+    "shortcut-cleared": "సత్వరమార్గం క్లియర్ చేయబడింది.",
+    "shortcut-config-changed": "డిస్క్‌లో మెను కాన్ఫిగరేషన్ మార్చబడింది. ఈ సత్వరమార్గాన్ని వర్తింపజేయడానికి ప్రస్తుత మెనులను సేవ్ చేయండి.",
+    "shortcut-in-use": "ఈ సత్వరమార్గం ఇప్పటికే వాడుకలో ఉందని Windows నివేదించింది.",
+    "shortcut-invalid": "ఒక కీని నమోదు చేయండి, అలాగే ఈ సత్వరమార్గం కోసం అనుమతించబడిన ఏవైనా మాడిఫైయర్‌లను నమోదు చేయండి.",
+    "shortcut-record": "రికార్డ్ సత్వరమార్గం",
+    "shortcut-save-new-menu": "దాని సత్వరమార్గాన్ని సక్రియం చేయడానికి ఈ కొత్త మెనుని సేవ్ చేయండి.",
+    "shortcut-saved": "సత్వరమార్గం సేవ్ చేయబడింది: {0}. త్వరిత చర్యలు ప్రారంభించబడినప్పుడు మెనుని తెరవడానికి దీన్ని ఉపయోగించండి.",
+    "shortcut-stop": "రికార్డింగ్ ఆపివేయండి",
+    "shortcut-unavailable": "Windows ఈ సత్వరమార్గాన్ని నమోదు చేయలేకపోయింది."
+  },
+  "settings": {
+    "add-menu-items": "మెను ఐటెమ్‌లను జోడించండి",
+    "all-menus": "అన్ని మెనూలు",
+    "anchored-mode": "యాంకర్డ్ మోడ్",
+    "app-condition": "నిర్దిష్ట యాప్‌లకు పరిమితి",
+    "area-condition-bottom-placeholder": "అడిగరి",
+    "area-condition-left-placeholder": "ఎడమ",
+    "area-condition-right-placeholder": "కుడి",
+    "area-condition-top-placeholder": "పై",
+    "cancel": "రద్దు",
+    "create-menu-button": "మెనూని జోడించండి",
+    "delete-menu": "మెనుని తొలగించండి",
+    "delete-menu-item": "మెను ఐటెమ్‌ను తొలగించండి",
+    "edit-submenu": "ఉపమెనుని సవరించండి",
+    "export-menu": "ఎగుమతి మెను",
+    "general-settings-dialog": {
+      "enable-marking-mode": "మార్కింగ్ మోడ్‌ని ప్రారంభించండి",
+      "close-menu": "మెనుని మూసివేయండి",
+      "do-nothing": "ఏమీ చేయవద్దు",
+      "enable-marking-mode-info": "మార్కింగ్ మోడ్ ప్రారంభించబడితే, మీరు మౌస్‌ని వాటిపైకి లాగడం ద్వారా అంశాలను ఎంచుకోవచ్చు.",
+      "enable-turbo-mode": "టర్బో మోడ్‌ని ప్రారంభించండి",
+      "enable-turbo-mode-info": "టర్బో మోడ్ ప్రారంభించబడితే, మీరు Shift లేదా Ctrl వంటి మాడిఫైయర్ కీని నొక్కి ఉంచినంత వరకు మీరు సంజ్ఞలను ప్రదర్శించవచ్చు.",
+      "interaction-modes": "ఇంటరాక్షన్ మోడ్‌లు",
+      "middle-mouse-button-behavior": "మధ్య మౌస్ బటన్",
+      "middle-mouse-button-behavior-info": "మెనూ చూపబడినప్పుడు మధ్య మౌస్ బటన్‌ను నొక్కినప్పుడు ఏమి జరుగుతుందో ఇది నిర్ణయిస్తుంది.",
+      "move-pointer-to-menu-center": "పాయింటర్‌ని మెను సెంటర్‌కి తరలించండి",
+      "move-pointer-to-menu-center-info": "తనిఖీ చేయబడితే, అవసరమైనప్పుడు మౌస్ పాయింటర్ మెను లేదా సబ్‌మెను మధ్యలోకి తరలించబడుతుంది. మెను స్క్రీన్ అంచుకు చాలా దగ్గరగా తెరవబడినా లేదా కేంద్రీకృత మోడ్‌లో మెను తెరవబడినా ఇది జరుగుతుంది.",
+      "require-click-for-hover-mode": "హోవర్ మోడ్ ఎంపికల కోసం క్లిక్ చేయడం అవసరం",
+      "require-click-for-hover-mode-info": "ఎంపిక చేయకపోతే, హోవర్ మోడ్‌ని ఉపయోగించి మెనుల కోసం మౌస్‌ను వాటిపైకి తరలించిన వెంటనే అంశాలు ఎంపిక చేయబడతాయి.",
+      "right-mouse-button-behavior": "కుడి మౌస్ బటన్",
+      "right-mouse-button-behavior-info": "మెనూ చూపబడినప్పుడు కుడి మౌస్ బటన్‌ను నొక్కినప్పుడు ఏమి జరుగుతుందో ఇది నిర్ణయిస్తుంది.",
+      "select-item": "అంశాన్ని ఎంచుకోండి",
+      "select-parent": "ఒక స్థాయి పైకి నావిగేట్ చేయండి",
+      "trigger-center-click-on-key-release": "మధ్యలో సత్వరమార్గం విడుదలపై మెనుని మూసివేయండి",
+      "trigger-center-click-on-key-release-info": "ఇది మెను మధ్యలో హోవర్ చేస్తున్నప్పుడు కీ విడుదలైనప్పుడు సెంటర్-క్లిక్ వర్క్‌ఫ్లోను ప్రేరేపిస్తుంది."
+    },
+    "hover-mode": "హోవర్ మోడ్",
+    "icon-picker-dialog": {
+      "search-placeholder": "చిహ్నాలను శోధించండి..."
+    },
+    "import-menu": "దిగుమతి మెను",
+    "menu-behavior": "మెనూ ప్రవర్తన",
+    "menu-conditions": "మెనూ షరతులు",
+    "menu-themes-dialog": {
+      "default-colors": "డిఫాల్ట్ రంగులు",
+      "enable-menu-animations": "మెను యానిమేషన్లు",
+      "title": "మెను థీమ్స్"
+    },
+    "no-matching-menus": "మెనులు ఏవీ కనుగొనబడలేదు.",
+    "no-menus": "మీకు మెనూలు లేవు.",
+    "not-bound": "కట్టుబడి లేదు",
+    "quick-select-key-label": "త్వరిత-ఎంపిక కీ",
+    "quick-select-key-recording": "కీని ఎంచుకోండి...",
+    "shortcut-info": "ఈ సత్వరమార్గం మెనుని తెరుస్తుంది. ఇది తప్పనిసరిగా ఒక సాధారణ కీ మరియు Ctrl, Alt లేదా Shift వంటి ఎన్ని మాడిఫైయర్‌లను కలిగి ఉండాలి. రికార్డింగ్ చేసేటప్పుడు, మీరు అన్ని కీలను ఒకేసారి నొక్కాల్సిన అవసరం లేదు, మీరు వాటిని ఒకదాని తర్వాత ఒకటి కూడా నొక్కవచ్చు. సత్వరమార్గం ఇప్పటికే మరొక మెనూకు కట్టుబడి ఉంటే ఇది ఉపయోగకరంగా ఉంటుంది!",
+    "shortcut-label": "సత్వరమార్గం",
+    "shortcut-recording": "సత్వరమార్గాన్ని నొక్కండి...",
+    "window-condition": "నిర్దిష్ట విండో శీర్షికలకు పరిమితి",
+    "workflow-editor": {
+      "add-action": "చర్యను జోడించండి",
+      "select-workflow-name": "వర్క్‌ఫ్లో ఎంచుకోండి"
+    },
+    "anchored-mode-info": "పేరెంట్ మెను ఉన్న అదే స్థానంలో ఉపమెనులను తెరవండి. దీన్ని తనిఖీ చేయడం, మార్కింగ్ మోడ్ మరియు టర్బో మోడ్ డిసేబుల్ చేస్తుంది.",
+    "fixed-position-mode": "స్థిర స్థానం మోడ్",
+    "fixed-position-mode-info": "మెనుని కర్సర్ వద్ద కాకుండా స్క్రీన్‌పై స్థిర స్థానంలో తెరవండి.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "దిగువ ఎడమకు స్థానం సెట్ చేయండి",
+      "bottom-right-preset-tooltip": "దిగువ కుడికి స్థానం సెట్ చేయండి",
+      "centered-preset-tooltip": "స్థానం మధ్యకు సెట్ చేయండి",
+      "confirm": "ఈ స్థానం ఉపయోగించండి",
+      "top-left-preset-tooltip": "ఎగువ ఎడమకు స్థానాన్ని సెట్ చేయండి",
+      "top-right-preset-tooltip": "ఎగువ కుడి వైపున స్థానాన్ని సెట్ చేయండి"
+    },
+    "fixed-position-tooltip": "స్థిర స్థానాన్ని ఎంచుకోండి",
+    "hover-mode-info": "విద్యుత్ వినియోగదారులకు మాత్రమే! వాటిపై హోవర్ చేయడం ద్వారా అంశాలను ఎంచుకోండి."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "డిఫాల్ట్",
+      "clean-circle": "క్లీన్ సర్కిల్",
+      "neon-lights": "నియాన్ లైట్లు",
+      "purity": "స్వచ్ఛత",
+      "rainbow-labels": "రెయిన్బో లేబుల్స్"
+    },
+    "presets": {
+      "Blue Glass": "బ్లూ గ్లాస్",
+      "Dark Night": "చీకటి రాత్రి",
+      "Cotton Candy": "కాటన్ మిఠాయి",
+      "Dark and Cozy": "చీకటి మరియు హాయిగా",
+      "Blue Glow": "బ్లూ గ్లో",
+      "Green Glow": "గ్రీన్ గ్లో",
+      "Electric": "విద్యుత్",
+      "Orange": "కమలాలు",
+      "Pink": "పింక్",
+      "Bright Prism": "బ్రైట్ ప్రిజం",
+      "Kando Default": "డిఫాల్ట్ రంగులు"
+    }
+  }
+}

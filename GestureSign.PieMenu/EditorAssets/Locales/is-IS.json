@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Tölvupóstur",
+      "file-browser": "Skráarvafri",
+      "paint": "Mála",
+      "submenu": "Forrit",
+      "terminal": "Flugstöð",
+      "web-browser": "Vefskoðari"
+    },
+    "audio": {
+      "mute": "Þögla",
+      "next-track": "Næsta lag",
+      "play-pause": "Spila / gera hlé",
+      "previous-track": "Fyrri lag",
+      "submenu": "Hljóð"
+    },
+    "bookmarks": {
+      "desktop": "Skjáborð",
+      "documents": "Skjöl",
+      "downloads": "Niðurhal",
+      "home": "Heim",
+      "music": "Tónlist",
+      "pictures": "Myndir",
+      "submenu": "Bókamerki",
+      "videos": "Myndbönd"
+    },
+    "clipboard": {
+      "copy": "Afrita",
+      "cut": "Klippa",
+      "paste": "Líma",
+      "submenu": "Klemmuspjald"
+    },
+    "name": "Dæmi Valmynd",
+    "next-workspace": "Næsta vinnusvæði",
+    "previous-workspace": "Fyrra vinnusvæði",
+    "web-links": {
+      "kando-on-discord": "Kando á Discord",
+      "kando-on-github": "Kando á GitHub",
+      "kando-on-kofi": "Kando á Ko-fi",
+      "kando-on-youtube": "Kando á YouTube",
+      "submenu": "Veftenglar"
+    },
+    "windows": {
+      "close-window": "Loka glugga",
+      "submenu": "Windows",
+      "tile-left": "Flísar til vinstri",
+      "tile-right": "Flísar Hægri",
+      "toggle-maximize": "Skiptu um hámarka"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Lokaðu valmyndinni"
+    },
+    "close-submenu": {
+      "name": "Lokaðu undirvalmynd"
+    },
+    "delay": {
+      "name": "Töf"
+    },
+    "execute-command": {
+      "name": "Framkvæma skipun"
+    },
+    "execute-macro": {
+      "name": "Keyra Macro"
+    },
+    "focus-window": {
+      "name": "Fókus gluggi"
+    },
+    "inhibit-shortcuts": {
+      "name": "Hindra flýtileiðir"
+    },
+    "open-file": {
+      "name": "Opna skrá"
+    },
+    "open-menu": {
+      "name": "Opnaðu Valmynd"
+    },
+    "open-settings": {
+      "name": "Opnaðu Stillingar"
+    },
+    "open-uri": {
+      "name": "Opnaðu URI"
+    },
+    "send-tcp-message": {
+      "name": "Sendu TCP skilaboð"
+    },
+    "send-websocket-message": {
+      "name": "Sendu WebSocket skilaboð"
+    },
+    "set-clipboard": {
+      "name": "Stilltu klemmuspjald"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Flýtilykill",
+      "name": "Líktu eftir flýtilykil",
+      "recording-placeholder": "Sláðu inn flýtilykil…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Undirvalmynd"
+    }
+  },
+  "native": {
+    "action": "Aðgerð",
+    "action-value": "Flýtileið, slóð, vefslóð, texti eða JSON",
+    "choose-icon": "Veldu táknmynd",
+    "condition-invalid": "Sláðu inn gilt glugga- eða appskilyrði, til dæmis /notepad/i.",
+    "configuration": "Stillingar kökuvalmyndar",
+    "editor": "Ritstjóri kökuvalmyndar",
+    "exported": "Flutt út til {0}",
+    "fixed-angle": "Fast horn (0° = upp)",
+    "fixed-x": "Fast X (0–1 yfir skjáinn)",
+    "fixed-y": "Fast Y (0–1 niður á skjáinn)",
+    "icon-invalid-image": "Veldu PNG, JPEG, GIF, WebP eða ICO mynd allt að 192 KB.",
+    "icon-library": "Táknbókasafn",
+    "icon-next": "Næsta tákn",
+    "icon-no-results": "Engin tákn fundust.",
+    "icon-pick-file": "Veldu mynd eða app",
+    "icon-previous": "Fyrri táknmyndir",
+    "icon-use-image": "Notaðu mynd",
+    "imported": "Innfluttar {0} valmyndir. Skoðaðu innfluttar skipanir áður en þær eru notaðar og vistaðu síðan.",
+    "item-icon": "Atriðatákn",
+    "item-order": "Atriðapöntun",
+    "label": "Merki",
+    "move-down": "Færðu þig niður",
+    "move-up": "Færðu þig upp",
+    "name": "Heiti valmyndar",
+    "new-menu": "Nýr matseðill",
+    "off": "Af",
+    "on": "Á",
+    "palette": "Litaspjald",
+    "preview": "Forskoðunarvalmynd",
+    "remove": "Fjarlægja",
+    "save": "Vista valmyndir",
+    "saved": "Valmyndarstillingar vistaðar.",
+    "shortcut-clear": "Hreinsa flýtileið",
+    "shortcut-cleared": "Flýtileið hreinsuð.",
+    "shortcut-config-changed": "Valmyndarstillingunni breytt á disknum. Vistaðu núverandi valmyndir til að nota þessa flýtileið.",
+    "shortcut-in-use": "Windows greinir frá því að þessi flýtileið sé þegar í notkun.",
+    "shortcut-invalid": "Sláðu inn einn lykil, auk allra breytinga sem leyfðir eru fyrir þessa flýtileið.",
+    "shortcut-record": "Upptaka flýtileið",
+    "shortcut-save-new-menu": "Vistaðu þessa nýju valmynd til að virkja flýtileiðina.",
+    "shortcut-saved": "Flýtileið vistuð: {0}. Notaðu það til að opna valmyndina þegar Quick Actions er virkt.",
+    "shortcut-stop": "Hættu að taka upp",
+    "shortcut-unavailable": "Windows gat ekki skráð þessa flýtileið."
+  },
+  "settings": {
+    "add-menu-items": "Bæta við valmyndaratriðum",
+    "all-menus": "Allir matseðlar",
+    "anchored-mode": "Akkeri hamur",
+    "app-condition": "Takmarka við sérstök forrit",
+    "area-condition-bottom-placeholder": "Botn",
+    "area-condition-left-placeholder": "Vinstra megin",
+    "area-condition-right-placeholder": "Hægri",
+    "area-condition-top-placeholder": "Efst",
+    "cancel": "Hætta við",
+    "create-menu-button": "Bæta við valmynd",
+    "delete-menu": "Eyða valmynd",
+    "delete-menu-item": "Eyða valmyndaratriði",
+    "edit-submenu": "Breyta undirvalmynd",
+    "export-menu": "Útflutningsvalmynd",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Virkja merkingarham",
+      "close-menu": "Loka valmynd",
+      "do-nothing": "Gerðu ekkert",
+      "enable-marking-mode-info": "Með merkingarstillingu virkan geturðu valið hluti með því að draga músina yfir þá.",
+      "enable-turbo-mode": "Virkjaðu Turbo Mode",
+      "enable-turbo-mode-info": "Með Turbo Mode virkt geturðu framkvæmt bendingar svo lengi sem þú heldur inni breytistakka eins og Shift eða Ctrl.",
+      "interaction-modes": "Samskiptastillingar",
+      "middle-mouse-button-behavior": "Miðmúsarhnappur",
+      "middle-mouse-button-behavior-info": "Þetta ákvarðar hvað gerist þegar ýtt er á miðmúsarhnappinn á meðan valmynd er sýnd.",
+      "move-pointer-to-menu-center": "Færðu bendilinn í valmyndarmiðstöðina",
+      "move-pointer-to-menu-center-info": "Ef hakað er við þá verður músarbendillinn færður í miðju valmyndar eða undirvalmyndar þegar þörf krefur. Þetta gæti verið tilfellið ef valmynd er opnuð of nálægt brún skjásins eða ef valmynd er opnuð í miðjuham.",
+      "require-click-for-hover-mode": "Krefjast smells fyrir val á sveimastillingu",
+      "require-click-for-hover-mode-info": "Ef ekki hakað við þá verða hlutir valdir strax þegar músinni er færð yfir þá fyrir valmyndir sem nota sveimastillingu.",
+      "right-mouse-button-behavior": "Hægri músarhnappur",
+      "right-mouse-button-behavior-info": "Þetta ákvarðar hvað gerist þegar ýtt er á hægri músarhnapp á meðan valmynd er sýnd.",
+      "select-item": "Veldu hlut",
+      "select-parent": "Farðu upp eitt stig",
+      "trigger-center-click-on-key-release": "Lokaðu valmyndinni þegar þú sleppir flýtileið yfir miðju",
+      "trigger-center-click-on-key-release-info": "Þetta mun kveikja á miðju-smella verkflæðinu þegar lykli er sleppt á meðan hann sveimar yfir miðju valmyndar."
+    },
+    "hover-mode": "Sveimahamur",
+    "icon-picker-dialog": {
+      "search-placeholder": "Leitartákn..."
+    },
+    "import-menu": "Innflutningsvalmynd",
+    "menu-behavior": "Valmyndarhegðun",
+    "menu-conditions": "Valmyndarskilyrði",
+    "menu-themes-dialog": {
+      "default-colors": "Sjálfgefin litir",
+      "enable-menu-animations": "Valmynd Hreyfimyndir",
+      "title": "Valmyndarþemu"
+    },
+    "no-matching-menus": "Engar valmyndir fundust.",
+    "no-menus": "Þú hefur enga valmynd.",
+    "not-bound": "Ekki bundið",
+    "quick-select-key-label": "Hraðval takki",
+    "quick-select-key-recording": "Veldu lykil...",
+    "shortcut-info": "Þessi flýtileið opnar valmyndina. Það verður að innihalda einn venjulegan takka og hvaða fjölda breyta sem er eins og Ctrl, Alt eða Shift. Þegar þú tekur upp þarftu ekki að ýta á alla takka í einu, þú getur líka ýtt á þá hvern á eftir öðrum. Þetta er gagnlegt ef flýtileið er þegar bundin við aðra valmynd!",
+    "shortcut-label": "Flýtileið",
+    "shortcut-recording": "Ýttu á flýtileið…",
+    "window-condition": "Takmarka við sérstaka gluggatitla",
+    "workflow-editor": {
+      "add-action": "Bæta við aðgerð",
+      "select-workflow-name": "Veldu Verkflæði"
+    },
+    "anchored-mode-info": "Opnaðu undirvalmyndir á sama stað og foreldravalmyndin. Með því að haka við þetta verður merkingarstilling og túrbóstilling óvirk.",
+    "fixed-position-mode": "Föst staðsetning",
+    "fixed-position-mode-info": "Opnaðu valmyndina á föstum stað á skjánum, í stað þess að vera með bendilinn.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Stilltu stöðu neðst til vinstri",
+      "bottom-right-preset-tooltip": "Stilltu stöðu neðst til hægri",
+      "centered-preset-tooltip": "Stilltu stöðu á miðju",
+      "confirm": "Notaðu þessa stöðu",
+      "top-left-preset-tooltip": "Stilltu stöðu efst til vinstri",
+      "top-right-preset-tooltip": "Stilltu stöðu efst til hægri"
+    },
+    "fixed-position-tooltip": "Veldu fasta stöðu",
+    "hover-mode-info": "Aðeins fyrir stórnotendur! Veldu hluti með því að sveima yfir þá."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Sjálfgefið",
+      "clean-circle": "Hreinn hringur",
+      "neon-lights": "Neonljós",
+      "purity": "Hreinleiki",
+      "rainbow-labels": "Regnbogamerki"
+    },
+    "presets": {
+      "Blue Glass": "Blát gler",
+      "Dark Night": "Dimm nótt",
+      "Cotton Candy": "Bómullarkonfekt",
+      "Dark and Cozy": "Dökkt og notalegt",
+      "Blue Glow": "Blár ljómi",
+      "Green Glow": "Grænn ljómi",
+      "Electric": "Rafmagns",
+      "Orange": "Appelsínugulur",
+      "Pink": "Bleikur",
+      "Bright Prism": "Björt Prisma",
+      "Kando Default": "Sjálfgefin litir"
+    }
+  }
+}

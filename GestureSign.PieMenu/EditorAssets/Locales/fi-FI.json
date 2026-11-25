@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Sähköposti",
+      "file-browser": "Tiedostonhallinta",
+      "paint": "Paint",
+      "submenu": "Sovellukset",
+      "terminal": "Pääte",
+      "web-browser": "Verkkoselain"
+    },
+    "audio": {
+      "mute": "Mykistä",
+      "next-track": "Seuraava kappale",
+      "play-pause": "Toista/keskeytä",
+      "previous-track": "Edellinen kappale",
+      "submenu": "Ääni"
+    },
+    "bookmarks": {
+      "desktop": "Työpöytä",
+      "documents": "Asiakirjat",
+      "downloads": "Lataukset",
+      "home": "Koti",
+      "music": "Musiikki",
+      "pictures": "Kuvat",
+      "submenu": "Kirjanmerkit",
+      "videos": "Videot"
+    },
+    "clipboard": {
+      "copy": "Kopioi",
+      "cut": "Leikkaa",
+      "paste": "Liitä",
+      "submenu": "Leikepöytä"
+    },
+    "name": "Valikon esimerkki",
+    "next-workspace": "Seuraava työtila",
+    "previous-workspace": "Edellinen työtila",
+    "web-links": {
+      "kando-on-discord": "Kando Discordissa",
+      "kando-on-github": "Kando GitHubissa",
+      "kando-on-kofi": "Kando Ko-fi:ssa",
+      "kando-on-youtube": "Kando YouTubessa",
+      "submenu": "Verkkolinkit"
+    },
+    "windows": {
+      "close-window": "Sulje ikkuna",
+      "submenu": "Ikkunat",
+      "tile-left": "Laatoita vasemmalle",
+      "tile-right": "Laatoita oikealle",
+      "toggle-maximize": "Suurenna päällä/pois"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Sulje valikko"
+    },
+    "close-submenu": {
+      "name": "Sulje alivalikko"
+    },
+    "delay": {
+      "name": "Viive"
+    },
+    "execute-command": {
+      "name": "Suorita komento"
+    },
+    "execute-macro": {
+      "name": "Suorita makro"
+    },
+    "focus-window": {
+      "name": "Tarkennusikkuna"
+    },
+    "inhibit-shortcuts": {
+      "name": "Estä pikakuvakkeet"
+    },
+    "open-file": {
+      "name": "Avaa tiedosto"
+    },
+    "open-menu": {
+      "name": "Uudelleenohjaus"
+    },
+    "open-settings": {
+      "name": "Avaa asetukset"
+    },
+    "open-uri": {
+      "name": "Avaa URI"
+    },
+    "send-tcp-message": {
+      "name": "Lähetä TCP-viesti"
+    },
+    "send-websocket-message": {
+      "name": "Lähetä WebSocket-viesti"
+    },
+    "set-clipboard": {
+      "name": "Aseta leikepöytä"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Pikanäppäin",
+      "name": "Simuloi pikanäppäin",
+      "recording-placeholder": "Kirjoita pikanäppäin…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Alivalikko"
+    }
+  },
+  "native": {
+    "action": "Toiminta",
+    "action-value": "Pikakuvake, polku, URL-osoite, teksti tai JSON",
+    "choose-icon": "Valitse kuvake",
+    "condition-invalid": "Anna kelvollinen ikkunan tai sovelluksen ehto, esimerkiksi /notepad/i.",
+    "configuration": "Pie Menu -kokoonpano",
+    "editor": "Pie Menu Editor",
+    "exported": "Vietiin kohteeseen {0}",
+    "fixed-angle": "Kiinteä kulma (0° = ylöspäin)",
+    "fixed-x": "Korjattu X (0–1 koko näytössä)",
+    "fixed-y": "Kiinteä Y (0–1 näytön alapuolella)",
+    "icon-invalid-image": "Valitse PNG-, JPEG-, GIF-, WebP- tai ICO-kuva enintään 192 kt.",
+    "icon-library": "Ikonikirjasto",
+    "icon-next": "Seuraavat kuvakkeet",
+    "icon-no-results": "Kuvakkeita ei löytynyt.",
+    "icon-pick-file": "Valitse kuva tai sovellus",
+    "icon-previous": "Edelliset kuvakkeet",
+    "icon-use-image": "Käytä kuvaa",
+    "imported": "Tuotu {0} valikkoa. Tarkista tuodut komennot ennen niiden käyttöä ja tallenna sitten.",
+    "item-icon": "Tuotekuvake",
+    "item-order": "Tavaran järjestys",
+    "label": "Label",
+    "move-down": "Siirry alas",
+    "move-up": "Siirrä ylös",
+    "name": "Valikon nimi",
+    "new-menu": "Uusi menu",
+    "off": "Pois päältä",
+    "on": "Päällä",
+    "palette": "Väripaletti",
+    "preview": "Esikatseluvalikko",
+    "remove": "Poista",
+    "save": "Tallenna valikot",
+    "saved": "Valikkoasetukset tallennettu.",
+    "shortcut-clear": "Tyhjennä pikakuvake",
+    "shortcut-cleared": "Pikakuvake tyhjennetty.",
+    "shortcut-config-changed": "Valikkokokoonpano muuttui levyllä. Tallenna nykyiset valikot ottaaksesi tämän pikakuvakkeen käyttöön.",
+    "shortcut-in-use": "Windows raportoi, että tämä pikakuvake on jo käytössä.",
+    "shortcut-invalid": "Syötä yksi avain sekä kaikki tälle pikanäppäimelle sallitut muokkaimet.",
+    "shortcut-record": "Tallenna pikakuvake",
+    "shortcut-save-new-menu": "Tallenna tämä uusi valikko aktivoidaksesi sen pikakuvakkeen.",
+    "shortcut-saved": "Pikanäppäin tallennettu: {0}. Käytä sitä valikon avaamiseen, kun Pikatoiminnot on käytössä.",
+    "shortcut-stop": "Lopeta tallennus",
+    "shortcut-unavailable": "Windows ei voinut rekisteröidä tätä pikakuvaketta."
+  },
+  "settings": {
+    "add-menu-items": "Lisää kohteita valikkoon",
+    "all-menus": "Kaikki valikot",
+    "anchored-mode": "Ankkuroitu tila",
+    "app-condition": "Rajaa tiettyihin sovelluksiin",
+    "area-condition-bottom-placeholder": "Alaosa",
+    "area-condition-left-placeholder": "Vasen",
+    "area-condition-right-placeholder": "Oikea",
+    "area-condition-top-placeholder": "Yläosa",
+    "cancel": "Peru",
+    "create-menu-button": "Uusi valikko",
+    "delete-menu": "Poista valikko",
+    "delete-menu-item": "Poista valikon kohde",
+    "edit-submenu": "Muokkaa alivalikkoa",
+    "export-menu": "Vie valikko",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Ota Merkintätila käyttöön",
+      "close-menu": "Sulje valikko",
+      "do-nothing": "Älä tee mitään",
+      "enable-marking-mode-info": "Kun Merkintätila on käytössä, voit valita kohteita siirtämällä osoittimen niiden päälle.",
+      "enable-turbo-mode": "Ota Turbo-tila käyttöön",
+      "enable-turbo-mode-info": "Kun Turbo-tila on käytössä, voit suorittaa eleitä, kunhan pidät muokkausnäppäintä, kuten Shift tai Ctrl, painettuna.",
+      "interaction-modes": "Vuorovaikutustilat",
+      "middle-mouse-button-behavior": "Hiiren keskipainike",
+      "middle-mouse-button-behavior-info": "Tämä määrittää, mitä tapahtuu, kun hiiren keskipainiketta painetaan, kun valikko on näkyvissä.",
+      "move-pointer-to-menu-center": "Siirrä osoitin valikon keskelle",
+      "move-pointer-to-menu-center-info": "Jos valittuna, hiiren osoitin siirretään tarvittaessa valikon tai alivalikon keskelle. Näin voi olla, jos valikko avataan liian lähelle näytön reunaa tai jos valikko avataan Keskitetyssä tilassa.",
+      "require-click-for-hover-mode": "Vaadi napsautus valintoihin Kohdistustilassa",
+      "require-click-for-hover-mode-info": "Jos valitsematta, kohteet valitaan välittömästi, kun osoitin siirretään niiden yli valikoissa, joissa käytetään Kohdistustilaa.",
+      "right-mouse-button-behavior": "Hiiren oikea painike",
+      "right-mouse-button-behavior-info": "Tämä määrittää, mitä tapahtuu, kun hiiren oikeaa painiketta painetaan, kun valikko on näkyvissä.",
+      "select-item": "Valitse kohde",
+      "select-parent": "Navigoi yksi taso ylöspäin",
+      "trigger-center-click-on-key-release": "Sulje valikko pikakuvakkeen vapauttamisesta keskustan yli",
+      "trigger-center-click-on-key-release-info": "Tämä käynnistää keskinapsautuksen työnkulun, kun näppäin vapautetaan, kun osoitin on valikon keskikohdan päällä."
+    },
+    "hover-mode": "Kohdistustila",
+    "icon-picker-dialog": {
+      "search-placeholder": "Etsi kuvakkeita…"
+    },
+    "import-menu": "Tuo valikko",
+    "menu-behavior": "Valikon toiminta",
+    "menu-conditions": "Valikon ehdollisuudet",
+    "menu-themes-dialog": {
+      "default-colors": "Oletusvärit",
+      "enable-menu-animations": "Valikkoanimaatiot",
+      "title": "Valikkoteemat"
+    },
+    "no-matching-menus": "Valikkoja ei löytynyt.",
+    "no-menus": "Sinulla ei ole valikkoja.",
+    "not-bound": "Ei sidottu",
+    "quick-select-key-label": "Pikavalintanäppäin",
+    "quick-select-key-recording": "Valitse avain…",
+    "shortcut-info": "Tämä pikanäppäin avaa valikon. Sen on sisällettävä yksi normaali näppäin ja mikä tahansa määrä muuntimia, kuten Ctrl, Alt tai Shift. Tallentaessasi sinun ei tarvitse painaa kaikkia näppäimiä kerralla; voit myös painaa niitä yksi toisensa jälkeen. Tämä on hyödyllistä, jos pikanäppäin on jo asetettu toiselle valikolle!",
+    "shortcut-label": "Pikanäppäin",
+    "shortcut-recording": "Paina pikanäppäintä…",
+    "window-condition": "Rajaa tiettyihin ikkunaotsikkoihin",
+    "workflow-editor": {
+      "add-action": "Lisää toiminto",
+      "select-workflow-name": "Valitse Työnkulku"
+    },
+    "anchored-mode-info": "Avaa alavalikko samassa paikassa kuin päävalikko. Tämän käyttäminen poistaa Merkintätilan ja Turbo-tilan käytöstä.",
+    "fixed-position-mode": "Kiinteän sijainnin tila",
+    "fixed-position-mode-info": "Avaa valikko tietyssä kohdassa näytöllä kohdistimen sijaan.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Aseta sijainti vasempaan alakulmaan",
+      "bottom-right-preset-tooltip": "Aseta sijainti oikeaan alakulmaan",
+      "centered-preset-tooltip": "Aseta asento keskelle",
+      "confirm": "Käytä tätä asentoa",
+      "top-left-preset-tooltip": "Aseta sijainti vasempaan yläkulmaan",
+      "top-right-preset-tooltip": "Aseta sijainti oikeaan yläkulmaan"
+    },
+    "fixed-position-tooltip": "Valitse kiinteä asento",
+    "hover-mode-info": "Vain edistyneille käyttäjille! Valitsee kohteita hiiren osoittimen kohdistamisella."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Oletus",
+      "clean-circle": "Selkeä ympyrä",
+      "neon-lights": "Neonvalot",
+      "purity": "Puhtaus",
+      "rainbow-labels": "Sateenkaaritekstit"
+    },
+    "presets": {
+      "Blue Glass": "Sininen lasi",
+      "Dark Night": "Pimeä yö",
+      "Cotton Candy": "Hattara",
+      "Dark and Cozy": "Tumma ja kodikas",
+      "Blue Glow": "Sininen hohde",
+      "Green Glow": "Vihreä hohde",
+      "Electric": "Sähköinen",
+      "Orange": "Oranssi",
+      "Pink": "Vaaleanpunainen",
+      "Bright Prism": "Kirkas prisma",
+      "Kando Default": "Oletusvärit"
+    }
+  }
+}

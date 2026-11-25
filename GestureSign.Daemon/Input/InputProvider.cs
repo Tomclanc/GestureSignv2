@@ -24,6 +24,7 @@ namespace GestureSign.Daemon.Input
         private MouseActions _hookDrawingButton;
         private volatile bool _suppressPointerMotion;
         private int _suppressedPointerMoveCount;
+        private long _mouseMoves, _mouseDown, _mouseUp, _mouseWheel, _keyDown, _keyUp;
         internal bool SuppressPointerMotion => _suppressPointerMotion;
         private readonly EdgeClickGate _edgeClickGate = new EdgeClickGate();
 
@@ -85,13 +86,27 @@ namespace GestureSign.Daemon.Input
             if (disposedValue) return;
             try
             {
-                bool mismatch = _messageWindow.ReadInputHealth(out var snapshot);
+                bool includeDevices = reason == "SupportRequest";
+                bool mismatch = _messageWindow.ReadInputHealth(out var snapshot, includeDevices);
                 snapshot["RecordedUtc"] = DateTimeOffset.UtcNow;
                 snapshot["Reason"] = reason;
                 snapshot["Capture"] = PointCapture.Instance.InputHealthState;
                 snapshot["MouseHookInstalled"] = LowLevelMouseHook.Hooked;
+                if (includeDevices)
+                {
+                    snapshot["MouseInput"] = new
+                    {
+                        HookInstalled = LowLevelMouseHook.Hooked,
+                        Moves = _mouseMoves, ButtonDown = _mouseDown, ButtonUp = _mouseUp, Wheel = _mouseWheel
+                    };
+                    snapshot["KeyboardInput"] = new
+                    {
+                        HookInstalled = _keyboardHook.Hooked,
+                        KeyDown = _keyDown, KeyUp = _keyUp
+                    };
+                }
                 var json = System.Text.Json.JsonSerializer.Serialize(snapshot);
-                Logging.LogMessage("Input health: " + json);
+                Logging.LogMessage(includeDevices ? "Input health snapshot requested." : "Input health: " + json);
                 if (!string.IsNullOrEmpty(Logging.LogFilePath))
                 {
                     var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Logging.LogFilePath), "Input-health.json");
@@ -111,6 +126,13 @@ namespace GestureSign.Daemon.Input
 
         private void CleanupEdgeClickHook(LowLevelMessage message, ref bool handled)
         {
+            switch (message.Message)
+            {
+                case 0x200: _mouseMoves++; break;
+                case 0x201 or 0x204 or 0x207 or 0x20B: _mouseDown++; break;
+                case 0x202 or 0x205 or 0x208 or 0x20C: _mouseUp++; break;
+                case 0x20A or 0x20E: _mouseWheel++; break;
+            }
             if ((message.Message == 0x201 || message.Message == 0x202) &&
                 !_suppressPointerMotion && !(_edgeClickGate?.NeedsHook ?? false) &&
                 _hookDrawingButton == MouseActions.None && !EdgeInputDiagnostics.Enabled)
@@ -133,6 +155,9 @@ namespace GestureSign.Daemon.Input
 
         private void KeyboardHook_KeyIntercepted(int msg, int vkCode, int scanCode, int flags, int time, IntPtr dwExtraInfo, ref bool handled)
         {
+            // Diagnostics count event types without keeping key identities or order.
+            if (msg is 0x100 or 0x104) _keyDown++;
+            if (msg is 0x101 or 0x105) _keyUp++;
             if (msg != 0x100 && msg != 0x104)
                 return;
 

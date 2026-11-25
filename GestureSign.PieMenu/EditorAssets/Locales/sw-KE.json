@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Barua pepe",
+      "file-browser": "Kivinjari cha Faili",
+      "paint": "Rangi",
+      "submenu": "Programu",
+      "terminal": "Kituo",
+      "web-browser": "Kivinjari cha Wavuti"
+    },
+    "audio": {
+      "mute": "Kimya",
+      "next-track": "Kipengele Ifuatayo",
+      "play-pause": "Cheza / Sitisha",
+      "previous-track": "Wimbo wa Awali",
+      "submenu": "Sauti"
+    },
+    "bookmarks": {
+      "desktop": "Eneo-kazi",
+      "documents": "Nyaraka",
+      "downloads": "Vipakuliwa",
+      "home": "Nyumbani",
+      "music": "Muziki",
+      "pictures": "Picha",
+      "submenu": "Alamisho",
+      "videos": "Video"
+    },
+    "clipboard": {
+      "copy": "Nakili",
+      "cut": "Kata",
+      "paste": "Bandika",
+      "submenu": "Ubao wa kunakili"
+    },
+    "name": "Menyu ya Mfano",
+    "next-workspace": "Nafasi ya Kazi Inayofuata",
+    "previous-workspace": "Nafasi ya Kazi Iliyopita",
+    "web-links": {
+      "kando-on-discord": "Kando kwenye Discord",
+      "kando-on-github": "Kando kwenye GitHub",
+      "kando-on-kofi": "Kando kwenye Ko-fi",
+      "kando-on-youtube": "Kando kwenye YouTube",
+      "submenu": "Viungo vya Wavuti"
+    },
+    "windows": {
+      "close-window": "Funga Dirisha",
+      "submenu": "Windows",
+      "tile-left": "Kigae Kushoto",
+      "tile-right": "Tile kulia",
+      "toggle-maximize": "Geuza Ongeza"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Funga Menyu"
+    },
+    "close-submenu": {
+      "name": "Funga Menyu ndogo"
+    },
+    "delay": {
+      "name": "Chelewesha"
+    },
+    "execute-command": {
+      "name": "Tekeleza Amri"
+    },
+    "execute-macro": {
+      "name": "Tekeleza Macro"
+    },
+    "focus-window": {
+      "name": "Dirisha la Kuzingatia"
+    },
+    "inhibit-shortcuts": {
+      "name": "Zuia Njia za mkato"
+    },
+    "open-file": {
+      "name": "Fungua Faili"
+    },
+    "open-menu": {
+      "name": "Fungua Menyu"
+    },
+    "open-settings": {
+      "name": "Fungua Mipangilio"
+    },
+    "open-uri": {
+      "name": "Fungua URI"
+    },
+    "send-tcp-message": {
+      "name": "Tuma Ujumbe wa TCP"
+    },
+    "send-websocket-message": {
+      "name": "Tuma Ujumbe wa WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Weka Ubao wa kunakili"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Kitufe cha Haraka",
+      "name": "Iga Hotkey",
+      "recording-placeholder": "Chapa hotkey..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Menyu ndogo"
+    }
+  },
+  "native": {
+    "action": "Kitendo",
+    "action-value": "Njia ya mkato, njia, URL, maandishi, au JSON",
+    "choose-icon": "Chagua ikoni",
+    "condition-invalid": "Weka dirisha au hali sahihi ya programu, kwa mfano /notepad/i.",
+    "configuration": "Usanidi wa Menyu ya Pie",
+    "editor": "Mhariri wa Menyu ya Pie",
+    "exported": "Imesafirishwa hadi {0}",
+    "fixed-angle": "Pembe isiyobadilika (0° = juu)",
+    "fixed-x": "X isiyohamishika (0–1 kote kifuatilizi)",
+    "fixed-y": "Y isiyobadilika (0–1 chini ya kifuatiliaji)",
+    "icon-invalid-image": "Chagua picha ya PNG, JPEG, GIF, WebP, au ICO hadi 192 KB.",
+    "icon-library": "Maktaba ya ikoni",
+    "icon-next": "Ikoni zinazofuata",
+    "icon-no-results": "Hakuna aikoni zilizopatikana.",
+    "icon-pick-file": "Chagua picha au programu",
+    "icon-previous": "Aikoni za awali",
+    "icon-use-image": "Tumia picha",
+    "imported": "Menyu {0} zilizoletwa. Kagua amri zilizoingizwa kabla ya kuzitumia, kisha uhifadhi.",
+    "item-icon": "Aikoni ya kipengee",
+    "item-order": "Agizo la bidhaa",
+    "label": "Lebo",
+    "move-down": "Sogeza chini",
+    "move-up": "Sogeza juu",
+    "name": "Jina la menyu",
+    "new-menu": "Menyu mpya",
+    "off": "Zimezimwa",
+    "on": "Zimewashwa",
+    "palette": "Palette ya rangi",
+    "preview": "Onyesho la kukagua menyu",
+    "remove": "Ondoa",
+    "save": "Hifadhi menyu",
+    "saved": "Mipangilio ya menyu imehifadhiwa.",
+    "shortcut-clear": "Futa njia ya mkato",
+    "shortcut-cleared": "Njia ya mkato imefutwa.",
+    "shortcut-config-changed": "Usanidi wa menyu ulibadilika kwenye diski. Hifadhi menyu za sasa ili kutumia njia hii ya mkato.",
+    "shortcut-in-use": "Windows inaripoti kuwa njia hii ya mkato tayari inatumika.",
+    "shortcut-invalid": "Weka ufunguo mmoja, pamoja na virekebishaji vyovyote vinavyoruhusiwa kwa njia hii ya mkato.",
+    "shortcut-record": "Rekodi njia ya mkato",
+    "shortcut-save-new-menu": "Hifadhi menyu hii mpya ili kuamilisha njia yake ya mkato.",
+    "shortcut-saved": "Njia ya mkato imehifadhiwa: {0}. Itumie kufungua menyu wakati Vitendo vya Haraka vimewashwa.",
+    "shortcut-stop": "Acha kurekodi",
+    "shortcut-unavailable": "Windows haikuweza kusajili njia hii ya mkato."
+  },
+  "settings": {
+    "add-menu-items": "Ongeza Vipengee vya Menyu",
+    "all-menus": "Menyu Zote",
+    "anchored-mode": "Hali Iliyounganika",
+    "app-condition": "Kikomo kwa Programu Maalum",
+    "area-condition-bottom-placeholder": "Chini",
+    "area-condition-left-placeholder": "Kushoto",
+    "area-condition-right-placeholder": "Kushoto",
+    "area-condition-top-placeholder": "Juu",
+    "cancel": "Ghairi",
+    "create-menu-button": "Ongeza Menyu",
+    "delete-menu": "Futa menyu",
+    "delete-menu-item": "Futa kipengee cha menyu",
+    "edit-submenu": "Badilisha menyu ndogo",
+    "export-menu": "Hamisha menyu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Washa Hali ya Kuashiria",
+      "close-menu": "Funga menyu",
+      "do-nothing": "Usifanye chochote",
+      "enable-marking-mode-info": "Ukiwasha Hali ya Kuashiria, unaweza kuchagua vipengee kwa kuburuta kipanya juu yao.",
+      "enable-turbo-mode": "Washa Hali ya Turbo",
+      "enable-turbo-mode-info": "Hali ya Turbo ikiwa imewashwa, unaweza kutekeleza ishara mradi tu ushikilie kitufe cha kurekebisha kama vile Shift au Ctrl.",
+      "interaction-modes": "Njia za Mwingiliano",
+      "middle-mouse-button-behavior": "Kitufe cha kati cha panya",
+      "middle-mouse-button-behavior-info": "Hii huamua kitakachotokea wakati kitufe cha kati cha kipanya kinapobonyezwa huku menyu ikionyeshwa.",
+      "move-pointer-to-menu-center": "Sogeza kielekezi hadi katikati ya menyu",
+      "move-pointer-to-menu-center-info": "Ikiangaliwa, kiashiria cha kipanya kitahamishwa hadi katikati ya menyu au menyu ndogo inapohitajika. Hii inaweza kuwa kesi ikiwa menyu itafunguliwa karibu sana na ukingo wa skrini au ikiwa menyu itafunguliwa katika Njia Iliyo katikati.",
+      "require-click-for-hover-mode": "Inahitaji kubofya ili kuchagua Modi ya Kuelea",
+      "require-click-for-hover-mode-info": "Ikiwa haijachaguliwa, vipengee vitachaguliwa mara moja kipanya kitakaposogezwa juu yao kwa menyu kwa kutumia Hali ya Kuelea.",
+      "right-mouse-button-behavior": "Kitufe cha kulia cha panya",
+      "right-mouse-button-behavior-info": "Hii huamua kitakachotokea wakati kitufe cha kulia cha kipanya kinapobonyezwa huku menyu ikionyeshwa.",
+      "select-item": "Chagua kipengee",
+      "select-parent": "Nenda juu ya kiwango kimoja",
+      "trigger-center-click-on-key-release": "Funga menyu ya kutoa njia ya mkato katikati",
+      "trigger-center-click-on-key-release-info": "Hii itaanzisha mtiririko wa kazi wa kubofya katikati wakati ufunguo utatolewa huku ukielea katikati ya menyu."
+    },
+    "hover-mode": "Hali ya Kuelea",
+    "icon-picker-dialog": {
+      "search-placeholder": "Tafuta ikoni..."
+    },
+    "import-menu": "Ingiza menyu",
+    "menu-behavior": "Tabia ya menyu",
+    "menu-conditions": "Masharti ya Menyu",
+    "menu-themes-dialog": {
+      "default-colors": "Rangi chaguomsingi",
+      "enable-menu-animations": "Uhuishaji wa Menyu",
+      "title": "Mandhari ya Menyu"
+    },
+    "no-matching-menus": "Hakuna menyu zilizopatikana.",
+    "no-menus": "Huna menyu.",
+    "not-bound": "Sio Kufungwa",
+    "quick-select-key-label": "Ufunguo wa kuchagua haraka",
+    "quick-select-key-recording": "Chagua ufunguo...",
+    "shortcut-info": "Njia hii ya mkato inafungua menyu. Lazima iwe na ufunguo mmoja wa kawaida na idadi yoyote ya virekebishaji kama vile Ctrl, Alt, au Shift. Wakati wa kurekodi, sio lazima ubonyeze vitufe vyote mara moja, unaweza pia kubofya moja baada ya nyingine. Hii ni muhimu ikiwa njia ya mkato tayari iko kwenye menyu nyingine!",
+    "shortcut-label": "Njia ya mkato",
+    "shortcut-recording": "Bonyeza njia ya mkato...",
+    "window-condition": "Kikomo kwa Majina Mahususi ya Dirisha",
+    "workflow-editor": {
+      "add-action": "Ongeza Kitendo",
+      "select-workflow-name": "Chagua Mtiririko wa Kazi"
+    },
+    "anchored-mode-info": "Fungua menyu ndogo katika nafasi sawa na menyu ya mzazi. Kuangalia hii, kutazima Hali ya Kuashiria na Hali ya Turbo.",
+    "fixed-position-mode": "Modi ya Nafasi Iliyobadilika",
+    "fixed-position-mode-info": "Fungua menyu katika nafasi isiyobadilika kwenye skrini, badala ya kwenye kielekezi.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Weka nafasi chini kushoto",
+      "bottom-right-preset-tooltip": "Weka nafasi chini kulia",
+      "centered-preset-tooltip": "Weka nafasi katikati",
+      "confirm": "Tumia nafasi hii",
+      "top-left-preset-tooltip": "Weka nafasi juu kushoto",
+      "top-right-preset-tooltip": "Weka nafasi juu kulia"
+    },
+    "fixed-position-tooltip": "Chagua nafasi isiyobadilika",
+    "hover-mode-info": "Kwa watumiaji wa nguvu tu! Chagua vipengee kwa kuelea juu yao."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Chaguomsingi",
+      "clean-circle": "Safi Mduara",
+      "neon-lights": "Taa za Neon",
+      "purity": "Usafi",
+      "rainbow-labels": "Lebo za Upinde wa mvua"
+    },
+    "presets": {
+      "Blue Glass": "Kioo cha Bluu",
+      "Dark Night": "Usiku wa Giza",
+      "Cotton Candy": "Pipi ya Pamba",
+      "Dark and Cozy": "Giza na Inapendeza",
+      "Blue Glow": "Mwangaza wa Bluu",
+      "Green Glow": "Mwangaza wa Kijani",
+      "Electric": "Umeme",
+      "Orange": "Machungwa",
+      "Pink": "Pinki",
+      "Bright Prism": "Prism mkali",
+      "Kando Default": "Rangi chaguomsingi"
+    }
+  }
+}

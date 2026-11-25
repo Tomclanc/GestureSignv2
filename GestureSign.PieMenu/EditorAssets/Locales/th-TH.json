@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "อีเมล์",
+      "file-browser": "ไฟล์เบราว์เซอร์",
+      "paint": "ทาสี",
+      "submenu": "แอพ",
+      "terminal": "เทอร์มินัล",
+      "web-browser": "เว็บเบราว์เซอร์"
+    },
+    "audio": {
+      "mute": "ปิดเสียง",
+      "next-track": "แทร็กถัดไป",
+      "play-pause": "เล่น / หยุดชั่วคราว",
+      "previous-track": "แทร็กก่อนหน้า",
+      "submenu": "เสียง"
+    },
+    "bookmarks": {
+      "desktop": "เดสก์ท็อป",
+      "documents": "เอกสาร",
+      "downloads": "ดาวน์โหลด",
+      "home": "บ้าน",
+      "music": "ดนตรี",
+      "pictures": "รูปภาพ",
+      "submenu": "บุ๊กมาร์ก",
+      "videos": "วิดีโอ"
+    },
+    "clipboard": {
+      "copy": "คัดลอก",
+      "cut": "ตัด",
+      "paste": "วาง",
+      "submenu": "คลิปบอร์ด"
+    },
+    "name": "เมนูตัวอย่าง",
+    "next-workspace": "พื้นที่ทำงานถัดไป",
+    "previous-workspace": "พื้นที่ทำงานก่อนหน้า",
+    "web-links": {
+      "kando-on-discord": "คันโด้บน Discord",
+      "kando-on-github": "คันโด บน GitHub",
+      "kando-on-kofi": "คันโด้ บน โค-ฟี่",
+      "kando-on-youtube": "คันโด้ บน YouTube",
+      "submenu": "เว็บลิงค์"
+    },
+    "windows": {
+      "close-window": "ปิดหน้าต่าง",
+      "submenu": "หน้าต่าง",
+      "tile-left": "กระเบื้องด้านซ้าย",
+      "tile-right": "กระเบื้องด้านขวา",
+      "toggle-maximize": "สลับการขยายใหญ่สุด"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "ปิดเมนู"
+    },
+    "close-submenu": {
+      "name": "ปิดเมนูย่อย"
+    },
+    "delay": {
+      "name": "ล่าช้า"
+    },
+    "execute-command": {
+      "name": "ดำเนินการคำสั่ง"
+    },
+    "execute-macro": {
+      "name": "ดำเนินการมาโคร"
+    },
+    "focus-window": {
+      "name": "หน้าต่างโฟกัส"
+    },
+    "inhibit-shortcuts": {
+      "name": "ยับยั้งทางลัด"
+    },
+    "open-file": {
+      "name": "เปิดไฟล์"
+    },
+    "open-menu": {
+      "name": "เปิดเมนู"
+    },
+    "open-settings": {
+      "name": "เปิดการตั้งค่า"
+    },
+    "open-uri": {
+      "name": "เปิด URI"
+    },
+    "send-tcp-message": {
+      "name": "ส่งข้อความ TCP"
+    },
+    "send-websocket-message": {
+      "name": "ส่งข้อความ WebSocket"
+    },
+    "set-clipboard": {
+      "name": "ตั้งคลิปบอร์ด"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ปุ่มลัด",
+      "name": "จำลองปุ่มลัด",
+      "recording-placeholder": "พิมพ์ปุ่มลัด..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "เมนูย่อย"
+    }
+  },
+  "native": {
+    "action": "การดำเนินการ",
+    "action-value": "ทางลัด เส้นทาง URL ข้อความ หรือ JSON",
+    "choose-icon": "เลือกไอคอน",
+    "condition-invalid": "ป้อนเงื่อนไขหน้าต่างหรือแอปที่ถูกต้อง เช่น /notepad/i",
+    "configuration": "การกำหนดค่าเมนูพาย",
+    "editor": "เครื่องมือแก้ไขเมนูพาย",
+    "exported": "ส่งออกไปยัง {0}",
+    "fixed-angle": "มุมคงที่ (0° = ขึ้น)",
+    "fixed-x": "แก้ไข X (0–1 ทั่วทั้งจอภาพ)",
+    "fixed-y": "แก้ไข Y (0–1 ลงจอภาพ)",
+    "icon-invalid-image": "เลือกรูปภาพ PNG, JPEG, GIF, WebP หรือ ICO สูงสุด 192 KB",
+    "icon-library": "ไลบรารีไอคอน",
+    "icon-next": "ไอคอนถัดไป",
+    "icon-no-results": "ไม่พบไอคอน",
+    "icon-pick-file": "เลือกรูปภาพหรือแอป",
+    "icon-previous": "ไอคอนก่อนหน้า",
+    "icon-use-image": "ใช้รูปภาพ",
+    "imported": "นำเข้าแล้ว {0} เมนู ตรวจสอบคำสั่งที่นำเข้าก่อนใช้งาน จากนั้นจึงบันทึก",
+    "item-icon": "ไอคอนรายการ",
+    "item-order": "สั่งสินค้า",
+    "label": "ป้ายกำกับ",
+    "move-down": "เลื่อนลง",
+    "move-up": "เลื่อนขึ้น",
+    "name": "ชื่อเมนู",
+    "new-menu": "เมนูใหม่",
+    "off": "ปิด",
+    "on": "เปิด",
+    "palette": "จานสี",
+    "preview": "เมนูแสดงตัวอย่าง",
+    "remove": "ลบ",
+    "save": "บันทึกเมนู",
+    "saved": "บันทึกการกำหนดค่าเมนูแล้ว",
+    "shortcut-clear": "ล้างทางลัด",
+    "shortcut-cleared": "ล้างทางลัดแล้ว",
+    "shortcut-config-changed": "การกำหนดค่าเมนูเปลี่ยนไปบนดิสก์ บันทึกเมนูปัจจุบันเพื่อใช้ทางลัดนี้",
+    "shortcut-in-use": "Windows รายงานว่ามีการใช้ทางลัดนี้แล้ว",
+    "shortcut-invalid": "ป้อนหนึ่งคีย์ รวมถึงตัวแก้ไขใดๆ ที่อนุญาตสำหรับทางลัดนี้",
+    "shortcut-record": "บันทึกทางลัด",
+    "shortcut-save-new-menu": "บันทึกเมนูใหม่นี้เพื่อเปิดใช้งานทางลัด",
+    "shortcut-saved": "บันทึกทางลัดแล้ว: {0} ใช้เพื่อเปิดเมนูเมื่อเปิดใช้งานการดำเนินการด่วน",
+    "shortcut-stop": "หยุดการบันทึก",
+    "shortcut-unavailable": "Windows ไม่สามารถลงทะเบียนทางลัดนี้ได้"
+  },
+  "settings": {
+    "add-menu-items": "เพิ่มรายการเมนู",
+    "all-menus": "เมนูทั้งหมด",
+    "anchored-mode": "โหมดยึด",
+    "app-condition": "จำกัดเฉพาะแอปเฉพาะ",
+    "area-condition-bottom-placeholder": "ด้านล่าง",
+    "area-condition-left-placeholder": "ซ้าย",
+    "area-condition-right-placeholder": "ขวา",
+    "area-condition-top-placeholder": "ด้านบน",
+    "cancel": "ยกเลิก",
+    "create-menu-button": "เพิ่มเมนู",
+    "delete-menu": "ลบเมนู",
+    "delete-menu-item": "ลบรายการเมนู",
+    "edit-submenu": "แก้ไขเมนูย่อย",
+    "export-menu": "เมนูส่งออก",
+    "general-settings-dialog": {
+      "enable-marking-mode": "เปิดใช้งานโหมดการทำเครื่องหมาย",
+      "close-menu": "ปิดเมนู",
+      "do-nothing": "ไม่ต้องทำอะไรเลย",
+      "enable-marking-mode-info": "เมื่อเปิดใช้งานโหมดการทำเครื่องหมาย คุณสามารถเลือกรายการได้โดยการลากเมาส์ไปไว้เหนือรายการเหล่านั้น",
+      "enable-turbo-mode": "เปิดใช้งานโหมดเทอร์โบ",
+      "enable-turbo-mode-info": "เมื่อเปิดใช้งานโหมดเทอร์โบ คุณจะสามารถใช้ท่าทางได้ตราบเท่าที่คุณกดปุ่มตัวปรับแต่ง เช่น Shift หรือ Ctrl ค้างไว้",
+      "interaction-modes": "โหมดการโต้ตอบ",
+      "middle-mouse-button-behavior": "ปุ่มกลางของเมาส์",
+      "middle-mouse-button-behavior-info": "ซึ่งจะกำหนดว่าจะเกิดอะไรขึ้นเมื่อกดปุ่มกลางของเมาส์ในขณะที่เมนูแสดงอยู่",
+      "move-pointer-to-menu-center": "เลื่อนตัวชี้ไปที่กึ่งกลางเมนู",
+      "move-pointer-to-menu-center-info": "หากทำเครื่องหมายไว้ ตัวชี้เมาส์จะถูกย้ายไปที่กึ่งกลางของเมนูหรือเมนูย่อยเมื่อจำเป็น กรณีนี้อาจเกิดขึ้นได้หากเปิดเมนูใกล้กับขอบหน้าจอมากเกินไป หรือหากเปิดเมนูในโหมดกึ่งกลาง",
+      "require-click-for-hover-mode": "ต้องคลิกเพื่อเลือกโหมดโฮเวอร์",
+      "require-click-for-hover-mode-info": "หากไม่ทำเครื่องหมาย รายการจะถูกเลือกทันทีเมื่อเลื่อนเมาส์ไปเหนือรายการเหล่านั้นสำหรับเมนูที่ใช้โหมดโฮเวอร์",
+      "right-mouse-button-behavior": "ปุ่มเมาส์ขวา",
+      "right-mouse-button-behavior-info": "ซึ่งจะกำหนดว่าจะเกิดอะไรขึ้นเมื่อกดปุ่มเมาส์ขวาในขณะที่เมนูแสดงอยู่",
+      "select-item": "เลือกรายการ",
+      "select-parent": "นำทางขึ้นไปหนึ่งระดับ",
+      "trigger-center-click-on-key-release": "ปิดเมนูบนปุ่มลัดที่ตรงกลาง",
+      "trigger-center-click-on-key-release-info": "สิ่งนี้จะทริกเกอร์เวิร์กโฟลว์การคลิกตรงกลางเมื่อมีการปล่อยปุ่มขณะวางเมาส์เหนือกึ่งกลางของเมนู"
+    },
+    "hover-mode": "โหมดโฮเวอร์",
+    "icon-picker-dialog": {
+      "search-placeholder": "ค้นหาไอคอน..."
+    },
+    "import-menu": "เมนูนำเข้า",
+    "menu-behavior": "พฤติกรรมเมนู",
+    "menu-conditions": "เงื่อนไขเมนู",
+    "menu-themes-dialog": {
+      "default-colors": "สีเริ่มต้น",
+      "enable-menu-animations": "ภาพเคลื่อนไหวของเมนู",
+      "title": "ธีมเมนู"
+    },
+    "no-matching-menus": "ไม่พบเมนู",
+    "no-menus": "คุณไม่มีเมนู",
+    "not-bound": "ไม่ผูกพัน",
+    "quick-select-key-label": "ปุ่มเลือกด่วน",
+    "quick-select-key-recording": "เลือกคีย์...",
+    "shortcut-info": "ทางลัดนี้จะเปิดเมนู จะต้องมีคีย์ปกติหนึ่งคีย์และตัวปรับแต่งจำนวนเท่าใดก็ได้ เช่น Ctrl, Alt หรือ Shift เมื่อบันทึก คุณไม่จำเป็นต้องกดปุ่มทั้งหมดพร้อมกัน คุณสามารถกดทีละปุ่มก็ได้ สิ่งนี้มีประโยชน์หากทางลัดเชื่อมโยงกับเมนูอื่นอยู่แล้ว!",
+    "shortcut-label": "ทางลัด",
+    "shortcut-recording": "กดทางลัด...",
+    "window-condition": "จำกัดเฉพาะชื่อหน้าต่างเฉพาะ",
+    "workflow-editor": {
+      "add-action": "เพิ่มการดำเนินการ",
+      "select-workflow-name": "เลือกเวิร์กโฟลว์"
+    },
+    "anchored-mode-info": "เปิดเมนูย่อยในตำแหน่งเดียวกับเมนูหลัก การตรวจสอบนี้จะปิดใช้งานโหมดการทำเครื่องหมายและโหมดเทอร์โบ",
+    "fixed-position-mode": "โหมดตำแหน่งคงที่",
+    "fixed-position-mode-info": "เปิดเมนูในตำแหน่งคงที่บนหน้าจอ แทนที่จะเปิดที่เคอร์เซอร์",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "กำหนดตำแหน่งไว้ที่ด้านซ้ายล่าง",
+      "bottom-right-preset-tooltip": "กำหนดตำแหน่งไว้ที่มุมขวาล่าง",
+      "centered-preset-tooltip": "กำหนดตำแหน่งให้อยู่ตรงกลาง",
+      "confirm": "ใช้ตำแหน่งนี้",
+      "top-left-preset-tooltip": "กำหนดตำแหน่งไปทางซ้ายบน",
+      "top-right-preset-tooltip": "กำหนดตำแหน่งไว้ที่ด้านบนขวา"
+    },
+    "fixed-position-tooltip": "เลือกตำแหน่งคงที่",
+    "hover-mode-info": "สำหรับผู้ใช้ระดับสูงเท่านั้น! เลือกรายการโดยวางเมาส์เหนือรายการเหล่านั้น"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ค่าเริ่มต้น",
+      "clean-circle": "วงกลมที่สะอาด",
+      "neon-lights": "ไฟนีออน",
+      "purity": "ความบริสุทธิ์",
+      "rainbow-labels": "ป้ายสีรุ้ง"
+    },
+    "presets": {
+      "Blue Glass": "แก้วฟ้า",
+      "Dark Night": "คืนอันมืดมิด",
+      "Cotton Candy": "สายไหม",
+      "Dark and Cozy": "มืดมนและอบอุ่น",
+      "Blue Glow": "บลูโกลว์",
+      "Green Glow": "กรีนโกลว์",
+      "Electric": "ไฟฟ้า",
+      "Orange": "สีส้ม",
+      "Pink": "สีชมพู",
+      "Bright Prism": "ปริซึมสว่าง",
+      "Kando Default": "สีเริ่มต้น"
+    }
+  }
+}

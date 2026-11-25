@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>ଶୀଘ୍ର କାର୍ଯ୍ୟ</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>ସମର୍ପିତ ଶର୍ଟକଟ୍ ଦ୍ୱାରା ରାଡିଆଲ୍ ମେନୁ ଖୋଲନ୍ତୁ।</value>
+  </data>
+</root>

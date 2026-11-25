@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ای میل",
+      "file-browser": "فائل براؤزر",
+      "paint": "پینٹ",
+      "submenu": "ایپس",
+      "terminal": "ٹرمینل",
+      "web-browser": "ویب براؤزر"
+    },
+    "audio": {
+      "mute": "بند کریں",
+      "next-track": "اگلا ٹریک",
+      "play-pause": "چلائیں / روکیں۔",
+      "previous-track": "پچھلا ٹریک",
+      "submenu": "آڈیو"
+    },
+    "bookmarks": {
+      "desktop": "ڈیسک ٹاپ",
+      "documents": "دستاویزات",
+      "downloads": "ڈاؤن لوڈز",
+      "home": "گھر",
+      "music": "موسیقی",
+      "pictures": "تصویریں",
+      "submenu": "بک مارکس",
+      "videos": "ویڈیوز"
+    },
+    "clipboard": {
+      "copy": "کاپی کریں",
+      "cut": "کاٹیں",
+      "paste": "پیسٹ کریں",
+      "submenu": "کلپ بورڈ"
+    },
+    "name": "مثال کا مینو",
+    "next-workspace": "اگلا ورک اسپیس",
+    "previous-workspace": "پچھلا ورک اسپیس",
+    "web-links": {
+      "kando-on-discord": "ڈسکارڈ پر کانڈو",
+      "kando-on-github": "GitHub پر کینڈو",
+      "kando-on-kofi": "کو فائی پر کانڈو",
+      "kando-on-youtube": "یوٹیوب پر کنڈو",
+      "submenu": "ویب لنکس"
+    },
+    "windows": {
+      "close-window": "ونڈو بند کریں",
+      "submenu": "ونڈوز",
+      "tile-left": "ٹائل بائیں",
+      "tile-right": "ٹائل دائیں",
+      "toggle-maximize": "زیادہ سے زیادہ ٹوگل کریں۔"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "مینو بند کریں۔"
+    },
+    "close-submenu": {
+      "name": "ذیلی مینیو بند کریں۔"
+    },
+    "delay": {
+      "name": "تاخیر"
+    },
+    "execute-command": {
+      "name": "کمانڈ پر عمل کریں۔"
+    },
+    "execute-macro": {
+      "name": "میکرو پر عمل کریں۔"
+    },
+    "focus-window": {
+      "name": "فوکس ونڈو"
+    },
+    "inhibit-shortcuts": {
+      "name": "شارٹ کٹس کو روکنا"
+    },
+    "open-file": {
+      "name": "فائل کھولیں"
+    },
+    "open-menu": {
+      "name": "مینو کھولیں۔"
+    },
+    "open-settings": {
+      "name": "ترتیبات کھولیں۔"
+    },
+    "open-uri": {
+      "name": "URI کھولیں۔"
+    },
+    "send-tcp-message": {
+      "name": "TCP پیغام بھیجیں۔"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket پیغام بھیجیں۔"
+    },
+    "set-clipboard": {
+      "name": "کلپ بورڈ سیٹ کریں۔"
+    },
+    "simulate-hotkey": {
+      "hotkey": "ہاٹکی",
+      "name": "ہاٹکی کی تقلید کریں۔",
+      "recording-placeholder": "ہاٹکی ٹائپ کریں…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "ذیلی مینیو"
+    }
+  },
+  "native": {
+    "action": "ایکشن",
+    "action-value": "شارٹ کٹ، راستہ، URL، متن، یا JSON",
+    "choose-icon": "آئیکن کا انتخاب کریں۔",
+    "condition-invalid": "ایک درست ونڈو یا ایپ کی حالت درج کریں، مثال کے طور پر /notepad/i۔",
+    "configuration": "پائی مینو کی ترتیب",
+    "editor": "پائی مینو ایڈیٹر",
+    "exported": "{0} کو برآمد کیا گیا",
+    "fixed-angle": "مقررہ زاویہ (0° = اوپر)",
+    "fixed-x": "فکسڈ X (0-1 مانیٹر پر)",
+    "fixed-y": "فکسڈ Y (0-1 مانیٹر کے نیچے)",
+    "icon-invalid-image": "192 KB تک کی PNG، JPEG، GIF، WebP، یا ICO تصویر منتخب کریں۔",
+    "icon-library": "آئکن لائبریری",
+    "icon-next": "اگلے شبیہیں",
+    "icon-no-results": "کوئی شبیہیں نہیں ملے۔",
+    "icon-pick-file": "تصویر یا ایپ کا انتخاب کریں۔",
+    "icon-previous": "پچھلے شبیہیں",
+    "icon-use-image": "تصویر استعمال کریں۔",
+    "imported": "درآمد شدہ {0} مینو درآمد شدہ کمانڈز کو استعمال کرنے سے پہلے ان کا جائزہ لیں، پھر محفوظ کریں۔",
+    "item-icon": "آئٹم کا آئیکن",
+    "item-order": "آئٹم آرڈر",
+    "label": "لیبل",
+    "move-down": "نیچے کی طرف بڑھیں۔",
+    "move-up": "اوپر بڑھیں۔",
+    "name": "مینو کا نام",
+    "new-menu": "نیا مینو",
+    "off": "بند",
+    "on": "آن",
+    "palette": "رنگ پیلیٹ",
+    "preview": "پیش نظارہ مینو",
+    "remove": "ہٹا دیں۔",
+    "save": "مینو محفوظ کریں۔",
+    "saved": "مینو کنفیگریشن محفوظ ہو گئی۔",
+    "shortcut-clear": "شارٹ کٹ صاف کریں۔",
+    "shortcut-cleared": "شارٹ کٹ صاف ہو گیا۔",
+    "shortcut-config-changed": "ڈسک پر مینو کنفیگریشن بدل گئی۔ اس شارٹ کٹ کو لاگو کرنے کے لیے موجودہ مینوز کو محفوظ کریں۔",
+    "shortcut-in-use": "ونڈوز کی اطلاع ہے کہ یہ شارٹ کٹ پہلے سے استعمال میں ہے۔",
+    "shortcut-invalid": "ایک کلید درج کریں، نیز اس شارٹ کٹ کے لیے کسی بھی ترمیم کنندہ کی اجازت ہے۔",
+    "shortcut-record": "شارٹ کٹ ریکارڈ کریں۔",
+    "shortcut-save-new-menu": "اس نئے مینو کو اس کے شارٹ کٹ کو فعال کرنے کے لیے محفوظ کریں۔",
+    "shortcut-saved": "شارٹ کٹ محفوظ کیا گیا: {0}۔ فوری کارروائیوں کے فعال ہونے پر مینو کو کھولنے کے لیے اسے استعمال کریں۔",
+    "shortcut-stop": "ریکارڈنگ بند کرو",
+    "shortcut-unavailable": "ونڈوز اس شارٹ کٹ کو رجسٹر نہیں کر سکا۔"
+  },
+  "settings": {
+    "add-menu-items": "مینو آئٹمز شامل کریں۔",
+    "all-menus": "تمام مینوز",
+    "anchored-mode": "اینکرڈ موڈ",
+    "app-condition": "مخصوص ایپس تک محدود رکھیں",
+    "area-condition-bottom-placeholder": "نیچے",
+    "area-condition-left-placeholder": "بائیں",
+    "area-condition-right-placeholder": "دائیں",
+    "area-condition-top-placeholder": "اوپر",
+    "cancel": "منسوخ کریں",
+    "create-menu-button": "مینو شامل کریں۔",
+    "delete-menu": "مینو کو حذف کریں۔",
+    "delete-menu-item": "مینو آئٹم کو حذف کریں۔",
+    "edit-submenu": "ذیلی مینیو میں ترمیم کریں۔",
+    "export-menu": "ایکسپورٹ مینو",
+    "general-settings-dialog": {
+      "enable-marking-mode": "مارکنگ موڈ کو فعال کریں۔",
+      "close-menu": "مینو بند کریں۔",
+      "do-nothing": "کچھ نہ کرو",
+      "enable-marking-mode-info": "مارکنگ موڈ فعال ہونے کے ساتھ، آپ آئٹمز کو ان پر ماؤس گھسیٹ کر منتخب کر سکتے ہیں۔",
+      "enable-turbo-mode": "ٹربو موڈ کو فعال کریں۔",
+      "enable-turbo-mode-info": "ٹربو موڈ فعال ہونے کے ساتھ، آپ اس وقت تک اشاروں کو انجام دے سکتے ہیں جب تک کہ آپ شفٹ یا Ctrl جیسی موڈیفائر کلید کو دبائے رکھیں۔",
+      "interaction-modes": "تعامل کے موڈز",
+      "middle-mouse-button-behavior": "ماؤس کا درمیانی بٹن",
+      "middle-mouse-button-behavior-info": "یہ اس بات کا تعین کرتا ہے کہ جب ماؤس کا درمیانی بٹن دبایا جائے تو کیا ہوتا ہے جب کہ مینو دکھایا جاتا ہے۔",
+      "move-pointer-to-menu-center": "پوائنٹر کو مینو سینٹر میں منتقل کریں۔",
+      "move-pointer-to-menu-center-info": "اگر چیک کیا جائے تو، جب ضروری ہو تو ماؤس پوائنٹر کو مینو یا ذیلی مینیو کے مرکز میں منتقل کر دیا جائے گا۔ ایسا ہو سکتا ہے اگر کوئی مینو اسکرین کے کنارے کے بہت قریب کھولا جائے یا سینٹرڈ موڈ میں مینو کھولا جائے۔",
+      "require-click-for-hover-mode": "ہوور موڈ کے انتخاب کے لیے کلک کی ضرورت ہے۔",
+      "require-click-for-hover-mode-info": "اگر غیر نشان زد کیا گیا ہے، ہوور موڈ کا استعمال کرتے ہوئے مینو کے لیے ماؤس ان پر منتقل ہونے پر آئٹمز کو فوری طور پر منتخب کیا جائے گا۔",
+      "right-mouse-button-behavior": "دائیں ماؤس کا بٹن",
+      "right-mouse-button-behavior-info": "یہ اس بات کا تعین کرتا ہے کہ جب مینو دکھایا جاتا ہے تو دائیں ماؤس کا بٹن دبانے پر کیا ہوتا ہے۔",
+      "select-item": "آئٹم منتخب کریں۔",
+      "select-parent": "ایک سطح پر تشریف لے جائیں۔",
+      "trigger-center-click-on-key-release": "مرکز کے اوپر شارٹ کٹ ریلیز پر مینو بند کریں۔",
+      "trigger-center-click-on-key-release-info": "جب مینو کے مرکز پر منڈلاتے ہوئے ایک کلید جاری کی جائے گی تو یہ سینٹر کلک ورک فلو کو متحرک کرے گا۔"
+    },
+    "hover-mode": "ہوور موڈ",
+    "icon-picker-dialog": {
+      "search-placeholder": "شبیہیں تلاش کریں…"
+    },
+    "import-menu": "مینو درآمد کریں۔",
+    "menu-behavior": "مینو سلوک",
+    "menu-conditions": "مینو کی شرائط",
+    "menu-themes-dialog": {
+      "default-colors": "پہلے سے طے شدہ رنگ",
+      "enable-menu-animations": "مینو اینیمیشنز",
+      "title": "مینو تھیمز"
+    },
+    "no-matching-menus": "کوئی مینو نہیں ملا۔",
+    "no-menus": "آپ کے پاس کوئی مینو نہیں ہے۔",
+    "not-bound": "پابند نہیں",
+    "quick-select-key-label": "فوری طور پر کلید منتخب کریں۔",
+    "quick-select-key-recording": "کلید منتخب کریں…",
+    "shortcut-info": "یہ شارٹ کٹ مینو کھولتا ہے۔ اس میں ایک عام کلید اور کسی بھی تعداد میں ترمیم کرنے والے جیسے Ctrl، Alt، یا Shift کا ہونا ضروری ہے۔ ریکارڈنگ کرتے وقت، آپ کو ایک ساتھ تمام کیز کو دبانے کی ضرورت نہیں ہے، آپ انہیں ایک کے بعد ایک دبا سکتے ہیں۔ یہ مفید ہے اگر کوئی شارٹ کٹ پہلے سے ہی کسی دوسرے مینو کا پابند ہو!",
+    "shortcut-label": "شارٹ کٹ",
+    "shortcut-recording": "ایک شارٹ کٹ دبائیں…",
+    "window-condition": "مخصوص ونڈو کے عنوانات تک محدود",
+    "workflow-editor": {
+      "add-action": "ایکشن شامل کریں۔",
+      "select-workflow-name": "ورک فلو کو منتخب کریں۔"
+    },
+    "anchored-mode-info": "پیرنٹ مینو کی طرح اسی پوزیشن پر ذیلی مینیو کھولیں۔ اسے چیک کرنے سے مارکنگ موڈ اور ٹربو موڈ کو غیر فعال کر دیا جائے گا۔",
+    "fixed-position-mode": "فکسڈ پوزیشن موڈ",
+    "fixed-position-mode-info": "مینو کو کرسر کے بجائے اسکرین پر ایک مقررہ پوزیشن پر کھولیں۔",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "نیچے بائیں طرف پوزیشن سیٹ کریں۔",
+      "bottom-right-preset-tooltip": "نیچے دائیں پوزیشن سیٹ کریں۔",
+      "centered-preset-tooltip": "مرکز میں پوزیشن سیٹ کریں۔",
+      "confirm": "اس پوزیشن کو استعمال کریں۔",
+      "top-left-preset-tooltip": "اوپر بائیں طرف پوزیشن سیٹ کریں۔",
+      "top-right-preset-tooltip": "اوپری دائیں پوزیشن سیٹ کریں۔"
+    },
+    "fixed-position-tooltip": "ایک مقررہ پوزیشن منتخب کریں۔",
+    "hover-mode-info": "صرف پاور صارفین کے لیے! آئٹمز کو ان پر منڈلا کر منتخب کریں۔"
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "طے شدہ",
+      "clean-circle": "کلین سرکل",
+      "neon-lights": "نیین لائٹس",
+      "purity": "طہارت",
+      "rainbow-labels": "رینبو لیبلز"
+    },
+    "presets": {
+      "Blue Glass": "بلیو گلاس",
+      "Dark Night": "اندھیری رات",
+      "Cotton Candy": "کاٹن کینڈی",
+      "Dark and Cozy": "تاریک اور آرام دہ",
+      "Blue Glow": "بلیو گلو",
+      "Green Glow": "سبز چمک",
+      "Electric": "الیکٹرک",
+      "Orange": "نارنجی",
+      "Pink": "گلابی",
+      "Bright Prism": "روشن پرزم",
+      "Kando Default": "پہلے سے طے شدہ رنگ"
+    }
+  }
+}

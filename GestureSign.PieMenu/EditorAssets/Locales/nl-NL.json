@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Verkenner",
+      "paint": "Paint",
+      "submenu": "Apps",
+      "terminal": "Terminal",
+      "web-browser": "Webbrowser"
+    },
+    "audio": {
+      "mute": "Dempen",
+      "next-track": "Volgende nummer",
+      "play-pause": "Speel / Pause",
+      "previous-track": "Vorige nummer",
+      "submenu": "Geluid"
+    },
+    "bookmarks": {
+      "desktop": "Desktop",
+      "documents": "Documenten",
+      "downloads": "Download",
+      "home": "Thuis",
+      "music": "Muziek",
+      "pictures": "Foto's",
+      "submenu": "Bladwijzers",
+      "videos": "Videos"
+    },
+    "clipboard": {
+      "copy": "Kopiëren",
+      "cut": "Knippen",
+      "paste": "Plakken",
+      "submenu": "Klembord"
+    },
+    "name": "Voorbeeld menu",
+    "next-workspace": "Volgende werkruimte",
+    "previous-workspace": "Vorige werkruimte",
+    "web-links": {
+      "kando-on-discord": "Kando op Discord",
+      "kando-on-github": "Kando op GitHub",
+      "kando-on-kofi": "Kando op Ko-fi",
+      "kando-on-youtube": "Kando op YouTube",
+      "submenu": "Weblinks"
+    },
+    "windows": {
+      "close-window": "Venster sluiten",
+      "submenu": "Windows",
+      "tile-left": "Tegel Links",
+      "tile-right": "Tegel Rechts",
+      "toggle-maximize": "Schakel maximaliseren"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Sluit Menu"
+    },
+    "close-submenu": {
+      "name": "Sluit submenu"
+    },
+    "delay": {
+      "name": "Vertraging"
+    },
+    "execute-command": {
+      "name": "Commando uitvoeren"
+    },
+    "execute-macro": {
+      "name": "Macro uitvoeren"
+    },
+    "focus-window": {
+      "name": "Focusvenster"
+    },
+    "inhibit-shortcuts": {
+      "name": "Blokkeer snelkoppelingen"
+    },
+    "open-file": {
+      "name": "Bestand openen"
+    },
+    "open-menu": {
+      "name": "Omleiden"
+    },
+    "open-settings": {
+      "name": "Instellingen openen"
+    },
+    "open-uri": {
+      "name": "URI openen"
+    },
+    "send-tcp-message": {
+      "name": "TCP-bericht verzenden"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket-bericht verzenden"
+    },
+    "set-clipboard": {
+      "name": "Klembord instellen"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Sneltoets",
+      "name": "Hotkey simuleren",
+      "recording-placeholder": "Type een sneltoets…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "action": "Actie",
+    "action-value": "Snelkoppeling, pad, URL, tekst of JSON",
+    "choose-icon": "Kies icoon",
+    "condition-invalid": "Voer een geldige venster- of app-voorwaarde in, bijvoorbeeld /notepad/i.",
+    "configuration": "Taartmenuconfiguratie",
+    "editor": "Taartmenu-editor",
+    "exported": "Geëxporteerd naar {0}",
+    "fixed-angle": "Vaste hoek (0° = omhoog)",
+    "fixed-x": "Vaste X (0-1 over de monitor)",
+    "fixed-y": "Vaste Y (0–1 op de monitor)",
+    "icon-invalid-image": "Kies een PNG-, JPEG-, GIF-, WebP- of ICO-afbeelding van maximaal 192 KB.",
+    "icon-library": "Pictogrambibliotheek",
+    "icon-next": "Volgende pictogrammen",
+    "icon-no-results": "Geen iconen gevonden.",
+    "icon-pick-file": "Kies afbeelding of app",
+    "icon-previous": "Vorige iconen",
+    "icon-use-image": "Gebruik afbeelding",
+    "imported": "Geïmporteerde {0} menu('s). Controleer geïmporteerde opdrachten voordat u ze gebruikt en sla ze vervolgens op.",
+    "item-icon": "Itempictogram",
+    "item-order": "Artikelvolgorde",
+    "label": "Etiket",
+    "move-down": "Ga naar beneden",
+    "move-up": "Ga omhoog",
+    "name": "Menunaam",
+    "new-menu": "Nieuw menu",
+    "off": "Uit",
+    "on": "Aan",
+    "palette": "Kleurenpalet",
+    "preview": "Voorbeeldmenu",
+    "remove": "Verwijderen",
+    "save": "Bewaar menu's",
+    "saved": "Menuconfiguratie opgeslagen.",
+    "shortcut-clear": "Snelkoppeling wissen",
+    "shortcut-cleared": "Snelkoppeling gewist.",
+    "shortcut-config-changed": "De menuconfiguratie is op schijf gewijzigd. Sla de huidige menu's op om deze snelkoppeling toe te passen.",
+    "shortcut-in-use": "Windows meldt dat deze snelkoppeling al in gebruik is.",
+    "shortcut-invalid": "Voer één sleutel in, plus eventuele wijzigingen die voor deze snelkoppeling zijn toegestaan.",
+    "shortcut-record": "Snelkoppeling opnemen",
+    "shortcut-save-new-menu": "Sla dit nieuwe menu op om de snelkoppeling te activeren.",
+    "shortcut-saved": "Snelkoppeling opgeslagen: {0}. Gebruik het om het menu te openen wanneer Snelle acties is ingeschakeld.",
+    "shortcut-stop": "Stop met opnemen",
+    "shortcut-unavailable": "Windows kon deze snelkoppeling niet registreren."
+  },
+  "settings": {
+    "add-menu-items": "Menu-items toevoegen",
+    "all-menus": "Alle Menu's",
+    "anchored-mode": "Verankerde modus",
+    "app-condition": "Beperking tot specifieke apps",
+    "area-condition-bottom-placeholder": "Onderkant",
+    "area-condition-left-placeholder": "Links",
+    "area-condition-right-placeholder": "Rechts",
+    "area-condition-top-placeholder": "Bovenkant",
+    "cancel": "Afbreken",
+    "create-menu-button": "Nieuw menu",
+    "delete-menu": "Verwijder menu",
+    "delete-menu-item": "Verwijder menu item",
+    "edit-submenu": "Submenu bewerken",
+    "export-menu": "Exportmenu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Schakel markeringsmodus in",
+      "close-menu": "Menu sluiten",
+      "do-nothing": "Doe niets",
+      "enable-marking-mode-info": "Met de markeringsmodus ingeschakeld, kunt u items selecteren door de muis eroverheen te slepen.",
+      "enable-turbo-mode": "Schakel Turbo -modus in",
+      "enable-turbo-mode-info": "Met Turbo -modus ingeschakeld, kunt u gebaren uitvoeren, zolang u een modificatietoets zoals Shift of CTRL ingedrukt houdt.",
+      "interaction-modes": "Interactiemodi",
+      "middle-mouse-button-behavior": "Middelste muisknop",
+      "middle-mouse-button-behavior-info": "Dit bepaalt wat er gebeurt als de middelste muisknop wordt ingedrukt terwijl een menu wordt weergegeven.",
+      "move-pointer-to-menu-center": "Verplaats de aanwijzer naar het menucentrum",
+      "move-pointer-to-menu-center-info": "Indien aangevinkt, wordt de muisaanwijzer indien nodig naar het midden van een menu of submenu verplaatst. Dit kan het geval zijn als een menu te dicht bij de rand van het scherm wordt geopend of als een menu wordt geopend in gecentreerde modus.",
+      "require-click-for-hover-mode": "Vereist klik voor de selecties van de hovermodus",
+      "require-click-for-hover-mode-info": "Indien ongecontroleerd, worden items onmiddellijk geselecteerd wanneer de muis over hen wordt verplaatst voor menu's met behulp van de hovermodus.",
+      "right-mouse-button-behavior": "Rechtermuisknop",
+      "right-mouse-button-behavior-info": "Dit bepaalt wat er gebeurt als de rechtermuisknop wordt ingedrukt terwijl een menu wordt weergegeven.",
+      "select-item": "Selecteer artikel",
+      "select-parent": "Navigeer één niveau omhoog",
+      "trigger-center-click-on-key-release": "Sluit het menu bij het loslaten van de sneltoets boven het midden",
+      "trigger-center-click-on-key-release-info": "Hierdoor wordt de middenklikworkflow geactiveerd wanneer een toets wordt losgelaten terwijl u over het midden van een menu zweeft."
+    },
+    "hover-mode": "Hover -modus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Zoekpictogrammen…"
+    },
+    "import-menu": "Importmenu",
+    "menu-behavior": "Menugedrag",
+    "menu-conditions": "Menu -omstandigheden",
+    "menu-themes-dialog": {
+      "default-colors": "Standaardkleuren",
+      "enable-menu-animations": "Menu-animaties",
+      "title": "Menu -thema's"
+    },
+    "no-matching-menus": "Geen menu's gevonden.",
+    "no-menus": "Je hebt geen menu's.",
+    "not-bound": "Niet Gebonden",
+    "quick-select-key-label": "Snelkeuzetoets",
+    "quick-select-key-recording": "Sleutel selecteren…",
+    "shortcut-info": "Deze snelkoppeling opent het menu. Het moet één normale sleutel bevatten en een willekeurig aantal modificatoren zoals CTRL, ALT of Shift. Bij het opnemen hoeft u niet op alle toetsen tegelijk te drukken, u kunt ze ook na de ander drukken. Dit is handig als een snelkoppeling al gebonden is aan een ander menu!",
+    "shortcut-label": "Snelkoppeling",
+    "shortcut-recording": "Klik op een snelkoppeling…",
+    "window-condition": "Beperking tot specifieke venstertitels",
+    "workflow-editor": {
+      "add-action": "Actie toevoegen",
+      "select-workflow-name": "Selecteer Werkstroom"
+    },
+    "anchored-mode-info": "Open submenus op dezelfde positie als het bovenliggende menu. Als u dit controleert, wordt de markeringsmodus en turbododus uitgeschakeld.",
+    "fixed-position-mode": "Vaste positiemodus",
+    "fixed-position-mode-info": "Open het menu op een vaste plek op het scherm, in plaats van bij de cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Positie linksonder instellen",
+      "bottom-right-preset-tooltip": "Positie rechtsonder instellen",
+      "centered-preset-tooltip": "Zet de positie op het midden",
+      "confirm": "Gebruik deze positie",
+      "top-left-preset-tooltip": "Positie linksboven instellen",
+      "top-right-preset-tooltip": "Positie rechtsboven instellen"
+    },
+    "fixed-position-tooltip": "Selecteer een vaste positie",
+    "hover-mode-info": "Alleen voor power users! Selecteer items door eroverheen te zweven."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Standaard",
+      "clean-circle": "Eenvoudige cirkel",
+      "neon-lights": "Neonlichten",
+      "purity": "Zuiverheid",
+      "rainbow-labels": "Regenbooglabels"
+    },
+    "presets": {
+      "Blue Glass": "Blauw glas",
+      "Dark Night": "Donkere nacht",
+      "Cotton Candy": "Suikerspin",
+      "Dark and Cozy": "Donker en gezellig",
+      "Blue Glow": "Blauwe gloed",
+      "Green Glow": "Groene gloed",
+      "Electric": "Elektrisch",
+      "Orange": "Oranje",
+      "Pink": "Roze",
+      "Bright Prism": "Helder prisma",
+      "Kando Default": "Standaardkleuren"
+    }
+  }
+}

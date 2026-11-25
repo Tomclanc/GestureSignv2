@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>వేగవంతమైన చర్యలు</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>ప్రత్యేక షార్ట్‌కట్స్‌తో రేడియల్ మెనూనును తెరవండి.</value>
+  </data>
+</root>

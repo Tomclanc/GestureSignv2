@@ -55,7 +55,8 @@ public sealed partial class MainWindow
 
     private async Task EditApplicationAsync(LegacyApplication app)
     {
-        var name = new TextBox { PlaceholderText = T("名称", "Name"), Text = app.Name };
+        var displayName = ApplicationDisplayName(app);
+        var name = new TextBox { PlaceholderText = T("名称", "Name"), Text = displayName };
         var matchText = new TextBox { PlaceholderText = T("窗口标题、类名或 exe", "Window title, class name or executable"), Text = app.MatchString, Margin = new Thickness(0, 8, 0, 0) };
         var group = new TextBox { PlaceholderText = T("分组，可留空", "Group (optional)"), Text = app.Group, Margin = new Thickness(0, 8, 0, 0) };
         var matchUsing = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = app.MatchUsing switch { 1 => 0, 0 => 2, 3 => 2, _ => 1 } };
@@ -82,11 +83,11 @@ public sealed partial class MainWindow
         panel.Children.Add(NewDialogField(T("正则匹配", "Regular expression matching"), T("开启后匹配文本会作为正则表达式处理，例如 chrome|firefox 可匹配多个浏览器。", "Treats the match text as a regular expression. For example, chrome|firefox matches multiple browsers."), regex));
         panel.Children.Add(NewDialogField(T("启用状态", "Enabled"), T("关闭后该程序分组不会参与手势匹配，已有动作会保留。", "Disable gesture matching for this application group while keeping its actions."), enabled));
 
-        if (!await ConfirmDialogAsync(F("编辑 {0}", "Edit {0}", app.Name), panel, T("保存", "Save")))
+        if (!await ConfirmDialogAsync(F("编辑 {0}", "Edit {0}", displayName), panel, T("保存", "Save")))
             return;
 
         var matchUsingValue = matchUsing.SelectedIndex switch { 0 => 1, 1 => 2, 2 => 0, _ => 2 };
-        _legacyData.UpdateApplication(app, name.Text, matchUsingValue, matchText.Text, group.Text, regex.IsChecked ?? false, enabled.IsChecked ?? true, ParseInt(limitFingers.Text, app.LimitNumberOfFingers), ParseInt(blockThreshold.Text, app.BlockTouchInputThreshold));
+        _legacyData.UpdateApplication(app, name.Text == displayName ? app.Name : name.Text, matchUsingValue, matchText.Text, group.Text, regex.IsChecked ?? false, enabled.IsChecked ?? true, ParseInt(limitFingers.Text, app.LimitNumberOfFingers), ParseInt(blockThreshold.Text, app.BlockTouchInputThreshold));
         ReloadData();
     }
 
@@ -97,7 +98,7 @@ public sealed partial class MainWindow
                 string.Format(
                     CultureInfo.CurrentCulture,
                     L("确定删除 {0}？", "Delete {0}?", "確定刪除 {0}？", "{0} 항목을 삭제하시겠습니까?"),
-                    app.Name),
+                    ApplicationDisplayName(app)),
                 DeleteButtonText()))
             return;
         _legacyData.DeleteApplication(app);
@@ -197,17 +198,38 @@ public sealed partial class MainWindow
             if (button != 0) inputSummary.Text += " · " + ActionMouseGestureButtonText(button) + " · " + T("保存时启用此鼠标按键识别", "Enable this mouse button for recognition when saved");
         }
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
-        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: ApplyDetectedInput);
+        GestureTrainingRecording? recording = null;
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: (device, button) =>
+        {
+            recording = null;
+            ApplyDetectedInput(device, button);
+        });
+        var stagePicker = NewGestureStagePicker();
         var trainingStatus = new TextBlock { Text = T("可以直接绘制单指或多指图案，也可以用触控板录制真实轨迹。", "Draw a single- or multi-finger pattern, or record real strokes using the touchpad."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
         var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
+        clearGestureButton.Click += async (_, _) =>
+        {
+            recording = null;
+            if (!_trainingPipeServer.IsRunning) return;
+            await StopEditorTrainingAsync();
+            trainingStatus.Text = T("已取消录制。", "Recording canceled.");
+        };
         trainByTouchpad.Click += async (_, _) =>
         {
+            if (_trainingPipeServer.IsRunning) return;
             var gestureName = ResolveGestureName(gesture, name.Text);
             SetGestureText(gesture, gestureName);
             _pendingTrainingInput = ApplyDetectedInput;
-            await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
+            await StartGestureTrainingForNameAsync(gestureName, stagePicker.SelectedIndex + 1, trainingStatus, result =>
+            {
+                recording = result;
+                showRecordedGesture(result.Stages[0]);
+                drawnPointPatterns.Clear();
+            });
         };
-        var commandName = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = T("发送快捷键", "Send Hotkey"), Margin = new Thickness(0, 8, 0, 0) };
+        var suggestedCommandKey = "Send Hotkey";
+        var suggestedCommandLabel = DisplayName(suggestedCommandKey);
+        var commandName = new TextBox { PlaceholderText = T("命令名称", "Command name"), Text = suggestedCommandLabel, Margin = new Thickness(0, 8, 0, 0) };
         var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = 0 };
         AddPluginItems(commandPlugin);
         var commandPluginDescription = NewPluginDescriptionTextBlock();
@@ -268,11 +290,13 @@ public sealed partial class MainWindow
             gesture,
             selectedGesture =>
             {
+                recording = null;
                 showRecordedGesture(selectedGesture.PointPatterns);
                 drawnPointPatterns.Clear();
             },
             () =>
             {
+                recording = null;
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
@@ -280,6 +304,7 @@ public sealed partial class MainWindow
         panel.Children.Add(drawPanel);
         panel.Children.Add(inputSummary);
         panel.Children.Add(NewContinuousGestureEditor(continuousGestureJson));
+        panel.Children.Add(stagePicker);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         advanced.Children.Add(deviceSelector.Content);
@@ -288,14 +313,18 @@ public sealed partial class MainWindow
         panel.Children.Add(new TextBlock { Text = T("2. 命令：选择要执行的操作", "2. Command: choose an action"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
         advanced.Children.Add(commandName);
         var presets = new ComboBox { Header = T("常用命令", "Common commands"), HorizontalAlignment = HorizontalAlignment.Stretch };
-        foreach (var label in new[] { T("自定义命令", "Custom command"), T("返回", "Back"), T("关闭标签页", "Close tab"), T("复制", "Copy"), T("粘贴", "Paste") }) presets.Items.Add(label);
+        var presetKeys = new[] { "Custom command", "Go Back", "Close Tab", "Copy", "Paste" };
+        presets.Items.Add(T("自定义命令", presetKeys[0]));
+        foreach (var key in presetKeys.Skip(1)) presets.Items.Add(DisplayName(key));
         presets.SelectedIndex = 0;
         presets.SelectionChanged += (_, _) =>
         {
             var keys = presets.SelectedIndex switch { 1 => new[] { 18, 37 }, 2 => new[] { 17, 87 }, 3 => new[] { 17, 67 }, 4 => new[] { 17, 86 }, _ => Array.Empty<int>() };
             if (keys.Length == 0) return;
             commandPlugin.SelectedIndex = 0;
-            commandName.Text = presets.SelectedItem?.ToString() ?? "";
+            suggestedCommandKey = presetKeys[presets.SelectedIndex];
+            suggestedCommandLabel = DisplayName(suggestedCommandKey);
+            commandName.Text = suggestedCommandLabel;
             commandSettings.Text = System.Text.Json.JsonSerializer.Serialize(new { ModifierKeyCodes = new[] { keys[0] }, KeyCode = new[] { keys[1] }, Alt = keys[0] == 18, Control = keys[0] == 17 });
         };
         panel.Children.Add(presets);
@@ -316,6 +345,8 @@ public sealed partial class MainWindow
         panel.Children.Add(validation);
         bool ValidateNewAction()
         {
+            if (_trainingPipeServer.IsRunning)
+            { validation.Text = T("请先完成或清除当前录制。", "Finish or clear the recording first."); return false; }
             CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
             if (!drawnPointPatterns.Any(stroke => stroke.Count >= 2) && string.IsNullOrWhiteSpace(ResolveGestureName(gesture, "")) && mouseHotkey.SelectedIndex <= 0 && string.IsNullOrWhiteSpace(continuousGestureJson.Text))
             { validation.Text = T("请先画一个手势。", "Draw a gesture first."); return false; }
@@ -325,7 +356,7 @@ public sealed partial class MainWindow
             { validation.Text = T("请至少选择一种输入设备。", "Select at least one input device."); return false; }
             return true;
         }
-        try { accepted = await ConfirmDialogAsync(F("给 {0} 添加动作", "Add an action to {0}", app.Name), panel, T("添加", "Add"), ValidateNewAction); }
+        try { accepted = await ConfirmDialogAsync(F("给 {0} 添加动作", "Add an action to {0}", ApplicationDisplayName(app)), panel, T("添加", "Add"), ValidateNewAction); }
         finally { await StopEditorTrainingAsync(); }
         if (!accepted) return;
         if (deviceSelector.Mouse.IsChecked == true && ActionMouseGestureButtonValue(mouseGestureButton) != 0)
@@ -340,10 +371,10 @@ public sealed partial class MainWindow
             .Where(pattern => pattern.Count > 0)
             .Cast<IReadOnlyList<(double X, double Y)>>()
             .ToList();
-        if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
+        if (recording is not null || validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
-            gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, null, validDrawnPointPatterns);
+            gestureName = _legacyData.SaveGestureStagesForAction(gestureName, null, recording?.Stages ?? [validDrawnPointPatterns]);
             SetGestureText(gesture, gestureName);
             _legacyData = LegacyDataStore.Load();
         }
@@ -385,7 +416,9 @@ public sealed partial class MainWindow
                 string.Equals(candidate.Name, actionName, StringComparison.OrdinalIgnoreCase) &&
                 string.Equals(candidate.GestureName, gestureNameValue, StringComparison.OrdinalIgnoreCase));
             if (createdAction is not null)
-                _legacyData.AddCommand(createdAction, commandName.Text, commandPluginClassValue, commandSettingsValue);
+                _legacyData.AddCommand(createdAction,
+                    commandName.Text == suggestedCommandLabel ? suggestedCommandKey : commandName.Text,
+                    commandPluginClassValue, commandSettingsValue);
         }
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
@@ -400,7 +433,8 @@ public sealed partial class MainWindow
     {
         var originalApp = FindApplicationForAction(action);
         var originalActionIndex = originalApp?.Actions.ToList().FindIndex(candidate => ReferenceEquals(candidate.Source, action.Source)) ?? -1;
-        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = DisplayName(action.Name) };
+        var displayName = DisplayName(action.Name);
+        var name = new TextBox { PlaceholderText = T("动作名称", "Action name"), Text = displayName };
         var gesture = new TextBox { PlaceholderText = T("手势名称", "Gesture name"), Margin = new Thickness(0, 8, 0, 0) };
         SetGestureText(gesture, action.GestureName);
         var condition = new TextBox { PlaceholderText = T("触发条件，可留空", "Trigger condition (optional)"), Text = action.Condition, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
@@ -434,15 +468,34 @@ public sealed partial class MainWindow
             if (button != 0) inputSummary.Text += " · " + ActionMouseGestureButtonText(button) + " · " + T("保存时启用此鼠标按键识别", "Enable this mouse button for recognition when saved");
         }
         var drawnPointPatterns = new List<List<(double X, double Y)>>();
-        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: ApplyDetectedInput);
+        GestureTrainingRecording? recording = null;
+        var drawPanel = NewInlineGestureDrawingPanel(drawnPointPatterns, out var showRecordedGesture, out var clearGestureButton, inputDetected: (device, button) =>
+        {
+            recording = null;
+            ApplyDetectedInput(device, button);
+        });
+        var stagePicker = NewGestureStagePicker();
         var trainingStatus = new TextBlock { Text = T("触控板或触控录制会使用后台识别服务捕捉真实多指轨迹。", "Touchpad and touchscreen recording use the background recognition service to capture real multi-finger strokes."), Opacity = 0.68, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 8, 0, 0) };
         var trainByTouchpad = NewPillButton(T("用触控板或触控录制", "Record with touchpad or touchscreen"), false);
+        clearGestureButton.Click += async (_, _) =>
+        {
+            recording = null;
+            if (!_trainingPipeServer.IsRunning) return;
+            await StopEditorTrainingAsync();
+            trainingStatus.Text = T("已取消录制。", "Recording canceled.");
+        };
         trainByTouchpad.Click += async (_, _) =>
         {
+            if (_trainingPipeServer.IsRunning) return;
             var gestureName = ResolveGestureName(gesture, name.Text);
             SetGestureText(gesture, gestureName);
             _pendingTrainingInput = ApplyDetectedInput;
-            await StartGestureTrainingForNameAsync(gestureName, trainingStatus, showRecordedGesture);
+            await StartGestureTrainingForNameAsync(gestureName, stagePicker.SelectedIndex + 1, trainingStatus, result =>
+            {
+                recording = result;
+                showRecordedGesture(result.Stages[0]);
+                drawnPointPatterns.Clear();
+            });
         };
         var panel = NewCardPanel(8);
         // Fixed width: expanding "Advanced options" must not resize the dialog.
@@ -454,17 +507,20 @@ public sealed partial class MainWindow
             gesture,
             selectedGesture =>
             {
+                recording = null;
                 showRecordedGesture(selectedGesture.PointPatterns);
                 drawnPointPatterns.Clear();
             },
             () =>
             {
+                recording = null;
                 showRecordedGesture(Array.Empty<IReadOnlyList<(double X, double Y)>>());
                 drawnPointPatterns.Clear();
             }));
         panel.Children.Add(new TextBlock { Text = T("1. 手势：直接在下面画", "1. Gesture: draw below"), Opacity = 0.68, Margin = new Thickness(0, 12, 0, 6) });
         panel.Children.Add(drawPanel);
         panel.Children.Add(inputSummary);
+        panel.Children.Add(stagePicker);
         panel.Children.Add(NewGestureControlRow(clearGestureButton, trainByTouchpad));
         panel.Children.Add(trainingStatus);
         advanced.Children.Add(NewTwoColumnRow(enabled, activateWindow));
@@ -517,7 +573,15 @@ public sealed partial class MainWindow
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
         bool accepted;
-        try { accepted = await ConfirmDialogAsync(F("编辑动作 {0}", "Edit action {0}", DisplayName(action.Name)), panel, T("保存", "Save")); }
+        try
+        {
+            accepted = await ConfirmDialogAsync(F("编辑动作 {0}", "Edit action {0}", DisplayName(action.Name)), panel, T("保存", "Save"), () =>
+            {
+                if (!_trainingPipeServer.IsRunning) return true;
+                trainingStatus.Text = T("请先完成或清除当前录制。", "Finish or clear the recording first.");
+                return false;
+            });
+        }
         finally { await StopEditorTrainingAsync(); }
         if (!accepted) return;
         if (deviceSelector.Mouse.IsChecked == true && ActionMouseGestureButtonValue(mouseGestureButton) != 0)
@@ -530,10 +594,10 @@ public sealed partial class MainWindow
             .Where(pattern => pattern.Count > 0)
             .Cast<IReadOnlyList<(double X, double Y)>>()
             .ToList();
-        if (validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
+        if (recording is not null || validDrawnPointPatterns.Any(pattern => pattern.Count >= 2))
         {
             var gestureName = ResolveGestureName(gesture, name.Text);
-            gestureName = _legacyData.SaveGesturePointPatternsForAction(gestureName, action, validDrawnPointPatterns);
+            gestureName = _legacyData.SaveGestureStagesForAction(gestureName, action, recording?.Stages ?? [validDrawnPointPatterns]);
             SetGestureText(gesture, gestureName);
             _legacyData = LegacyDataStore.Load();
             if (originalApp is not null)
@@ -560,7 +624,8 @@ public sealed partial class MainWindow
             return;
         }
 
-        _legacyData.UpdateAction(action, name.Text, ResolveGestureName(gesture, mouseHotkey.SelectedIndex > 0 ? "" : name.Text), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text, ActionMouseGestureButtonValue(mouseGestureButton));
+        var savedName = name.Text == displayName ? action.Name : name.Text;
+        _legacyData.UpdateAction(action, savedName, ResolveGestureName(gesture, mouseHotkey.SelectedIndex > 0 ? "" : savedName), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text, ActionMouseGestureButtonValue(mouseGestureButton));
         if (editsCommand)
         {
             CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
@@ -768,13 +833,18 @@ public sealed partial class MainWindow
     {
         var gestures = _legacyData.Gestures
             .OrderBy(item => item.FingerCount)
-            .ThenBy(item => DisplayName(item.Name), StringComparer.CurrentCultureIgnoreCase)
+            .ThenBy(GestureDisplayName, StringComparer.CurrentCultureIgnoreCase)
             .ToArray();
         var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
         combo.Items.Add(L("选择已录制手势", "Choose recorded gesture", "選擇已錄製手勢", "녹화된 제스처 선택"));
         foreach (var item in gestures)
         {
-            combo.Items.Add($"{DisplayName(item.Name)} · {CountText(item.FingerCount, L("指", "finger(s)", "指", "손가락"))}");
+            var option = new ComboBoxItem
+            {
+                Content = $"{GestureDisplayName(item)} · {CountText(item.FingerCount, L("指", "finger(s)", "指", "손가락"))}"
+            };
+            ToolTipService.SetToolTip(option, item.Name);
+            combo.Items.Add(option);
         }
 
         var currentGestureName = ResolveGestureName(gesture, gesture.Text);
@@ -821,7 +891,7 @@ public sealed partial class MainWindow
         if (string.IsNullOrWhiteSpace(text))
             return fallback;
 
-        if (gesture.Tag is string tag && BuiltInGestureIndex(tag) > 0 &&
+        if (gesture.Tag is string tag &&
             (string.Equals(text, tag, StringComparison.OrdinalIgnoreCase) ||
              string.Equals(text, BuiltInGestureDisplayName(tag), StringComparison.OrdinalIgnoreCase)))
             return tag;
@@ -839,13 +909,16 @@ public sealed partial class MainWindow
     private void SetGestureText(TextBox gesture, string gestureName)
     {
         gesture.Text = BuiltInGestureDisplayName(gestureName);
-        gesture.Tag = BuiltInGestureIndex(gestureName) > 0 ? gestureName : null;
+        gesture.Tag = gestureName;
     }
 
     private string BuiltInGestureDisplayName(string gestureName)
     {
         var index = BuiltInGestureIndex(gestureName);
-        return index > 0 ? BuiltInGestureDisplayNameFromIndex(index) : gestureName;
+        if (index > 0) return BuiltInGestureDisplayNameFromIndex(index);
+        var recorded = _legacyData.Gestures.FirstOrDefault(item =>
+            string.Equals(item.Name, gestureName, StringComparison.OrdinalIgnoreCase));
+        return recorded is null ? gestureName : GestureDisplayName(recorded);
     }
 
     private string BuiltInGestureDisplayNameFromIndex(int index, string fallback = "")
@@ -1112,8 +1185,9 @@ public sealed partial class MainWindow
 
     private async Task EditCommandAsync(LegacyCommand command)
     {
-        var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = command.Name };
-        var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
+        var displayName = DisplayName(command.Name);
+        var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = displayName };
+        var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
         plugin.SelectedIndex = PluginIndex(command.PluginClass);
         var pluginDescription = NewPluginDescriptionTextBlock();
@@ -1147,11 +1221,11 @@ public sealed partial class MainWindow
         UpdateCommandEditorVisibility(command.PluginClass, pluginClass, hotkey, settings, appPicker);
         UpdatePluginDescription(pluginDescription, command.PluginClass);
         UpdateTypedCommandSettingsEditor(typedSettings, command.PluginClass, settings.Text);
-        if (!await ConfirmDialogAsync(IntentText("编辑", "Edit") + " · " + command.Name, panel, IntentText("保存", "Save")))
+        if (!await ConfirmDialogAsync(IntentText("编辑", "Edit") + " · " + displayName, panel, IntentText("保存", "Save")))
             return;
 
         CommitSelectedAppCommandChoice(appPicker, plugin, pluginClass, settings);
-        _legacyData.UpdateCommand(command, name.Text, pluginClass.Text, settings.Text, enabled.IsChecked ?? true);
+        _legacyData.UpdateCommand(command, name.Text == displayName ? command.Name : name.Text, pluginClass.Text, settings.Text, enabled.IsChecked ?? true);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly();
     }
@@ -1176,6 +1250,14 @@ public sealed partial class MainWindow
         var panel = new StackPanel { Spacing = 8 };
         var recorder = NewHotKeyRecorder(settings, existingSettings);
         panel.Children.Add(recorder);
+        var windowsReserved = new InfoBar
+        {
+            IsClosable = false,
+            Severity = InfoBarSeverity.Warning,
+            Message = L("Ctrl+Alt+Delete 是 Windows 安全快捷键，无法用手势发送。", "Ctrl+Alt+Delete is reserved by Windows and cannot be sent by a gesture.", "Ctrl+Alt+Delete 是 Windows 安全快速鍵，無法用手勢傳送。", "Ctrl+Alt+Delete는 Windows 보안 단축키로 제스처에서 보낼 수 없습니다."),
+            IsOpen = IsSecureAttentionCommand(existingSettings)
+        };
+        panel.Children.Add(windowsReserved);
         var keys = new Grid { ColumnSpacing = 8 };
         var codes = new[] {162, 163, 91, 92};
         for (int index = 0; index < codes.Length; index++)
@@ -1205,8 +1287,28 @@ public sealed partial class MainWindow
         settings.TextChanged += (_, _) =>
         {
             if (!ReferenceEquals(_activeHotKeyRecorder, recorder)) recorder.Text = HotKeyDisplayText(settings.Text);
+            windowsReserved.IsOpen = IsSecureAttentionCommand(settings.Text);
         };
         return panel;
+    }
+
+    private static bool IsSecureAttentionCommand(string settings)
+    {
+        if (string.IsNullOrWhiteSpace(settings)) return false;
+        try
+        {
+            if (JsonNode.Parse(settings) is not JsonObject root) return false;
+            int Mask(string key, int flag) => root[key]?.GetValue<bool>() == true ? flag : 0;
+            static int[] ReadCodes(JsonNode? node) => node is JsonArray array
+                ? array.Select(value => value?.GetValue<int>() ?? 0).ToArray()
+                : node is JsonValue scalar && scalar.TryGetValue<int>(out var code) ? new[] { code } : Array.Empty<int>();
+            int mask = Mask("Alt", 1) | Mask("Control", 2) | Mask("Shift", 4) | Mask("Windows", 8);
+            return GestureSign.Shortcuts.ShortcutKeys.IsSecureAttentionShortcut(mask,
+                ReadCodes(root["ModifierKeyCodes"]), ReadCodes(root["KeyCode"]));
+        }
+        catch (System.Text.Json.JsonException) { return false; }
+        catch (InvalidOperationException) { return false; }
+        catch (FormatException) { return false; }
     }
 
     private TextBox NewHotKeyRecorder(TextBox settings, string existingSettings, bool usesArrayKeyCode = true, Action<string>? onRecorded = null)

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "ই-মেইল",
+      "file-browser": "ফাইল ব্রাউজার",
+      "paint": "পেইন্ট",
+      "submenu": "অ্যাপস",
+      "terminal": "টার্মিনাল",
+      "web-browser": "ওয়েব ব্রাউজার"
+    },
+    "audio": {
+      "mute": "নীরব করুন",
+      "next-track": "পরবর্তী ট্র্যাক",
+      "play-pause": "প্লে/পজ",
+      "previous-track": "পূর্ববর্তী ট্র্যাক",
+      "submenu": "অডিও"
+    },
+    "bookmarks": {
+      "desktop": "ডেস্কটপ",
+      "documents": "নথিপত্র",
+      "downloads": "ডাউনলোড",
+      "home": "বাড়ি",
+      "music": "সঙ্গীত",
+      "pictures": "ছবি",
+      "submenu": "বুকমার্ক",
+      "videos": "ভিডিও"
+    },
+    "clipboard": {
+      "copy": "কপি",
+      "cut": "কেটে ফেলা",
+      "paste": "আটকান (Paste)",
+      "submenu": "ক্লিপবোর্ড"
+    },
+    "name": "উদাহরণ মেনু",
+    "next-workspace": "পরবর্তী কর্মক্ষেত্র",
+    "previous-workspace": "পূর্ববর্তী কর্মক্ষেত্র",
+    "web-links": {
+      "kando-on-discord": "কান্দো অন ডিসকর্ড",
+      "kando-on-github": "GitHub-এ কান্দো",
+      "kando-on-kofi": "কো-ফাইতে কান্দো",
+      "kando-on-youtube": "ইউটিউবে কান্দো",
+      "submenu": "ওয়েব লিঙ্ক"
+    },
+    "windows": {
+      "close-window": "উইন্ডো বন্ধ করুন",
+      "submenu": "উইন্ডোজ",
+      "tile-left": "টাইল বাম",
+      "tile-right": "টাইল ডান",
+      "toggle-maximize": "টগল ম্যাক্সিমাইজ করুন"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "মেনু বন্ধ করুন"
+    },
+    "close-submenu": {
+      "name": "সাবমেনু বন্ধ করুন"
+    },
+    "delay": {
+      "name": "বিলম্ব"
+    },
+    "execute-command": {
+      "name": "কমান্ড চালান"
+    },
+    "execute-macro": {
+      "name": "ম্যাক্রো চালান"
+    },
+    "focus-window": {
+      "name": "ফোকাস উইন্ডো"
+    },
+    "inhibit-shortcuts": {
+      "name": "শর্টকাট বাধা দিন"
+    },
+    "open-file": {
+      "name": "ফাইল খুলুন"
+    },
+    "open-menu": {
+      "name": "মেনু খুলুন"
+    },
+    "open-settings": {
+      "name": "সেটিংস খুলুন"
+    },
+    "open-uri": {
+      "name": "URI খুলুন"
+    },
+    "send-tcp-message": {
+      "name": "TCP বার্তা পাঠান"
+    },
+    "send-websocket-message": {
+      "name": "ওয়েবসকেট বার্তা পাঠান"
+    },
+    "set-clipboard": {
+      "name": "ক্লিপবোর্ড সেট করুন"
+    },
+    "simulate-hotkey": {
+      "hotkey": "হটকি",
+      "name": "হটকি অনুকরণ",
+      "recording-placeholder": "একটি হটকি টাইপ করুন..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "সাবমেনু"
+    }
+  },
+  "native": {
+    "action": "অ্যাকশন",
+    "action-value": "শর্টকাট, পথ, URL, পাঠ্য বা JSON",
+    "choose-icon": "আইকন নির্বাচন করুন",
+    "condition-invalid": "একটি বৈধ উইন্ডো বা অ্যাপের শর্ত লিখুন, উদাহরণস্বরূপ /notepad/i।",
+    "configuration": "পাই মেনু কনফিগারেশন",
+    "editor": "পাই মেনু সম্পাদক",
+    "exported": "{0} এ রপ্তানি করা হয়েছে",
+    "fixed-angle": "স্থির কোণ (0° = উপরে)",
+    "fixed-x": "ফিক্সড এক্স (মনিটর জুড়ে 0-1)",
+    "fixed-y": "স্থির Y (0-1 মনিটরের নিচে)",
+    "icon-invalid-image": "192 KB পর্যন্ত একটি PNG, JPEG, GIF, WebP, বা ICO ছবি বেছে নিন।",
+    "icon-library": "আইকন লাইব্রেরি",
+    "icon-next": "পরবর্তী আইকন",
+    "icon-no-results": "কোন আইকন পাওয়া যায়নি.",
+    "icon-pick-file": "ছবি বা অ্যাপ বেছে নিন",
+    "icon-previous": "আগের আইকন",
+    "icon-use-image": "ছবি ব্যবহার করুন",
+    "imported": "আমদানি করা {0} মেনু(গুলি)। তাদের ব্যবহার করার আগে আমদানি করা কমান্ড পর্যালোচনা করুন, তারপর সংরক্ষণ করুন।",
+    "item-icon": "আইটেম আইকন",
+    "item-order": "আইটেম অর্ডার",
+    "label": "লেবেল",
+    "move-down": "নিচে সরান",
+    "move-up": "উপরে সরান",
+    "name": "মেনু নাম",
+    "new-menu": "নতুন মেনু",
+    "off": "বন্ধ",
+    "on": "চালু",
+    "palette": "রঙ প্যালেট",
+    "preview": "পূর্বরূপ মেনু",
+    "remove": "সরান",
+    "save": "মেনু সংরক্ষণ করুন",
+    "saved": "মেনু কনফিগারেশন সংরক্ষিত.",
+    "shortcut-clear": "শর্টকাট পরিষ্কার করুন",
+    "shortcut-cleared": "শর্টকাট সাফ করা হয়েছে।",
+    "shortcut-config-changed": "ডিস্কে মেনু কনফিগারেশন পরিবর্তিত হয়েছে। এই শর্টকাট প্রয়োগ করতে বর্তমান মেনুগুলি সংরক্ষণ করুন৷",
+    "shortcut-in-use": "উইন্ডোজ রিপোর্ট করে যে এই শর্টকাটটি ইতিমধ্যেই ব্যবহার করা হচ্ছে৷",
+    "shortcut-invalid": "এই শর্টকাটের জন্য অনুমোদিত যেকোনো মডিফায়ার ছাড়াও একটি কী লিখুন।",
+    "shortcut-record": "রেকর্ড শর্টকাট",
+    "shortcut-save-new-menu": "এর শর্টকাট সক্রিয় করতে এই নতুন মেনুটি সংরক্ষণ করুন।",
+    "shortcut-saved": "শর্টকাট সংরক্ষিত: {0}। কুইক অ্যাকশন চালু থাকলে মেনু খুলতে এটি ব্যবহার করুন।",
+    "shortcut-stop": "রেকর্ডিং বন্ধ করুন",
+    "shortcut-unavailable": "উইন্ডোজ এই শর্টকাটটি নিবন্ধন করতে পারেনি।"
+  },
+  "settings": {
+    "add-menu-items": "মেনু আইটেম যোগ করুন",
+    "all-menus": "সমস্ত মেনু",
+    "anchored-mode": "অ্যাঙ্কর করা মোড",
+    "app-condition": "নির্দিষ্ট অ্যাপে সীমাবদ্ধ",
+    "area-condition-bottom-placeholder": "নিচ",
+    "area-condition-left-placeholder": "বাম",
+    "area-condition-right-placeholder": "ডান",
+    "area-condition-top-placeholder": "শীর্ষ",
+    "cancel": "বাতিল করুন",
+    "create-menu-button": "মেনু যোগ করুন",
+    "delete-menu": "মেনু মুছুন",
+    "delete-menu-item": "মেনু আইটেম মুছুন",
+    "edit-submenu": "সাবমেনু সম্পাদনা করুন",
+    "export-menu": "রপ্তানি মেনু",
+    "general-settings-dialog": {
+      "enable-marking-mode": "চিহ্নিতকরণ মোড সক্ষম করুন",
+      "close-menu": "মেনু বন্ধ করুন",
+      "do-nothing": "কিছুই করবেন না",
+      "enable-marking-mode-info": "চিহ্নিতকরণ মোড সক্ষম হলে, আপনি আইটেমগুলিকে মাউস টেনে নিয়ে নির্বাচন করতে পারেন৷",
+      "enable-turbo-mode": "টার্বো মোড সক্ষম করুন",
+      "enable-turbo-mode-info": "টার্বো মোড সক্ষম হলে, যতক্ষণ আপনি Shift বা Ctrl-এর মতো একটি মডিফায়ার কী চেপে ধরে থাকবেন ততক্ষণ আপনি অঙ্গভঙ্গি সম্পাদন করতে পারবেন।",
+      "interaction-modes": "মিথস্ক্রিয়া মোড",
+      "middle-mouse-button-behavior": "মাঝের মাউস বোতাম",
+      "middle-mouse-button-behavior-info": "এটি নির্ধারণ করে যখন একটি মেনু দেখানোর সময় মাঝের মাউস বোতাম টিপলে কী ঘটবে।",
+      "move-pointer-to-menu-center": "পয়েন্টারটি মেনু কেন্দ্রে সরান",
+      "move-pointer-to-menu-center-info": "চেক করা থাকলে, প্রয়োজনে মাউস পয়েন্টার একটি মেনু বা সাবমেনুর কেন্দ্রে সরানো হবে। যদি একটি মেনু পর্দার প্রান্তের খুব কাছাকাছি খোলা হয় বা কেন্দ্রীভূত মোডে একটি মেনু খোলা হয় তাহলে এটি হতে পারে।",
+      "require-click-for-hover-mode": "হোভার মোড নির্বাচনের জন্য ক্লিক করতে হবে",
+      "require-click-for-hover-mode-info": "যদি চেক না করা থাকে, হোভার মোড ব্যবহার করে মেনুগুলির জন্য মাউসটি তাদের উপর সরানো হলে আইটেমগুলি অবিলম্বে নির্বাচন করা হবে।",
+      "right-mouse-button-behavior": "ডান মাউস বোতাম",
+      "right-mouse-button-behavior-info": "এটি নির্ধারণ করে যখন একটি মেনু দেখানোর সময় ডান মাউস বোতাম টিপলে কী ঘটবে।",
+      "select-item": "আইটেম নির্বাচন করুন",
+      "select-parent": "একটি স্তর উপরে নেভিগেট করুন",
+      "trigger-center-click-on-key-release": "কেন্দ্রে শর্টকাট রিলিজের উপর মেনু বন্ধ করুন",
+      "trigger-center-click-on-key-release-info": "এটি একটি মেনুর কেন্দ্রে ঘোরাঘুরি করার সময় একটি কী প্রকাশ করার সময় কেন্দ্র-ক্লিক ওয়ার্কফ্লোকে ট্রিগার করবে।"
+    },
+    "hover-mode": "হোভার মোড",
+    "icon-picker-dialog": {
+      "search-placeholder": "আইকন অনুসন্ধান করুন..."
+    },
+    "import-menu": "আমদানি মেনু",
+    "menu-behavior": "মেনু আচরণ",
+    "menu-conditions": "মেনু শর্তাবলী",
+    "menu-themes-dialog": {
+      "default-colors": "ডিফল্ট রং",
+      "enable-menu-animations": "মেনু অ্যানিমেশন",
+      "title": "মেনু থিম"
+    },
+    "no-matching-menus": "কোনো মেনু পাওয়া যায়নি।",
+    "no-menus": "আপনার কোন মেনু নেই।",
+    "not-bound": "আবদ্ধ নয়",
+    "quick-select-key-label": "দ্রুত-নির্বাচন কী",
+    "quick-select-key-recording": "কী নির্বাচন করুন...",
+    "shortcut-info": "এই শর্টকাট মেনু খোলে। এটিতে অবশ্যই একটি সাধারণ কী এবং Ctrl, Alt বা Shift এর মতো যেকোন সংখ্যক মডিফায়ার থাকতে হবে। রেকর্ডিং করার সময়, আপনাকে একবারে সমস্ত কী টিপতে হবে না, আপনি সেগুলিকে একের পর এক টিপতে পারেন। এটি দরকারী যদি একটি শর্টকাট ইতিমধ্যেই অন্য মেনুতে আবদ্ধ থাকে!",
+    "shortcut-label": "শর্টকাট",
+    "shortcut-recording": "একটি শর্টকাট টিপুন...",
+    "window-condition": "নির্দিষ্ট উইন্ডো শিরোনাম সীমাবদ্ধ",
+    "workflow-editor": {
+      "add-action": "অ্যাকশন যোগ করুন",
+      "select-workflow-name": "ওয়ার্কফ্লো নির্বাচন করুন"
+    },
+    "anchored-mode-info": "মূল মেনু হিসাবে একই অবস্থানে সাবমেনু খুলুন। এটি পরীক্ষা করা, চিহ্নিতকরণ মোড এবং টার্বো মোড অক্ষম করবে।",
+    "fixed-position-mode": "স্থির অবস্থান মোড",
+    "fixed-position-mode-info": "কার্সারের পরিবর্তে স্ক্রিনে একটি নির্দিষ্ট অবস্থানে মেনু খুলুন।",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "নীচে বাম দিকে অবস্থান সেট করুন",
+      "bottom-right-preset-tooltip": "নীচে ডানদিকে অবস্থান সেট করুন",
+      "centered-preset-tooltip": "কেন্দ্রে অবস্থান সেট করুন",
+      "confirm": "এই অবস্থান ব্যবহার করুন",
+      "top-left-preset-tooltip": "উপরের বাম দিকে অবস্থান সেট করুন",
+      "top-right-preset-tooltip": "উপরের ডানদিকে অবস্থান সেট করুন"
+    },
+    "fixed-position-tooltip": "একটি নির্দিষ্ট অবস্থান নির্বাচন করুন",
+    "hover-mode-info": "শুধুমাত্র বিদ্যুৎ ব্যবহারকারীদের জন্য! তাদের উপর হোভার করে আইটেম নির্বাচন করুন."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "ডিফল্ট",
+      "clean-circle": "ক্লিন সার্কেল",
+      "neon-lights": "নিয়ন লাইট",
+      "purity": "বিশুদ্ধতা",
+      "rainbow-labels": "রংধনু লেবেল"
+    },
+    "presets": {
+      "Blue Glass": "নীল গ্লাস",
+      "Dark Night": "অন্ধকার রাত",
+      "Cotton Candy": "কটন ক্যান্ডি",
+      "Dark and Cozy": "অন্ধকার এবং আরামদায়ক",
+      "Blue Glow": "নীল আভা",
+      "Green Glow": "সবুজ আভা",
+      "Electric": "বৈদ্যুতিক",
+      "Orange": "কমলা",
+      "Pink": "গোলাপী",
+      "Bright Prism": "উজ্জ্বল প্রিজম",
+      "Kando Default": "ডিফল্ট রং"
+    }
+  }
+}

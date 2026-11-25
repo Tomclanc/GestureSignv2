@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="QuickActions" xml:space="preserve">
+    <value>Ātrās darbības</value>
+  </data>
+  <data name="QuickActionsDescription" xml:space="preserve">
+    <value>Atveriet radiālo izvēlni ar īpašiem īsinājumtaustiņiem.</value>
+  </data>
+</root>

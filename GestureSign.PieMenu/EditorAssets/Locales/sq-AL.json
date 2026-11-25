@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Shfletuesi i skedarëve",
+      "paint": "Bojë",
+      "submenu": "Aplikacionet",
+      "terminal": "Terminali",
+      "web-browser": "Shfletuesi i uebit"
+    },
+    "audio": {
+      "mute": "Hesht",
+      "next-track": "Kënga tjetër",
+      "play-pause": "Luaj / Ndalo",
+      "previous-track": "Kënga e mëparshme",
+      "submenu": "Audio"
+    },
+    "bookmarks": {
+      "desktop": "Desktopi",
+      "documents": "Dokumentet",
+      "downloads": "Shkarkimet",
+      "home": "Shtëpi",
+      "music": "Muzikë",
+      "pictures": "Fotot",
+      "submenu": "Faqerojtësit",
+      "videos": "Videot"
+    },
+    "clipboard": {
+      "copy": "Kopjo",
+      "cut": "Prerë",
+      "paste": "Ngjit",
+      "submenu": "Clipboard"
+    },
+    "name": "Shembull Menu",
+    "next-workspace": "Hapësira tjetër e punës",
+    "previous-workspace": "Hapësira e mëparshme e punës",
+    "web-links": {
+      "kando-on-discord": "Kando në mosmarrëveshje",
+      "kando-on-github": "Kando në GitHub",
+      "kando-on-kofi": "Kando në Ko-fi",
+      "kando-on-youtube": "Kando në YouTube",
+      "submenu": "Lidhjet në ueb"
+    },
+    "windows": {
+      "close-window": "Mbyll Dritaren",
+      "submenu": "Dritaret",
+      "tile-left": "Pllakë majtas",
+      "tile-right": "Pllakë djathtas",
+      "toggle-maximize": "Aktivizo Maksimizimi"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Mbyll Menunë"
+    },
+    "close-submenu": {
+      "name": "Mbyll nënmenynë"
+    },
+    "delay": {
+      "name": "Vonesa"
+    },
+    "execute-command": {
+      "name": "Ekzekutoni Komandën"
+    },
+    "execute-macro": {
+      "name": "Ekzekutoni makro"
+    },
+    "focus-window": {
+      "name": "Dritarja e fokusit"
+    },
+    "inhibit-shortcuts": {
+      "name": "Ndaloni shkurtoret"
+    },
+    "open-file": {
+      "name": "Hapni Skedarin"
+    },
+    "open-menu": {
+      "name": "Hap Menunë"
+    },
+    "open-settings": {
+      "name": "Hapni Cilësimet"
+    },
+    "open-uri": {
+      "name": "Hap URI"
+    },
+    "send-tcp-message": {
+      "name": "Dërgo mesazh TCP"
+    },
+    "send-websocket-message": {
+      "name": "Dërgo mesazh WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Cakto Clipboard"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Çelës i shkurtër",
+      "name": "Simuloni çelësin e nxehtësisë",
+      "recording-placeholder": "Shkruani një çelës kyç…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Nënmenyja"
+    }
+  },
+  "native": {
+    "action": "Veprimi",
+    "action-value": "Shkurtorja, shtegu, URL-ja, teksti ose JSON",
+    "choose-icon": "Zgjidhni ikonën",
+    "condition-invalid": "Fut një dritare të vlefshme ose kusht aplikacioni, për shembull /notepad/i.",
+    "configuration": "Konfigurimi i menysë së byrekut",
+    "editor": "Redaktori i menusë së byrekut",
+    "exported": "Eksportuar në {0}",
+    "fixed-angle": "Këndi fiks (0° = lart)",
+    "fixed-x": "X i fiksuar (0–1 në të gjithë monitorin)",
+    "fixed-y": "U rregullua Y (0–1 poshtë monitorit)",
+    "icon-invalid-image": "Zgjidhni një imazh PNG, JPEG, GIF, WebP ose ICO deri në 192 KB.",
+    "icon-library": "Biblioteka e ikonave",
+    "icon-next": "Ikonat e radhës",
+    "icon-no-results": "Nuk u gjetën ikona.",
+    "icon-pick-file": "Zgjidhni imazhin ose aplikacionin",
+    "icon-previous": "Ikonat e mëparshme",
+    "icon-use-image": "Përdorni imazhin",
+    "imported": "U importuan {0} menu(a). Rishikoni komandat e importuara përpara se t'i përdorni, më pas ruani.",
+    "item-icon": "Ikona e artikullit",
+    "item-order": "Renditja e artikujve",
+    "label": "Etiketa",
+    "move-down": "Lëvizni poshtë",
+    "move-up": "Lëvizni lart",
+    "name": "Emri i menysë",
+    "new-menu": "Menu e re",
+    "off": "Çaktivizo",
+    "on": "Aktivizo",
+    "palette": "Paleta e ngjyrave",
+    "preview": "Menyja paraprake",
+    "remove": "Hiq",
+    "save": "Ruaj menutë",
+    "saved": "Konfigurimi i menysë u ruajt.",
+    "shortcut-clear": "Pastro shkurtoren",
+    "shortcut-cleared": "Shkurtorja u pastrua.",
+    "shortcut-config-changed": "Konfigurimi i menysë ndryshoi në disk. Ruani menutë aktuale për të aplikuar këtë shkurtore.",
+    "shortcut-in-use": "Windows raporton se kjo shkurtore është tashmë në përdorim.",
+    "shortcut-invalid": "Fut një çelës, plus çdo modifikues të lejuar për këtë shkurtore.",
+    "shortcut-record": "Shkurtorja e regjistrimit",
+    "shortcut-save-new-menu": "Ruaje këtë meny të re për të aktivizuar shkurtoren e saj.",
+    "shortcut-saved": "Shkurtorja u ruajt: {0}. Përdoreni atë për të hapur menynë kur janë aktivizuar Veprimet e shpejta.",
+    "shortcut-stop": "Ndalo regjistrimin",
+    "shortcut-unavailable": "Windows nuk mund ta regjistronte këtë shkurtore."
+  },
+  "settings": {
+    "add-menu-items": "Shto artikuj të menysë",
+    "all-menus": "Të gjitha menutë",
+    "anchored-mode": "Modaliteti i ankoruar",
+    "app-condition": "Kufizoni në aplikacione specifike",
+    "area-condition-bottom-placeholder": "Poshtë",
+    "area-condition-left-placeholder": "Majtas",
+    "area-condition-right-placeholder": "Djathtas",
+    "area-condition-top-placeholder": "E Sipërme",
+    "cancel": "Anulo",
+    "create-menu-button": "Shto meny",
+    "delete-menu": "Fshi menunë",
+    "delete-menu-item": "Fshi artikullin e menysë",
+    "edit-submenu": "Redakto nënmenynë",
+    "export-menu": "Menyja e eksportit",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Aktivizo modalitetin e shënimit",
+      "close-menu": "Mbyll menunë",
+      "do-nothing": "Mos bëni asgjë",
+      "enable-marking-mode-info": "Me modalitetin e shënimit të aktivizuar, mund të zgjidhni artikujt duke zvarritur miun mbi to.",
+      "enable-turbo-mode": "Aktivizo modalitetin Turbo",
+      "enable-turbo-mode-info": "Me modalitetin Turbo të aktivizuar, mund të kryeni gjeste për sa kohë që mbani të shtypur një tast modifikues si Shift ose Ctrl.",
+      "interaction-modes": "Mënyrat e ndërveprimit",
+      "middle-mouse-button-behavior": "Butoni i mesëm i miut",
+      "middle-mouse-button-behavior-info": "Kjo përcakton se çfarë ndodh kur shtypet butoni i mesëm i miut ndërsa shfaqet një menu.",
+      "move-pointer-to-menu-center": "Zhvendosni treguesin në qendrën e menysë",
+      "move-pointer-to-menu-center-info": "Nëse zgjidhet, treguesi i miut do të zhvendoset në qendër të një menyje ose nënmenyje kur është e nevojshme. Ky mund të ndodhë nëse një meny hapet shumë afër skajit të ekranit ose nëse një meny hapet në modalitetin në qendër.",
+      "require-click-for-hover-mode": "Kërkoni klikim për zgjedhjet e Modalitetit Hover",
+      "require-click-for-hover-mode-info": "Nëse nuk zgjidhet, artikujt do të zgjidhen menjëherë kur miu të zhvendoset mbi to për menutë duke përdorur \"Modalitetin Hover\".",
+      "right-mouse-button-behavior": "Butoni i djathtë i miut",
+      "right-mouse-button-behavior-info": "Kjo përcakton se çfarë ndodh kur shtypet butoni i djathtë i miut ndërsa shfaqet një menu.",
+      "select-item": "Zgjidhni artikullin",
+      "select-parent": "Lundroni lart një nivel",
+      "trigger-center-click-on-key-release": "Mbyllni menynë në lëshimin e shkurtoreve mbi qendër",
+      "trigger-center-click-on-key-release-info": "Kjo do të aktivizojë rrjedhën e punës së klikimit qendror kur një çelës lëshohet ndërsa qëndron pezull mbi qendër të një menyje."
+    },
+    "hover-mode": "Modaliteti i pezullimit",
+    "icon-picker-dialog": {
+      "search-placeholder": "Kërko ikonat…"
+    },
+    "import-menu": "Menyja e importit",
+    "menu-behavior": "Sjellja e menysë",
+    "menu-conditions": "Kushtet e menysë",
+    "menu-themes-dialog": {
+      "default-colors": "Ngjyrat e paracaktuara",
+      "enable-menu-animations": "Animacionet e menysë",
+      "title": "Temat e menysë"
+    },
+    "no-matching-menus": "Nuk u gjet asnjë menu.",
+    "no-menus": "Ju nuk keni menu.",
+    "not-bound": "Jo i lidhur",
+    "quick-select-key-label": "Tasti i zgjedhjes së shpejtë",
+    "quick-select-key-recording": "Zgjidh tastin…",
+    "shortcut-info": "Kjo shkurtore hap menynë. Ai duhet të përmbajë një çelës normal dhe çdo numër modifikuesish si Ctrl, Alt ose Shift. Gjatë regjistrimit, nuk është e nevojshme të shtypni të gjithë tastet menjëherë, por gjithashtu mund t'i shtypni ato njëri pas tjetrit. Kjo është e dobishme nëse një shkurtore është tashmë e lidhur me një menu tjetër!",
+    "shortcut-label": "Shkurtore",
+    "shortcut-recording": "Shtypni një shkurtore…",
+    "window-condition": "Kufizoni titujt e dritareve specifike",
+    "workflow-editor": {
+      "add-action": "Shto Veprim",
+      "select-workflow-name": "Zgjidhni rrjedhën e punës"
+    },
+    "anchored-mode-info": "Hapni nënmenutë në të njëjtin pozicion si menyja prindërore. Kontrollimi i kësaj do të çaktivizojë modalitetin e shënimit dhe modalitetin Turbo.",
+    "fixed-position-mode": "Modaliteti i pozicionit fiks",
+    "fixed-position-mode-info": "Hapni menunë në një pozicion fiks në ekran, në vend të kursorit.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Vendosni pozicionin poshtë majtas",
+      "bottom-right-preset-tooltip": "Vendosni pozicionin poshtë djathtas",
+      "centered-preset-tooltip": "Vendosni pozicionin në qendër",
+      "confirm": "Përdoreni këtë pozicion",
+      "top-left-preset-tooltip": "Vendosni pozicionin lart majtas",
+      "top-right-preset-tooltip": "Vendosni pozicionin lart djathtas"
+    },
+    "fixed-position-tooltip": "Zgjidhni një pozicion fiks",
+    "hover-mode-info": "Vetëm për përdoruesit e fuqisë! Zgjidhni artikujt duke qëndruar pezull mbi to."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "E paracaktuar",
+      "clean-circle": "Rrethi i pastër",
+      "neon-lights": "Dritat neoni",
+      "purity": "Pastërti",
+      "rainbow-labels": "Etiketat e Ylberit"
+    },
+    "presets": {
+      "Blue Glass": "Xham blu",
+      "Dark Night": "Natë e errët",
+      "Cotton Candy": "Karamele pambuku",
+      "Dark and Cozy": "E errët dhe komode",
+      "Blue Glow": "Shkëlqim blu",
+      "Green Glow": "Shkëlqim jeshil",
+      "Electric": "Elektrike",
+      "Orange": "Portokalli",
+      "Pink": "Rozë",
+      "Bright Prism": "Prizma e ndritur",
+      "Kando Default": "Ngjyrat e paracaktuara"
+    }
+  }
+}

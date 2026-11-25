@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "R-phost",
+      "file-browser": "Brabhsálaí Comhad",
+      "paint": "Péinteáil",
+      "submenu": "Feidhmchláir",
+      "terminal": "Teirminéal",
+      "web-browser": "Brabhsálaí Gréasáin"
+    },
+    "audio": {
+      "mute": "Ciúnas",
+      "next-track": "An chéad Traic eile",
+      "play-pause": "Seinn / Sos",
+      "previous-track": "Rian Roimhe",
+      "submenu": "Fuaime"
+    },
+    "bookmarks": {
+      "desktop": "Deasc",
+      "documents": "Doiciméid",
+      "downloads": "Íoslódálacha",
+      "home": "Baile",
+      "music": "Ceol",
+      "pictures": "Pictiúir",
+      "submenu": "Leabharmharcanna",
+      "videos": "Físeáin"
+    },
+    "clipboard": {
+      "copy": "Cóipeáil",
+      "cut": "Gearr",
+      "paste": "Cuir isteach",
+      "submenu": "Gearrthaisce"
+    },
+    "name": "Roghchlár Samplach",
+    "next-workspace": "An Chéad Spás Oibre Eile",
+    "previous-workspace": "Spás Oibre Roimhe Seo",
+    "web-links": {
+      "kando-on-discord": "Kando ar Discord",
+      "kando-on-github": "Kando ar GitHub",
+      "kando-on-kofi": "Kando ar Ko-fi",
+      "kando-on-youtube": "Kando ar YouTube",
+      "submenu": "Naisc Ghréasáin"
+    },
+    "windows": {
+      "close-window": "Dún Fhuinneog",
+      "submenu": "Windows",
+      "tile-left": "Tíl Chlé",
+      "tile-right": "Tíleanna Ceart",
+      "toggle-maximize": "Scoránaigh Uasmhéadaigh"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Dún Roghchlár"
+    },
+    "close-submenu": {
+      "name": "Dún Fo-Roghchlár"
+    },
+    "delay": {
+      "name": "Múchadh"
+    },
+    "execute-command": {
+      "name": "Rith Ordú"
+    },
+    "execute-macro": {
+      "name": "Rith Macra"
+    },
+    "focus-window": {
+      "name": "Fuinneog Fócais"
+    },
+    "inhibit-shortcuts": {
+      "name": "Cosc a chur ar Aicearraí"
+    },
+    "open-file": {
+      "name": "Oscail Comhad"
+    },
+    "open-menu": {
+      "name": "Roghchlár Oscailte"
+    },
+    "open-settings": {
+      "name": "Oscail Socruithe"
+    },
+    "open-uri": {
+      "name": "Oscail URI"
+    },
+    "send-tcp-message": {
+      "name": "Seol Teachtaireacht TCP"
+    },
+    "send-websocket-message": {
+      "name": "Seol Teachtaireacht WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Socraigh Ghearrthaisce"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Eochair Theas",
+      "name": "Insamhladh Hotkey",
+      "recording-placeholder": "Clóscríobh eochair te…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Fo-Roghchlár"
+    }
+  },
+  "native": {
+    "action": "Gníomh",
+    "action-value": "Aicearra, cosán, URL, téacs nó JSON",
+    "choose-icon": "Roghnaigh deilbhín",
+    "condition-invalid": "Cuir isteach coinníoll bailí fuinneoige nó feidhmchláir, mar shampla /notepad/i.",
+    "configuration": "Cumraíocht Roghchlár Pie",
+    "editor": "Eagarthóir Roghchlár Pie",
+    "exported": "Easpórtáilte chuig {0}",
+    "fixed-angle": "Uillinn sheasta (0° = suas)",
+    "fixed-x": "X Seasta (0–1 trasna an mhonatóra)",
+    "fixed-y": "Seasta Y (0–1 síos an monatóir)",
+    "icon-invalid-image": "Roghnaigh íomhá PNG, JPEG, GIF, WebP, nó ICO suas le 192 KB.",
+    "icon-library": "Leabharlann deilbhíní",
+    "icon-next": "Deilbhíní seo chugainn",
+    "icon-no-results": "Níor aimsíodh aon deilbhíní.",
+    "icon-pick-file": "Roghnaigh íomhá nó aip",
+    "icon-previous": "Deilbhíní roimhe seo",
+    "icon-use-image": "Úsáid íomhá",
+    "imported": "Iompórtáladh {0} roghchlár. Athbhreithnigh orduithe iompórtáilte roimh iad a úsáid, ansin sábháil.",
+    "item-icon": "Deilbhín míre",
+    "item-order": "Ordú míre",
+    "label": "Lipéad",
+    "move-down": "Bog síos",
+    "move-up": "Bog suas",
+    "name": "Ainm roghchláir",
+    "new-menu": "Roghchlár nua",
+    "off": "As",
+    "on": "Ar",
+    "palette": "Pailéad dathanna",
+    "preview": "Roghchlár réamhamhairc",
+    "remove": "Bain",
+    "save": "Sábháil biachláir",
+    "saved": "Sábháladh cumraíocht an roghchláir.",
+    "shortcut-clear": "Glan aicearra",
+    "shortcut-cleared": "Glanadh an t-aicearra.",
+    "shortcut-config-changed": "D'athraigh cumraíocht an roghchláir ar an diosca. Sábháil na roghchláir reatha chun an t-aicearra seo a chur i bhfeidhm.",
+    "shortcut-in-use": "Tuairiscíonn Windows go bhfuil an aicearra seo in úsáid cheana féin.",
+    "shortcut-invalid": "Cuir isteach eochair amháin, móide aon mhodhnóirí a cheadaítear don aicearra seo.",
+    "shortcut-record": "Taifead aicearra",
+    "shortcut-save-new-menu": "Sábháil an roghchlár nua seo chun a aicearra a ghníomhachtú.",
+    "shortcut-saved": "Sábháladh aicearra: {0}. Úsáid é chun an roghchlár a oscailt nuair atá Gníomhartha Tapa cumasaithe.",
+    "shortcut-stop": "Stop taifeadadh",
+    "shortcut-unavailable": "Níorbh fhéidir le Windows an t-aicearra seo a chlárú."
+  },
+  "settings": {
+    "add-menu-items": "Cuir Míreanna Roghchláir leis",
+    "all-menus": "Gach Roghchláir",
+    "anchored-mode": "Mód Ancaire",
+    "app-condition": "Teorainn le hAipeanna Sonracha",
+    "area-condition-bottom-placeholder": "Íochtar",
+    "area-condition-left-placeholder": "Clé",
+    "area-condition-right-placeholder": "Deas",
+    "area-condition-top-placeholder": "Barr",
+    "cancel": "Cealú",
+    "create-menu-button": "Cuir Roghchlár leis",
+    "delete-menu": "Scrios roghchlár",
+    "delete-menu-item": "Scrios mír roghchláir",
+    "edit-submenu": "Cuir an fo-roghchlár in eagar",
+    "export-menu": "Roghchlár easpórtála",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Cumasaigh Mód Marcála",
+      "close-menu": "Dún an roghchlár",
+      "do-nothing": "Ná déan faic",
+      "enable-marking-mode-info": "Le Mód Marcáil cumasaithe, is féidir leat míreanna a roghnú tríd an luch a tharraingt anuas orthu.",
+      "enable-turbo-mode": "Cumasaigh Mód Turbo",
+      "enable-turbo-mode-info": "Le Mód Turbo cumasaithe, is féidir leat gothaí a dhéanamh chomh fada agus a choinníonn tú síos eochair mhionathraithe mar Shift nó Ctrl.",
+      "interaction-modes": "Modhanna Idirghníomhaíochta",
+      "middle-mouse-button-behavior": "Cnaipe lár luiche",
+      "middle-mouse-button-behavior-info": "Cinneann sé seo cad a tharlaíonn nuair a bhrúitear an cnaipe lár luiche agus roghchlár a thaispeáint.",
+      "move-pointer-to-menu-center": "Bog an pointeoir go dtí an t-ionad roghchláir",
+      "move-pointer-to-menu-center-info": "Má dhéantar é a sheiceáil, bogfar an pointeoir luiche go lár roghchláir nó fo-roghchlár nuair is gá. D'fhéadfadh sé seo a bheith amhlaidh má osclaítear roghchlár ró-ghar d'imeall an scáileáin nó má osclaítear roghchlár i Mód Láraithe.",
+      "require-click-for-hover-mode": "Cliceáil le haghaidh roghanna Mód Hover a éileamh",
+      "require-click-for-hover-mode-info": "Mura ndéantar iad a sheiceáil, roghnófar míreanna láithreach nuair a bhogtar an luch anuas orthu le haghaidh biachláir a úsáideann Mód Hover.",
+      "right-mouse-button-behavior": "Cnaipe luiche ar dheis",
+      "right-mouse-button-behavior-info": "Cinneann sé seo cad a tharlaíonn nuair a bhrúitear an cnaipe ceart luiche agus roghchlár a thaispeáint.",
+      "select-item": "Roghnaigh mír",
+      "select-parent": "Déan nascleanúint suas leibhéal amháin",
+      "trigger-center-click-on-key-release": "Dún an roghchlár ar eisiúint aicearra thar lár",
+      "trigger-center-click-on-key-release-info": "Spreagfaidh sé seo an sreabhadh oibre lárchliceáil nuair a scaoiltear eochair agus í ag hovering thar lár an roghchláir."
+    },
+    "hover-mode": "Mód Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Cuardaigh deilbhíní…"
+    },
+    "import-menu": "Roghchlár allmhairiú",
+    "menu-behavior": "Iompar Roghchláir",
+    "menu-conditions": "Coinníollacha Roghchláir",
+    "menu-themes-dialog": {
+      "default-colors": "Dathanna réamhshocraithe",
+      "enable-menu-animations": "Beochan Roghchláir",
+      "title": "Téamaí Roghchláir"
+    },
+    "no-matching-menus": "Níor aimsíodh aon roghchláir.",
+    "no-menus": "Níl aon biachláir agat.",
+    "not-bound": "Gan Ceangailte",
+    "quick-select-key-label": "Tapa-roghnaigh eochair",
+    "quick-select-key-recording": "Roghnaigh eochair…",
+    "shortcut-info": "Osclaíonn an t-aicearra seo an roghchlár. Caithfidh gnátheochair amháin a bheith ann agus aon líon modhnóirí ar nós Ctrl, Alt, nó Shift. Agus tú ag taifeadadh, ní gá duit gach eochair a bhrú ag an am céanna, is féidir leat iad a bhrú ceann i ndiaidh a chéile freisin. Tá sé seo úsáideach má tá aicearra ceangailte cheana féin chuig roghchlár eile!",
+    "shortcut-label": "aicearra",
+    "shortcut-recording": "Brúigh aicearra…",
+    "window-condition": "Teorainn le Teidil Sonracha Fuinneog",
+    "workflow-editor": {
+      "add-action": "Cuir Gníomh leis",
+      "select-workflow-name": "Roghnaigh Sreabhadh Oibre"
+    },
+    "anchored-mode-info": "Oscail fo-roghchláir ag an suíomh céanna leis an roghchlár tuismitheora. Má dhéantar é seo a sheiceáil, díchumasófar Mód Marcála agus Mód Turbo.",
+    "fixed-position-mode": "Mód Seasta Seasta",
+    "fixed-position-mode-info": "Oscail an roghchlár ag suíomh seasta ar an scáileán, in ionad ag an cúrsóir.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Socraigh suíomh go bun ar chlé",
+      "bottom-right-preset-tooltip": "Socraigh suíomh go bun ar dheis",
+      "centered-preset-tooltip": "Socraigh suíomh go lár",
+      "confirm": "Bain úsáid as an bpost seo",
+      "top-left-preset-tooltip": "Socraigh suíomh ar bharr na láimhe clé",
+      "top-right-preset-tooltip": "Socraigh suíomh go barr ar dheis"
+    },
+    "fixed-position-tooltip": "Roghnaigh suíomh seasta",
+    "hover-mode-info": "D'úsáideoirí cumhachta amháin! Roghnaigh míreanna trí hovering os a gcionn."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Réamhshocrú",
+      "clean-circle": "Ciorcal Glan",
+      "neon-lights": "Soilse Neon",
+      "purity": "Íonachta",
+      "rainbow-labels": "Lipéid Rainbow"
+    },
+    "presets": {
+      "Blue Glass": "Gloine Gorm",
+      "Dark Night": "Oíche Dorcha",
+      "Cotton Candy": "Candy Cotton",
+      "Dark and Cozy": "Dorcha agus cluthar",
+      "Blue Glow": "Glow Gorm",
+      "Green Glow": "Glow Glas",
+      "Electric": "Leictreach",
+      "Orange": "Oráiste",
+      "Pink": "Bándearg",
+      "Bright Prism": "Prism Geal",
+      "Kando Default": "Dathanna réamhshocraithe"
+    }
+  }
+}

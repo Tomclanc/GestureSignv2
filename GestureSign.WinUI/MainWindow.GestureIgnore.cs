@@ -19,13 +19,13 @@ public sealed partial class MainWindow
         foreach (var app in _legacyData.Applications.Where(a => a.Type == "忽略" && !string.IsNullOrWhiteSpace(a.IgnoredGesture)))
         {
             var scope = app.MatchUsing == 4 ? T("所有程序", "All applications") : MatchUsingText(app.MatchUsing) + ": " + app.MatchString;
-            panel.Children.Add(NewTableRow([app.IsEnabled ? T("开", "On") : T("关", "Off"), BuiltInGestureDisplayName(app.IgnoredGesture), scope], false,
+            panel.Children.Add(MarkSearchTarget(NewTableRow([app.IsEnabled ? T("开", "On") : T("关", "Off"), BuiltInGestureDisplayName(app.IgnoredGesture), scope], false,
                 NewInlineButtonsWithContext(
                     (T("编辑", "Edit"), async _ => await EditIgnoredGestureAsync(app)),
                     (app.IsEnabled ? T("停用", "Disable") : T("启用", "Enable"), async button => { await ToggleApplicationEnabledAsync(app, button); ReloadData(); }),
-                    (T("删除", "Delete"), async _ => await DeleteApplicationAsync(app)))));
+                    (T("删除", "Delete"), async _ => await DeleteApplicationAsync(app)))), app.Source));
         }
-        return NewCard(panel, new Thickness(14));
+        return MarkSearchTarget(NewCard(panel, new Thickness(14)), "gesture-ignore");
     }
 
     private async Task EditIgnoredGestureAsync(LegacyApplication? app)

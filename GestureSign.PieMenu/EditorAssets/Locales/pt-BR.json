@@ -1,0 +1,266 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-Mail",
+      "file-browser": "Navegador de Arquivos",
+      "paint": "Paint",
+      "submenu": "Aplicativos",
+      "terminal": "Terminal",
+      "web-browser": "Navegador de Web"
+    },
+    "audio": {
+      "mute": "Mutar",
+      "next-track": "Próxima Faixa",
+      "play-pause": "Tocar / Pausar",
+      "previous-track": "Trilha Anterior",
+      "submenu": "Áudio"
+    },
+    "bookmarks": {
+      "desktop": "Área de trabalho",
+      "documents": "Documentos",
+      "downloads": "Downloads",
+      "home": "Home",
+      "music": "Música",
+      "pictures": "Imagens",
+      "submenu": "Favoritos",
+      "videos": "Vídeos"
+    },
+    "clipboard": {
+      "copy": "Copiar",
+      "cut": "Recortar",
+      "paste": "Colar",
+      "submenu": "Área de Transferência"
+    },
+    "name": "Exemplo de Menu",
+    "next-workspace": "Próximo Espaço de Trabalho",
+    "previous-workspace": "Espaço de Trabalho Anterior",
+    "web-links": {
+      "kando-on-discord": "Kando em Discord",
+      "kando-on-github": "Kando em GitHub",
+      "kando-on-kofi": "Kando em Ko-fi",
+      "kando-on-youtube": "Kando no YouTube",
+      "submenu": "Links da Web"
+    },
+    "windows": {
+      "close-window": "Fechar Janela",
+      "submenu": "Janelas",
+      "tile-left": "Ajustar para Esquerda",
+      "tile-right": "Ajustar para Direita",
+      "toggle-maximize": "Alternar Maximizado"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Fechar Menu"
+    },
+    "close-submenu": {
+      "name": "Fechar submenu"
+    },
+    "delay": {
+      "name": "Atraso"
+    },
+    "execute-command": {
+      "name": "Executar Comando"
+    },
+    "execute-macro": {
+      "name": "Simular Macro"
+    },
+    "focus-window": {
+      "name": "Janela de Foco"
+    },
+    "inhibit-shortcuts": {
+      "name": "Desativar Atalhos"
+    },
+    "open-file": {
+      "name": "Abrir Arquivo"
+    },
+    "open-menu": {
+      "name": "Redirecionar"
+    },
+    "open-settings": {
+      "name": "Abrir Ajustes"
+    },
+    "open-uri": {
+      "name": "Abrir URI"
+    },
+    "send-tcp-message": {
+      "name": "Enviar mensagem TCP"
+    },
+    "send-websocket-message": {
+      "name": "Enviar mensagem WebSocket"
+    },
+    "set-clipboard": {
+      "name": "Definir área de transferência"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Tecla de Atalho",
+      "name": "Simular atalho de teclado",
+      "recording-placeholder": "Pressione uma tecla de atalho…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submenu"
+    }
+  },
+  "native": {
+    "inline-settings": {
+      "center-workflow": "Fluxo de trabalho ao clicar no centro",
+      "center-workflow-description": "Clique no centro do menu principal para executar estas ações em ordem.",
+      "appearance": "Aparência e animação",
+      "menu-size": "Tamanho do menu",
+      "fade-in": "Aparecimento gradual (ms)",
+      "fade-out": "Desaparecimento gradual (ms)",
+      "dark-palette": "Paleta escura",
+      "dark-theme": "Tema escuro",
+      "pointer-shortcuts": "Ponteiro e atalhos",
+      "theme-credits": "Créditos e licenças dos temas",
+      "back-up-menus": "Fazer backup dos menus",
+      "restore-menus": "Restaurar menus",
+      "back-up-settings": "Fazer backup das configurações",
+      "restore-settings": "Restaurar configurações",
+      "open-config-folder": "Abrir a pasta de configuração",
+      "restored": "Restaurado no editor. Salve para aplicar.",
+      "collapse": "Recolher configurações"
+    },
+    "action": "Ação",
+    "action-value": "Atalho, caminho, URL, texto ou JSON",
+    "choose-icon": "Escolha o ícone",
+    "condition-invalid": "Insira uma janela ou condição de aplicativo válida, por exemplo /notepad/i.",
+    "configuration": "Configuração do menu torta",
+    "editor": "Editor de menu de pizza",
+    "exported": "Exportado para {0}",
+    "fixed-angle": "Ângulo fixo (0° = para cima)",
+    "fixed-x": "X fixo (0–1 no monitor)",
+    "fixed-y": "Y fixo (0–1 abaixo do monitor)",
+    "icon-invalid-image": "Escolha uma imagem PNG, JPEG, GIF, WebP ou ICO de até 192 KB.",
+    "icon-library": "Biblioteca de ícones",
+    "icon-next": "Próximos ícones",
+    "icon-no-results": "Nenhum ícone encontrado.",
+    "icon-pick-file": "Escolha imagem ou aplicativo",
+    "icon-previous": "Ícones anteriores",
+    "icon-use-image": "Usar imagem",
+    "imported": "Menu(s) {0} importados. Revise os comandos importados antes de usá-los e salve-os.",
+    "item-icon": "Ícone de item",
+    "item-order": "Ordem dos itens",
+    "label": "Etiqueta",
+    "move-down": "Mover para baixo",
+    "move-up": "Subir",
+    "name": "Nome do cardápio",
+    "new-menu": "Novo cardápio",
+    "off": "Desligado",
+    "on": "Ligado",
+    "palette": "Paleta de cores",
+    "preview": "Menu de visualização",
+    "remove": "Remover",
+    "save": "Salvar menus",
+    "saved": "Configuração do menu salva.",
+    "shortcut-clear": "Limpar atalho",
+    "shortcut-cleared": "Atalho desmarcado.",
+    "shortcut-config-changed": "A configuração do menu foi alterada no disco. Salve os menus atuais para aplicar este atalho.",
+    "shortcut-in-use": "O Windows relata que este atalho já está em uso.",
+    "shortcut-invalid": "Insira uma tecla, além de quaisquer modificadores permitidos para este atalho.",
+    "shortcut-record": "Atalho de gravação",
+    "shortcut-save-new-menu": "Salve este novo menu para ativar seu atalho.",
+    "shortcut-saved": "Atalho salvo: {0}. Use-o para abrir o menu quando as Ações Rápidas estiverem ativadas.",
+    "shortcut-stop": "Pare de gravar",
+    "shortcut-unavailable": "O Windows não conseguiu registrar este atalho."
+  },
+  "settings": {
+    "add-menu-items": "Adicionar itens do menu",
+    "all-menus": "Todos os menus",
+    "anchored-mode": "Modo Ancorado",
+    "app-condition": "Limitar a Aplicativos Específicos",
+    "area-condition-bottom-placeholder": "Baixo",
+    "area-condition-left-placeholder": "Esquerda",
+    "area-condition-right-placeholder": "Direita",
+    "area-condition-top-placeholder": "Topo",
+    "cancel": "Cancelar",
+    "create-menu-button": "Adicionar menu",
+    "delete-menu": "Excluir menu",
+    "delete-menu-item": "Excluir item do menu",
+    "edit-submenu": "Editar submenu",
+    "export-menu": "Menu de exportação",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Ativar Modo de Marcação",
+      "close-menu": "Fechar menu",
+      "do-nothing": "Não faça nada",
+      "enable-marking-mode-info": "Com o Modo de Marcação ativado, você pode selecionar os itens arrastando o mouse sobre eles.",
+      "enable-turbo-mode": "Ativar Modo Turbo",
+      "enable-turbo-mode-info": "Com o Modo Turbo ativado, você pode fazer gestos segurando uma tecla modificadora como Shift ou Ctrl.",
+      "interaction-modes": "Modos de Interação",
+      "middle-mouse-button-behavior": "Botão do meio do mouse",
+      "middle-mouse-button-behavior-info": "Isto determina o que acontece quando o botão do meio do mouse é pressionado enquanto um menu é mostrado.",
+      "move-pointer-to-menu-center": "Move o ponteiro para o centro do menu",
+      "move-pointer-to-menu-center-info": "Se marcado, o ponteiro do mouse se moverá para o centro do menu ou submenu quando necessário. Isso pode ser o caso se um menu for aberto muito perto da borda da tela ou se um menu for aberto no Modo Centralizado.",
+      "require-click-for-hover-mode": "Exigir clique para seleções no Modo de Sobreposição",
+      "require-click-for-hover-mode-info": "Se não marcado, itens vão ser selecionados imediatamente quando o mouse se mover sobre eles em menus em Modo de Sobreposição.",
+      "right-mouse-button-behavior": "Botão direito do mouse",
+      "right-mouse-button-behavior-info": "Isto determina o que acontece quando o botão direito do mouse é pressionado enquanto um menu é mostrado.",
+      "select-item": "Selecione o item",
+      "select-parent": "Navegue até um nível",
+      "trigger-center-click-on-key-release": "Acionar o fluxo de trabalho de clique com o botão central ao soltar a tecla",
+      "trigger-center-click-on-key-release-info": "Isso acionará o fluxo de trabalho de clique central quando uma tecla for solta ao passar o mouse sobre o centro de um menu."
+    },
+    "hover-mode": "Modo Hover",
+    "icon-picker-dialog": {
+      "search-placeholder": "Pesquisar ícones…"
+    },
+    "import-menu": "Importar menu",
+    "menu-behavior": "Comportamento de menu",
+    "menu-conditions": "Condições do menu",
+    "menu-themes-dialog": {
+      "default-colors": "Cores padrão",
+      "enable-menu-animations": "Animações de Menu",
+      "title": "Temas do Menu"
+    },
+    "no-matching-menus": "Nenhum menu encontrado.",
+    "no-menus": "Você não possui menus.",
+    "not-bound": "Não Vinculado",
+    "quick-select-key-label": "Tecla de atalho rápido",
+    "quick-select-key-recording": "Escolher atalho…",
+    "shortcut-info": "Esse atalho abre o menu. Ele deve conter uma tecla normal e algum número de modificadores como Ctrl, Alt ou Shift. Quando gravando, você não precisa pressionar todas as teclas de uma vez, você também pode pressionar uma após a outra. Isto é útil se um atalho já está atribuído a outro menu!",
+    "shortcut-label": "Atalho de Teclado",
+    "shortcut-recording": "Pressione um atalho de teclado…",
+    "window-condition": "Limitar para Títulos de Janelas Especificas",
+    "workflow-editor": {
+      "add-action": "Adicionar Ação",
+      "select-workflow-name": "Selecionar Fluxo de Trabalho"
+    },
+    "anchored-mode-info": "Abrir submenus na mesma posição do item pai. Marcando isto, Modo de Marcação e Modo Turbo serão desativados.",
+    "fixed-position-mode": "Modo de posição fixa",
+    "fixed-position-mode-info": "Abra o menu em uma posição fixa na tela, em vez de no cursor.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Definir posição para canto inferior esquerdo",
+      "bottom-right-preset-tooltip": "Definir posição para canto inferior direito",
+      "centered-preset-tooltip": "Definir posição para centro",
+      "confirm": "Utilize esta posição",
+      "top-left-preset-tooltip": "Definir posição no canto superior esquerdo",
+      "top-right-preset-tooltip": "Definir posição no canto superior direito"
+    },
+    "fixed-position-tooltip": "Selecione uma posição fixa",
+    "hover-mode-info": "Para usuários avançados apenas! Selecione itens flutuando sobre eles."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Padrão",
+      "clean-circle": "Círculo simples",
+      "neon-lights": "Luzes de neon",
+      "purity": "Pureza",
+      "rainbow-labels": "Rótulos arco-íris"
+    },
+    "presets": {
+      "Blue Glass": "Vidro azul",
+      "Dark Night": "Noite escura",
+      "Cotton Candy": "Algodão-doce",
+      "Dark and Cozy": "Escuro e aconchegante",
+      "Blue Glow": "Brilho azul",
+      "Green Glow": "Brilho verde",
+      "Electric": "Elétrico",
+      "Orange": "Laranja",
+      "Pink": "Rosa",
+      "Bright Prism": "Prisma brilhante",
+      "Kando Default": "Cores padrão"
+    }
+  }
+}

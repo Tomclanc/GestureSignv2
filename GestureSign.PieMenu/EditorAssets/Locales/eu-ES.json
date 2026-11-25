@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "Posta elektronikoa",
+      "file-browser": "Fitxategien arakatzailea",
+      "paint": "Margotu",
+      "submenu": "Aplikazioak",
+      "terminal": "Terminala",
+      "web-browser": "Web arakatzailea"
+    },
+    "audio": {
+      "mute": "Isildu",
+      "next-track": "Hurrengo abestia",
+      "play-pause": "Erreproduzitu / Pausatu",
+      "previous-track": "Aurreko pista",
+      "submenu": "Audioa"
+    },
+    "bookmarks": {
+      "desktop": "Mahaigaina",
+      "documents": "Dokumentuak",
+      "downloads": "Deskargak",
+      "home": "Hasiera",
+      "music": "Musika",
+      "pictures": "Irudiak",
+      "submenu": "Laster-markak",
+      "videos": "Bideoak"
+    },
+    "clipboard": {
+      "copy": "Kopia",
+      "cut": "Ebaki",
+      "paste": "Itsatsi",
+      "submenu": "Arbela"
+    },
+    "name": "Menu adibidea",
+    "next-workspace": "Hurrengo lan-eremua",
+    "previous-workspace": "Aurreko Langunea",
+    "web-links": {
+      "kando-on-discord": "Kando Discord-en",
+      "kando-on-github": "Kando GitHub-en",
+      "kando-on-kofi": "Kando Ko-fi-n",
+      "kando-on-youtube": "Kando YouTube-n",
+      "submenu": "Web Estekak"
+    },
+    "windows": {
+      "close-window": "Leihoa Itxi",
+      "submenu": "Leihoak",
+      "tile-left": "Ezkerreko fitxa",
+      "tile-right": "Fitxa Eskuinekoa",
+      "toggle-maximize": "Aktibatu/Desaktibatu Maximizatzea"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Itxi menua"
+    },
+    "close-submenu": {
+      "name": "Itxi azpimenua"
+    },
+    "delay": {
+      "name": "Atzerapena"
+    },
+    "execute-command": {
+      "name": "Exekutatu komandoa"
+    },
+    "execute-macro": {
+      "name": "Exekutatu makroa"
+    },
+    "focus-window": {
+      "name": "Focus leihoa"
+    },
+    "inhibit-shortcuts": {
+      "name": "Lasterbideak debekatu"
+    },
+    "open-file": {
+      "name": "Ireki Fitxategia"
+    },
+    "open-menu": {
+      "name": "Ireki Menua"
+    },
+    "open-settings": {
+      "name": "Ireki Ezarpenak"
+    },
+    "open-uri": {
+      "name": "Ireki URIa"
+    },
+    "send-tcp-message": {
+      "name": "Bidali TCP mezua"
+    },
+    "send-websocket-message": {
+      "name": "Bidali WebSocket mezua"
+    },
+    "set-clipboard": {
+      "name": "Ezarri arbela"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Tekla azkarra",
+      "name": "Simulatu laster-tekla",
+      "recording-placeholder": "Idatzi laster-tekla bat..."
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Azpimenua"
+    }
+  },
+  "native": {
+    "action": "Ekintza",
+    "action-value": "Lasterbidea, bidea, URLa, testua edo JSON",
+    "choose-icon": "Aukeratu ikonoa",
+    "condition-invalid": "Sartu baliozko leiho edo aplikazio-baldintza bat, adibidez /notepad/i.",
+    "configuration": "Pie Menuaren konfigurazioa",
+    "editor": "Pie menu editorea",
+    "exported": "{0}ra esportatu da",
+    "fixed-angle": "Angelu finkoa (0° = gora)",
+    "fixed-x": "X finkoa (0-1 monitorean zehar)",
+    "fixed-y": "Y konponduta (0-1 monitorean behera)",
+    "icon-invalid-image": "Aukeratu PNG, JPEG, GIF, WebP edo ICO 192 KB-ko irudi bat.",
+    "icon-library": "Ikonoen liburutegia",
+    "icon-next": "Hurrengo ikonoak",
+    "icon-no-results": "Ez da ikonorik aurkitu.",
+    "icon-pick-file": "Aukeratu irudia edo aplikazioa",
+    "icon-previous": "Aurreko ikonoak",
+    "icon-use-image": "Erabili irudia",
+    "imported": "{0} menu inportatu dira. Berrikusi inportatutako komandoak erabili aurretik, gero gorde.",
+    "item-icon": "Elementuaren ikonoa",
+    "item-order": "Elementuen ordena",
+    "label": "Etiketa",
+    "move-down": "Mugitu behera",
+    "move-up": "Gora",
+    "name": "Menuaren izena",
+    "new-menu": "Menu berria",
+    "off": "Itzalita",
+    "on": "Piztuta",
+    "palette": "Kolore paleta",
+    "preview": "Aurrebista menua",
+    "remove": "Kendu",
+    "save": "Gorde menuak",
+    "saved": "Menuaren konfigurazioa gorde da.",
+    "shortcut-clear": "Garbitu lasterbidea",
+    "shortcut-cleared": "Lasterbidea garbitu da.",
+    "shortcut-config-changed": "Menuaren konfigurazioa diskoan aldatu da. Gorde uneko menuak lasterbide hau aplikatzeko.",
+    "shortcut-in-use": "Windows-ek lasterbide hau dagoeneko erabiltzen ari dela jakinarazi du.",
+    "shortcut-invalid": "Idatzi tekla bat, gehi lasterbide honetarako onartzen diren aldatzaileak.",
+    "shortcut-record": "Grabatu lasterbidea",
+    "shortcut-save-new-menu": "Gorde menu berri hau bere lasterbidea aktibatzeko.",
+    "shortcut-saved": "Lasterbidea gorde da: {0}. Erabili menua irekitzeko Ekintza azkarrak gaituta dagoenean.",
+    "shortcut-stop": "Utzi grabatzeari",
+    "shortcut-unavailable": "Windows-ek ezin izan du lasterbide hau erregistratu."
+  },
+  "settings": {
+    "add-menu-items": "Gehitu menuko elementuak",
+    "all-menus": "Menu guztiak",
+    "anchored-mode": "Ainguratutako modua",
+    "app-condition": "Mugatu aplikazio zehatzetara",
+    "area-condition-bottom-placeholder": "Beheko",
+    "area-condition-left-placeholder": "Ezkerra",
+    "area-condition-right-placeholder": "Eskuina",
+    "area-condition-top-placeholder": "Goi",
+    "cancel": "Ezeztatu",
+    "create-menu-button": "Gehitu menua",
+    "delete-menu": "Ezabatu menua",
+    "delete-menu-item": "Ezabatu menuko elementua",
+    "edit-submenu": "Editatu azpimenua",
+    "export-menu": "Esportatu menua",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Gaitu markatze modua",
+      "close-menu": "Itxi menua",
+      "do-nothing": "Ez egin ezer",
+      "enable-marking-mode-info": "Markatzeko modua gaituta, elementuak hauta ditzakezu sagua haien gainean arrastatuz.",
+      "enable-turbo-mode": "Gaitu Turbo modua",
+      "enable-turbo-mode-info": "Turbo modua gaituta dagoenez, keinuak egin ditzakezu, betiere tekla aldatzaile bat sakatuta mantentzen baduzu, hala nola Maius edo Ktrl.",
+      "interaction-modes": "Interakzio moduak",
+      "middle-mouse-button-behavior": "Saguaren erdiko botoia",
+      "middle-mouse-button-behavior-info": "Honek zehazten du zer gertatuko den saguaren erdiko botoia sakatzen denean menu bat erakusten den bitartean.",
+      "move-pointer-to-menu-center": "Eraman erakuslea menu-zentrora",
+      "move-pointer-to-menu-center-info": "Hautatuta badago, saguaren erakuslea menu edo azpimenu baten erdigunera eramango da beharrezkoa denean. Hau gerta liteke menu bat pantailaren ertzetik gertuegi irekitzen bada edo menu bat Zentratuta dagoen moduan irekitzen bada.",
+      "require-click-for-hover-mode": "Egin klik egin klik pasatzeko moduaren hautapenetarako",
+      "require-click-for-hover-mode-info": "Hautatu ezean, elementuak berehala hautatuko dira sagua haien gainean mugitzen denean pasatzeko modua erabiltzen duten menuetarako.",
+      "right-mouse-button-behavior": "Saguaren eskuineko botoia",
+      "right-mouse-button-behavior-info": "Honek zehazten du zer gertatuko den saguaren eskuineko botoia sakatzen denean menu bat erakusten den bitartean.",
+      "select-item": "Hautatu elementua",
+      "select-parent": "Nabigatu maila bat gora",
+      "trigger-center-click-on-key-release": "Itxi menua lasterbidearen askapenean erdigunean",
+      "trigger-center-click-on-key-release-info": "Honek erdiko klikaren lan-fluxua abiaraziko du tekla bat askatzen denean menu baten erdian pasatzean."
+    },
+    "hover-mode": "Pasatzeko modua",
+    "icon-picker-dialog": {
+      "search-placeholder": "Bilatu ikonoak..."
+    },
+    "import-menu": "Inportatu menua",
+    "menu-behavior": "Menuen portaera",
+    "menu-conditions": "Menuaren baldintzak",
+    "menu-themes-dialog": {
+      "default-colors": "Kolore lehenetsiak",
+      "enable-menu-animations": "Menuen animazioak",
+      "title": "Menu Gaiak"
+    },
+    "no-matching-menus": "Ez da menurik aurkitu.",
+    "no-menus": "Ez duzu menurik.",
+    "not-bound": "Ez Lotua",
+    "quick-select-key-label": "Bizkor hautatzeko tekla",
+    "quick-select-key-recording": "Hautatu tekla...",
+    "shortcut-info": "Lasterbide honek menua irekitzen du. Tekla arrunt bat eta edozein aldatzaile izan behar ditu, hala nola Ktrl, Alt edo Shift. Grabatzerakoan, ez dituzu tekla guztiak aldi berean sakatu behar, bata bestearen atzetik ere sakatu ditzakezu. Hau erabilgarria da lasterbide bat dagoeneko beste menu batera lotuta badago!",
+    "shortcut-label": "Lasterbidea",
+    "shortcut-recording": "Sakatu lasterbide bat...",
+    "window-condition": "Mugatu leiho-izenburu zehatzetara",
+    "workflow-editor": {
+      "add-action": "Gehitu ekintza",
+      "select-workflow-name": "Hautatu Lan-fluxua"
+    },
+    "anchored-mode-info": "Ireki azpimenuak gurasoen menuaren posizio berean. Hau egiaztatuz gero, Markaketa modua eta Turbo modua desgaituko dira.",
+    "fixed-position-mode": "Posizio finkoko modua",
+    "fixed-position-mode-info": "Ireki menua pantailako posizio finko batean, kurtsorean beharrean.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Ezarri posizioa beheko ezkerrean",
+      "bottom-right-preset-tooltip": "Ezarri posizioa beheko eskuinaldean",
+      "centered-preset-tooltip": "Ezarri posizioa erdigunean",
+      "confirm": "Erabili posizio hau",
+      "top-left-preset-tooltip": "Ezarri posizioa goiko ezkerrean",
+      "top-right-preset-tooltip": "Ezarri posizioa goiko eskuinaldean"
+    },
+    "fixed-position-tooltip": "Hautatu posizio finko bat",
+    "hover-mode-info": "Botere erabiltzaileentzat soilik! Hautatu elementuak haien gainean pasatuz."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Lehenetsia",
+      "clean-circle": "Zirkulu garbia",
+      "neon-lights": "Neon Argiak",
+      "purity": "Garbitasuna",
+      "rainbow-labels": "Ortzadar Etiketak"
+    },
+    "presets": {
+      "Blue Glass": "Beira Urdina",
+      "Dark Night": "Gau iluna",
+      "Cotton Candy": "Gozokia",
+      "Dark and Cozy": "Iluna eta Erosoa",
+      "Blue Glow": "Distira urdina",
+      "Green Glow": "Distira berdea",
+      "Electric": "Elektrikoa",
+      "Orange": "Laranja",
+      "Pink": "Arrosa",
+      "Bright Prism": "Prisma distiratsua",
+      "Kando Default": "Kolore lehenetsiak"
+    }
+  }
+}

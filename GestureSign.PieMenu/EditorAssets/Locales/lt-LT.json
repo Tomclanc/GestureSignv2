@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "El. paštas",
+      "file-browser": "Failų naršyklė",
+      "paint": "Dažai",
+      "submenu": "Programos",
+      "terminal": "Terminalas",
+      "web-browser": "Saityno naršyklė"
+    },
+    "audio": {
+      "mute": "Nutildyti",
+      "next-track": "Kitas takelis",
+      "play-pause": "Atkurti / Pristabdyti",
+      "previous-track": "Ankstesnis takelis",
+      "submenu": "Garsas"
+    },
+    "bookmarks": {
+      "desktop": "Darbalaukis",
+      "documents": "Dokumentai",
+      "downloads": "Atsiuntimai",
+      "home": "Pradžia",
+      "music": "Muzika",
+      "pictures": "Paveikslėliai",
+      "submenu": "Žymės",
+      "videos": "Vaizdo įrašai"
+    },
+    "clipboard": {
+      "copy": "Kopijuoti",
+      "cut": "Iškirpti",
+      "paste": "Įdėti",
+      "submenu": "Iškarpinė"
+    },
+    "name": "Pavyzdinis meniu",
+    "next-workspace": "Kita darbo sritis",
+    "previous-workspace": "Ankstesnė darbo sritis",
+    "web-links": {
+      "kando-on-discord": "Kando „Discord“.",
+      "kando-on-github": "Kando „GitHub“.",
+      "kando-on-kofi": "Kando ant Ko-fi",
+      "kando-on-youtube": "Kando „YouTube“.",
+      "submenu": "Saityno nuorodos"
+    },
+    "windows": {
+      "close-window": "Užverti langą",
+      "submenu": "Langai",
+      "tile-left": "Kairė plytelė",
+      "tile-right": "Dešinė plytelė",
+      "toggle-maximize": "Perjungti išskleidimą"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Uždaryti meniu"
+    },
+    "close-submenu": {
+      "name": "Uždaryti submeniu"
+    },
+    "delay": {
+      "name": "Vėlavimas"
+    },
+    "execute-command": {
+      "name": "Paleisti komandą"
+    },
+    "execute-macro": {
+      "name": "Vykdykite makrokomandą"
+    },
+    "focus-window": {
+      "name": "Fokusavimo langas"
+    },
+    "inhibit-shortcuts": {
+      "name": "Uždrausti sparčiuosius klavišus"
+    },
+    "open-file": {
+      "name": "Atverti failą"
+    },
+    "open-menu": {
+      "name": "Atidarykite meniu"
+    },
+    "open-settings": {
+      "name": "Atidarykite Nustatymai"
+    },
+    "open-uri": {
+      "name": "Atverti URI"
+    },
+    "send-tcp-message": {
+      "name": "Siųsti TCP pranešimą"
+    },
+    "send-websocket-message": {
+      "name": "Siųsti WebSocket pranešimą"
+    },
+    "set-clipboard": {
+      "name": "Nustatyti mainų sritį"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Karštasis klavišas",
+      "name": "Imituoti spartųjį klavišą",
+      "recording-placeholder": "Įveskite spartųjį klavišą…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Submeniu"
+    }
+  },
+  "native": {
+    "action": "Veiksmas",
+    "action-value": "Nuoroda, kelias, URL, tekstas arba JSON",
+    "choose-icon": "Pasirinkite piktogramą",
+    "condition-invalid": "Įveskite tinkamą lango arba programos sąlygą, pvz., /notepad/i.",
+    "configuration": "Pie Menu konfigūracija",
+    "editor": "Pieno meniu redaktorius",
+    "exported": "Eksportuota į {0}",
+    "fixed-angle": "Fiksuotas kampas (0° = aukštyn)",
+    "fixed-x": "Ištaisyta X (0–1 monitoriuje)",
+    "fixed-y": "Ištaisyta Y (0–1 monitoriaus apačioje)",
+    "icon-invalid-image": "Pasirinkite PNG, JPEG, GIF, WebP arba ICO vaizdą iki 192 KB.",
+    "icon-library": "Ikonų biblioteka",
+    "icon-next": "Kitos piktogramos",
+    "icon-no-results": "Piktogramų nerasta.",
+    "icon-pick-file": "Pasirinkite vaizdą arba programą",
+    "icon-previous": "Ankstesnės piktogramos",
+    "icon-use-image": "Naudokite vaizdą",
+    "imported": "Importuoti meniu: {0}. Prieš naudodami peržiūrėkite importuotas komandas, tada išsaugokite.",
+    "item-icon": "Elemento piktograma",
+    "item-order": "Prekių užsakymas",
+    "label": "Etiketė",
+    "move-down": "Judėti žemyn",
+    "move-up": "Judėti aukštyn",
+    "name": "Meniu pavadinimas",
+    "new-menu": "Naujas meniu",
+    "off": "Išjungta",
+    "on": "Įjungta",
+    "palette": "Spalvų paletė",
+    "preview": "Peržiūros meniu",
+    "remove": "Pašalinti",
+    "save": "Išsaugoti meniu",
+    "saved": "Meniu konfigūracija išsaugota.",
+    "shortcut-clear": "Išvalyti nuorodą",
+    "shortcut-cleared": "Spartusis klavišas išvalytas.",
+    "shortcut-config-changed": "Meniu konfigūracija pakeista diske. Išsaugokite esamus meniu, kad pritaikytumėte šią nuorodą.",
+    "shortcut-in-use": "„Windows“ praneša, kad šis spartusis klavišas jau naudojamas.",
+    "shortcut-invalid": "Įveskite vieną klavišą ir visus šio sparčiojo klavišo modifikatorius.",
+    "shortcut-record": "Įrašymo spartusis klavišas",
+    "shortcut-save-new-menu": "Išsaugokite šį naują meniu, kad suaktyvintumėte jo nuorodą.",
+    "shortcut-saved": "Spartusis klavišas išsaugotas: {0}. Naudokite jį norėdami atidaryti meniu, kai įgalinti greitieji veiksmai.",
+    "shortcut-stop": "Sustabdykite įrašymą",
+    "shortcut-unavailable": "„Windows“ negalėjo užregistruoti šio nuorodos."
+  },
+  "settings": {
+    "add-menu-items": "Pridėti meniu elementus",
+    "all-menus": "Visi meniu",
+    "anchored-mode": "Pritvirtintas režimas",
+    "app-condition": "Apsiriboti konkrečiomis programomis",
+    "area-condition-bottom-placeholder": "Apačia",
+    "area-condition-left-placeholder": "Kairė",
+    "area-condition-right-placeholder": "Dešinė",
+    "area-condition-top-placeholder": "Viršus",
+    "cancel": "Atsisakyti",
+    "create-menu-button": "Naujas meniu",
+    "delete-menu": "Ištrinti meniu",
+    "delete-menu-item": "Ištrinti meniu elementą",
+    "edit-submenu": "Redaguoti submeniu",
+    "export-menu": "Eksporto meniu",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Įjungti žymėjimo režimą",
+      "close-menu": "Užverti meniu",
+      "do-nothing": "Nieko nedaryti",
+      "enable-marking-mode-info": "Kai įjungtas žymėjimo režimas, galite pasirinkti elementus, vilkdami pelę virš jų.",
+      "enable-turbo-mode": "Įjungti turbo režimą",
+      "enable-turbo-mode-info": "Įjungę Turbo režimą, galite atlikti gestus tol, kol laikote nuspaudę modifikavimo klavišą, pvz., Shift arba Ctrl.",
+      "interaction-modes": "Sąveikos režimai",
+      "middle-mouse-button-behavior": "Vidurinis pelės mygtukas",
+      "middle-mouse-button-behavior-info": "Tai nustato, kas atsitiks, kai rodomas meniu, paspaudus vidurinį pelės mygtuką.",
+      "move-pointer-to-menu-center": "Perkelkite žymeklį į meniu centrą",
+      "move-pointer-to-menu-center-info": "If checked, the mouse pointer will be moved to the center of a menu or submenu when necessary. Taip gali nutikti, jei meniu atidaromas per arti ekrano krašto arba meniu atidaromas centruotu režimu.",
+      "require-click-for-hover-mode": "Norėdami pasirinkti užvedimo režimą, reikia spustelėti",
+      "require-click-for-hover-mode-info": "Jei nepažymėta, elementai bus pasirinkti iš karto, kai virš jų užvesite pelės žymeklį meniu, kuriame naudojamas užvedimo režimas.",
+      "right-mouse-button-behavior": "Dešinysis pelės mygtukas",
+      "right-mouse-button-behavior-info": "This determines what happens when the right mouse button is pressed while a menu is shown.",
+      "select-item": "Pasirinkite elementą",
+      "select-parent": "Eikite vienu lygiu aukštyn",
+      "trigger-center-click-on-key-release": "Uždarykite meniu, kai spartusis klavišas atleidžiamas virš centro",
+      "trigger-center-click-on-key-release-info": "Tai suaktyvins centrinio paspaudimo darbo eigą, kai klavišas bus atleistas užvedus pelės žymeklį virš meniu centro."
+    },
+    "hover-mode": "Užvedimo režimas",
+    "icon-picker-dialog": {
+      "search-placeholder": "Ieškoti piktogramų…"
+    },
+    "import-menu": "Importavimo meniu",
+    "menu-behavior": "Meniu elgsena",
+    "menu-conditions": "Meniu sąlygos",
+    "menu-themes-dialog": {
+      "default-colors": "Numatytosios spalvos",
+      "enable-menu-animations": "Meniu Animacijos",
+      "title": "Meniu apipavidalinimai"
+    },
+    "no-matching-menus": "Meniu nerasta.",
+    "no-menus": "Jūs neturite jokių meniu.",
+    "not-bound": "Neapribota",
+    "quick-select-key-label": "Greito pasirinkimo klavišas",
+    "quick-select-key-recording": "Pasirinkite raktą…",
+    "shortcut-info": "Šis spartusis klavišas atidaro meniu. Jame turi būti vienas įprastas klavišas ir bet koks modifikatorių skaičius, pvz., Ctrl, Alt arba Shift. Įrašant nereikia spausti visų klavišų iš karto, galima juos spausti ir vieną po kito. Tai naudinga, jei nuoroda jau susieta su kitu meniu!",
+    "shortcut-label": "Spartusis klavišas",
+    "shortcut-recording": "Paspauskite spartųjį klavišą…",
+    "window-condition": "Apriboti konkrečius langų pavadinimus",
+    "workflow-editor": {
+      "add-action": "Pridėti veiksmą",
+      "select-workflow-name": "Pasirinkite Darbo eiga"
+    },
+    "anchored-mode-info": "Atidarykite submeniu toje pačioje padėtyje kaip pagrindinis meniu. Checking this, will disable Marking Mode and Turbo Mode.",
+    "fixed-position-mode": "Fiksuotos padėties režimas",
+    "fixed-position-mode-info": "Atidarykite meniu fiksuotoje ekrano vietoje, o ne ties žymekliu.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Nustatykite padėtį apačioje kairėje",
+      "bottom-right-preset-tooltip": "Nustatykite padėtį apačioje dešinėje",
+      "centered-preset-tooltip": "Nustatykite padėtį į centrą",
+      "confirm": "Naudokite šią poziciją",
+      "top-left-preset-tooltip": "Nustatykite padėtį viršuje kairėje",
+      "top-right-preset-tooltip": "Nustatykite padėtį viršuje dešinėje"
+    },
+    "fixed-position-tooltip": "Pasirinkite fiksuotą padėtį",
+    "hover-mode-info": "Tik patyrusiems vartotojams! Pasirinkite elementus užvesdami pelės žymeklį virš jų."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Numatytoji",
+      "clean-circle": "Paprastas apskritimas",
+      "neon-lights": "Neono šviesos",
+      "purity": "Grynumas",
+      "rainbow-labels": "Vaivorykštės etiketės"
+    },
+    "presets": {
+      "Blue Glass": "Mėlynas stiklas",
+      "Dark Night": "Tamsi naktis",
+      "Cotton Candy": "Cukraus vata",
+      "Dark and Cozy": "Tamsu ir jauku",
+      "Blue Glow": "Mėlynas švytėjimas",
+      "Green Glow": "Žalias švytėjimas",
+      "Electric": "Elektrinė",
+      "Orange": "Oranžinė",
+      "Pink": "Rožinė",
+      "Bright Prism": "Ryški prizmė",
+      "Kando Default": "Numatytosios spalvos"
+    }
+  }
+}

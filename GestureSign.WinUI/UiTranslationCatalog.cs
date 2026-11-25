@@ -73,6 +73,15 @@ internal static class UiTranslationCatalog
             ? translated : english;
     }
 
+    internal static IEnumerable<string> GetKnownTranslations(string english)
+    {
+        foreach (var culture in SupportedCultureNames)
+        {
+            if (Load(culture).TryGetValue(english, out var translation) && !string.IsNullOrWhiteSpace(translation))
+                yield return translation.Trim();
+        }
+    }
+
     public static bool HasCatalog(string cultureName)
     {
         var resolved = ResolveCultureName(cultureName);

@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-pos",
+      "file-browser": "Lêerblaaier",
+      "paint": "Verf",
+      "submenu": "Toepassings",
+      "terminal": "Terminale",
+      "web-browser": "Webblaaier"
+    },
+    "audio": {
+      "mute": "Dempen",
+      "next-track": "Volgende-liedjie",
+      "play-pause": "Speel / Pouse",
+      "previous-track": "Vorige-liedjie",
+      "submenu": "Oudio"
+    },
+    "bookmarks": {
+      "desktop": "Lessenaar",
+      "documents": "Dokumente",
+      "downloads": "Aflaaie",
+      "home": "Tuis",
+      "music": "Musiek",
+      "pictures": "Prente",
+      "submenu": "Boekmerke",
+      "videos": "Video's"
+    },
+    "clipboard": {
+      "copy": "Kopieer",
+      "cut": "Knip",
+      "paste": "Plak",
+      "submenu": "Knipbord"
+    },
+    "name": "Voorbeeld Menu",
+    "next-workspace": "Volgende Werkspasie",
+    "previous-workspace": "Vorige Werkspasie",
+    "web-links": {
+      "kando-on-discord": "Kando op Discord",
+      "kando-on-github": "Kando op GitHub",
+      "kando-on-kofi": "Kando op Ko-fi",
+      "kando-on-youtube": "Kando op YouTube",
+      "submenu": "Webskakels"
+    },
+    "windows": {
+      "close-window": "Sluit Venster",
+      "submenu": "Vensters",
+      "tile-left": "Teël links",
+      "tile-right": "Teël regs",
+      "toggle-maximize": "Wissel Maksimeer"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Maak spyskaart toe"
+    },
+    "close-submenu": {
+      "name": "Maak subkieslys toe"
+    },
+    "delay": {
+      "name": "Vertraag"
+    },
+    "execute-command": {
+      "name": "Voer bevel uit"
+    },
+    "execute-macro": {
+      "name": "Voer makro uit"
+    },
+    "focus-window": {
+      "name": "Fokus venster"
+    },
+    "inhibit-shortcuts": {
+      "name": "Inhibeer kortpaaie"
+    },
+    "open-file": {
+      "name": "Maak lêer oop"
+    },
+    "open-menu": {
+      "name": "Maak Kieslys oop"
+    },
+    "open-settings": {
+      "name": "Maak Instellings oop"
+    },
+    "open-uri": {
+      "name": "Maak URI oop"
+    },
+    "send-tcp-message": {
+      "name": "Stuur TCP-boodskap"
+    },
+    "send-websocket-message": {
+      "name": "Stuur WebSocket-boodskap"
+    },
+    "set-clipboard": {
+      "name": "Stel knipbord"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Warmtoets",
+      "name": "Simuleer Hotkey",
+      "recording-placeholder": "Tik 'n sneltoets …"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Subkieslys"
+    }
+  },
+  "native": {
+    "action": "Aksie",
+    "action-value": "Kortpad, pad, URL, teks of JSON",
+    "choose-icon": "Kies ikoon",
+    "condition-invalid": "Voer 'n geldige venster- of toepassingvoorwaarde in, byvoorbeeld /notepad/i.",
+    "configuration": "Taartkieslys-konfigurasie",
+    "editor": "Pasteikieslysredakteur",
+    "exported": "Uitgevoer na {0}",
+    "fixed-angle": "Vaste hoek (0° = op)",
+    "fixed-x": "Vaste X (0–1 oor die monitor)",
+    "fixed-y": "Vaste Y (0–1 onder die monitor)",
+    "icon-invalid-image": "Kies 'n PNG-, JPEG-, GIF-, WebP- of ICO-prent tot 192 KB.",
+    "icon-library": "Ikoon biblioteek",
+    "icon-next": "Volgende ikone",
+    "icon-no-results": "Geen ikone gevind nie.",
+    "icon-pick-file": "Kies prent of toepassing",
+    "icon-previous": "Vorige ikone",
+    "icon-use-image": "Gebruik beeld",
+    "imported": "Ingevoerde {0} spyskaart(e). Hersien ingevoerde opdragte voordat u dit gebruik, en stoor dan.",
+    "item-icon": "Item ikoon",
+    "item-order": "Item bestelling",
+    "label": "Etiket",
+    "move-down": "Beweeg af",
+    "move-up": "Beweeg op",
+    "name": "Kieslysnaam",
+    "new-menu": "Nuwe spyskaart",
+    "off": "Af",
+    "on": "Aan",
+    "palette": "Kleurpalet",
+    "preview": "Voorskou-kieslys",
+    "remove": "Verwyder",
+    "save": "Stoor spyskaarte",
+    "saved": "Kieslyskonfigurasie gestoor.",
+    "shortcut-clear": "Vee kortpad uit",
+    "shortcut-cleared": "Kortpad uitgevee.",
+    "shortcut-config-changed": "Die spyskaartopstelling het op skyf verander. Stoor die huidige spyskaarte om hierdie kortpad toe te pas.",
+    "shortcut-in-use": "Windows meld dat hierdie kortpad reeds in gebruik is.",
+    "shortcut-invalid": "Voer een sleutel in, plus enige wysigers wat vir hierdie kortpad toegelaat word.",
+    "shortcut-record": "Rekord kortpad",
+    "shortcut-save-new-menu": "Stoor hierdie nuwe spyskaart om sy kortpad te aktiveer.",
+    "shortcut-saved": "Kortpad gestoor: {0}. Gebruik dit om die kieslys oop te maak wanneer Vinnige aksies geaktiveer is.",
+    "shortcut-stop": "Hou op opneem",
+    "shortcut-unavailable": "Windows kon nie hierdie kortpad registreer nie."
+  },
+  "settings": {
+    "add-menu-items": "Voeg spyskaart-items by",
+    "all-menus": "Alle spyskaarte",
+    "anchored-mode": "Geankerde modus",
+    "app-condition": "Beperk tot spesifieke toepassings",
+    "area-condition-bottom-placeholder": "Onderkant",
+    "area-condition-left-placeholder": "Links",
+    "area-condition-right-placeholder": "Regs",
+    "area-condition-top-placeholder": "Bo",
+    "cancel": "Kanselleer",
+    "create-menu-button": "Voeg spyskaart by",
+    "delete-menu": "Vee spyskaart uit",
+    "delete-menu-item": "Vee spyskaart-item uit",
+    "edit-submenu": "Wysig subkieslys",
+    "export-menu": "Uitvoer spyskaart",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Aktiveer merkmodus",
+      "close-menu": "Maak spyskaart toe",
+      "do-nothing": "Doen niks",
+      "enable-marking-mode-info": "Met Merkmodus geaktiveer, kan jy items kies deur die muis oor hulle te sleep.",
+      "enable-turbo-mode": "Aktiveer turbomodus",
+      "enable-turbo-mode-info": "Met Turbo-modus geaktiveer, kan jy gebare uitvoer solank jy 'n wysigingsleutel soos Shift of Ctrl ingedruk hou.",
+      "interaction-modes": "Interaksiemodusse",
+      "middle-mouse-button-behavior": "Middelste muisknoppie",
+      "middle-mouse-button-behavior-info": "Dit bepaal wat gebeur wanneer die middelste muisknoppie gedruk word terwyl 'n spyskaart gewys word.",
+      "move-pointer-to-menu-center": "Beweeg wyser na die spyskaartsentrum",
+      "move-pointer-to-menu-center-info": "As dit gemerk is, sal die muiswyser na die middel van 'n kieslys of subkieslys geskuif word wanneer nodig. Dit kan die geval wees as 'n spyskaart te naby aan die rand van die skerm oopgemaak word of as 'n spyskaart in gesentreerde modus oopgemaak word.",
+      "require-click-for-hover-mode": "Vereis klik vir Hover Mode-keuses",
+      "require-click-for-hover-mode-info": "As dit nie gemerk is nie, sal items onmiddellik gekies word wanneer die muis oor hulle beweeg word vir spyskaarte wat Beweegmodus gebruik.",
+      "right-mouse-button-behavior": "Regs muis knoppie",
+      "right-mouse-button-behavior-info": "Dit bepaal wat gebeur wanneer die regtermuisknoppie gedruk word terwyl 'n spyskaart gewys word.",
+      "select-item": "Kies item",
+      "select-parent": "Navigeer een vlak op",
+      "trigger-center-click-on-key-release": "Maak spyskaart toe op kortpad vrystelling oor middel",
+      "trigger-center-click-on-key-release-info": "Dit sal die middel-klik-werkvloei aktiveer wanneer 'n sleutel vrygestel word terwyl jy oor die middel van 'n spyskaart beweeg."
+    },
+    "hover-mode": "Beweegmodus",
+    "icon-picker-dialog": {
+      "search-placeholder": "Soek ikone …"
+    },
+    "import-menu": "Invoer spyskaart",
+    "menu-behavior": "Spyskaart Gedrag",
+    "menu-conditions": "Spyskaart Voorwaardes",
+    "menu-themes-dialog": {
+      "default-colors": "Standaard kleure",
+      "enable-menu-animations": "Spyskaart-animasies",
+      "title": "Spyskaart temas"
+    },
+    "no-matching-menus": "Geen spyskaarte gevind nie.",
+    "no-menus": "Jy het geen spyskaarte nie.",
+    "not-bound": "Nie Gebonde nie",
+    "quick-select-key-label": "Snelkiessleutel",
+    "quick-select-key-recording": "Kies sleutel …",
+    "shortcut-info": "Hierdie kortpad maak die spyskaart oop. Dit moet een normale sleutel en enige aantal wysigers soos Ctrl, Alt of Shift bevat. Wanneer jy opneem, hoef jy nie al die sleutels gelyktydig te druk nie, jy kan hulle ook een na die ander druk. Dit is nuttig as 'n kortpad reeds aan 'n ander spyskaart gekoppel is!",
+    "shortcut-label": "Kortpad",
+    "shortcut-recording": "Druk 'n kortpad...",
+    "window-condition": "Beperk tot spesifieke venstertitels",
+    "workflow-editor": {
+      "add-action": "Voeg aksie by",
+      "select-workflow-name": "Kies Werkvloei"
+    },
+    "anchored-mode-info": "Maak subkieslys oop op dieselfde posisie as die ouerkieslys. As u dit nagaan, sal Merkmodus en Turbomodus deaktiveer.",
+    "fixed-position-mode": "Vaste posisie-modus",
+    "fixed-position-mode-info": "Maak die kieslys op 'n vaste posisie op die skerm oop, in plaas van by die wyser.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Stel posisie links onder",
+      "bottom-right-preset-tooltip": "Stel posisie regs onder",
+      "centered-preset-tooltip": "Stel posisie na middel",
+      "confirm": "Gebruik hierdie posisie",
+      "top-left-preset-tooltip": "Stel posisie na links bo",
+      "top-right-preset-tooltip": "Stel posisie regs bo"
+    },
+    "fixed-position-tooltip": "Kies 'n vaste posisie",
+    "hover-mode-info": "Slegs vir kraggebruikers! Kies items deur oor hulle te beweeg."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Verstek",
+      "clean-circle": "Maak sirkel skoon",
+      "neon-lights": "Neon ligte",
+      "purity": "Reinheid",
+      "rainbow-labels": "Reënboogetikette"
+    },
+    "presets": {
+      "Blue Glass": "Blou Glas",
+      "Dark Night": "Donker Nag",
+      "Cotton Candy": "Suikergoed",
+      "Dark and Cozy": "Donker en Gesellig",
+      "Blue Glow": "Blou gloed",
+      "Green Glow": "Groen gloed",
+      "Electric": "Elektries",
+      "Orange": "Oranje",
+      "Pink": "Pienk",
+      "Bright Prism": "Helder Prisma",
+      "Kando Default": "Standaard kleure"
+    }
+  }
+}

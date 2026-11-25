@@ -6,13 +6,14 @@
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap uap3 uap7 uap10 desktop rescap">
+  IgnorableNamespaces="uap uap3 uap7 uap10 desktop com rescap">
 
   <Identity
     Name="TomClancy.GestureSignV2"
     Publisher="CN=A82713FB-4ABE-47C7-8184-01CF24575B7F"
-    Version="18.4.8.0" />
+    Version="18.4.12.0" />
 
   <Properties>
     <DisplayName>GestureSign V2</DisplayName>
@@ -136,9 +137,53 @@
         <uap:SplashScreen Image="Assets\Store\SplashScreen.png" BackgroundColor="transparent" />
       </uap:VisualElements>
       <Extensions>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="gesturesignv2">
+            <uap:DisplayName>GestureSign V2</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="GestureSignV2.WinUI.exe" DisplayName="GestureSign V2">
+              <com:Class Id="9a420e4f-1331-435f-8ee9-480c248569f8" DisplayName="GestureSign V2" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+        <uap3:Extension Category="windows.appExtension">
+          <uap3:AppExtension Name="com.microsoft.windows.widgets" DisplayName="GestureSign V2"
+                            Id="GestureSignV2Widgets" PublicFolder="Assets">
+            <uap3:Properties>
+              <WidgetProvider>
+                <ProviderIcons>
+                  <Icon Path="Assets\Store\Square44x44Logo.png" />
+                </ProviderIcons>
+                <Activation>
+                  <CreateInstance ClassId="9a420e4f-1331-435f-8ee9-480c248569f8" />
+                </Activation>
+                <Definitions>
+                  <Definition Id="QuickActions" DisplayName="ms-resource:/WidgetResources/QuickActions"
+                              Description="ms-resource:/WidgetResources/QuickActionsDescription" AllowMultiple="false">
+                    <Capabilities>
+                      <Capability>
+                        <Size Name="medium" />
+                      </Capability>
+                    </Capabilities>
+                    <ThemeResources>
+                      <Icons><Icon Path="Assets\Store\Square44x44Logo.png" /></Icons>
+                      <Screenshots><Screenshot Path="Assets\Store\WidgetLight.png" /></Screenshots>
+                      <DarkMode>
+                        <Screenshots><Screenshot Path="Assets\Store\WidgetDark.png" /></Screenshots>
+                      </DarkMode>
+                    </ThemeResources>
+                  </Definition>
+                </Definitions>
+              </WidgetProvider>
+            </uap3:Properties>
+          </uap3:AppExtension>
+        </uap3:Extension>
         <uap3:Extension
           Category="windows.appExecutionAlias"
-          Executable="Backend\GestureSign.exe"
+          Executable="Backend\GestureSignV2Daemon.exe"
           EntryPoint="Windows.FullTrustApplication">
           <uap3:AppExecutionAlias>
             <desktop:ExecutionAlias Alias="GestureSignV2Daemon.exe" />

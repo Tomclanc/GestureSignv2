@@ -18,6 +18,13 @@ namespace GestureSign.Shortcuts
                 if ((mask & Flag(key)) != 0 && !result.Any(k => Flag(k) == Flag(key))) result.Add(key);
             return result.ToArray();
         }
+        public static bool IsSecureAttentionShortcut(int mask, IEnumerable<int> exact, IEnumerable<int> keys)
+        {
+            var codes = (keys ?? Array.Empty<int>()).ToArray();
+            int flags = Resolve(mask, exact).Concat(codes.Where(IsModifier)).Aggregate(0, (result, key) => result | Flag(key));
+            return (flags & 3) == 3 && codes.Contains(46); // VK_DELETE
+        }
+
         public static bool IsLockShortcut(int mask, IEnumerable<int> exact, IEnumerable<int> keys)
         {
             var codes = (keys ?? Array.Empty<int>()).ToArray();

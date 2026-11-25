@@ -33,8 +33,8 @@ public sealed partial class MainWindow
         }
         master.Toggled += (_, _) => { if (!changing) { if (master.IsOn && mask == 0) rightToggle!.IsOn = true; Save(); } };
 
-        root.Children.Add(NewSettingRow(IntentText("启用鼠标手势", "Enable mouse gestures"), null, master));
-        root.Children.Add(NewSettingRow(IntentText("鼠标手势启动键", "Mouse gesture start buttons"), IntentText("可同时开启多个按键，最先按下的启动键控制本次绘制。", "Enable multiple buttons; the first pressed start button controls the drawing."), panel));
+        root.Children.Add(MarkSearchTarget(NewSettingRow(IntentText("启用鼠标手势", "Enable mouse gestures"), null, master), "mouse-gestures"));
+        root.Children.Add(MarkSearchTarget(NewSettingRow(IntentText("鼠标手势启动键", "Mouse gesture start buttons"), IntentText("可同时开启多个按键，最先按下的启动键控制本次绘制。", "Enable multiple buttons; the first pressed start button controls the drawing."), panel), "mouse-gesture-buttons"));
         return root;
     }
 }

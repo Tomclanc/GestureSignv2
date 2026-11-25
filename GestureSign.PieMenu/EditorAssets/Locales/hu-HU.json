@@ -1,0 +1,247 @@
+{
+  "example-menu": {
+    "apps": {
+      "email": "E-mail",
+      "file-browser": "Fájlböngésző",
+      "paint": "Festék",
+      "submenu": "Alkalmazások elemre",
+      "terminal": "Terminál",
+      "web-browser": "Webböngésző"
+    },
+    "audio": {
+      "mute": "Némítás",
+      "next-track": "Következő szám",
+      "play-pause": "Lejátszás / Szünet",
+      "previous-track": "Előző szám",
+      "submenu": "Hang"
+    },
+    "bookmarks": {
+      "desktop": "Asztal",
+      "documents": "Dokumentumok",
+      "downloads": "Letöltések",
+      "home": "Otthon",
+      "music": "Zene",
+      "pictures": "Képek",
+      "submenu": "Könyvjelzők",
+      "videos": "Videók"
+    },
+    "clipboard": {
+      "copy": "Másolás",
+      "cut": "Kivágás",
+      "paste": "Beillesztés",
+      "submenu": "Vágólap"
+    },
+    "name": "Példa menü",
+    "next-workspace": "Következő munkaterület",
+    "previous-workspace": "Előző munkaterület",
+    "web-links": {
+      "kando-on-discord": "Kando a Discordon",
+      "kando-on-github": "Kando a GitHubon",
+      "kando-on-kofi": "Kando a Ko-fi-n",
+      "kando-on-youtube": "Kando a YouTube-on",
+      "submenu": "Webes hivatkozások"
+    },
+    "windows": {
+      "close-window": "Ablak bezárása",
+      "submenu": "Windows",
+      "tile-left": "Csempe balra",
+      "tile-right": "Csempe jobb",
+      "toggle-maximize": "Kapcsolja be a Maximalizálást"
+    }
+  },
+  "menu-actions": {
+    "close-menu": {
+      "name": "Menü bezárása"
+    },
+    "close-submenu": {
+      "name": "Almenü bezárása"
+    },
+    "delay": {
+      "name": "Késleltetés"
+    },
+    "execute-command": {
+      "name": "Parancs végrehajtása"
+    },
+    "execute-macro": {
+      "name": "Makró végrehajtása"
+    },
+    "focus-window": {
+      "name": "Fókusz ablak"
+    },
+    "inhibit-shortcuts": {
+      "name": "Parancsikonok tiltása"
+    },
+    "open-file": {
+      "name": "Fájl megnyitása"
+    },
+    "open-menu": {
+      "name": "Nyissa meg a menüt"
+    },
+    "open-settings": {
+      "name": "Nyissa meg a Beállítások lehetőséget"
+    },
+    "open-uri": {
+      "name": "Nyissa meg az URI-t"
+    },
+    "send-tcp-message": {
+      "name": "TCP üzenet küldése"
+    },
+    "send-websocket-message": {
+      "name": "WebSocket üzenet küldése"
+    },
+    "set-clipboard": {
+      "name": "Vágólap beállítása"
+    },
+    "simulate-hotkey": {
+      "hotkey": "Gyorsbillentyű",
+      "name": "Gyorsbillentyű szimulálása",
+      "recording-placeholder": "Írjon be egy gyorsbillentyűt…"
+    }
+  },
+  "menu-items": {
+    "submenu": {
+      "name": "Almenü"
+    }
+  },
+  "native": {
+    "action": "Akció",
+    "action-value": "Parancsikon, elérési út, URL, szöveg vagy JSON",
+    "choose-icon": "Válassza ki az ikont",
+    "condition-invalid": "Adjon meg egy érvényes ablak- vagy alkalmazásfeltételt, például /notepad/i.",
+    "configuration": "Pie Menü konfiguráció",
+    "editor": "Pite menü szerkesztő",
+    "exported": "Exportálva ide: {0}",
+    "fixed-angle": "Rögzített szög (0° = felfelé)",
+    "fixed-x": "Javított X (0-1 a monitoron)",
+    "fixed-y": "Javított Y (0–1 a monitoron)",
+    "icon-invalid-image": "Válasszon legfeljebb 192 KB méretű PNG, JPEG, GIF, WebP vagy ICO képet.",
+    "icon-library": "Ikon könyvtár",
+    "icon-next": "Következő ikonok",
+    "icon-no-results": "Nem található ikon.",
+    "icon-pick-file": "Válasszon képet vagy alkalmazást",
+    "icon-previous": "Előző ikonok",
+    "icon-use-image": "Kép használata",
+    "imported": "{0} menü importálva. Használat előtt tekintse át az importált parancsokat, majd mentse.",
+    "item-icon": "elem ikonra",
+    "item-order": "Tételrendelés",
+    "label": "Címke",
+    "move-down": "Mozgás lefelé",
+    "move-up": "Lépj felfelé",
+    "name": "Menü neve",
+    "new-menu": "Új menü",
+    "off": "Ki",
+    "on": "Be",
+    "palette": "Színpaletta",
+    "preview": "Előnézet menü",
+    "remove": "Távolítsa el",
+    "save": "Menük mentése",
+    "saved": "Menübeállítás mentve.",
+    "shortcut-clear": "Parancsikon törlése",
+    "shortcut-cleared": "Parancsikon törölve.",
+    "shortcut-config-changed": "A menü konfigurációja megváltozott a lemezen. A parancsikon alkalmazásához mentse az aktuális menüket.",
+    "shortcut-in-use": "A Windows jelentése szerint ez a parancsikon már használatban van.",
+    "shortcut-invalid": "Adjon meg egy kulcsot, valamint a parancsikonhoz engedélyezett módosítókat.",
+    "shortcut-record": "Parancsikon rögzítése",
+    "shortcut-save-new-menu": "Mentse el ezt az új menüt a parancsikon aktiválásához.",
+    "shortcut-saved": "Parancsikon mentve: {0}. Használja a menü megnyitásához, ha a Gyors műveletek engedélyezve vannak.",
+    "shortcut-stop": "Állítsa le a felvételt",
+    "shortcut-unavailable": "A Windows nem tudta regisztrálni ezt a parancsikont."
+  },
+  "settings": {
+    "add-menu-items": "Menüelemek hozzáadása",
+    "all-menus": "Minden menü",
+    "anchored-mode": "Rögzített mód",
+    "app-condition": "Konkrét alkalmazásokra korlátozódik",
+    "area-condition-bottom-placeholder": "Alsó",
+    "area-condition-left-placeholder": "Bal",
+    "area-condition-right-placeholder": "Jobb",
+    "area-condition-top-placeholder": "Felső",
+    "cancel": "Mégse",
+    "create-menu-button": "Menü hozzáadása",
+    "delete-menu": "Menü törlése",
+    "delete-menu-item": "Menüpont törlése",
+    "edit-submenu": "Szerkesztés almenü",
+    "export-menu": "Exportálás menü",
+    "general-settings-dialog": {
+      "enable-marking-mode": "Jelölési mód engedélyezése",
+      "close-menu": "Menü bezárása",
+      "do-nothing": "Ne csinálj semmit",
+      "enable-marking-mode-info": "Ha a Jelölési mód engedélyezve van, akkor az egeret rájuk húzva választhat ki elemeket.",
+      "enable-turbo-mode": "Turbó mód engedélyezése",
+      "enable-turbo-mode-info": "Ha a Turbó mód engedélyezve van, addig hajthat végre gesztusokat, amíg lenyomva tartja a módosító billentyűket, például a Shift vagy a Ctrl billentyűt.",
+      "interaction-modes": "Interakciós módok",
+      "middle-mouse-button-behavior": "Középső egérgomb",
+      "middle-mouse-button-behavior-info": "Ez határozza meg, hogy mi történik, ha a középső egérgombot lenyomják, miközben egy menü látható.",
+      "move-pointer-to-menu-center": "Vigye a mutatót a menü közepére",
+      "move-pointer-to-menu-center-info": "Ha be van jelölve, az egérmutató szükség esetén a menü vagy almenü közepére kerül. Ez akkor fordulhat elő, ha egy menüt túl közel nyitnak meg a képernyő széléhez, vagy ha egy menüt Középre állított módban nyitnak meg.",
+      "require-click-for-hover-mode": "Kattintson a Lebegő mód kiválasztásához",
+      "require-click-for-hover-mode-info": "Ha nincs bejelölve, az elemek azonnal ki lesznek jelölve, amikor az egeret rájuk viszi a Lebegtetés módot használó menükhöz.",
+      "right-mouse-button-behavior": "Jobb egérgomb",
+      "right-mouse-button-behavior-info": "Ez határozza meg, hogy mi történik, ha megnyomja a jobb egérgombot, miközben egy menü látható.",
+      "select-item": "Válassza ki az elemet",
+      "select-parent": "Navigáljon egy szinttel feljebb",
+      "trigger-center-click-on-key-release": "Zárja be a menüt a gyorsbillentyűk felengedésekor a központ felett",
+      "trigger-center-click-on-key-release-info": "Ez elindítja a középső kattintás munkafolyamatát, amikor egy billentyűt elengednek, miközben az egérmutatót a menü közepe fölé viszi."
+    },
+    "hover-mode": "Lebegő mód",
+    "icon-picker-dialog": {
+      "search-placeholder": "Ikonok keresése…"
+    },
+    "import-menu": "Importálás menü",
+    "menu-behavior": "Menü viselkedése",
+    "menu-conditions": "Menü feltételek",
+    "menu-themes-dialog": {
+      "default-colors": "Alapértelmezett színek",
+      "enable-menu-animations": "Menü animációk",
+      "title": "Menütémák"
+    },
+    "no-matching-menus": "Nem található menü.",
+    "no-menus": "Nincsenek menük.",
+    "not-bound": "Nincs kötve",
+    "quick-select-key-label": "Gyorsválasztó gomb",
+    "quick-select-key-recording": "Kulcs kiválasztása…",
+    "shortcut-info": "Ez a parancsikon megnyitja a menüt. Tartalmaznia kell egy normál billentyűt és tetszőleges számú módosítót, például Ctrl, Alt vagy Shift. Felvételkor nem kell egyszerre lenyomni az összes gombot, egymás után is megnyomhatjuk. Ez akkor hasznos, ha egy parancsikon már egy másik menühöz van kötve!",
+    "shortcut-label": "Parancsikon",
+    "shortcut-recording": "Nyomjon meg egy parancsikont…",
+    "window-condition": "Konkrét ablakcímekre korlátozódik",
+    "workflow-editor": {
+      "add-action": "Művelet hozzáadása elemre",
+      "select-workflow-name": "Válassza a Munkafolyamat lehetőséget"
+    },
+    "anchored-mode-info": "Nyissa meg az almenüket a szülőmenüvel azonos helyen. Ha ezt bejelöli, a Marking Mode és a Turbo Mode letiltja.",
+    "fixed-position-mode": "Rögzített pozíció mód",
+    "fixed-position-mode-info": "Nyissa meg a menüt a képernyő egy rögzített helyén, a kurzor helyett.",
+    "fixed-position-picker": {
+      "bottom-left-preset-tooltip": "Állítsa be a pozíciót a bal alsóba",
+      "bottom-right-preset-tooltip": "Állítsa be a pozíciót a jobb alsóba",
+      "centered-preset-tooltip": "Állítsa be a pozíciót középre",
+      "confirm": "Használja ezt a pozíciót",
+      "top-left-preset-tooltip": "Állítsa be a pozíciót a bal felső sarokban",
+      "top-right-preset-tooltip": "Állítsa be a pozíciót a jobb felső sarokban"
+    },
+    "fixed-position-tooltip": "Válasszon egy rögzített pozíciót",
+    "hover-mode-info": "Csak erős felhasználóknak! Válassza ki az elemeket úgy, hogy az egérmutatót rájuk viszi."
+  },
+  "theme-labels": {
+    "themes": {
+      "default": "Alapértelmezett",
+      "clean-circle": "Tiszta kör",
+      "neon-lights": "Neon fények",
+      "purity": "Tisztaság",
+      "rainbow-labels": "Szivárvány címkék"
+    },
+    "presets": {
+      "Blue Glass": "Kék Üveg",
+      "Dark Night": "Sötét éjszaka",
+      "Cotton Candy": "Vattacukor",
+      "Dark and Cozy": "Sötét és hangulatos",
+      "Blue Glow": "Blue Glow",
+      "Green Glow": "Green Glow",
+      "Electric": "Elektromos",
+      "Orange": "Narancssárga",
+      "Pink": "Rózsaszín",
+      "Bright Prism": "Fényes prizma",
+      "Kando Default": "Alapértelmezett színek"
+    }
+  }
+}

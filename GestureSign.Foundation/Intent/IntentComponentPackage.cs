@@ -8,6 +8,15 @@ public sealed record IntentComponentManifest(int Protocol, string Version, strin
 
 public static class IntentComponentPackage
 {
+    public static string RuntimeExecutable(string directory)
+    {
+        var runtime = Path.Combine(directory, "Runtime");
+        var named = Path.Combine(runtime, "GestureSignV2.IntentDlc.exe");
+        if (File.Exists(named)) return named;
+        var executable = Path.Combine(runtime, "GestureSignV2.exe");
+        return File.Exists(executable) ? executable : Path.Combine(runtime, "GestureSign.IntentDlc.exe");
+    }
+
     public const string ComponentVersion = "18.4.7";
     public const int Protocol = 2;
     public static bool IsCompatible(IntentComponentManifest? manifest, string architecture) =>
@@ -48,7 +57,7 @@ public static class IntentComponentPackage
             }
             var manifest = IntentFiles.Read<IntentComponentManifest>(Path.Combine(staging, "component.json"));
             if (manifest is null || manifest.Protocol != Protocol || manifest.Version != asset.Version || manifest.Architecture != asset.Architecture || manifest.Backend != asset.Backend) throw new InvalidDataException("组件协议或架构不匹配。");
-            VerifyExecutable(Path.Combine(staging, "Runtime", "GestureSign.IntentDlc.exe"), asset.Architecture);
+            VerifyExecutable(RuntimeExecutable(staging), asset.Architecture);
             cancellationToken.ThrowIfCancellationRequested();
             if (Directory.Exists(destination)) Directory.Move(destination, backup);
             try { Directory.Move(staging, destination); }

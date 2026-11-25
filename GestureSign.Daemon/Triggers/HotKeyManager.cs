@@ -202,7 +202,9 @@ namespace GestureSign.Daemon.Triggers
             int keyCode;
             int modifierKeys;
             int[] exactKeys;
-            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled || !TryParseHotKey(AppConfig.KandoHotKey, out keyCode, out modifierKeys, out exactKeys))
+            if (PointCapture.Instance.Mode == Common.Input.CaptureMode.UserDisabled || !AppConfig.KandoEnabled ||
+                GestureSign.Shared.KandoComponentPaths.IsNativePieMenu(AppConfig.KandoExecutablePath) ||
+                !TryParseHotKey(AppConfig.KandoHotKey, out keyCode, out modifierKeys, out exactKeys))
                 return;
 
             _kandoHotKey = new Hotkey { KeyCode = keyCode, ModifierKeys = modifierKeys, ModifierKeyCodes = exactKeys };
