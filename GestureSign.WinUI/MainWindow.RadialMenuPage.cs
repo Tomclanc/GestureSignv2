@@ -61,10 +61,16 @@ public sealed partial class MainWindow
         columns.Children.Add(_radialMenuListHost);
         columns.Children.Add(_radialWheelHost);
         columns.Children.Add(_radialLibraryHost);
+        _radialColumns = columns;
+        _radialSwitches = switches;
         _radialLayoutMode = -1;
-        ApplyRadialPageLayout(columns, switches, double.PositiveInfinity);
+        _radialLayoutQueued = false;
+        ApplyRadialPageLayout(double.PositiveInfinity);
         // Wide: list | wheel | library. Medium: list | wheel, library below. Narrow: one column.
-        columns.SizeChanged += (_, e) => ApplyRadialPageLayout(columns, switches, e.NewSize.Width);
+        // The width is only known once the page is measured, and rewriting the row/column
+        // definitions while the grid is laying out crashes XAML, so the re-layout is queued.
+        columns.SizeChanged += (_, e) => QueueRadialPageLayout(e.NewSize.Width);
+        root.Loaded += (_, _) => QueueRadialPageLayout(columns.ActualWidth);
 
         var content = new StackPanel { Spacing = 16 };
         content.Children.Add(switches);
@@ -77,9 +83,39 @@ public sealed partial class MainWindow
     }
 
     private int _radialLayoutMode = -1;
+    private Grid? _radialColumns;
+    private StackPanel? _radialSwitches;
+    private double _radialPendingWidth;
+    private bool _radialLayoutQueued;
 
-    private void ApplyRadialPageLayout(Grid columns, StackPanel switches, double width)
+    /// <summary>
+    /// Re-applies the columns for <paramref name="width"/> after the current layout pass.
+    /// XAML fails fast (0xc000027b in Microsoft.UI.Xaml.dll) when SizeChanged rewrites the
+    /// definitions of the grid that raised it, which is what made the page vanish at random.
+    /// </summary>
+    private void QueueRadialPageLayout(double width)
     {
+        if (double.IsNaN(width) || width <= 0)
+            return;
+        _radialPendingWidth = width;
+        if (_radialLayoutQueued)
+            return;
+        _radialLayoutQueued = true;
+        DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+        {
+            _radialLayoutQueued = false;
+            if (_radialColumns is null || _radialSwitches is null)
+                return;
+            ApplyRadialPageLayout(_radialPendingWidth);
+        });
+    }
+
+    private void ApplyRadialPageLayout(double width)
+    {
+        var columns = _radialColumns;
+        var switches = _radialSwitches;
+        if (columns is null || switches is null)
+            return;
         var mode = width >= 900 ? 2 : width >= 560 ? 1 : 0;
         switches.Orientation = width >= 420 ? Orientation.Horizontal : Orientation.Vertical;
         if (mode == _radialLayoutMode || _radialMenuListHost is null || _radialWheelHost is null || _radialLibraryHost is null)

@@ -174,6 +174,10 @@ public sealed partial class MainWindow : Window
             args.SetObserved();
         };
         _legacyData = LegacyDataStore.Load();
+        // WinUI routes exceptions thrown on the UI thread to its own event and then ends the
+        // process; without this the settings window vanishes without any trace in the log.
+        Application.Current.UnhandledException += (_, args) =>
+            LogException(new Exception($"Unhandled UI exception on thread {Environment.CurrentManagedThreadId}", args.Exception));
         RemoveMigratedRadialSlotActions();
         _uiCultureName = _legacyData.Options.CultureName;
         ApplyUiCulture(_uiCultureName);
