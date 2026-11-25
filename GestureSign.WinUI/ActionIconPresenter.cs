@@ -182,8 +182,10 @@ internal static class ActionIconPresenter
         if (pixels.Bgra is null || pixels.Width <= 0)
             return null;
 
-        // XAML wants premultiplied alpha; the shell gives straight alpha.
-        var bgra = pixels.Bgra;
+        // XAML wants premultiplied alpha; the shell gives straight alpha. The pixel buffer
+        // may be shared with the caller, so work on a copy: premultiplying twice would darken
+        // the icon a little on every reload.
+        var bgra = (byte[])pixels.Bgra.Clone();
         for (var i = 0; i < bgra.Length; i += 4)
         {
             var alpha = bgra[i + 3];
@@ -201,10 +203,17 @@ internal static class ActionIconPresenter
             bgra[i + 2] = (byte)(bgra[i + 2] * alpha / 255);
         }
 
-        using var software = SoftwareBitmap.CreateCopyFromBuffer(
+        // SoftwareBitmapSource keeps drawing from this bitmap. Disposing it (or letting the
+        // GC collect it) while an image is still on screen makes XAML fail fast with
+        // RO_E_CLOSED (0xc000027b in Microsoft.UI.Xaml.dll), so published bitmaps stay alive.
+        var software = SoftwareBitmap.CreateCopyFromBuffer(
             CryptographicBuffer.CreateFromByteArray(bgra), BitmapPixelFormat.Bgra8, pixels.Width, pixels.Height, BitmapAlphaMode.Premultiplied);
         var bitmapSource = new SoftwareBitmapSource();
         await bitmapSource.SetBitmapAsync(software);
+        PublishedBitmaps.Add(software);
         return bitmapSource;
     }
+
+    /// <summary>Bitmaps handed to XAML; released only when the process ends.</summary>
+    private static readonly List<SoftwareBitmap> PublishedBitmaps = new();
 }
