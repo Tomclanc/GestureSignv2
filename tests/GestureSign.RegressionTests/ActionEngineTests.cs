@@ -330,6 +330,58 @@ internal static class ActionEngineTests
         Check(StepCatalog.Find(StepCatalog.AiChat).Parameters.Single(p => p.Key == "ApiKey").Kind == StepParameterKind.Secret);
     }
 
+    /// <summary>The icon a library action shows: its own glyph or picture, else the program it runs.</summary>
+    public static void TestActionIcons()
+    {
+        // Command settings are searched for the program or file that supplies the icon.
+        var settings = System.Text.Json.JsonSerializer.Serialize(new Dictionary<string, object>
+        {
+            ["Path"] = "\"C:\\Windows\\System32\\notepad.exe\" /a",
+            ["Url"] = "https://example.com/tool.exe",
+            ["Share"] = "\\\\server\\share\\tool.exe",
+            ["Nested"] = new Dictionary<string, object> { ["Path"] = @"C:\Windows" }
+        });
+        var referenced = ActionIcons.ReferencedPaths(settings).ToList();
+        Check(referenced.Count == 2 && referenced[0].EndsWith("notepad.exe", StringComparison.OrdinalIgnoreCase), "quoted program with arguments");
+        Check(referenced.Any(p => string.Equals(p, @"C:\Windows", StringComparison.OrdinalIgnoreCase)), "folder referenced by a step");
+
+        var exe = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "notepad.exe");
+        var action = new RadialMenuAction
+        {
+            Name = "Notepad",
+            Commands = { new RadialMenuCommand { PluginClass = "x", CommandSettings = System.Text.Json.JsonSerializer.Serialize(new { Path = exe }) } }
+        };
+        var source = ActionIcons.Resolve(action);
+        Check(source is { Kind: ActionIconKind.Program } && string.Equals(source.Value, exe, StringComparison.OrdinalIgnoreCase), "program icon from the first command");
+
+        // An action's own icon wins; an unreadable one falls back to the commands.
+        Check(ActionIcons.Resolve(new RadialMenuAction { Icon = "\uE8B7" }) is { Kind: ActionIconKind.Glyph }, "glyph icon");
+        Check(ActionIcons.Resolve(new RadialMenuAction { Icon = @"C:\missing\a.exe", Commands = action.Commands }) is { Kind: ActionIconKind.Program }, "unreadable icon path falls back");
+        Check(ActionIcons.ForPath(Path.GetTempPath()) is { Kind: ActionIconKind.Program }, "folders have an icon too");
+        Check(ActionIcons.ForPath("relative\\file.exe") is null, "relative paths are ignored");
+        Check(ActionIcons.IsImageFile("a.PNG") && !ActionIcons.IsImageFile("a.exe"), "image detection");
+
+        if (!OperatingSystem.IsWindows() || !File.Exists(exe))
+            return;
+        Check(ActionIcons.TryGetIconPixels(exe, 0, 48, out var pixels), "read a program icon");
+        Check(pixels.Width >= 32 && pixels.Height == pixels.Width && pixels.Bgra.Length == pixels.Width * pixels.Height * 4, "icon pixel buffer");
+        var opaque = false;
+        for (var i = 3; i < pixels.Bgra.Length; i += 4)
+        {
+            if (pixels.Bgra[i] != 255)
+                continue;
+            opaque = true;
+            break;
+        }
+        Check(opaque, "icon has opaque pixels");
+        Check(!ActionIcons.TryGetIconPixels(@"C:\does\not\exist.exe", 0, 48, out _), "a missing file has no icon");
+    }
+
+    private static void Check(bool condition, string description, [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
+    {
+        if (!condition) throw new InvalidOperationException($"Action engine regression failed ({description}) at ActionEngineTests.cs:{line}");
+    }
+
     private static void Check(bool condition, [System.Runtime.CompilerServices.CallerLineNumber] int line = 0)
     {
         if (!condition) throw new InvalidOperationException($"Action engine regression failed at ActionEngineTests.cs:{line}");

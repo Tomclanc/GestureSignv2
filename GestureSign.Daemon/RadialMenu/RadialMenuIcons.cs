@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using GestureSign.Common.Applications;
 using GestureSign.Common.Log;
+using GestureSign.Foundation.RadialMenus;
 
 namespace GestureSign.Daemon.RadialMenu
 {
@@ -17,6 +20,9 @@ namespace GestureSign.Daemon.RadialMenu
     /// </summary>
     internal static class RadialMenuIcons
     {
+        /// <summary>Icons are read at 48 px and drawn at ~22 px, which keeps them sharp on every DPI.</summary>
+        private const int IconSize = 48;
+
         private static readonly Dictionary<string, Bitmap> FileIcons = new Dictionary<string, Bitmap>(StringComparer.OrdinalIgnoreCase);
         private static string _glyphFontName;
         private static bool _glyphFontResolved;
@@ -46,7 +52,7 @@ namespace GestureSign.Daemon.RadialMenu
         {
             foreach (var command in Commands(action))
             {
-                foreach (var path in CandidatePaths(command.CommandSettings))
+                foreach (var path in ActionIcons.ReferencedPaths(command.CommandSettings))
                 {
                     var bitmap = FileIcon(path);
                     if (bitmap != null) return bitmap;
@@ -55,7 +61,11 @@ namespace GestureSign.Daemon.RadialMenu
             return null;
         }
 
-        /// <summary>Icon of a program or file, or the picture itself for an image file; cached.</summary>
+        /// <summary>
+        /// Icon of a program, shortcut or document (the picture itself for an image
+        /// file); cached. Shortcuts are read through their target, so the icon has no
+        /// shortcut arrow on it.
+        /// </summary>
         public static Bitmap FileIcon(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
@@ -65,13 +75,16 @@ namespace GestureSign.Daemon.RadialMenu
             Bitmap bitmap = null;
             try
             {
-                if (File.Exists(path))
+                if (File.Exists(path) || Directory.Exists(path))
                 {
-                    var extension = Path.GetExtension(path).ToLowerInvariant();
-                    if (extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif")
+                    if (ActionIcons.IsImageFile(path))
                     {
                         using var image = Image.FromFile(path);
                         bitmap = new Bitmap(image, 64, 64);
+                    }
+                    else if (ActionIcons.TryGetIconPixels(path, 0, IconSize, out var pixels))
+                    {
+                        bitmap = ToBitmap(pixels);
                     }
                     else
                     {
@@ -88,40 +101,26 @@ namespace GestureSign.Daemon.RadialMenu
             return bitmap;
         }
 
+        private static Bitmap ToBitmap(IconPixels pixels)
+        {
+            var bitmap = new Bitmap(pixels.Width, pixels.Height, PixelFormat.Format32bppArgb);
+            var data = bitmap.LockBits(new Rectangle(0, 0, pixels.Width, pixels.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            try
+            {
+                for (var y = 0; y < pixels.Height; y++)
+                    Marshal.Copy(pixels.Bgra, y * pixels.Width * 4, data.Scan0 + y * data.Stride, pixels.Width * 4);
+            }
+            finally
+            {
+                bitmap.UnlockBits(data);
+            }
+            return bitmap;
+        }
+
         public static string Glyph(IAction action)
         {
             var command = Commands(action).FirstOrDefault();
-            var plugin = command?.PluginClass ?? string.Empty;
-            var name = plugin.Substring(plugin.LastIndexOf('.') + 1);
-            return name switch
-            {
-                "HotKeyPlugin" or "SendKeystrokes" or "KeyDownKeyUpPlugin" or "TouchKeyboard" => "",
-                "RunCommandPlugin" => "",
-                "LaunchApp" => "",
-                "OpenFilePlugin" => "",
-                "DefaultBrowser" => "",
-                "MouseActionsPlugin" => "",
-                "VolumePlugin" => "",
-                "MediaPlay" or "MediaPlayPause" => "",
-                "MediaPause" => "",
-                "MediaNext" or "MediaForward" => "",
-                "MediaPrevious" or "MediaBackward" => "",
-                "ScreenBrightnessPlugin" => "",
-                "SmartClose" => "",
-                "Minimize" => "",
-                "MaximizeRestore" => "",
-                "ToggleWindowTopmost" => "",
-                "SmartNewTab" => "",
-                "ActivateWindowPlugin" or "NextApplication" or "PreviousApplication" or "SendMessagePlugin" or "WindowStateCommand" => "",
-                "Delay" => "",
-                "TemporarilyDisable" or "ToggleDisableGestures" => "",
-                "Notifier" => "",
-                "ClipboardMatch" => "",
-                "TextCopyer" => "",
-                "StepsPlugin" => "\uE8FD",
-                "LibraryActionPlugin" => "\uE8F1",
-                _ => ""
-            };
+            return ActionIcons.PluginGlyph(command?.PluginClass);
         }
 
         /// <summary>Names the editor used to prefill; they do not describe a slot.</summary>
@@ -138,7 +137,7 @@ namespace GestureSign.Daemon.RadialMenu
             var hotKey = HotKeyText(command.CommandSettings);
             if (!string.IsNullOrEmpty(hotKey))
                 return hotKey;
-            var path = CandidatePaths(command.CommandSettings).FirstOrDefault();
+            var path = ActionIcons.ReferencedPaths(command.CommandSettings).FirstOrDefault();
             if (path != null)
                 return Path.GetFileNameWithoutExtension(path);
             var plugin = command.PluginClass ?? string.Empty;
@@ -202,76 +201,5 @@ namespace GestureSign.Daemon.RadialMenu
 
         private static IEnumerable<ICommand> Commands(IAction action)
             => action?.Commands?.Where(c => c != null && c.IsEnabled) ?? Enumerable.Empty<ICommand>();
-
-        /// <summary>Existing local files mentioned anywhere in a command's settings.</summary>
-        private static IEnumerable<string> CandidatePaths(string settings)
-        {
-            if (string.IsNullOrWhiteSpace(settings))
-                yield break;
-
-            var values = new List<string>();
-            try
-            {
-                using var document = JsonDocument.Parse(settings);
-                Collect(document.RootElement, values);
-            }
-            catch (JsonException)
-            {
-                values.Add(settings);
-            }
-
-            foreach (var value in values)
-            {
-                var path = FirstPath(value);
-                if (path != null)
-                    yield return path;
-            }
-        }
-
-        private static void Collect(JsonElement element, List<string> values)
-        {
-            switch (element.ValueKind)
-            {
-                case JsonValueKind.String:
-                    values.Add(element.GetString());
-                    break;
-                case JsonValueKind.Object:
-                    foreach (var property in element.EnumerateObject())
-                        Collect(property.Value, values);
-                    break;
-                case JsonValueKind.Array:
-                    foreach (var item in element.EnumerateArray())
-                        Collect(item, values);
-                    break;
-            }
-        }
-
-        private static string FirstPath(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                return null;
-            var text = Environment.ExpandEnvironmentVariables(value.Trim());
-            string candidate;
-            if (text.StartsWith("\"", StringComparison.Ordinal))
-            {
-                var end = text.IndexOf('"', 1);
-                candidate = end > 1 ? text.Substring(1, end - 1) : null;
-            }
-            else
-            {
-                // A command line may carry arguments after the program path.
-                candidate = text;
-                if (!LooksLikeLocalPath(candidate) || !File.Exists(candidate))
-                {
-                    var exe = text.IndexOf(".exe", StringComparison.OrdinalIgnoreCase);
-                    candidate = exe > 0 ? text.Substring(0, exe + 4) : null;
-                }
-            }
-            return candidate != null && LooksLikeLocalPath(candidate) ? candidate : null;
-        }
-
-        // Skip UNC paths so a slow network share can never stall the mouse hook.
-        private static bool LooksLikeLocalPath(string path)
-            => path.Length > 3 && path.Length < 260 && path[1] == ':' && (path[2] == '\\' || path[2] == '/');
     }
 }

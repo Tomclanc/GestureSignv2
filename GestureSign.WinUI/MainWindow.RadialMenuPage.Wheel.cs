@@ -236,20 +236,32 @@ public sealed partial class MainWindow
                     continue;
                 var mid = WheelPolar((r1 + r2) / 2, index);
                 var width = ring == 0 ? 76 : ring == 1 ? 88 : 100;
-                var text = new TextBlock
+                // Icon above the name, as the menu draws it while in use.
+                var shownAction = own ?? inherited;
+                var iconSize = ring == 2 ? 20d : 24d;
+                var shownIcon = ownFolder is not null || inheritedFolder is not null
+                    ? new FontIcon { Glyph = "\uE8B7", FontSize = iconSize, HorizontalAlignment = HorizontalAlignment.Center }
+                    : ActionIconPresenter.For(shownAction, iconSize);
+                shownIcon.HorizontalAlignment = HorizontalAlignment.Center;
+                var content = new StackPanel
                 {
-                    Text = label,
                     Width = width,
-                    TextAlignment = TextAlignment.Center,
-                    TextTrimming = TextTrimming.CharacterEllipsis,
-                    TextWrapping = TextWrapping.NoWrap,
-                    FontSize = 13,
+                    Spacing = 1,
                     Opacity = hasOwn ? 1 : 0.55,
                     IsHitTestVisible = false
                 };
-                Canvas.SetLeft(text, mid.X - width / 2.0);
-                Canvas.SetTop(text, mid.Y - 10);
-                canvas.Children.Add(text);
+                content.Children.Add(shownIcon);
+                content.Children.Add(new TextBlock
+                {
+                    Text = label,
+                    TextAlignment = TextAlignment.Center,
+                    TextTrimming = TextTrimming.CharacterEllipsis,
+                    TextWrapping = TextWrapping.NoWrap,
+                    FontSize = 13
+                });
+                Canvas.SetLeft(content, mid.X - width / 2.0);
+                Canvas.SetTop(content, mid.Y - (iconSize + 18) / 2.0);
+                canvas.Children.Add(content);
             }
         }
         var center = new Ellipse { Width = WheelDeadZone * 2, Height = WheelDeadZone * 2, Fill = SubtleBrush(), Stroke = stroke, StrokeThickness = 1, IsHitTestVisible = false };
@@ -530,11 +542,20 @@ public sealed partial class MainWindow
                          .Where(a => query.Length == 0 || (a.Name ?? "").Contains(query, StringComparison.CurrentCultureIgnoreCase))
                          .OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase))
             {
-                var row = new StackPanel { Tag = action.Id, Padding = new Thickness(0, 4, 0, 4), Opacity = action.IsEnabled ? 1 : 0.5 };
-                row.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, TextTrimming = TextTrimming.CharacterEllipsis });
+                // Icon of the program the action runs, so the library reads at a glance.
+                var row = new Grid { Tag = action.Id, Padding = new Thickness(0, 4, 0, 4), ColumnSpacing = 8, Opacity = action.IsEnabled ? 1 : 0.5 };
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(24) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                var rowIcon = ActionIconPresenter.For(action, 18, ThemeBrush("AccentTextFillColorPrimaryBrush"));
+                rowIcon.VerticalAlignment = VerticalAlignment.Center;
+                row.Children.Add(rowIcon);
+                var texts = new StackPanel();
+                texts.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, TextTrimming = TextTrimming.CharacterEllipsis });
                 var command = action.Commands.FirstOrDefault();
                 if (command is not null)
-                    row.Children.Add(new TextBlock { Text = PluginName(command.PluginClass ?? ""), FontSize = 12, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis });
+                    texts.Children.Add(new TextBlock { Text = PluginName(command.PluginClass ?? ""), FontSize = 12, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis });
+                Grid.SetColumn(texts, 1);
+                row.Children.Add(texts);
                 row.DoubleTapped += async (_, _) => await RunUiActionAsync(async () =>
                 {
                     if (await EditRadialActionAsync(action) is null) return;
@@ -623,7 +644,7 @@ public sealed partial class MainWindow
             foreach (var action in config.Actions
                          .Where(a => query.Length == 0 || (a.Name ?? "").Contains(query, StringComparison.CurrentCultureIgnoreCase))
                          .OrderBy(a => a.Name, StringComparer.CurrentCultureIgnoreCase))
-                list.Items.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, Tag = action.Id });
+                list.Items.Add(ActionIconPresenter.Row(action, ThemeBrush("AccentTextFillColorPrimaryBrush")));
         }
         filter.TextChanged += (_, _) => Fill();
         Fill();

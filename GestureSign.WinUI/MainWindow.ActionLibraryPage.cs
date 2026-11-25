@@ -236,10 +236,10 @@ public sealed partial class MainWindow
             row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(32) });
             row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            var icon = Glyph(action.Icon is { Length: 1 } glyph ? glyph : "", 20);
-            if (ThemeBrush("AccentTextFillColorPrimaryBrush") is { } accent) icon.Foreground = accent;
+            // The action's own picture, the icon of the program or shortcut it runs, or its plugin glyph.
+            var icon = ActionIconPresenter.For(action, 22, ThemeBrush("AccentTextFillColorPrimaryBrush"));
             icon.VerticalAlignment = VerticalAlignment.Center;
-            row.Children.Add(icon);
+            icon.HorizontalAlignment = HorizontalAlignment.Center;
             var texts = new StackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Center };
             texts.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis });
             var detail = string.IsNullOrWhiteSpace(action.Description) ? ActionKindText(action) : action.Description!;

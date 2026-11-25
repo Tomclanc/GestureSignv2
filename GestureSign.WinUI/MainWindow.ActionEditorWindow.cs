@@ -337,6 +337,8 @@ public sealed partial class MainWindow
         var variablesList = new ListView { SelectionMode = ListViewSelectionMode.Single, MaxHeight = 220 };
         // Declared before the local functions that use it (Undo/Redo refill the list and are bound earlier).
         StepVariableDef? lastVariable = null;
+        // Set once the icon preview exists; step edits refresh the automatically chosen icon.
+        Action? refreshIconPreview = null;
         var tabProperties = new ToggleButton { Content = T("步骤属性", "Step properties"), IsChecked = true };
         var tabAppearance = new ToggleButton { Content = T("外观", "Appearance") };
         var tabContent = new ScrollViewer { Content = propertiesHost, VerticalScrollBarVisibility = ScrollBarVisibility.Auto, Padding = new Thickness(0, 0, 8, 0) };
@@ -371,10 +373,12 @@ public sealed partial class MainWindow
                 selected = null;
                 ShowProperties();
             }
+            refreshIconPreview?.Invoke();
         }
 
         void RefreshRowOf(Step step)
         {
+            refreshIconPreview?.Invoke();
             // Usual case: only the summary changed; update it without touching the list.
             if (summaryBlocks.TryGetValue(step, out var block))
             {
@@ -964,9 +968,18 @@ public sealed partial class MainWindow
         var iconPreview = new Border { Width = 56, Height = 56, CornerRadius = new CornerRadius(8), BorderBrush = BorderBrush(), BorderThickness = new Thickness(1) };
         void UpdateIconPreview()
         {
+            ToolTipService.SetToolTip(iconPreview, null);
             if (icon.Length > 1)
             {
-                // A program or image path: show its file name.
+                // A program, shortcut or image path: show the icon it gives the slot.
+                var chosen = ActionIcons.ForPath(icon);
+                if (chosen is not null)
+                {
+                    iconPreview.Child = Centered(ActionIconPresenter.For(chosen, null, 36));
+                    ToolTipService.SetToolTip(iconPreview, icon);
+                    return;
+                }
+                // A path that cannot be read yet: show its file name.
                 iconPreview.Child = new TextBlock
                 {
                     Text = System.IO.Path.GetFileName(icon),
@@ -979,13 +992,37 @@ public sealed partial class MainWindow
                 ToolTipService.SetToolTip(iconPreview, icon);
                 return;
             }
-            var shown = Glyph(icon.Length == 1 ? icon : "", 26);
-            shown.Opacity = icon.Length == 1 ? 1 : 0.35;
-            shown.HorizontalAlignment = HorizontalAlignment.Center;
-            shown.VerticalAlignment = VerticalAlignment.Center;
-            iconPreview.Child = shown;
+            if (icon.Length == 1)
+            {
+                iconPreview.Child = Centered(Glyph(icon, 26));
+                return;
+            }
+            // Nothing chosen: preview the icon the action shows on its own (from the
+            // program its steps run), so the program icon is visible without picking one.
+            var automatic = ActionIcons.Resolve(new RadialMenuAction { Name = name, Commands = CommandsOf(name, program) });
+            if (automatic is not null)
+            {
+                iconPreview.Child = Centered(ActionIconPresenter.For(automatic, null, 36));
+                ToolTipService.SetToolTip(iconPreview, automatic.Value);
+                return;
+            }
+            var placeholder = Centered(Glyph("\uE945", 26));
+            placeholder.Opacity = 0.35;
+            iconPreview.Child = placeholder;
+        }
+        static FrameworkElement Centered(FrameworkElement element)
+        {
+            element.HorizontalAlignment = HorizontalAlignment.Center;
+            element.VerticalAlignment = VerticalAlignment.Center;
+            return element;
         }
         UpdateIconPreview();
+        // Only the automatic icon follows the steps; a chosen glyph or path does not.
+        refreshIconPreview = () =>
+        {
+            if (icon.Length <= 1)
+                UpdateIconPreview();
+        };
         var iconGrid = new GridView { SelectionMode = ListViewSelectionMode.None, IsItemClickEnabled = true, Width = 320, MaxHeight = 280 };
         foreach (var glyph in ActionIconGlyphs)
             iconGrid.Items.Add(new Border { Width = 36, Height = 36, Tag = glyph, Child = Glyph(glyph, 18) });
@@ -1004,7 +1041,7 @@ public sealed partial class MainWindow
         var pickIconFile = NewPillButton(T("图片或程序…", "Image or program…"), false);
         pickIconFile.Click += async (_, _) =>
         {
-            var path = await PickOpenFileAsync(new[] { ".png", ".jpg", ".jpeg", ".bmp", ".ico", ".exe" });
+            var path = await PickOpenFileAsync(new[] { ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".ico", ".exe", ".lnk", ".dll" });
             if (string.IsNullOrWhiteSpace(path)) return;
             icon = path;
             UpdateIconPreview();
