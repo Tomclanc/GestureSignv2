@@ -33,6 +33,12 @@ internal static class ActionEngineTests
             return "activated";
         }
         public string Http(string method, string url, string body, string contentType) => "";
+        public bool QuickActionsAvailable = true;
+        public bool ShowQuickActions()
+        {
+            Calls.Add("quickactions");
+            return QuickActionsAvailable;
+        }
         public void Notify(string text, string kind) => Calls.Add("notify:" + kind + ":" + text);
         public bool ShowMessageBox(string title, string text, string buttons) => true;
         public string AskText(string prompt, string defaultValue, bool multiline) => Answer;
@@ -76,6 +82,7 @@ internal static class ActionEngineTests
             "link != \"\"" => variables.Text("link") != "",
             "folder != \"\"" => variables.Text("folder") != "",
             "files.length > 0" => StepVariables.ToList(variables["files"]).Count > 0,
+            "status == \"unavailable\"" => variables.Text("status") == "unavailable",
             _ => "JS"
         };
         public object RunLua(string code, StepVariables variables) => null;
@@ -147,6 +154,12 @@ internal static class ActionEngineTests
         var builtInHost = new FakeHost { ProcessName = "chrome" };
         new StepRunner(builtInHost).Run(builtIn);
         Check(builtInHost.Calls.Contains("switch:notepad.exe||chrome|minimize"), "the built-in processName is still available");
+
+        var quickActions = RunTemplate("open-quick-actions");
+        Check(quickActions.Calls.Contains("quickactions"), "the component step runs: " + string.Join(" | ", quickActions.Calls));
+        Check(!quickActions.Calls.Any(c => c.StartsWith("notify:")), "an available component does not warn: " + string.Join(" | ", quickActions.Calls));
+        var noComponent = RunTemplate("open-quick-actions", h => h.QuickActionsAvailable = false);
+        Check(noComponent.Calls.Any(c => c.StartsWith("notify:warn:")), "a missing Quick Actions component warns: " + string.Join(" | ", noComponent.Calls));
     }
 
     public static void TestStepsAndVariables()

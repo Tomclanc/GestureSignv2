@@ -258,6 +258,16 @@ public static class ActionTemplates
             "向当前窗口发送快捷键，可写多组，例如 Ctrl+A Ctrl+C。", "Sends shortcuts to the current window, e.g. Ctrl+A Ctrl+C.", "",
             zh => P(new[] { Var("keys", "Ctrl+Shift+T", Z(zh, "按键，多组用空格分隔", "Keys; separate several with spaces")) },
                 S(StepCatalog.SendKeys, ("Keys", "{keys}")))),
+        // Opens the optional component so a middle click or gesture can show it too.
+        new ActionTemplate("open-quick-actions", "系统", "System", "打开环形菜单组件", "Open the radial menu component",
+            "打开「快捷操作」里可选安装的环形菜单组件，让中键或手势也能唤起它。没装组件时提示先去下载。",
+            "Opens the radial menu component installed from Quick Actions so a middle click or gesture can show it too. Warns when the component is missing.", "\uE945",
+            zh => P(Array.Empty<StepVariableDef>(),
+                S(StepCatalog.ShowQuickActions, ("Output", "status")),
+                S(StepCatalog.If, ("Condition", "status == \"unavailable\"")).With(new[]
+                {
+                    S(StepCatalog.Notify, ("Text", Z(zh, "还没有安装环形菜单组件，请先在「快捷操作」里下载。", "The radial menu component is not installed. Download it in Quick Actions.")), ("Kind", "warn"))
+                }))),
     };
 
     public static ActionTemplate Find(string id) => All.FirstOrDefault(t => string.Equals(t.Id, id, StringComparison.Ordinal));

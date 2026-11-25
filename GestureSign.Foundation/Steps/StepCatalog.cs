@@ -68,6 +68,7 @@ public static class StepCatalog
     public const string OpenUrl = "OpenUrl";
     public const string RunProgram = "RunProgram";
     public const string LaunchOrActivate = "LaunchOrActivate";
+    public const string ShowQuickActions = "ShowQuickActions";
     public const string Http = "Http";
     public const string RunJavaScript = "RunJavaScript";
     public const string RunLua = "RunLua";
@@ -268,6 +269,10 @@ public static class StepCatalog
                     Output("status") },
             descriptionZh: "程序没运行就启动；已经运行就切换到它的窗口（最小化的会还原）。status 为 launched、activated、minimized 或 none。",
             descriptionEn: "Launches the program if it is not running; otherwise switches to its window and restores it if minimized. status is launched, activated, minimized or none."),
+        Type("system", ShowQuickActions, "打开环形菜单组件", "Open the radial menu component", "\uE945",
+            new[] { Output("status") },
+            descriptionZh: "打开「快捷操作」里可选安装的环形菜单组件（需要先下载组件）。可以用鼠标中键或手势唤起同一套菜单。status 为 opened 或 unavailable。",
+            descriptionEn: "Opens the optional radial menu component installed from Quick Actions (download it first). Lets a middle click or gesture open the same menu. status is opened or unavailable."),
         Type("system", Http, "HTTP 请求", "HTTP request", "",
             new[] { new StepParameter("Method", "方法", "Method", StepParameterKind.Choice, "GET", new[] { "GET", "POST", "PUT", "DELETE" }),
                     new StepParameter("Url", "网址", "URL", StepParameterKind.Text, "https://"),

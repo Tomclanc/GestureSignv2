@@ -176,6 +176,8 @@ namespace GestureSign.CorePlugins.Steps
         public string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow)
             => AppSwitcher.LaunchOrActivate(path, arguments, processName, titleFilter, whenActive, hideLaunchWindow);
 
+        public bool ShowQuickActions() => GestureSign.Foundation.Components.QuickActionsLauncher.Show();
+
         public string Http(string method, string url, string body, string contentType)
         {
             using var request = new HttpRequestMessage(new HttpMethod(string.IsNullOrWhiteSpace(method) ? "GET" : method.ToUpperInvariant()), url);

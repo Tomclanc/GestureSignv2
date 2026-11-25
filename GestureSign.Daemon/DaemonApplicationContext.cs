@@ -69,6 +69,9 @@ namespace GestureSign.Daemon
                 Stage("IPC", () => NamedPipe.Instance.RunNamedPipeServer(Constants.Daemon, new MessageProcessor(uiContext)));
                 Logging.LogMessage("Daemon startup completed. Input, tray and IPC ready.");
                 StartWarmUp();
+                // The step engine (a plugin) cannot reach KandoLauncher, so the
+                // "open the radial menu component" step goes through this hook.
+                GestureSign.Foundation.Components.QuickActionsLauncher.Register(KandoLauncher.ShowMenu);
                 ThreadPool.QueueUserWorkItem(_ => KandoLauncher.StartIfEnabled());
                 if (_selfTestReport != null)
                 {

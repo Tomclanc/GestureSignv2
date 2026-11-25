@@ -28,6 +28,8 @@ public interface IStepHost
     /// whenActive is "minimize", "cycle" or "none". Returns launched, activated, minimized or none.
     /// </summary>
     string LaunchOrActivate(string path, string arguments, string processName, string titleFilter, string whenActive, bool hideLaunchWindow);
+    /// <summary>Opens the optional Quick Actions radial menu; false when the component is missing or refused to start.</summary>
+    bool ShowQuickActions();
     string Http(string method, string url, string body, string contentType);
     /// <summary>Shows a short message; kind is "info", "warn" or "error".</summary>
     void Notify(string text, string kind = "info");
@@ -514,6 +516,10 @@ public sealed class StepRunner
             case StepCatalog.LaunchOrActivate:
                 Output(_host.LaunchOrActivate(Arg("Path").Trim(), Arg("Arguments"), Arg("ProcessName").Trim(), Arg("TitleFilter").Trim(),
                     Arg("WhenActive").Trim(), StepVariables.IsTruthy(Arg("HideLaunchWindow").Trim())) ?? "");
+                break;
+
+            case StepCatalog.ShowQuickActions:
+                Output(_host.ShowQuickActions() ? "opened" : "unavailable");
                 break;
 
             case StepCatalog.Http:
