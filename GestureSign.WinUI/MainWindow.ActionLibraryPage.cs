@@ -240,6 +240,8 @@ public sealed partial class MainWindow
             var icon = ActionIconPresenter.For(action, 22, ThemeBrush("AccentTextFillColorPrimaryBrush"));
             icon.VerticalAlignment = VerticalAlignment.Center;
             icon.HorizontalAlignment = HorizontalAlignment.Center;
+            Grid.SetColumn(icon, 0);
+            row.Children.Add(icon);
             var texts = new StackPanel { Spacing = 2, VerticalAlignment = VerticalAlignment.Center };
             texts.Children.Add(new TextBlock { Text = string.IsNullOrWhiteSpace(action.Name) ? "?" : action.Name, FontWeight = FontWeights.SemiBold, TextTrimming = TextTrimming.CharacterEllipsis });
             var detail = string.IsNullOrWhiteSpace(action.Description) ? ActionKindText(action) : action.Description!;
