@@ -184,3 +184,6 @@ installer/GestureSign-Setup.exe
 /outputs/
 
 /artifacts/
+
+# Local agent scratch data (work logs, temporary build checks)
+.workbuddy/
