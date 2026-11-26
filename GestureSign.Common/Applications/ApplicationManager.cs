@@ -726,6 +726,17 @@ namespace GestureSign.Common.Applications
         /// </summary>
         public IReadOnlyDictionary<string, string> RadialMenuIconOverrides { get; private set; } = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Drops the parsed RadialMenus.json and the icon choices taken from it, so the
+        /// next menu reads the file again even when its timestamp did not change.
+        /// </summary>
+        public void InvalidateRadialMenuConfig()
+        {
+            _radialMenuConfig = null;
+            _radialMenuConfigWriteTimeUtc = default;
+            RadialMenuIconOverrides = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        }
+
         /// <summary>Loads RadialMenus.json, re-reading it only when the file changed.</summary>
         public GestureSign.Foundation.RadialMenus.RadialMenuConfig LoadRadialMenuConfig()
         {

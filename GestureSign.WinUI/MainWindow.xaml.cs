@@ -8018,7 +8018,8 @@ public sealed partial class MainWindow : Window
         InputHealth = 15,
         StartTeachingTwoStages = 16,
         StartTeachingThreeStages = 17,
-        RunTestAction = 18
+        RunTestAction = 18,
+        ReloadRadialMenus = 19
     }
 
     private sealed record RunningProcessInfo(string Name, string FileName);

@@ -16,6 +16,9 @@ public enum ActionIconKind
     /// <summary>An image file shown as it is (PNG, JPEG, BMP, GIF).</summary>
     Image,
 
+    /// <summary>An image stored in the action itself as a data URI, so it survives the file being moved.</summary>
+    ImageData,
+
     /// <summary>A program, shortcut, document or icon resource to read the shell icon from.</summary>
     Program
 }
@@ -28,7 +31,17 @@ public sealed class ActionIconSource
         Kind = kind;
         Value = value;
         IconIndex = iconIndex;
+        _stableKey = kind switch
+        {
+            ActionIconKind.Glyph => "Glyph|" + value,
+            // The payload is the identity: rewriting the same picture gives the same key.
+            ActionIconKind.ImageData => "ImageData|" + ShortHash(value),
+            ActionIconKind.None => "None|",
+            _ => null
+        };
     }
+
+    private readonly string? _stableKey;
 
     public ActionIconKind Kind { get; }
 
@@ -42,6 +55,9 @@ public sealed class ActionIconSource
 
     public static ActionIconSource Image(string path) => new(ActionIconKind.Image, path, 0);
 
+    /// <summary>An image embedded as a data URI ("data:image/png;base64,…").</summary>
+    public static ActionIconSource InlineImage(string dataUri) => new(ActionIconKind.ImageData, dataUri, 0);
+
     public static ActionIconSource Program(string path, int iconIndex = 0) => new(ActionIconKind.Program, path, iconIndex);
 
     /// <summary>Stable key for caches; changes when the file it reads changes.</summary>
@@ -49,8 +65,8 @@ public sealed class ActionIconSource
     {
         get
         {
-            if (Kind is ActionIconKind.None or ActionIconKind.Glyph)
-                return Kind + "|" + Value;
+            if (_stableKey is not null)
+                return _stableKey;
             long stamp = 0;
             try
             {
@@ -63,6 +79,12 @@ public sealed class ActionIconSource
             }
             return Kind + "|" + Value + "|" + IconIndex + "|" + stamp;
         }
+    }
+
+    private static string ShortHash(string value)
+    {
+        var hash = System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(value));
+        return Convert.ToHexString(hash, 0, 8) + "|" + value.Length.ToString(System.Globalization.CultureInfo.InvariantCulture);
     }
 }
 
@@ -103,9 +125,7 @@ public static class ActionIcons
         var icon = action.Icon;
         if (!string.IsNullOrEmpty(icon))
         {
-            if (icon.Length == 1)
-                return ActionIconSource.Glyph(icon);
-            var chosen = ForPath(icon);
+            var chosen = FromStored(icon);
             if (chosen is not null)
                 return chosen;
         }
@@ -123,6 +143,61 @@ public static class ActionIcons
         }
         return null;
     }
+
+    /// <summary>
+    /// Reads what <see cref="RadialMenuAction.Icon"/> stores: one character is a glyph,
+    /// a data URI is an embedded picture, anything else is a path to read the icon from.
+    /// </summary>
+    public static ActionIconSource? FromStored(string? icon)
+    {
+        if (string.IsNullOrWhiteSpace(icon))
+            return null;
+        if (icon.Length == 1)
+            return ActionIconSource.Glyph(icon);
+        if (IsInlineImage(icon))
+            return ActionIconSource.InlineImage(icon);
+        return ForPath(icon);
+    }
+
+    /// <summary>True when the stored icon carries the picture itself instead of a path.</summary>
+    public static bool IsInlineImage(string? icon)
+        => icon is { Length: > 16 } && icon.StartsWith(InlineImagePrefix, StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>The picture bytes of an embedded icon; null when the value is not one or is damaged.</summary>
+    public static byte[]? DecodeInlineImage(string? icon)
+    {
+        if (!IsInlineImage(icon))
+            return null;
+        var comma = icon!.IndexOf(',');
+        if (comma < 0 || comma == icon.Length - 1)
+            return null;
+        if (!icon.AsSpan(0, comma).Contains("base64", StringComparison.OrdinalIgnoreCase))
+            return null;
+        try
+        {
+            var bytes = Convert.FromBase64String(icon.Substring(comma + 1));
+            return bytes.Length == 0 ? null : bytes;
+        }
+        catch (FormatException)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>The data URI for a picture file, so the action keeps the icon on its own.</summary>
+    public static string EncodeInlineImage(byte[] bytes, string? fileName)
+    {
+        var subtype = Path.GetExtension(fileName ?? "").ToLowerInvariant() switch
+        {
+            ".jpg" or ".jpeg" => "jpeg",
+            ".bmp" => "bmp",
+            ".gif" => "gif",
+            _ => "png"
+        };
+        return InlineImagePrefix + subtype + ";base64," + Convert.ToBase64String(bytes);
+    }
+
+    public const string InlineImagePrefix = "data:image/";
 
     /// <summary>The icon source for one path: an image file, or the shell icon of the file (resolving shortcuts).</summary>
     public static ActionIconSource? ForPath(string? path)

@@ -63,19 +63,34 @@ namespace GestureSign.Daemon.RadialMenu
 
         /// <summary>
         /// Icon of a program, shortcut or document (the picture itself for an image
-        /// file); cached. Shortcuts are read through their target, so the icon has no
-        /// shortcut arrow on it.
+        /// file, either a path or embedded in the action); cached. Shortcuts are read
+        /// through their target, so the icon has no shortcut arrow on it.
         /// </summary>
         public static Bitmap FileIcon(string path)
         {
             if (string.IsNullOrWhiteSpace(path))
                 return null;
-            if (FileIcons.TryGetValue(path, out var cached))
+
+            // A changed picture must show up: the key carries the file's timestamp,
+            // and an embedded icon is identified by its own bytes.
+            var source = ActionIcons.FromStored(path);
+            var key = source?.CacheKey ?? "missing|" + path;
+            if (FileIcons.TryGetValue(key, out var cached))
                 return cached;
             Bitmap bitmap = null;
             try
             {
-                if (File.Exists(path) || Directory.Exists(path))
+                if (source?.Kind == ActionIconKind.ImageData)
+                {
+                    var bytes = ActionIcons.DecodeInlineImage(path);
+                    if (bytes != null)
+                    {
+                        using var stream = new MemoryStream(bytes);
+                        using var image = Image.FromStream(stream);
+                        bitmap = new Bitmap(image, 64, 64);
+                    }
+                }
+                else if (File.Exists(path) || Directory.Exists(path))
                 {
                     if (ActionIcons.IsImageFile(path))
                     {
@@ -95,11 +110,25 @@ namespace GestureSign.Daemon.RadialMenu
             }
             catch (Exception ex)
             {
-                Logging.LogMessage($"Radial menu icon extraction failed. Path={path}, Error={ex.GetType().Name}");
+                Logging.LogMessage($"Radial menu icon extraction failed. Path={Summarize(path)}, Error={ex.GetType().Name}");
             }
-            FileIcons[path] = bitmap;
+            if (FileIcons.Count > 256)
+                FileIcons.Clear();
+            FileIcons[key] = bitmap;
             return bitmap;
         }
+
+        /// <summary>Drops every cached icon so the next menu picks up the current files.</summary>
+        public static void ClearCache()
+        {
+            // Bitmaps may still be drawn by an open menu; let the GC collect them
+            // instead of disposing them under the paint loop.
+            FileIcons.Clear();
+        }
+
+        /// <summary>An embedded icon is thousands of characters; keep the log readable.</summary>
+        private static string Summarize(string value)
+            => value.Length <= 120 ? value : value.Substring(0, 40) + "…(" + value.Length + " chars)";
 
         private static Bitmap ToBitmap(IconPixels pixels)
         {

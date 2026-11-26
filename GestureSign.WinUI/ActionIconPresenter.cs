@@ -41,6 +41,8 @@ internal static class ActionIconPresenter
                 return GlyphVisual(source.Value, size, glyphBrush);
             case ActionIconKind.Image:
                 return Picture(source, size, pluginClass);
+            case ActionIconKind.ImageData:
+                return Picture(source, size, pluginClass);
             case ActionIconKind.Program:
                 return Picture(source, size, pluginClass);
             default:
@@ -108,9 +110,12 @@ internal static class ActionIconPresenter
         }
         try
         {
-            var image = source.Kind == ActionIconKind.Image
-                ? await FromFileAsync(source.Value)
-                : await FromPixelsAsync(source);
+            var image = source.Kind switch
+            {
+                ActionIconKind.Image => await FromFileAsync(source.Value),
+                ActionIconKind.ImageData => await FromBytesAsync(ActionIcons.DecodeInlineImage(source.Value)),
+                _ => await FromPixelsAsync(source)
+            };
             if (image is null)
             {
                 ShowFallbackGlyph(target, size, pluginClass);
@@ -158,9 +163,11 @@ internal static class ActionIconPresenter
     }
 
     private static async Task<ImageSource?> FromFileAsync(string path)
+        => await FromBytesAsync(await File.ReadAllBytesAsync(path));
+
+    private static async Task<ImageSource?> FromBytesAsync(byte[]? bytes)
     {
-        var bytes = await File.ReadAllBytesAsync(path);
-        if (bytes.Length == 0)
+        if (bytes is null || bytes.Length == 0)
             return null;
         var stream = new InMemoryRandomAccessStream();
         using (var writer = new DataWriter(stream.GetOutputStreamAt(0)))

@@ -67,7 +67,9 @@ public sealed class ActionPackage
             if (!seen.Add(action.Id ?? ""))
                 continue;
             var copy = Clone(action);
-            copy.Icon = IsFilePath(copy.Icon) ? null : copy.Icon; // local paths mean nothing elsewhere
+            // A picture embedded in the action travels with it; a local path means
+            // nothing on another machine, so it is dropped.
+            copy.Icon = ActionIcons.IsInlineImage(copy.Icon) || !IsFilePath(copy.Icon) ? copy.Icon : null;
             foreach (var command in copy.Commands)
             {
                 if (command.PluginClass == StepsPluginClass)

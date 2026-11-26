@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using GestureSign.Foundation.RadialMenus;
+using GestureSign.WinUI.Services;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -254,6 +255,10 @@ public sealed partial class MainWindow
         try
         {
             config.Save(RadialConfigPath);
+            // The background service keeps the parsed menus and their icon bitmaps.
+            // Tell it to drop them, or the next middle-button press shows what was
+            // there before the edit.
+            _ = NotifyDaemonAsync(DaemonCommand.ReloadRadialMenus);
         }
         catch (Exception ex)
         {
@@ -420,7 +425,11 @@ public sealed partial class MainWindow
                 _ => ""
             };
             var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10, Tag = menu.Id, Padding = new Thickness(0, 4, 0, 4) };
-            row.Children.Add(new FontIcon { Glyph = glyph, FontSize = 18, VerticalAlignment = VerticalAlignment.Center });
+            var programIcon = RadialMenuIcon(menu);
+            if (programIcon is not null)
+                row.Children.Add(programIcon);
+            else
+                row.Children.Add(new FontIcon { Glyph = glyph, FontSize = 18, VerticalAlignment = VerticalAlignment.Center });
             var text = new StackPanel();
             text.Children.Add(new TextBlock { Text = RadialMenuTitle(menu), TextTrimming = TextTrimming.CharacterEllipsis });
             var subtitle = menu.Scope == RadialMenuScope.Application ? menu.Processes : null;
@@ -472,6 +481,27 @@ public sealed partial class MainWindow
         panel.Children.Add(buttons);
         _radialMenuListHost.Children.Clear();
         _radialMenuListHost.Children.Add(panel);
+    }
+
+    /// <summary>
+    /// The row icon of an application menu: the program's own icon, exactly as the wheel shows it
+    /// in its slots. Null when the executable behind the stored name can't be found, so the caller
+    /// keeps the plain category glyph instead of drawing a hole.
+    /// </summary>
+    private static FrameworkElement? RadialMenuIcon(RadialMenuDefinition menu)
+    {
+        if (menu.Scope != RadialMenuScope.Application)
+            return null;
+        var program = (menu.Processes ?? "")
+            .Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+            .FirstOrDefault();
+        var path = ProgramPathResolver.Resolve(program);
+        if (path is null)
+            return null;
+        var icon = ActionIconPresenter.ForPath(path, 18);
+        icon.VerticalAlignment = VerticalAlignment.Center;
+        icon.HorizontalAlignment = HorizontalAlignment.Center;
+        return icon;
     }
 
     private async Task AddRadialApplicationMenuAsync()
