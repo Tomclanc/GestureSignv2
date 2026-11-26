@@ -11,6 +11,7 @@
     <Disable>Απενεργοποίηση GestureSign</Disable>
     <Enable>Ενεργοποίηση GestureSign</Enable>
     <Settings>Ρυθμίσεις</Settings>
+    <Restart>Επανεκκίνηση</Restart>
     <Exit>Έξοδος</Exit>
   </TrayMenu>
 </Language>

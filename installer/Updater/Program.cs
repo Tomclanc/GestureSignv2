@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -61,6 +62,8 @@ namespace GestureSign.Updater
         private readonly Button _closeButton = new Button();
         private int? _msiExitCode;
         private string _msiLogPath;
+        /// <summary>Set once the app has been stopped, so a failed update knows to start it again.</summary>
+        private bool _targetsStopped;
 
         public UpdateForm(UpdateOptions options)
         {
@@ -145,6 +148,7 @@ namespace GestureSign.Updater
                     WaitForMainProcess();
                     SetStatus(T("Closing the background service and quick actions…"));
                     StopTargetProcesses();
+                    _targetsStopped = true;
 
                     if (string.Equals(_options.Mode, "msi", StringComparison.OrdinalIgnoreCase))
                         InstallMsi();
@@ -179,7 +183,14 @@ namespace GestureSign.Updater
             {
                 _progress.MarqueeAnimationSpeed = 0;
                 _title.Text = T("Update failed");
-                _status.Text = ex.Message;
+                // The app was already stopped before the install ran. A cancelled
+                // (1602) or failed (1603) install rolls the previous version back,
+                // so start that build again instead of leaving the user with
+                // nothing running. Only try when we were the ones who stopped it.
+                var relaunched = _targetsStopped && TryRelaunchAfterFailure();
+                _status.Text = relaunched
+                    ? ex.Message
+                    : ex.Message + " " + T("Could not start GestureSign V2.");
                 EnableCloseButton();
             }
             finally
@@ -192,6 +203,26 @@ namespace GestureSign.Updater
         {
             _closeButton.Text = T("Close");
             _closeButton.Enabled = true;
+        }
+
+        /// <summary>
+        /// Starts the installed build after a failed or cancelled update. The files still
+        /// belong to the previous version because Windows Installer rolled back, so this is
+        /// the same executable the update was meant to replace.
+        /// </summary>
+        private bool TryRelaunchAfterFailure()
+        {
+            try
+            {
+                LaunchUpdatedApplication();
+                return true;
+            }
+            catch (Exception error)
+            {
+                // Nothing else to do: the message already tells the user to open the app by hand.
+                Trace.TraceWarning("Relaunch after a failed update did not work: {0}", error);
+                return false;
+            }
         }
 
         private void ValidateOptions()
@@ -224,6 +255,20 @@ namespace GestureSign.Updater
         private void StopTargetProcesses()
         {
             var root = NormalizeDirectory(_options.TargetDirectory);
+            // The settings window brings the daemon back when it disappears, so a single pass
+            // can leave a fresh process running and lock the files we are about to replace.
+            for (var round = 0; round < 5; round++)
+            {
+                if (!KillProcessesUnder(root))
+                    return;
+                Thread.Sleep(300);
+            }
+        }
+
+        /// <summary>Kills every process whose image lives under <paramref name="root"/>; returns whether any was killed.</summary>
+        private static bool KillProcessesUnder(string root)
+        {
+            var killed = false;
             foreach (var process in Process.GetProcesses())
             {
                 try
@@ -238,6 +283,7 @@ namespace GestureSign.Updater
                         continue;
                     process.Kill();
                     process.WaitForExit(5000);
+                    killed = true;
                 }
                 catch
                 {
@@ -247,6 +293,7 @@ namespace GestureSign.Updater
                     process.Dispose();
                 }
             }
+            return killed;
         }
 
         private void InstallMsi()
@@ -255,7 +302,9 @@ namespace GestureSign.Updater
             PreserveBundledKando(_options.TargetDirectory);
             SetStatus(T("Installing the new version…"));
             _msiLogPath = Path.Combine(Path.GetTempPath(), $"GestureSign-update-{DateTime.Now:yyyyMMddHHmmssfff}.log");
-            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart /L*V \"{_msiLogPath}\"";
+            // GS_SKIP_START keeps the freshly installed build from launching while the
+            // updater still has files to replace; the updater starts it afterwards.
+            var arguments = $"/i \"{_options.PackagePath}\" /passive /norestart GS_SKIP_START=1 /L*V \"{_msiLogPath}\"";
             using (var process = Process.Start(new ProcessStartInfo("msiexec.exe", arguments)
             {
                 UseShellExecute = false,

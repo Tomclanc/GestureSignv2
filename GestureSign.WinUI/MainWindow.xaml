@@ -39,10 +39,29 @@
         </VisualStateManager.VisualStateGroups>
 
         <Grid.Resources>
-            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
-            <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            <ResourceDictionary>
+                <!--
+                    NavigationViewExpandedPaneBackground: the pane docked beside the content in a
+                    wide window; transparent over the window backdrop, as before.
+                    NavigationViewDefaultPaneBackground: the pane in compact or minimal mode, which
+                    opens over the content; it needs its own background, otherwise the page shows
+                    through the menu.
+                -->
+                <ResourceDictionary.ThemeDictionaries>
+                    <ResourceDictionary x:Key="Default">
+                        <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="AcrylicInAppFillColorDefaultBrush" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="Light">
+                        <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="AcrylicInAppFillColorDefaultBrush" />
+                    </ResourceDictionary>
+                    <ResourceDictionary x:Key="HighContrast">
+                        <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemColorWindowColorBrush" />
+                    </ResourceDictionary>
+                </ResourceDictionary.ThemeDictionaries>
+                <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="Transparent" />
+                <SolidColorBrush x:Key="NavigationViewContentGridBorderBrush" Color="Transparent" />
+            </ResourceDictionary>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -96,11 +115,22 @@
                                  IsPaneOpen="True"
                                  OpenPaneLength="248"
                                  CompactPaneLength="60"
+                                 DisplayModeChanged="Navigation_DisplayModeChanged"
                                  SelectionChanged="Navigation_SelectionChanged">
             <controls:NavigationView.MenuItems>
                 <controls:NavigationViewItem Content="" Tag="actions" Icon="Play" />
                 <controls:NavigationViewItem Content="" Tag="ignored" Icon="BlockContact" />
                 <controls:NavigationViewItem Content="" Tag="gestures" Icon="TouchPointer" />
+                <controls:NavigationViewItem Content="" Tag="actionLibrary">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8F1;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
+                <controls:NavigationViewItem Content="" Tag="radialMenu">
+                    <controls:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE7AD;" />
+                    </controls:NavigationViewItem.Icon>
+                </controls:NavigationViewItem>
                 <controls:NavigationViewItem Content="" Tag="quickActions" Icon="Keyboard" />
                 <controls:NavigationViewItem Content="" Tag="touchpad">
                     <controls:NavigationViewItem.Icon>
@@ -116,7 +146,7 @@
                 <controls:NavigationViewItem Content="" Tag="about" Icon="Help" />
             </controls:NavigationView.MenuItems>
 
-            <Grid>
+            <Grid x:Name="NavigationContentRoot">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />

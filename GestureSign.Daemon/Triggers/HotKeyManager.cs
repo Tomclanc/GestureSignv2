@@ -1,6 +1,8 @@
 using GestureSign.Common.Applications;
 using GestureSign.Common.Configuration;
+using GestureSign.Common.Log;
 using GestureSign.Daemon.Input;
+using GestureSign.Daemon.RadialMenu;
 using ManagedWinapi;
 using ManagedWinapi.Windows;
 using System;
@@ -306,6 +308,14 @@ namespace GestureSign.Daemon.Triggers
 
         private void KandoHotKey_HotkeyPressed(object sender, EventArgs e)
         {
+            // While the built-in wheel is open, the mouse and keyboard belong to
+            // it; opening the component's menu here would cover it mid-gesture.
+            if (RadialMenuController.Instance.IsActive)
+            {
+                Logging.LogMessage("Quick actions menu skipped. Reason=RadialMenuOpen");
+                return;
+            }
+
             KandoLauncher.ShowMenu();
         }
 

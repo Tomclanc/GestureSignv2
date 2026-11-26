@@ -11,6 +11,7 @@
     <Disable>შეაჩერე GestureSign</Disable>
     <Enable>ჩართე GestureSign</Enable>
     <Settings>პარამეტრები</Settings>
+    <Restart>გადატვირთვა</Restart>
     <Exit>გამოსვლა</Exit>
   </TrayMenu>
 </Language>

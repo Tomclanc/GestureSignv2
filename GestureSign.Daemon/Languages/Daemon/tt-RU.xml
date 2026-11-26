@@ -11,6 +11,7 @@
     <Disable>GestureSign ны сүндерү</Disable>
     <Enable>GestureSign ны кабызу</Enable>
     <Settings>Көйләүләр</Settings>
+    <Restart>Кабат җибәрү</Restart>
     <Exit>Чыгыш</Exit>
   </TrayMenu>
 </Language>

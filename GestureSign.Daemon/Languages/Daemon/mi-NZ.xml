@@ -11,6 +11,7 @@
     <Disable>Whakakore i te GestureSign</Disable>
     <Enable>Whakahohe i te GestureSign</Enable>
     <Settings>Tautuhinga</Settings>
+    <Restart>Tīmata anō</Restart>
     <Exit>Putanga</Exit>
   </TrayMenu>
 </Language>

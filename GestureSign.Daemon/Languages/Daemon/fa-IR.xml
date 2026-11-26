@@ -11,6 +11,7 @@
     <Disable>غیرفعال کردن GestureSign</Disable>
     <Enable>فعال کردن GestureSign</Enable>
     <Settings>تنظیمات</Settings>
+    <Restart>راه‌اندازی مجدد</Restart>
     <Exit>خروج</Exit>
   </TrayMenu>
 </Language>

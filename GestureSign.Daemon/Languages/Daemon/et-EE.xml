@@ -11,6 +11,7 @@
     <Disable>Keela GestureSign</Disable>
     <Enable>Luba GestureSign</Enable>
     <Settings>Seaded</Settings>
+    <Restart>Taaskäivita</Restart>
     <Exit>Välju</Exit>
   </TrayMenu>
 </Language>

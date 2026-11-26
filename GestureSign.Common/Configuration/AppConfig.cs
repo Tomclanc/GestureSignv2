@@ -272,6 +272,24 @@ namespace GestureSign.Common.Configuration
             }
         }
 
+        /// <summary>Middle-button radial menu master switch (off by default).</summary>
+        public static bool RadialMenuEnabled => GetValue(nameof(RadialMenuEnabled), false);
+
+        /// <summary>Show and use the outer ring of the radial menu (two rings when on, one when off).</summary>
+        public static bool RadialMenuOuterRing => GetValue(nameof(RadialMenuOuterRing), true);
+
+        /// <summary>Show and use a third ring (only together with the outer ring).</summary>
+        public static bool RadialMenuThirdRing => GetValue(nameof(RadialMenuThirdRing), false);
+
+        /// <summary>AI settings used by the "Ask AI" step when the step leaves them empty.</summary>
+        public static string AiEndpoint => GetValue(nameof(AiEndpoint), "");
+        /// <summary>Stored encrypted for the current Windows user; this returns the plain key.</summary>
+        public static string AiApiKey => GestureSign.Foundation.Security.SecretStore.Reveal(GetValue(nameof(AiApiKey), ""));
+        public static string AiModel => GetValue(nameof(AiModel), "");
+
+        /// <summary>Number of radial menu rings: 1, 2 or 3.</summary>
+        public static int RadialMenuRingCount => !RadialMenuOuterRing ? 1 : RadialMenuThirdRing ? 3 : 2;
+
         public static bool RegisterTouchPad
         {
             get

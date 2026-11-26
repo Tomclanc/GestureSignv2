@@ -13,7 +13,8 @@
     "OK",
     "Regex",
     "Notepad",
-    "Windows Explorer"
+    "Windows Explorer",
+    "Built-in"
   ],
   "da-DK": [
     "1 finger",
@@ -32,15 +33,20 @@
     "Version",
     "apps",
     "Backend",
+    "Note",
+    "Type",
+    "Model",
     "Emoji"
   ],
   "uz-Latn-UZ": [
     "Global",
     "Import",
+    "Model",
     "Emoji"
   ],
   "hr-HR": [
     "Start",
+    "Model",
     "Emoji"
   ],
   "gl-ES": [
@@ -48,6 +54,7 @@
     "Normal",
     "Volume",
     "Backend",
+    "Variables",
     "Emoji"
   ],
   "ca-ES": [
@@ -58,6 +65,9 @@
     "Normal",
     "Touchpad",
     "Backend",
+    "Text",
+    "Variables",
+    "Model",
     "Emoji"
   ],
   "ca-ES-valencia": [
@@ -68,6 +78,9 @@
     "Normal",
     "Touchpad",
     "Backend",
+    "Text",
+    "Variables",
+    "Model",
     "Emoji"
   ],
   "af-ZA": [
@@ -75,6 +88,7 @@
     "Pen",
     "Volume",
     "items",
+    "Model",
     "Emoji"
   ],
   "lb-LU": [
@@ -93,22 +107,32 @@
     "apps",
     "Backend",
     "Label",
+    "Taskbar",
+    "Desktop",
+    "All",
+    "Text",
     "Emoji"
   ],
   "id-ID": [
     "Global",
     "Volume",
     "Label",
+    "Desktop",
+    "Model",
+    "Submenu",
     "Emoji"
   ],
   "tr-TR": [
     "Normal",
+    "Model",
     "Emoji"
   ],
   "cy-GB": [
     "Pen",
     "System",
     "Grid",
+    "Model",
+    "Help",
     "Emoji"
   ],
   "de-DE": [
@@ -125,6 +149,8 @@
     "Version",
     "apps",
     "Backend",
+    "Desktop",
+    "Text",
     "Emoji"
   ],
   "it-IT": [
@@ -134,6 +160,7 @@
     "Touchpad",
     "Volume",
     "Backend",
+    "Desktop",
     "Emoji"
   ],
   "nb-NO": [
@@ -143,6 +170,7 @@
     "Start",
     "System",
     "Backend",
+    "Type",
     "Emoji"
   ],
   "nn-NO": [
@@ -150,18 +178,24 @@
     "Cyan",
     "Start",
     "System",
+    "Type",
     "Emoji"
   ],
   "cs-CZ": [
     "Tip",
     "Touchpad",
     "Backend",
+    "Text",
+    "Model",
     "Emoji"
   ],
   "sk-SK": [
     "Tip",
     "Touchpad",
     "Backend",
+    "Filter",
+    "Text",
+    "Model",
     "Emoji"
   ],
   "el-GR": [
@@ -178,7 +212,11 @@
     "Orange",
     "Version",
     "Volume",
-    "actions"
+    "actions",
+    "Note",
+    "Type",
+    "Description",
+    "Variables"
   ],
   "fr-FR": [
     "10 minutes",
@@ -190,11 +228,16 @@
     "Orange",
     "Version",
     "Volume",
-    "actions"
+    "actions",
+    "Note",
+    "Type",
+    "Description",
+    "Variables"
   ],
   "pl-PL": [
     "System",
     "Touchpad",
+    "Model",
     "Emoji"
   ],
   "sv-SE": [
@@ -207,6 +250,7 @@
     "System",
     "Version",
     "Backend",
+    "Text",
     "Emoji"
   ],
   "ro-RO": [
@@ -218,6 +262,9 @@
     "Normal",
     "Touchpad",
     "Backend",
+    "Desktop",
+    "Text",
+    "Model",
     "Emoji"
   ],
   "nl-NL": [
@@ -229,6 +276,10 @@
     "Volume",
     "apps",
     "items",
+    "Type",
+    "Model",
+    "Submenu",
+    "Help",
     "Emoji"
   ],
   "pt-BR": [
@@ -238,6 +289,7 @@
     "Touchpad",
     "Volume",
     "apps",
+    "Submenu",
     "Emoji"
   ],
   "pt-PT": [
@@ -246,21 +298,25 @@
     "Touchpad",
     "Volume",
     "apps",
+    "Submenu",
     "Emoji"
   ],
   "es-MX": [
     "Global",
     "No",
     "apps",
-    "Backend"
+    "Backend",
+    "Variables"
   ],
   "es-ES": [
     "Global",
     "No",
-    "Backend"
+    "Backend",
+    "Variables"
   ],
   "az-Latn-AZ": [
     "Normal",
+    "Model",
     "Emoji"
   ],
   "sq-AL": [
@@ -278,6 +334,9 @@
     "Pen",
     "apps",
     "Label",
+    "Desktop",
+    "Model",
+    "Submenu",
     "Emoji"
   ],
   "mt-MT": [
@@ -289,6 +348,31 @@
     "Touchscreen",
     "apps",
     "Backend",
+    "Desktop",
+    "Presets",
+    "Emoji"
+  ],
+  "bs-Latn-BA": [
+    "Filter",
+    "Model",
+    "Emoji"
+  ],
+  "fil-PH": [
+    "Taskbar",
+    "Desktop",
+    "API key",
+    "Provider",
+    "Submenu",
+    "Emoji"
+  ],
+  "sl-SI": [
+    "Filter",
+    "Model",
+    "Emoji"
+  ],
+  "sr-Latn-RS": [
+    "Filter",
+    "Model",
     "Emoji"
   ],
   "is-IS": [
@@ -297,19 +381,10 @@
   "hu-HU": [
     "Emoji"
   ],
-  "sr-Latn-RS": [
-    "Emoji"
-  ],
-  "sl-SI": [
-    "Emoji"
-  ],
   "sw-KE": [
     "Emoji"
   ],
   "mi-NZ": [
-    "Emoji"
-  ],
-  "bs-Latn-BA": [
     "Emoji"
   ],
   "ga-IE": [
@@ -319,9 +394,6 @@
     "Emoji"
   ],
   "gd-GB": [
-    "Emoji"
-  ],
-  "fil-PH": [
     "Emoji"
   ],
   "ha-Latn-NG": [

@@ -281,6 +281,8 @@ public sealed partial class MainWindow
         };
         commandSettings.TextChanged += (_, _) => RefreshCommandPreview();
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);
@@ -424,6 +426,9 @@ public sealed partial class MainWindow
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
     }
 
+    // ContentDialog's default maximum width (548) minus its 24 px side padding.
+    private const double ActionDialogContentWidth = 500;
+
     private async Task EditActionAsync(LegacyAction action)
     {
         var originalApp = FindApplicationForAction(action);
@@ -493,6 +498,8 @@ public sealed partial class MainWindow
             });
         };
         var panel = NewCardPanel(8);
+        // Fixed width: expanding "Advanced options" must not resize the dialog.
+        panel.Width = ActionDialogContentWidth;
         var advanced = NewCardPanel(8);
         advanced.Children.Add(name);
         advanced.Children.Add(gesture);
@@ -522,6 +529,46 @@ public sealed partial class MainWindow
         advanced.Children.Add(deviceSelector.Content);
         advanced.Children.Add(hotkeyRecorder);
         panel.Children.Add(NewContinuousGestureEditor(continuousGestureJson));
+
+        // The command (when the action has at most one): same choices as for a
+        // new action, including "Library action". Several commands are edited
+        // on the action card instead.
+        var editsCommand = action.Commands.Count <= 1;
+        var existingCommand = action.Commands.FirstOrDefault();
+        var commandPlugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = HorizontalAlignment.Stretch };
+        AddPluginItems(commandPlugin);
+        commandPlugin.SelectedIndex = existingCommand is null ? 0 : PluginIndex(existingCommand.PluginClass);
+        var commandPluginDescription = NewPluginDescriptionTextBlock();
+        var commandPluginClass = new TextBox { PlaceholderText = T("自定义插件类名", "Custom plugin class name"), Text = existingCommand?.PluginClass ?? PluginClassFromIndex(0), Margin = new Thickness(0, 8, 0, 0) };
+        var commandSettings = new TextBox { PlaceholderText = T("命令设置 JSON，可留空", "Command settings JSON (optional)"), Text = existingCommand?.Settings ?? "", Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
+        var commandHotkey = NewHotKeyCommandEditor(commandSettings, existingCommand?.Settings ?? "");
+        var commandAppPicker = NewCommandAppPicker(commandPlugin, commandPluginClass, commandSettings);
+        var commandTypedSettings = NewTypedCommandSettingsEditor(commandPluginClass, commandSettings);
+        commandPlugin.SelectionChanged += (_, _) =>
+        {
+            var knownClass = PluginClassFromIndex(commandPlugin.SelectedIndex);
+            if (!string.IsNullOrWhiteSpace(knownClass))
+                commandPluginClass.Text = knownClass;
+            commandSettings.Text = commandPluginClass.Text.Contains("HotKey", StringComparison.OrdinalIgnoreCase) ? "" : PluginSettingsTemplate(commandPluginClass.Text);
+            UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, commandPluginClass.Text);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
+        };
+        if (editsCommand)
+        {
+            panel.Children.Add(new TextBlock { Text = T("2. 命令：选择要执行的操作", "2. Command: choose an action"), Opacity = 0.68, Margin = new Thickness(0, 16, 0, 0) });
+            panel.Children.Add(commandPlugin);
+            panel.Children.Add(commandPluginDescription);
+            panel.Children.Add(commandHotkey);
+            panel.Children.Add(commandAppPicker);
+            panel.Children.Add(commandTypedSettings);
+            advanced.Children.Add(commandPluginClass);
+            advanced.Children.Add(commandSettings);
+            UpdateCommandEditorVisibility(commandPluginClass.Text, commandPluginClass, commandHotkey, commandSettings, commandAppPicker);
+            UpdatePluginDescription(commandPluginDescription, commandPluginClass.Text);
+            UpdateTypedCommandSettingsEditor(commandTypedSettings, commandPluginClass.Text, commandSettings.Text);
+        }
+
         panel.Children.Add(new Expander { Header = T("高级选项", "Advanced options"), Content = advanced, IsExpanded = false, HorizontalAlignment = HorizontalAlignment.Stretch });
         var scrollOffsetsBeforeDialog = CaptureActionsPageScrollOffsets(PageHost);
         var mainScrollOffsetBeforeDialog = MainContentScrollViewer.VerticalOffset;
@@ -579,6 +626,26 @@ public sealed partial class MainWindow
 
         var savedName = name.Text == displayName ? action.Name : name.Text;
         _legacyData.UpdateAction(action, savedName, ResolveGestureName(gesture, mouseHotkey.SelectedIndex > 0 ? "" : savedName), condition.Text, enabled.IsChecked ?? true, activateWindow.IsChecked ?? true, MouseActionValue(mouseHotkey.SelectedIndex), ignoredDevices, hotkeyJson.Text, continuousGestureJson.Text, ActionMouseGestureButtonValue(mouseGestureButton));
+        if (editsCommand)
+        {
+            CommitSelectedAppCommandChoice(commandAppPicker, commandPlugin, commandPluginClass, commandSettings);
+            var newClass = commandPluginClass.Text.Trim();
+            var newSettings = commandSettings.Text;
+            // action may have been reloaded above (after saving the pattern); use its current command.
+            var current = action.Commands.FirstOrDefault();
+            if (current is not null)
+            {
+                if (!string.Equals(current.PluginClass, newClass, StringComparison.Ordinal) || !string.Equals(current.Settings, newSettings, StringComparison.Ordinal))
+                {
+                    var commandLabel = string.Equals(current.PluginClass, newClass, StringComparison.Ordinal) ? current.Name : CommandDisplayName(newClass, newSettings);
+                    _legacyData.UpdateCommand(current, commandLabel, newClass, newSettings, current.IsEnabled);
+                }
+            }
+            else if (ShouldCreateCommand(newClass, newSettings))
+            {
+                _legacyData.AddCommand(action, CommandDisplayName(newClass, newSettings), newClass, newSettings);
+            }
+        }
         _ = NotifyDaemonAsync(DaemonCommand.LoadGestures);
         _ = NotifyDaemonAsync(DaemonCommand.LoadApplications);
         ReloadActionDataOnly(scrollOffsetsBeforeDialog, mainScrollOffsetBeforeDialog);
@@ -665,7 +732,7 @@ public sealed partial class MainWindow
             if (tipTapPicker is not null)
             {
                 var index = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-                tipTapPicker.SelectedIndex = index >= 25 ? index - 24 : 0;
+                tipTapPicker.SelectedIndex = index >= 25 && index <= 36 ? index - 24 : 0;
             }
             onBuiltInGestureSelected?.Invoke();
         });
@@ -687,7 +754,7 @@ public sealed partial class MainWindow
         for (var index = 25; index <= 36; index++)
             tipTapPicker.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
         var selectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
-        tipTapPicker.SelectedIndex = selectedIndex >= 25 ? selectedIndex - 24 : 0;
+        tipTapPicker.SelectedIndex = selectedIndex >= 25 && selectedIndex <= 36 ? selectedIndex - 24 : 0;
         tipTapPicker.SelectionChanged += (_, _) =>
         {
             if (tipTapPicker.SelectedIndex <= 0) return;
@@ -799,10 +866,12 @@ public sealed partial class MainWindow
 
     private ComboBox NewBuiltInGesturePicker(TextBox gesture, Action? onGestureSelected = null)
     {
-        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text)) };
-        for (var index = 0; index <= 36; index++)
+        var combo = new ComboBox { Margin = new Thickness(0, 8, 0, 0) };
+        // Radial menu slots (37-52) are configured on the radial menu page.
+        for (var index = 0; index < FirstRadialMenuIndex; index++)
             combo.Items.Add(BuiltInGestureDisplayNameFromIndex(index));
-        combo.SelectedIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+        var currentIndex = BuiltInGestureIndex(ResolveGestureName(gesture, gesture.Text));
+        combo.SelectedIndex = currentIndex < FirstRadialMenuIndex ? currentIndex : 0;
 
         combo.SelectionChanged += (_, _) =>
         {
@@ -827,7 +896,7 @@ public sealed partial class MainWindow
              string.Equals(text, BuiltInGestureDisplayName(tag), StringComparison.OrdinalIgnoreCase)))
             return tag;
 
-        for (var index = 1; index <= 36; index++)
+        for (var index = 1; index <= LastBuiltInGestureIndex; index++)
         {
             var gestureName = BuiltInGestureNameFromIndex(index);
             if (string.Equals(text, BuiltInGestureDisplayName(gestureName), StringComparison.OrdinalIgnoreCase))
@@ -892,8 +961,58 @@ public sealed partial class MainWindow
             34 => L("按住 3 指 · 右侧 TipTap", "Hold 3 · right TipTap", "按住 3 指 · 右侧 TipTap", "3개 유지 · right TipTap"),
             35 => L("按住 3 指 · 上方 TipTap", "Hold 3 · up TipTap", "按住 3 指 · 上方 TipTap", "3개 유지 · up TipTap"),
             36 => L("按住 3 指 · 下方 TipTap", "Hold 3 · down TipTap", "按住 3 指 · 下方 TipTap", "3개 유지 · down TipTap"),
+            >= FirstRadialMenuIndex and <= LastBuiltInGestureIndex => RadialMenuDisplayName(index),
             _ => fallback
         };
+
+    // Radial menu slots: 37-44 inner ring, 45-52 outer ring,
+    // each ring starting at the top and advancing clockwise. The daemon reads
+    // the same reserved names (GestureSign.Common.Applications.RadialMenuSlots).
+    private const int FirstRadialMenuIndex = 37;
+    private const int LastBuiltInGestureIndex = 52;
+    private const string RadialMenuInnerPrefix = "RadialMenu.Inner.";
+    private const string RadialMenuOuterPrefix = "RadialMenu.Outer.";
+
+    private string RadialMenuDisplayName(int index)
+    {
+        var outer = index - FirstRadialMenuIndex >= 8;
+        var direction = RadialMenuDirectionName(index);
+        var ring = outer ? L("外圈", "Outer ring", "外圈", "바깥쪽 링") : L("内圈", "Inner ring", "內圈", "안쪽 링");
+        return L("环形菜单", "Radial menu", "環形選單", "원형 메뉴") + " · " + ring + " · " + direction;
+    }
+
+    private string RadialMenuDirectionName(int index)
+    {
+        var slot = index - FirstRadialMenuIndex;
+        return (slot % 8) switch
+        {
+            0 => L("上", "Up", "上", "위"),
+            1 => L("右上", "Up-right", "右上", "오른쪽 위"),
+            2 => L("右", "Right", "右", "오른쪽"),
+            3 => L("右下", "Down-right", "右下", "오른쪽 아래"),
+            4 => L("下", "Down", "下", "아래"),
+            5 => L("左下", "Down-left", "左下", "왼쪽 아래"),
+            6 => L("左", "Left", "左", "왼쪽"),
+            _ => L("左上", "Up-left", "左上", "왼쪽 위")
+        };
+    }
+
+    private static int RadialMenuIndex(string gestureName)
+    {
+        if (string.IsNullOrEmpty(gestureName)) return 0;
+        var outer = gestureName.StartsWith(RadialMenuOuterPrefix, StringComparison.OrdinalIgnoreCase);
+        if (!outer && !gestureName.StartsWith(RadialMenuInnerPrefix, StringComparison.OrdinalIgnoreCase)) return 0;
+        var suffix = gestureName.Substring(outer ? RadialMenuOuterPrefix.Length : RadialMenuInnerPrefix.Length);
+        return int.TryParse(suffix, NumberStyles.None, CultureInfo.InvariantCulture, out var slot) && slot >= 0 && slot < 8
+            ? FirstRadialMenuIndex + (outer ? 8 : 0) + slot
+            : 0;
+    }
+
+    private static string RadialMenuGestureName(int index)
+    {
+        var slot = index - FirstRadialMenuIndex;
+        return (slot >= 8 ? RadialMenuOuterPrefix : RadialMenuInnerPrefix) + (slot % 8).ToString(CultureInfo.InvariantCulture);
+    }
 
     private static int BuiltInGestureIndex(string gestureName)
         => gestureName switch
@@ -934,7 +1053,7 @@ public sealed partial class MainWindow
             "TouchPadTipTap.Hold3.Right" => 34,
             "TouchPadTipTap.Hold3.Up" => 35,
             "TouchPadTipTap.Hold3.Down" => 36,
-            _ => 0
+            _ => RadialMenuIndex(gestureName)
         };
 
     private static string BuiltInGestureNameFromIndex(int index)
@@ -976,6 +1095,7 @@ public sealed partial class MainWindow
             34 => "TouchPadTipTap.Hold3.Right",
             35 => "TouchPadTipTap.Hold3.Up",
             36 => "TouchPadTipTap.Hold3.Down",
+            >= FirstRadialMenuIndex and <= LastBuiltInGestureIndex => RadialMenuGestureName(index),
             _ => string.Empty
         };
 
@@ -1025,7 +1145,7 @@ public sealed partial class MainWindow
             UpdateTypedCommandSettingsEditor(typedSettings, pluginClassValue, settings.Text);
         };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
@@ -1049,12 +1169,27 @@ public sealed partial class MainWindow
         await ManageCommandsAsync(action);
     }
 
+    /// <summary>Name for a command: the library action's name for a library command, otherwise the operation name.</summary>
+    private string CommandDisplayName(string pluginClass, string settings)
+    {
+        if (string.Equals(pluginClass, LibraryActionPluginClass, StringComparison.Ordinal))
+        {
+            EnsureRadialConfig();
+            var id = JsonStringValue(settings, "ActionId", "");
+            var libraryAction = _radialConfig!.FindAction(id);
+            if (!string.IsNullOrWhiteSpace(libraryAction?.Name))
+                return libraryAction!.Name;
+        }
+        return PluginName(pluginClass);
+    }
+
     private async Task EditCommandAsync(LegacyCommand command)
     {
         var displayName = DisplayName(command.Name);
         var name = new TextBox { PlaceholderText = IntentText("名称", "Name"), Text = displayName };
         var plugin = new ComboBox { Margin = new Thickness(0, 8, 0, 0), SelectedIndex = PluginIndex(command.PluginClass) };
         AddPluginItems(plugin);
+        plugin.SelectedIndex = PluginIndex(command.PluginClass);
         var pluginDescription = NewPluginDescriptionTextBlock();
         var pluginClass = new TextBox { PlaceholderText = IntentText("自定义插件", "Custom Plugin"), Text = command.PluginClass, Margin = new Thickness(0, 8, 0, 0) };
         var settings = new TextBox { PlaceholderText = "JSON", Text = command.Settings, Margin = new Thickness(0, 8, 0, 0), TextWrapping = TextWrapping.Wrap };
@@ -1073,7 +1208,7 @@ public sealed partial class MainWindow
         };
         var enabled = new CheckBox { Content = IntentText("启用", "Enabled"), IsChecked = command.IsEnabled, Margin = new Thickness(0, 8, 0, 0) };
         var panel = NewCardPanel(0);
-        panel.MinWidth = 520;
+        panel.MinWidth = ActionDialogContentWidth; // ContentDialog content is at most 548 - 2 x 24 wide
         panel.Children.Add(name);
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);

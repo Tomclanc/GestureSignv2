@@ -64,6 +64,17 @@ namespace GestureSign.Daemon
                     case IpcCommands.StartSettings:
                         TrayManager.StartSettings();
                         break;
+                    case IpcCommands.RunTestAction:
+                        TestActionRunner.Start(_synchronizationContext);
+                        break;
+                    case IpcCommands.ReloadRadialMenus:
+                        // The settings window has just written RadialMenus.json; drop the
+                        // parsed file and the icon bitmaps so the next middle-button press
+                        // shows the new names and icons instead of the previous ones.
+                        ApplicationManager.Instance.InvalidateRadialMenuConfig();
+                        RadialMenu.RadialMenuIcons.ClearCache();
+                        ApplicationManager.Instance.LoadRadialMenuConfig();
+                        break;
                     case IpcCommands.Exit:
                         Logging.LogMessage("Daemon exit requested by IPC.");
                         _ = TrayManager.ExitGestureSignAsync();

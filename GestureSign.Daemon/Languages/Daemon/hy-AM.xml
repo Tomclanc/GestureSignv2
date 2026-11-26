@@ -11,6 +11,7 @@
     <Disable>Անցնցեք GestureSign-ը</Disable>
     <Enable>Միացրեք GestureSign-ը</Enable>
     <Settings>Կարգավորումներ</Settings>
+    <Restart>Վերագործարկել</Restart>
     <Exit>Ելք</Exit>
   </TrayMenu>
 </Language>

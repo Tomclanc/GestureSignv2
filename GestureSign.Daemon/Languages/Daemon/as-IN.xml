@@ -11,6 +11,7 @@
     <Disable>GestureSign নিষ্ক্ৰিয় কৰক</Disable>
     <Enable>GestureSign সক্ৰিয় কৰক</Enable>
     <Settings>ছেটিংছ</Settings>
+    <Restart>পুনৰাৰম্ভ কৰক</Restart>
     <Exit>প্ৰস্থান</Exit>
   </TrayMenu>
 </Language>

@@ -11,6 +11,7 @@
     <Disable>Desativar o reconhecimento de gestos</Disable>
     <Enable>Ativar o reconhecimento de gestos</Enable>
     <Settings>Configurações</Settings>
+    <Restart>Reiniciar</Restart>
     <Exit>Sair</Exit>
   </TrayMenu>
 </Language>

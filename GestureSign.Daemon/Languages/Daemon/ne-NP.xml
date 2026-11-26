@@ -11,6 +11,7 @@
     <Disable>GestureSign निष्क्रिय गर्नुहोस्</Disable>
     <Enable>GestureSign सक्षम गर्नुहोस्</Enable>
     <Settings>सेटिङ्गहरू</Settings>
+    <Restart>पुनः सुरु गर्नुहोस्</Restart>
     <Exit>बाहिर निस्कनुहोस्</Exit>
   </TrayMenu>
 </Language>

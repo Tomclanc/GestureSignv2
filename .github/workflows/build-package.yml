@@ -1,0 +1,83 @@
+name: Build package
+
+# Builds the portable ZIP and the MSI on every push to main (the upstream
+# mirror) or dev (the working branch) and on demand, and keeps them as
+# downloadable workflow artifacts. Pushing a tag such as v18.4.8-radial.1
+# also publishes them to a GitHub Release.
+on:
+  push:
+    branches: [main, dev]
+    tags: ['v*']
+    paths-ignore: ['**.md', 'docs/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-package-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  package:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        architecture: [x64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Restore
+        shell: pwsh
+        run: |
+          dotnet restore GestureSign.sln -p:RestoreLockedMode=false
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          dotnet tool restore
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+
+      - name: Build portable payload and MSI
+        shell: pwsh
+        run: |
+          $arch = '${{ matrix.architecture }}'
+          ./installer/Build-GestureSignV2-KandoMsi.ps1 -Architecture $arch `
+            -PublishDir "./publish/portable-$arch" `
+            -OutputMsi "./publish/GestureSign-V2-$arch.msi"
+
+      - name: Zip portable payload
+        shell: pwsh
+        run: |
+          $arch = '${{ matrix.architecture }}'
+          Compress-Archive -Path "./publish/portable-$arch/*" -DestinationPath "./publish/GestureSign-V2-$arch-portable.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: GestureSign-V2-${{ matrix.architecture }}
+          path: |
+            publish/GestureSign-V2-${{ matrix.architecture }}.msi
+            publish/GestureSign-V2-${{ matrix.architecture }}-portable.zip
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "$GITHUB_REF_NAME" \
+            --generate-notes \
+            --prerelease

@@ -11,6 +11,7 @@
     <Disable>Деактивиране на GestureSign</Disable>
     <Enable>Активиране на GestureSign</Enable>
     <Settings>Настройки</Settings>
+    <Restart>Рестартиране</Restart>
     <Exit>Изход</Exit>
   </TrayMenu>
 </Language>

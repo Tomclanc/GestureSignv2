@@ -1659,6 +1659,31 @@ namespace GestureSign.Daemon.Input
             // Shortcut method to control singleton instantiation
         }
 
+        /// <summary>
+        /// The first gesture after start-up used to stall inside the mouse hook (JIT and
+        /// first-use caches), long enough for Windows to skip the hook and drop the gesture.
+        /// Pay that cost once, right after start-up, outside the hook.
+        /// </summary>
+        internal void WarmUp()
+        {
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var point = System.Windows.Forms.Cursor.Position;
+                _pointEventTranslator?.WarmUp(point);
+                var window = SystemWindow.FromPointEx(point.X, point.Y, true, true);
+                if (window != null)
+                    ApplicationManager.Instance.GetApplicationFromWindow(window);
+                var stroke = new[] { new[] { new Point(0, 0), new Point(40, 0), new Point(80, 0), new Point(120, 0) } };
+                GestureManager.Instance.GetMostSimilarGestureName(new[] { new GestureSign.Common.Gestures.PointPattern(stroke) });
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage("Input warm-up failed: " + ex.GetType().Name + ": " + ex.Message);
+            }
+            Logging.LogMessage($"Input warm-up completed. ElapsedMs={watch.ElapsedMilliseconds}");
+        }
+
         public void ToggleUserDisablePointCapture()
         {
             // Toggle User selected Gesture Disabling

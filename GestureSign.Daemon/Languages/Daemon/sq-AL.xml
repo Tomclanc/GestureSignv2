@@ -11,6 +11,7 @@
     <Disable>Çaktivizo GestureSign</Disable>
     <Enable>Aktivizo GestureSign</Enable>
     <Settings>Cilësimet</Settings>
+    <Restart>Rinis</Restart>
     <Exit>Dil</Exit>
   </TrayMenu>
 </Language>

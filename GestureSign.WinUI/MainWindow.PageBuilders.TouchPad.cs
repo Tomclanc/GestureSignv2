@@ -20,7 +20,7 @@ public sealed partial class MainWindow
     private UIElement BuildTouchPadPageCore()
     {
         var root = NewSection();
-        root.Children.Add(NewSettingsGroup(L("边缘识别", "Edge Recognition", "邊緣辨識", "가장자리 인식"),
+        root.Children.Add(NewSettingsGroupColumns(L("边缘识别", "Edge Recognition", "邊緣辨識", "가장자리 인식"),
         [
             NewToggleRow(L("启用触控板手势", "Enable touchpad gestures", "啟用觸控板手勢", "터치패드 제스처 사용"), _legacyData.Options.RegisterTouchPad, "RegisterTouchPad"),
             NewToggleRow(L("优先使用 Windows 触控板系统手势", "Prefer Windows touchpad gestures", "優先使用 Windows 觸控板系統手勢", "Windows 터치패드 시스템 제스처 우선 사용"), _legacyData.Options.PreferWindowsTouchPadGestures, "PreferWindowsTouchPadGestures")
@@ -29,8 +29,43 @@ public sealed partial class MainWindow
         root.Children.Add(MarkSearchTarget(NewTipTapCard(), "tiptap"));
         root.Children.Add(MarkSearchTarget(NewTouchPadMapCard(), "touchpad-map"));
         root.Children.Add(MarkSearchTarget(NewTouchScreenMapCard(), "touchscreen-map"));
-        root.Children.Add(MarkSearchTarget(NewDesktopWheelMapCard(), "desktop-wheel-map"));
+        // The desktop edge card keeps its richer table, diagram and presets; the
+        // search anchor stays the same so global search still lands on it.
+        root.Children.Add(MarkSearchTarget(NewDesktopEdgeWheelCard(), "desktop-wheel-map"));
         return root;
+    }
+
+    /// <summary>A settings group whose rows sit side by side in a wide window and stack in a narrow one.</summary>
+    private FrameworkElement NewSettingsGroupColumns(string title, FrameworkElement[] rows, double twoColumnWidth = 640)
+    {
+        var panel = NewCardPanel(0);
+        panel.Children.Add(new TextBlock { Text = title, Style = BodyStrongTextBlockStyle, Margin = new Thickness(0, 0, 0, 12) });
+        var grid = new Grid { ColumnSpacing = 24 };
+        foreach (var row in rows)
+            grid.Children.Add(row);
+        int? columns = null;
+        void Arrange(double width)
+        {
+            var next = width >= twoColumnWidth ? 2 : 1;
+            if (columns == next) return;
+            columns = next;
+            grid.ColumnDefinitions.Clear();
+            grid.RowDefinitions.Clear();
+            for (var i = 0; i < next; i++)
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            for (var i = 0; i < (rows.Length + next - 1) / next; i++)
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            for (var i = 0; i < rows.Length; i++)
+            {
+                Grid.SetColumn(rows[i], i % next);
+                Grid.SetRow(rows[i], i / next);
+                rows[i].VerticalAlignment = VerticalAlignment.Top;
+            }
+        }
+        grid.SizeChanged += (_, e) => Arrange(e.NewSize.Width);
+        Arrange(double.PositiveInfinity);
+        panel.Children.Add(grid);
+        return NewCard(panel);
     }
 
     private int _tipTapHeldCount = 1;
@@ -104,41 +139,6 @@ public sealed partial class MainWindow
         });
         panel.Children.Add(NewEdgeMap(TouchScreenEdges(), NewTouchScreenCenter()));
         return NewCard(panel, new Thickness(14));
-    }
-
-    private FrameworkElement NewDesktopWheelMapCard()
-    {
-        var panel = NewCardPanel(14);
-        panel.Children.Add(new TextBlock
-        {
-            Text = T("桌面边缘鼠标滚轮", "Desktop edge mouse wheel"),
-            Style = BodyStrongTextBlockStyle
-        });
-        panel.Children.Add(new TextBlock
-        {
-            Text = T("指针停在显示器外侧边缘时滚动。未配置时保持原有滚动；相邻显示器内部边界不触发。",
-                "Scroll at an outer display edge. Unassigned actions keep normal scrolling; internal monitor boundaries are excluded."),
-            TextWrapping = TextWrapping.Wrap
-        });
-        var up = T("向上滚动", "Scroll up");
-        var down = T("向下滚动", "Scroll down");
-        var desktop = T("桌面", "Desktop");
-        var center = NewEdgeMapCenter(desktop, "\uE7F4");
-        TouchPadEdgeZone[] zones =
-        [
-            WheelZone("Top", T("上边缘", "Top edge"), TouchPadEdgeMarker.Horizontal),
-            WheelZone("Bottom", T("下边缘", "Bottom edge"), TouchPadEdgeMarker.Horizontal),
-            WheelZone("Left", T("左边缘", "Left edge"), TouchPadEdgeMarker.Vertical),
-            WheelZone("Right", T("右边缘", "Right edge"), TouchPadEdgeMarker.Vertical)
-        ];
-        panel.Children.Add(NewEdgeMap(zones, center, usePhysicalEdgeOrder: true));
-        return NewCard(panel, new Thickness(14));
-
-        TouchPadEdgeZone WheelZone(string edge, string title, TouchPadEdgeMarker marker) => new(title, marker,
-        [
-            new TouchPadEdgeAction(up, $"DesktopEdge.{edge}.WheelUp", title + " · " + up),
-            new TouchPadEdgeAction(down, $"DesktopEdge.{edge}.WheelDown", title + " · " + down)
-        ]);
     }
 
     private FrameworkElement NewEdgeMap(
@@ -475,7 +475,22 @@ public sealed partial class MainWindow
 
         var panel = NewCardPanel(8);
         var advanced = NewCardPanel(8);
-        advanced.Children.Add(name);
+        // A radial menu slot shows its name on the wheel, so the name is the
+        // first visible field there instead of an advanced option.
+        var isRadialSlot = RadialMenuIndex(gestureName) > 0;
+        if (isRadialSlot)
+        {
+            // Never prefill the generic "Send Hotkey" name: left empty, the
+            // label is derived from the command (hotkey text, file name, ...).
+            name.Text = existingAction is not null && !IsGenericRadialMenuLabel(existingAction.Name)
+                ? existingAction.Name
+                : "";
+            panel.Children.Add(name);
+        }
+        else
+        {
+            advanced.Children.Add(name);
+        }
         panel.Children.Add(plugin);
         panel.Children.Add(pluginDescription);
         advanced.Children.Add(pluginClass);
@@ -525,6 +540,9 @@ public sealed partial class MainWindow
             return;
         }
 
+        if (RadialMenuIndex(gestureName) > 0 && string.IsNullOrWhiteSpace(name.Text))
+            name.Text = RadialMenuAutoLabel(pluginClassValue, settings.Text);
+
         var globalApp = EnsureGlobalApplication();
         var action = globalApp.Actions.FirstOrDefault(item => string.Equals(item.GestureName, gestureName, StringComparison.OrdinalIgnoreCase));
         if (action is null)
@@ -551,6 +569,15 @@ public sealed partial class MainWindow
         action = GetGlobalTouchPadAction(gestureName);
         if (action is not null)
             _legacyData.SetEnabled(action.Source, enabled.IsChecked ?? true);
+
+        // Radial menu slots show the action name on the wheel; keep it equal to
+        // the command name typed in this dialog instead of the slot title.
+        if (action is not null && RadialMenuIndex(gestureName) > 0 && !string.IsNullOrWhiteSpace(name.Text) &&
+            !string.Equals(action.Name, name.Text.Trim(), StringComparison.Ordinal))
+        {
+            action.Source["Name"] = name.Text.Trim();
+            _legacyData.SaveActions();
+        }
 
         ReloadActionDataOnly();
         await NotifyDaemonAsync(DaemonCommand.LoadApplications);

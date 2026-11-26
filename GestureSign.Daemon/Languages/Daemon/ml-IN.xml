@@ -11,6 +11,7 @@
     <Disable>GestureSign അപ്രാപ്തമാക്കുക</Disable>
     <Enable>GestureSign സജീവമാക്കുക</Enable>
     <Settings>സെറ്റിംഗുകൾ</Settings>
+    <Restart>വീണ്ടും ആരംഭിക്കുക</Restart>
     <Exit>പുറത്തുകടക്കുക</Exit>
   </TrayMenu>
 </Language>

@@ -11,6 +11,7 @@
     <Disable>Nyahdayakan GestureSign</Disable>
     <Enable>Dayakan GestureSign</Enable>
     <Settings>Tetapan</Settings>
+    <Restart>Mula semula</Restart>
     <Exit>Keluar</Exit>
   </TrayMenu>
 </Language>
