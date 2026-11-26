@@ -220,7 +220,7 @@ public static class ActionTemplates
                     new[] { S(StepCatalog.RunProgram, ("Path", "{program}"), ("Arguments", "{extraArguments} {files:quote}")) },
                     new[] { S(StepCatalog.Notify, ("Text", Z(zh, "没有选中文件", "No files are selected")), ("Kind", "warn")) }))),
         new ActionTemplate("terminal-here", "文件", "Files", "在当前文件夹打开终端", "Open a terminal here",
-            "在资源管理器当前打开的文件夹中启动 Windows 终端。用 cmd.exe 时把参数改成 /k cd /d {folder:quote}。", "Starts Windows Terminal in the folder open in File Explorer. For cmd.exe use the arguments /k cd /d {folder:quote}.", "\uE756",
+            "在资源管理器或 Pulse 当前打开的文件夹中启动终端。用 cmd.exe 时把参数改成 /k cd /d {folder:quote}。", "Starts a terminal in the folder open in File Explorer or Pulse. For cmd.exe use the arguments /k cd /d {folder:quote}.", "\uE756",
             zh => P(new[] { Var("terminal", "wt.exe", Z(zh, "终端程序", "Terminal program")),
                             Var("admin", "false", Z(zh, "以管理员身份运行", "Run as administrator"), "bool") },
                 S(StepCatalog.GetExplorerFolder, ("Output", "folder")),
@@ -228,7 +228,7 @@ public static class ActionTemplates
                     new[] { S(StepCatalog.RunProgram, ("Path", "{terminal}"), ("Arguments", "-d {folder:quote}"), ("WorkingDirectory", "{folder}"), ("RunAsAdmin", "{admin}")) },
                     new[] { S(StepCatalog.RunProgram, ("Path", "{terminal}"), ("RunAsAdmin", "{admin}")) }))),
         new ActionTemplate("open-folder-with", "文件", "Files", "用程序打开当前文件夹", "Open the current folder in a program",
-            "把资源管理器当前打开的文件夹交给指定程序，例如用 VS Code 打开。", "Opens the folder shown in File Explorer in a chosen program, e.g. VS Code.", "\uE838",
+            "把资源管理器或 Pulse 当前打开的文件夹交给指定程序，例如用 VS Code 打开。", "Opens the folder shown in File Explorer or Pulse in a chosen program, e.g. VS Code.", "\uE838",
             zh => P(new[] { Var("program", "code", Z(zh, "程序", "Program")) },
                 S(StepCatalog.GetExplorerFolder, ("Output", "folder")),
                 S(StepCatalog.If, ("Condition", "folder != \"\"")).With(
