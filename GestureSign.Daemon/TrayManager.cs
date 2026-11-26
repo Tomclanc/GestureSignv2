@@ -347,6 +347,12 @@ namespace GestureSign.Daemon
             private const int DWMWCP_ROUND = 2;
             private const int CornerRadius = 10;
             private const int ItemHeight = 44;
+            private const int MinimumMenuWidth = 228;
+            private const int RowSideMargins = 16;
+            private const int TextInset = 14;
+            private const TextFormatFlags MenuTextFlags = TextFormatFlags.NoPadding |
+                                                         TextFormatFlags.NoPrefix |
+                                                         TextFormatFlags.SingleLine;
             private readonly Action _disableGestures;
             private readonly Action _openSettings;
             private readonly Func<Task> _restartGestureSign;
@@ -365,6 +371,7 @@ namespace GestureSign.Daemon
             private string _controlPanelText = "";
             private string _restartText = "";
             private string _exitText = "";
+            private bool _rightToLeft;
             private int _pressedTouchPointerId = -1;
             private int _pressedTouchItemIndex = -1;
             private Point _pendingShowLocation;
@@ -401,7 +408,7 @@ namespace GestureSign.Daemon
                 AutoScaleMode = AutoScaleMode.None;
                 DoubleBuffered = true;
                 Padding = new Padding(8);
-                Width = 228;
+                Width = MinimumMenuWidth;
                 // One row per menu item, plus the same bottom margin the three-item
                 // menu always had (the rounded border needs a little air below the text).
                 Height = Padding.Top + 1 + ItemHeight * _itemBounds.Length + 23;
@@ -410,12 +417,13 @@ namespace GestureSign.Daemon
                 Deactivate += TouchFriendlyTrayMenu_Deactivate;
             }
 
-            public void UpdateItems(string disableText, string controlPanelText, string restartText, string exitText)
+            public void UpdateItems(string disableText, string controlPanelText, string restartText, string exitText, bool rightToLeft)
             {
                 _disableText = disableText;
                 _controlPanelText = controlPanelText;
                 _restartText = restartText;
                 _exitText = exitText;
+                _rightToLeft = rightToLeft;
                 Invalidate();
             }
 
@@ -455,12 +463,7 @@ namespace GestureSign.Daemon
             public void ShowNearCursor()
             {
                 PointCapture.Instance.BeginTouchScreenPassthrough();
-                var screen = Screen.FromPoint(Cursor.Position).WorkingArea;
-                var x = Math.Min(Cursor.Position.X, screen.Right - Width);
-                var y = Math.Min(Cursor.Position.Y, screen.Bottom - Height);
-                x = Math.Max(screen.Left, x);
-                y = Math.Max(screen.Top, y);
-                _pendingShowLocation = new Point(x, y);
+                _pendingShowLocation = Cursor.Position;
 
                 // NotifyIcon raises its click callback before the shell has
                 // completely finished promoting the touch-up to a mouse-up.
@@ -473,7 +476,7 @@ namespace GestureSign.Daemon
 
             private void ShowPendingMenu()
             {
-                Location = _pendingShowLocation;
+                PositionMenu();
                 _ignoreDeactivateUntilUtc = DateTime.UtcNow.AddMilliseconds(500);
                 _openingReactivationAttempted = false;
                 if (!Visible)
@@ -481,6 +484,26 @@ namespace GestureSign.Daemon
                 Activate();
                 BringToFront();
                 Logging.LogMessage($"Touch tray menu shown. Location={Left},{Top}");
+            }
+
+            private void PositionMenu()
+            {
+                var screen = Screen.FromPoint(_pendingShowLocation).WorkingArea;
+                // Move to the target monitor before measuring, so the font uses
+                // the same DPI for measuring and painting.
+                Location = _pendingShowLocation;
+                using (var graphics = CreateGraphics())
+                {
+                    var textWidth = new[] { _disableText, _controlPanelText, _restartText, _exitText }
+                        .Max(text => TextRenderer.MeasureText(graphics, text, _menuFont, Size.Empty, MenuTextFlags).Width);
+                    var preferredWidth = textWidth + Padding.Horizontal + RowSideMargins + TextInset * 2 + 1;
+                    Width = Math.Min(screen.Width, Math.Max(MinimumMenuWidth, preferredWidth));
+                }
+
+                var anchorX = _rightToLeft ? _pendingShowLocation.X - Width : _pendingShowLocation.X;
+                var x = Math.Max(screen.Left, Math.Min(anchorX, screen.Right - Width));
+                var y = Math.Max(screen.Top, Math.Min(_pendingShowLocation.Y, screen.Bottom - Height));
+                Location = new Point(x, y);
             }
 
             private void TouchFriendlyTrayMenu_Deactivate(object sender, EventArgs e)
@@ -767,7 +790,7 @@ namespace GestureSign.Daemon
             private void UpdateItemBounds()
             {
                 var x = Padding.Left + 4;
-                var width = Width - Padding.Left - Padding.Right - 16;
+                var width = Width - Padding.Horizontal - RowSideMargins;
                 var y = Padding.Top + 1;
 
                 for (var index = 0; index < _itemBounds.Length; index++)
@@ -791,19 +814,15 @@ namespace GestureSign.Daemon
 
             private void DrawMenuText(Graphics graphics, string text, Rectangle bounds)
             {
-                var textBounds = new Rectangle(bounds.Left + 14, bounds.Top, bounds.Width - 28, bounds.Height);
+                var textBounds = new Rectangle(bounds.Left + TextInset, bounds.Top, bounds.Width - TextInset * 2, bounds.Height);
+                var alignment = _rightToLeft ? TextFormatFlags.Right | TextFormatFlags.RightToLeft : TextFormatFlags.Left;
                 TextRenderer.DrawText(
                     graphics,
                     text ?? string.Empty,
                     _menuFont,
                     textBounds,
                     _foreColor,
-                    TextFormatFlags.Left |
-                    TextFormatFlags.VerticalCenter |
-                    TextFormatFlags.NoPadding |
-                    TextFormatFlags.NoPrefix |
-                    TextFormatFlags.SingleLine |
-                    TextFormatFlags.EndEllipsis);
+                    MenuTextFlags | alignment | TextFormatFlags.VerticalCenter | TextFormatFlags.EndEllipsis);
             }
 
             private void ApplyBackdrop()
@@ -877,11 +896,7 @@ namespace GestureSign.Daemon
             if (_touchTrayMenu == null)
                 return;
 
-            _touchTrayMenu.UpdateItems(
-                _disableGesturesMenuItem.Text,
-                LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
-                LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
-                LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
+            ReloadLocalizationIfNeeded();
             _touchTrayMenu.ShowNearCursor();
         }
 
@@ -891,15 +906,7 @@ namespace GestureSign.Daemon
                 _touchTrayMenu.Dispose();
 
             _touchTrayMenu = new TouchFriendlyTrayMenu(
-                () =>
-                {
-                    ToggleDisableGestures();
-                    _touchTrayMenu.UpdateItems(
-                        _disableGesturesMenuItem.Text,
-                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
-                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
-                        LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
-                },
+                ToggleDisableGestures,
                 StartSettings,
                 async () => await RestartGestureSignAsync(),
                 async () => await ExitGestureSignAsync());
@@ -960,8 +967,14 @@ namespace GestureSign.Daemon
 
         public void ApplyConfiguration()
         {
-            if (_trayIcon == null)
+            if (_trayIcon == null || _trayMenu.IsDisposed)
                 return;
+
+            if (_trayMenu.InvokeRequired)
+            {
+                _trayMenu.BeginInvoke(new Action(ApplyConfiguration));
+                return;
+            }
 
             ReloadLocalizationIfNeeded();
 
@@ -1100,27 +1113,29 @@ namespace GestureSign.Daemon
                 ? System.Globalization.CultureInfo.CurrentUICulture.Name
                 : AppConfig.CultureName;
             bool cultureChanged = !String.Equals(_loadedCultureName, cultureName, StringComparison.OrdinalIgnoreCase);
-            _loadedCultureName = cultureName;
+            var localization = LocalizationProvider.Instance;
             if (cultureChanged)
             {
-                LocalizationProvider.Instance.ReloadCulture();
-                if (!LocalizationProvider.Instance.LoadFromFile("Daemon"))
-                    LocalizationProvider.Instance.LoadFromResource(Properties.Resources.en);
+                localization.ReloadCulture();
+                if (!localization.LoadFromFile("Daemon"))
+                    localization.LoadFromResource(Properties.Resources.en);
+                _loadedCultureName = cultureName;
             }
 
             bool recognitionDisabled = PointCapture.Instance.Mode == CaptureMode.UserDisabled;
-            _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue(
+            _disableGesturesMenuItem.Text = localization.GetTextValue(
                 recognitionDisabled ? "TrayMenu.Enable" : "TrayMenu.Disable");
-            _settingsMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings");
-            _restartMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart");
-            _exitGestureSignMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit");
+            _settingsMenuItem.Text = localization.GetTextValue("TrayMenu.Settings");
+            _restartMenuItem.Text = localization.GetTextValue("TrayMenu.Restart");
+            _exitGestureSignMenuItem.Text = localization.GetTextValue("TrayMenu.Exit");
 
             if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
                 _touchTrayMenu.UpdateItems(
                     _disableGesturesMenuItem.Text,
                     _settingsMenuItem.Text,
                     _restartMenuItem.Text,
-                    _exitGestureSignMenuItem.Text);
+                    _exitGestureSignMenuItem.Text,
+                    localization.IsRightToLeft);
         }
 
         public static void StartSettings() => StartSettings("");
@@ -1381,22 +1396,15 @@ namespace GestureSign.Daemon
             if (e.Mode == CaptureMode.UserDisabled)
             {
                 _disableGesturesMenuItem.Checked = true;
-                _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Enable");
                 SetTrayIcon(TrayIconState.Disabled);
             }
             else
             {
                 _disableGesturesMenuItem.Checked = false;
-                _disableGesturesMenuItem.Text = LocalizationProvider.Instance.GetTextValue("TrayMenu.Disable");
                 SetTrayIcon(e.Mode == CaptureMode.Training ? TrayIconState.Training : TrayIconState.Normal);
             }
 
-            if (_touchTrayMenu != null && !_touchTrayMenu.IsDisposed)
-                _touchTrayMenu.UpdateItems(
-                    _disableGesturesMenuItem.Text,
-                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Settings"),
-                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Restart"),
-                    LocalizationProvider.Instance.GetTextValue("TrayMenu.Exit"));
+            ReloadLocalizationIfNeeded();
         }
 
         #endregion

@@ -46,6 +46,8 @@ namespace GestureSign.Common.Localization
             get { return Texts.Count != 0; }
         }
 
+        public bool IsRightToLeft => _cultureInfo.TextInfo.IsRightToLeft;
+
         public static LocalizationProvider Instance
         {
             get { return _instance ?? (_instance = new LocalizationProvider()); }
