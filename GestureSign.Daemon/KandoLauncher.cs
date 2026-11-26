@@ -233,15 +233,8 @@ namespace GestureSign.Daemon
                 var native = KandoComponentPaths.IsNativePieMenu(executablePath);
                 if (native)
                 {
-                    var location = AppContext.BaseDirectory;
-                    var host = new[]
-                    {
-                        Path.GetFullPath(Path.Combine(location, "..", "GestureSignV2.WinUI.exe")),
-                        Path.GetFullPath(Path.Combine(location, "..", "GestureSignV2.exe")),
-                        Path.Combine(location, "GestureSign.WinUI.exe"),
-                        Path.GetFullPath(Path.Combine(location, "..", "GestureSign.WinUI.exe"))
-                    }.FirstOrDefault(File.Exists);
-                    arguments = KandoComponentPaths.NativeArguments(arguments, host, AppConfig.ConfigPath);
+                    var host = TrayManager.FindSettingsPath();
+                    arguments = KandoComponentPaths.NativeArguments(arguments, File.Exists(host) ? host : null, AppConfig.ConfigPath);
                 }
                 Process.Start(new ProcessStartInfo
                 {

@@ -1163,7 +1163,7 @@ namespace GestureSign.Daemon
             }
         }
 
-        private static string FindSettingsPath()
+        internal static string FindSettingsPath()
         {
             string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string[] candidates =
