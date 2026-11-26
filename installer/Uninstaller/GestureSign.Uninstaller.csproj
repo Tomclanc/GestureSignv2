@@ -11,7 +11,7 @@
     <PublishSingleFile>true</PublishSingleFile>
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
-    <AssemblyName>GestureSign-Uninstall</AssemblyName>
+    <AssemblyName>GestureSignV2-Uninstall</AssemblyName>
     <RootNamespace>GestureSign.Uninstaller</RootNamespace>
     <ApplicationIcon>..\..\GestureSign.WinUI\Assets\logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>

@@ -193,8 +193,8 @@ if (payload is not null)
                 payloadIssues.Add("Missing or stale published AI catalog: " + culture);
         }
     }
-    var updaterPath = Path.Combine(payload, "GestureSign-Updater.exe");
-    if (!File.Exists(updaterPath)) payloadIssues.Add("Missing published GestureSign-Updater.exe");
+    var updaterPath = Path.Combine(payload, "GestureSignV2-Updater.exe");
+    if (!File.Exists(updaterPath)) payloadIssues.Add("Missing published GestureSignV2-Updater.exe");
     else
     {
         var resources = EmbeddedResources(updaterPath);

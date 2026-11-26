@@ -6,7 +6,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <RootNamespace>GestureSign.Updater</RootNamespace>
-    <AssemblyName>GestureSign-Updater</AssemblyName>
+    <AssemblyName>GestureSignV2-Updater</AssemblyName>
     <ApplicationIcon>..\..\GestureSign.WinUI\Assets\logo.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <LangVersion>latest</LangVersion>

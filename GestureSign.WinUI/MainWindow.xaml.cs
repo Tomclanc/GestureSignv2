@@ -3898,7 +3898,9 @@ public sealed partial class MainWindow : Window
                     (Path.GetFileNameWithoutExtension(fullPath).StartsWith("GestureSign", StringComparison.OrdinalIgnoreCase) ||
                      Path.GetFileNameWithoutExtension(fullPath).Equals("RestartAgent", StringComparison.OrdinalIgnoreCase));
 
-                if (Path.GetFileName(fullPath).Equals("GestureSign-Updater.exe", StringComparison.OrdinalIgnoreCase))
+                var executableName = Path.GetFileName(fullPath);
+                if (executableName.Equals("GestureSignV2-Updater.exe", StringComparison.OrdinalIgnoreCase) ||
+                    executableName.Equals("GestureSign-Updater.exe", StringComparison.OrdinalIgnoreCase))
                     continue;
                 if (!isInstalledGestureSignProcess)
                     continue;
@@ -5944,7 +5946,9 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        var updaterPath = Path.Combine(AppContext.BaseDirectory, "GestureSign-Updater.exe");
+        var updaterPath = Path.Combine(AppContext.BaseDirectory, "GestureSignV2-Updater.exe");
+        if (!File.Exists(updaterPath))
+            updaterPath = Path.Combine(AppContext.BaseDirectory, "GestureSign-Updater.exe");
         if (!File.Exists(updaterPath))
         {
             TryDeleteDownloadedUpdate(packagePath);

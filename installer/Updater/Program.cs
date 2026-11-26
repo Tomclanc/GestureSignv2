@@ -39,7 +39,7 @@ namespace GestureSign.Updater
         private static void RelaunchFromTemp(string[] args)
         {
             var source = Assembly.GetExecutingAssembly().Location;
-            var target = Path.Combine(Path.GetTempPath(), $"GestureSign-Updater-{Guid.NewGuid():N}.exe");
+            var target = Path.Combine(Path.GetTempPath(), $"GestureSignV2-Updater-{Guid.NewGuid():N}.exe");
             File.Copy(source, target, true);
             var forwarded = args.Concat(new[] { "--from-temp" }).Select(QuoteArgument);
             Process.Start(new ProcessStartInfo(target, string.Join(" ", forwarded))

@@ -39,7 +39,7 @@ namespace GestureSign.Uninstaller
         private static void RelaunchFromTemp(string sourceDirectory)
         {
             var source = ExecutablePath;
-            var target = Path.Combine(Path.GetTempPath(), $"GestureSign-Uninstall-{Guid.NewGuid():N}.exe");
+            var target = Path.Combine(Path.GetTempPath(), $"GestureSignV2-Uninstall-{Guid.NewGuid():N}.exe");
             File.Copy(source, target, true);
             Process.Start(new ProcessStartInfo(target, "--from-temp --source-dir " + QuoteArgument(sourceDirectory))
             {
@@ -450,7 +450,7 @@ namespace GestureSign.Uninstaller
             => !string.IsNullOrWhiteSpace(directory)
                && Directory.Exists(directory)
                && (File.Exists(Path.Combine(directory, "GestureSignV2.WinUI.exe")) || File.Exists(Path.Combine(directory, "GestureSignV2.exe")) || File.Exists(Path.Combine(directory, "GestureSign.WinUI.exe")))
-               && File.Exists(Path.Combine(directory, "GestureSign-Uninstall.exe"))
+               && (File.Exists(Path.Combine(directory, "GestureSignV2-Uninstall.exe")) || File.Exists(Path.Combine(directory, "GestureSign-Uninstall.exe")))
                && (File.Exists(Path.Combine(directory, "GestureSignV2Daemon.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSignV2Daemon.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSignV2.exe")) || File.Exists(Path.Combine(directory, "Backend", "GestureSign.exe")));
 
         private static bool SameDirectory(string left, string right)

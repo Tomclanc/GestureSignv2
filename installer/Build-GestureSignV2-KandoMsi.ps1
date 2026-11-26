@@ -155,17 +155,17 @@ if ($LASTEXITCODE -ne 0) {
     throw ".NET 10 $Architecture uninstaller publish failed with exit code $LASTEXITCODE"
 }
 
-$uninstallerExe = Join-Path $uninstallerOutputPath "GestureSign-Uninstall.exe"
+$uninstallerExe = Join-Path $uninstallerOutputPath "GestureSignV2-Uninstall.exe"
 if (!(Test-Path -LiteralPath $uninstallerExe)) {
     throw "Uninstaller publish output is missing: $uninstallerExe"
 }
-Copy-Item -LiteralPath $uninstallerExe -Destination (Join-Path $publishPath "GestureSign-Uninstall.exe") -Force
+Copy-Item -LiteralPath $uninstallerExe -Destination $publishPath -Force
 
 $updaterProject = Join-Path $PSScriptRoot "Updater\GestureSign.Updater.csproj"
 if (!(Test-Path -LiteralPath $updaterProject)) {
     throw "Updater project is missing: $updaterProject"
 }
-$updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSign-Updater.exe"
+$updaterExe = Join-Path $PSScriptRoot "Updater\bin\Release\GestureSignV2-Updater.exe"
 # Use the same .NET SDK restore/build path as regression CI for this legacy project.
 & dotnet build $updaterProject -c Release /p:Platform=x64 /v:minimal
 if ($LASTEXITCODE -ne 0) {
@@ -175,7 +175,7 @@ if ($LASTEXITCODE -ne 0) {
 if (!(Test-Path -LiteralPath $updaterExe)) {
     throw "Updater build output is missing: $updaterExe"
 }
-Copy-Item -LiteralPath $updaterExe -Destination (Join-Path $publishPath "GestureSign-Updater.exe") -Force
+Copy-Item -LiteralPath $updaterExe -Destination $publishPath -Force
 
 # Remove files used solely for debugging self-contained .NET deployments. These
 # files are not required for normal startup, crash logging, or updating.
