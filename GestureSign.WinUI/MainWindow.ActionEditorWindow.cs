@@ -185,8 +185,8 @@ public sealed partial class MainWindow
                 }
             }
             Walk(program.Steps);
-            names.Add("windowTitle");
-            names.Add("processName");
+            foreach (var builtIn in StepRunner.BuiltIns)
+                names.Add(builtIn.Name);
             return names.Where(StepRunner.IsVariableName).Distinct(StringComparer.Ordinal);
         }
 
@@ -318,7 +318,8 @@ public sealed partial class MainWindow
             var title = new TextBlock { Text = stepName, FontWeight = info?.HasBody == true ? FontWeights.SemiBold : FontWeights.Normal };
             if (step.Disabled) title.TextDecorations = Windows.UI.Text.TextDecorations.Strikethrough;
             texts.Children.Add(title);
-            var summaryBlock = new TextBlock { Text = Summary(step), Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 640 };
+            var summaryBlock = new TextBlock { Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis, MaxWidth = 640 };
+            SetSummaryText(summaryBlock, Summary(step), accent);
             texts.Children.Add(summaryBlock);
             summaryBlocks[step] = summaryBlock;
             if (collapsed.Contains(step))
@@ -852,6 +853,22 @@ public sealed partial class MainWindow
                 row.Children.Add(remove);
                 variablesList.Items.Add(row);
             }
+            // Built-in variables every run provides; read-only, shown so users know they exist.
+            foreach (var builtIn in StepRunner.BuiltIns)
+            {
+                var row = new Grid { Tag = builtIn, ColumnSpacing = 8, Padding = new Thickness(0, 2, 0, 2) };
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(48) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                row.Children.Add(new TextBlock { Text = T("内建", "Built-in"), Foreground = accent, FontSize = 12, VerticalAlignment = VerticalAlignment.Center });
+                var texts = new StackPanel();
+                texts.Children.Add(new TextBlock { Text = builtIn.Name, FontFamily = new FontFamily("Cascadia Mono, Consolas") });
+                var detail = T(builtIn.DescriptionZh, builtIn.DescriptionEn);
+                if (detail.Length > 0)
+                    texts.Children.Add(new TextBlock { Text = detail, FontSize = 12, Opacity = 0.6, TextTrimming = TextTrimming.CharacterEllipsis });
+                Grid.SetColumn(texts, 1);
+                row.Children.Add(texts);
+                variablesList.Items.Add(row);
+            }
         }
 
         void RemoveVariable(StepVariableDef variable)
@@ -971,12 +988,22 @@ public sealed partial class MainWindow
             ToolTipService.SetToolTip(iconPreview, null);
             if (icon.Length > 1)
             {
-                // A program, shortcut or image path: show the icon it gives the slot.
-                var chosen = ActionIcons.ForPath(icon);
+                // A picture embedded in the action, or a program/shortcut path: show
+                // the icon it gives the slot. An embedded one has no path to name.
+                var chosen = ActionIcons.FromStored(icon);
                 if (chosen is not null)
                 {
                     iconPreview.Child = Centered(ActionIconPresenter.For(chosen, null, 36));
-                    ToolTipService.SetToolTip(iconPreview, icon);
+                    if (!ActionIcons.IsInlineImage(icon))
+                        ToolTipService.SetToolTip(iconPreview, icon);
+                    return;
+                }
+                // A picture that cannot be read: fall back to a neutral glyph.
+                if (ActionIcons.IsInlineImage(icon))
+                {
+                    var fallback = Centered(Glyph("\uE945", 26));
+                    fallback.Opacity = 0.35;
+                    iconPreview.Child = fallback;
                     return;
                 }
                 // A path that cannot be read yet: show its file name.
@@ -1043,7 +1070,10 @@ public sealed partial class MainWindow
         {
             var path = await PickOpenFileAsync(new[] { ".png", ".jpg", ".jpeg", ".bmp", ".gif", ".ico", ".exe", ".lnk", ".dll" });
             if (string.IsNullOrWhiteSpace(path)) return;
-            icon = path;
+            // A picture is copied into the action, so moving or deleting the file
+            // later leaves the icon in place. Programs stay a path: their icon is
+            // meant to follow the program. A file that cannot be read stays a path.
+            icon = ActionIcons.IsImageFile(path) ? await ActionIconEmbedding.ReadAsync(path) ?? path : path;
             UpdateIconPreview();
         };
         var clearIcon = NewPillButton(L("清除", "Clear", "清除", "지우기"), false);
@@ -1332,19 +1362,9 @@ public sealed partial class MainWindow
                 break;
             default:
                 var multiline = parameter.Kind is StepParameterKind.MultilineText or StepParameterKind.Code;
-                var box = new TextBox
-                {
-                    Text = value,
-                    AcceptsReturn = multiline,
-                    TextWrapping = multiline ? TextWrapping.Wrap : TextWrapping.NoWrap,
-                    MinHeight = parameter.Kind == StepParameterKind.Code ? 160 : multiline ? 72 : 0
-                };
-                if (parameter.Kind == StepParameterKind.Code)
-                {
-                    box.FontFamily = new FontFamily("Cascadia Mono, Consolas");
-                    box.IsSpellCheckEnabled = false;
-                }
-                box.TextChanged += (_, _) => Set(box.Text);
+                var box = NewVariableTextEditor(value, multiline, mono: parameter.Kind == StepParameterKind.Code,
+                    minHeight: parameter.Kind == StepParameterKind.Code ? 160 : multiline ? 72 : 0);
+                box.TextChanged += (_, _) => Set(VariableText(box));
 
                 var insert = new Button { Content = "{ }", Padding = new Thickness(6, 0, 6, 0), MinHeight = 24, FontSize = 12 };
                 ToolTipService.SetToolTip(insert, T("插入变量", "Insert variable"));
@@ -1355,13 +1375,7 @@ public sealed partial class MainWindow
                     MenuFlyoutItem TokenItem(string token)
                     {
                         var item = new MenuFlyoutItem { Text = token };
-                        item.Click += (_, _) =>
-                        {
-                            var caret = box.SelectionStart;
-                            box.Text = box.Text.Remove(caret, box.SelectionLength).Insert(caret, token);
-                            box.SelectionStart = caret + token.Length;
-                            box.Focus(FocusState.Programmatic);
-                        };
+                        item.Click += (_, _) => InsertVariableToken(box, token);
                         return item;
                     }
                     var variableNames = variables().ToList();
@@ -1408,7 +1422,7 @@ public sealed partial class MainWindow
                                 step.Args!["Arguments"] = preset.Arguments;
                                 if (hasProcessName)
                                     step.Args["ProcessName"] = preset.ProcessName;
-                                box.Text = preset.Path;
+                                SetVariableText(box, preset.Path);
                                 changed();
                                 rebuild?.Invoke();
                             };
@@ -1426,7 +1440,7 @@ public sealed partial class MainWindow
                     {
                         var picked = await PickOpenFileAsync(new[] { "*" });
                         if (!string.IsNullOrEmpty(picked))
-                            box.Text = picked;
+                            SetVariableText(box, picked);
                     };
                     tools.Children.Add(browse);
                 }
