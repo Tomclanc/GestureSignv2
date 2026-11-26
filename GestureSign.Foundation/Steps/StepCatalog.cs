@@ -38,6 +38,8 @@ public static class StepCatalog
     public const string If = "If";
     public const string Repeat = "Repeat";
     public const string ForEach = "ForEach";
+    public const string Break = "Break";
+    public const string Continue = "Continue";
     public const string Group = "Group";
     public const string Comment = "Comment";
     public const string Stop = "Stop";
@@ -65,6 +67,8 @@ public static class StepCatalog
     public const string SplitText = "SplitText";
     public const string JoinList = "JoinList";
     public const string GetDateTime = "GetDateTime";
+    public const string RandomNumber = "RandomNumber";
+    public const string Guid = "Guid";
     public const string OpenUrl = "OpenUrl";
     public const string RunProgram = "RunProgram";
     public const string LaunchOrActivate = "LaunchOrActivate";
@@ -75,6 +79,10 @@ public static class StepCatalog
     public const string RunCommand = "RunCommand";
     public const string AiChat = "AiChat";
     public const string ShowText = "ShowText";
+    public const string ReadFile = "ReadFile";
+    public const string WriteTextFile = "WriteTextFile";
+    public const string FileInfo = "FileInfo";
+    public const string FileOperation = "FileOperation";
 
     public static readonly IReadOnlyList<StepCategory> Categories = new[]
     {
@@ -83,6 +91,7 @@ public static class StepCatalog
         new StepCategory("text", "文本处理", "Text", ""),
         new StepCategory("input", "剪贴板与按键", "Clipboard and keys", ""),
         new StepCategory("data", "变量与计算", "Variables and math", ""),
+        new StepCategory("file", "文件", "Files", "\uE8B7"),
         new StepCategory("system", "系统与网络", "System and web", ""),
         new StepCategory("ai", "AI", "AI", "\uE82F"),
         new StepCategory("script", "脚本", "Scripts", ""),
@@ -122,6 +131,12 @@ public static class StepCatalog
             new[] { new StepParameter("List", "列表（变量或每行一项的文字）", "List (variable or one item per line)", StepParameterKind.MultilineText, "{lines}"),
                     new StepParameter("Item", "当前项变量", "Item variable", StepParameterKind.Variable, "item") },
             body: true),
+        Type("flow", Break, "跳出循环", "Break the loop", "",
+            Array.Empty<StepParameter>(),
+            descriptionZh: "立即结束最近的「重复」或「循环每一项」，继续执行循环后面的步骤。放在循环外无效。", descriptionEn: "Ends the nearest Repeat or For-each immediately and continues after the loop. No effect outside a loop."),
+        Type("flow", Continue, "跳过本次循环", "Skip to the next iteration", "",
+            Array.Empty<StepParameter>(),
+            descriptionZh: "跳过本次循环里剩余的步骤，直接进入下一次循环。放在循环外无效。", descriptionEn: "Skips the rest of the current iteration and goes to the next one. No effect outside a loop."),
         Type("flow", Delay, "等待时间", "Wait", "",
             new[] { new StepParameter("Milliseconds", "毫秒", "Milliseconds", StepParameterKind.Number, "200") }),
         Type("flow", Stop, "停止", "Stop", "", Array.Empty<StepParameter>()),
@@ -212,7 +227,7 @@ public static class StepCatalog
             descriptionEn: "Full paths of the files and folders selected in File Explorer or on the desktop, as a list. Other file managers are read with Ctrl+C. {files:quote} quotes each path and joins them with spaces, ready to use as program arguments."),
         Type("input", GetExplorerFolder, "获取当前文件夹", "Get current folder", "\uE838",
             new[] { Output("folder") },
-            descriptionZh: "资源管理器当前打开的文件夹；在桌面上为桌面文件夹。", descriptionEn: "The folder open in File Explorer; the desktop folder on the desktop."),
+            descriptionZh: "资源管理器或 Pulse 当前打开的文件夹；在桌面上为桌面文件夹。其他文件管理器读不到时返回空。", descriptionEn: "The folder open in File Explorer or Pulse; the desktop folder on the desktop. Other file managers cannot be read and return empty."),
         Type("input", GetClipboard, "获取剪贴板文本", "Get clipboard text", "",
             new[] { Output("clipboard") }),
         Type("input", GetClipboardFiles, "获取剪贴板文件列表", "Get clipboard files", "",
@@ -240,6 +255,18 @@ public static class StepCatalog
             new[] { new StepParameter("Format", "格式", "Format", StepParameterKind.Text, "yyyy-MM-dd HH:mm:ss",
                 HintZh: "例如 yyyy-MM-dd、HH:mm、yyyyMMddHHmmss", HintEn: "For example yyyy-MM-dd, HH:mm, yyyyMMddHHmmss"),
                     Output("now") }),
+        Type("data", RandomNumber, "生成随机数", "Random number", "",
+            new[] { new StepParameter("Min", "最小值（含）", "Minimum (inclusive)", StepParameterKind.Number, "0"),
+                    new StepParameter("Max", "最大值（不含）", "Maximum (exclusive)", StepParameterKind.Number, "100"),
+                    Output("random") },
+            descriptionZh: "在 [最小值, 最大值) 区间生成一个随机整数。", descriptionEn: "Generates a random integer in [minimum, maximum)."),
+        Type("data", Guid, "生成 GUID", "Generate a GUID", "",
+            new[] { new StepParameter("Format", "格式", "Format", StepParameterKind.Choice, "D",
+                        new[] { "D", "N", "B", "P" },
+                        ChoiceNamesZh: new[] { "带连字符（例如 3d2a…）", "不带连字符", "带花括号", "带圆括号" },
+                        ChoiceNamesEn: new[] { "Hyphenated", "No hyphens", "Braces", "Parentheses" }),
+                    Output("guid") },
+            descriptionZh: "生成一个全局唯一标识符（GUID）。", descriptionEn: "Generates a globally unique identifier (GUID)."),
 
         // System and web
         Type("system", OpenUrl, "打开网址", "Open URL", "",
@@ -300,6 +327,41 @@ public static class StepCatalog
             new[] { new StepParameter("Title", "标题", "Title", StepParameterKind.Text, "GestureSign"),
                     new StepParameter("Text", "内容", "Text", StepParameterKind.MultilineText, "{result}") },
             descriptionZh: "在可复制的窗口中显示较长的文字。", descriptionEn: "Shows longer text in a window you can copy from."),
+
+        // Files
+        Type("file", ReadFile, "读取文本文件", "Read a text file", "\uE8A5",
+            new[] { new StepParameter("Path", "文件路径", "File path", StepParameterKind.FilePath, ""),
+                    new StepParameter("Encoding", "编码（可留空用 UTF-8）", "Encoding (empty: UTF-8)", StepParameterKind.Choice, "utf8",
+                        new[] { "utf8", "utf8bom", "gbk", "ansi" },
+                        ChoiceNamesZh: new[] { "UTF-8", "UTF-8（带 BOM）", "GBK / 简体中文", "系统 ANSI" },
+                        ChoiceNamesEn: new[] { "UTF-8", "UTF-8 with BOM", "GBK", "System ANSI" }),
+                    Output("content") },
+            descriptionZh: "读取一个文本文件的全部内容。文件不存在或读不了时停止动作。", descriptionEn: "Reads a whole text file. Stops the action when it cannot be read."),
+        Type("file", WriteTextFile, "写入文本文件", "Write a text file", "\uE70F",
+            new[] { new StepParameter("Path", "文件路径", "File path", StepParameterKind.FilePath, ""),
+                    new StepParameter("Content", "内容", "Content", StepParameterKind.MultilineText, "{text}"),
+                    new StepParameter("Encoding", "编码（可留空用 UTF-8）", "Encoding (empty: UTF-8)", StepParameterKind.Choice, "utf8",
+                        new[] { "utf8", "utf8bom", "gbk", "ansi" },
+                        ChoiceNamesZh: new[] { "UTF-8", "UTF-8（带 BOM）", "GBK / 简体中文", "系统 ANSI" },
+                        ChoiceNamesEn: new[] { "UTF-8", "UTF-8 with BOM", "GBK", "System ANSI" }),
+                    new StepParameter("Append", "追加到文件末尾", "Append to the file", StepParameterKind.Boolean, "false") },
+            descriptionZh: "把文字写入（或追加到）文件，会自动创建目录。", descriptionEn: "Writes (or appends) text to a file, creating folders as needed."),
+        Type("file", FileInfo, "获取文件信息", "Get file info", "\uE8B7",
+            new[] { new StepParameter("Path", "文件或文件夹路径", "File or folder path", StepParameterKind.FilePath, ""),
+                    new StepParameter("Field", "要获取的信息", "What to get", StepParameterKind.Choice, "exists",
+                        new[] { "exists", "size", "modified", "created", "name", "nameWithoutExtension", "extension", "directory", "fullName", "isDirectory", "isReadOnly" },
+                        ChoiceNamesZh: new[] { "是否存在", "大小（字节）", "修改时间", "创建时间", "文件名（含扩展名）", "文件名（不含扩展名）", "扩展名", "所在文件夹", "完整路径", "是否文件夹", "是否只读" },
+                        ChoiceNamesEn: new[] { "Exists", "Size in bytes", "Modified time", "Created time", "Name", "Name without extension", "Extension", "Folder", "Full path", "Is a folder", "Is read-only" }),
+                    Output("result") },
+            descriptionZh: "获取一个文件或文件夹的属性。文件不存在时（除了「是否存在」）停止动作。", descriptionEn: "Gets an attribute of a file or folder. Stops when it does not exist (except for Exists)."),
+        Type("file", FileOperation, "文件或文件夹操作", "File or folder operation", "\uE8C8",
+            new[] { new StepParameter("Operation", "操作", "Operation", StepParameterKind.Choice, "copy",
+                        new[] { "copy", "move", "delete", "rename" },
+                        ChoiceNamesZh: new[] { "复制", "移动", "删除", "重命名" },
+                        ChoiceNamesEn: new[] { "Copy", "Move", "Delete", "Rename" }),
+                    new StepParameter("Source", "来源路径", "Source path", StepParameterKind.FilePath, ""),
+                    new StepParameter("Destination", "目标路径（删除时留空）", "Destination path (empty for delete)", StepParameterKind.FilePath, "") },
+            descriptionZh: "复制、移动、删除或重命名文件或文件夹。", descriptionEn: "Copies, moves, deletes or renames a file or folder."),
 
         // Scripts
         Type("script", RunJavaScript, "运行 JavaScript", "Run JavaScript", "",

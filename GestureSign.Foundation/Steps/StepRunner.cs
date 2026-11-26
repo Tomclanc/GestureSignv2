@@ -59,6 +59,18 @@ public interface IStepHost
     object RunJavaScript(string code, StepVariables variables, bool expression);
     object RunLua(string code, StepVariables variables);
     void Log(string message);
+    /// <summary>Reads a text file (UTF-8); returns null when it cannot be read.</summary>
+    string ReadTextFile(string path);
+    /// <summary>Writes text to a file (UTF-8). Returns null on success, or the error message.</summary>
+    string WriteTextFile(string path, string content, bool append);
+    /// <summary>Checks a path and returns its details; returns null when it does not exist.</summary>
+    IReadOnlyDictionary<string, object> GetFileInfo(string path);
+    /// <summary>
+    /// Copies, moves, deletes or renames a file or folder. operation is "copy", "move",
+    /// "delete" or "rename"; destination is the target path (unused for delete). Returns null
+    /// on success, or the error message.
+    /// </summary>
+    string FileOperation(string operation, string source, string destination);
 }
 
 /// <summary>Variables of one run: case-sensitive names, values are text, numbers, booleans or lists.</summary>
@@ -120,17 +132,32 @@ public sealed class StepRunResult
     public StepVariables Variables { get; set; }
 }
 
+/// <summary>A variable every run starts with, besides the ones the program declares.</summary>
+public sealed record StepBuiltInVariable(string Name, string DescriptionZh, string DescriptionEn);
+
 /// <summary>Runs a <see cref="StepProgram"/> against an <see cref="IStepHost"/>.</summary>
 public sealed class StepRunner
 {
     public const int MaxStepsPerRun = 100_000;
     public const int MaxLoopCount = 10_000;
 
+    private const string WindowTitleName = "windowTitle";
+    private const string ProcessNameName = "processName";
+
+    /// <summary>Variables that exist without being declared; the editor lists them as read-only.</summary>
+    public static readonly IReadOnlyList<StepBuiltInVariable> BuiltIns = new[]
+    {
+        new StepBuiltInVariable(WindowTitleName, "运行动作时窗口的标题", "Title of the window the action ran in"),
+        new StepBuiltInVariable(ProcessNameName, "运行动作时窗口所属的程序名", "Program that owned the window the action ran in")
+    };
+
     private readonly IStepHost _host;
     private readonly CancellationToken _cancellation;
     private int _executed;
 
     private sealed class StopSignal : Exception { }
+    private sealed class BreakSignal : Exception { }
+    private sealed class ContinueSignal : Exception { }
 
     public StepRunner(IStepHost host, CancellationToken cancellation = default)
     {
@@ -158,8 +185,8 @@ public sealed class StepRunner
             };
         }
         // The window the gesture came from, for actions that do not define these themselves.
-        if (!variables.Contains("windowTitle")) variables["windowTitle"] = _host.WindowTitle ?? "";
-        if (!variables.Contains("processName")) variables["processName"] = _host.ProcessName ?? "";
+        if (!variables.Contains(WindowTitleName)) variables[WindowTitleName] = _host.WindowTitle ?? "";
+        if (!variables.Contains(ProcessNameName)) variables[ProcessNameName] = _host.ProcessName ?? "";
         var result = new StepRunResult { Variables = variables };
         try
         {
@@ -168,6 +195,14 @@ public sealed class StepRunner
         catch (StopSignal)
         {
             result.Stopped = true;
+        }
+        catch (BreakSignal)
+        {
+            // Break/Continue outside a loop: ignored, matching "no effect outside a loop".
+        }
+        catch (ContinueSignal)
+        {
+            // Ignored outside a loop.
         }
         catch (OperationCanceledException)
         {
@@ -243,6 +278,41 @@ public sealed class StepRunner
             builder.Append(c);
         }
         return builder.ToString();
+    }
+
+    /// <summary>
+    /// Spans of the "{name}" tokens <see cref="Interpolate"/> would replace, so the editor can
+    /// colour exactly what the runner reads (and leave JSON braces alone).
+    /// </summary>
+    public static IReadOnlyList<(int Start, int Length)> FindTokens(string template)
+    {
+        var spans = new List<(int Start, int Length)>();
+        if (string.IsNullOrEmpty(template) || template.IndexOf('{') < 0)
+            return spans;
+        for (var i = 0; i < template.Length; i++)
+        {
+            if (template[i] != '{')
+                continue;
+            // "{{" is a literal brace, as in Interpolate.
+            if (i + 1 < template.Length && template[i + 1] == '{') { i++; continue; }
+            var end = template.IndexOf('}', i + 1);
+            if (end < 0)
+                break;
+            var name = template.Substring(i + 1, end - i - 1).Trim();
+            var format = "";
+            var colon = name.IndexOf(':');
+            if (colon > 0)
+            {
+                format = name.Substring(colon + 1).Trim().ToLowerInvariant();
+                name = name.Substring(0, colon).Trim();
+            }
+            if (IsVariableName(name) && format is "" or "url" or "json" or "quote")
+            {
+                spans.Add((i, end - i + 1));
+                i = end;
+            }
+        }
+        return spans;
     }
 
     private static string Quote(string text)
@@ -322,7 +392,9 @@ public sealed class StepRunner
                 for (var i = 0; i < count; i++)
                 {
                     if (IsVariableName(indexName)) v[indexName] = (double)i;
-                    RunList(step.Body, v);
+                    try { RunList(step.Body, v); }
+                    catch (BreakSignal) { break; }
+                    catch (ContinueSignal) { /* next iteration */ }
                 }
                 break;
 
@@ -334,9 +406,17 @@ public sealed class StepRunner
                 foreach (var item in StepVariables.ToList(listValue).Take(MaxLoopCount))
                 {
                     if (IsVariableName(itemName)) v[itemName] = item;
-                    RunList(step.Body, v);
+                    try { RunList(step.Body, v); }
+                    catch (BreakSignal) { break; }
+                    catch (ContinueSignal) { /* next iteration */ }
                 }
                 break;
+
+            case StepCatalog.Break:
+                throw new BreakSignal();
+
+            case StepCatalog.Continue:
+                throw new ContinueSignal();
 
             case StepCatalog.Group:
                 RunList(step.Body, v);
@@ -457,6 +537,18 @@ public sealed class StepRunner
                 Output(DateTime.Now.ToString(string.IsNullOrWhiteSpace(format) ? "yyyy-MM-dd HH:mm:ss" : format, CultureInfo.CurrentCulture));
                 break;
 
+            case StepCatalog.RandomNumber:
+                if (!int.TryParse(Arg("Min").Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var min) ||
+                    !int.TryParse(Arg("Max").Trim(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var max) || max <= min)
+                    throw new InvalidOperationException($"Random number needs a minimum below the maximum: {Arg("Min")}..{Arg("Max")}");
+                Output((double)Random.Shared.Next(min, max));
+                break;
+
+            case StepCatalog.Guid:
+                var guidFormat = Arg("Format").Trim().ToUpperInvariant();
+                Output(System.Guid.NewGuid().ToString(guidFormat is "D" or "N" or "B" or "P" ? guidFormat : "D"));
+                break;
+
             case StepCatalog.AiChat:
                 double? temperature = double.TryParse(Arg("Temperature").Trim(), NumberStyles.Float, CultureInfo.InvariantCulture, out var t) ? t : null;
                 Output(_host.AiChat(Arg("Endpoint").Trim(), Arg("ApiKey").Trim(), Arg("Model").Trim(), Arg("SystemPrompt"), Arg("Prompt"), temperature) ?? "");
@@ -464,6 +556,36 @@ public sealed class StepRunner
 
             case StepCatalog.ShowText:
                 _host.ShowText(Arg("Title"), Arg("Text"));
+                break;
+
+            case StepCatalog.ReadFile:
+                var readPath = Arg("Path").Trim();
+                var readContent = _host.ReadTextFile(readPath);
+                if (readContent == null)
+                    throw new InvalidOperationException($"Cannot read file: {readPath}");
+                Output(readContent);
+                break;
+
+            case StepCatalog.WriteTextFile:
+                var writePath = Arg("Path").Trim();
+                var writeError = _host.WriteTextFile(writePath, Arg("Content"), Flag("Append"));
+                if (writeError != null)
+                    throw new InvalidOperationException(writeError);
+                break;
+
+            case StepCatalog.FileInfo:
+                var infoPath = Arg("Path").Trim();
+                var info = _host.GetFileInfo(infoPath);
+                if (info == null)
+                    throw new InvalidOperationException($"Path not found: {infoPath}");
+                var infoField = Arg("Field").Trim();
+                Output(info.TryGetValue(infoField, out var infoValue) ? infoValue : "");
+                break;
+
+            case StepCatalog.FileOperation:
+                var opError = _host.FileOperation(Arg("Operation").Trim(), Arg("Source").Trim(), Arg("Destination").Trim());
+                if (opError != null)
+                    throw new InvalidOperationException(opError);
                 break;
 
             case StepCatalog.OpenUrl:

@@ -7,6 +7,8 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.Dynamic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -284,6 +286,129 @@ namespace GestureSign.CorePlugins.Steps
                 catch (Exception ex) { Logging.LogMessage($"Step current folder: Explorer query failed. Error={ex.GetType().Name}: {ex.Message}"); }
             });
             return folder ?? "";
+        }
+
+        // ----- files ---------------------------------------------------------
+
+        private static Encoding EncodingFor(string name)
+        {
+            try
+            {
+                return (name ?? "").Trim().ToLowerInvariant() switch
+                {
+                    "utf8bom" => new UTF8Encoding(encoderShouldEmitUTF8Identifier: true),
+                    "gbk" => Encoding.GetEncoding("GB18030"),
+                    "ansi" => Encoding.Default,
+                    _ => new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+                };
+            }
+            catch
+            {
+                return new UTF8Encoding(false);
+            }
+        }
+
+        public string ReadTextFile(string path)
+        {
+            try { return File.ReadAllText(path, EncodingFor(null)); }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Step read file failed. Path={path} Error={ex.GetType().Name}: {ex.Message}");
+                return null;
+            }
+        }
+
+        public string WriteTextFile(string path, string content, bool append)
+        {
+            try
+            {
+                var dir = Path.GetDirectoryName(path);
+                if (!string.IsNullOrEmpty(dir)) Directory.CreateDirectory(dir);
+                if (append) File.AppendAllText(path, content ?? "", EncodingFor(null));
+                else File.WriteAllText(path, content ?? "", EncodingFor(null));
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Step write file failed. Path={path} Error={ex.GetType().Name}: {ex.Message}");
+                return $"{ex.GetType().Name}: {ex.Message}";
+            }
+        }
+
+        public IReadOnlyDictionary<string, object> GetFileInfo(string path)
+        {
+            try
+            {
+                var full = Path.GetFullPath(path);
+                var directory = Directory.Exists(full);
+                var file = !directory && File.Exists(full);
+                if (!directory && !file) return null;
+                FileSystemInfo info = directory ? new DirectoryInfo(full) : new FileInfo(full);
+                var result = new Dictionary<string, object>
+                {
+                    ["exists"] = true,
+                    ["size"] = directory ? 0d : (double)((FileInfo)info).Length,
+                    ["modified"] = info.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture),
+                    ["created"] = info.CreationTime.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture),
+                    ["name"] = info.Name,
+                    ["nameWithoutExtension"] = Path.GetFileNameWithoutExtension(full),
+                    ["extension"] = directory ? "" : Path.GetExtension(full).TrimStart('.'),
+                    ["directory"] = Path.GetDirectoryName(full) ?? "",
+                    ["fullName"] = full,
+                    ["isDirectory"] = directory,
+                    ["isReadOnly"] = (info.Attributes & FileAttributes.ReadOnly) != 0
+                };
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Step file info failed. Path={path} Error={ex.GetType().Name}: {ex.Message}");
+                return null;
+            }
+        }
+
+        public string FileOperation(string operation, string source, string destination)
+        {
+            try
+            {
+                switch ((operation ?? "").Trim().ToLowerInvariant())
+                {
+                    case "copy":
+                        if (Directory.Exists(source)) CopyDirectory(source, destination);
+                        else File.Copy(source, destination, overwrite: true);
+                        return null;
+                    case "move":
+                        if (Directory.Exists(source)) Directory.Move(source, destination);
+                        else File.Move(source, destination, overwrite: true);
+                        return null;
+                    case "rename":
+                        if (Directory.Exists(source)) Directory.Move(source, destination);
+                        else File.Move(source, destination, overwrite: false);
+                        return null;
+                    case "delete":
+                        if (Directory.Exists(source)) Directory.Delete(source, recursive: true);
+                        else File.Delete(source);
+                        return null;
+                    default:
+                        return $"Unknown file operation: {operation}";
+                }
+            }
+            catch (Exception ex)
+            {
+                Logging.LogMessage($"Step file operation failed. Op={operation} Src={source} Dst={destination} Error={ex.GetType().Name}: {ex.Message}");
+                return $"{ex.GetType().Name}: {ex.Message}";
+            }
+        }
+
+        private static void CopyDirectory(string source, string destination)
+        {
+            Directory.CreateDirectory(destination);
+            foreach (var entry in Directory.GetFileSystemEntries(source))
+            {
+                var target = Path.Combine(destination, Path.GetFileName(entry));
+                if (Directory.Exists(entry)) CopyDirectory(entry, target);
+                else File.Copy(entry, target, overwrite: true);
+            }
         }
 
         // ----- AI ------------------------------------------------------------

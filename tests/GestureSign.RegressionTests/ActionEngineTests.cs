@@ -6,6 +6,9 @@ using GestureSign.Foundation.Steps;
 /// <summary>Step engine, action templates, radial menu rings/submenus and action packages.</summary>
 internal static class ActionEngineTests
 {
+    /// <summary>A 1×1 PNG: enough to exercise the embedded-icon path without a file.</summary>
+    private const string PixelPng = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";
+
     private sealed class FakeHost : IStepHost
     {
         public readonly List<string> Calls = new();
@@ -83,10 +86,29 @@ internal static class ActionEngineTests
             "folder != \"\"" => variables.Text("folder") != "",
             "files.length > 0" => StepVariables.ToList(variables["files"]).Count > 0,
             "status == \"unavailable\"" => variables.Text("status") == "unavailable",
+            "i == 2" => (double)variables["i"] == 2d,
+            "i == 4" => (double)variables["i"] == 4d,
             _ => "JS"
         };
         public object RunLua(string code, StepVariables variables) => null;
         public void Log(string message) => Calls.Add("log:" + message);
+
+        public string ReadTextFile(string path) => FileText ?? throw new InvalidOperationException("read:" + path);
+        public string FileText;
+        public string WriteTextFile(string path, string content, bool append) { Calls.Add("write:" + (append ? "append:" : "") + path + "=" + content); return null; }
+        public IReadOnlyDictionary<string, object> GetFileInfo(string path)
+        {
+            if (FileInfoResult == null) return null;
+            Calls.Add("fileinfo:" + path);
+            return FileInfoResult;
+        }
+        public Dictionary<string, object> FileInfoResult;
+        public string FileOperation(string operation, string source, string destination)
+        {
+            Calls.Add($"fileop:{operation}|{source}|{destination}");
+            return FileOperationError;
+        }
+        public string FileOperationError = null;
     }
 
     private static FakeHost RunTemplate(string id, Action<FakeHost> setup = null)
@@ -227,6 +249,71 @@ internal static class ActionEngineTests
         Check(launched.Error == null && launched.Variables.Text("status") == "activated");
         Check(ActionPackage.Review(new[] { new RadialMenuAction { Name = "L", Commands = { new RadialMenuCommand { PluginClass = ActionPackage.StepsPluginClass, CommandSettings = new StepProgram { Steps = { launch } }.ToJson() } } } })
             .Any(r => r.Kind == ActionRiskKind.RunProgram && r.Detail == "notepad.exe"));
+
+        // The editor highlights exactly the tokens the runner replaces, in the same places.
+        var found = StepRunner.FindTokens("x {text} {files:quote} { {text} {{lit}} {nope");
+        Check(found.Count == 3, "tokens found: " + string.Join(",", found.Select(s => $"{s.Start}:{s.Length}")));
+        Check(found[0] == (2, 6) && found[1] == (9, 13), "first two tokens: " + string.Join(",", found.Select(s => $"{s.Start}:{s.Length}")));
+        Check(StepRunner.FindTokens("plain text").Count == 0, "no braces means no tokens");
+        Check(StepRunner.FindTokens("{\"a\":1}").Count == 0, "JSON braces are not variables");
+
+        // Break ends the nearest loop; Continue skips to the next iteration.
+        var loop = Step.Create(StepCatalog.Repeat);
+        loop.Args["Count"] = "5";
+        loop.Args["Index"] = "i";
+        var skip = Step.Create(StepCatalog.If);
+        skip.Args["Condition"] = "i == 2";
+        var cont = Step.Create(StepCatalog.Continue);
+        skip.Body.Add(cont);
+        var stop = Step.Create(StepCatalog.If);
+        stop.Args["Condition"] = "i == 4";
+        var brk = Step.Create(StepCatalog.Break);
+        stop.Body.Add(brk);
+        var addIndex = Step.Create(StepCatalog.SetVariable);
+        addIndex.Args["Name"] = "seen";
+        addIndex.Args["Value"] = "{seen}{i},";
+        loop.Body.Add(skip);
+        loop.Body.Add(stop);
+        loop.Body.Add(addIndex);
+        var loopResult = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { loop } });
+        Check(loopResult.Variables.Text("seen") == "0,1,3,", "break/continue: " + loopResult.Variables.Text("seen"));
+
+        // Random number stays within [min, max); GUID uses the chosen format.
+        var rand = Step.Create(StepCatalog.RandomNumber);
+        rand.Args["Min"] = "10";
+        rand.Args["Max"] = "20";
+        var randResult = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { rand } });
+        Check(randResult.Variables["random"] is double r && r >= 10 && r < 20, "random in range: " + randResult.Variables.Text("random"));
+        var guid = Step.Create(StepCatalog.Guid);
+        guid.Args["Format"] = "N";
+        var guidResult = new StepRunner(new FakeHost()).Run(new StepProgram { Steps = { guid } });
+        var guidText = guidResult.Variables.Text("guid");
+        Check(System.Guid.TryParseExact(guidText, "N", out _), "guid N format: " + guidText);
+
+        // File read/write/info/operation route through the host.
+        var read = Step.Create(StepCatalog.ReadFile);
+        read.Args["Path"] = @"C:\x.txt";
+        var readHost = new FakeHost { FileText = "hello file" };
+        var readResult = new StepRunner(readHost).Run(new StepProgram { Steps = { read } });
+        Check(readResult.Variables.Text("content") == "hello file", "read file: " + readResult.Variables.Text("content"));
+        var write = Step.Create(StepCatalog.WriteTextFile);
+        write.Args["Path"] = @"C:\y.txt";
+        write.Args["Content"] = "out";
+        var writeHost = new FakeHost();
+        new StepRunner(writeHost).Run(new StepProgram { Steps = { write } });
+        Check(writeHost.Calls.Contains("write:C:\\y.txt=out"), "write file: " + string.Join("|", writeHost.Calls));
+        var info = Step.Create(StepCatalog.FileInfo);
+        info.Args["Path"] = @"C:\z.txt";
+        info.Args["Field"] = "size";
+        var infoHost = new FakeHost { FileInfoResult = new Dictionary<string, object> { ["size"] = 42d } };
+        Check(new StepRunner(infoHost).Run(new StepProgram { Steps = { info } }).Variables.Text("result") == "42", "file info");
+        var op = Step.Create(StepCatalog.FileOperation);
+        op.Args["Operation"] = "copy";
+        op.Args["Source"] = @"C:\a";
+        op.Args["Destination"] = @"C:\b";
+        var opHost = new FakeHost();
+        new StepRunner(opHost).Run(new StepProgram { Steps = { op } });
+        Check(opHost.Calls.Contains("fileop:copy|C:\\a|C:\\b"), "file op: " + string.Join("|", opHost.Calls));
     }
 
     public static void TestAiTemplates()
@@ -334,6 +421,20 @@ internal static class ActionEngineTests
         var shellRisks = ActionPackage.Review(new[] { shell });
         Check(shellRisks.Count == 2 && shellRisks[0].Detail == "del x" && shellRisks[1].Kind == ActionRiskKind.CustomPlugin);
 
+        // A picture embedded in the action is part of the package; a local path is not.
+        var embedded = ActionIcons.EncodeInlineImage(Convert.FromBase64String(PixelPng), "icon.png");
+        var picture = new RadialMenuAction { Id = "pic", Name = "Pic", Icon = embedded };
+        config.Actions.Add(picture);
+        var picturePackage = ActionPackage.Create(config, new[] { picture });
+        Check(picturePackage.Actions[0].Icon == embedded, "an embedded picture is exported");
+        var pictureRoundTrip = ActionPackage.Parse(picturePackage.ToShareCode());
+        Check(pictureRoundTrip.Actions[0].Icon == embedded, "an embedded picture survives the share code");
+        var pictureTarget = new RadialMenuConfig();
+        pictureTarget.Normalize();
+        var pictureAdded = pictureRoundTrip.ImportInto(pictureTarget);
+        Check(pictureAdded.Count == 1 && ActionIcons.FromStored(pictureAdded[0].Icon) is { Kind: ActionIconKind.ImageData }, "an imported action keeps its picture");
+        Check(ActionIcons.DecodeInlineImage(pictureAdded[0].Icon).SequenceEqual(Convert.FromBase64String(PixelPng)), "the imported picture is intact");
+
         var rejected = false;
         try { ActionPackage.Parse("{\"x\":1}"); }
         catch (InvalidDataException) { rejected = true; }
@@ -388,6 +489,20 @@ internal static class ActionEngineTests
         Check(ActionIcons.ForPath(Path.GetTempPath()) is { Kind: ActionIconKind.Program }, "folders have an icon too");
         Check(ActionIcons.ForPath("relative\\file.exe") is null, "relative paths are ignored");
         Check(ActionIcons.IsImageFile("a.PNG") && !ActionIcons.IsImageFile("a.exe"), "image detection");
+
+        // A picture chosen in the editor is carried by the action itself, so it keeps
+        // working after the file is moved or deleted, and across machines.
+        var inline = ActionIcons.EncodeInlineImage(Convert.FromBase64String(PixelPng), "icon.png");
+        Check(ActionIcons.IsInlineImage(inline), "a data uri is an embedded picture");
+        var inlineSource = ActionIcons.FromStored(inline);
+        Check(inlineSource is { Kind: ActionIconKind.ImageData }, "an embedded picture needs no file");
+        Check(inlineSource.CacheKey == ActionIcons.FromStored(inline).CacheKey, "the cache key is stable");
+        var other = ActionIcons.EncodeInlineImage(new byte[] { 1, 2, 3, 4 }, "icon.png");
+        Check(inlineSource.CacheKey != ActionIcons.FromStored(other).CacheKey, "another picture gets another key");
+        Check(ActionIcons.DecodeInlineImage(inline).SequenceEqual(Convert.FromBase64String(PixelPng)), "the picture bytes survive the round trip");
+        Check(ActionIcons.DecodeInlineImage("data:image/png;base64,@@@") is null, "damaged data is not a picture");
+        Check(ActionIcons.Resolve(new RadialMenuAction { Icon = inline }) is { Kind: ActionIconKind.ImageData }, "an action shows its embedded picture");
+        Check(ActionIcons.FromStored(@"C:\missing\a.exe") is null, "a missing path still yields nothing");
 
         if (!OperatingSystem.IsWindows() || !File.Exists(exe))
             return;
