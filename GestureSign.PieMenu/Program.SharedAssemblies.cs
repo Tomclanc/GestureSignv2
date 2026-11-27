@@ -11,7 +11,8 @@ internal static class Program
     [STAThread]
     private static void Main(string[] args)
     {
-        HostAssemblySharing.RegisterIfPresent(args, "Microsoft.Windows.SDK.NET", "Microsoft.WinUI");
+        HostAssemblySharing.RegisterIfPresent(args, "Microsoft.Windows.SDK.NET", "Microsoft.WinUI",
+            "GestureSign.Foundation", "Microsoft.InteractiveExperiences.Projection");
         StartApp();
     }
 

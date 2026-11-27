@@ -34,6 +34,13 @@ public sealed partial class MainWindow
         var options = _legacyData.Options;
         enabled = NewKandoQuickActionsToggle(options.KandoEnabled);
         enabled.Header = T("环形菜单", "Pie menu");
+        Button? remove = null;
+        if (PieMenuComponentService.ManagedVersionDirectory(options.KandoExecutablePath,
+                KandoComponentPaths.PieMenuInstallDirectory) is not null)
+        {
+            remove = NewPillButton(T("卸载组件", "Uninstall"), false);
+            remove.Click += async (_, _) => await RunUiActionAsync(UninstallPieMenuComponentAsync);
+        }
         if (needsRepair)
         {
             var repairing = _pieInstalling ||
@@ -42,6 +49,7 @@ public sealed partial class MainWindow
             {
                 IsOpen = true,
                 IsClosable = false,
+                ActionButton = repairing ? null : remove,
                 Severity = repairing ? InfoBarSeverity.Informational : InfoBarSeverity.Warning,
                 Title = enabled.Header?.ToString(),
                 Message = repairing ? T("下载中", "Downloading") : T("暂时无法下载", "Download unavailable")
@@ -57,10 +65,12 @@ public sealed partial class MainWindow
         {
             buttons.Children.Add(enabled);
             buttons.Children.Add(import);
+            if (remove is not null) buttons.Children.Add(remove);
             return buttons;
         }
         buttons.Children.Add(download);
         buttons.Children.Add(import);
+        if (remove is not null) buttons.Children.Add(remove);
         if (installed)
         {
             var settings = new StackPanel { Spacing = 8 };
@@ -73,6 +83,43 @@ public sealed partial class MainWindow
         return NewPowerToysSettingCard("\uE9D9", T("环形菜单 · 可选组件", "Pie menu · optional component"),
             T("需要时再下载。也可直接选择对应架构的预览 ZIP。",
                 "Download it when needed, or install the preview ZIP for your architecture."), buttons);
+    }
+
+    private async Task UninstallPieMenuComponentAsync()
+    {
+        if (_pieInstalling || _kandoComponentBusy) return;
+        _pieInstalling = _kandoComponentBusy = true;
+        try
+        {
+            await FlushPendingOptionUpdatesAsync();
+            var options = LegacyDataStore.Load().Options;
+            if (!await ConfirmDialogAsync(
+                    KandoText("卸载环形菜单", "Uninstall the radial menu"),
+                    KandoText("卸载环形菜单组件，菜单和个人设置会保留，之后可以重新下载。",
+                        "Uninstall the radial menu component. Menus and personal settings are kept for a later reinstall."),
+                    KandoText("卸载", "Uninstall")))
+                return;
+
+            await PieMenuComponentService.UninstallAsync(options.KandoExecutablePath,
+                KandoComponentPaths.PieMenuInstallDirectory, async () =>
+                {
+                    await UpdateOptionAndWaitAsync("KandoEnabled", "False");
+                    var latest = LegacyDataStore.Load().Options;
+                    if (latest.KandoEnabled || !string.Equals(options.KandoExecutablePath,
+                            latest.KandoExecutablePath, StringComparison.OrdinalIgnoreCase))
+                        throw new InvalidOperationException("The radial menu configuration changed. Please try again.");
+                    await Kando.StopNativeAndWaitAsync(options);
+                });
+            await UpdateOptionAndWaitAsync("KandoExecutablePath", "");
+            _pieRepairAttemptedPath = null;
+            _nativeQuickActionsPage = null;
+            _legacyData = LegacyDataStore.Load();
+        }
+        finally
+        {
+            _pieInstalling = _kandoComponentBusy = false;
+            if (!_isExitingApplication && _currentNavigationPage == "quickActions") ShowSelectedPage();
+        }
     }
 
     private async Task InstallPieComponentAsync(Button download, Button import, bool fromGitHub)

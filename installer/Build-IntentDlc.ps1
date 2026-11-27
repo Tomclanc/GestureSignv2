@@ -3,6 +3,7 @@ param(
     [ValidateSet('Cpu','Hardware')][string]$Backend = 'Cpu',
     [switch]$SelfContained,
     [switch]$ShareHostAssemblies,
+    [ValidatePattern('^v[0-9]+\.[0-9]+\.[0-9]+$')][string]$ReleaseTag,
     [Parameter(Mandatory=$true)][string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
@@ -17,7 +18,10 @@ if ((Test-Path -LiteralPath $output) -and (Get-ChildItem -LiteralPath $output -F
 }
 $version = '18.4.7'
 $runtimeSuffix = if ($SelfContained) { '-standalone' } else { '' }
-if ($ShareHostAssemblies) { $runtimeSuffix += '-shared-preview' }
+if (!$ReleaseTag) {
+    $ReleaseTag = "v$version"
+    if ($ShareHostAssemblies) { $runtimeSuffix += '-shared-preview' }
+}
 $archive = Join-Path (Split-Path $output -Parent) "GestureSign-IntentDlc-$version-$($Backend.ToLowerInvariant())-win-$Architecture$runtimeSuffix.zip"
 if (Test-Path -LiteralPath $archive) { throw "Archive already exists; choose a fresh output directory: $archive" }
 New-Item -ItemType Directory -Path $output -Force | Out-Null
@@ -26,7 +30,7 @@ $platform = if ($Architecture -eq 'arm64') { 'ARM64' } else { 'x64' }
 if ($LASTEXITCODE -ne 0) { throw 'Intent DLC publish failed.' }
 if ($ShareHostAssemblies) {
     . (Join-Path $PSScriptRoot 'Compress-HostAssemblies.ps1')
-    Compress-ShareableAssemblies (Join-Path $output 'Runtime') 'GestureSignV2.IntentDlc.deps.json' @('Microsoft.Windows.SDK.NET.dll')
+    Compress-ShareableAssemblies (Join-Path $output 'Runtime') 'GestureSignV2.IntentDlc.deps.json' @('Microsoft.Windows.SDK.NET.dll', 'GestureSign.Foundation.dll')
 }
 $metadata = @{ Protocol = 2; Version = $version; Architecture = $Architecture; Backend = $Backend; SelfContained = $SelfContained.IsPresent }
 [IO.File]::WriteAllText((Join-Path $output 'component.json'), ($metadata | ConvertTo-Json))
@@ -49,6 +53,6 @@ try {
         [IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zip, $file.FullName, $relative, [IO.Compression.CompressionLevel]::Optimal) | Out-Null
     }
 } finally { $zip.Dispose() }
-$asset = @{ Architecture = $Architecture; Version = $version; Backend = $Backend; FileName = [IO.Path]::GetFileName($archive); Bytes = (Get-Item -LiteralPath $archive).Length; Sha256 = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash; Url = "https://github.com/Tomclanc/GestureSignv2/releases/download/v$version/$([IO.Path]::GetFileName($archive))" }
+$asset = @{ Architecture = $Architecture; Version = $version; Backend = $Backend; FileName = [IO.Path]::GetFileName($archive); Bytes = (Get-Item -LiteralPath $archive).Length; Sha256 = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash; Url = "https://github.com/Tomclanc/GestureSignv2/releases/download/$ReleaseTag/$([IO.Path]::GetFileName($archive))" }
 [IO.File]::WriteAllText(($archive + '.catalog.json'), ($asset | ConvertTo-Json))
 Write-Host "Archive and catalog entry: $archive"

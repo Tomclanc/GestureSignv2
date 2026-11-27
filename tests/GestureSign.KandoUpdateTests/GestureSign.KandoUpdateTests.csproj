@@ -6,6 +6,8 @@
     <Compile Include="../../GestureSign.WinUI/KandoRelease.cs" Link="KandoRelease.cs" />
     <Compile Include="../../GestureSign.WinUI/KandoInstallation.cs" Link="KandoInstallation.cs" />
     <Compile Include="../../GestureSign.WinUI/KandoComponentService.cs" Link="KandoComponentService.cs" />
+    <Compile Include="../../GestureSign.WinUI/PieMenuComponentService.cs" Link="PieMenuComponentService.cs" />
+    <Compile Include="../../GestureSign.WinUI/UiTranslationCatalog.cs" Link="UiTranslationCatalog.cs" />
     <Compile Include="../../Shared/KandoComponentPaths.cs" Link="KandoComponentPaths.cs" />
     <Compile Include="../../Shared/KandoExecutableCompatibility.cs" Link="KandoExecutableCompatibility.cs" />
   </ItemGroup>

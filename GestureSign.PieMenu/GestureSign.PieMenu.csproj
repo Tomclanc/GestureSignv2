@@ -16,7 +16,7 @@
     <WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>true</WindowsAppSDKBootstrapAutoInitializeOptions_OnNoMatch_ShowUI>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Version>0.7.12</Version>
+    <Version>0.7.13</Version>
     <DefaultLanguage>en</DefaultLanguage>
     <ApplicationIcon>EditorAssets\PieMenu.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

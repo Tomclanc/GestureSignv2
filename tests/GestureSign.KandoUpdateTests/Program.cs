@@ -220,6 +220,46 @@ try
         Check(Directory.GetDirectories(Path.GetDirectoryName(recovery.Destination)!, "Kando.backup-*").Length == 1, "Unrecoverable failure keeps old application backup");
         Check(Directory.GetDirectories(Path.GetDirectoryName(recovery.Destination)!, "Kando.settings-*").Length == 1, "Unrecoverable failure keeps original settings backup");
     }
+    var installRoot = Path.Combine(root, "Components", "PieMenu");
+    var versionDirectory = Path.Combine(installRoot, "0.7.12");
+    var nativeExecutable = Path.Combine(versionDirectory, "GestureSignV2.PieMenu.exe");
+    var outsideExecutable = Path.Combine(root, "0.7.12", "GestureSignV2.PieMenu.exe");
+    var menuFile = Path.Combine(root, "PieMenu", "Integrated", "menus.json");
+    foreach (var file in new[] { nativeExecutable, outsideExecutable, menuFile })
+    {
+        Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+        File.WriteAllText(file, "fixture");
+    }
+    Check(PieMenuComponentService.ManagedVersionDirectory(outsideExecutable, installRoot) is null,
+        "Uninstall does not offer to remove a user-managed executable");
+    try
+    {
+        await PieMenuComponentService.UninstallAsync(nativeExecutable, installRoot,
+            () => Task.FromException(new IOException("Application could not stop")));
+        throw new Exception("Expected stop failure");
+    }
+    catch (IOException) { checks++; }
+    Check(File.Exists(nativeExecutable), "Uninstall leaves the payload in place when stopping fails");
+
+    using (KandoComponentPaths.AcquireUpdateLease(Path.Combine(installRoot, ".installing")))
+    {
+        try
+        {
+            await PieMenuComponentService.UninstallAsync(nativeExecutable, installRoot, () => Task.CompletedTask);
+            throw new Exception("Expected concurrent install to prevent removal");
+        }
+        catch (IOException) { checks++; }
+    }
+    await PieMenuComponentService.UninstallAsync(nativeExecutable, installRoot, () =>
+    {
+        Check(File.Exists(nativeExecutable), "The component is stopped before deleting its executable");
+        return Task.CompletedTask;
+    });
+    await PieMenuComponentService.UninstallAsync(nativeExecutable, installRoot, () => Task.CompletedTask);
+    Check(!Directory.Exists(versionDirectory), "Uninstall removes the managed payload and can be retried");
+    Check(File.Exists(menuFile) && File.Exists(outsideExecutable),
+        "Uninstall preserves integrated menu data and files outside the managed installation");
+
     if (args.Contains("--live-release"))
     {
         using var forcedClient = new System.Net.Http.HttpClient(new ForceApiLimitHandler(new System.Net.Http.HttpClientHandler())) { Timeout = TimeSpan.FromSeconds(45) };

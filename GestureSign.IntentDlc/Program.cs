@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO.Pipes;
 using System.Text.Json;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using GestureSign.Foundation.Intent;
 using GestureSign.IntentLearning;
 
@@ -12,11 +13,12 @@ internal static class Program
     private static Task<int> Main(string[] args)
     {
 #if INTENT_HARDWARE
-        Shared.HostAssemblySharing.RegisterIfPresent(args, "Microsoft.Windows.SDK.NET");
+        Shared.HostAssemblySharing.RegisterIfPresent(args, "Microsoft.Windows.SDK.NET", "GestureSign.Foundation");
 #endif
         return RunAsync(args);
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private static async Task<int> RunAsync(string[] args)
     {
         if (args.Contains("--self-test"))

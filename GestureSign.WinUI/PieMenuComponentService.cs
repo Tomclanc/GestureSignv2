@@ -18,7 +18,7 @@ namespace GestureSign.WinUI;
 
 internal static class PieMenuComponentService
 {
-    internal const string VersionId = "0.7.12";
+    internal const string VersionId = "0.7.13";
     private const string PayloadInventory = "payload-files.txt";
     private const int MaxArchiveSize = 48 * 1024 * 1024;
     private static readonly HttpClient Client = new() { Timeout = TimeSpan.FromMinutes(4) };
@@ -32,7 +32,7 @@ internal static class PieMenuComponentService
         "Microsoft.Web.WebView2.Core.dll", "WinRT.Runtime.dll",
         "EditorAssets/editor-strings.json", "EditorAssets/PieMenu.ico", "EditorAssets/example-windows.json"
     ];
-    private static string Name => $"GestureSign-PieMenu-{VersionId}-preview-win-{RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant()}.zip";
+    private static string Name => $"GestureSign-PieMenu-{VersionId}-win-{RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant()}.zip";
 
     static PieMenuComponentService() => Client.DefaultRequestHeaders.UserAgent.ParseAdd("GestureSign-PieMenu");
 
@@ -40,27 +40,53 @@ internal static class PieMenuComponentService
 
     internal static bool NeedsManagedRepair(string? executable, string installRoot)
     {
-        if (string.IsNullOrWhiteSpace(executable)) return false;
+        var directory = ManagedVersionDirectory(executable, installRoot);
+        if (directory is null) return false;
+
+        var version = Version.Parse(Path.GetFileName(directory));
+        return version <= CurrentVersion && (version == CurrentVersion ? !IsCurrent(executable) : !IsCompatible(executable));
+    }
+
+    internal static string? ManagedVersionDirectory(string? executable, string installRoot)
+    {
+        if (string.IsNullOrWhiteSpace(executable)) return null;
         try
         {
             var fullPath = Path.GetFullPath(executable);
-            var versionDirectory = Path.GetDirectoryName(fullPath);
-            if (versionDirectory is null ||
-                !string.Equals(Path.GetDirectoryName(versionDirectory), Path.TrimEndingDirectorySeparator(Path.GetFullPath(installRoot)), StringComparison.OrdinalIgnoreCase) ||
-                !Version.TryParse(Path.GetFileName(versionDirectory), out var version))
-                return false;
+            var directory = Path.GetDirectoryName(fullPath);
+            if (directory is null ||
+                !string.Equals(Path.GetDirectoryName(directory), Path.TrimEndingDirectorySeparator(Path.GetFullPath(installRoot)), StringComparison.OrdinalIgnoreCase) ||
+                !Version.TryParse(Path.GetFileName(directory), out _))
+                return null;
 
             var filename = Path.GetFileName(fullPath);
-            if (!filename.Equals("GestureSignV2.PieMenu.exe", StringComparison.OrdinalIgnoreCase) &&
-                !filename.Equals("GestureSign.PieMenu.exe", StringComparison.OrdinalIgnoreCase))
-                return false;
-
-            return version <= CurrentVersion && (version == CurrentVersion ? !IsCurrent(fullPath) : !IsCompatible(fullPath));
+            return filename.Equals("GestureSignV2.PieMenu.exe", StringComparison.OrdinalIgnoreCase) ||
+                filename.Equals("GestureSign.PieMenu.exe", StringComparison.OrdinalIgnoreCase)
+                ? directory : null;
         }
-        catch (ArgumentException) { return false; }
-        catch (NotSupportedException) { return false; }
-        catch (PathTooLongException) { return false; }
+        catch (ArgumentException) { return null; }
+        catch (NotSupportedException) { return null; }
+        catch (PathTooLongException) { return null; }
     }
+
+    internal static async Task UninstallAsync(string executable, string installRoot, Func<Task> beforeRemove)
+    {
+        var directory = ManagedVersionDirectory(executable, installRoot)
+            ?? throw new InvalidOperationException("Only the managed Pie Menu component can be uninstalled.");
+        if (IsReparsePoint(installRoot) || IsReparsePoint(directory))
+            throw new IOException("The Pie Menu installation has been redirected.");
+        using var lease = KandoComponentPaths.AcquireUpdateLease(Path.Combine(installRoot, ".installing"));
+
+        await beforeRemove();
+        await Task.Run(() =>
+        {
+            if (Directory.Exists(directory))
+                Directory.Delete(directory, recursive: true);
+        });
+    }
+
+    private static bool IsReparsePoint(string directory) =>
+        Directory.Exists(directory) && (File.GetAttributes(directory) & FileAttributes.ReparsePoint) != 0;
 
     internal static bool IsCurrent(string? executable) =>
         IsCompatible(executable, CurrentVersion) &&
@@ -119,11 +145,13 @@ internal static class PieMenuComponentService
         var checksums = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(manifest))
             ?? throw new InvalidDataException("Missing Pie Menu assembly checksums.");
         using var archive = ZipFile.OpenRead(Path.Combine(directory, "shared-assemblies.zip"));
-        foreach (var filename in new[] { "Microsoft.Windows.SDK.NET.dll", "Microsoft.WinUI.dll" })
+        var required = new[] { "Microsoft.Windows.SDK.NET.dll", "Microsoft.WinUI.dll" };
+        if (!required.All(checksums.ContainsKey))
+            throw new InvalidDataException("Missing Pie Menu assembly checksums.");
+        foreach (var (filename, checksum) in checksums)
         {
             var entry = archive.GetEntry(filename);
-            if (entry is null || entry.Length is <= 0 or > 32 * 1024 * 1024 ||
-                !checksums.TryGetValue(filename, out var checksum))
+            if (entry is null || entry.Length is <= 0 or > 32 * 1024 * 1024)
                 throw new InvalidDataException($"Missing fallback for {filename}.");
             using var stream = entry.Open();
             if (!Convert.ToHexString(SHA256.HashData(stream)).Equals(checksum, StringComparison.OrdinalIgnoreCase))
@@ -145,7 +173,7 @@ internal static class PieMenuComponentService
     {
         if (RuntimeInformation.OSArchitecture is not (Architecture.X64 or Architecture.Arm64))
             throw new PlatformNotSupportedException("The pie menu supports Windows x64 and ARM64.");
-        var release = $"https://github.com/Tomclanc/GestureSignv2/releases/download/pie-menu-v{VersionId}/";
+        var release = $"https://github.com/Tomclanc/GestureSignv2/releases/download/v18.4.15/";
         using var response = await Client.GetAsync(release + "SHA256SUMS.txt", HttpCompletionOption.ResponseHeadersRead, token);
         if (response.StatusCode == HttpStatusCode.NotFound) return null;
         response.EnsureSuccessStatusCode();
