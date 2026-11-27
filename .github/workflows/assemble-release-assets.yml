@@ -95,3 +95,16 @@ jobs:
           for part in "${all_parts[@]}"; do
             gh release delete-asset "$TAG" "$(basename "$part")" --repo "$GITHUB_REPOSITORY" --yes
           done
+
+  submit-store:
+    needs: assemble
+    if: inputs.store_name != '' && vars.STORE_AUTO_SUBMIT == 'true'
+    uses: ./.github/workflows/submit-microsoft-store.yml
+    with:
+      tag: ${{ inputs.tag }}
+      store_name: ${{ inputs.store_name }}
+      submit: true
+    secrets:
+      STORE_TENANT_ID: ${{ secrets.STORE_TENANT_ID }}
+      STORE_CLIENT_ID: ${{ secrets.STORE_CLIENT_ID }}
+      STORE_CLIENT_SECRET: ${{ secrets.STORE_CLIENT_SECRET }}

@@ -1,0 +1,77 @@
+name: Submit Microsoft Store update
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: GitHub release tag containing the Store bundle
+        required: true
+        type: string
+      store_name:
+        description: Exact file name of the Store MSIX bundle
+        required: true
+        type: string
+      submit:
+        description: Send the package for certification and publish after approval
+        type: boolean
+        default: false
+  workflow_call:
+    inputs:
+      tag:
+        required: true
+        type: string
+      store_name:
+        required: true
+        type: string
+      submit:
+        required: true
+        type: boolean
+
+    secrets:
+      STORE_TENANT_ID:
+        required: true
+      STORE_CLIENT_ID:
+        required: true
+      STORE_CLIENT_SECRET:
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: microsoft-store-9P2WKMHF43PN
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Download the Store bundle
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STORE_TAG: ${{ inputs.tag }}
+          STORE_NAME: ${{ inputs.store_name }}
+        run: |
+          if ($env:STORE_NAME -notmatch '^[A-Za-z0-9_.-]+\.msixbundle$') {
+            throw 'Enter the exact .msixbundle release asset name.'
+          }
+          gh release download --repo $env:GITHUB_REPOSITORY --dir $env:RUNNER_TEMP --pattern $env:STORE_NAME -- $env:STORE_TAG
+          if ($LASTEXITCODE -ne 0) { throw 'The Store bundle could not be downloaded.' }
+
+      - name: Check or submit the package
+        shell: pwsh
+        env:
+          STORE_NAME: ${{ inputs.store_name }}
+          STORE_SUBMIT: ${{ inputs.submit }}
+          STORE_TENANT_ID: ${{ secrets.STORE_TENANT_ID }}
+          STORE_CLIENT_ID: ${{ secrets.STORE_CLIENT_ID }}
+          STORE_CLIENT_SECRET: ${{ secrets.STORE_CLIENT_SECRET }}
+        run: |
+          $package = Join-Path $env:RUNNER_TEMP $env:STORE_NAME
+          ./tools/Submit-StoreBundle.ps1 -PackagePath $package -Submit:($env:STORE_SUBMIT -eq 'true')
