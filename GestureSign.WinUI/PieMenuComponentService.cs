@@ -1,5 +1,6 @@
 using GestureSign.Shared;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -9,6 +10,7 @@ using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,7 +29,7 @@ internal static class PieMenuComponentService
         "App.xbf", "KandoWeb/index.html", "KandoWeb/renderer.js",
         "KandoWeb/catalog.json", "KandoWeb/windows-key-codes.json", "KandoWeb/locales/en/translation.json",
         "KandoWeb/renderer.css", "KandoWeb/material-symbols-rounded.woff2", "KandoWeb/SimpleIcons.woff2",
-        "Microsoft.Windows.SDK.NET.dll", "Microsoft.WinUI.dll", "Microsoft.Web.WebView2.Core.dll",
+        "Microsoft.Web.WebView2.Core.dll", "WinRT.Runtime.dll",
         "EditorAssets/editor-strings.json", "EditorAssets/PieMenu.ico", "EditorAssets/example-windows.json"
     ];
     private static string Name => $"GestureSign-PieMenu-{VersionId}-preview-win-{RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant()}.zip";
@@ -85,6 +87,7 @@ internal static class PieMenuComponentService
     private static bool HasRequiredAssets(string directory)
     {
         if (!RequiredFiles.All(file => File.Exists(Path.Combine(directory, file))) ||
+            !HasSharedAssemblies(directory) ||
             (!File.Exists(Path.Combine(directory, "KandoWeb", "native-icons.zip")) &&
              !File.Exists(Path.Combine(directory, "KandoWeb", "native-icons.json"))))
             return false;
@@ -101,6 +104,31 @@ internal static class PieMenuComponentService
                 return false;
         }
         return true;
+    }
+
+    private static bool HasSharedAssemblies(string directory) =>
+        (File.Exists(Path.Combine(directory, "Microsoft.Windows.SDK.NET.dll")) &&
+         File.Exists(Path.Combine(directory, "Microsoft.WinUI.dll"))) ||
+        (File.Exists(Path.Combine(directory, "shared-assemblies.json")) &&
+         File.Exists(Path.Combine(directory, "shared-assemblies.zip")));
+
+    private static void ValidateSharedAssemblyFallback(string directory)
+    {
+        var manifest = Path.Combine(directory, "shared-assemblies.json");
+        if (!File.Exists(manifest)) return;
+        var checksums = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(manifest))
+            ?? throw new InvalidDataException("Missing Pie Menu assembly checksums.");
+        using var archive = ZipFile.OpenRead(Path.Combine(directory, "shared-assemblies.zip"));
+        foreach (var filename in new[] { "Microsoft.Windows.SDK.NET.dll", "Microsoft.WinUI.dll" })
+        {
+            var entry = archive.GetEntry(filename);
+            if (entry is null || entry.Length is <= 0 or > 32 * 1024 * 1024 ||
+                !checksums.TryGetValue(filename, out var checksum))
+                throw new InvalidDataException($"Missing fallback for {filename}.");
+            using var stream = entry.Open();
+            if (!Convert.ToHexString(SHA256.HashData(stream)).Equals(checksum, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidDataException($"The fallback for {filename} failed verification.");
+        }
     }
 
     private static bool HasRuntimeFiles(string executable)
@@ -146,10 +174,14 @@ internal static class PieMenuComponentService
         finally { File.Delete(temporary); }
     }
 
-    internal static Task<string> InstallAsync(string archivePath, CancellationToken token = default) =>
-        InstallInDirectoryAsync(archivePath, KandoComponentPaths.PieMenuInstallDirectory, token);
+    internal static Task<string> InstallAsync(string archivePath, CancellationToken token = default,
+        Func<Task>? beforeReplace = null, Func<Task>? restore = null) =>
+        InstallInDirectoryAsync(archivePath, KandoComponentPaths.PieMenuInstallDirectory, token,
+            beforeReplace, replaceExisting: true, restore: restore);
 
-    internal static Task<string> InstallInDirectoryAsync(string archivePath, string installRoot, CancellationToken token = default, Func<Task>? beforeReplace = null) =>
+    internal static Task<string> InstallInDirectoryAsync(string archivePath, string installRoot,
+        CancellationToken token = default, Func<Task>? beforeReplace = null,
+        bool replaceExisting = false, Func<Task>? restore = null) =>
         Task.Run(async () =>
         {
             var filename = "GestureSignV2.PieMenu.exe";
@@ -157,7 +189,7 @@ internal static class PieMenuComponentService
             var installed = Path.Combine(versionDirectory, filename);
             Directory.CreateDirectory(installRoot);
             using var lease = KandoComponentPaths.AcquireUpdateLease(Path.Combine(installRoot, ".installing"));
-            if (IsCurrent(installed)) return installed;
+            if (!replaceExisting && IsCurrent(installed)) return installed;
             var staging = Path.Combine(installRoot, $".install-{Guid.NewGuid():N}");
             try
             {
@@ -168,9 +200,10 @@ internal static class PieMenuComponentService
                 archive.ExtractToDirectory(staging);
                 if (!IsCurrent(Path.Combine(staging, filename)))
                     throw new InvalidDataException($"Use the complete Pie Menu {VersionId} ZIP for your Windows architecture.");
+                ValidateSharedAssemblyFallback(staging);
                 token.ThrowIfCancellationRequested();
                 await KandoInstallation.ReplaceAsync(staging, versionDirectory, userData: null,
-                    beforeReplace, validate: null, stop: null, restore: null);
+                    beforeReplace, validate: null, stop: null, restore: restore);
                 return installed;
             }
             finally

@@ -47,15 +47,18 @@ public sealed partial class MainWindow
                 Message = repairing ? T("下载中", "Downloading") : T("暂时无法下载", "Download unavailable")
             };
         }
-        if (installed && PieMenuComponentService.IsCurrent(options.KandoExecutablePath))
-            return enabled;
-
         var buttons = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
         var download = NewPillButton(installed ? T("更新组件", "Update component") :
             T("下载组件", "Download component"), true);
         var import = NewPillButton(T("从 ZIP 安装", "Install from ZIP"), false);
         download.Click += async (_, _) => await RunUiActionAsync(() => InstallPieComponentAsync(download, import, true));
         import.Click += async (_, _) => await RunUiActionAsync(() => InstallPieComponentAsync(download, import, false));
+        if (installed && PieMenuComponentService.IsCurrent(options.KandoExecutablePath))
+        {
+            buttons.Children.Add(enabled);
+            buttons.Children.Add(import);
+            return buttons;
+        }
         buttons.Children.Add(download);
         buttons.Children.Add(import);
         if (installed)
@@ -98,10 +101,19 @@ public sealed partial class MainWindow
             {
                 var zip = await PickOpenFileAsync([".zip"]);
                 if (zip is null) return;
-                executable = await PieMenuComponentService.InstallAsync(zip, timeout.Token);
+                var options = LegacyDataStore.Load().Options;
+                executable = await PieMenuComponentService.InstallAsync(zip, timeout.Token,
+                    () => KandoComponentPaths.IsNativePieMenu(options.KandoExecutablePath)
+                        ? Kando.StopNativeAndWaitAsync(options)
+                        : Task.CompletedTask,
+                    () =>
+                    {
+                        if (options.KandoEnabled) StartKando(options, "--background");
+                        return Task.CompletedTask;
+                    });
             }
 
-            await UsePieMenuComponentAsync(executable);
+            await UsePieMenuComponentAsync(executable, restart: !fromGitHub);
             ShowSelectedPage();
         }
         catch (Exception error) when (fromGitHub && error is HttpRequestException or OperationCanceledException)
