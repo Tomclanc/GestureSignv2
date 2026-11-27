@@ -10,44 +10,7 @@ $output=[IO.Path]::GetFullPath($OutputDirectory)
 New-Item -ItemType Directory -Force -Path $output | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-function Compress-ShareableAssemblies([string]$payload) {
-    # The generated WinRT module initializer runs before Main and needs its
-    # runtime available locally. Share only the larger managed projections.
-    $filenames = @('Microsoft.Windows.SDK.NET.dll', 'Microsoft.WinUI.dll')
-    $checksums = [ordered]@{}
-    $zip = Join-Path $payload 'shared-assemblies.zip'
-    $archive = [IO.Compression.ZipFile]::Open($zip, [IO.Compression.ZipArchiveMode]::Create)
-    try {
-        foreach ($filename in $filenames) {
-            $path = Join-Path $payload $filename
-            $checksums[$filename] = (Get-FileHash -LiteralPath $path).Hash
-            $null = [IO.Compression.ZipFileExtensions]::CreateEntryFromFile(
-                $archive, $path, $filename, [IO.Compression.CompressionLevel]::SmallestSize)
-        }
-    } finally {
-        $archive.Dispose()
-    }
-
-    # The entry point loads these assemblies. Remove their runtime assets so
-    # the .NET host does not require loose copies before managed startup.
-    $depsPath = Join-Path $payload 'GestureSignV2.PieMenu.deps.json'
-    $deps = Get-Content -LiteralPath $depsPath -Raw | ConvertFrom-Json -AsHashtable
-    foreach ($target in $deps.targets.Values) {
-        foreach ($library in $target.Values) {
-            if (!$library.runtime) { continue }
-            foreach ($asset in @($library.runtime.Keys)) {
-                if ((Split-Path $asset -Leaf) -in $filenames) {
-                    $library.runtime.Remove($asset)
-                }
-            }
-        }
-    }
-    [IO.File]::WriteAllText($depsPath, ($deps | ConvertTo-Json -Depth 80 -Compress))
-    [IO.File]::WriteAllText((Join-Path $payload 'shared-assemblies.json'), ($checksums | ConvertTo-Json -Compress))
-    foreach ($filename in $filenames) {
-        Remove-Item -LiteralPath (Join-Path $payload $filename)
-    }
-}
+. (Join-Path $PSScriptRoot 'Compress-HostAssemblies.ps1')
 
 $artifacts = foreach($arch in @('x64','arm64')) {
     $platform = if($arch -eq 'arm64') { 'ARM64' } else { 'x64' }
@@ -66,7 +29,8 @@ $artifacts = foreach($arch in @('x64','arm64')) {
         if (!(Test-Path -LiteralPath (Join-Path $payload $name))) { throw "$arch package missing $name" }
     }
     if ($ShareHostAssemblies) {
-        Compress-ShareableAssemblies $payload
+        # WinRT.Runtime is required by the module initializer before Main.
+        Compress-ShareableAssemblies $payload 'GestureSignV2.PieMenu.deps.json' @('Microsoft.Windows.SDK.NET.dll', 'Microsoft.WinUI.dll')
     }
     $inventory = Get-ChildItem -LiteralPath $payload -Recurse -File -Force | ForEach-Object {
         $_.FullName.Substring($payload.Length + 1).Replace('\', '/')

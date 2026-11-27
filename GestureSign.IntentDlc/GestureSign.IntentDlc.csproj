@@ -18,6 +18,7 @@
     <ProjectReference Include="../GestureSign.IntentLearning/GestureSign.IntentLearning.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(IntentBackend)' == 'Hardware'">
+    <Compile Include="../Shared/HostAssemblySharing.cs" Link="HostAssemblySharing.cs" />
     <PackageReference Include="Microsoft.Windows.AI.MachineLearning" Version="2.3.42" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.27.1" />
     <Compile Remove="CpuInference.cs" />

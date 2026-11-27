@@ -137,6 +137,12 @@ internal sealed class TouchPadIntentBridge : IDisposable
         var info = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = Path.GetDirectoryName(executable) };
         info.Environment["DOTNET_DISABLE_GUI_ERRORS"] = "1";
         info.ArgumentList.Add("--serve"); info.ArgumentList.Add("--daemon-pid"); info.ArgumentList.Add(Environment.ProcessId.ToString());
+        var host = Path.Combine(IntentComponentLocation.ApplicationRoot(AppContext.BaseDirectory), "GestureSignV2.WinUI.exe");
+        if (File.Exists(host))
+        {
+            info.ArgumentList.Add("--host");
+            info.ArgumentList.Add(host);
+        }
         using var process = Process.Start(info);
     }
 

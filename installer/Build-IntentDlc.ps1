@@ -2,10 +2,14 @@ param(
     [ValidateSet('x64','arm64')][string]$Architecture = 'x64',
     [ValidateSet('Cpu','Hardware')][string]$Backend = 'Cpu',
     [switch]$SelfContained,
+    [switch]$ShareHostAssemblies,
     [Parameter(Mandatory=$true)][string]$OutputDirectory
 )
 $ErrorActionPreference = 'Stop'
 $Backend = if ($Backend -eq 'Hardware') { 'Hardware' } else { 'Cpu' }
+if ($ShareHostAssemblies -and $Backend -ne 'Hardware') {
+    throw 'Host assembly sharing applies only to the hardware component.'
+}
 $repo = Split-Path $PSScriptRoot -Parent
 $output = [IO.Path]::GetFullPath($OutputDirectory)
 if ((Test-Path -LiteralPath $output) -and (Get-ChildItem -LiteralPath $output -Force | Select-Object -First 1)) {
@@ -13,12 +17,17 @@ if ((Test-Path -LiteralPath $output) -and (Get-ChildItem -LiteralPath $output -F
 }
 $version = '18.4.7'
 $runtimeSuffix = if ($SelfContained) { '-standalone' } else { '' }
+if ($ShareHostAssemblies) { $runtimeSuffix += '-shared-preview' }
 $archive = Join-Path (Split-Path $output -Parent) "GestureSign-IntentDlc-$version-$($Backend.ToLowerInvariant())-win-$Architecture$runtimeSuffix.zip"
 if (Test-Path -LiteralPath $archive) { throw "Archive already exists; choose a fresh output directory: $archive" }
 New-Item -ItemType Directory -Path $output -Force | Out-Null
 $platform = if ($Architecture -eq 'arm64') { 'ARM64' } else { 'x64' }
 & dotnet publish (Join-Path $repo 'GestureSign.IntentDlc\GestureSign.IntentDlc.csproj') -c Release -r "win-$Architecture" --self-contained ($SelfContained.IsPresent.ToString().ToLowerInvariant()) -o (Join-Path $output 'Runtime') -p:Platform=$platform -p:PlatformTarget=$platform -p:IntentBackend=$Backend
 if ($LASTEXITCODE -ne 0) { throw 'Intent DLC publish failed.' }
+if ($ShareHostAssemblies) {
+    . (Join-Path $PSScriptRoot 'Compress-HostAssemblies.ps1')
+    Compress-ShareableAssemblies (Join-Path $output 'Runtime') 'GestureSignV2.IntentDlc.deps.json' @('Microsoft.Windows.SDK.NET.dll')
+}
 $metadata = @{ Protocol = 2; Version = $version; Architecture = $Architecture; Backend = $Backend; SelfContained = $SelfContained.IsPresent }
 [IO.File]::WriteAllText((Join-Path $output 'component.json'), ($metadata | ConvertTo-Json))
 Copy-Item -LiteralPath (Join-Path $repo 'docs\intent-dlc.md') -Destination (Join-Path $output 'README.md') -Force

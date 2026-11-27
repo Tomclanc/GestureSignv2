@@ -43,8 +43,14 @@ internal sealed class IntentComponentService
         }
     }
     public static string Architecture => RuntimeInformation.OSArchitecture == System.Runtime.InteropServices.Architecture.Arm64 ? "arm64" : "x64";
-    public IntentComponentAsset Asset => _asset ?? (IntentFiles.Read<IntentComponentAsset[]>(Path.Combine(AppContext.BaseDirectory, "Assets", "intent-dlc.catalog.json")) ?? [])
-        .FirstOrDefault(a => a.Architecture == Architecture && a.Backend == Backend && a.Version == IntentComponentPackage.ComponentVersion) ?? throw new InvalidDataException("此版本尚未提供匹配的组件下载目录。");
+    private static IntentComponentAsset[] ReadCatalog() =>
+        IntentFiles.Read<IntentComponentAsset[]>(Path.Combine(AppContext.BaseDirectory, "Assets", "intent-dlc.catalog.json")) ?? [];
+
+    private bool MatchesSelection(IntentComponentAsset asset) =>
+        asset.Architecture == Architecture && asset.Backend == Backend && asset.Version == IntentComponentPackage.ComponentVersion;
+
+    public IntentComponentAsset Asset => _asset ?? ReadCatalog().FirstOrDefault(MatchesSelection)
+        ?? throw new InvalidDataException("此版本尚未提供匹配的组件下载目录。");
 
     public async Task DownloadAsync(IProgress<double> progress, CancellationToken cancellationToken)
     {
@@ -76,7 +82,10 @@ internal sealed class IntentComponentService
     public async Task InstallAsync(string archivePath, CancellationToken cancellationToken)
     {
         IntentComponentLocation.CheckWritable(InstallDirectory);
-        var asset = Asset; await StopAsync();
+        var filename = Path.GetFileName(archivePath);
+        var asset = _asset ?? ReadCatalog().FirstOrDefault(candidate =>
+            MatchesSelection(candidate) && string.Equals(candidate.FileName, filename, StringComparison.OrdinalIgnoreCase)) ?? Asset;
+        await StopAsync();
         await Task.Run(() => IntentComponentPackage.Install(archivePath, asset, InstallDirectory, cancellationToken), cancellationToken);
     }
     public async Task UninstallAsync()
@@ -101,6 +110,11 @@ internal sealed class IntentComponentService
                     var info = new ProcessStartInfo(Executable) { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden, WorkingDirectory = Path.GetDirectoryName(Executable)! };
                     info.Environment["DOTNET_DISABLE_GUI_ERRORS"] = "1";
                     info.ArgumentList.Add("--serve"); info.ArgumentList.Add("--daemon-pid"); info.ArgumentList.Add(daemon.Id.ToString());
+                    if (Environment.ProcessPath is { } host)
+                    {
+                        info.ArgumentList.Add("--host");
+                        info.ArgumentList.Add(host);
+                    }
                     _host?.Dispose(); _host = Process.Start(info);
                 }
                 // An earlier UI or daemon can own the engine during cold initialization.

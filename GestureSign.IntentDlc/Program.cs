@@ -9,7 +9,15 @@ namespace GestureSign.IntentDlc;
 
 internal static class Program
 {
-    private static async Task<int> Main(string[] args)
+    private static Task<int> Main(string[] args)
+    {
+#if INTENT_HARDWARE
+        Shared.HostAssemblySharing.RegisterIfPresent(args, "Microsoft.Windows.SDK.NET");
+#endif
+        return RunAsync(args);
+    }
+
+    private static async Task<int> RunAsync(string[] args)
     {
         if (args.Contains("--self-test"))
         {
